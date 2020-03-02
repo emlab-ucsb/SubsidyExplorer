@@ -31,12 +31,12 @@ library(DT) # interactive data tables
 library(tidyverse) # workhorse data manipulation
 
 # The content for each tab is stored in a separate file. Source all .R files in the current directory that start with "ui_":  
-# sapply(list.files(
-#     pattern = "^ui_.*\\.R$",
-#     path = ".",
-#     full.names = TRUE
-# ),
-# source)
+sapply(list.files(
+    pattern = "^ui_.*\\.R$",
+    path = ".",
+    full.names = TRUE
+),
+source)
 
 # Functions needed for running the bioeconomic model are stored in separate files. Source all .R files in ./scripts/: 
 sapply(list.files(
@@ -103,30 +103,29 @@ shinyUI(
                          selected = TRUE),
                 
                 # Detailed results 
-                menuItem("Detailed Results",
-                         tabName = "results",
+                menuItem("Explore Results",
                          icon = NULL,
                          
                          # Detailed results - Item #1 
-                         menuItem('Selected Results',
-                                  tabName = 'selected-results',
-                                  icon = NULL),
+                         menuSubItem('View Selected Results',
+                                     tabName = 'selected-results',
+                                     icon = NULL),
                                   
                          # Detailed results - Item #2
-                         menuItem('Edit Policies (Advanced Users)',
-                                  tabName = 'select-disciplines',
-                                  icon = NULL)
+                         menuSubItem('Edit Policies (Advanced Users)',
+                                     tabName = 'edit-policies',
+                                     icon = NULL)
                          
                 ), 
                 
                 # About Subsidies
-                menuItem("About Fisheries Subsidies", 
+                menuItem("Learn About Fisheries Subsidies", 
                          icon = NULL,
                          
-                         menuItem('Explore global fisheries subsidies',
+                         menuItem('Global fisheries subsidies',
                                      tabName = 'global-subsidies',
                                      icon = NULL),
-                         menuItem('View fishery profiles by state',
+                         menuItem('Fishery profiles by state',
                                      tabName = 'country-profiles',
                                      icon = NULL),
                          menuItem('Compare fishery statistics',
@@ -140,9 +139,9 @@ shinyUI(
                 ),
                 
                 # About Subsidies
-                menuItem("Learn More", 
+                menuItem("More Information", 
                          icon = NULL,
-                         tabName = "learn-more"
+                         tabName = "more-info"
                          
                 ),
                 
@@ -160,7 +159,7 @@ shinyUI(
         dashboardBody(
             
             # Custom stylesheet
-            tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")),
+            tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "subsidy_explorer.css")),
             
             # Tabs
             tabItems(
@@ -173,12 +172,12 @@ shinyUI(
                 
                 # Detailed results 
                 tabItem(tabName = "detailed-results",
-                        detailed_results()
+                        #detailed_results()
                 ),
                 
                 # Selected results
                 tabItem(tabName = "selected-results",
-                        selected_results()
+                        #selected_results()
                 )
                 
             ) # /tabItems

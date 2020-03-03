@@ -191,83 +191,59 @@ a:hover {
   /*--------------------*/
   
 /* Introduction */
-.landing-wrapper {}
-
-.landing-wrapper .landing-block {
-  width: 100%;
-  height: 60vh;
-}
-
-.landing-wrapper .background-content{
-  display: block;
-  overflow: hidden;
-}
-
-.landing-wrapper .background-content img{
-  display: block;
-  object-fit: cover;
-  min-width: 100%;
-  min-height: 100%;
-}
-
-.landing-wrapper .foreground-content{
-  position: absolute;
-  top: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Reposition foreground-content based on device size */
-  @media (max-width: 767px){
-    .landing-wrapper .foreground-content{
-      top: 120px; /* spacing to allow for top nav bar */
-    }
-  }
-  
-  @media (max-width: 344px){
-    .landing-wrapper .foreground-content{
-      top: 180px; /* spacing to allow for top nav bar */
-    }
-  }
-
-
-.landing-wrapper .foreground-content .foreground-text{
-  width: 100%;
+.landing-wrapper{
+  position: relative;
   height: 100%;
-  padding: 10%;
-  color: white;
-  background-color: rgba(0,0,0,0.5);
-  text-align: center;
 }
 
-/* Make picture fill container it's in */
-.picture-fill {
+.landing-wrapper .picture-wrapper{
   display: block;
-  object-fit: cover;
-  min-width: 100%;
-  min-height: 100%;
+  height: auto;
+  width: auto;
   overflow: hidden;
 }
 
-/* Semi-transparent black overlay */
-.overlay-black {
+.landing-wrapper .picture-wrapper img{
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+  max-width: 200%;
+  max-height: 200%;
+}
+
+.landing-wrapper .picture-overlay-black{
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  display: block;
+  justify-content: center;
+  align-items: center;
   background-color: rgba(0,0,0,0.5);
 }
 
-.overlay-text-center {
-  position: absolute;
+.landing-wrapper .picture-overlay-black .picture-overlay-main-text{
+   color: white;
+   text-align: center;
+   padding: 10%;
+   width: 100%;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-sub-text-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-sub-text-wrapper .picture-overlay-sub-text{
   color: white;
   text-align: center;
-  top:40%;
-  left: 50%;
-  width: 70%;
-  transform: translate(-50%, -50%);
+  margin: 5%;
+  padding: 2.5%;
+  width: 95%;
+  background-color: rgba(50,51,55,0.8);
+  display: block;
 }
 
 .overlay-text-center h1{

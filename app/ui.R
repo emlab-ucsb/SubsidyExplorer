@@ -77,7 +77,7 @@ shinyUI(
             tags$li(
                 class = "dropdown",
                 a(href = 'http://emlab.msi.ucsb.edu/',
-                  img(src = 'emlab-logo-white.png', title = "The Environmental Market Solutions Lab", height = "40px"), 
+                  img(src = 'emlab_logo_horizontal_w.png', title = "The Environmental Market Solutions Lab", height = "40px"), 
                   style = "padding-top:10px; padding-bottom:10px;"
                 ) # /a
             ) # /tags$li
@@ -89,6 +89,9 @@ shinyUI(
             
             # Width of sidebar menu
             width = "250px",
+            
+            # Want it collapsed by default
+            collapsed = T,
             
             # Menu container
             sidebarMenu(

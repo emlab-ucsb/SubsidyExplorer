@@ -9,7 +9,7 @@ introduction = function()
   fluidPage(
     
     # page style
-    style = "color: #ffffff; border-bottom: 10px solid #3c8dbc;",
+    style = "color: #ffffff; padding-bottom: 40px;",
             
     # open links in new window
     tags$head(tags$base(target = "_blank")),
@@ -41,180 +41,110 @@ introduction = function()
                                
                       ),
                       
-                      # Sub Text with buttons
-                      column(12, style = "color: white; text-align: center; display: flex; justify-content: center; align-items: center; width: 100%;",
+                      # Sub Text (if needed) with buttons
+                      
+                      tags$div(class = "picture-overlay-sub-text-wrapper",
                              
-                             fluidRow(
-                               
-                                 column(5, style = "padding: 5%; margin: 4%; background-color: rgba(50,51,55,0.8);",
+                             tags$div(class = "picture-overlay-button-wrapper-l",
                                       
-                                      tags$h4("I am already familiar with fisheries subsidies"),
+                                      actionButton("ab-selected-results",
+                                                   tags$h4("Explore the Results"))
+
+                             ),
+                             
+                             tags$div(class = "picture-overlay-button-wrapper-c",
                                       
-                                      fluidRow(
-                                        
-                                        # First Yes button
-                                        column(6, style = "padding: 20px 15px;",
-                                               
-                                               actionButton("ab-selected-results",
-                                                            "Explore the results in more detail",
-                                                            style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; white-space: normal;")
-                                               
-                                        ),
-                                    
-                                        # Second Yes button
-                                        column(6, style = "padding: 20px 15px;",
-                                               
-                                               actionButton("ab-more-information",
-                                                            "Learn about the methods and process",
-                                                            style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; white-space: normal;")
-                                               
-                                        )
-                                        
-                                      )
-                                        
-                               ),
-                               
-                               column(5, style = "padding: 5%; margin:4%; background-color: rgba(50,51,55,0.8);",
+                                      actionButton("ab-more-information",
+                                                   tags$h4("Learn about the Methods and Process"))
                                       
-                                      tags$h4("I would like to learn more about fisheries subsidies"),
+                             ),
+                             
+                             tags$div(class = "picture-overlay-button-wrapper-r",
                                       
-                                      fluidRow(
-                                        # First Yes button
-                                        column(6, style = "padding: 20px 15px;",
-                                               
-                                               actionButton("ab-global-subsidies",
-                                                            "Learn about fisheries subsidies",
-                                                            style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; white-space: normal;")
-                                               
-                                        ),
+                                      actionButton("ab-global-subsidies",
+                                                   tags$h4("More About Fisheries Subsidies"))
                                       
-                                        # Second Yes button
-                                        column(6, style = "padding: 20px 15px;",
-                                               
-                                               actionButton("ab-get-help",
-                                                            "Get help on how to use this tool",
-                                                            style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; white-space: normal;")
-                                               
-                                        )
-                                      )
-                                        
-                                      
-                               )
-                               
                              )
+
                       )
-                                      
-                                      
-                                      
-                                      
-                      #                 )
-                      # tags$div(class = "picture-overlay-sub-text-wrapper",
-                      #   
-                      #   # Left box
-                      #   tags$div(class = "picture-overlay-sub-text",
-                      #            
-                      #            tags$h4("I'm already familiar with fisheries subsidies"),
-                      #            
-                      #            fluidRow(
-                      #              # First Yes button
-                      #              column(6,
-                      #                     
-                      #                     actionButton("ab-selected-results",
-                      #                                  "Explore the results in more detail",
-                      #                                  style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; height:100px;")
-                      #                     
-                      #              ),
-                      #              # Second Yes button
-                      #              column(6,
-                      #                     
-                      #                     actionButton("ab-more-information",
-                      #                                  "Learn about the methods and process",
-                      #                                  style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; height:100px;")
-                      #                     
-                      #              )
-                      #              
-                      #            ) # /fluidRow
-                      #            
-                      #   ),
-                      #   
-                      #   # Right box
-                      #   tags$div(class = "picture-overlay-sub-text",
-                      #            
-                      #            tags$h4("I would like to learn more about fisheries subsidies"),
-                      #            
-                      #            fluidRow(
-                      #              # First No button
-                      #              column(6,
-                      #                     
-                      #                     actionButton("ab-selected-results2",
-                      #                                  "Explore the results in more detail",
-                      #                                  style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:auto; height:100px;")
-                      #                     
-                      #              ),
-                      #              # Second No button
-                      #              column(6,
-                      #                     
-                      #                     actionButton("ab-more-information2",
-                      #                                  "Learn more about the methods and process",
-                      #                                  style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:auto; height:100px;")
-                      #                     
-                      #              )
-                      #              
-                      #            ) # /fluidRow
-                      #            
-                      #   )
-                      #   
-                      # ) # /div picture-overlay-sub-text-wrapper
-                                 
-             ) # /div picture-overlay-black
-             
-    ) # /div landing-wrapper
+             )
+    ),
     
-    ### Buttons -------------------
-    # fluidRow(
-    # 
-    #     column(12,
-    #            align = "center",
-    # 
-    #            tags$h4("Are you familiar with fisheries subsidies?")
-    # 
-    #     ),
-    # 
-    #     column(12,
-    #            align = "center",
-    # 
-    #            # Yes column
-    #            column(6,
-    #                   tags$h4("Yes. I want to..."),
-    # 
-    #                   
-    # 
+    ### Footer 
     
-    # 
-    #            ), # /column
-    # 
-    #            # No column
-    #            column(6,
-    #                   tags$h4("No. Take me to..."),
-    # 
-    #                   column(6,
-    #                          actionButton("ab-global-subsidies",
-    #                                       "Learn about fisheries subsidies",
-    #                                       style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:80%;")
-    #                   ),
-    # 
-    #                   column(6,
-    #                          actionButton("ab-need-help",
-    #                                       "Get help",
-    #                                       style="color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:80%;")
-    # 
-    #                   )
-    # 
-    #            ) # /column
-    # 
-    #     ) # /column
-    # 
-    #   ) # /fluidRow
-    
+    column(12, align = "center", style = "padding: 40px;",
+           
+           actionLink("al-need-help",
+                      tags$h4("Need help?"),
+                      style = "text-size: 200%;")
+           
+           )
+     
   ) # /fluidPage
+  
+  
+  #column(12, style = "color: white; text-align: center; display: flex; justify-content: center; align-items: center; width: 100%;",
+  # 
+  # tags$div(class = "picture-overlay-sub-text-wrapper",
+  #          
+  #          fluidRow(
+  #            
+  #            # column(5, style = "padding: 5%; margin: 4%; background-color: rgba(50,51,55,0.8);",
+  #            #      
+  #            #      tags$h4("I am already familiar with fisheries subsidies"),
+  #            #      
+  #            #      fluidRow(
+  #            
+  #            # First button
+  #            column(4, style = "padding: 20px 15px;",
+  #                   
+  #                   actionButton("ab-selected-results",
+  #                                "Explore the results in more detail",
+  #                                style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; white-space: normal;")
+  #                   
+  #            ),
+  #            
+  #            # Second button
+  #            column(4, style = "padding: 20px 15px;",
+  #                   
+  #                   actionButton("ab-more-information",
+  #                                "Learn about the methods and process",
+  #                                style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; white-space: normal;")
+  #                   
+  #            ),
+  #            
+  #            #        )
+  #            #          
+  #            # ),
+  #            
+  #            # column(5, style = "padding: 5%; margin:4%; background-color: rgba(50,51,55,0.8);",
+  #            #        
+  #            #        tags$h4("I would like to learn more about fisheries subsidies"),
+  #            #        
+  #            #        fluidRow(
+  #            
+  #            # Third button
+  #            column(4, style = "padding: 20px 15px;",
+  #                   
+  #                   actionButton("ab-global-subsidies",
+  #                                "Learn about fisheries subsidies",
+  #                                style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; white-space: normal;")
+  #                   
+  #            )
+  #            
+  #            #   # Second Yes button
+  #            #   column(6, style = "padding: 20px 15px;",
+  #            #          
+  #            #          actionButton("ab-get-help",
+  #            #                       "Get help on how to use this tool",
+  #            #                       style = "color: #fff; background-color: #3c8dbc; border-color: #2e6da4; padding: 15px 10px; width:100%; white-space: normal;")
+  #            #          
+  #            #   )
+  #            # )
+  #            
+  #            
+  #            #)
+  #            
+  #          )
+  # )
              

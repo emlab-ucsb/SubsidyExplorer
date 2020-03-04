@@ -20,7 +20,7 @@ GlobalSubsidies = function()
                     column(3,
                            tags$button(id = "ab_global_subsidies_to_introduction",
                                        class = "btn action-button nav-button-l",
-                                       icon("chevron-left"), "   Return to Main Menu"
+                                       icon("chevron-left"), button_text$text[button_text$id == "ab_global_subsidies_to_introduction"]
                            )
                     ),
                     
@@ -28,7 +28,7 @@ GlobalSubsidies = function()
                     column(3, offset = 6,
                            tags$button(id = "ab_global_subsidies_to_country_fishery_stats",
                                        class = "btn action-button nav-button-r",
-                                       "Next: View fishery profiles by state   ", icon("chevron-right")
+                                       button_text$text[button_text$id == "ab_global_subsidies_to_country_fishery_stats"], icon("chevron-right")
                            )
                     )
                     

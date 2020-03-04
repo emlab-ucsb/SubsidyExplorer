@@ -19,17 +19,15 @@ set.seed(123)
 
 # Load packages
 # General
-library(shiny) # application widgets
+library(shiny) # shiny app widgets
 library(shinyjs) # javascript functionality for shiny
-library(shinydashboard) # dashboard theme
-library(shinyBS)
-library(rsconnect)
-#library(purrr)
-require(stats)
+library(shinydashboard) # dashboard theme for shiny
+library(shinyBS) # tooltips and hover
+library(rsconnect) # needed to deploy app to shinyapps.io
+require(stats) # statistical functions
 library(sf) # shapefiles
 library(DT) # interactive data tables
 library(tidyverse) # workhorse data manipulation
-library(stringi)
 
 # The content for each tab is stored in a separate file. Source all .R files in the current directory that start with "ui_":  
 sapply(list.files(
@@ -46,6 +44,9 @@ sapply(list.files(
     full.names = TRUE
 ),
 source)
+
+# Source text and data needed for app
+source("00_initialize_app.R")
 
 ### -----------------------------------
 ### User Interface (UI) ---------------

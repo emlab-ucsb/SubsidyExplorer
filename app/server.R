@@ -18,22 +18,22 @@ shinyServer(function(input, output, session) {
   ### Navigation buttons ---------------------
   
   # Navigation button from introduction to selected-results
-  observeEvent(input$ab_selected_results, {
+  observeEvent(input$ab_introduction_to_selected_results, {
     updateTabItems(session, "menu_items", "selected-results")
   })
   
   # Navigation button from introduction to methods-process
-  observeEvent(input$ab_methods_process, {
+  observeEvent(input$ab_introduction_to_methods_process, {
     updateTabItems(session, "menu_items", "methods-process")
   })
   
   # Navigation button from introduction to global-subsidies
-  observeEvent(input$ab_global_subsidies, {
+  observeEvent(input$ab_introduction_to_global_subsidies, {
     updateTabItems(session, "menu_items", "global-subsidies")
   })
   
   # Navigation link from introduction to need-help 
-  observeEvent(input$al_need_help, {
+  observeEvent(input$al_introduction_to_need_help, {
     updateTabItems(session, "menu_items", "need-help")
   })
   

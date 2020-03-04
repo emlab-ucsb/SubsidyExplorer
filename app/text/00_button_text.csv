@@ -1,0 +1,7 @@
+﻿id,text,tab,tab_number,description
+ab_global_subsidies_to_introduction,Return to Main Menu,Global Fisheries Subsidies,04a,left top button
+ab_global_subsidies_to_country_fishery_stats,Next: View Fishery Profiles by State,Global Fisheries Subsidies,04a,right top button
+ab_introduction_to_selected_results,Explore the Results,Introduction,01,left button
+ab_introduction_to_methods_process,Learn About the Methods and Process,Introduction,01,center button
+ab_introduction_to_global_subsidies,More About Fisheries Subsidies,Introduction,01,right button
+al_introduction_to_need_help,Need Help?,Introduction,01,link at the bottom

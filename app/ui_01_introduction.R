@@ -47,22 +47,22 @@ Introduction = function()
                              
                              tags$div(class = "picture-overlay-button-wrapper-l",
                                       
-                                      actionButton("ab_selected_results",
-                                                   tags$h4("Explore the Results"))
+                                      actionButton("ab_introduction_to_selected_results",
+                                                   tags$h4(button_text$text[button_text$id == "ab_introduction_to_selected_results"]))
 
                              ),
                              
                              tags$div(class = "picture-overlay-button-wrapper-c",
                                       
-                                      actionButton("ab_methods_process",
-                                                   tags$h4("Learn about the Methods and Process"))
+                                      actionButton("ab_introduction_to_methods_process",
+                                                   tags$h4(button_text$text[button_text$id == "ab_introduction_to_methods_process"]))
                                       
                              ),
                              
                              tags$div(class = "picture-overlay-button-wrapper-r",
                                       
-                                      actionButton("ab_global_subsidies",
-                                                   tags$h4("More About Fisheries Subsidies"))
+                                      actionButton("ab_introduction_to_global_subsidies",
+                                                   tags$h4(button_text$text[button_text$id == "ab_introduction_to_global_subsidies"]))
                                       
                              )
 
@@ -73,8 +73,8 @@ Introduction = function()
 
                                tags$div(class = "picture-overlay-footer-wrapper",
 
-                                        actionLink("al_need_help",
-                                                   tags$h4("Need Help?"))
+                                        actionLink("al_introduction_to_need_help",
+                                                   tags$h4(button_text$text[button_text$id == "al_introduction_to_need_help"]))
 
                                )
 

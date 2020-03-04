@@ -5,7 +5,7 @@
 ### This script contains the content for the "Introduction" tab
 ### --------------------------------------------------------------------
 
-introduction = function() 
+Introduction = function() 
   fluidPage(
     
     # page style
@@ -41,45 +41,49 @@ introduction = function()
                                
                       ),
                       
-                      # Sub Text (if needed) with buttons
+                      # Buttons
                       
-                      tags$div(class = "picture-overlay-sub-text-wrapper",
+                      tags$div(class = "picture-overlay-button-row",
                              
                              tags$div(class = "picture-overlay-button-wrapper-l",
                                       
-                                      actionButton("ab-selected-results",
+                                      actionButton("ab_selected_results",
                                                    tags$h4("Explore the Results"))
 
                              ),
                              
                              tags$div(class = "picture-overlay-button-wrapper-c",
                                       
-                                      actionButton("ab-more-information",
+                                      actionButton("ab_methods_process",
                                                    tags$h4("Learn about the Methods and Process"))
                                       
                              ),
                              
                              tags$div(class = "picture-overlay-button-wrapper-r",
                                       
-                                      actionButton("ab-global-subsidies",
+                                      actionButton("ab_global_subsidies",
                                                    tags$h4("More About Fisheries Subsidies"))
                                       
                              )
 
-                      )
-             )
-    ),
+                      ),
+                      
+                      # Footer
+                      tags$div(class = "picture-overlay-footer-row",
+
+                               tags$div(class = "picture-overlay-footer-wrapper",
+
+                                        actionLink("al_need_help",
+                                                   tags$h4("Need Help?"))
+
+                               )
+
+                      ) # /div picture-overlay-row
+                      
+             ) # /div picture-overlay-black
+             
+    ) # /div landing-wrapper
     
-    ### Footer 
-    
-    column(12, align = "center", style = "padding: 40px;",
-           
-           actionLink("al-need-help",
-                      tags$h4("Need help?"),
-                      style = "color: white;")
-           
-           )
-     
   ) # /fluidPage
   
   

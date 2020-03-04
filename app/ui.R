@@ -97,58 +97,64 @@ shinyUI(
             sidebarMenu(
                 
                 # Variable name for selected menuItem
-                id = "tabs",
+                id = "menu_items",
                 
-                # Introduction
+                ### Introduction ---
                 menuItem("Introduction", 
                          tabName = "introduction", 
                          icon = NULL,
                          selected = TRUE),
                 
-                # Detailed results 
-                menuItem("Explore Results",
+                ### Explore results ---
+                menuItem("Explore the Results",
                          icon = NULL,
                          
-                         # Detailed results - Item #1 
+                         # Explore results - Item #1 - Selected results
                          menuSubItem('View Selected Results',
                                      tabName = 'selected-results',
                                      icon = NULL),
                                   
-                         # Detailed results - Item #2
+                         # Explore results - Item #2 - Edit policies and view those results
                          menuSubItem('Edit Policies (Advanced Users)',
                                      tabName = 'edit-policies',
                                      icon = NULL)
                          
                 ), 
                 
-                # About Subsidies
-                menuItem("Learn About Fisheries Subsidies", 
+                ### About methods and process ---
+                menuItem("Learn about the Methods and Process", 
+                         icon = NULL,
+                         tabName = "methods-process"
+                         
+                ),
+                
+                ### About fisheries subsidies ---
+                menuItem("More About Fisheries Subsidies", 
                          icon = NULL,
                          
+                         # About fisheries subsidies - Item #1 - Global subsidy map
                          menuItem('Global fisheries subsidies',
                                      tabName = 'global-subsidies',
                                      icon = NULL),
-                         menuItem('Fishery profiles by state',
-                                     tabName = 'country-profiles',
-                                     icon = NULL),
-                         menuItem('Compare fishery statistics',
-                                     tabName = 'compare-fishery-statistics',
+                         
+                         # About fisheries subsidies - Item #2 - Fishery statistics by state
+                         menuItem('Fishery statistics by state',
+                                     tabName = 'country-fishery-stats',
                                      icon = NULL),
                          
+                         # About fisheries subsidies - Item #3 - Compare fishery statistics
+                         menuItem('Compare fishery statistics',
+                                     tabName = 'compare-fishery-stats',
+                                     icon = NULL),
+                         
+                         # About fisheries subsidies - Item #4 - Global effort map
                          menuItem('Global fishing footprint',
                                      tabName = 'global-fishing-footprint',
                                      icon = NULL)
                          
                 ),
                 
-                # About Subsidies
-                menuItem("More Information", 
-                         icon = NULL,
-                         tabName = "more-info"
-                         
-                ),
-                
-                # Help and Contact
+                ### Help and Contact ---
                 menuItem("Need Help?", 
                          icon = NULL,
                          tabName = "need-help"
@@ -167,20 +173,51 @@ shinyUI(
             # Tabs
             tabItems(
                 
-                # Introduction
+                ### Introduction ---
                 tabItem(tabName = "introduction",
-                        introduction()
-                        
+                        Introduction()
                 ),
                 
-                # Detailed results 
-                tabItem(tabName = "detailed-results",
-                        #detailed_results()
-                ),
-                
-                # Selected results
+                ### Explore results ---
+                # Explore results - Item #1 - Selected results
                 tabItem(tabName = "selected-results",
-                        #selected_results()
+                        SelectedResults()
+                ),
+                
+                # Explore results - Item #2 - Edit policies and view those results
+                tabItem(tabName = "edit-policies",
+                        EditPolicies()
+                ),
+                
+                ### About methods and process ---
+                tabItem(tabName = "methods-process",
+                        MethodsProcess()
+                ),
+                
+                ### About fisheries subsidies ---
+                # About fisheries subsidies - Item #1 - Global subsidy map
+                tabItem(tabName = "global-subsidies",
+                        GlobalSubsidies()
+                ),
+                
+                # About fisheries subsidies - Item #2 - Fishery statistics by state
+                tabItem(tabName = "country-fishery-stats",
+                        CountryFisheryStats()
+                ),
+                
+                # About fisheries subsidies - Item #3 - Compare fishery statistics
+                tabItem(tabName = "compare-fishery-stats",
+                        CompareFisheryStats()
+                ),
+                
+                # About fisheries subsidies - Item #4 - Global effort map
+                tabItem(tabName = "global-fishing-footprint",
+                        GlobalFishingFootprint()
+                ),
+                
+                ### Help and Contact ---
+                tabItem(tabName = "need-help",
+                        NeedHelp()
                 )
                 
             ) # /tabItems

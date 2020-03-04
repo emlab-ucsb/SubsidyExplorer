@@ -1,62 +1,103 @@
-/*----------------------------*/
-  /* Shiny Dashboard Containers */
-  /*----------------------------*/
-  
-  /* top bar general */
-  header.main-header {
-    max-height: 60px;
-    position: relative;
-    width: 100%;
-  }
+/*--------------------*/  
+/*--------------------*/
+/* General containers */
+/*--------------------*/
+/*--------------------*/
 
+/* rows - fluidRow() */
+.row {
+  margin: 0;
+}
+
+/* dividers - column() */
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+  min-height: 1px;
+  padding: 0;
+}
+
+/* hyperlinks */
+a {
+  color: #3c8dbc;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #3c8dbc;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #3c8dbc;
+  text-decoration: underline;
+}
+
+
+/*----------------------------*/  
+/*----------------------------*/
+/* Shiny Dashboard containers */
+/*----------------------------*/
+/*----------------------------*/
+
+/*--------------------------------------------*/
+/* Shiny Dashboard Header - dashboardHeader() */
+/*--------------------------------------------*/
+  
+/* top bar general */
+header.main-header {
+  max-height: 60px;
+  position: relative;
+  width: 100%;
+}
+
+/* navigation bar */
 .skin-blue .main-header .navbar {
   background-color: #1A1B1D;
 }
 
 /* logo (title container) - hidden for this app */
-  .skin-blue .main-header .logo {
-    height: 60px;
-    padding: 0;
-    margin: 0;
-    background-color: #1A1B1D;
-  }
+.skin-blue .main-header .logo {
+  height: 60px;
+  padding: 0;
+  margin: 0;
+  background-color: #1A1B1D;
+}
 
 /* logo (title container) when hovered - hidden for this app */
-  .skin-blue .main-header .logo:hover {
-    background-color: #1A1B1D;
-  }
+.skin-blue .main-header .logo:hover {
+  background-color: #1A1B1D;
+}
 
 /* sidebar menu toggle button */
-  .skin-blue .main-header .navbar .sidebar-toggle {
-    height: 60px; 
-    padding-top: 20px !important;
-    padding-bottom: 20px;
-  }
+.skin-blue .main-header .navbar .sidebar-toggle {
+  height: 60px; 
+  padding-top: 20px !important;
+  padding-bottom: 20px;
+}
 
 /* sidebar menue toggle button when hovered  */
-  .skin-blue .main-header .navbar .sidebar-toggle:hover{
-    background-color: #323337;
-  }
+.skin-blue .main-header .navbar .sidebar-toggle:hover{
+  background-color: #323337;
+}
 
-/*--------------*/
-  /* main sidebar */
-  /*--------------*/
+/*----------------------------------------------*/
+/* Shiny Dashboard Sidebar - dashboardSidebar() */
+/*----------------------------------------------*/
   
-  /* sidebar container */
-  .skin-blue .main-sidebar {
-    padding-top: 60px; /* spacing to allow for top nav bar */
-      background-color: #323337; /* background color for sidebar */
-      padding-bottom: 60px;
-  }
+/* sidebar container */
+.skin-blue .main-sidebar {
+  padding-top: 60px; /* spacing to allow for top nav bar */
+  background-color: #323337; /* background color for sidebar */
+  padding-bottom: 60px;
+}
 
-/* sidebar container for tablet */
-  @media (max-width: 767px){
-    .skin-blue .main-sidebar {
-      padding-top: 120px; /* spacing to allow for top nav bar */
-        background-color: #323337; /* background color for sidebar */
-        padding-bottom: 60px;
-    }
-  }
+/* sidebar container (tablet) */
+@media (max-width: 767px){
+.skin-blue .main-sidebar {
+  padding-top: 120px; /* spacing to allow for top nav bar */
+  /*background-color: #323337; /* background color for sidebar */
+  /*padding-bottom: 60px; */
+}
+}
 /* sidebar container for phone */
   @media (max-width: 344px){
     .skin-blue .main-sidebar {
@@ -130,67 +171,45 @@
       border-left-color: #3c8dbc;
   }
 
-/*------*/
-  /* Content */
-  /*------*/
+/*----------------------------------------------*/
+/* Shiny Dashboard Body - dashboardSidebar() */
+/*----------------------------------------------*/
   
-  /* Content wrapper - includes both sidebar and content */
-  .skin-blue .wrapper {
-    background-color: #ffffff;
-  }
+/* Content wrapper - includes both sidebar and content */
+.skin-blue .wrapper {
+  background-color: #ffffff;
+}
 
 /* Content wrapper - includes only content */
-  .skin-blue div.content-wrapper{
-    background: #262626;
-      height: auto;
-  }
+.skin-blue div.content-wrapper{
+  background: #262626;
+  height: auto;
+}
 
 /* Content (section) */
-  .skin-blue section.content{
-    min-height: 100%;
-    overflow: auto;
-    margin: 0 -15px;
-    padding: 0;
-  }
+.skin-blue section.content{
+  min-height: 100%;
+  overflow: auto;
+  margin: 0 -15px;
+  padding: 0;
+}
 
 /* Tab content (div) */
-  .skin-blue div.tab-content{
-    margin: 0;
-    padding: 0;
-  }
-
-
-/* Fluid row */
-  .row {
-    margin: 0;
-  }
-
-/* Columns */
-  .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
-    min-height: 1px;
-    padding: 0;
-  }
-
-/*a:link {
-  color: #3c8dbc;
-    text-decoration: none;
+.skin-blue div.tab-content{
+  margin: 0;
+  padding: 0;
 }
 
-a:visited {
-  color: #3c8dbc;
-    text-decoration: none;
-}
+/*-------------------*/  
+/*-------------------*/
+/* Custom containers */
+/*-------------------*/
+/*-------------------*/
 
-a:hover {
-  color: #3c8dbc;
-    text-decoration: underline;
-}*/
-  
-  /*--------------------*/
-  /* Custom containers */
-  /*--------------------*/
-  
+
+/*--------------*/
 /* Introduction */
+/*--------------*/
 .landing-wrapper{
   position: relative;
   height: 90%;
@@ -231,31 +250,31 @@ a:hover {
    width: 100%;
 }
 
-.landing-wrapper .picture-overlay-black .picture-overlay-sub-text-wrapper{
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row{
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.landing-wrapper .picture-overlay-black .picture-overlay-sub-text-wrapper .picture-overlay-button-wrapper-l{
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row .picture-overlay-button-wrapper-l{
   color: white;
   text-align: center;
   margin: 50px 25px 50px 50px;
 }
 
-.landing-wrapper .picture-overlay-black .picture-overlay-sub-text-wrapper .picture-overlay-button-wrapper-c{
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row .picture-overlay-button-wrapper-c{
   color: white;
   text-align: center;
   margin: 50px 25px;
 }
 
-.landing-wrapper .picture-overlay-black .picture-overlay-sub-text-wrapper .picture-overlay-button-wrapper-r{
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row .picture-overlay-button-wrapper-r{
   color: white;
   text-align: center;
   margin: 50px 50px 50px 25px;
 }
 
-.landing-wrapper .picture-overlay-black .picture-overlay-sub-text-wrapper button{
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row button{
   color: black;
   background-color: white; 
   border: 3px #3c8dbc solid; 
@@ -263,10 +282,26 @@ a:hover {
   white-space: normal;
 }
 
-.landing-wrapper .picture-overlay-black .picture-overlay-sub-text-wrapper button:hover{
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row button:hover{
   color: white;
   background-color: #3c8dbc; 
 }
+
+.landing-wrapper .picture-overlay-black .picture-overlay-footer-row{
+  display: block;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-footer-row .picture-overlay-footer-wrapper{
+  color: white;
+  text-align: center;
+  padding: 40px;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-footer-row .picture-overlay-footer-wrapper a{
+  color: white;
+}
+
+
 
 .overlay-text-center h1{
   font-size:60px;

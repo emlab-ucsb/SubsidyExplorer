@@ -102,62 +102,62 @@ shinyUI(
                 id = "menu_items",
                 
                 ### Introduction ---
-                menuItem("Introduction", 
+                menuItem(tab_text$tab[tab_text$id == "introduction"], 
                          tabName = "introduction", 
                          icon = NULL,
                          selected = TRUE),
                 
                 ### Explore results ---
-                menuItem("Explore the Results",
+                menuItem(tab_text$tab[tab_text$id == "explore-results"],
                          icon = NULL,
                          
                          # Explore results - Item #1 - Selected results
-                         menuSubItem('View Selected Results',
+                         menuSubItem(tab_text$tab[tab_text$id == "selected-results"],
                                      tabName = 'selected-results',
                                      icon = NULL),
                                   
                          # Explore results - Item #2 - Edit policies and view those results
-                         menuSubItem('Edit Policies (Advanced Users)',
+                         menuSubItem(tab_text$tab[tab_text$id == "edit-policies"],
                                      tabName = 'edit-policies',
                                      icon = NULL)
                          
                 ), 
                 
                 ### About methods and process ---
-                menuItem("Learn about the Methods and Process", 
+                menuItem(tab_text$tab[tab_text$id == "methods-process"], 
                          icon = NULL,
                          tabName = "methods-process"
                          
                 ),
                 
                 ### About fisheries subsidies ---
-                menuItem("More About Fisheries Subsidies", 
+                menuItem(tab_text$tab[tab_text$id == "fisheries-subsidies"], 
                          icon = NULL,
                          
                          # About fisheries subsidies - Item #1 - Global subsidy map
-                         menuItem('Global fisheries subsidies',
+                         menuItem(tab_text$tab[tab_text$id == "global-subsidies"],
                                      tabName = 'global-subsidies',
                                      icon = NULL),
                          
                          # About fisheries subsidies - Item #2 - Fishery statistics by state
-                         menuItem('Fishery statistics by state',
+                         menuItem(tab_text$tab[tab_text$id == "country-fishery-stats"],
                                      tabName = 'country-fishery-stats',
                                      icon = NULL),
                          
                          # About fisheries subsidies - Item #3 - Compare fishery statistics
-                         menuItem('Compare fishery statistics',
+                         menuItem(tab_text$tab[tab_text$id == "compare-fishery-stats"],
                                      tabName = 'compare-fishery-stats',
                                      icon = NULL),
                          
                          # About fisheries subsidies - Item #4 - Global effort map
-                         menuItem('Global fishing footprint',
+                         menuItem(tab_text$tab[tab_text$id == "global-fishing-footprint"],
                                      tabName = 'global-fishing-footprint',
                                      icon = NULL)
                          
                 ),
                 
                 ### Help and Contact ---
-                menuItem("Need Help?", 
+                menuItem(tab_text$tab[tab_text$id == "need-help"], 
                          icon = NULL,
                          tabName = "need-help"
                          

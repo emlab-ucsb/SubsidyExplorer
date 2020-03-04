@@ -1,0 +1,12 @@
+﻿id,tab,description
+introduction,Main Menu,landing page
+explore-results,Explore the Results,blank 
+selected-results,View Selected Results,results page showing selected scenarios
+edit-policies,Edit Policies (Advanced Users),manual selection of policies and results 
+methods-process,Learn About the Methods and Process,more information on the project and methods
+fisheries-subsidies,More About Fisheries Subsidies,blank 
+global-subsidies,Global Fisheries Subsidies,map showing global fisheries subsidies
+country-fishery-stats,Fishery Statistics by State,"subsidies, landings, etc. by state"
+compare-fishery-stats,Compare Fishery Statistics,compare statistics from the previous page 
+global-fishing-footprint,Global Fishing Footprint,map showing global fishing effort
+need-help,Need Help?,contact page

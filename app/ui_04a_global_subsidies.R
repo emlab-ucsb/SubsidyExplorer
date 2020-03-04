@@ -2,7 +2,7 @@
 ### SubsidyExplorer
 ### An interactive toolkit to explore the tradeoffs across proposed fisheries subsidies disciplines
 ### 
-### This script contains the content for the "Global fisheries subsidies" tab
+### This script contains the content for the global-subsidies tab
 ### --------------------------------------------------------------------
 
 GlobalSubsidies = function() 
@@ -12,7 +12,6 @@ GlobalSubsidies = function()
     style = "background-color: #262626; color: #ffffff; padding-bottom: 40px; border-bottom: 10px solid #3c8dbc;",
     
     ### Navigation buttons
-    
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
@@ -39,7 +38,7 @@ GlobalSubsidies = function()
     column(12, style = "padding: 25px 25px;",
            
            # Title
-           tags$h3(style = "padding: 0; margin: 0 0 10px;", "Global fisheries subsidies"),
+           tags$h3(style = "padding: 0; margin: 0 0 10px;", tab_text$tab[tab_text$id == "global-subsidies"]),
            
            # Text
            includeHTML("./text/04a_global_subsidies_text.html"),

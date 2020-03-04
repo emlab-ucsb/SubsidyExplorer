@@ -451,6 +451,10 @@ padding: 0 40px 20px;
   white-space: normal;
   text-align: left;
 }
+
+.nav-button-l i{
+  margin: 0 10px;
+}
   
 .nav-button-r {
   color: #fff; 
@@ -462,6 +466,10 @@ padding: 0 40px 20px;
   font-size: 12px;
   white-space: normal;
   text-align: right;
+}
+
+.nav-button-r i{
+  margin: 0 10px;
 }
 
 .nav-button:hover {

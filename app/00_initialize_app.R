@@ -19,25 +19,31 @@ button_text <- read_csv("./text/00_button_text.csv")
 ### Country/Territory Naming ---------
 ### ----------------------------------
 
-# # Get data frame with all relevant country dependancies 
-# country_dependencies <- read_csv("./data/country-dependencies.csv") %>%
-#   mutate(states = str_split(states, pattern = ", "))
-# 
-# # EU states
-# eu_countries <- unlist(country_dependencies$states[country_dependencies$entity == "eu_countries"])
-# 
-# # List of all EU overseas territories - vessels flagged here should be considered WTO Members
-# eu_territories <- c(unlist(country_dependencies$states[country_dependencies$entity == "NLD_territories"]),
-#                     unlist(country_dependencies$states[country_dependencies$entity == "FRA_territories"]),
-#                     unlist(country_dependencies$states[country_dependencies$entity == "DNK_territories"]),
-#                     unlist(country_dependencies$states[country_dependencies$entity == "GBR_territories"]))
-# 
-# # List of all US overseas territories - vessels flagged here should be considered WTO Members
-# us_territories <- unlist(country_dependencies$states[country_dependencies$entity == "USA_territories"])
-# 
-# # List of all Norwegian overseas territories - vessels flagged here should be considered WTO Members
-# norwegian_territories <- unlist(country_dependencies$states[country_dependencies$entity == "NOR_territories"])
-# 
+# Country ISO 3 codes and names
+# [NEED - LETS MAKE OUR OWN MASTER SHEET SO IT'S EASIER TO CHANGE THROUGHOUT]
+country_names <- countrycode::codelist %>%
+  dplyr::select(country_iso3 = iso3c,
+                country_name = country.name.en)
+
+# Get data frame with all relevant country dependancies
+country_dependencies <- read_csv("./data/country_dependencies.csv") %>%
+  mutate(states = str_split(states, pattern = ", "))
+
+# EU states
+eu_countries <- unlist(country_dependencies$states[country_dependencies$entity == "eu_countries"])
+
+# List of all EU overseas territories - vessels flagged here should be considered WTO Members
+eu_territories <- c(unlist(country_dependencies$states[country_dependencies$entity == "NLD_territories"]),
+                    unlist(country_dependencies$states[country_dependencies$entity == "FRA_territories"]),
+                    unlist(country_dependencies$states[country_dependencies$entity == "DNK_territories"]),
+                    unlist(country_dependencies$states[country_dependencies$entity == "GBR_territories"]))
+
+# List of all US overseas territories - vessels flagged here should be considered WTO Members
+us_territories <- unlist(country_dependencies$states[country_dependencies$entity == "USA_territories"])
+
+# List of all Norwegian overseas territories - vessels flagged here should be considered WTO Members
+norwegian_territories <- unlist(country_dependencies$states[country_dependencies$entity == "NOR_territories"])
+
 # ### --------------------
 # ### Shapefiles ---------
 # ### --------------------

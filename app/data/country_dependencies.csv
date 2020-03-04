@@ -1,0 +1,8 @@
+﻿entity,states
+eu_countries,"AUT, BEL, BGR, HRV, CYP, CZE, DNK, EST, FIN, FRA, DEU, GRC, HUN, IRL, ITA, LVA, LTU, LUX, MLT, NLD, POL, PRT, ROU, SVK, SVN, ESP, SWE, GBR"
+NLD_territories,"ABW, BES, CUW, SXM"
+FRA_territories,"ATF, BLM, GLP, GUF, MAF, MTQ, MYT, NCL, PYF, REU, SPM, WLF"
+DNK_territories,"FRO, GRL"
+GBR_territories,"AIA, ASC, BMU, CYM, FLK, GGY, GIB, IOT, JEY, MSR, PCN, SGS, SHN, TAA, TCA, VGB"
+NOR_territories,"BVT, SJM"
+USA_territories,"ASM, GUM, MNP, PRI, VIR"

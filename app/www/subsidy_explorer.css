@@ -263,6 +263,11 @@ a:hover {
   white-space: normal;
 }
 
+.landing-wrapper .picture-overlay-black .picture-overlay-sub-text-wrapper button:hover{
+  color: white;
+  background-color: #3c8dbc; 
+}
+
 .overlay-text-center h1{
   font-size:60px;
 }

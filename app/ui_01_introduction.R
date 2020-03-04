@@ -76,7 +76,7 @@ introduction = function()
            
            actionLink("al-need-help",
                       tags$h4("Need help?"),
-                      style = "text-size: 200%;")
+                      style = "color: white;")
            
            )
      

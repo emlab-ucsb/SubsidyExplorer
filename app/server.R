@@ -11,30 +11,50 @@
 
 shinyServer(function(input, output, session) {
   
-  ### ----------------------
-  ### Navigation buttons ---
-  ### ----------------------
+  ### --------------------
+  ### 01. Introduction ---
+  ### --------------------
   
-  ### Introduction ---
+  ### Navigation buttons ---------------------
   
-  # Navigation button to selected results
+  # Navigation button from introduction to selected-results
   observeEvent(input$ab_selected_results, {
     updateTabItems(session, "menu_items", "selected-results")
   })
   
-  # Navigation button to more information
+  # Navigation button from introduction to methods-process
   observeEvent(input$ab_methods_process, {
     updateTabItems(session, "menu_items", "methods-process")
   })
   
-  # Navigation button to fisheries subsidies background
+  # Navigation button from introduction to global-subsidies
   observeEvent(input$ab_global_subsidies, {
     updateTabItems(session, "menu_items", "global-subsidies")
   })
   
-  # Navigation link to help 
+  # Navigation link from introduction to need-help 
   observeEvent(input$al_need_help, {
     updateTabItems(session, "menu_items", "need-help")
+  })
+  
+  ### -----------------------------------
+  ### 04a. Global Fisheries Subsidies ---
+  ### -----------------------------------
+  
+  ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
+  
+  # output$global_subsidies_map <- renderLeaflet({})
+  
+  ### Navigation buttons ---------------------
+  
+  # Navigation button from global-subsidies to introduction
+  observeEvent(input$ab_global_subsidies_to_introduction, {
+    updateTabItems(session, "menu_items", "introduction")
+  })
+  
+  # Navigation button from global-subsidies to country-fishery-statistics
+  observeEvent(input$ab_global_subsidies_to_country_fishery_stats, {
+    updateTabItems(session, "menu_items", "country-fishery-stats")
   })
 
 })

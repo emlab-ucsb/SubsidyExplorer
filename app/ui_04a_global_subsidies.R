@@ -8,8 +8,75 @@
 GlobalSubsidies = function() 
   fluidPage(
     
-    # page style
-    style = "color: #ffffff; padding-bottom: 40px;",
+    # Page style
+    style = "background-color: #262626; color: #ffffff; padding-bottom: 40px; border-bottom: 10px solid #3c8dbc;",
+    
+    ### Navigation buttons
+    
+    column(12,
+           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
+                    
+                    # Back to main menu button
+                    column(3,
+                           tags$button(id = "ab_global_subsidies_to_introduction",
+                                       class = "btn action-button nav-button-l",
+                                       icon("chevron-left"), "   Return to Main Menu"
+                           )
+                    ),
+                    
+                    # Next to fishery profiles button
+                    column(3, offset = 6,
+                           tags$button(id = "ab_global_subsidies_to_country_fishery_stats",
+                                       class = "btn action-button nav-button-r",
+                                       "Next: View fishery profiles by state   ", icon("chevron-right")
+                           )
+                    )
+                    
+           )
+    ),
+    
+    ### Title and introductory text 
+    column(12, style = "padding: 25px 25px;",
+           
+           # Title
+           tags$h3(style = "padding: 0; margin: 0 0 10px;", "Global fisheries subsidies"),
+           
+           # Text
+           includeHTML("./text/04a_global_subsidies_text.html"),
+           
+           # Select subsidy type(s) to plot (change choices back to "subsidy_types_all")
+           selectizeInput("global_subsidies_included_subsidy_types",
+                          label = tagList(tags$b(" Subsidy type(s) to include:    "),
+                                          # Info button
+                                          tags$button(id = "info_subsidy_type_to_plot",
+                                                      class = "btn action-button info-button",
+                                                      icon("info"))),
+                          
+                          choices = c("choice1" = "B1", "choice2" = "B2", "etc" = "B3"),
+                          selected = 'B1',
+                          width = "100%",
+                          multiple = T)
+           
+           
+    ),
+    
+    ### Global subsidies map (change back to leaflet object)
+    column(12, style = "padding: 10px 0;",
+           
+           
+           # Leaflet map
+           #leafletOutput('global_subsidies_map', width = "auto", height = "70vh")
+           
+           # Temp image
+           img(src = "/sample-images/04a_map_image.png", width = "100%")
+           
+    ),
+    
+    ### Map disclaimer
+    column(12, style = "padding: 10px 25px; color: #ffffff;",
+           
+           includeHTML("./text/00_map_disclaimer.html")
+    )
             
     
     

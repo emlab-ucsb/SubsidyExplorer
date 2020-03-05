@@ -37,6 +37,28 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "menu_items", "need-help")
   })
   
+  ### -----------------------
+  ### 03. methods-process ---
+  ### -----------------------
+  
+  ### Navigation buttons ---------------------
+  
+  # Navigation button from methods-process to introduction
+  observeEvent(input$ab_methods_process_to_introduction, {
+    updateTabItems(session, "menu_items", "introduction")
+  })
+  
+  ### Downlaod buttons ---------------------
+  
+  # Download methods PDF
+  output$db_download_methods <- downloadHandler(
+    filename = "SubsidyExplorer_methods.pdf",
+    content = function(file) {
+      file.copy("www/SubsidyExplorer_methods.pdf", file)
+    }
+  )
+  
+  
   ### -------------------------
   ### 04a. global-subsidies ---
   ### -------------------------

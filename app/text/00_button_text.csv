@@ -1,9 +1,11 @@
 ﻿id,text,tab,tab_number,description
-ab_global_subsidies_to_introduction,Return to Main Menu,Global Fisheries Subsidies,04a,left top button
-ab_global_subsidies_to_country_fishery_stats,Next: View Fishery Profiles by State,Global Fisheries Subsidies,04a,right top button
-ab_introduction_to_selected_results,Explore the Results,Introduction,01,left button
-ab_introduction_to_methods_process,Learn About the Methods and Process,Introduction,01,center button
-ab_introduction_to_global_subsidies,More About Fisheries Subsidies,Introduction,01,right button
-al_introduction_to_need_help,Need Help?,Introduction,01,link at the bottom
-ab_country_fishery_stats_to_global_subsidies,Back: Global Fisheries Subsidies,Fishery Statistics by State,04b,left top button
-ab_country_fishery_stats_to_compare_fishery_stats,Next: Compare Fishery Statistics,Fishery Statistics by State,04b,right top button
+ab_global_subsidies_to_introduction,Return to Main Menu,global-subsidies,04a,left top button
+ab_global_subsidies_to_country_fishery_stats,Next: View Fishery Profiles by State,global-subsidies,04a,right top button
+ab_introduction_to_selected_results,Explore the Results,introduction,1,left button
+ab_introduction_to_methods_process,Learn About the Methods and Process,introduction,1,center button
+ab_introduction_to_global_subsidies,More About Fisheries Subsidies,introduction,1,right button
+al_introduction_to_need_help,Need Help?,introduction,1,link at the bottom
+ab_country_fishery_stats_to_global_subsidies,Back: Global Fisheries Subsidies,country-fishery-stats,04b,left top button
+ab_country_fishery_stats_to_compare_fishery_stats,Next: Compare Fishery Statistics,country-fishery-stats,04b,right top button
+ab_methods_process_to_introduction,Return to Main Menu,methods-process,3,left top button
+db_download_methods,Download Full Methodology (PDF),methods-process,3,bottom methods button

@@ -3,6 +3,10 @@ ab_introduction_to_selected_results,Explore the Results,introduction,1,left butt
 ab_introduction_to_methods_process,Learn About the Methods and Process,introduction,1,center button
 ab_introduction_to_global_subsidies,More About Fisheries Subsidies,introduction,1,right button
 al_introduction_to_need_help,Need Help?,introduction,1,link at the bottom
+ab_selected_results_to_edit_policies,Next: Edit Policies (Advanced Users),selected-results,2a,top right button
+ab_selected_results_to_introduction,Return to Main Menu,selected-results,2a,left bottom button
+ab_edit_policies_to_selected_results,Back: Selected Results,edit-policies,2b,top left button
+ab_edit_policies_to_introduction,Return to Main Menu,edit-policies,2b,left bottom button
 db_download_methods,Download Full Methodology (PDF),methods-process,3,bottom methods button
 ab_methods_process_to_introduction,Return to Main Menu,methods-process,3,left bottom button
 ab_global_subsidies_to_country_fishery_stats,Next: View Fishery Profiles by State,global-subsidies,04a,right top button

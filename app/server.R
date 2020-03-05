@@ -37,6 +37,25 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "menu_items", "need-help")
   })
   
+  ### -------------------------
+  ### 02a. selected-results ---
+  ### -------------------------
+  
+  ### Navigation buttons ---------------------
+  
+  # Navigation button from selected-results to edit-policies
+  observeEvent(input$ab_selected_results_to_edit_policies, {
+    updateTabItems(session, "menu_items", "edit-policies")
+  })
+  
+  # Navigation button from selected-results to introduction
+  observeEvent(input$ab_selected_results_to_introduction, {
+    updateTabItems(session, "menu_items", "introduction")
+  })
+  
+  ### Plotly figure: Model results over time ---------------------
+  #[NEED]
+  
   ### -----------------------
   ### 03. methods-process ---
   ### -----------------------

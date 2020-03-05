@@ -37,13 +37,9 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "menu_items", "need-help")
   })
   
-  ### -----------------------------------
-  ### 04a. Global Fisheries Subsidies ---
-  ### -----------------------------------
-  
-  ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
-  
-  # output$global_subsidies_map <- renderLeaflet({})
+  ### -------------------------
+  ### 04a. global-subsidies ---
+  ### -------------------------
   
   ### Navigation buttons ---------------------
   
@@ -56,5 +52,33 @@ shinyServer(function(input, output, session) {
   observeEvent(input$ab_global_subsidies_to_country_fishery_stats, {
     updateTabItems(session, "menu_items", "country-fishery-stats")
   })
+  
+  ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
+  
+  # output$global_subsidies_map <- renderLeaflet({})
+  
+
+  
+  ### ------------------------------
+  ### 04b. country-fishery-stats ---
+  ### ------------------------------
+  
+  ### Navigation buttons ---------------------
+  
+  # Navigation button from country-fishery-stats to global-subsidies
+  observeEvent(input$ab_country_fishery_stats_to_global_subsidies, {
+    updateTabItems(session, "menu_items", "global-subsidies")
+  })
+  
+  # Navigation button from country-fishery-stats to compare-fishery-statistics
+  observeEvent(input$ab_country_fishery_stats_to_compare_fishery_stats, {
+    updateTabItems(session, "menu_items", "compare-fishery-stats")
+  })
+  
+  ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
+  
+  # output$global_subsidies_map <- renderLeaflet({})
+  
+
 
 })

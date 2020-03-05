@@ -9,7 +9,7 @@ CountryFisheryStats = function(country_choices)
   fluidPage(
     
     # Page style
-    style = "background-color: #ffffff; color: #000000; padding-bottom: 40px; border-bottom: 10px solid #3c8dbc;",
+    style = "background-color: #ffffff; color: #000000; padding-bottom: 40px; border-bottom: 10px solid #3c8dbc; min-height: 80vh;",
     
     ### Navigation buttons
     column(12,
@@ -35,19 +35,16 @@ CountryFisheryStats = function(country_choices)
     ),
     
     ### Title and introductory text                                                  
-    column(12, style = "padding: 15px 25px 0px;",
+    column(12, style = "padding: 25px 25px 0px;",
            
            # Title
-           tags$h3(style = "padding: 0; margin: 0;", "View Fishery Profiles by State"),
+           tags$h3(style = "padding: 0; margin: 0;", tab_text$tab[tab_text$id == "country-fishery-stats"]),
            
            # Text
            includeHTML("./text/04b_country_fishery_stats_intro.html"),
            
-           # Space
-           br(),
-           
            # Select state
-           selectizeInput("country_profile_selected_country",
+           selectizeInput("w_country_profile_selected_country",
                           label = tagList(tags$b(" WTO Member or Observer:   "),
                                           
                                           # Info button: subsidy types
@@ -62,11 +59,35 @@ CountryFisheryStats = function(country_choices)
                           options = list(placeholder = 'Select...')
            )
            
-    ), # /column
+    ), # /column 12
     
+    ### Section 1: Fishery subsidies
+    column(12, style = "padding: 10px 25px;",
+           
+           # Header and text
+           includeHTML("./text/04b_country_fishery_stats_section1.html"),
+           
+           # Fishery subsidies bar plot (PLACEHOLDER - REPLACE WITH PLOTLY OBJECT)
+           #plotlyOutput("country_profile_bar_plot")
+           
+           # Temp image
+           img(src = "/sample-images/04b_subsidy_plot_image.png", width = "100%")
+           
+    ),
     
-            
-    
+    ### Section 2: Capture fisheries production                                                     
+    column(12, style = "padding: 10px 25px;",
+           
+           # Header and text
+           includeHTML("./text/04b_country_fishery_stats_section2.html"),
+           
+           # Capture fisheries production line plot (PLACEHOLDER - REPLACE WITH PLOTLY OBJECT)
+           #plotlyOutput("country_profile_landings_plot")
+           
+           # Temp image
+           img(src = "/sample-images/04b_capture_production_plot_image.png", width = "100%")
+           
+    )
     
   ) # /fluidPage
   

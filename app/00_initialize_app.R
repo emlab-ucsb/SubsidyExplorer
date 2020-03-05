@@ -15,6 +15,8 @@
 
 button_text <- read_csv("./text/00_button_text.csv")
 
+tab_text <- read_csv("./text/00_tab_text.csv")
+
 ### ----------------------------------
 ### Country/Territory Naming ---------
 ### ----------------------------------
@@ -23,7 +25,11 @@ button_text <- read_csv("./text/00_button_text.csv")
 # [NEED - LETS MAKE OUR OWN MASTER SHEET SO IT'S EASIER TO CHANGE THROUGHOUT]
 country_names <- countrycode::codelist %>%
   dplyr::select(country_iso3 = iso3c,
-                country_name = country.name.en)
+                country_name = country.name.en) %>%
+  na.omit()
+
+country_choices <- country_names$country_iso3
+names(country_choices) <- country_names$country_name
 
 # Get data frame with all relevant country dependancies
 country_dependencies <- read_csv("./data/country_dependencies.csv") %>%

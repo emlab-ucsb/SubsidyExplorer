@@ -41,10 +41,10 @@ GlobalSubsidies = function()
            tags$h3(style = "padding: 0; margin: 0 0 10px;", tab_text$tab[tab_text$id == "global-subsidies"]),
            
            # Text
-           includeHTML("./text/04a_global_subsidies_text.html"),
+           includeHTML("./text/04a_global_subsidies_intro.html"),
            
            # Select subsidy type(s) to plot (change choices back to "subsidy_types_all")
-           selectizeInput("global_subsidies_included_subsidy_types",
+           selectizeInput("w_global_subsidies_included_subsidy_types",
                           label = tagList(tags$b(" Subsidy type(s) to include:    "),
                                           # Info button
                                           tags$button(id = "info_subsidy_type_to_plot",
@@ -59,7 +59,7 @@ GlobalSubsidies = function()
            
     ),
     
-    ### Global subsidies map (change back to leaflet object)
+    ### Global subsidies map (PLACEHOLDER - change back to leaflet object)
     column(12, style = "padding: 10px 0;",
            
            

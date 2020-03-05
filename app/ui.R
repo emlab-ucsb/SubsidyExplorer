@@ -204,7 +204,7 @@ shinyUI(
                 
                 # About fisheries subsidies - Item #2 - Fishery statistics by state
                 tabItem(tabName = "country-fishery-stats",
-                        CountryFisheryStats()
+                        CountryFisheryStats(country_choices)
                 ),
                 
                 # About fisheries subsidies - Item #3 - Compare fishery statistics

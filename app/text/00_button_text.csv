@@ -9,3 +9,5 @@ ab_country_fishery_stats_to_global_subsidies,Back: Global Fisheries Subsidies,co
 ab_country_fishery_stats_to_compare_fishery_stats,Next: Compare Fishery Statistics,country-fishery-stats,04b,right top button
 ab_methods_process_to_introduction,Return to Main Menu,methods-process,3,left top button
 db_download_methods,Download Full Methodology (PDF),methods-process,3,bottom methods button
+ab_need_help_to_introduction,Return to Main Menu,need-help,5,left top button
+db_download_user_guide_english,Download User Guide - English (PDF),need-help,5,bottom left user guide button

@@ -102,5 +102,26 @@ shinyServer(function(input, output, session) {
   # output$global_subsidies_map <- renderLeaflet({})
   
 
+  ### -----------------
+  ### 05. need-help ---
+  ### -----------------
+  
+  ### Navigation buttons ---------------------
+  
+  # Navigation button from methods-process to introduction
+  observeEvent(input$ab_need_help_to_introduction, {
+    updateTabItems(session, "menu_items", "introduction")
+  })
+  
+  ### Download buttons ---------------------
+  
+  # Download user guide (english) PDF
+  output$db_download_user_guide_english <- downloadHandler(
+    filename = "SubsidyExplorer_user_guide_english.pdf",
+    content = function(file) {
+      file.copy("www/SubsidyExplorer_user_guide_english.pdf", file)
+    }
+  )
+  
 
 })

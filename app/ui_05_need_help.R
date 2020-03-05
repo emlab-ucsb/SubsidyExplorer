@@ -9,19 +9,14 @@ NeedHelp = function()
   fluidPage(
     
     # Page style
-    style = "background-color: #262626; color: #ffffff; padding-bottom: 40px; border-bottom: 10px solid #3c8dbc;",
+    style = "background-color: #262626; color: #ffffff;",
     
-    ### Navigation buttons
+    ### Top navigation buttons
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
                     # Back to main menu button
-                    column(3,
-                           tags$button(id = "ab_need_help_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("chevron-left"), button_text$text[button_text$id == "ab_need_help_to_introduction"]
-                           )
-                    )
+                    column(12, style = "height: 30px;")
                     
            )
     ),
@@ -30,7 +25,7 @@ NeedHelp = function()
     column(12, style = "padding: 25px 25px;",
            
            # Title
-           tags$h3(style = "padding: 0; margin: 0 0 10px;", tab_text$tab[tab_text$id == "need_help"]),
+           tags$h3(style = "padding: 0; margin: 0 0 10px;", tab_text$tab[tab_text$id == "need-help"]),
            
            # Intro Text
            includeHTML("./text/05_need_help_intro.html"),
@@ -47,6 +42,21 @@ NeedHelp = function()
            # Contact Text
            includeHTML("./text/05_need_help_contact.html")
            
+    ),
+    
+    ### Bottom navigation buttons
+    column(12,
+           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
+                    
+                    # Return to main menu
+                    column(3,
+                           tags$button(id = "ab_need_help_to_introduction",
+                                       class = "btn action-button nav-button-l",
+                                       icon("undo"), button_text$text[button_text$id == "ab_need_help_to_introduction"]
+                           )
+                    )
+                    
+           )
     )
             
     

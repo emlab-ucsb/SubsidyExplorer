@@ -79,8 +79,6 @@ shinyServer(function(input, output, session) {
   
   # output$global_subsidies_map <- renderLeaflet({})
   
-
-  
   ### ------------------------------
   ### 04b. country-fishery-stats ---
   ### ------------------------------
@@ -102,9 +100,35 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "menu_items", "introduction")
   })
   
-  ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
+  ### Plotly figure: Fisheries subsidies by type ---------------------
+  #[NEED]
   
-  # output$global_subsidies_map <- renderLeaflet({})
+  ### Plotly figure: FAO Marine Capture Production ---------------------
+  #[NEED]
+  
+  ### ------------------------------
+  ### 04c. compare-fishery-stats ---
+  ### ------------------------------
+  
+  ### Navigation buttons ---------------------
+  
+  # Navigation button from compare-fishery-stats to country-fishery-stats
+  observeEvent(input$ab_compare_fishery_stats_to_country_fishery_stats, {
+    updateTabItems(session, "menu_items", "country-fishery-stats")
+  })
+  
+  # Navigation button from compare-fishery-stats to global-fishing-footprint
+  observeEvent(input$ab_compare_fishery_stats_to_global_fishing_footprint, {
+    updateTabItems(session, "menu_items", "global-fishing-footprint")
+  })
+  
+  # Navigation button from compare-fishery-stats to introduction
+  observeEvent(input$ab_compare_fishery_stats_to_introduction, {
+    updateTabItems(session, "menu_items", "introduction")
+  })
+  
+  ### Plotly figure: Compare fishery stats ---------------------
+  #[NEED]
   
   ### ---------------------------------
   ### 04d. global-fishing-footprint ---

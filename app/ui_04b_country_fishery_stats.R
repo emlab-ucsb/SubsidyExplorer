@@ -9,13 +9,13 @@ CountryFisheryStats = function(country_choices)
   fluidPage(
     
     # Page style
-    style = "background-color: #ffffff; color: #000000; padding-bottom: 40px; border-bottom: 10px solid #3c8dbc; min-height: 80vh;",
+    style = "background-color: #ffffff; color: #000000;",
     
     ### Navigation buttons
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Back to global fisheries subsidies
+                    # Back to global-subsidies
                     column(3,
                            tags$button(id = "ab_country_fishery_stats_to_global_subsidies",
                                        class = "btn action-button nav-button-l",
@@ -23,7 +23,7 @@ CountryFisheryStats = function(country_choices)
                            )
                     ),
                     
-                    # Next to fishery profiles button
+                    # Next to compare-fishery-stats
                     column(3, offset = 6,
                            tags$button(id = "ab_country_fishery_stats_to_compare_fishery_stats",
                                        class = "btn action-button nav-button-r",
@@ -87,6 +87,21 @@ CountryFisheryStats = function(country_choices)
            # Temp image
            img(src = "/sample-images/04b_capture_production_plot_image.png", width = "100%")
            
+    ),
+    
+    ### Bottom navigation buttons
+    column(12,
+           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
+                    
+                    # Return to main menu
+                    column(3,
+                           tags$button(id = "ab_country_fishery_stats_to_introduction",
+                                       class = "btn action-button nav-button-l",
+                                       icon("undo"), button_text$text[button_text$id == "ab_country_fishery_stats_to_introduction"]
+                           )
+                    )
+                    
+           )
     )
     
   ) # /fluidPage

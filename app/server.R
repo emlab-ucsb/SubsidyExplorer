@@ -65,14 +65,14 @@ shinyServer(function(input, output, session) {
   
   ### Navigation buttons ---------------------
   
-  # Navigation button from global-subsidies to introduction
-  observeEvent(input$ab_global_subsidies_to_introduction, {
-    updateTabItems(session, "menu_items", "introduction")
-  })
-  
   # Navigation button from global-subsidies to country-fishery-statistics
   observeEvent(input$ab_global_subsidies_to_country_fishery_stats, {
     updateTabItems(session, "menu_items", "country-fishery-stats")
+  })
+  
+  # Navigation button from global-subsidies to introduction
+  observeEvent(input$ab_global_subsidies_to_introduction, {
+    updateTabItems(session, "menu_items", "introduction")
   })
   
   ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
@@ -97,9 +97,30 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "menu_items", "compare-fishery-stats")
   })
   
+  # Navigation button from country-fishery-stats to introduction
+  observeEvent(input$ab_country_fishery_stats_to_introduction, {
+    updateTabItems(session, "menu_items", "introduction")
+  })
+  
   ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
   
   # output$global_subsidies_map <- renderLeaflet({})
+  
+  ### ---------------------------------
+  ### 04d. global-fishing-footprint ---
+  ### ---------------------------------
+  
+  ### Navigation buttons ---------------------
+  
+  # Navigation button from global-fishing-footprint to compare-fishery-stats
+  observeEvent(input$ab_global_fishing_footprint_to_compare_fishery_stats, {
+    updateTabItems(session, "menu_items", "compare-fishery-stats")
+  })
+  
+  # Navigation button from global-fishing-footprint to introduction
+  observeEvent(input$ab_global_fishing_footprint_to_introduction, {
+    updateTabItems(session, "menu_items", "introduction")
+  })
   
 
   ### -----------------

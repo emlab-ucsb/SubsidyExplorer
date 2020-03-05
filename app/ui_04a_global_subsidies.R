@@ -9,22 +9,14 @@ GlobalSubsidies = function()
   fluidPage(
     
     # Page style
-    style = "background-color: #262626; color: #ffffff; padding-bottom: 40px; border-bottom: 10px solid #3c8dbc;",
+    style = "background-color: #262626; color: #ffffff;",
     
-    ### Navigation buttons
+    ### Top navigation buttons
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Back to main menu button
-                    column(3,
-                           tags$button(id = "ab_global_subsidies_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("chevron-left"), button_text$text[button_text$id == "ab_global_subsidies_to_introduction"]
-                           )
-                    ),
-                    
-                    # Next to fishery profiles button
-                    column(3, offset = 6,
+                    # Next to country-fishery-stats
+                    column(3, offset = 9,
                            tags$button(id = "ab_global_subsidies_to_country_fishery_stats",
                                        class = "btn action-button nav-button-r",
                                        button_text$text[button_text$id == "ab_global_subsidies_to_country_fishery_stats"], icon("chevron-right")
@@ -75,10 +67,23 @@ GlobalSubsidies = function()
     column(12, style = "padding: 10px 25px; color: #ffffff;",
            
            includeHTML("./text/00_map_disclaimer.html")
+    ),
+    
+    ### Bottom navigation buttons
+    column(12,
+           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
+                    
+                    # Return to main menu
+                    column(3,
+                           tags$button(id = "ab_global_subsidies_to_introduction",
+                                       class = "btn action-button nav-button-l",
+                                       icon("undo"), button_text$text[button_text$id == "ab_global_subsidies_to_introduction"]
+                           )
+                    )
+                    
+           )
     )
             
-    
-    
   ) # /fluidPage
   
   

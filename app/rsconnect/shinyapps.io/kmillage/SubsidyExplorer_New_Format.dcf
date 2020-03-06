@@ -1,0 +1,12 @@
+name: SubsidyExplorer_New_Format
+title: SubsidyExplorer_New_Format
+username:
+account: kmillage
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1915247
+bundleId: 2858131
+url: https://kmillage.shinyapps.io/SubsidyExplorer_New_Format/
+when: 1583521080.68172
+asMultiple: FALSE
+asStatic: FALSE

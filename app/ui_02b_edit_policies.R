@@ -87,33 +87,49 @@ column(12,
                   tabBox(width = 12, id = "policy_tabs", 
                          
                          ### --------------------------
-                         ### Tab # 0  - IUU Disciplines
+                         ### Tab # 0  - Introduction
                          ### --------------------------
                          
-                         tabPanel("Instructions",
+                         tabPanel("Step 1: Instructions",
+                                  value = "instructions",
                                   
                                   # Column container for tab panel        
                                   column(12, style = "border-style: solid;
                                          border-width: 2px 1px 1px 1px;
                                          border-color: #28292C;",
                                          
-                                         # Intro text
+                                         # Intro text and policy name
                                          column(12, style = "padding: 15px 25px 15px;",
                                                 
-                                                includeHTML("./text/02b_edit_policies_intro.html")
                                                 
+                                                includeHTML("./text/02b_edit_policies_intro.html"),
+                                                
+                                                # Provide policy description
+                                                textInput(inputId = "w_run_name",
+                                                          label = "Description of policy: ",
+                                                          value = ""),
+                                         ),
+                                         
+                                         # Next tab button
+                                         column(3, offset = 9, style = "padding: 5px;",
+                                                
+                                                tags$button(id = "ab_edit_policies_tabs_instructions_to_iuu",
+                                                            class = "btn action-button nav-button-white-r",
+                                                            button_text$text[button_text$id == "ab_edit_policies_tabs_instructions_to_iuu"], icon("chevron-right")
+                                                )
                                          )
                                          
                                   )
                                   
                          ),
-                                  
+                        
                          
                          ### --------------------------
-                         ### Tab # 0  - IUU Disciplines
+                         ### Tab # 1  - IUU 
                          ### --------------------------
                          
-                         tabPanel("IUU", 
+                         tabPanel("Step 2: IUU", 
+                                  value = "iuu",
                                   
                                   # Column container for tab panel        
                                   column(12, style = "border-style: solid;

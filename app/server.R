@@ -56,6 +56,54 @@ shinyServer(function(input, output, session) {
   ### Plotly figure: Model results over time ---------------------
   #[NEED]
   
+  ### ----------------------
+  ### 02b. edit-policies ---
+  ### ----------------------
+  
+  ### Navigation buttons ---------------------
+  
+  # Navigation button from edit-policies to selected-results
+  observeEvent(input$ab_edit_policies_to_selected_results, {
+    updateTabItems(session, "menu_items", "selected-results")
+  })
+  
+  # Navigation button from edit-policies to introduction
+  observeEvent(input$ab_edit_policies_to_introduction, {
+    updateTabItems(session, "menu_items", "introduction")
+  })
+  
+  ### Tabs
+  # Navigation button from tab 0 to tab 1
+  observeEvent(input$ab_edit_policies_tabs_instructions_to_iuu, {
+    updateTabsetPanel(session, "policy_tabs", "iuu") 
+  })
+  
+  # Navigation button from tab 1 to tab 0
+  observeEvent(input$ab_edit_policies_tabs_iuu_to_instructions, {
+    updateTabsetPanel(session, "policy_tabs", "instructions") 
+  })
+  
+  # Navigation button from tab 1 to tab 2
+  observeEvent(input$ab_edit_policies_tabs_iuu_to_oa, {
+    updateTabsetPanel(session, "policy_tabs", "oa") 
+  })
+  
+  # Navigation button from tab 2 to tab 1
+  observeEvent(input$ab_edit_policies_tabs_oa_to_iuu, {
+    updateTabsetPanel(session, "policy_tabs", "iuu") 
+  })
+  
+  # Navigation button from tab 2 to tab 3
+  observeEvent(input$ab_edit_policies_tabs_oa_to_overcap, {
+    updateTabsetPanel(session, "policy_tabs", "overcap") 
+  })
+  
+  
+  
+  ### Reactive data frame: All select policy inputs -------------
+  
+  
+  
   ### -----------------------
   ### 03. methods-process ---
   ### -----------------------

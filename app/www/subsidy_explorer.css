@@ -440,10 +440,10 @@ padding: 0 40px 20px;
 /* Buttons */
 /*--------------------------*/
   
+/* Left navigation button */
 .nav-button-l {
   color: #fff; 
   background-color: #3c8dbc; 
-  /*border: 2px solid #255774;*/
   padding: 5px; 
   width: 100%;
   height: 30px;
@@ -455,11 +455,37 @@ padding: 0 40px 20px;
 .nav-button-l i{
   margin: 0 10px;
 }
+
+.nav-button-l:hover {
+  background-color: #31749b; 
+}
+
+/* Left navigation button (white) */
+.nav-button-white-l {
+  color: #000000; 
+  background-color: #ffffff; 
+  border: 2px solid #3c8dbc;
+  padding: 5px; 
+  width: 100%;
+  height: 30px;
+  font-size: 12px;
+  white-space: normal;
+  text-align: center;
+}
+
+.nav-button-white-l i{
+  margin: 0 10px;
+}
+
+.nav-button-white-l:hover {
+  color: #ffffff;
+  background-color: #31749b; 
+}
   
+/* Right navigation button */
 .nav-button-r {
   color: #fff; 
   background-color: #3c8dbc; 
-  /*border: 2px solid #255774;*/
   padding: 5px; 
   width: 100%;
   height: 30px;
@@ -472,10 +498,33 @@ padding: 0 40px 20px;
   margin: 0 10px;
 }
 
-.nav-button:hover {
+.nav-button-r:hover {
   background-color: #31749b; 
 }
 
+/* Right navigation button (white) */
+.nav-button-white-r {
+  color: #000000; 
+  background-color: #ffffff; 
+  border: 2px solid #3c8dbc;
+  padding: 5px; 
+  width: 100%;
+  height: 30px;
+  font-size: 12px;
+  white-space: normal;
+  text-align: center;
+}
+
+.nav-button-white-r i{
+  margin: 0 10px;
+}
+
+.nav-button-white-r:hover {
+  color: #ffffff;
+  background-color: #31749b; 
+}
+
+/* Info button */
 .info-button {
   color: #fff; 
     background-color: #3c8dbc; 

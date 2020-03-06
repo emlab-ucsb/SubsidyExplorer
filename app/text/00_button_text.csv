@@ -7,6 +7,9 @@ ab_selected_results_to_edit_policies,Next: Edit Policies (Advanced Users),select
 ab_selected_results_to_introduction,Return to Main Menu,selected-results,2a,left bottom button
 ab_edit_policies_to_selected_results,Back: Selected Results,edit-policies,2b,top left button
 ab_edit_policies_to_introduction,Return to Main Menu,edit-policies,2b,left bottom button
+ab_edit_policies_tabs_instructions_to_iuu,Next: IUU Disciplines,edit-policies,2b,within tabBox - instructions to iuu disciplines
+ab_edit_policies_tabs_iuu_to_instructions,Back: Instructions,edit-policies,2b,within tabBox - iuu disciplines to instructions
+ab_edit_policies_tabs_iuu_to_oa,Next: Overfished Disciplines,edit-policies,2b,Within tabBox - iuu disciplines to overfished disciplines
 db_download_methods,Download Full Methodology (PDF),methods-process,3,bottom methods button
 ab_methods_process_to_introduction,Return to Main Menu,methods-process,3,left bottom button
 ab_global_subsidies_to_country_fishery_stats,Next: View Fishery Profiles by State,global-subsidies,04a,right top button

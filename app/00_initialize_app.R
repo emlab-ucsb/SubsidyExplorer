@@ -17,6 +17,8 @@ button_text <- read_csv("./text/00_button_text.csv")
 
 tab_text <- read_csv("./text/00_tab_text.csv")
 
+widget_text <- read_csv("./text/00_widget_text.csv")
+
 ### ----------------------------------
 ### Country/Territory Naming ---------
 ### ----------------------------------

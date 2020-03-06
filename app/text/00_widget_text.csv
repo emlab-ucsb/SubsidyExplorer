@@ -1,0 +1,18 @@
+﻿id,title,choices,choice_names,selected,min,max,value,tab,description
+w_iuu_proposal_selection,Select a proposal…,,,Default,,,,edit-policies,Dropdown to select from established IUU proposals
+w_iuu_definitions,Subsidies for fishing shall be prohibited to those…,iuu1;iuu2;iuu3;iuu4,, ,,,,edit-policies,Checkbox to select specific IUU disciplines
+w_iuu_assumption,Would you like to make an assumption about IUU fishing worldwide instead?,Yes;No,Yes;No,No,,,,edit-policies,Yes/No to make iuu assumption
+w_iuu_percent,Assumed amount of fishing effort identified as IUU (%):,,,,0,100,20,edit-policies,Slider to set value of assumed IUU fishing
+w_iuu_scope,Discipline(s) apply to: ,all;select,,all,,,,edit-policies,Scope for selected IUU disciplines
+w_iuu_scope_manual,Select Member(s):,,,,,,,edit-policies,Manually select Members to apply IUU disciplines to
+w_iuu_allow_sdt,Allow S&DT?,Yes;No,No,,,,,edit-policies,Yes/No to allow S&DT for IUU disciplines
+w_iuu_sdt_who,S&DT applies to:,,,ldc,,,,edit-policies,Scope for IUU S&DT
+w_iuu_sdt_what,S&DT:,,,,,,,edit-policies,S&DT for IUU disciplines
+w_oa_proposal_selection,Select a proposal…,,,Default,,,,edit-policies,Dropdown to select from established OA proposals
+w_oa_definitions,Subsidies for fishing shall be prohibited if the fish stock…,,,,,,,edit-policies,Checkbox to select specific OA disciplines
+w_oa_scope,Discipline(s) apply to: ,,,all,,,,edit-policies,Scope for selected OA disciplines
+w_oa_scope_manual,Select Member(s):,,,,,,,edit-policies,Manually select Members to apply OA disciplines to
+w_oa_hs_cutoff,What constitutes a high seas vessel?\n (min % of total fishing effort \n on the high seas),,,,1,100,5,edit-policies,Slider to set cutoff for high seas fishing
+w_oa_length_cutoff,Minimum total vessel length (m),,,,10,100,24,edit-policies,Slider to set cutoff for vessel length
+w_oa_allow_sdt,Allow S&DT?,Yes;No,No,,,,,edit-policies,Yes/No to allow S&DT for OA disciplines
+w_oa_sdt_who,S&DT applies to:,,,ldc,,,,edit-policies,Scope for OA S&DT

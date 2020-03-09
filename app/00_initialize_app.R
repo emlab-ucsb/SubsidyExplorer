@@ -23,13 +23,24 @@ widget_text <- read_csv("./text/00_widget_text.csv")
 ### Country/Territory Naming ---------
 ### ----------------------------------
 
-# Country ISO 3 codes and names
-# [NEED - LETS MAKE OUR OWN MASTER SHEET SO IT'S EASIER TO CHANGE THROUGHOUT]
+# Country ISO3 codes and English names for use throuhout
 country_names <- countrycode::codelist %>%
   dplyr::select(country_iso3 = iso3c,
-                country_name = country.name.en) %>%
-  na.omit()
+                country_name = country.name.en,
+                eu = eu28) %>%
+  mutate(is_eu = case_when(eu == "EU" ~ T,
+                           TRUE ~ F)) %>%
+  dplyr::filter(!is.na(country_iso3)) %>%
+  dplyr::select(-eu)
 
+# Add EU aggregate
+country_names <- tibble(country_iso3 = "EU", country_name = "European Union", is_eu = T) %>%
+  bind_rows(country_names)
+
+# Manual corrections to some names to comply with WTO standards
+country_names$country_name[country_names$country_iso3 == "TWN"] <- "Chinese Taipei"
+
+# Vector of all countries for use in the app
 country_choices <- country_names$country_iso3
 names(country_choices) <- country_names$country_name
 

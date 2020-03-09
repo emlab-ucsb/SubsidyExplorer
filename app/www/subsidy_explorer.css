@@ -211,21 +211,21 @@ header.main-header {
 /*--------------*/
 
 .landing-wrapper{
-  position: relative;
-  height: 90%;
+  position: absolute;
+  height: 95vh;
 }
 
 .landing-wrapper .picture-wrapper{
   display: block;
-  height: auto;
+  height: 95vh;
   width: auto;
   overflow: hidden;
 }
 
 .landing-wrapper .picture-wrapper img{
   object-fit: cover;
-  min-width: 100%;
-  min-height: 100%;
+  min-width: 100vw;
+  min-height: 95vh;
   max-width: 200%;
   max-height: 200%;
 }
@@ -246,7 +246,7 @@ header.main-header {
 .landing-wrapper .picture-overlay-black .picture-overlay-main-text{
    color: white;
    text-align: center;
-   padding: 15% 10% 10%;
+   padding: 5% 10% 5%;
    width: 100%;
 }
 

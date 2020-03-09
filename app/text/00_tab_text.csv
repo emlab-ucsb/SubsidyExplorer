@@ -10,3 +10,5 @@ country-fishery-stats,Fishery Statistics by State,"subsidies, landings, etc. by 
 compare-fishery-stats,Compare Fishery Statistics,compare statistics from the previous page 
 global-fishing-footprint,Global Fishing Footprint,map showing global fishing effort
 need-help,Need Help?,contact page
+instructions,Step 1: Instructions,tabPanel 1 for edit-policies tabBox
+iuu,Step 2: IUU,tabPanel 2 for edit-policies tabBox

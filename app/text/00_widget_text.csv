@@ -1,4 +1,5 @@
-﻿id,title,choices,choice_names,selected,min,max,value,tab,description
+﻿id,label,choices,choice_names,selected,min,max,value,tab,description
+w_run_name,Description of policy: ,,,,,,,edit-policies,Text input to describe policy
 w_iuu_proposal_selection,Select a proposal…,,,Default,,,,edit-policies,Dropdown to select from established IUU proposals
 w_iuu_definitions,Subsidies for fishing shall be prohibited to those…,iuu1;iuu2;iuu3;iuu4,Currently listed as having engaged in IUU fishing activities by an RFMO or international agreement; Found to have engaged in IUU fishing activities by a coastal Member state; Found to have engaged in IUU fishing activities by a flag Member state; Found to have engaged in IUU fishing activities by the subsidizing Member state, ,,,,edit-policies,Checkbox to select specific IUU disciplines
 w_iuu_assumption,Would you like to make an assumption about IUU fishing worldwide instead?,Yes;No,Yes;No,No,,,,edit-policies,Yes/No to make iuu assumption

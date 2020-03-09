@@ -98,6 +98,26 @@ shinyServer(function(input, output, session) {
     updateTabsetPanel(session, "policy_tabs", "overcap") 
   })
   
+  # Navigation button from tab 3 to tab 2
+  observeEvent(input$ab_edit_policies_tabs_overcap_to_oa, {
+    updateTabsetPanel(session, "policy_tabs", "overcap") 
+  })
+  
+  # Navigation button from tab 3 to tab 4
+  observeEvent(input$ab_edit_policies_tabs_overcap_to_preview, {
+    updateTabsetPanel(session, "policy_tabs", "preview") 
+  })
+  
+  ### Text Output: IUU data warning -------------------
+  output$o_iuu_warning <- renderText({
+    
+    if("iuu2" %in% input$iuu_definitions | "iuu3" %in% input$iuu_definitions | "iuu4" %in% input$iuu_definitions){
+      "Note: At present, no data exists on a global scale to identify vessels listed as having engaged in IUU fishing activities by a coastal state, flag state, or subsidizing Member state."
+    }else{
+      ""
+    }
+  })
+  
   
   
   ### Reactive data frame: All select policy inputs -------------

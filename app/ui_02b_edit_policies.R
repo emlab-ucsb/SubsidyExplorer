@@ -90,7 +90,7 @@ column(12,
                          ### Tab # 0  - Introduction
                          ### --------------------------
                          
-                         tabPanel("Step 1: Instructions",
+                         tabPanel(tab_text$tab[tab_text$id == "instructions"],
                                   value = "instructions",
                                   
                                   # Column container for tab panel        
@@ -106,8 +106,8 @@ column(12,
                                                 
                                                 # Provide policy description
                                                 textInput(inputId = "w_run_name",
-                                                          label = "Description of policy: ",
-                                                          value = ""),
+                                                          label = widget_text$label[widget_text$id == "w_run_name"],
+                                                          value = widget_text$value[widget_text$id == "w_run_name"]),
                                          ),
                                          
                                          # Next tab button
@@ -119,16 +119,16 @@ column(12,
                                                 )
                                          )
                                          
-                                  )
+                                  ) # /column 12 - column container for instructions tabPanel
                                   
-                         ),
+                         ), # /tabPanel - instructions
                         
                          
                          ### --------------------------
                          ### Tab # 1  - IUU 
                          ### --------------------------
                          
-                         tabPanel("Step 2: IUU", 
+                         tabPanel(tab_text$tab[tab_text$id == "iuu"], 
                                   value = "iuu",
                                   
                                   # Column container for tab panel        
@@ -146,14 +146,11 @@ column(12,
                                          # IUU proposal dropdown
                                          column(12, style = "padding: 0px 25px 15px;",
                                                 
-                                                # Section header
-                                                h4("Prefill disciplines from a proposal"),
-                                                
                                                 # Dropdown widget
                                                 column(12, style = "padding: 0px 10px;",
                                                        
                                                        selectInput("w_iuu_proposal_selection", 
-                                                                   label = tagList(tags$b("Select a proposal...")),
+                                                                   label = tags$b(widget_text$label[widget_text$id == "w_iuu_proposal_selection"]),
                                                                    choices = c("Default", "A", "B"),
                                                                    selected = "Default",
                                                                    width = "100%")
@@ -161,30 +158,39 @@ column(12,
                                                 
                                          ), # /column - IUU proposal dropdown
                                          
-                                         # Manual IUU discipline selection
+                                         # Collapsable box with more info
+                                         # column(12, style = "padding: 0px 25px 15px; align: 'center';",
+                                         
+                                         # Collapsable box with manual IUU discipline selection
                                          column(12, style = "padding: 0px 25px 15px;", 
                                                 
-                                                h4("Manually select individual disciplines"),
+                                                box(title = "Manually select IUU disciplines...",
+                                                    collapsible = TRUE,
+                                                    width = "100%",
+                                                    collapsed = T,
                                                 
-                                                fluidRow( 
-                                                  ### Left column: Definitions
-                                                  column(6, style = "padding: 0 10px;",
+                                                    
+                                                    fluidRow( 
+                                                      
+                                                      ### Left column: Definitions
+                                                      column(6, style = "padding: 0 10px;",
                                                          
-                                                         # Input: IUU definitions
-                                                         checkboxGroupInput("w_iuu_definitions", 
-                                                                            label = tagList(tags$b("Subsidies for fishing shall be prohibited to those...    "),
-                                                                                            # IUU definitions info button
-                                                                                            tags$button(id = "info_iuu",
-                                                                                                        class = "btn action-button info-button",
-                                                                                                        icon("info"))), 
+                                                             # Input: IUU definitions
+                                                             checkboxGroupInput("w_iuu_definitions", 
+                                                                                
+                                                                                label = tagList(tags$b(widget_text$label[widget_text$id == "w_iuu_definitions"]),
+                                                                                                # IUU definitions info button
+                                                                                                tags$button(id = "info_iuu",
+                                                                                                            class = "btn action-button info-button",
+                                                                                                            icon("info"))), 
                                                                             
-                                                                            choices = c("iuu1", "iuu2", "iuu3", "iuu4"),
-                                                                            selected = c(""),
-                                                                            width = "100%",
-                                                                            inline = FALSE), 
-                                                         
-                                                         # IUU warning 
-                                                         #tags$i(textOutput("iuu_warning")),
+                                                                                choices = c("iuu1", "iuu2", "iuu3", "iuu4"),
+                                                                                selected = c(""),
+                                                                                width = "100%",
+                                                                                inline = FALSE), 
+                                                             
+                                                             # IUU data warning
+                                                             tags$i(textOutput("o_iuu_warning")),
                                                          
                                                          br(),
                                                          
@@ -298,7 +304,7 @@ column(12,
                                                   
                                                 ) # /fluidRow - IUU
                                                 
-                                         ) # /column - IUU manual options
+                                         ), # /column - IUU manual options
                                          
                                          # # Collapsable box with more info
                                          # column(12, style = "padding: 0px 25px 15px; align: 'center';",
@@ -315,6 +321,31 @@ column(12,
                                          #            )
                                          #        )
                                          # )
+                                         
+                                         # Previous and next tab buttons
+                                         fluidRow(
+                                           
+                                           # Previous tab
+                                           column(3, style = "padding: 5px;",
+                                                
+                                                tags$button(id = "ab_edit_policies_tabs_iuu_to_instructions",
+                                                            class = "btn action-button nav-button-white-l",
+                                                            icon("chevron-left"), button_text$text[button_text$id == "ab_edit_policies_tabs_iuu_to_instructions"]
+                                                )
+                                                
+                                           ),
+                                           
+                                           # Next tab
+                                           column(3, offset = 6, style = "padding: 5px;",
+                                                  
+                                                  tags$button(id = "ab_edit_policies_tabs_iuu_to_oa",
+                                                              class = "btn action-button nav-button-white-r",
+                                                              button_text$text[button_text$id == "ab_edit_policies_tabs_iuu_to_oa"], icon("chevron-right"), 
+                                                  )
+                                                  
+                                           )
+                                           
+                                         ) # /fluidRow
                                          
                                   ) # /column - container for IUU tab box
                                   

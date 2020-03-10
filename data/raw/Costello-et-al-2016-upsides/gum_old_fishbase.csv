@@ -1,0 +1,1066 @@
+uaid,spid,SciName,CommName,SpeciesCat,VonBertK,Temp,area,MaxLength,AgeMat,pcat,mind
+10668,2004,Notorynchus cepedianus,Broadnose sevengill shark,38,NaN,NaN,34188,300,16,1,0
+10561,2005,Cetorhinus maximus,Basking shark,38,0.061999999,11,9310,900,11.5,1,0
+19015,2006,Carcharias taurus,Sand tiger shark,38,0.155000002,NaN,23715,320,4,NaN,1
+3460,2007,Alopias spp,Thresher sharks nei,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4232,2008,Alopias vulpinus,Thresher,38,0.137666665,NaN,4.50E+04,760,5.050000191,3,0
+1339,2011,Isurus oxyrinchus,Shortfin mako,38,0.179666666,16,42120,400,14,2,0
+4628,2016,Scyliorhinus canicula,Small-spotted catshark,38,0.156000003,NaN,2754,100,5,2,10
+2207,2018,Prionace glauca,Blue shark,38,0.136658823,14,43560,400,7.333333333,2,1
+2747,2021,Carcharhinus falciformis,Silky shark,38,0.109949998,23.55,29665,350,10,3,0
+10552,2022,Carcharhinus brachyurus,Copper shark,38,0.037999999,NaN,NaN,325,17.75,3,0
+3232,2027,Sphyrnidae,"Hammerhead sharks, etc. nei",38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1437,2028,Sphyrna lewini,Scalloped hammerhead,38,0.133000001,NaN,29520,430,7.599999984,2,0
+43,2029,Mustelus spp,Smooth-hounds nei,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18681,2030,Mustelus henlei,Brown smooth-hound,38,0.255000003,NaN,3294,100,3.75000012,1,0
+6063,2033,Somniosus microcephalus,Greenland shark,38,NaN,6.300000012,19140,730,NaN,1,0
+4035,2036,Centrophorus squamosus,Leafscale gulper shark,38,NaN,NaN,15375,164,NaN,2,145
+12232,2039,Centroscymnus coelolepis,Portuguese dogfish,38,NaN,9,30840,120,NaN,1,150
+10577,2044,Dalatias licha,Kitefin shark,38,NaN,NaN,40320,182,NaN,2,37
+16790,2046,Squatina squatina,Angelshark,38,NaN,NaN,2352,183,NaN,2,NaN
+5510,2048,Rhinobatidae,"Guitarfishes, etc. nei",38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11665,2049,Rhinobatos planiceps,Pacific guitarfish,38,NaN,NaN,NaN,76.30000305,NaN,3,NaN
+1407,2050,Pristidae,Sawfishes,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4568,2051,Raja batis,Blue skate,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6044,2052,Raja radiata,Starry ray,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4570,2053,Raja circularis,Sandy ray,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4695,2065,Torpedo spp,Torpedo rays,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1510,2069,Acipenseridae,Sturgeons nei,21,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1582,2072,Huso huso,Beluga,21,0.042714286,15,946,800,11.75,NaN,70
+525,2073,Clupeoidei,Clupeoids nei,24,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1319,2074,Elops saurus,Ladyfish,33,0.260000006,NaN,NaN,100,2,1,NaN
+1358,2075,Megalops atlanticus,Tarpon,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3398,2076,Albula vulpes,Bonefish,33,0.305600002,NaN,9424,104,2.933333238,3,0
+1829,2078,Clupea pallasii,Pacific herring,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1514,2079,Alosa pontica,Pontic shad,24,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1804,2081,Alosa pseudoharengus,Alewife,24,0.534666672,NaN,840,40,2.5,1,5
+137,2084,Sardinella spp,Sardinellas nei,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6419,2085,Sardinella gibbosa,Goldstripe sardinella,35,1.355833339,NaN,6072,17,NaN,1,10
+6168,2086,Sardinella longiceps,Indian oil sardine,35,0.886166669,NaN,432,23,1.985000015,1,20
+2849,2088,Sardinella aurita,Round sardinella,35,0.560233331,24,12267,31,1.092500001,2,0
+3222,2089,Sardinella maderensis,Madeiran sardinella,35,0.450090908,24,3657,37.29999924,3,2,0
+1417,2090,Sardinella brasiliensis,Brazilian sardinella,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2221,2091,Sardinops sagax,South American pilchard,35,0.445642857,15,35100,39.5,2.75,1,0
+317,2093,Brevoortia aurea,Brazilian menhaden,35,NaN,NaN,288,26,NaN,1,NaN
+18380,2094,Brevoortia tyrannus,Atlantic menhaden,35,0.4011,26,272,50,1,1,0
+1773,2095,Ethmalosa fimbriata,Bonga shad,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10239,2096,Etrumeus whiteheadi,Whitehead's round herring,35,0.707000017,NaN,228,20,NaN,1,0
+6119,2097,Hilsa kelee,Kelee shad,24,1.100000024,NaN,4816,35,NaN,1,10
+4169,2100,Spratelloides gracilis,Silver-stripe round herring,35,4.795000076,NaN,13260,10.5,NaN,1,10
+13259,2101,Clupeonella cultriventris,Black and Caspian Sea sprat,24,0.538666651,NaN,696,14.5,2,3,10
+1027,2102,Sprattus sprattus,European sprat,35,0.514866658,NaN,1908,16,1.75,1,10
+2119,2103,Ethmidium maculatum,Pacific menhaden,35,NaN,NaN,NaN,26,NaN,1,0
+549,2105,Engraulidae,"Anchovies, etc. nei",35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+105,2106,Engraulis encrasicolus,European anchovy,35,0.638842107,NaN,5940,20,1,2,0
+9785,2107,Engraulis mordax,Californian anchovy,35,0.418514284,NaN,690,24.79999924,1.25,1,0
+19254,2108,Cetengraulis edentulus,Atlantic anchoveta,35,0.166666667,NaN,2703,16.60000038,NaN,2,10
+2499,2110,Stolephorus spp,Stolephorus anchovies nei,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1173,2112,Ilisha africana,West African ilisha,24,1.374999985,NaN,744,30,NaN,3,0
+11325,2113,Chirocentrus dorab,Dorab wolf-herring,35,NaN,NaN,6380,100,NaN,2,NaN
+3712,2114,Chanos chanos,Milkfish,25,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3909,2115,Salmo trutta,Sea trout,23,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1890,2116,Oncorhynchus gorbuscha,Pink(=Humpback)salmon,23,NaN,21,12050,76,2,1,0
+1894,2117,Oncorhynchus nerka,Sockeye(=Red)salmon,23,0.476999998,12.44999981,3630,84,2,4,0
+1892,2118,Oncorhynchus kisutch,Coho(=Silver)salmon,23,NaN,12.39999962,6300,107.9499969,3,2,0
+1929,2119,Salvelinus spp,Chars nei,23,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+5630,2120,Salvelinus alpinus,Arctic char,23,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13493,2125,"Osmerus spp, Hypomesus spp",Smelts nei,23,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1871,2126,Mallotus villosus,Capelin,37,0.460599994,NaN,14040,20,2.285714286,1,0
+3314,2127,Osmerus eperlanus,European smelt,23,0.411333335,NaN,1728,45,2,4,NaN
+1898,2128,Osmerus mordax,Rainbow smelt,23,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2881,2131,Argentina spp,Argentines,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8715,2132,Coregonus spp,Whitefishes nei,23,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3242,2153,Abramis brama,Freshwater bream,11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3363,2154,Tinca tinca,Tench,11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11876,2156,Carassius carassius,Crucian carp,11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3340,2157,Rutilus rutilus,Roach,11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3832,2160,Leuciscus idus,Orfe(=Ide),11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13536,2170,Pelecus cultratus,Sichel,11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+304,2181,Ariidae,Sea catfishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16505,2183,Plotosus spp,Eeltail catfishes,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2501,2199,Synodontidae,Lizardfishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3247,2203,Anguilla anguilla,European eel,22,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+485,2204,Anguilla australis,Short-finned eel,22,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2336,2205,Muraenesox cinereus,Daggertooth pike conger,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18438,2207,Conger oceanicus,American conger,34,NaN,NaN,6072,230,NaN,1,1
+1529,2208,Belone belone,Garfish,37,0.297379997,NaN,3774,93,NaN,3,0
+930,2211,Exocoetidae,Flyingfishes nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+572,2212,Hemiramphus spp,Halfbeaks nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+346,2214,Gadiformes,Gadiformes nei,32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4458,2215,Moridae,Moras nei,32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14638,2216,Antimora rostrata,Blue antimora,32,0.094500002,NaN,44640,75,NaN,1,350
+1822,2217,Brosme brosme,Tusk(=Cusk),32,0.136142855,NaN,6072,120,8,1,18
+981,2218,Gadus morhua,Atlantic cod,32,0.184333333,7.5,7020,200,3.300000017,2,0
+1849,2219,Gadus ogac,Greenland cod,32,NaN,NaN,7236,77,3,1,0
+995,2220,Molva molva,Ling,32,0.129500002,NaN,3960,200,5,1,100
+3305,2221,Molva dypterygia,Blue ling,32,0.131000002,NaN,5450,155,9,1,150
+12569,2222,Phycis spp,Forkbeards nei,32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4541,2223,Phycis blennoides,Greater forkbeard,32,0.167999998,NaN,3111,110,3,2,10
+1464,2225,Urophycis brasiliensis,Brazilian codling,32,0.085500002,NaN,728,40,NaN,1,24
+3050,2226,Urophycis chuss,Red hake,32,0.189999998,NaN,429,66,1.674999982,1,35
+1962,2227,Urophycis tenuis,White hake,32,0.161999997,NaN,9805,133,1.399999976,1,180
+990,2228,Melanogrammus aeglefinus,Haddock,32,0.232304349,NaN,5632,112,2.57249999,1,10
+13305,2229,Eleginus navaga,Navaga(=Wachna cod),32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10704,2231,Pseudophycis bachus,Red codling,32,0.43175,NaN,680,90,NaN,2,26
+1008,2232,Pollachius pollachius,Pollack,32,0.186000004,NaN,1908,130,2.5,1,NaN
+13214,2233,Boreogadus saida,Polar cod,32,0.213,NaN,12600,40,2.666666667,3,0
+1034,2235,Trisopterus luscus,Pouting(=Bib),32,0.350499988,NaN,1295,46,1.5,1,30
+374,2236,Micromesistius australis,Southern blue whiting,32,0.264666667,NaN,4508,90,3,2,50
+9647,2237,Merluccius spp,Hakes nei,32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+38,2238,Merluccius merluccius,European hake,32,0.166679246,NaN,4176,140,3.5,3,30
+372,2239,Merluccius australis,Southern hake,32,0.214066668,NaN,3354,155,7.5,2,28
+2163,2240,Merluccius gayi,South Pacific hake,32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+17543,2241,Merluccius polli,Benguela hake,32,0.393999994,NaN,1632,80,NaN,3,50
+18647,2242,Merluccius albidus,Offshore silver hake,32,0.569000006,NaN,1824,40.59999847,NaN,2,80
+367,2243,Macruronus magellanicus,Patagonian grenadier,32,0.192750003,NaN,702,115,NaN,2,30
+14740,2244,Macrourus spp,Grenadiers nei,32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4754,2247,Lampris guttatus,Opah,37,NaN,NaN,41400,200,NaN,4,100
+2080,2248,Beryx spp,Alfonsinos nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+576,2249,Hoplostethus atlanticus,Orange roughy,34,0.0595,6,10164,75,31.625,2,180
+812,2250,Zeus faber,John dory,34,0.319714289,NaN,24056,90,3,2,5
+10225,2251,Caproidae,Boarfishes nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10267,2252,Oreosomatidae,Oreo dories nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+148,2255,Sphyraena spp,Barracudas nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+41,2256,Mugilidae,Mullets nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+19283,2257,Mugil liza,Lebranche mullet,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+17112,2258,Mugil soiuy,So-iuy mullet,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9820,2259,Joturus pichardi,Bobo mullet,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1597,2261,Liza saliens,Leaping mullet,33,0.250461535,NaN,2400,40,3,2,10
+1523,2263,Atherina boyeri,Big-scale sand smelt,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1874,2264,Menidia menidia,Atlantic silverside,37,1.192499995,16.99999922,1050,15,NaN,1,0
+236,2265,Polynemidae,"Threadfins, tasselfishes nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4861,2266,Polydactylus quadrifilis,Giant African threadfin,33,0.340000004,NaN,837,200,NaN,3,15
+6513,2267,Eleutheronema tetradactylum,Fourfinger threadfin,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1774,2268,Galeoides decadactylus,Lesser African threadfin,33,0.35475,NaN,2240,50,NaN,3,10
+1784,2269,Pentanemus quinquarius,Royal threadfin,33,0.731499985,NaN,1120,35,NaN,3,10
+691,2273,Percoidei,Percoids nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9752,2274,Centropomus undecimalis,Common snook,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1369,2277,Mycteroperca spp,Brazilian groupers nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+163,2278,Epinephelus spp,Groupers nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+841,2280,Epinephelus striatus,Nassau grouper,33,0.0925,NaN,4002,122,NaN,3,1
+14414,2281,Epinephelus goreensis,Dungat grouper,33,NaN,NaN,1020,140,NaN,3,80
+7402,2286,Lateolabrax japonicus,Japanese seabass,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18670,2289,Morone saxatilis,Striped bass,25,0.1888,16.5,1350,200,NaN,2,30
+10062,2290,Dicentrarchus spp,Seabasses nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+20,2291,Dicentrarchus labrax,European seabass,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1404,2295,Priacanthus spp,Bigeyes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3326,2298,Perca fluviatilis,European perch,13,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18618,2302,Lopholatilus chamaeleonticeps,Great Northern tilefish,34,0.141499996,11.5,NaN,125,5,4,80
+896,2304,Rachycentron canadum,Cobia,37,0.324588239,NaN,22176,200,NaN,3,0
+85,2305,Trachurus spp,Jack and horse mackerels nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1032,2306,Trachurus trachurus,Atlantic horse mackerel,37,0.22175862,NaN,5762,70,2.537499994,2,0
+12797,2307,Trachurus picturatus,Blue jack mackerel,37,NaN,NaN,4214,60,NaN,1,305
+7838,2308,Trachurus japonicus,Japanese jack mackerel,37,0.348571428,NaN,323,50,3,3,0
+2241,2309,Trachurus murphyi,Chilean jack mackerel,37,0.109000001,NaN,9275,70,NaN,2,10
+12128,2310,Trachurus symmetricus,Pacific jack mackerel,37,0.150000002,NaN,NaN,81,NaN,1,0
+1730,2311,Trachurus mediterraneus,Mediterranean horse mackerel,37,0.343875002,NaN,1176,60,NaN,1,0
+458,2312,Trachurus lathami,Rough scad,37,0.210000001,NaN,NaN,40,2,1,30
+801,2313,Trachurus declivis,Greenback horse mackerel,37,0.225000002,16,2860,64,2.5,4,27
+7290,2314,Decapterus maruadsi,Japanese scad,37,0.983636368,NaN,7605,25,NaN,4,NaN
+713,2316,Pseudocaranx dentex,White trevally,37,0.218750002,NaN,NaN,122,NaN,4,10
+5325,2317,Caranx rhonchus,False scad,37,0.2315,18.5,3355,60,2,1,30
+1209,2318,Selene dorsalis,African moonfish,37,0.600000024,NaN,NaN,38,NaN,3,20
+757,2320,Seriola spp,Amberjacks nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6988,2322,Lichia amia,Leerfish,37,NaN,NaN,NaN,200,NaN,2,0
+17886,2323,Gnathanodon speciosus,Golden trevally,37,0.334999986,NaN,NaN,120,NaN,3,1
+3745,2324,Scomberoides spp,Queenfishes,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+197,2325,Chloroscombrus chrysurus,Atlantic bumper,37,0.390000001,NaN,NaN,65,NaN,1,NaN
+5677,2326,Selar crumenophthalmus,Bigeye scad,37,1.328210526,NaN,25560,30,NaN,4,0
+11741,2328,Mene maculata,Moonfish,33,0.563666676,NaN,NaN,30,NaN,2,50
+495,2330,Arripis georgianus,Ruff,33,0.905000002,NaN,494,41,2,4,1
+10594,2331,Emmelichthys nitidus,Cape bonnetmouth,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+844,2332,Lutjanus spp,Snappers nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1352,2333,Lutjanus purpureus,Southern red snapper,33,0.116666665,NaN,2288,100,NaN,3,26
+1353,2334,Lutjanus synagris,Lane snapper,33,0.228590908,NaN,4420,60,1.75,2,10
+11176,2335,Nemipteridae,Threadfin and dwarf breams nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9451,2336,Scolopsis spp,Monocle breams,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4147,2337,Leiognathus spp,Ponyfishes(=Slipmouths),33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3736,2340,Pomadasys argenteus,Silver grunt,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1787,2341,Pomadasys jubelini,Sompat grunt,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1303,2342,Conodon nobilis,Barred grunt,33,NaN,NaN,4347,33.59999847,NaN,1,NaN
+9769,2346,Cynoscion nebulosus,Spotted weakfish,33,0.21753846,NaN,NaN,100,NaN,2,10
+18458,2347,Cynoscion regalis,Squeteague(=Gray weakfish),33,0.236249996,21.75,460,98,0,1,10
+334,2349,Cynoscion striatus,Striped weakfish,33,NaN,NaN,1120,60,NaN,3,NaN
+2168,2350,Micropogonias spp,Croakers nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+375,2351,Micropogonias furnieri,Whitemouth croaker,33,0.159700001,NaN,3150,60,3,2,NaN
+18656,2352,Micropogonias undulatus,Atlantic croaker,33,0.568000008,NaN,NaN,55,1,1,NaN
+2547,2353,Menticirrhus spp,Kingcroakers nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18644,2354,Menticirrhus saxatilis,Northern kingfish,33,0.629999995,NaN,NaN,46,NaN,2,10
+10181,2356,Umbrina canariensis,Canary drum (=Baardman),33,0.259000003,14.5,NaN,80,NaN,1,50
+3174,2357,Argyrosomus regius,Meagre,33,0.141999998,NaN,4189,230,NaN,2,15
+18353,2358,Atractoscion nobilis,White weakfish,33,0.128000006,NaN,NaN,166,4,4,0
+2679,2359,Pteroscion peli,Boe drum,33,NaN,NaN,1870,32,NaN,3,0
+11656,2360,Paralonchurus peruanus,Peruvian banded croaker,33,NaN,NaN,NaN,51,NaN,3,10
+8329,2361,Nibea mitsukurii,Honnibe croaker,33,NaN,NaN,NaN,75,NaN,4,NaN
+2309,2362,Larimichthys polyactis,Yellow croaker,33,0.386600006,NaN,456,40,NaN,4,NaN
+238,2363,Pseudotolithus spp,West African croakers nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1789,2364,Pseudotolithus senegalensis,Cassava croaker,33,0.549,NaN,NaN,114,NaN,3,0
+1788,2365,Pseudotolithus elongatus,Bobo croaker,33,0.339999999,NaN,713,47,NaN,3,0
+168,2366,Lethrinidae,Emperors(=Scavengers) nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+768,2367,Sparidae,"Porgies, seabreams nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3085,2368,Pagellus erythrinus,Common pandora,33,0.196050001,NaN,3100,60,1,2,NaN
+227,2369,Pagellus bellottii,Red pandora,33,0.305555552,NaN,1782,42,2,3,NaN
+3585,2370,Diplodus sargus,White seabream,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2888,2372,Calamus spp,Porgies,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+5335,2375,Dentex congoensis,Congo dentex,33,0.254999995,NaN,NaN,50,NaN,3,130
+2863,2376,Spondyliosoma cantharus,Black seabream,33,0.207333336,NaN,5146,60,4,4,5
+2831,2377,Oblada melanura,Saddled seabream,33,0.243500002,NaN,3245,34,2,4,NaN
+12885,2378,Argyrops spinifer,King soldier bream,33,0.143499997,NaN,NaN,70,NaN,3,NaN
+14669,2379,Cheimerius nufar,Santer seabream,33,0.120500002,NaN,NaN,75,NaN,1,20
+129,2380,Pagrus spp,Pargo breams nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+403,2381,Pagrus pagrus,Red porgy,33,0.178357142,NaN,13132,91,1.933333317,4,0
+664,2382,Pagrus auratus,Silver seabream,33,0.104833333,NaN,NaN,130,4,4,0
+7631,2383,Pterogymnus laniarius,Panga seabream,33,0.166666667,NaN,NaN,45,4,1,20
+2861,2384,Sparus aurata,Gilthead seabream,33,0.276300003,NaN,2820,70,1.5,4,1
+10,2385,Boops boops,Bogue,33,0.215874999,NaN,5372,36,1.5,3,0
+10251,2390,Lithognathus spp,Steenbrasses nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14732,2391,Lithognathus lithognathus,White steenbras,33,0.101000004,NaN,NaN,200,NaN,1,NaN
+4409,2392,Lithognathus mormyrus,Sand steenbras,33,0.218799998,NaN,NaN,55,2.2,2,0
+2850,2397,Sarpa salpa,Salema,33,0.233000005,NaN,5270,51,NaN,2,5
+17819,2399,Stenotomus chrysops,Scup,33,0.223333339,NaN,NaN,46,NaN,1,15
+80,2400,Spicara spp,Picarels nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+42,2401,Mullus spp,Surmullets(=Red mullets) nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2503,2402,Upeneus spp,Goatfishes,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6512,2405,Drepane punctata,Spotted sicklefish,33,0.363000001,NaN,NaN,50,NaN,NaN,10
+11766,2406,Platax spp,Batfishes,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10703,2407,Pseudopentaceros richardsoni,Pelagic armourhead,34,NaN,NaN,3498,56,NaN,3,0
+18938,2424,Tautoga onitis,Tautog,33,0.126,NaN,345,91,NaN,4,1
+176,2425,Scaridae,Parrotfishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3735,2426,Pomacanthidae,Angelfishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2096,2427,Cheilodactylus variegatus,Peruvian morwong,34,NaN,NaN,NaN,43,NaN,1,NaN
+7502,2428,Nemadactylus macropterus,Tarakihi,34,0.180142856,NaN,NaN,70,4,3,22
+641,2429,Nemadactylus spp,Morwongs,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3365,2433,Trachinus draco,Greater weever,33,NaN,NaN,2379,53,NaN,1,1
+10669,2435,Nototheniidae,"Antarctic rockcods, noties nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+342,2436,Eleginops maclovinus,Patagonian blennie,33,NaN,NaN,NaN,NaN,NaN,2,NaN
+10590,2438,Dissostichus mawsoni,Antarctic toothfish,34,0.074500002,NaN,11880,175,14.70000029,1,0
+339,2439,Dissostichus eleginoides,Patagonian toothfish,34,NaN,NaN,8481,215,6,4,50
+11993,2440,Notothenia rossii,Marbled rockcod,33,0.132600002,2,5280,92,NaN,3,5
+11992,2441,Notothenia gibberifrons,Humped rockcod,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+647,2442,Notothenia squamifrons,Grey rockcod,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+17345,2450,Champsocephalus gunnari,Mackerel icefish,34,0.251399994,NaN,NaN,66,4,4,0
+963,2456,Anarhichas lupus,Atlantic wolffish,34,0.087599999,NaN,5502,150,6,1,1
+5961,2457,Anarhichas minor,Spotted wolffish,34,0.102249998,NaN,5070,180,8,1,25
+11634,2459,Genypterus spp,Cusk-eels nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2128,2460,Genypterus maculatus,Black cusk-eel,34,NaN,NaN,198,100,NaN,1,NaN
+8902,2461,Brotula barbata,Bearded brotula,34,0.186000004,NaN,4972,94,NaN,3,NaN
+8177,2462,Hypoptychus dybowskii,Korean sandlance,33,3.832499981,NaN,NaN,10,NaN,NaN,NaN
+798,2465,Thyrsites atun,Snoek,34,0.419999987,15.5,8820,200,2,4,0
+10717,2467,Ruvettus pretiosus,Oilfish,34,NaN,NaN,35280,300,NaN,2,100
+1220,2468,Trichiurus lepturus,Largehead hairtail,34,0.343823529,NaN,30282,234,NaN,3,0
+4027,2469,Aphanopus carbo,Black scabbardfish,34,0.180499993,NaN,3192,110,NaN,1,200
+66,2471,Sarda sarda,Atlantic bonito,36,0.513428575,19.5,14700,91.40000153,1,3,80
+139,2473,Scomber scombrus,Atlantic mackerel,37,0.356400003,NaN,5355,60,1.799999952,2,0
+1184,2474,Orcynopsis unicolor,Plain bonito,36,NaN,NaN,3942,130,NaN,2,NaN
+9496,2475,Gymnosarda unicolor,Dogtooth tuna,36,NaN,24,12078,247.9801941,NaN,3,10
+2611,2476,Rastrelliger spp,Indian mackerels nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6406,2477,Rastrelliger brachysoma,Short mackerel,37,1.566499992,25,3132,34.5,NaN,4,15
+3628,2478,Rastrelliger kanagurta,Indian mackerel,37,1.098275002,17,8700,35,NaN,4,20
+739,2480,Scomberomorus spp,Seerfishes nei,36,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1423,2483,Scomberomorus cavalla,King mackerel,36,0.174000002,NaN,4224,184,NaN,2,5
+5695,2484,Scomberomorus regalis,Cero,36,0.219999999,NaN,4225,183,NaN,3,1
+1207,2485,Scomberomorus tritor,West African Spanish mackerel,36,0.317999989,NaN,2356,100,NaN,3,1
+10476,2491,Auxis thazard,Frigate tuna,36,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3487,2493,Euthynnus lineatus,Black skipjack,36,NaN,NaN,2805,84,NaN,3,0
+166,2494,Katsuwonus pelamis,Skipjack tuna,36,0.639093021,22.34999991,39600,110,3,3,0
+795,2495,Thunnus tonggol,Longtail tuna,36,0.324000001,NaN,9360,144.9832001,NaN,4,10
+784,2496,Thunnus alalunga,Albacore,36,0.190363637,17.35000038,37800,140,5.25,3,0
+262,2497,Thunnus albacares,Yellowfin tuna,36,0.365473684,23,34920,239,NaN,3,1
+792,2498,Thunnus obesus,Bigeye tuna,36,0.189999998,21,31680,250,NaN,4,0
+476,2499,Istiophorus albicans,Atlantic sailfish,36,0.249666666,24.5,12648,315,3.5,3,0
+4150,2500,Makaira indica,Black marlin,36,0.474000007,22.5,24843,465,NaN,4,0
+780,2501,Tetrapturus audax,Striped marlin,36,0.437500006,22.5,25296,420,2,4,0
+154,2503,Xiphias gladius,Swordfish,36,0.180571427,16,39960,455,5,4,0
+3233,2504,Stromateus fiatola,Blue butterfish,37,NaN,NaN,4428,50,NaN,2,10
+6364,2505,Pampus argenteus,Silver pomfret,37,0.52249999,NaN,5320,60,NaN,3,5
+2469,2507,Ariomma indica,Indian driftfish,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+759,2508,Seriolella spp,Warehou nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10725,2509,Seriolella brama,Common warehou,34,0.224333336,NaN,NaN,76,3,3,22
+10726,2511,Seriolella caerulea,White warehou,34,NaN,NaN,NaN,65,NaN,3,1
+1576,2517,Gobiidae,Gobies nei,13,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+749,2521,Scorpaenidae,Scorpionfishes nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1023,2522,Sebastes spp,Atlantic redfishes nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18881,2523,Sebastes entomelas,Widow rockfish,34,NaN,NaN,NaN,60,5.333333333,1,0
+18888,2524,Sebastes paucispinis,Bocaccio rockfish,34,0.119999997,NaN,NaN,91,3.666666667,1,0
+18885,2526,Sebastes goodei,Chilipepper rockfish,34,0.24000001,NaN,NaN,56,3,1,0
+12681,2527,Scorpaena scrofa,Red scorpionfish,34,0.081,NaN,5890,50,NaN,1,20
+351,2528,Helicolenus dactylopterus,Blackbelly rosefish,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3262,2530,Chelidonichthys lucerna,Tub gurnard,34,0.289625,16,3420,75,NaN,2,20
+980,2532,Eutrigla gurnardus,Grey gurnard,34,0.549999997,NaN,3350,60,3,3,10
+965,2533,Aspitrigla cuculus,Red gurnard,34,0.488874998,NaN,3060,50,2,4,15
+7605,2534,Pleurogrammus azonus,Okhotsk atka mackerel,33,NaN,NaN,1204,62,2,2,0
+6537,2535,Platycephalus indicus,Bartail flathead,33,0.340000004,NaN,NaN,100,NaN,4,20
+3271,2537,Cyclopterus lumpus,Lumpfish(=Lumpsucker),34,0.119999997,NaN,6912,61,3,1,0
+405,2540,Paralichthys spp,Bastard halibuts nei,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1855,2542,Hippoglossus stenolepis,Pacific halibut,31,0.062599999,NaN,3069,258,13,4,0
+7607,2543,Pleuronectes quadrituberculat.,Alaska plaice,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1923,2544,Reinhardtius hippoglossoides,Greenland halibut,31,0.077142859,1.5,16560,80,9.566666762,2,1
+18529,2545,Glyptocephalus zachirus,Rex sole,31,0.176349998,NaN,NaN,60,6,3,0
+18489,2546,Eopsetta jordani,Petrale sole,31,0.163499996,NaN,NaN,53,7.333333333,2,0
+7357,2547,Hippoglossoides elassodon,Flathead sole,31,NaN,NaN,3806,52,1,1,0
+1867,2548,Limanda ferruginea,Yellowtail flounder,31,0.335000008,NaN,NaN,64,4.058571398,4,27
+18658,2549,Microstomus pacificus,Dover sole,31,0.144666664,NaN,NaN,76,7,2,10
+56,2550,Platichthys flesus,European flounder,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1920,2551,Pseudopleuronectes americanus,Winter flounder,31,0.387062497,NaN,NaN,64,2.816666643,4,5
+2690,2552,Soleidae,Soles nei,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2057,2553,Solea lascaris,Sand sole,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10221,2554,Austroglossus microlepis,West coast sole,31,NaN,NaN,NaN,75,NaN,3,100
+14648,2555,Austroglossus pectoralis,Mud sole,31,0.356999994,NaN,NaN,60,NaN,2,10
+4446,2556,Microchirus spp,Thickback soles nei,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1769,2557,Cynoglossidae,Tonguefishes,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7120,2558,Scophthalmidae,Turbots nei,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+15228,2559,Lepidorhombus spp,Megrims nei,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+985,2560,Lepidorhombus whiffiagonis,Megrim,31,0.100599997,NaN,2752,60,3.5,4,100
+1022,2562,Scophthalmus rhombus,Brill,31,0.440499999,NaN,2546,75,NaN,4,5
+1010,2563,Psetta maxima,Turbot,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3401,2565,Balistidae,"Triggerfishes, durgons nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2251,2566,Cantherhines(=Navodon) spp,Filefishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8530,2567,Stephanolepis cirrhifer,Threadsail filefish,33,NaN,NaN,NaN,30,NaN,1,NaN
+18913,2568,Sphoeroides maculatus,Northern puffer,33,0.613499999,NaN,NaN,36,NaN,1,10
+10254,2572,Lophius vomerinus,Devil anglerfish,34,0.086666666,NaN,5394,100,NaN,1,150
+5176,2573,Osteichthyes,Pelagic fishes nei,25,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+204,2575,Elasmobranchii,"Sharks, rays, skates, etc. nei",38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2788,2582,"Xiphopenaeus,Trachypenaeus spp",Pacific seabobs,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+677,2583,Penaeus merguiensis,Banana prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7580,2584,Penaeus japonicus,Kuruma prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2356,2586,Penaeus chinensis,Fleshy prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+5499,2587,Penaeus kerathurus,Caramote prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16209,2590,Penaeus penicillatus,Redtail prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+626,2594,Metapenaeus endeavouri,Endeavour shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8290,2595,Metapenaeus joyneri,Shiba shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+132,2598,Parapenaeus longirostris,Deep-water rose shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11353,2599,Parapenaeopsis spp,Parapenaeopsis shrimps nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1466,2600,Xiphopenaeus kroyeri,Atlantic seabob,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+305,2601,Artemesia longinaris,Argentine stiletto shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+189,2603,Aristeus varidens,Striped red shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1906,2604,Pandalus spp,Pandalus shrimps nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2135,2605,Heterocarpus reedi,Chilean nylon shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3322,2607,Palaemon serratus,Common prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18448,2609,Crangonidae,Crangonid shrimps nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18909,2610,Sicyonia brevirostris,Rock shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18793,2611,Pleoticus robustus,Royal red shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+5086,2612,Haliporoides triarthrus,Knife shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3091,2613,Reptantia,Lobsters nei,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7569,2614,Panulirus longipes,Longlegged spiny lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+667,2616,Panulirus cygnus,Australian spiny lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+588,2617,Jasus verreauxi,Green rock lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4519,2618,Palinurus mauritanicus,Pink spiny lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14780,2619,Palinurus delagoae,Natal spiny lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+968,2627,Cancer pagurus,Edible crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+845,2628,Menippe mercenaria,Black stone crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+708,2629,Portunus pelagicus,Blue swimming crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2364,2630,Portunus trituberculatus,Gazami crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2889,2632,Callinectes sapidus,Blue crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1288,2633,Callinectes danae,Dana swimcrab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4282,2635,Carcinus maenas,Green crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4281,2636,Carcinus aestuarii,Mediterranean shore crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4166,2637,Scylla serrata,Indo-Pacific swamp crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7575,2640,Paralithodes spp,King crabs,44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1826,2644,Chionoecetes opilio,Queen crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+120,2647,Nephrops norvegicus,Norway lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2015,2648,Homarus gammarus,European lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18420,2649,Chaceon quinquedens,Red crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+158,2650,Brachyura,Marine crabs nei,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1852,2651,Haliotis spp,Abalones nei,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14708,2653,Haliotis midae,Perlemoen abalone,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+557,2655,Ex Trochus spp,Trochus shells,81,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7853,2656,Turbo cornutus,Horned turban,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1676,2658,Rapana spp,Sea snails,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+967,2659,Buccinum undatum,Whelk,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1868,2660,Littorina spp,Periwinkles nei,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4124,2663,Anadara spp,Anadara clams nei,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1835,2669,Crassostrea virginica,American cupped oyster,53,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11702,2673,Crassostrea iredalei,Slipper cupped oyster,53,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+672,2678,Pectinidae,Scallops nei,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7579,2679,Patinopecten yessoensis,Yesso scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10689,2681,Pecten novaezelandiae,New Zealand scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18339,2682,Argopecten gibbus,Calico scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9726,2683,Argopecten ventricosus,Pacific calico scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1827,2684,Chlamys islandica,Iceland scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1371,2686,Mytilidae,Sea mussels nei,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8314,2687,Mytilus coruscus,Korean mussel,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1886,2688,Mytilus edulis,Blue mussel,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+639,2689,Mytilus planulatus,Australian mussel,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2098,2690,Choromytilus chorus,Choro mussel,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11764,2691,Perna viridis,Green mussel,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8057,2693,Cardiidae,Cockles nei,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1940,2696,Spisula polynyma,Stimpson's surf clam,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4295,2697,Chamelea gallina,Striped venus,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6331,2698,Meretrix spp,Hard clams nei,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1932,2701,Saxidomus giganteus,Butter clam,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2209,2703,Protothaca thaca,Taca clam,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6768,2705,Solen spp,Solen razor clams nei,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+74,2711,Sepia officinalis,Common cuttlefish,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+35,2712,Loligo spp,Common squids nei,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+359,2713,Loligo gahi,Patagonian squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6996,2714,Loligo pealeii,Longfin squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14735,2715,Loligo reynaudi,Cape Hope squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7523,2719,Ommastrephes bartrami,Neon flying squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1860,2720,Illex illecebrosus,Northern shortfin squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9778,2721,Dosidicus gigas,Jumbo flying squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1820,2725,Bivalvia,"Clams, etc. nei",56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+842,2726,Ex Mollusca,Marine shells nei,81,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1904,2727,"Otariidae, Phocidae",Seals nei,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18156,2730,Phoca vitulina,Harbour seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13546,2731,Phoca fasciata,Ribbon seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13553,2732,Phoca largha,Larga seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1839,2733,Cystophora cristata,Hooded seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7231,2735,Berardius bairdii,Baird's beaked whale,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+537,2737,Delphinus delphis,Common dolphin,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7348,2738,Grampus griseus,Risso's dolphin,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+5190,2740,Phocoena phocoena,Harbour porpoise,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+5580,2741,Delphinapterus leucas,White whale,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+5601,2742,Monodon monoceros,Narwhal,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1275,2743,Balaenoptera acutorostrata,Minke whale,61,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+311,2744,Balaenoptera musculus,Blue whale,61,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7461,2745,Megaptera novaeangliae,Humpback whale,61,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2892,2748,Caretta caretta,Loggerhead turtle,72,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+853,2757,Spongiidae,Sponges,83,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2377,2758,Rhopilema spp,Jellyfishes,77,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4164,2760,Scleractinia,"Hard corals, madrepores nei",82,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7269,2762,Corallium japonicum,Aka coral,82,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8401,2765,Polychaeta,Marine worms,77,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4746,2766,Echinodermata,Echinoderms,76,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4526,2768,Paracentrotus lividus,Stony sea urchin,76,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14798,2771,Pyura stolonifera,Red bait,74,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2211,2772,Pyura chilensis,Red sea squirt,74,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16332,2775,Ulva pertusa,Lacy sea lettuce,93,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7400,2776,Laminaria japonica,Japanese kelp,91,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7855,2777,Undaria pinnatifida,Wakame,91,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2147,2779,Lessonia nigrescens,Chilean kelp,91,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2115,2781,Durvillaea antartica,Bull kelp,91,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18431,2788,Chondrus crispus,Carragheen (Irish) moss,92,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16215,2790,Porphyra tenera,Laver (Nori),92,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2124,2792,Gelidium spp,Gelidium seaweeds,92,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+17275,2793,Zostera marina,Eel-grass,94,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1267,2795,Alopias superciliosus,Bigeye thresher,38,0.09,NaN,30960,487.9848022,7.69999981,1,0
+3291,2798,Lamna nasus,Porbeagle,38,0.085666665,10,48600,350,13.5,2,0
+12333,2803,Galeus melastomus,Blackmouth catshark,38,NaN,NaN,2750,75,NaN,3,55
+15593,2804,Scyliorhinus spp,"Catsharks, nursehounds nei",38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4631,2805,Scyliorhinus stellaris,Nursehound,38,NaN,NaN,2808,170,NaN,2,1
+2650,2806,Carcharhinidae,Requiem sharks nei,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16677,2808,Carcharhinus limbatus,Blacktip shark,38,0.216249999,NaN,27971,275,7,2,0
+10728,2822,Sphyrna zygaena,Smooth hammerhead,38,NaN,NaN,41040,500,NaN,1,0
+381,2826,Mustelus schmitti,Narrownose smooth-hound,38,NaN,NaN,340,92,NaN,2,60
+347,2828,Galeorhinus galeus,Tope shark,38,0.145199998,NaN,9472,193,NaN,2,0
+2866,2831,Squalidae,Dogfish sharks nei,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1028,2832,"Squalidae, Scyliorhinidae",Dogfishes and hounds nei,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1029,2834,Squalus acanthias,Picked dogfish,38,0.123999999,11,8643,160,8.820000076,2,0
+9520,2835,Centrophorus granulosus,Gulper shark,38,NaN,NaN,23876,160,NaN,3,50
+10578,2841,Deania calcea,Birdbeak dogfish,38,0.106000003,NaN,40680,122,25,2,60
+83,2842,Squatinidae,"Angelsharks, sand devils nei",38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12535,2843,Oxynotus centrina,Angular roughshark,38,NaN,NaN,5457,150,NaN,3,40
+61,2845,Rajiformes,"Rays, stingrays, mantas nei",38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1414,2847,Rhinobatos percellens,Chola guitarfish,38,NaN,NaN,NaN,100,NaN,1,0
+1016,2850,Raja spp,Raja rays nei,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4571,2851,Raja clavata,Thornback ray,38,0.140500001,NaN,6633,105,6.292000103,2,20
+4575,2852,Raja montagui,Spotted ray,38,0.215600002,NaN,1935,80,5.183333397,2,20
+4573,2854,Raja fullonica,Shagreen ray,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4576,2855,Raja naevus,Cuckoo ray,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4578,2856,Raja oxyrinchus,Longnosed skate,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10707,2859,Raja georgiana,Antarctic starry skate,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7289,2865,Dasyatis akajei,Whip stingray,38,NaN,NaN,NaN,200,NaN,2,10
+12500,2866,Myliobatidae,Eagle rays nei,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4384,2870,Hydrolagus spp,Ratfishes nei,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10610,2871,Hydrolagus novaezealandiae,Dark ghost shark,38,NaN,NaN,NaN,96,NaN,3,25
+14662,2874,Callorhinchus capensis,Cape elephantfish,38,0.111250002,NaN,NaN,122,3.749999881,1,10
+16943,2877,Acipenser gueldenstaedtii,Danube sturgeon(=Osetr),21,0.041666667,15,728,236,10,NaN,1
+9341,2881,Clupeoidei,Diadromous clupeoids nei,24,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11740,2882,Megalops cyprinoides,Indo-Pacific tarpon,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+970,2886,Clupea harengus,Atlantic herring,35,0.358015872,9.5,7003,45,3.464705888,1,0
+4236,2887,Alosa spp,Shads nei,24,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1806,2889,Alosa sapidissima,American shad,24,0.38333333,NaN,7254,76,4.450000048,1,0
+4234,2890,Alosa alosa,Allis shad,24,0.350999993,NaN,1599,83,3.5,1,5
+8438,2891,Sardinella zunasi,Japanese sardinella,35,NaN,NaN,272,18,NaN,1,5
+6421,2892,Sardinella lemuru,Bali sardinella,35,0.971923076,NaN,2627,23,NaN,1,15
+2379,2893,Sardinops melanostictus,Japanese pilchard,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9905,2894,Sardinops caeruleus,California pilchard,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10282,2895,Sardinops ocellatus,Southern African pilchard,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9324,2897,Anodontostoma chacunda,Chacunda gizzard shad,24,1.084499985,NaN,6696,22,NaN,1,0
+19012,2898,Brevoortia pectinata,Argentine menhaden,35,NaN,NaN,120,35,NaN,1,5
+18379,2899,Brevoortia patronus,Gulf menhaden,35,0.413027774,NaN,180,35,NaN,1,0
+6268,2900,Dussumieria acuta,Rainbow sardine,35,1.016666671,NaN,2926,20,NaN,1,10
+3485,2902,Etrumeus teres,Red-eye round herring,35,0.631166662,NaN,24447,33,2.143333356,2,0
+2929,2903,Harengula spp,Scaled sardines,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+924,2904,Tenualosa ilisha,Hilsa shad,24,0.500666678,NaN,1595,60,NaN,3,NaN
+6462,2905,Tenualosa toli,Toli shad,24,0.699999988,NaN,1470,60,0.629999995,1,10
+3514,2906,Opisthonema libertate,Pacific thread herring,35,0.466199994,NaN,1054,30,NaN,2,NaN
+1377,2907,Opisthonema oglinum,Atlantic thread herring,35,0.533999997,NaN,5070,38,1,1,5
+7398,2908,Konosirus punctatus,Dotted gizzard shad,24,0.266000003,NaN,399,32,NaN,1,NaN
+8071,2909,Clupanodon thrissa,Chinese gizzard shad,24,NaN,NaN,700,26,NaN,1,0
+67,2910,Sardina pilchardus,European pilchard(=Sardine),35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4142,2912,Herklotsichthys quadrimaculat.,Bluestripe herring,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2233,2913,Strangomera bentincki,Araucanian herring,35,0.589999989,NaN,12,28.38999939,NaN,1,0
+2272,2915,Engraulis japonicus,Japanese anchovy,35,1.381500009,19,2115,18,1.5,1,0
+343,2916,Engraulis anchoita,Argentine anchovy,35,0.256666668,NaN,957,17,NaN,2,30
+2117,2917,Engraulis ringens,Anchoveta(=Peruvian anchovy),35,0.97909524,18,494,20,NaN,1,3
+10237,2919,Engraulis capensis,Southern African anchovy,35,NaN,NaN,NaN,17,1,NaN,NaN
+2520,2920,Cetengraulis mysticetus,Pacific anchoveta,35,1.977999997,NaN,1332,18,1,2,NaN
+5958,2923,Alepocephalus bairdii,Baird's slickhead,34,NaN,NaN,4100,100,NaN,NaN,365
+8179,2924,Ilisha elongata,Elongate ilisha,24,NaN,NaN,1400,60,NaN,1,5
+9420,2925,Pellona ditchela,Indian pellona,24,0.674999997,NaN,5600,16,NaN,1,10
+6094,2926,Chirocentrus spp,Wolf-herrings nei,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4221,2927,Salmonoidei,Salmonoids nei,23,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1926,2928,Salmo spp,Trouts nei,23,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3342,2929,Salmo salar,Atlantic salmon,23,0.363499999,5.5,4830,150,4.333333333,4,0
+1891,2931,Oncorhynchus keta,Chum(=Keta=Dog)salmon,23,0.352499999,11.85000038,5160,100,2,2,0
+7530,2932,Oncorhynchus masou,Masu(=Cherry) salmon,23,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1895,2933,Oncorhynchus tshawytscha,Chinook(=Spring=King)salmon,23,NaN,12.44999981,5175,150,4.066666603,4,0
+1893,2934,Oncorhynchus mykiss,Rainbow trout,23,0.548333342,17,3780,120,2.5,1,0
+1858,2937,Hypomesus pretiosus,Surf smelt,23,NaN,NaN,NaN,30.5,1.5,1,NaN
+7345,2938,Glossanodon semifasciatus,Deep-sea smelt,34,0.73500003,NaN,816,21,NaN,4,70
+4186,2939,Coregonus albula,Vendace,23,0.463714283,NaN,126,48,2,2,30
+3265,2940,Coregonus lavaretus,European whitefish,23,0.351071427,10,NaN,73,3.5,3,NaN
+3277,2942,Esox lucius,Northern pike,13,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6114,2949,Harpadon nehereus,Bombay-duck,33,0.748142847,NaN,4859,40,NaN,1,50
+5051,2955,Cyprinidae,Cyprinids nei,11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4979,2956,Abramis spp,Freshwater breams nei,11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13610,2960,Rutilus spp,Roaches nei,11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6423,2984,Saurida tumbil,Greater lizardfish,33,0.448499997,NaN,7995,60,NaN,4,10
+6889,2985,Saurida undosquamis,Brushtooth lizardfish,33,0.91410345,NaN,10780,50,1.449999988,4,1
+10527,2987,Anguilla spp,River eels nei,22,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1810,2989,Anguilla rostrata,American eel,22,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12493,2990,Muraenidae,Morays,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2482,2991,Muraenesox spp,Pike-congers nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1768,2993,Congridae,"Conger eels, etc. nei",34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2009,2994,Conger conger,European conger,34,0.115000004,NaN,4144,300,5,2,0
+331,2995,Conger orbignyanus,Argentine conger,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8081,2996,Conger myriaster,Whitespotted conger,34,NaN,NaN,810,100,NaN,1,320
+508,2997,Belonidae,"Needlefishes, etc. nei",37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3657,2998,Tylosurus spp,Needlefishes nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12666,3000,Scomberesox saurus,Atlantic saury,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7265,3001,Cololabis saira,Pacific saury,37,0.518333346,NaN,5635,40,1,2,0
+8178,3002,Hyporhamphus sajori,Japanese halfbeak,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1331,3003,Hemiramphus brasiliensis,Ballyhoo halfbeak,37,0.587000012,NaN,NaN,55,NaN,2,0
+7287,3004,Cypselurus agoo,Japanese flyingfish,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10657,3006,Muraenolepis spp,Moray cods nei,32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+435,3008,Salilota australis,Tadpole codling,32,NaN,NaN,414,50,NaN,2,30
+6085,3009,Bregmaceros mcclellandi,Unicorn cod,32,NaN,NaN,NaN,9.600000381,NaN,3,0
+1847,3011,Gadus macrocephalus,Pacific cod,32,0.321750008,7.5,3904,119,5.800000191,1,0
+3842,3012,Lota lota,Burbot,13,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13304,3014,Eleginus gracilis,Saffron cod,32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1879,3015,Microgadus tomcod,Atlantic tomcod,32,NaN,NaN,400,38.09999847,NaN,1,0
+1009,3016,Pollachius virens,Saithe(=Pollock),32,0.145181818,NaN,4884,130,3.449999988,1,37
+1948,3017,Theragra chalcogramma,Alaska pollock(=Walleye poll.),32,0.262941176,NaN,3774,91,4.05,1,0
+3367,3019,Trisopterus esmarkii,Norway pout,32,0.596166665,NaN,1767,35,2.299999952,1,50
+4710,3020,Trisopterus minutus,Poor cod,32,0.426454545,NaN,1862,40,NaN,2,1
+3303,3021,Micromesistius poutassou,Blue whiting(=Poutassou),32,0.33005,NaN,7049,50,1.824999988,1,150
+991,3022,Merlangius merlangus,Whiting,32,0.34527551,NaN,2553,70,1.5,2,10
+2633,3024,"Merluccius capensis,M.paradox.",Cape hakes,32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8773,3025,Merluccius senegalensis,Senegalese hake,32,0.171000004,NaN,231,81,NaN,3,15
+1876,3026,Merluccius bilinearis,Silver hake,32,0.421375003,NaN,1178,76,1.650000036,1,55
+373,3027,Merluccius hubbsi,Argentine hake,32,0.252499998,5.149999976,1044,95,NaN,2,50
+1877,3028,Merluccius productus,North Pacific hake,32,0.252499998,NaN,1908,91,3.5,1,0
+616,3033,Macruronus novaezelandiae,Blue grenadier,32,0.180200002,NaN,3040,120,3.5,2,0
+4426,3034,Macrourus berglax,Roughhead grenadier,32,0.067,NaN,7020,110,14.80000019,2,100
+4038,3035,Coryphaenoides rupestris,Roundnose grenadier,32,0.091625001,NaN,4094,110,10,1,180
+10744,3038,Trachipterus spp,Dealfishes,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12186,3040,Beryx splendens,Splendid alfonsino,34,0.145235294,NaN,31680,70,6.133333365,3,25
+10743,3041,Trachichthyidae,Slimeheads nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+164,3042,Holocentridae,Squirrelfishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10751,3043,Zeidae,Dories nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12830,3044,Zenopsis conchifer,Silvery John dory,34,NaN,NaN,NaN,80,NaN,1,50
+6452,3048,Sphyraena barracuda,Great barracuda,37,0.123666666,NaN,27720,200,NaN,2,1
+1628,3050,Mugil cephalus,Flathead grey mullet,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7,3058,Atherinidae,Silversides(=Sand smelts) nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+410,3063,Perciformes,Demersal percomorphs nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+688,3064,Perciformes,Pelagic percomorphs nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1295,3066,Centropomus spp,Snooks(=Robalos) nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+598,3068,Lates calcarifer,Barramundi(=Giant seaperch),25,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+255,3069,Serranidae,"Groupers, seabasses nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2557,3070,Mycteroperca xenarcha,Broomtail grouper,33,NaN,NaN,1677,150,NaN,3,NaN
+5448,3071,Epinephelus marginatus,Dusky grouper,33,0.110999999,NaN,11931,150,5,4,8
+5447,3072,Epinephelus aeneus,White grouper,33,0.1666,NaN,4235,120,5,4,20
+1322,3075,Epinephelus morio,Red grouper,33,0.133466667,NaN,4030,125,4,2,5
+419,3077,Polyprion americanus,Wreckfish,34,0.069,NaN,14750,210,NaN,1,40
+2205,3078,Polyprion oxygeneios,Hapuku wreckfish,34,0.08485,NaN,0,150,10,1,50
+18418,3079,Centropristis striata,Black seabass,33,0.37333334,NaN,NaN,66,NaN,4,1
+301,3081,Acanthistius brasilianus,Argentine seabass,33,NaN,NaN,289,60,NaN,3,30
+11655,3083,Paralabrax humeralis,Peruvian rock seabass,33,NaN,NaN,NaN,54.5,2,3,60
+3583,3087,Dicentrarchus punctatus,Spotted seabass,33,0.111000002,NaN,NaN,70,NaN,2,30
+18930,3088,Stereolepis gigas,Giant seabass,33,NaN,NaN,NaN,250,11,4,5
+16217,3091,Priacanthus macracanthus,Red bigeye,33,0.650999991,NaN,NaN,30,NaN,3,20
+2118,3092,Epigonus spp,Cardinal fishes nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4344,3093,Epigonus telescopus,Black cardinal fish,34,0.036000001,NaN,NaN,75,36.19999886,2,75
+3347,3098,Sander lucioperca,Pike-perch,13,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+763,3099,Sillaginidae,Sillago-whitings,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1283,3100,Branchiostegidae,Tilefishes nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6127,3101,Lactarius lactarius,False trevally,37,0.74149999,NaN,NaN,40,NaN,1,15
+420,3102,Pomatomus saltatrix,Bluefish,37,0.175000001,NaN,32040,130,NaN,4,0
+160,3104,Carangidae,Carangids nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+265,3105,Trachurus capensis,Cape horse mackerel,37,0.253999998,NaN,880,60,2,1,0
+267,3106,Trachurus trecae,Cunene horse mackerel,37,0.256999999,18.5,2160,35,NaN,2,20
+2264,3107,Decapterus spp,Scads nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9349,3109,Decapterus russelli,Indian scad,37,0.818107139,NaN,5060,45,NaN,1,40
+1291,3110,Caranx spp,"Jacks, crevalles nei",37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1290,3111,Caranx crysos,Blue runner,37,0.349999994,NaN,9288,70,NaN,1,0
+5324,3112,Caranx hippos,Crevalle jack,37,0.649999976,NaN,8736,124,NaN,2,1
+1428,3114,Selene setapinnis,Atlantic moonfish,37,0.629999995,NaN,7462,60,NaN,2,NaN
+1457,3115,Trachinotus spp,Pompanos nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14099,3116,Trachinotus blochii,Snubnose pompano,37,NaN,NaN,NaN,110,NaN,3,NaN
+2857,3119,Seriola dumerili,Greater amberjack,37,0.233500001,NaN,26280,190,4,3,1
+443,3120,Seriola lalandi,Yellowtail amberjack,37,0.15366667,21,40320,250,NaN,1,3
+14106,3121,Alectis alexandrinus,Alexandria pompano,37,NaN,NaN,3025,100,NaN,3,NaN
+5653,3122,Elagatis bipinnulata,Rainbow runner,37,0.600000024,NaN,20833,180,NaN,2,0
+6329,3123,Megalaspis cordyla,Torpedo scad,37,0.608571431,NaN,8004,80,NaN,3,20
+407,3125,Parona signata,Parona leatherjacket,37,NaN,NaN,NaN,60,NaN,1,NaN
+6443,3126,Selaroides leptolepis,Yellowstripe scad,37,0.990285716,NaN,4850,22,NaN,2,1
+6369,3127,Parastromateus niger,Black pomfret,37,0.766666651,NaN,8784,75,NaN,3,15
+10223,3129,Brama brama,Atlantic pomfret,37,0.083999999,18,48600,100,NaN,1,0
+161,3130,Coryphaena hippurus,Common dolphinfish,37,1.438857149,25.5,30600,210,0.5,3,0
+496,3131,Arripis trutta,Australian salmon,33,0.430100006,NaN,1340,89,4,4,30
+169,3133,Lutjanidae,"Snappers, jobfishes nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9391,3134,Lutjanus argentimaculatus,Mangrove red snapper,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2541,3135,Lutjanus argentiventris,Yellow snapper,33,0.155000001,NaN,2107,71,NaN,1,3
+9834,3136,Lutjanus campechanus,Northern red snapper,33,0.171190476,NaN,2820,100,NaN,4,10
+1373,3138,Ocyurus chrysurus,Yellowtail snapper,33,0.188615383,NaN,2726,86.30000305,2,2,0
+2339,3139,Nemipterus spp,Threadfin breams nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16186,3140,Nemipterus virgatus,Golden threadfin bream,33,0.391090909,NaN,2006,35,NaN,4,NaN
+6130,3141,Leiognathidae,Ponyfishes(=Slipmouths) nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2141,3143,Isacia conceptionis,Cabinza grunt,33,NaN,NaN,846,60,NaN,1,0
+4860,3145,Plectorhinchus mediterraneus,Rubberlip grunt,33,0.177000001,NaN,3015,80,NaN,1,10
+1765,3147,Brachydeuterus auritus,Bigeye grunt,33,0.393399996,NaN,1683,30,NaN,3,10
+1794,3148,Sciaenidae,"Croakers, drums nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1314,3150,Cynoscion spp,Weakfishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2104,3151,Cynoscion analis,Peruvian weakfish,33,0.175000001,NaN,20,47,NaN,2,10
+9844,3153,Menticirrhus littoralis,Gulf kingcroaker,33,NaN,NaN,NaN,48.29999924,NaN,1,10
+16650,3154,Umbrina cirrosa,Shi drum,33,0.630333344,NaN,960,73,NaN,4,0
+462,3155,Umbrina canosai,Argentine croaker,33,NaN,NaN,143,40,NaN,1,NaN
+1355,3156,Macrodon ancylodon,King weakfish,33,0.466666666,NaN,NaN,45,NaN,2,NaN
+489,3157,Argyrosomus hololepidotus,Southern meagre(=Mulloway),33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+499,3158,Atractoscion aequidens,Geelbek croaker,33,0.270000011,NaN,NaN,130,5,2,15
+18521,3159,Genyonemus lineatus,White croaker,33,NaN,NaN,NaN,41,1,1,NaN
+6532,3160,Otolithes ruber,Tigertooth croaker,33,0.373999998,27.5,9246,90,0.699999988,3,10
+418,3161,Pogonias cromis,Black drum,33,0.187999999,NaN,NaN,170,NaN,1,10
+2308,3163,Larimichthys croceus,Large yellow croaker,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18591,3164,Leiostomus xanthurus,Spot croaker,33,0.681666672,NaN,NaN,36,NaN,1,NaN
+14433,3166,Pseudotolithus brachygnathus,Law croaker,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16045,3168,Atrobucca nibe,Blackmouth croaker,33,0.255199999,NaN,NaN,45,NaN,3,45
+16210,3169,Pennahia argentata,Silver croaker,33,0.75999999,NaN,NaN,40,1,4,20
+2478,3170,Gymnocranius spp,Largeeye breams,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+50,3172,Pagellus spp,Pandoras nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4508,3173,Pagellus bogaraveo,Blackspot(=red) seabream,33,0.136666668,NaN,2205,70,4,2,NaN
+3083,3174,Pagellus acarne,Axillary seabream,33,0.261888891,NaN,2852,36,2.5,2,NaN
+202,3175,Diplodus spp,Sargo breams nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+201,3180,Dentex spp,Dentex nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2903,3181,Dentex macrophthalmus,Large-eye dentex,33,0.197333336,NaN,3968,65,2,4,30
+2802,3182,Dentex dentex,Common dentex,33,0.087749999,NaN,2860,100,2,4,0
+18336,3186,Archosargus probatocephalus,Sheepshead,33,0.38166667,NaN,3520,91,NaN,1,15
+14805,3192,Rhabdosargus globiceps,White stumpnose,33,0.159999996,NaN,NaN,65,NaN,1,NaN
+16040,3202,Acanthopagrus schlegeli,Blackhead seabream,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8652,3203,Acanthopagrus latus,Yellowfin seabream,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16786,3205,Spicara maena,Blotched picarel,33,0.224714288,NaN,1159,25,NaN,3,30
+882,3206,Mullidae,"Goatfishes, red mullets nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2031,3207,Mullus surmuletus,Surmullet,33,0.308333333,NaN,2928,40,NaN,4,5
+3074,3208,Mullus barbatus,Red mullet,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3217,3209,Pseudupeneus prayensis,West African goatfish,33,0.529999971,NaN,NaN,55,NaN,3,10
+1162,3211,Ephippidae,Spadefishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1158,3212,Drepane africana,African sicklefish,33,0.207999999,NaN,1880,45,NaN,NaN,10
+11779,3213,Scatophagus spp,Scats,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+593,3224,Labridae,"Wrasses, hogfishes, etc. nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18939,3225,Tautogolabrus adspersus,Cunner,33,0.202749998,NaN,522,38,1,4,10
+18898,3226,Semicossyphus pulcher,California sheephead,33,NaN,NaN,255,91,4.25,4,0
+12722,3227,Sparisoma cretense,Parrotfish,33,0.298000008,NaN,2312,50,NaN,4,20
+327,3228,Cheilodactylus bergi,Castaneta,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+600,3229,Latridae,Trumpeters nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7208,3230,Arctoscopus japonicus,Japanese sandfish,34,NaN,NaN,NaN,30,2,4,0
+411,3233,Percophis brasiliensis,Brazilian flathead,33,NaN,NaN,756,53.29999924,NaN,1,NaN
+10617,3234,Kathetostoma giganteum,Giant stargazer,34,0.172500003,NaN,NaN,90,NaN,3,30
+17641,3241,Patagonotothen brevicauda,Patagonian rockcod,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+17683,3244,Pleuragramma antarcticum,Antarctic silverfish,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11878,3245,Chaenocephalus aceratus,Blackfin icefish,34,0.206000001,NaN,NaN,72,NaN,3,5
+12049,3246,Pseudochaenichthys georgianus,South Georgia icefish,34,0.279500008,NaN,NaN,60,4,1,0
+2532,3249,Gerreidae,"Mojarras, etc. nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+871,3250,Gerres spp,Mojarras(=Silver-biddies) nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1808,3252,Anarhichas spp,Wolffishes(=Catfishes) nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3369,3254,Zoarces viviparus,Eelpout,33,0.295800004,NaN,1219,52,NaN,2,0
+13403,3255,Lycodes spp,Eelpouts,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1376,3256,Ophidiidae,"Cusk-eels, brotulas nei",34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+348,3257,Genypterus blacodes,Pink cusk-eel,34,0.113222224,NaN,8640,200,5,2,22
+2127,3258,Genypterus chilensis,Red cusk-eel,34,NaN,NaN,576,150,NaN,2,NaN
+6858,3259,Genypterus capensis,Kingklip,34,0.134320001,NaN,256,180,4,1,50
+2001,3260,Ammodytes spp,Sandeels(=Sandlances) nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7198,3261,Ammodytes personatus,Pacific sandlance,33,0.609000027,NaN,324,15,NaN,4,NaN
+906,3262,Siganus spp,Spinefeet(=Rabbitfishes) nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+157,3264,Acanthuridae,Surgeonfishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10626,3267,Lepidocybium flavobrunneum,Escolar,34,NaN,NaN,38160,200,NaN,2,200
+727,3268,Rexea solandri,Silver gemfish,34,0.172599999,NaN,1794,110,3.5,4,100
+2502,3269,Trichiuridae,"Hairtails, scabbardfishes nei",34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+30,3270,Lepidopus caudatus,Silver scabbardfish,34,0.310000002,NaN,16611,210,NaN,2,42
+745,3271,Scombroidei,Tuna-like fishes nei,36,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+140,3273,Scombridae,Mackerels nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11192,3274,Sarda orientalis,Striped bonito,36,NaN,18.25,21756,102,NaN,3,1
+2220,3275,Sarda chiliensis,Eastern Pacific bonito,36,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2853,3276,Scomber spp,Scomber mackerels nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+437,3277,Scomber japonicus,Chub mackerel,37,0.329454545,18.5,41400,64,2,3,0
+10720,3278,Scomber australasicus,Blue mackerel,37,0.335000003,NaN,20274,44,NaN,4,87
+474,3279,Acanthocybium solandri,Wahoo,36,0.340000004,NaN,29880,250,2,4,0
+736,3280,Scomberomorus commerson,Narrow-barred Spanish mackerel,36,0.429727269,NaN,14960,240,2,4,10
+6176,3281,Scomberomorus guttatus,Indo-Pacific king mackerel,36,0.180000007,NaN,3825,76,NaN,4,15
+9915,3282,Scomberomorus maculatus,Atlantic Spanish mackerel,36,0.324454545,24.69999981,825,91,2.5,2,10
+2577,3283,Scomberomorus sierra,Pacific sierra,36,NaN,NaN,3060,99,NaN,2,0
+7667,3285,Scomberomorus niphonius,Japanese Spanish mackerel,36,0.715000004,NaN,945,100,NaN,4,0
+1422,3286,Scomberomorus brasiliensis,Serra Spanish mackerel,36,0.175999999,NaN,3477,125,3,3,NaN
+94,3292,"Auxis thazard, A. rochei",Frigate and bullet tunas,36,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+108,3293,Euthynnus alletteratus,Little tunny(=Atl.black skipj),36,0.155500001,NaN,11524,122,2,2,1
+554,3294,Euthynnus affinis,Kawakawa,36,0.476000011,23.5,13943,100,NaN,2,0
+1252,3296,Thunnus thynnus,Atlantic bluefin tuna,36,0.094375001,NaN,18330,458,3,4,0
+1248,3297,Thunnus atlanticus,Blackfin tuna,36,0.474000011,20,5254,107.9499969,3,2,50
+789,3298,Thunnus maccoyii,Southern bluefin tuna,36,0.144399999,12.5,0,245,12,4,50
+2602,3300,Istiophoridae,"Marlins,sailfishes,etc. nei",36,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+165,3301,Istiophorus platypterus,Indo-Pacific sailfish,36,0.354749994,NaN,25389,348,NaN,4,0
+170,3303,Makaira nigricans,Blue marlin,36,0.304499999,26.5,9690,500,NaN,3,0
+941,3305,Tetrapturus albidus,Atlantic white marlin,36,0.579999983,22,10234,300,NaN,3,0
+11280,3306,Tetrapturus pfluegeri,Longbill spearfish,36,NaN,NaN,8855,254,NaN,1,0
+2500,3309,Stromateidae,"Butterfishes, pomfrets nei",37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2355,3310,Pampus spp,Silver pomfrets nei,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+19292,3312,Peprilus spp,"Gulf butterfishes, etc. nei",37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7585,3313,Peprilus triacanthus,Atlantic butterfish,37,0.800000012,NaN,NaN,30,0.899999976,2,15
+18777,3314,Peprilus simillimus,Pacific pompano,37,NaN,NaN,NaN,28,NaN,3,9
+8060,3316,Centrolophidae,"Ruffs, barrelfishes nei",34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+444,3317,Seriolella porosa,Choicy ruff,34,0.278499998,NaN,NaN,44,NaN,3,NaN
+10727,3318,Seriolella punctata,Silver warehou,34,0.366666674,NaN,NaN,66,3,3,27
+10612,3319,Hyperoglyphe antarctica,Bluenose warehou,34,0.173999999,NaN,6642,140,5.5,1,40
+2491,3320,Psenopsis anomala,Pacific rudderfish,34,0.540000021,NaN,690,30,NaN,4,0
+3353,3324,Sebastes marinus,Golden redfish,34,0.093433334,5,6765,100,10,1,100
+18883,3325,Sebastes flavidus,Yellowtail rockfish,34,0.155000001,NaN,NaN,66,6.5,1,0
+1938,3326,Sebastes alutus,Pacific ocean perch,34,0.126500002,NaN,4280,53,8.012500048,2,0
+6060,3327,Sebastes mentella,Beaked redfish,34,0.086599998,NaN,3230,58,11.5,1,300
+18890,3329,Sebastes pinniger,Canary rockfish,34,0.123666664,NaN,NaN,76,9,1,0
+268,3334,Triglidae,"Gurnards, searobins nei",34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+522,3336,Chelidonichthys kumu,Bluefin gurnard,34,0.473749999,NaN,NaN,60,2,4,1
+1406,3338,Prionotus spp,Atlantic searobins,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+719,3339,Pterygotrigla polyommata,Latchet(=Sharpbeak gurnard),34,NaN,NaN,NaN,62,NaN,3,35
+1896,3340,Ophiodon elongatus,Lingcod,33,0.220000006,NaN,NaN,152,4,1,NaN
+1811,3341,Anoplopoma fimbria,Sablefish,34,0.229999999,NaN,4510,120,6,4,0
+696,3342,Platycephalidae,Flatheads nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+701,3345,Pleuronectiformes,Flatfishes nei,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6398,3346,Psettodes erumei,Indian halibut,31,0.429285722,NaN,5311,64,NaN,3,1
+16629,3347,Psettodes belcheri,Spottail spiny turbot,31,NaN,NaN,NaN,80,NaN,3,NaN
+3709,3348,Bothidae,Lefteye flounders nei,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7572,3350,Paralichthys olivaceus,Bastard halibut,31,0.150000006,NaN,3904,103,NaN,4,10
+18758,3351,Paralichthys dentatus,Summer flounder,31,0.215000004,NaN,NaN,94,NaN,4,10
+982,3353,Hippoglossus hippoglossus,Atlantic halibut,31,0.090540001,NaN,5676,470,5.900000096,4,50
+1007,3354,Pleuronectes platessa,European plaice,31,0.149058823,8.5,4876,100,2.536666652,2,0
+18797,3355,Pleuronectes vetulus,English sole,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18351,3356,Atheresthes stomias,Arrow-tooth flounder,31,0.075000002,NaN,2432,84,5.5,1,18
+7213,3357,Atheresthes evermanni,Kamchatka flounder,31,0.104999997,NaN,NaN,100,NaN,3,20
+1851,3358,Glyptocephalus cynoglossus,Witch flounder,31,0.215933336,4,4095,60,7.889230728,3,18
+1853,3359,Hippoglossoides platessoides,Amer. plaice(=Long rough dab),31,0.119615385,NaN,4572,82.59999847,7.620909084,3,10
+7405,3360,Limanda aspera,Yellowfin sole,31,0.121444445,NaN,3360,49,6.7,2,0
+986,3361,Limanda limanda,Common dab,31,0.401099992,NaN,2030,40,2.649999976,2,20
+7403,3362,Lepidopsetta bilineata,Rock sole,31,0.138571429,NaN,3861,58,9,2,0
+993,3363,Microstomus kitt,Lemon sole,31,0.286999993,NaN,2059,65,4,4,10
+18817,3364,Psettichthys melanostictus,Pacific sand sole,31,NaN,NaN,NaN,63,2,2,1
+8410,3365,Pseudopleuronectes herzenst.,Yellow striped flounder,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+731,3366,Rhombosolea spp,Sand flounders nei,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+76,3367,Solea solea,Common sole,31,0.338632654,NaN,2700,70,3.666666667,4,0
+4331,3368,Dicologlossa cuneata,Wedge sole,31,0.424999997,NaN,4266,30,NaN,4,10
+8016,3369,Austroglossus spp,Southeast Atlantic soles nei,31,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18872,3370,Scophthalmus aquosus,Windowpane flounder,31,0.257000007,NaN,NaN,45.70000076,NaN,1,55
+18756,3372,Paralichthys californicus,California flounder,31,0.09,NaN,NaN,152,3,4,0
+12180,3373,Balistes carolinensis,Grey triggerfish,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+775,3374,Tetraodontidae,Puffers nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18914,3375,Sphoeroides spp,Atlantic puffers nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+36,3378,Lophius spp,Monkfishes nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2021,3379,Lophius piscatorius,Angler(=Monk),34,0.110454546,NaN,3330,200,4.5,3,20
+1870,3380,Lophius americanus,American angler,34,0.084,NaN,1015,120,NaN,1,0
+4205,3382,Osteichthyes,Freshwater fishes nei,25,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+999,3383,Osteichthyes,Groundfishes nei,25,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1651,3384,Osteichthyes,Finfishes nei,25,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+48,3385,Osteichthyes,Marine fishes nei,25,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+441,3387,Selachimorpha(Pleurotremata),Various sharks nei,38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10566,3389,Chimaeriformes,"Chimaeras, etc. nei",38,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11800,3391,Squillidae,Squillids nei,47,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4671,3392,Squilla mantis,Spottail mantis squillid,47,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7322,3393,Euphausia superba,Antarctic krill,46,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+221,3397,Natantia,Natantian decapods nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+681,3399,Penaeus spp,Penaeus shrimps nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18768,3400,Penaeus aztecus,Northern brown shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2772,3401,Penaeus californiensis,Yellowleg shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2983,3402,Penaeus duorarum,Northern pink shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3524,3404,Penaeus vannamei,Whiteleg shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+680,3405,Penaeus monodon,Giant tiger prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1388,3407,Penaeus brasiliensis,Redspotted shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+888,3408,Penaeus semisulcatus,Green tiger prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18773,3409,Penaeus setiferus,Northern white shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2771,3410,Penaeus brevirostris,Crystal shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+675,3411,Penaeus latisulcatus,Western king prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2568,3412,Penaeus occidentalis,Western white shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10872,3413,Penaeus notialis,Southern pink shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+19092,3414,Penaeus paulensis,Sao Paulo shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6334,3415,Metapenaeus spp,Metapenaeus shrimps nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2595,3418,Xiphopenaeus riveti,Pacific seabob,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2455,3419,Trachypenaeus curvirostris,Southern rough shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6914,3420,Aristeidae,Aristeid shrimps nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+15459,3421,Plesiopenaeus edwardsianus,Scarlet shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+93,3422,Aristeus antennatus,Blue and red shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1905,3425,Pandalus borealis,Northern prawn,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9465,3427,Sergestidae,Sergestid shrimps nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6212,3428,Acetes japonicus,Akiami paste shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6709,3430,Palaemonidae,Palaemonid shrimps nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+974,3435,Crangon crangon,Common shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+417,3437,Pleoticus muelleri,Argentine red shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2586,3438,Solenocera agassizii,Kolibri shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3730,3442,Palinuridae,Spiny lobsters nei,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+175,3443,Panulirus spp,Tropical spiny lobsters nei,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+276,3445,Panulirus argus,Caribbean spiny lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+19375,3446,Panulirus homarus,Scalloped spiny lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10249,3447,Jasus lalandii,Cape rock lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2143,3448,Jasus frontalis,Juan Fernandez rock lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13792,3449,Jasus tristani,Tristan da Cunha rock lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10615,3450,Jasus edwardsii,Red rock lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+131,3451,Palinurus spp,Palinurid spiny lobsters nei,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4516,3452,Palinurus elephas,Common spiny lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14781,3453,Palinurus gilchristi,Southern spiny lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18390,3460,Cancer irroratus,Atlantic rock crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1825,3461,Cancer magister,Dungeness crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18389,3462,Cancer borealis,Jonah crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18394,3463,Cancer productus,Pacific rock crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12594,3465,Portunus spp,Portunus swimcrabs nei,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+751,3467,Scyllaridae,Slipper lobsters nei,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4359,3468,Galatheidae,"Craylets, squat lobsters",44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18061,3469,Lithodidae,"King crabs, stone crabs nei",44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2149,3471,Lithodes santolla,Southern king crab,44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+406,3473,Paralomis granulosa,Softshell red crab,44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2022,3476,Maja squinado,Spinous spider crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7256,3477,Chionoecetes spp,Tanner crabs nei,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10199,3480,Metanephrops mozambicus,Mozambique lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10651,3481,Metanephrops challengeri,New Zealand lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1856,3482,Homarus americanus,American lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10191,3484,Chaceon spp,Chaceon geryons nei,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7243,3485,Chaceon maritae,West African geryon,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+532,3487,Crustacea,Marine crustaceans nei,47,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2123,3488,Gastropoda,Gastropods nei,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7356,3491,Haliotis gigantea,Giant abalone,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+570,3492,Haliotis rubra,Blacklip abalone,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4373,3493,Haliotis tuberculata,Tuberculate abalone,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+9363,3494,Ex Turbo spp,Turban shells nei,81,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12494,3495,Murex spp,Murex,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2101,3497,Concholepas concholepas,False abalone,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1823,3498,Busycon spp,Whelks,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6665,3499,Littorina littorea,Common periwinkle,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+277,3500,Strombus spp,Stromboid conchs nei,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8013,3501,Arca spp,Ark clams nei,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7646,3502,Scapharca subcrenata,Half-crenated ark,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6218,3503,Anadara granosa,Blood cockle,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+555,3505,Ex Pinctada spp,Pearl oyster shells nei,81,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2193,3509,Ostrea chilensis,Chilean flat oyster,53,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2836,3510,Ostrea edulis,European flat oyster,53,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10681,3511,Ostrea lutaria,New Zealand dredge oyster,53,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1305,3513,Crassostrea spp,Cupped oysters nei,53,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1834,3514,Crassostrea gigas,Pacific cupped oyster,53,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2897,3515,Crassostrea rhizophorae,Mangrove cupped oyster,53,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1002,3516,Pecten maximus,Great Atlantic scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4529,3517,Pecten jacobaeus,Great Mediterranean scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1914,3519,Placopecten magellanicus,American sea scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18340,3520,Argopecten irradians,Atlantic bay scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11604,3521,Argopecten purpuratus,Peruvian calico scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4021,3523,Aequipecten opercularis,Queen scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18766,3525,Patinopecten caurinus,Weathervane scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2177,3527,Mytilus chilensis,Chilean mussel,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+385,3528,Mytilus platensis,River Plata mussel,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2829,3529,Mytilus galloprovincialis,Mediterranean mussel,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2072,3533,Aulacomya ater,Cholga mussel,54,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18338,3534,Arctica islandica,Ocean quahog,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3261,3535,Cerastoderma edule,Common edible cockle,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7626,3536,Pseudocardium sybillae,Imperial surf clam,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1941,3538,Spisula solidissima,Atlantic surf clam,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2172,3539,Mulinia spp,Taquilla clams,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3561,3540,Veneridae,Venus clams nei,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7464,3541,Meretrix lusoria,Japanese hard clam,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4593,3542,Ruditapes decussatus,Grooved carpet shell,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7636,3543,Ruditapes philippinarum,Japanese carpet shell,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4717,3544,Venerupis pullastra,Pullet carpet shell,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10684,3545,Paphia spp,Short neck clams nei,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1875,3547,Mercenaria mercenaria,Northern quahog(=Hard clam),56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12294,3548,Donax spp,Donax clams,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1884,3553,Mya arenaria,Sand gaper,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1907,3554,Panopea abrupta,Pacific geoduck,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2164,3557,Mesodesma donacium,Macha clam,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2797,3560,Cephalopoda,Cephalopods nei,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+753,3561,"Sepiidae, Sepiolidae","Cuttlefish, bobtail squids nei",57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4387,3564,Illex coindetii,Broadtail shortfin squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+353,3565,Illex argentinus,Argentine shortfin squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4694,3566,Todarodes sagittatus,European flying squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7834,3567,Todarodes pacificus,Japanese flying squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7512,3568,Nototodarus sloanii,Wellington flying squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+122,3569,Octopodidae,"Octopuses, etc. nei",57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+46,3571,Octopus vulgaris,Common octopus,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6962,3572,Eledone spp,Horned and musky octopuses,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+629,3574,Mollusca,Marine molluscs nei,58,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+216,3575,"Loliginidae, Ommastrephidae",Various squids nei,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18500,3576,Eumetopias jubatus,Steller sea lion,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13227,3577,Callorhinus ursinus,Northern fur seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10218,3578,Arctocephalus pusillus,South African fur seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+5602,3580,Odobenus rosmarus,Walrus,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1910,3581,Phoca groenlandica,Harp seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1911,3582,Phoca hispida,Ringed seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+5582,3585,Erignathus barbatus,Bearded seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18026,3586,Halichoerus grypus,Grey seal,63,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7520,3588,Odontoceti,Toothed whales nei,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11015,3589,Hyperoodon ampullatus,Northern bottlenose whale,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+535,3590,Delphinidae,Dolphins nei,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4050,3591,Globicephala melas,Long-finned pilot whale,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7343,3592,Globicephala macrorhynchus,Short-finned pilot whale,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11057,3593,Orcinus orca,Killer whale,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4711,3594,Tursiops truncatus,Bottlenose dolphin,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4672,3596,Stenella coeruleoalba,Striped dolphin,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7599,3597,Phocoenoides dalli,Dall's porpoise,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11610,3599,Balaenoptera edeni,Bryde's whale,61,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2075,3600,Balaenoptera borealis,Sei whale,61,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+312,3601,Balaenoptera physalus,Fin whale,61,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7458,3602,Mammalia,Aquatic mammals nei,64,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+855,3603,Testudinata,Marine turtles nei,72,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1447,3604,Testudinata,River and lake turtles nei,72,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2893,3605,Chelonia mydas,Green turtle,72,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2914,3606,Eretmochelys imbricata,Hawksbill turtle,72,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+99,3611,Corallium rubrum,Sardinia coral,82,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7268,3612,Corallium elatius,"Momo, boke magai, misu coral",82,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16071,3613,Corallium secundum,Angel skin coral,82,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18602,3616,Limulus polyphemus,Horseshoe crab,75,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10535,3617,Asteroidea,Starfishes nei,76,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1945,3619,Strongylocentrotus spp,Sea urchins nei,76,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3275,3620,Echinus esculentus,European edible sea urchin,76,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2152,3621,Loxechinus albus,Chilean sea urchin,76,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7737,3622,Stichopus japonicus,Japanese sea cucumber,76,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+8015,3623,Ascidiacea,Sea squirts nei,74,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4447,3624,Microcosmus sulcatus,Grooved sea squirt,74,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6299,3625,Invertebrata,Aquatic invertebrates nei,77,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4133,3626,Chlorophyceae,Green seaweeds,93,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+412,3628,Phaeophyceae,Brown seaweeds,91,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6659,3629,Laminaria hyperborea,North European kelp,91,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+362,3631,Macrocystis spp,Kelp nei,91,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1814,3632,Ascophyllum nodosum,North Atlantic rockweed,91,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+432,3634,Rhodophyceae,Red seaweeds,92,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+350,3636,Gracilaria spp,Gracilaria seaweeds,92,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2085,3641,Callophyllis variegata,Manifold callophyllis,92,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2360,3642,Plantae aquaticae,Aquatic plants nei,94,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+512,3644,Centroberyx affinis,Redfish,34,0.249999993,NaN,NaN,51,NaN,3,10
+10718,3651,Sardinops neopilchardus,Australian pilchard,35,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14130,6115,Cymbium spp,Volutes nei,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13639,6290,Sclerocrangon spp,Sculptured shrimps nei,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13985,10566,Arius thalassinus,Giant catfish,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13989,10919,Bothus pantherinus,Leopard flounder,31,NaN,NaN,13132,39,NaN,4,3
+320,11063,Callorhinchus callorynchus,Plownose chimaera,38,NaN,7.5,NaN,89.19999695,NaN,1,10
+510,11064,Callorhinchus milii,Ghost shark,38,0.232888887,NaN,NaN,125,3,3,0
+6502,11112,Caranx ignobilis,Giant trevally,37,0.319999998,27.5,NaN,170,3.5,3,10
+6503,11134,Carcharhinus sorrah,Spot-tail shark,38,0.754999981,NaN,NaN,160,2,3,0
+9748,11162,Caulolatilus princeps,Ocean whitefish,34,NaN,NaN,NaN,102,NaN,1,10
+10554,11168,Centriscops humerosus,Banded yellowfish,34,NaN,NaN,NaN,30,NaN,NaN,35
+6504,11354,Chirocentrus nudus,Whitefin wolf-herring,35,0.241999999,NaN,8118,100,NaN,2,0
+3477,11371,Chloroscombrus orqueta,Pacific bumper,37,NaN,NaN,2652,30,NaN,2,NaN
+336,11894,Diplodus argenteus,South American silver porgy,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10848,12004,Elops lacerta,West African ladyfish,33,NaN,NaN,1540,100,NaN,3,NaN
+6514,12061,Epinephelus coioides,Orange-spotted grouper,33,0.166999996,NaN,10792,120,2.700000048,3,NaN
+13760,12068,Epinephelus fasciatus,Blacktip grouper,33,0.118666665,NaN,14770,40,NaN,3,4
+5655,12071,Epinephelus guttatus,Red hind,33,0.184750002,NaN,1120,76,3,3,2
+8740,12291,Gasterosteus aculeatus,Three-spined stickleback,25,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10627,13101,Lepidoperca pulchella,Orange perch,33,NaN,NaN,NaN,28,NaN,4,50
+10629,13106,Lepidorhynchus denticulatus,Thorntooth grenadier,32,NaN,NaN,940,55,NaN,3,180
+6521,13170,Lethrinus nebulosus,Spangled emperor,33,0.255549998,NaN,NaN,87,5.75,3,10
+12855,13275,Lutjanus analis,Mutton snapper,33,0.160333333,24,4288,94,5.5,3,25
+6523,13292,Lutjanus johnii,John's snapper,33,0.206999997,NaN,8046,97,NaN,3,NaN
+6524,13295,Lutjanus malabaricus,Malabar blood snapper,33,0.204000001,NaN,10001,100,NaN,3,12
+12857,13302,Lutjanus vivanus,Silk snapper,33,0.169999999,NaN,4757,83,5,3,90
+364,13341,Macrourus carinatus,Ridge scaled rattail,32,NaN,NaN,3150,100,NaN,1,200
+10654,13530,Mora moro,Common mora,32,0.099999998,NaN,11155,80,NaN,2,450
+14049,13544,Mulloidichthys flavolineatus,Yellowstripe goatfish,33,0.213999997,NaN,NaN,43,NaN,2,5
+18680,13557,Mustelus canis,Dusky smooth-hound,38,0.210500002,NaN,4644,150,3,2,NaN
+10658,13562,Mustelus lenticulatus,Spotted estuary smooth-hound,38,0.272499997,NaN,NaN,125,4.466666619,3,0
+18686,13579,Mycteroperca phenax,Scamp,33,0.128999997,NaN,1122,106.9848022,NaN,4,30
+6529,13703,Nemipterus japonicus,Japanese threadfin bream,33,0.602403844,NaN,4590,32,1.099999984,3,5
+2183,13865,Odontesthes regia,Chilean silverside,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10687,14195,Parika scaber,Velvet leatherjacket,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1390,14262,Peprilus paru,American harvestfish,37,NaN,NaN,NaN,30,NaN,3,15
+4537,14293,Petromyzon marinus,Sea lamprey,25,0.158999994,12.5,5123,120,7,3,1
+18796,14439,Pleurogrammus monopterygius,Atka mackerel,33,0.384999998,NaN,NaN,56.5,4.199999968,1,0
+2208,14591,Prolatilus jugularis,Pacific sandperch,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10713,14892,Regalecus glesne,King of herrings,37,NaN,NaN,44640,1100,NaN,3,20
+18836,14996,Rhomboplites aurorubens,Vermilion snapper,33,0.197999999,NaN,5175,60,NaN,4,40
+6545,15003,Rhynchobatus djiddensis,Giant guitarfish,38,NaN,NaN,NaN,310,NaN,3,2
+2099,15139,Cilus gilberti,Corvina drum,33,NaN,NaN,310,60,NaN,2,NaN
+6554,15152,Scomberoides commersonnianus,Talang queenfish,37,NaN,NaN,NaN,120,NaN,3,NaN
+18873,15174,Scorpaenichthys marmoratus,Cabezon,33,0.342000008,NaN,990,99,3,4,0
+16544,15252,Seriolina nigrofasciata,Blackbanded trevally,37,NaN,NaN,NaN,70,NaN,1,20
+15637,15387,Sphyraena sphyraena,European barracuda,37,0.123000003,NaN,NaN,165,NaN,2,0
+448,15416,Squatina argentina,Argentine angelshark,38,NaN,NaN,1020,170,NaN,3,100
+11673,15418,Squatina californica,Pacific angelshark,38,0.156999998,NaN,1330,152,10,2,3
+6569,15758,Trachinotus mookalee,Indian pompano,37,NaN,NaN,NaN,90,NaN,3,NaN
+14100,15861,Tylosurus crocodilus,Hound needlefish,37,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12812,15903,Uranoscopus scaber,Stargazer,34,NaN,NaN,NaN,40,1.5,NaN,15
+6571,15945,Valamugil seheli,Bluespot mullet,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+3965,15973,Vimba vimba,Vimba bream,11,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10638,16070,Macrouridae,"Grenadiers, rattails nei",32,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10688,16071,Paristiopterus labiosus,Giant boarfish,34,NaN,NaN,969,100,NaN,3,20
+18693,16073,Myxinidae,Hagfishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2083,16087,Brama australis,Southern rays bream,37,NaN,NaN,NaN,47,NaN,3,15
+10793,16194,Mithrax armatus,Harbour spidercrab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+17964,16221,Chaceon affinis,Deep-sea red crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2567,16234,Panulirus gracilis,Green spiny lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4777,16284,Jasus paulensis,St.Paul rock lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+587,16285,Jasus novaehollandiae,Southern rock lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16109,16315,Ibacus ciliatus,Japanese fan lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+911,16342,Thenus orientalis,Flathead lobster,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13514,16511,Pandalopsis japonica,Morotoge shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13518,16513,Pandalus goniurus,Humpy shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13519,16514,Pandalus hypsinotus,Coonstripe shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18751,16515,Pandalus jordani,Ocean shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13520,16516,Pandalus kessleri,Hokkai shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2203,16599,Pleuroncodes monodon,Carrot squat lobster,44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18910,16659,Sicyonia ingentis,Pacific rock shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2134,16661,Haliporoides diomedeae,Chilean knife shrimp,45,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18612,17033,Loligo opalescens,Opalescent inshore squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+16540,17043,Sepioteuthis lessoniana,Bigfin reef squid,57,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18433,17157,Clinocardium nuttallii,Basket cockle,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12734,17369,Spisula solida,Solid surf clam,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+670,17386,Paphies australis,Pipi wedge clam,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2090,17421,Cervimunida johni,Blue squat lobster,44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+4368,17447,Glycymeris glycymeris,Common European bittersweet,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10754,17523,Zygochlamis delicatula,Delicate scallop,55,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10567,17545,Chione stutchburyi,Stutchbury's venus,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1456,17573,Tivela mactroides,Triangular tivela,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18355,18168,Balaena mysticetus,Bowhead whale,61,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13329,18170,Eschrichtius robustus,Gray whale,61,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7630,18191,Pseudorca crassidens,False killer whale,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10559,18197,Cephalorhynchus hectori,Hector's dolphin,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+1403,18234,Pontoporia blainvillei,Franciscana,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7734,18238,Stenella attenuata,Pantropical spotted dolphin,62,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6001,18539,Laminaria digitata,Tangle,91,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+10693,18561,Plagiogeneion rubiginosum,Rubyfish,34,NaN,NaN,NaN,60,3,3,50
+7574,18567,Paralithodes camtschaticus,Red king crab,44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13526,18568,Paralithodes platypus,Blue king crab,44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13523,18569,Paralithodes brevipes,Brown king crab,44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13382,18570,Lithodes aequispina,Golden king crab,44,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+13326,18571,Erimacrus isenbeckii,Hair crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2073,18572,Austromegabalanus psittacus,Giant barnacle,47,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12867,18573,Ostraciidae,Boxfishes nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+567,18574,Girella tricuspidata,Parore,33,0.197000005,NaN,810,71,NaN,4,NaN
+10705,18575,Pterygotrigla picta,Spotted gurnard,34,NaN,NaN,NaN,34.40000153,NaN,3,200
+18385,18576,Callianassa spp,Ghost shrimps nei,43,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+809,18586,Zenopsis nebulosus,Mirror dory,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6538,18668,Pomadasys kaakan,Javelin grunter,33,0.408499994,NaN,8704,80,NaN,3,NaN
+16553,18708,Stomatopoda,Stomatopods nei,47,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+465,18711,Zidona dufresnei,Angulate volute,52,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2227,18713,Semele solida,Chilean semele,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+12182,18729,Batrachoididae,"Toadfishes, etc. nei",33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+425,18733,Pseudopercis semifasciata,Argentinian sandperch,33,NaN,NaN,675,100,NaN,3,NaN
+7817,18734,Thunnus orientalis,Pacific bluefin tuna,36,0.157249998,NaN,33150,300,4,4,1
+18445,18761,Cottidae,Sculpins nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+379,18766,Mullus argentinae,Argentine goatfish,33,NaN,NaN,525,30,NaN,3,20
+6497,18786,Acanthopagrus bifasciatus,Twobar seabream,33,0.206666663,NaN,NaN,50,NaN,3,2
+6536,18865,Pennahia anea,Bigeye croaker,33,1.058749996,NaN,NaN,30,NaN,3,NaN
+6552,18866,Scarus persicus,Gulf parrotfish,33,NaN,NaN,NaN,50,NaN,3,NaN
+14074,18887,Sargocentron spiniferum,Sabre squirrelfish,33,NaN,NaN,NaN,51,NaN,2,1
+14067,18974,Pomacanthus maculosus,Yellowbar angelfish,33,NaN,NaN,NaN,50,NaN,3,4
+6232,18982,Caesionidae,Fusiliers nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+11392,18985,Kyphosidae,Sea chubs nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+14025,18986,Grammoplites suppositus,Spotfin flathead,33,NaN,NaN,NaN,25,NaN,3,30
+2186,18992,Ophichthidae,Snake eels nei,33,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+18327,18998,Anadara ovalis,Blood ark,56,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+7628,19020,Pseudopentaceros spp,Pelagic armourheads nei,34,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+6238,19041,Cephalopholis boenak,Chocolate hind,33,0.49000001,NaN,9088,30,1.899999976,4,1
+1348,19058,Lophius gastrophysus,Blackfin goosefish,34,NaN,NaN,NaN,60,NaN,1,40
+2088,19120,Cancer edwardsi,Mola rock crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+2137,19141,Homalaspis plana,Giant stone crab,42,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+349,19407,Gigartinaceae,Gigartina seaweeds nei,92,NaN,NaN,NaN,NaN,NaN,NaN,NaN

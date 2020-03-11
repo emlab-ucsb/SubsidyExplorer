@@ -185,9 +185,9 @@ shinyServer(function(input, output, session) {
     
     # Color palette to use based off selected input
     global_subsidies_map_color <- switch(input$w_global_subsidies_category,
-                                         "Beneficial" = list("Blues", 1, 7.3e9),
-                                         "Capacity-enhancing" = list("Reds", 1, 7.3e9),
-                                         "Ambiguous" = list("Purples", 1, 7.3e9))
+                                         "Beneficial" = list("Blues", 1, 2.2e9),
+                                         "Capacity-enhancing" = list("Reds", 1, 6e9),
+                                         "Ambiguous" = list("Purples", 1, 1e9))
     
     global_subsidies_map_pal <- colorNumeric(palette = global_subsidies_map_color[[1]],
                                              log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])))
@@ -195,12 +195,14 @@ shinyServer(function(input, output, session) {
     # Filter data
     global_subsidies_map_dat <- subsidy_dat_sumaila %>%
       dplyr::filter(type %in% c(input$w_global_subsidies_types)) %>%
-      group_by(display_name, iso3, category, type, type_name, units, source) %>%
-      summarize(value = sum(value, na.rm = T)) %>%
       dplyr::filter(!is.na(value) & value > 0) %>%
+      group_by(iso3, display_name, category, type, type_name) %>%
+      summarize(value = sum(value, na.rm = T)) %>%
       group_by(iso3, display_name) %>%
       mutate(included_types = paste0(type_name[type_name != "Total"], collapse = ";</br>")) %>%
-      ungroup()
+      ungroup() %>%
+      group_by(iso3, display_name, category, included_types) %>%
+      summarize(value = sum(value, na.rm = T))
       
     # Join to world polygons
     global_subsidies_map_dat_shp <- world %>%

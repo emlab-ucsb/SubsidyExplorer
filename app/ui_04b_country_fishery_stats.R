@@ -67,11 +67,11 @@ CountryFisheryStats = function(wto_members_and_observers)
            # Header and text
            includeHTML("./text/04b_country_fishery_stats_section1.html"),
            
-           # Fishery subsidies bar plot (PLACEHOLDER - REPLACE WITH PLOTLY OBJECT)
-           #plotlyOutput("country_profile_bar_plot")
+           #Fishery subsidies bar plot
+           plotlyOutput("country_fishery_stats_subsidies_plot")
            
-           # Temp image
-           img(src = "/sample-images/04b_subsidy_plot_image.png", width = "100%")
+           # # Temp image
+           # img(src = "/sample-images/04b_subsidy_plot_image.png", width = "100%")
            
     ),
     

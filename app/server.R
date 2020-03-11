@@ -185,9 +185,9 @@ shinyServer(function(input, output, session) {
     
     # Color palette to use based off selected input
     global_subsidies_map_color <- switch(input$w_global_subsidies_category,
-                                         "Beneficial" = list("Blues", 1, 2.2e9),
-                                         "Capacity-enhancing" = list("Reds", 1, 6e9),
-                                         "Ambiguous" = list("Purples", 1, 1e9))
+                                         "A" = list("Blues", 1, 2.2e9),
+                                         "B" = list("Reds", 1, 6e9),
+                                         "C" = list("Purples", 1, 1e9))
     
     global_subsidies_map_pal <- colorNumeric(palette = global_subsidies_map_color[[1]],
                                              log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])))
@@ -315,28 +315,23 @@ shinyServer(function(input, output, session) {
     req(input$w_country_fishery_stats_selected_country)
     
     # Filter OECD data and add Sumaila data
-    country_fishery_stats_subsidies_plot_dat <- subsidy_dat_oecd %>%
-      bind_rows(subsidy_dat_sumaila) %>%
-      mutate(category = factor(category, levels = c()))
-      dplyr::filter(variable %in% c("subsidies_Sumaila", "subsidies_OECD")) %>%
-      dplyr::filter(iso3 == input$country_profile_selected_country) %>%
-      mutate(plot_name = case_when(variable == "subsidies_Sumaila" ~ "Sumaila et al.",
-                                   variable == "subsidies_OECD" ~ "OECD"))
-    country_profile_bar_plot_dat$value[is.na(country_profile_bar_plot_dat$value)] <- 0
+    country_fishery_stats_subsidies_plot_dat <- subsidy_dat %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country)
+    country_fishery_stats_subsidies_plot_dat$value[is.na(country_fishery_stats_subsidies_plot_dat$value)] <- 0
     
     # Make plot  
-    country_profile_bar_plot <- ggplot()+
-      geom_col(data = country_profile_bar_plot_dat, aes(x = plot_name, y = value, fill = subtype, 
-                                                        text = paste0("<b>","State: ","</b>", country,
+    country_fishery_stats_subsidies_plot <- ggplot()+
+      geom_col(data = country_fishery_stats_subsidies_plot_dat, aes(x = source, y = value, fill = type_name, 
+                                                        text = paste0("<b>","State: ","</b>", display_name,
                                                                       "<br>",
-                                                                      "<b>","Type: ","</b>", subtype,
+                                                                      "<b>","Type: ","</b>", type_name,
                                                                       "<br>",
                                                                       "<b>","Data source: ","</b>", source,
                                                                       "<br>",
                                                                       "<b>","Est. fisheries subsidies (US$):","</b>", format(round(value, 0), big.mark = ","),
                                                                       "<br>",
                                                                       "<b>", "Year: ", "</b>", year)))+
-      scale_fill_manual(values = myColors[names(myColors) %in% country_profile_bar_plot_dat$subtype])+
+      scale_fill_manual(values = myColors[names(myColors) %in% country_fishery_stats_subsidies_plot_dat$type_name])+
       scale_y_continuous(expand = c(0,0), name = "Est. fisheries subsidies (US$)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       geom_vline(xintercept = 0, size = 1)+
@@ -348,7 +343,7 @@ shinyServer(function(input, output, session) {
             axis.text.y = element_text(face = "bold", angle = 90))
     
     # Convert to plotly
-    gg <- ggplotly(country_profile_bar_plot, tooltip="text")
+    gg <- ggplotly(country_fishery_stats_subsidies_plot, tooltip="text")
     
     # Create legend
     leg <- list(font = list(size = 10, color = "#000"),

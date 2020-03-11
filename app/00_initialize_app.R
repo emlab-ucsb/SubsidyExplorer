@@ -114,13 +114,13 @@ subsidy_dat <- subsidy_dat_sumaila_raw %>%
   
 # Create color palettes for subsidy categories and types
 goodColors <- rev(brewer.pal(3,"Blues"))
-names(goodColors) <- levels(subsidy_dat_sumaila$type_name)[1:3]
+names(goodColors) <- names(subsidy_types_sorted_sumaila)[1:3]
 
 badColors <- rev(brewer.pal(7, "Reds"))
-names(badColors) <- levels(subsidy_dat_sumaila$type_name)[4:10]
+names(badColors) <- names(subsidy_types_sorted_sumaila)[4:10]
 
 ambigColors <- c("purple", "mediumorchid", "violet")
-names(ambigColors) <- levels(subsidy_dat_sumaila$type_name)[11:13]
+names(ambigColors) <- names(subsidy_types_sorted_sumaila)[11:13]
 
 oecdColors <- rev(colorRampPalette(c("white", "black"), interpolate = "linear")(length(subsidy_types_sorted_oecd)+5))
 oecdColors <- oecdColors[1:length(subsidy_types_sorted_oecd)]

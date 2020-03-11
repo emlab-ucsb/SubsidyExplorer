@@ -304,7 +304,9 @@ column(12,
                                                   
                                                 ) # /fluidRow - IUU
                                                 
-                                         ), # /column - IUU manual options
+                                         ) # /box - IUU manual options
+                                         
+                                         ), # /column 12 - IUU manual options
                                          
                                          # # Collapsable box with more info
                                          # column(12, style = "padding: 0px 25px 15px; align: 'center';",

@@ -23,65 +23,40 @@ widget_text <- read_csv("./text/00_widget_text.csv")
 ### Country/Territory Naming ---------
 ### ----------------------------------
 
-# Country ISO3 codes and English names for use throuhout
-country_names <- countrycode::codelist %>%
-  dplyr::select(country_iso3 = iso3c,
-                country_name = country.name.en,
-                eu = eu28) %>%
-  mutate(is_eu = case_when(eu == "EU" ~ T,
-                           TRUE ~ F)) %>%
-  dplyr::filter(!is.na(country_iso3)) %>%
-  dplyr::select(-eu)
+# Load list of WTO Member states and their dependencies with chosen display names
+country_lookup <- read_csv("./data/country_lookup.csv") %>%
+  mutate(display_name = case_when(!is.na(WTO_name) ~ WTO_name,
+                                  TRUE ~ countrycode(iso3, "iso3c", "country.name"))) %>%
+  arrange(sovereign_iso3) 
 
-# Add EU aggregate
-country_names <- tibble(country_iso3 = "EU", country_name = "European Union", is_eu = T) %>%
-  bind_rows(country_names)
-
-# Manual corrections to some names to comply with WTO standards
-country_names$country_name[country_names$country_iso3 == "TWN"] <- "Chinese Taipei"
-
-# Vector of all countries for use in the app
-country_choices <- country_names$country_iso3
-names(country_choices) <- country_names$country_name
-
-# Get data frame with all relevant country dependancies
-country_dependencies <- read_csv("./data/country_dependencies.csv") %>%
-  mutate(states = str_split(states, pattern = ", "))
+# Vector of all WTO Members and Observers for use in the app
+wto_members_and_observers <- country_lookup$iso3[country_lookup$WTO_member_status %in% c("Member", "Observer")]
+names(wto_members_and_observers) <- country_lookup$display_name[country_lookup$WTO_member_status %in% c("Member", "Observer")]
 
 # EU states
-eu_countries <- unlist(country_dependencies$states[country_dependencies$entity == "eu_countries"])
+eu_countries <- country_lookup$iso3[country_lookup$iso3 != "EU" & country_lookup$is_EU]
 
 # List of all EU overseas territories - vessels flagged here should be considered WTO Members
-eu_territories <- c(unlist(country_dependencies$states[country_dependencies$entity == "NLD_territories"]),
-                    unlist(country_dependencies$states[country_dependencies$entity == "FRA_territories"]),
-                    unlist(country_dependencies$states[country_dependencies$entity == "DNK_territories"]),
-                    unlist(country_dependencies$states[country_dependencies$entity == "GBR_territories"]))
+eu_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 %in% eu_countries]
 
 # List of all US overseas territories - vessels flagged here should be considered WTO Members
-us_territories <- unlist(country_dependencies$states[country_dependencies$entity == "USA_territories"])
+us_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "USA"]
 
 # List of all Norwegian overseas territories - vessels flagged here should be considered WTO Members
-norwegian_territories <- unlist(country_dependencies$states[country_dependencies$entity == "NOR_territories"])
+norwegian_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "NOR"]
 
 # ### --------------------
 # ### Shapefiles ---------
 # ### --------------------
-# 
-# # 1) World map ---
-# world <- read_sf("./data/shapefiles_edit/ne_50m_admin_SubsidyExplorer", layer = "land_50m") %>%
-#   mutate(sovereign = case_when(sov_iso3 == "EU" ~ "European Union",
-#                                sov_iso3 == "TWN" ~ "Chinese Taipei", # Taiwan
-#                                TRUE ~ countrycode(sov_iso3, "iso3c", "country.name")),
-#          admin = case_when(admin_iso3 == "EU" ~ "European Union",
-#                            admin_iso3 == "TWN" ~ "Chinese Taipei", # Taiwan
-#                            admin_iso3 == "KAS" ~ "Siachen Glacier",
-#                            TRUE ~ countrycode(admin_iso3, "iso3c", "country.name")))
-# 
-# # Identify small countries for which we are going to add little dots on the map for easier viewing
-# world_small_countries <- world  %>%
-#   dplyr::filter(area_km < 300) %>%
-#   mutate(center = st_centroid(geometry))
-# 
+
+# 1) World map ---
+world <- read_sf("./data/shapefiles/ne_50m_admin_SubsidyExplorer", layer = "land_50m")
+
+# Identify small countries for which we are going to add little dots on the map for easier viewing
+world_small_countries <- world  %>%
+  dplyr::filter(area_km < 300) %>%
+  mutate(center = st_centroid(geometry))
+
 # # 2) EEZs/FAO regions ---
 # eez_fao <- read_sf(dsn = "./data/shapefiles_edit/eez_v10_fao_combined_simple", layer="eez_v10_fao_combined_simple") %>% 
 #   mutate(eez_hs_code = ifelse(!is.na(zone), paste0("HS-",zone), as.character(mrgid)))
@@ -89,11 +64,44 @@ norwegian_territories <- unlist(country_dependencies$states[country_dependencies
 # ### --------------------
 # ### Data ---------------
 # ### --------------------
-# 
-# # 1) Subsidy types classification (Sumaila et al. 2019) ---
-# subsidy_type_Sumaila <- read.csv("./data/sumaila-subsidies-classification.csv", stringsAsFactors = F) %>%
-#   arrange(type)
-# 
+
+# 1) Subsidy estimates (Sumaila et al. 2019) ---
+subsidy_dat_sumaila_raw <- read_csv("./data/sumaila_et_al_2019_subsidies_tidy.csv") %>%
+  arrange(iso3)
+
+# Organize subsidy types as defined by Sumaila et al. (2019) for consistent plotting throughout
+subsidy_classification_sumaila <- subsidy_dat_sumaila_raw %>%
+  distinct(category, type, type_name) %>%
+  arrange(type)
+
+subsidy_categories_sorted_sumaila <- unique(subsidy_classification_sumaila$category)
+
+subsidy_types_sorted_sumaila <- subsidy_classification_sumaila$type
+names(subsidy_types_sorted_sumaila) <- subsidy_classification_sumaila$type_name
+
+subsidy_type_names_sorted_sumaila <- names(subsidy_types_sorted_sumaila) 
+
+# Reorder factors and add display names
+subsidy_dat_sumaila <- subsidy_dat_sumaila_raw %>%
+  mutate(category = factor(category, levels = subsidy_categories_sorted_sumaila, ordered = T),
+         type = factor(type, levels = subsidy_types_sorted_sumaila, ordered = T),
+         type_name = factor(type_name, levels = subsidy_type_names_sorted_sumaila, ordered = T)) %>%
+  left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3")
+
+# Create color palettes for subsidy categories and types
+goodColors <- rev(brewer.pal(3,"Blues"))
+names(goodColors) <- levels(subsidy_dat_sumaila$type_name)[1:3]
+
+badColors <- rev(brewer.pal(7, "Reds"))
+names(badColors) <- levels(subsidy_dat_sumaila$type_name)[4:10]
+
+ambigColors <- c("purple", "mediumorchid", "violet")
+names(ambigColors) <- levels(subsidy_dat_sumaila$type_name)[11:13]
+
+typeColors <- c(goodColors, badColors, ambigColors)
+
+categoryColors <- c(goodColors[1], badColors[1], ambigColors[1])
+
 # # 2) Country profiles ---
 # profile_dat_raw <- read.csv("./data/country-profiles-tidy.csv", stringsAsFactors = F)
 # profile_dat_raw$subtype[profile_dat_raw$type == "B1"] <- "Boat construction and renovation"

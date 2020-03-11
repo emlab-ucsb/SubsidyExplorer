@@ -40,7 +40,7 @@ if (dir.exists(results_dir) == F) {
 
 ```
 
-## Introduction
+# Introduction
 
 This script handles the preliminary data wrangling for the raw datasets underlying the SubsidyExplorer toolkit. It outputs tidyed data files to `r data_dir`. 
 
@@ -89,24 +89,219 @@ Total number of fishers by state from the FAO Yearbook of Fishery and Aquacultur
 Estimated number of full-time jobs in fisheries from Teh and Sumaila (2013) in 2003. These data were provided to us directly by the authors as a .xlsx file and are stored as `r teh_fte_path`. 
 > Teh, L. C. L., & Sumaila, U. R. (2011). Contribution of marine fisheries to worldwide employment. Fish and Fisheries, 14(1), 77–88. https://doi.org/10.1111/j.1467-2979.2011.00450.x
 
-Fisheries landings  in 2017 from the FAO Global Capture Production database (2019) and estimates of landed value generated using the ex-vessel price database created by Melnychuk et al. (2017). These data were were wrangled in the previous script, and the edited data are stored as `r catch_dat_path`. 
+Fisheries landings in 2017 from the FAO Global Capture Production database (2019) and estimates of landed value generated using the ex-vessel price database created by Melnychuk et al. (2017). These data were were wrangled in the previous script, and the edited data are stored as `r catch_dat_path`. 
 > FAO (2019). FAO yearbook. Fishery and Aquaculture Statistics 2017, http://www.fao.org/fishery/statistics/global-capture-production/en (accessed on 24 October 2019). 
 > Melnychuk, M. C., Clavelle, T., Owashi, B., & Strauss, K. (2017). Reconstruction of global ex-vessel prices of fished species. ICES Journal of Marine Science, 74(1), 121–133. https://doi.org/10.1093/icesjms/fsw169
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Note: Political entities, dependencies, and naming
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+The naming of flag and coastal states varies widely across our data sources and we recognize that this can be a politially sensitive matter. For the purposes of merging multiple data sources, we therefore translate all state names from the raw data sources to ISO-3 character codes. Country names are only used for display purposes, and the use of any particular name is not meant to convey any options regarding sovereignty on behalf of the authors. 
 
-```{r cars}
-summary(cars)
+```{r}
+# Load country dependencies helper file
+country_dependencies <- read_csv(here::here("data", "helper-files", "country_dependencies.csv"))
+
+# EU countries
+eu_countries <- country_dependencies$country_iso3[country_dependencies$is_EU]
+eu_country_names <- sort(countrycode(eu_countries, "iso3c", "country.name"))
+
+# EU overseas territories
+eu_territories <- country_dependencies$country_iso3[country_dependencies$sovereign_iso3 %in% eu_countries & !country_dependencies$is_EU]
+eu_territory_names <- sort(c(countrycode(eu_territories, "iso3c", "country.name"), "Ascension Island", "Tristan da Cunha"))
+
+# US overseas territories:  American Samoa, Guam, Northern Marianas Islands, Puerto Rico, US Virgin Islands
+us_territories <- country_dependencies$country_iso3[country_dependencies$sovereign_iso3 == "USA"]
+us_territory_names <- sort(countrycode(us_territories, "iso3c", "country.name"))
 ```
 
-## Including Plots
+Additionally, it is important to note that the European Union as a political entity is a Member of the World Trade Organization, rather then the individual states that make up the European Union. We therefore need to create a profile for the European Union as a whole.  The following `r length(eu_country_names)` states are considered to be part of the European Union for the purposes of this analysis: `r paste(eu_country_names, collapse = ", ")`. 
 
-You can also embed plots, for example:
+The Netherlands, France, Denmark, and the United Kingdom also have overseas dependencies that should be considered to be a part of the European Union for statistical purposes. The following overseas dependencies are also considered to be a part of the European Union for the purpose of aggregating data in this analysis: `r paste(eu_territory_names, collapse = ", ")`.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+Outside of the EU, the only other dependencies we need to worry about are those that relate to the United States. The following overseas dependencies are considered to be a part of the United States for the purpose of aggregating data in this analysis: `r paste(us_territory_names, collapse = ", ")`. 
+
+# Section 1 - Subsidies Data
+
+## Updated estimates and analysis of global fisheries subsidies from Sumaila et al. (2019)
+
+```{r}
+### Data Wrangling
+# Load and wrangle 2019 data
+sumaila_2019_dat <- read_xlsx(sumaila_subsidies_path) %>%
+  clean_names(case = "snake") %>%
+  mutate(iso3 = case_when(country == "Dominican Rp" ~ "DOM",
+                          country == "Micronesia" ~ "FSM",
+                          country == "Untd Arab Em" ~ "ARE",
+                          TRUE ~ countrycode(country, "country.name", "iso3c"))) %>%
+  dplyr::select(iso3, type = class, data_type, value = constant_2018_usd) %>%
+  mutate(year = 2018,
+         units = "2018 US$",
+         source = "Sumaila et al. (2019)") %>%
+  arrange(iso3)
+
+# Load lookup table for classification scheme
+sumaila_lookup <- read_csv(here::here("data", "helper-files", "sumaila_subsidies_classification.csv"))
+
+# Clean up the naming/spelling of the classification scheme as well as data type
+sumaila_2019_dat_edit <- sumaila_2019_dat %>%
+  left_join(sumaila_lookup, by = "type") %>%
+  dplyr::select(iso3, year, category, type, type_name = subtype, value, data_type, units, source)
+
+sumaila_2019_dat_edit$data_type[sumaila_2019_dat_edit$data_type == "not found evidence of subsidy"] <- "Found no evidience of subsidy"
+
+# Deal with the EU
+sumaila_2019_dat_eu <- sumaila_2019_dat_edit %>%
+  dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
+  mutate(entity = "EU",
+         data_type = "Aggregate") %>%
+  group_by(entity, year, category, type, type_name, data_type, units, source) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity)
+
+# Add the EU back in
+sumaila_2019_dat_edit <- sumaila_2019_dat_edit %>%
+  bind_rows(sumaila_2019_dat_eu)
+
+# Save
+write_csv(sumaila_2019_dat_edit, paste0(data_dir, "sumaila_et_al_2019_subsidies_tidy.csv"))
+write_csv(sumaila_2019_dat_edit, paste0(app_data_dir, "sumaila_et_al_2019_subsidies_tidy.csv"))
+
+### Summary Plots
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Estimates of fisheries support provision by state from the OECD (2008 - 2018)
+
+```{r}
+# Load and wrangle OECD data (2009 - 2017)
+oecd_fse_dat <- read_csv(oecd_fse_path) %>%
+  clean_names(case = "snake") %>%
+  dplyr::select(iso3 = country, country = country_2, code = variable, name = variable_2, measure, year, units = unit_code, value) %>%
+  dplyr::filter(measure == "USD", # only pull estimates in USD for consistancy
+                iso3 != "OECD") # remove totals
+
+# Annoying, but the OECD classification scheme is a little more complicated and the type codes don't tell us anything about the classification scheme just by looking at them so we are going to manually assign more meaningful ones to make sure we're not double counting. 
+oecd_types_table <- oecd_dat %>%
+  distinct(code, name) 
+
+# Create blank lookup table
+oecd_lookup <- tibble(category = character(0),
+                                  category_name = character(0))
+
+# Categories
+categories <- enframe(
+  c("0" = "TRANSFERS TO INDIVIDUAL FISHERS - Non Budgetary",
+    "1" = "TRANSFERS TO INDIVIDUAL FISHERS - Budgetary",
+    "2" = "GENERAL SERVICE SUPPORT ESTIMATE",
+    "3" = "COST RECOVERY CHARGES"), name = "category", value = "category_name")
+
+oecd_lookup <- oecd_lookup %>%
+  bind_rows(categories)
+
+# Non budgetary transfers to individual fishers
+types <- enframe(
+  c("0A" = "Market price support",
+    "0B" = "Fuel tax concessions",
+    "1A" = "Transfers based on input use",
+    "1B" = "Transfers based on fishers income",
+    "1C" = "Transfers based on the reduction of productive capacity",
+    "1D" = "Miscellaneous transfers to fishers",
+    "2A" = "Access to other countries’ waters",
+    "2B" = "Provision of infrastructure",
+    "2C" = "Marketing and promotion",
+    "2D" = "Support to fishing communities",
+    "2E" = "Education and training",
+    "2F" = "Research and development",
+    "2G" = "Management of resources",
+    "2H" = "Miscellaneous transfers to general services",
+    "3A" = "Cost Recovery Charges, for resource access rights",
+    "3B" = "Cost Recovery Charges, for infrastructure access",
+    "3C" = "Cost Recovery Charges, for management, research and enforcement",
+    #"3-D" = "Resource rent taxes and charges", #doesn't appear in this data set?
+    "3E" = "Cost Recovery Charges, other"), name = "type", value = "type_name") %>%
+  mutate(category = str_replace(type, "[A-Z]", ""))
+
+oecd_lookup <- oecd_lookup %>%
+  left_join(types, by = "category")
+
+# Subtypes
+subtypes <- enframe(
+  c("1A-1" = "Transfers based on variable input use",
+    "1A-2" = "Transfers based on fixed capital formation",
+    "1B-1" = "Income support",
+    "1B-2" = "Special insurance system for fishers",
+    "2B-1" = "Capital expenditures",
+    "2B-2" = "Subsidized access to infrastructure",
+    "2G-1" = "Management expenditures",
+    "2G-2" = "Stock enhancement programs",
+    "2G-3" = "Enforcement expenditures"), name = "subtype", value = "subtype_name") %>%
+  mutate(type = str_replace(subtype, "-[^-]*$", ""))
+
+oecd_lookup <- oecd_lookup %>%
+  left_join(subtypes, by = "type")
+
+# Sub-subtypes
+ssubtypes <- enframe(
+  c("1A-2a" = "Support to vessel construction/purchase",
+    "1A-2b" = "Support to modernisation",
+    "1A-2c" = "Support to other fixed costs"), name = "ssubtype", "ssubtype_name") %>%
+  mutate(subtype = str_replace(ssubtype, "[a-z]$", ""))
+
+oecd_lookup <- oecd_lookup %>%
+  left_join(ssubtypes, by = "subtype")
+
+# Now rejoin to get a better sense of organization
+oecd_lookup <- oecd_lookup %>%
+  left_join(oecd_types_table, by = c("category_name" = "name")) %>%
+  rename(category_code = code) %>%
+  left_join(oecd_types_table, by = c("type_name" = "name")) %>%
+  rename(type_code = code) %>%
+  left_join(oecd_types_table, by = c("subtype_name" = "name")) %>%
+  rename(subtype_code = code) %>%
+  left_join(oecd_types_table, by = c("ssubtype_name" = "name")) %>%
+  rename(ssubtype_code = code) %>%
+  dplyr::select(category, category_code, category_name, type, type_code, type_name, subtype, subtype_code, subtype_name, ssubtype, ssubtype_code, ssubtype_name)
+
+write_csv(oecd_lookup, paste0(data_dir, "oecd-subsidies-classification.csv"))
+
+# Create variable for matching 
+oecd_matching <- oecd_lookup %>%
+  mutate(code_for_matching = case_when(!is.na(ssubtype_code) ~ ssubtype_code,
+                                       !is.na(subtype_code) ~ subtype_code,
+                                       !is.na(type_code) ~ type_code))
+
+# Add better descriptors back into data set
+oecd_dat_edit <- oecd_dat %>%
+  dplyr::select(-name) %>%
+  inner_join(oecd_matching, by = c("code" = "code_for_matching")) %>%
+  mutate(category_keep = case_when(category == "0" ~ "Non Budgetary Transfers",
+                                   category == "1" ~ "Budgetary Transfers",
+                                   category == "2" ~ "General Service Support",
+                                   category == "3" ~ "Cost Recovery Charges"),
+         type_keep = case_when(!is.na(ssubtype_code) ~ ssubtype,
+                               !is.na(subtype_code) ~ subtype,
+                               TRUE ~ type),
+         subtype_keep = case_when(!is.na(ssubtype_code) ~ ssubtype_name,
+                               !is.na(subtype_code) ~ subtype_name,
+                               TRUE ~ type_name)) %>%
+  dplyr::select(iso3, year, category = category_keep, type = type_keep, subtype = subtype_keep, value) %>%
+  mutate(units = paste0(year, " US$"),
+         source = "OECD")
+
+# Deal with the EU
+oecd_dat_eu <- oecd_dat_edit %>%
+  dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
+  mutate(entity = "EU") %>%
+  group_by(entity, year, category, type, subtype, units, source) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity) %>%
+  arrange(iso3, year, type)
+
+# Add EU back in 
+oecd_dat_edit <- oecd_dat_edit %>%
+  bind_rows(oecd_dat_eu)
+  
+write_csv(oecd_dat_edit, paste0(data_dir, "oecd-subsidies-2009-2017-tidy.csv"))
+
+```
+

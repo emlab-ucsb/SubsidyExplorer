@@ -145,7 +145,6 @@ shinyServer(function(input, output, session) {
     }
   )
   
-  
   ### -------------------------
   ### 04a. global-subsidies ---
   ### -------------------------
@@ -162,9 +161,129 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "menu_items", "introduction")
   })
   
-  ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
+  ### Update selectInput: Only allow for selection of subsidy types from selected category ---------------------
+  observe({
+    
+    # Only allow types from the selected category to be chosen
+    new_choices <- subsidy_classification_sumaila$type[subsidy_classification_sumaila$category == input$w_global_subsidies_category]
+    names(new_choices) <- subsidy_classification_sumaila$type_name[subsidy_classification_sumaila$category == input$w_global_subsidies_category]
+    
+    # Update input
+    updateSelectizeInput(session, 
+                         "w_global_subsidies_types",
+                         choices = new_choices,
+                         selected = new_choices[1])
+  })
   
-  # output$global_subsidies_map <- renderLeaflet({})
+  
+  ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
+
+  output$global_subsidies_map <- renderLeaflet({
+    
+    req(input$w_global_subsidies_category)
+    req(input$w_global_subsidies_types)
+    
+    # Color palette to use based off selected input
+    global_subsidies_map_color <- switch(input$w_global_subsidies_category,
+                                         "Beneficial" = list("Blues", 1, 7.3e9),
+                                         "Capacity-enhancing" = list("Reds", 1, 7.3e9),
+                                         "Ambiguous" = list("Purples", 1, 7.3e9))
+    
+    global_subsidies_map_pal <- colorNumeric(palette = global_subsidies_map_color[[1]],
+                                             log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])))
+    
+    # Filter data
+    global_subsidies_map_dat <- subsidy_dat_sumaila %>%
+      dplyr::filter(type %in% c(input$w_global_subsidies_types)) %>%
+      group_by(display_name, iso3, category, type, type_name, units, source) %>%
+      summarize(value = sum(value, na.rm = T)) %>%
+      dplyr::filter(!is.na(value) & value > 0) %>%
+      group_by(iso3, display_name) %>%
+      mutate(included_types = paste0(type_name[type_name != "Total"], collapse = ";</br>")) %>%
+      ungroup()
+      
+    # Join to world polygons
+    global_subsidies_map_dat_shp <- world %>%
+      dplyr::filter(!admin_iso3 %in% eu_countries) %>%
+      left_join(global_subsidies_map_dat, by = c("admin_iso3" = "iso3")) %>%
+      na.omit()
+    
+    # Hover text for world polygons
+    global_subsidies_map_text_shp <- paste0(
+      "<b>","State: ", "</b>",  global_subsidies_map_dat_shp$display_name,
+      "</br>", 
+      "<b>", "Subsidy category: ", "</b>", global_subsidies_map_dat_shp$category,
+      "</br>",
+      "<b>", "Est. fisheries subsidies (2018 US$):", "</b>", " $", format(round(global_subsidies_map_dat_shp$value, 0), big.mark = ","),
+      "</br>",
+      "<b>", "Matching subsidy type(s): ", "</b>", global_subsidies_map_dat_shp$included_types
+    ) %>%
+      lapply(htmltools::HTML)
+    
+    # Join to points for small island nations
+    global_subsidies_map_dat_points <- world_small_countries %>%
+      dplyr::select(sov_iso3, admin_iso3, area_km, center) %>%
+      left_join(global_subsidies_map_dat, by = c("admin_iso3" = "iso3")) %>%
+      na.omit()
+    st_geometry(global_subsidies_map_dat_points) <- global_subsidies_map_dat_points$center
+    
+    # Hover text for points
+    global_subsidies_map_text_points <- paste0(
+      "<b>","State: ", "</b>",  global_subsidies_map_dat_points$display_name,
+      "</br>", 
+      "<b>", "Subsidy category: ", "</b>", global_subsidies_map_dat_points$category,
+      "</br>",
+      "<b>", "Est. fisheries subsidies (2018 US$):", "</b>", " $", format(round(global_subsidies_map_dat_points$value, 0), big.mark = ","),
+      "</br>",
+      "<b>", "Matching subsidy type(s): ", "</b>", global_subsidies_map_dat_points$included_types
+    ) %>%
+      lapply(htmltools::HTML)
+    
+    # Map
+    leaflet('global_subsidies_map', options = leafletOptions(minZoom = 2)) %>% 
+      addProviderTiles("CartoDB.DarkMatterNoLabels") %>% 
+      addCircles(data = global_subsidies_map_dat_points,
+                 color = ~global_subsidies_map_pal(log10(value)),
+                 fillOpacity = 0.5,
+                 stroke = "white",
+                 weight = 2,
+                 radius = 200000,
+                 highlight = highlightOptions(weight = 5,
+                                              color = "#666",
+                                              fillOpacity = 1,
+                                              bringToFront = FALSE),
+                 label = global_subsidies_map_text_points,
+                 labelOptions = labelOptions(style = list("font-weight" = "normal",
+                                                          padding = "3px 8px"),
+                                             textsize = "13px",
+                                             direction = "auto")) %>%
+      addPolygons(data = global_subsidies_map_dat_shp, 
+                  fillColor = ~global_subsidies_map_pal(log10(value)),
+                  fillOpacity = 0.8,
+                  color= "white",
+                  weight = 0.3,
+                  highlight = highlightOptions(weight = 5,
+                                               color = "#666",
+                                               fillOpacity = 1,
+                                               bringToFront = FALSE),
+                  label = global_subsidies_map_text_shp,
+                  labelOptions = labelOptions(style = list("font-weight" = "normal",
+                                                           padding = "3px 8px"),
+                                              textsize = "13px",
+                                              direction = "auto")) %>%
+      setView(0,20, zoom = 2) %>%
+      addLegend("bottomright", 
+                pal = global_subsidies_map_pal,
+                values = log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])),
+                labels = round(log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])), 0),
+                title = "Est. fisheries subsidies<br>(2018 US$)",
+                opacity = 1,
+                labFormat = labelFormat(prefix = "$",
+                                        transform = function(x) 10^(x)
+                )
+      )
+    
+  })
   
   ### ------------------------------
   ### 04b. country-fishery-stats ---

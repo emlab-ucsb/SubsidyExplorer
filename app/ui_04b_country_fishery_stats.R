@@ -5,7 +5,7 @@
 ### This script contains the content for the country-fishery-stats tab
 ### --------------------------------------------------------------------
 
-CountryFisheryStats = function(country_choices) 
+CountryFisheryStats = function(wto_members_and_observers) 
   fluidPage(
     
     # Page style
@@ -53,7 +53,7 @@ CountryFisheryStats = function(country_choices)
                                                       icon("info")
                                           )
                           ), 
-                          choices = country_choices,
+                          choices = wto_members_and_observers,
                           selected = NULL,
                           width = "50%",
                           options = list(placeholder = 'Select...')

@@ -1,0 +1,240 @@
+﻿iso3,sovereign_iso3,WTO_name,WTO_member_status,WTO_development_status,is_EU,is_overseas_territory,is_LDC,is_SVE,is_ACP,UN_member_status,UN_region,is_permanently_inhabited
+EU,EU,European Union,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Observer,,TRUE
+AUT,AUT,Austria,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+BEL,BEL,Belgium,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+BGR,BGR,Bulgaria,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+HRV,HRV,Croatia,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+CYP,CYP,Cyprus,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+CZE,CZE,Czech Republic,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+DNK,DNK,Denmark,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+EST,EST,Estonia,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+FIN,FIN,Finland,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+FRA,FRA,France,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+DEU,DEU,Germany,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+GRC,GRC,Greece,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+HUN,HUN,Hungary,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+IRL,IRL,Ireland,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+ITA,ITA,Italy,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+LVA,LVA,Latvia,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+LTU,LTU,Lithuania,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+LUX,LUX,Luxembourg,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+MLT,MLT,Malta,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+NLD,NLD,Netherlands,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+POL,POL,Poland,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+PRT,PRT,Portugal,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+ROU,ROU,Romania,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+SVK,SVK,Slovak Republic,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+SVN,SVN,Slovenia,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+ESP,ESP,Spain,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+SWE,SWE,Sweden,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+GBR,GBR,United Kingdom,Member,Developed,TRUE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+ABW,NLD,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+BES,NLD,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+CUW,NLD,Curaçao,Observer,Developing,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+SXM,NLD,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+ATF,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,FALSE
+BLM,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+GLP,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+GUF,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+MAF,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+MTQ,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+MYT,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+NCL,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+PYF,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+REU,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+SPM,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+WLF,FRA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+FRO,DNK,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+GRL,DNK,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+AIA,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,FALSE
+ASC,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+BMU,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+CYM,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+FLK,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+GGY,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+GIB,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+IOT,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,FALSE
+JEY,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+MSR,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+PCN,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+SGS,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,FALSE
+SHN,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+TAA,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+TCA,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+VGB,GBR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+BVT,NOR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,FALSE
+SJM,NOR,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+ASM,USA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+GUM,USA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+MNP,USA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+PRI,USA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+VIR,USA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,TRUE
+UMI,USA,,,,FALSE,TRUE,FALSE,FALSE,FALSE,,,FALSE
+AFG,AFG,Afghanistan,Member,LDC,FALSE,FALSE,TRUE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+ALB,ALB,Albania,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+AGO,AGO,Angola,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+ATG,ATG,Antigua and Barbuda,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+ARG,ARG,Argentina,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+ARM,ARM,Armenia,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+AUS,AUS,Austraila,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+BHR,BHR,"Bahrain, Kingdom of",Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+BGD,BGD,Bangladesh,Member,LDC,FALSE,FALSE,TRUE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+BRB,BRB,Barbados,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+BLZ,BLZ,Belize,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+BEN,BEN,Benin,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+BOL,BOL,"Bolivia, Plurinational State of",Member,Developing,FALSE,FALSE,FALSE,TRUE,FALSE,Member,Latin American and Caribbean,TRUE
+BWA,BWA,Botswana,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+BRA,BRA,Brazil,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+BRN,BRN,Brunei Darussalam,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+BFA,BFA,Burkina Faso,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+BDI,BDI,Burundi,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+CPV,CPV,Cabo Verde,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+KHM,KHM,Cambodia,Member,LDC,FALSE,FALSE,TRUE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+CMR,CMR,Cameroon,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+CAN,CAN,Canada,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+CAF,CAF,Central African Republic,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+TCD,TCD,Chad,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+CHL,CHL,Chile,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+CHN,CHN,China,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+COL,COL,Colombia,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+COG,COG,Congo,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+CRI,CRI,Costa Rica,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+CIV,CIV,Côte d'Ivoire,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+CUB,CUB,Cuba,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+COD,COD,Democratic Republic of the Congo,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+DJI,DJI,Djibouti,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+DMA,DMA,Dominica,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+DOM,DOM,Dominican Republic,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+ECU,ECU,Ecuador,Member,Developing,FALSE,FALSE,FALSE,TRUE,FALSE,Member,Latin American and Caribbean,TRUE
+EGY,EGY,Egypt,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,African Group,TRUE
+SLV,SLV,El Salvador,Member,Developing,FALSE,FALSE,FALSE,TRUE,FALSE,Member,Latin American and Caribbean,TRUE
+SWZ,SWZ,Eswatini,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+FJI,FJI,Fiji,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Asia and the Pacific,TRUE
+GAB,GAB,Gabon,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+GMB,GMB,Gambia,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+GEO,GEO,Georgia,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+GHA,GHA,Ghana,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+GRD,GRD,Grenada,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+GTM,GTM,Guatemala,Member,Developing,FALSE,FALSE,FALSE,TRUE,FALSE,Member,Latin American and Caribbean,TRUE
+GIN,GIN,Guinea,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+GNB,GNB,Guinea-Bissau,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+GUY,GUY,Guyana,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,Latin American and Caribbean,TRUE
+HTI,HTI,Haiti,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,Latin American and Caribbean,TRUE
+HND,HND,Honduras,Member,Developing,FALSE,FALSE,FALSE,TRUE,FALSE,Member,Latin American and Caribbean,TRUE
+HKG,HKG,"Hong Kong, China",Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Non-Member,,TRUE
+ISL,ISL,Iceland,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+IND,IND,India,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+IDN,IDN,Indonesia,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+ISR,ISR,Israel,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+JAM,JAM,Jamaica,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+JPN,JPN,Japan,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+JOR,JOR,Jordan,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+KAZ,KAZ,Kazakhstan,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+KEN,KEN,Kenya,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+KOR,KOR,"Korea, Republic of",Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+KWT,KWT,"Kuwait, the State of",Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+KGZ,KGZ,Kyrgyz Republic,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+LAO,LAO,Lao People's Democratic Republic,Member,LDC,FALSE,FALSE,TRUE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+LSO,LSO,Lesotho,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+LBR,LBR,Liberia,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+LIE,LIE,Liechtenstein,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+MAC,MAC,"Macao, China",Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Non-Member,,TRUE
+MDG,MDG,Madagascar,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+MWI,MWI,Malawi,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+MYS,MYS,Malaysia,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+MDV,MDV,Maldives,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+MLI,MLI,Mali,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+MRT,MRT,Mauritania,Member,LDC,FALSE,FALSE,TRUE,TRUE,TRUE,Member,African Group,TRUE
+MUS,MUS,Mauritius,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+MEX,MEX,Mexico,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+MDA,MDA,"Moldova, Republic of",Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+MNG,MNG,Mongolia,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+MNE,MNE,Montenegro,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+MAR,MAR,Morocco,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,African Group,TRUE
+MOZ,MOZ,Mozambique,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+MMR,MMR,Myanmar,Member,LDC,FALSE,FALSE,TRUE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+NAM,NAM,Namibia,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+NPL,NPL,Nepal,Member,LDC,FALSE,FALSE,TRUE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+NZL,NZL,New Zealand,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+NIC,NIC,Nicaragua,Member,Developing,FALSE,FALSE,FALSE,TRUE,FALSE,Member,Latin American and Caribbean,TRUE
+NER,NER,Niger,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+NGA,NGA,Nigeria,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+MKD,MKD,North Macedonia,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+NOR,NOR,Norway,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+OMN,OMN,Oman,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+PAK,PAK,Pakistan,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+PAN,PAN,Panama,Member,Developing,FALSE,FALSE,FALSE,TRUE,FALSE,Member,Latin American and Caribbean,TRUE
+PNG,PNG,Papua New Guinea,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Asia and the Pacific,TRUE
+PRY,PRY,Paraguay,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+PER,PER,Peru,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+PHL,PHL,Philippines,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+QAT,QAT,Qatar,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+RUS,RUS,Russian Federation,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+RWA,RWA,Rwanda,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+KNA,KNA,Saint Kitts and Nevis,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+LCA,LCA,Saint Lucia,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+VCT,VCT,Saint Vincent and the Grenadines,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+WSM,WSM,Samoa,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Asia and the Pacific,TRUE
+SAU,SAU,"Saudi Arabia, Kingdom of",Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+SEN,SEN,Senegal,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+SYC,SYC,Seychelles,Member,Developing,FALSE,FALSE,FALSE,TRUE,FALSE,Member,African Group,TRUE
+SLE,SLE,Sierra Leone,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+SGP,SGP,Singapore,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+SLB,SLB,Solomon Islands,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,Asia and the Pacific,TRUE
+ZAF,ZAF,South Africa,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+LKA,LKA,Sri Lanka,Member,Developing,FALSE,FALSE,FALSE,TRUE,FALSE,Member,Asia and the Pacific,TRUE
+SUR,SUR,Suriname,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,Latin American and Caribbean,TRUE
+CHE,CHE,Switzerland,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+TWN,TWN,Chinese Taipei,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Non-Member,,TRUE
+TJK,TJK,Tajikistan,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+TZA,TZA,Tanzania,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+THA,THA,Thailand,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+TGO,TGO,Togo,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+TON,TON,Tonga,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Asia and the Pacific,TRUE
+TTO,TTO,Trinidad and Tobago,Member,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+TUN,TUN,Tunisia,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,African Group,TRUE
+TUR,TUR,Turkey,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+UGA,UGA,Uganda,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+UKR,UKR,Ukraine,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+ARE,ARE,United Arab Emirates,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+USA,USA,United States,Member,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+URY,URY,Uruguay,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+VUT,VUT,Vanuatu,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,Asia and the Pacific,TRUE
+VEN,VEN,"Venezuela, Bolivarian Republic of",Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Latin American and Caribbean,TRUE
+VNM,VNM,Viet Nam,Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+YEM,YEM,Yemen,Member,LDC,FALSE,FALSE,TRUE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+ZMB,ZMB,Zambia,Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+ZWE,ZWE,Zimbabwe,Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+DZA,DZA,Algeria,Observer,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,African Group,TRUE
+AND,AND,Andorra,Observer,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Western European and Others,TRUE
+AZE,AZE,Azerbaijan,Observer,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+BHS,BHS,Bahamas,Observer,Developing,FALSE,FALSE,FALSE,TRUE,TRUE,Member,Latin American and Caribbean,TRUE
+BLR,BLR,Belarus,Observer,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+BTN,BTN,Bhutan,Observer,LDC,FALSE,FALSE,TRUE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+BIH,BIH,Bosnia and Herzegovina,Observer,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+COM,COM,Comoros,Observer,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+GNQ,GNQ,Equatorial Guinea,Observer,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,African Group,TRUE
+ETH,ETH,Ethiopia,Observer,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+VAT,VAT,Holy See,Observer,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Observer,Western European and Others (observer only),TRUE
+IRN,IRN,Iran,Observer,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+IRQ,IRQ,Iraq,Observer,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+LBN,LBN,Lebanese Republic,Observer,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+LBY,LBY,Libya,Observer,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,African Group,TRUE
+STP,STP,Sao Tomé and Principe,Observer,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+SRB,SRB,Serbia,Observer,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Eastern European,TRUE
+SOM,SOM,Somalia,Observer,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+SSD,SSD,South Sudan,Observer,LDC,FALSE,FALSE,TRUE,FALSE,FALSE,Member,African Group,TRUE
+SDN,SDN,Sudan,Observer,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+SYR,SYR,Syrian Arab Republic,Observer,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+TLS,TLS,Timor-Leste,Observer,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,Asia and the Pacific,TRUE
+UZB,UZB,Uzbekistan,Observer,Developed,FALSE,FALSE,FALSE,FALSE,FALSE,Member,Asia and the Pacific,TRUE
+COK,COK,Cook Islands,Non-Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Non-Member,,TRUE
+ERI,ERI,Eritrea,Non-Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,African Group,TRUE
+KIR,KIR,Kiribati,Non-Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,None,TRUE
+MHL,MHL,Marshall Islands,Non-Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,Asia and the Pacific,TRUE
+FSM,FSM,"Micronesia, Federated States of",Non-Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,Asia and the Pacific,TRUE
+NRU,NRU,Nauru,Non-Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,Asia and the Pacific,TRUE
+NIU,NIU,Niue,Non-Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Non-Member,,TRUE
+PLW,PLW,Palau,Non-Member,Developing,FALSE,FALSE,FALSE,FALSE,TRUE,Member,Asia and the Pacific,TRUE
+TUV,TUV,Tuvalu,Non-Member,LDC,FALSE,FALSE,TRUE,FALSE,TRUE,Member,Asia and the Pacific,TRUE
+PSE,PSE,State of Palestine,Non-Member,Developing,FALSE,FALSE,FALSE,FALSE,FALSE,Observer,Asia and the Pacific,TRUE

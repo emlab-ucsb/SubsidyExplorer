@@ -29,6 +29,12 @@ library(sf) # shapefiles
 library(DT) # interactive data tables
 library(tidyverse) # workhorse data manipulation
 
+# Plotting
+library(leaflet) # interactive maps 
+library(plotly) # interactive charts
+library(viridis) # colorblind color scales
+library(RColorBrewer) # other color scales
+
 # The content for each tab is stored in a separate file. Source all .R files in the current directory that start with "ui_":  
 sapply(list.files(
     pattern = "^ui_.*\\.R$",
@@ -199,12 +205,12 @@ shinyUI(
                 ### About fisheries subsidies ---
                 # About fisheries subsidies - Item #1 - Global subsidy map
                 tabItem(tabName = "global-subsidies",
-                        GlobalSubsidies()
+                        GlobalSubsidies(subsidy_categories_sorted_sumaila, subsidy_types_sorted_sumaila)
                 ),
                 
                 # About fisheries subsidies - Item #2 - Fishery statistics by state
                 tabItem(tabName = "country-fishery-stats",
-                        CountryFisheryStats(country_choices)
+                        CountryFisheryStats(wto_members_and_observers)
                 ),
                 
                 # About fisheries subsidies - Item #3 - Compare fishery statistics

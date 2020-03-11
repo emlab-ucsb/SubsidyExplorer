@@ -5,7 +5,7 @@
 ### This script contains the content for the global-subsidies tab
 ### --------------------------------------------------------------------
 
-GlobalSubsidies = function() 
+GlobalSubsidies = function(subsidy_categories_sorted_sumaila, subsidy_types_sorted_sumaila) 
   fluidPage(
     
     # Page style
@@ -35,31 +35,43 @@ GlobalSubsidies = function()
            # Text
            includeHTML("./text/04a_global_subsidies_intro.html"),
            
-           # Select subsidy type(s) to plot (change choices back to "subsidy_types_all")
-           selectizeInput("w_global_subsidies_included_subsidy_types",
-                          label = tagList(tags$b(" Subsidy type(s) to include:    "),
-                                          # Info button
-                                          tags$button(id = "info_subsidy_type_to_plot",
-                                                      class = "btn action-button info-button",
-                                                      icon("info"))),
-                          
-                          choices = c("choice1" = "B1", "choice2" = "B2", "etc" = "B3"),
-                          selected = 'B1',
-                          width = "100%",
-                          multiple = T)
-           
+           fluidRow(
+             
+             # Select category of subsidies to plot
+             column(6, style = "padding: 0 12.5px 0 0;",
+                    
+                    selectInput("w_global_subsidies_category",
+                                label = tags$b("Subsidy category: "),
+                                choices = subsidy_categories_sorted_sumaila,
+                                selected = "Capacity-enhancing",
+                                width = "100%")
+             ),
+             
+             # Select subsidy type(s) within selected category to plot
+             column(6, style = "padding: 0 0 0 12.5px;",
+                    
+                    selectizeInput("w_global_subsidies_types",
+                                   label = tagList(tags$b(" Subsidy type(s) to include:    "),
+                                                   # Info button
+                                                   tags$button(id = "info_subsidy_type_to_plot",
+                                                               class = "btn action-button info-button",
+                                                               icon("info"))),
+                                   
+                                   choices = subsidy_types_sorted_sumaila,
+                                   width = "100%",
+                                   multiple = T)
+             )
+           )
            
     ),
     
-    ### Global subsidies map (PLACEHOLDER - change back to leaflet object)
+    ### Global subsidies map
     column(12, style = "padding: 10px 0;",
            
            
            # Leaflet map
-           #leafletOutput('global_subsidies_map', width = "auto", height = "70vh")
-           
-           # Temp image
-           img(src = "/sample-images/04a_map_image.png", width = "100%")
+           leafletOutput('global_subsidies_map', width = "auto", height = "70vh")
+        
            
     ),
     

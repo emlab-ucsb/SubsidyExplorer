@@ -1,0 +1,26 @@
+category,category_code,category_name,type,type_code,type_name,subtype,subtype_code,subtype_name,ssubtype,ssubtype_code,ssubtype_name
+0,TIFN,Transfers to individual fishers - non budgetary,0A,MPS,Market price support,NA,NA,NA,NA,NA,NA
+0,TIFN,Transfers to individual fishers - non budgetary,0B,FTC,Fuel tax concessions,NA,NA,NA,NA,NA,NA
+1,TIFB,Transfers to individual fishers - budgetary,1A,IFINP,Transfers based on input use,1A-1,IFINP_VAR,Transfers based on variable input use,NA,NA,NA
+1,TIFB,Transfers to individual fishers - budgetary,1A,IFINP,Transfers based on input use,1A-2,IFINP_FIX,Transfers based on fixed capital formation,1A-2a,IFINP_FIX_V,Support to vessel construction/purchase
+1,TIFB,Transfers to individual fishers - budgetary,1A,IFINP,Transfers based on input use,1A-2,IFINP_FIX,Transfers based on fixed capital formation,1A-2b,IFINP_FIX_M,Support to modernisation
+1,TIFB,Transfers to individual fishers - budgetary,1A,IFINP,Transfers based on input use,1A-2,IFINP_FIX,Transfers based on fixed capital formation,1A-2c,IFINP_FIX_O,Support to other fixed costs
+1,TIFB,Transfers to individual fishers - budgetary,1B,IFINC,Transfers based on fishers income,1B-1,IFINC_INS,Income support,NA,NA,NA
+1,TIFB,Transfers to individual fishers - budgetary,1B,IFINC,Transfers based on fishers income,1B-2,IFINC_SIF,Special insurance system for fishers,NA,NA,NA
+1,TIFB,Transfers to individual fishers - budgetary,1C,IFRPC,Transfers based on the reduction of productive capacity,NA,NA,NA,NA,NA,NA
+1,TIFB,Transfers to individual fishers - budgetary,1D,IFMSC,Miscellaneous transfers to fishers,NA,NA,NA,NA,NA,NA
+2,GSSE,General service support estimate,2A,GSACC,Access to other countries’ waters,NA,NA,NA,NA,NA,NA
+2,GSSE,General service support estimate,2B,GSINF,Provision of infrastructure,2B-1,GSINF_CAP,Capital expenditures,NA,NA,NA
+2,GSSE,General service support estimate,2B,GSINF,Provision of infrastructure,2B-2,GSINF_ACC,Subsidized access to infrastructure,NA,NA,NA
+2,GSSE,General service support estimate,2C,GSMKG,Marketing and promotion,NA,NA,NA,NA,NA,NA
+2,GSSE,General service support estimate,2D,GSCOM,Support to fishing communities,NA,NA,NA,NA,NA,NA
+2,GSSE,General service support estimate,2E,GSEDU,Education and training,NA,NA,NA,NA,NA,NA
+2,GSSE,General service support estimate,2F,GSRND,Research and development,NA,NA,NA,NA,NA,NA
+2,GSSE,General service support estimate,2G,GSMNG,Management of resources,2G-1,GSMNG_EXP,Management expenditures,NA,NA,NA
+2,GSSE,General service support estimate,2G,GSMNG,Management of resources,2G-2,GSMNG_STK,Stock enhancement programs,NA,NA,NA
+2,GSSE,General service support estimate,2G,GSMNG,Management of resources,2G-3,GSMNG_ENF,Enforcement expenditures,NA,NA,NA
+2,GSSE,General service support estimate,2H,GSMSC,Miscellaneous transfers to general services,NA,NA,NA,NA,NA,NA
+3,FCRC,Cost recovery charges,3A,FCRRE,"Cost recovery charges, for resource access rights",NA,NA,NA,NA,NA,NA
+3,FCRC,Cost recovery charges,3B,FCRIN,"Cost recovery charges, for infrastructure access",NA,NA,NA,NA,NA,NA
+3,FCRC,Cost recovery charges,3C,FCRMG,"Cost recovery charges, for management, research and enforcement",NA,NA,NA,NA,NA,NA
+3,FCRC,Cost recovery charges,3E,FCROT,"Cost recovery charges, other",NA,NA,NA,NA,NA,NA

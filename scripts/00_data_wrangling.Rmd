@@ -99,18 +99,18 @@ The naming of flag and coastal states varies widely across our data sources and 
 
 ```{r}
 # Load country dependencies helper file
-country_dependencies <- read_csv(here::here("data", "helper-files", "country_dependencies.csv"))
+country_dependencies <- read_csv(here::here("data", "lookup-tables", "country_dependencies.csv"))
 
 # EU countries
-eu_countries <- country_dependencies$country_iso3[country_dependencies$is_EU]
+eu_countries <- country_dependencies$iso3[country_dependencies$is_EU]
 eu_country_names <- sort(countrycode(eu_countries, "iso3c", "country.name"))
 
 # EU overseas territories
-eu_territories <- country_dependencies$country_iso3[country_dependencies$sovereign_iso3 %in% eu_countries & !country_dependencies$is_EU]
+eu_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 %in% eu_countries]
 eu_territory_names <- sort(c(countrycode(eu_territories, "iso3c", "country.name"), "Ascension Island", "Tristan da Cunha"))
 
 # US overseas territories:  American Samoa, Guam, Northern Marianas Islands, Puerto Rico, US Virgin Islands
-us_territories <- country_dependencies$country_iso3[country_dependencies$sovereign_iso3 == "USA"]
+us_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "USA"]
 us_territory_names <- sort(countrycode(us_territories, "iso3c", "country.name"))
 ```
 
@@ -140,21 +140,21 @@ sumaila_2019_dat <- read_xlsx(sumaila_subsidies_path) %>%
   arrange(iso3)
 
 # Load lookup table for classification scheme
-sumaila_lookup <- read_csv(here::here("data", "helper-files", "sumaila_subsidies_classification.csv"))
+sumaila_lookup <- read_csv(here::here("data", "lookup-tables", "sumaila_subsidies_classification_lookup_table.csv"))
 
 # Clean up the naming/spelling of the classification scheme as well as data type
 sumaila_2019_dat_edit <- sumaila_2019_dat %>%
   left_join(sumaila_lookup, by = "type") %>%
-  dplyr::select(iso3, year, category, type, type_name = subtype, value, data_type, units, source)
+  dplyr::select(iso3, year, category, category_name, type, type_name, value, data_type, units, source)
 
-sumaila_2019_dat_edit$data_type[sumaila_2019_dat_edit$data_type == "not found evidence of subsidy"] <- "Found no evidience of subsidy"
+sumaila_2019_dat_edit$data_type[sumaila_2019_dat_edit$data_type == "not found evidence of subsidy"] <- "Found no evidence of subsidy"
 
 # Deal with the EU
 sumaila_2019_dat_eu <- sumaila_2019_dat_edit %>%
   dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
   mutate(entity = "EU",
          data_type = "Aggregate") %>%
-  group_by(entity, year, category, type, type_name, data_type, units, source) %>%
+  group_by(entity, year, category, category_name, type, type_name, data_type, units, source) %>%
   summarize(value = sum(value, na.rm = T)) %>%
   rename(iso3 = entity)
 
@@ -166,8 +166,6 @@ sumaila_2019_dat_edit <- sumaila_2019_dat_edit %>%
 write_csv(sumaila_2019_dat_edit, paste0(data_dir, "sumaila_et_al_2019_subsidies_tidy.csv"))
 write_csv(sumaila_2019_dat_edit, paste0(app_data_dir, "sumaila_et_al_2019_subsidies_tidy.csv"))
 
-### Summary Plots
-
 ```
 
 ## Estimates of fisheries support provision by state from the OECD (2008 - 2018)
@@ -176,132 +174,45 @@ write_csv(sumaila_2019_dat_edit, paste0(app_data_dir, "sumaila_et_al_2019_subsid
 # Load and wrangle OECD data (2009 - 2017)
 oecd_fse_dat <- read_csv(oecd_fse_path) %>%
   clean_names(case = "snake") %>%
-  dplyr::select(iso3 = country, country = country_2, code = variable, name = variable_2, measure, year, units = unit_code, value) %>%
   dplyr::filter(measure == "USD", # only pull estimates in USD for consistancy
-                iso3 != "OECD") # remove totals
+                country != "OECD") %>% # remove totals
+  dplyr::select(iso3 = country, code = variable, year, value) 
 
-# Annoying, but the OECD classification scheme is a little more complicated and the type codes don't tell us anything about the classification scheme just by looking at them so we are going to manually assign more meaningful ones to make sure we're not double counting. 
-oecd_types_table <- oecd_dat %>%
-  distinct(code, name) 
+# Load OECD lookup table
+oecd_fse_lookup <- read_csv(here::here("data", "lookup-tables", "oecd_fse_classification_lookup_table.csv")) %>%
+  distinct(category, category_name, type, type_code, type_name)
 
-# Create blank lookup table
-oecd_lookup <- tibble(category = character(0),
-                                  category_name = character(0))
+# # Create variable for matching 
+# oecd_matching <- oecd_lookup %>%
+#   mutate(code_for_matching = case_when(!is.na(ssubtype_code) ~ ssubtype_code,
+#                                        !is.na(subtype_code) ~ subtype_code,
+#                                        !is.na(type_code) ~ type_code))
 
-# Categories
-categories <- enframe(
-  c("0" = "TRANSFERS TO INDIVIDUAL FISHERS - Non Budgetary",
-    "1" = "TRANSFERS TO INDIVIDUAL FISHERS - Budgetary",
-    "2" = "GENERAL SERVICE SUPPORT ESTIMATE",
-    "3" = "COST RECOVERY CHARGES"), name = "category", value = "category_name")
-
-oecd_lookup <- oecd_lookup %>%
-  bind_rows(categories)
-
-# Non budgetary transfers to individual fishers
-types <- enframe(
-  c("0A" = "Market price support",
-    "0B" = "Fuel tax concessions",
-    "1A" = "Transfers based on input use",
-    "1B" = "Transfers based on fishers income",
-    "1C" = "Transfers based on the reduction of productive capacity",
-    "1D" = "Miscellaneous transfers to fishers",
-    "2A" = "Access to other countries’ waters",
-    "2B" = "Provision of infrastructure",
-    "2C" = "Marketing and promotion",
-    "2D" = "Support to fishing communities",
-    "2E" = "Education and training",
-    "2F" = "Research and development",
-    "2G" = "Management of resources",
-    "2H" = "Miscellaneous transfers to general services",
-    "3A" = "Cost Recovery Charges, for resource access rights",
-    "3B" = "Cost Recovery Charges, for infrastructure access",
-    "3C" = "Cost Recovery Charges, for management, research and enforcement",
-    #"3-D" = "Resource rent taxes and charges", #doesn't appear in this data set?
-    "3E" = "Cost Recovery Charges, other"), name = "type", value = "type_name") %>%
-  mutate(category = str_replace(type, "[A-Z]", ""))
-
-oecd_lookup <- oecd_lookup %>%
-  left_join(types, by = "category")
-
-# Subtypes
-subtypes <- enframe(
-  c("1A-1" = "Transfers based on variable input use",
-    "1A-2" = "Transfers based on fixed capital formation",
-    "1B-1" = "Income support",
-    "1B-2" = "Special insurance system for fishers",
-    "2B-1" = "Capital expenditures",
-    "2B-2" = "Subsidized access to infrastructure",
-    "2G-1" = "Management expenditures",
-    "2G-2" = "Stock enhancement programs",
-    "2G-3" = "Enforcement expenditures"), name = "subtype", value = "subtype_name") %>%
-  mutate(type = str_replace(subtype, "-[^-]*$", ""))
-
-oecd_lookup <- oecd_lookup %>%
-  left_join(subtypes, by = "type")
-
-# Sub-subtypes
-ssubtypes <- enframe(
-  c("1A-2a" = "Support to vessel construction/purchase",
-    "1A-2b" = "Support to modernisation",
-    "1A-2c" = "Support to other fixed costs"), name = "ssubtype", "ssubtype_name") %>%
-  mutate(subtype = str_replace(ssubtype, "[a-z]$", ""))
-
-oecd_lookup <- oecd_lookup %>%
-  left_join(ssubtypes, by = "subtype")
-
-# Now rejoin to get a better sense of organization
-oecd_lookup <- oecd_lookup %>%
-  left_join(oecd_types_table, by = c("category_name" = "name")) %>%
-  rename(category_code = code) %>%
-  left_join(oecd_types_table, by = c("type_name" = "name")) %>%
-  rename(type_code = code) %>%
-  left_join(oecd_types_table, by = c("subtype_name" = "name")) %>%
-  rename(subtype_code = code) %>%
-  left_join(oecd_types_table, by = c("ssubtype_name" = "name")) %>%
-  rename(ssubtype_code = code) %>%
-  dplyr::select(category, category_code, category_name, type, type_code, type_name, subtype, subtype_code, subtype_name, ssubtype, ssubtype_code, ssubtype_name)
-
-write_csv(oecd_lookup, paste0(data_dir, "oecd-subsidies-classification.csv"))
-
-# Create variable for matching 
-oecd_matching <- oecd_lookup %>%
-  mutate(code_for_matching = case_when(!is.na(ssubtype_code) ~ ssubtype_code,
-                                       !is.na(subtype_code) ~ subtype_code,
-                                       !is.na(type_code) ~ type_code))
-
-# Add better descriptors back into data set
-oecd_dat_edit <- oecd_dat %>%
-  dplyr::select(-name) %>%
-  inner_join(oecd_matching, by = c("code" = "code_for_matching")) %>%
-  mutate(category_keep = case_when(category == "0" ~ "Non Budgetary Transfers",
-                                   category == "1" ~ "Budgetary Transfers",
-                                   category == "2" ~ "General Service Support",
-                                   category == "3" ~ "Cost Recovery Charges"),
-         type_keep = case_when(!is.na(ssubtype_code) ~ ssubtype,
-                               !is.na(subtype_code) ~ subtype,
-                               TRUE ~ type),
-         subtype_keep = case_when(!is.na(ssubtype_code) ~ ssubtype_name,
-                               !is.na(subtype_code) ~ subtype_name,
-                               TRUE ~ type_name)) %>%
-  dplyr::select(iso3, year, category = category_keep, type = type_keep, subtype = subtype_keep, value) %>%
-  mutate(units = paste0(year, " US$"),
-         source = "OECD")
+# Match based on type - that should be plenty for the figure on SubsidyExplorer
+oecd_fse_dat_edit <- oecd_fse_dat %>%
+  inner_join(oecd_fse_lookup, by = c("code" = "type_code")) %>%
+  mutate(data_type = "Reported",
+         units = paste0(year, " US$"),
+         source = "OECD FSE database") %>%
+  dplyr::select(iso3, year, category, category_name, type, type_name, data_type, units, source, value)
 
 # Deal with the EU
-oecd_dat_eu <- oecd_dat_edit %>%
+oecd_fse_dat_eu <- oecd_fse_dat_edit %>%
   dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
-  mutate(entity = "EU") %>%
-  group_by(entity, year, category, type, subtype, units, source) %>%
+  mutate(entity = "EU",
+         data_type = "Aggregate") %>%
+  group_by(entity, year, category, category_name, type, type_name, data_type, units, source) %>%
   summarize(value = sum(value, na.rm = T)) %>%
   rename(iso3 = entity) %>%
   arrange(iso3, year, type)
 
 # Add EU back in 
-oecd_dat_edit <- oecd_dat_edit %>%
-  bind_rows(oecd_dat_eu)
+oecd_fse_dat_edit <- oecd_fse_dat_edit %>%
+  bind_rows(oecd_fse_dat_eu)
   
-write_csv(oecd_dat_edit, paste0(data_dir, "oecd-subsidies-2009-2017-tidy.csv"))
+# Save
+write_csv(oecd_fse_dat_edit, paste0(data_dir, "oecd_2019_fse_tidy.csv"))
+write_csv(oecd_fse_dat_edit, paste0(app_data_dir, "oecd_2019_fse_tidy.csv"))
 
 ```
 

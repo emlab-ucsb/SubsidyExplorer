@@ -65,29 +65,53 @@ world_small_countries <- world  %>%
 # ### Data ---------------
 # ### --------------------
 
+### SUBSIDIES -----------------------------------------------------------------------------------
+
 # 1) Subsidy estimates (Sumaila et al. 2019) ---
 subsidy_dat_sumaila_raw <- read_csv("./data/sumaila_et_al_2019_subsidies_tidy.csv") %>%
-  arrange(iso3)
+  arrange(iso3) %>%
+  mutate(variable = "subsidies_Sumaila")
+
+# 2) Subsidy estimates (OECD 2019) ---
+subsidy_dat_oecd_raw <- read_csv("./data/oecd_2019_fse_tidy.csv") %>%
+  arrange(iso3) %>%
+  mutate(variable = "subsidies_OECD") %>%
+  mutate(category = as.character(category)) %>%
+  group_by(iso3, type) %>%
+  dplyr::filter(year == max(year)) %>%
+  ungroup()
 
 # Organize subsidy types as defined by Sumaila et al. (2019) for consistent plotting throughout
 subsidy_classification_sumaila <- subsidy_dat_sumaila_raw %>%
-  distinct(category, type, type_name) %>%
+  distinct(category, category_name, type, type_name) %>%
   arrange(type)
 
 subsidy_categories_sorted_sumaila <- unique(subsidy_classification_sumaila$category)
+names(subsidy_categories_sorted_sumaila) <- unique(subsidy_classification_sumaila$category_name)
 
 subsidy_types_sorted_sumaila <- subsidy_classification_sumaila$type
 names(subsidy_types_sorted_sumaila) <- subsidy_classification_sumaila$type_name
 
-subsidy_type_names_sorted_sumaila <- names(subsidy_types_sorted_sumaila) 
+# Organize subsidy types as defined by the OECD for consistent plotting throughout
+subsidy_classification_oecd <- subsidy_dat_oecd_raw %>%
+  distinct(category, category_name, type, type_name) %>%
+  arrange(type)
 
-# Reorder factors and add display names
-subsidy_dat_sumaila <- subsidy_dat_sumaila_raw %>%
-  mutate(category = factor(category, levels = subsidy_categories_sorted_sumaila, ordered = T),
-         type = factor(type, levels = subsidy_types_sorted_sumaila, ordered = T),
-         type_name = factor(type_name, levels = subsidy_type_names_sorted_sumaila, ordered = T)) %>%
+subsidy_categories_sorted_oecd <- unique(subsidy_classification_oecd$category)
+names(subsidy_categories_sorted_oecd) <- unique(subsidy_classification_oecd$category_name)
+
+subsidy_types_sorted_oecd <- subsidy_classification_oecd$type
+names(subsidy_types_sorted_oecd) <- subsidy_classification_oecd$type_name
+
+# Merge subsidy datasets 
+subsidy_dat <- subsidy_dat_sumaila_raw %>%
+  bind_rows(subsidy_dat_oecd_raw) %>%
+  mutate(category = factor(category, levels = c(subsidy_categories_sorted_sumaila, subsidy_categories_sorted_oecd), ordered = T),
+         category_name = factor(category_name, levels = c(names(subsidy_categories_sorted_sumaila), names(subsidy_categories_sorted_oecd)), ordered = T),
+         type = factor(type, levels = c(subsidy_types_sorted_sumaila, subsidy_types_sorted_oecd), ordered = T),
+         type_name = factor(type_name, levels = c(names(subsidy_types_sorted_sumaila), names(subsidy_types_sorted_oecd)), ordered = T)) %>%
   left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3")
-
+  
 # Create color palettes for subsidy categories and types
 goodColors <- rev(brewer.pal(3,"Blues"))
 names(goodColors) <- levels(subsidy_dat_sumaila$type_name)[1:3]
@@ -98,9 +122,17 @@ names(badColors) <- levels(subsidy_dat_sumaila$type_name)[4:10]
 ambigColors <- c("purple", "mediumorchid", "violet")
 names(ambigColors) <- levels(subsidy_dat_sumaila$type_name)[11:13]
 
-typeColors <- c(goodColors, badColors, ambigColors)
+oecdColors <- rev(colorRampPalette(c("white", "black"), interpolate = "linear")(length(subsidy_types_sorted_oecd)+5))
+oecdColors <- oecdColors[1:length(subsidy_types_sorted_oecd)]
+names(oecdColors) <- names(subsidy_types_sorted_oecd)
+
+totColor <- "#3c8dbc"
+names(totColor) <- "Total"
+
+myColors <- c(goodColors, badColors, ambigColors, totColor, oecdColors)
 
 categoryColors <- c(goodColors[1], badColors[1], ambigColors[1])
+names(categoryColors) <- names(subsidy_categories_sorted_sumaila)
 
 # # 2) Country profiles ---
 # profile_dat_raw <- read.csv("./data/country-profiles-tidy.csv", stringsAsFactors = F)

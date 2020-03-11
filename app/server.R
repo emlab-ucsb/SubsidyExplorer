@@ -193,15 +193,16 @@ shinyServer(function(input, output, session) {
                                              log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])))
     
     # Filter data
-    global_subsidies_map_dat <- subsidy_dat_sumaila %>%
+    global_subsidies_map_dat <- subsidy_dat %>%
+      dplyr::filter(variable == "subsidies_Sumaila") %>%
       dplyr::filter(type %in% c(input$w_global_subsidies_types)) %>%
       dplyr::filter(!is.na(value) & value > 0) %>%
-      group_by(iso3, display_name, category, type, type_name) %>%
+      group_by(iso3, display_name, category, category_name, type, type_name) %>%
       summarize(value = sum(value, na.rm = T)) %>%
       group_by(iso3, display_name) %>%
       mutate(included_types = paste0(type_name[type_name != "Total"], collapse = ";</br>")) %>%
       ungroup() %>%
-      group_by(iso3, display_name, category, included_types) %>%
+      group_by(iso3, display_name, category, category_name, included_types) %>%
       summarize(value = sum(value, na.rm = T))
       
     # Join to world polygons
@@ -214,7 +215,7 @@ shinyServer(function(input, output, session) {
     global_subsidies_map_text_shp <- paste0(
       "<b>","State: ", "</b>",  global_subsidies_map_dat_shp$display_name,
       "</br>", 
-      "<b>", "Subsidy category: ", "</b>", global_subsidies_map_dat_shp$category,
+      "<b>", "Subsidy category: ", "</b>", global_subsidies_map_dat_shp$category_name,
       "</br>",
       "<b>", "Est. fisheries subsidies (2018 US$):", "</b>", " $", format(round(global_subsidies_map_dat_shp$value, 0), big.mark = ","),
       "</br>",
@@ -233,7 +234,7 @@ shinyServer(function(input, output, session) {
     global_subsidies_map_text_points <- paste0(
       "<b>","State: ", "</b>",  global_subsidies_map_dat_points$display_name,
       "</br>", 
-      "<b>", "Subsidy category: ", "</b>", global_subsidies_map_dat_points$category,
+      "<b>", "Subsidy category: ", "</b>", global_subsidies_map_dat_points$category_name,
       "</br>",
       "<b>", "Est. fisheries subsidies (2018 US$):", "</b>", " $", format(round(global_subsidies_map_dat_points$value, 0), big.mark = ","),
       "</br>",
@@ -309,7 +310,61 @@ shinyServer(function(input, output, session) {
   })
   
   ### Plotly figure: Fisheries subsidies by type ---------------------
-  #[NEED]
+  output$country_fishery_stats_subsidies_plot <- renderPlotly({
+    
+    req(input$w_country_fishery_stats_selected_country)
+    
+    # Filter OECD data and add Sumaila data
+    country_fishery_stats_subsidies_plot_dat <- subsidy_dat_oecd %>%
+      bind_rows(subsidy_dat_sumaila) %>%
+      mutate(category = factor(category, levels = c()))
+      dplyr::filter(variable %in% c("subsidies_Sumaila", "subsidies_OECD")) %>%
+      dplyr::filter(iso3 == input$country_profile_selected_country) %>%
+      mutate(plot_name = case_when(variable == "subsidies_Sumaila" ~ "Sumaila et al.",
+                                   variable == "subsidies_OECD" ~ "OECD"))
+    country_profile_bar_plot_dat$value[is.na(country_profile_bar_plot_dat$value)] <- 0
+    
+    # Make plot  
+    country_profile_bar_plot <- ggplot()+
+      geom_col(data = country_profile_bar_plot_dat, aes(x = plot_name, y = value, fill = subtype, 
+                                                        text = paste0("<b>","State: ","</b>", country,
+                                                                      "<br>",
+                                                                      "<b>","Type: ","</b>", subtype,
+                                                                      "<br>",
+                                                                      "<b>","Data source: ","</b>", source,
+                                                                      "<br>",
+                                                                      "<b>","Est. fisheries subsidies (US$):","</b>", format(round(value, 0), big.mark = ","),
+                                                                      "<br>",
+                                                                      "<b>", "Year: ", "</b>", year)))+
+      scale_fill_manual(values = myColors[names(myColors) %in% country_profile_bar_plot_dat$subtype])+
+      scale_y_continuous(expand = c(0,0), name = "Est. fisheries subsidies (US$)", 
+                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+      geom_vline(xintercept = 0, size = 1)+
+      coord_flip()+
+      theme_bw()+
+      labs(x = "")+
+      theme(legend.title = element_blank(),
+            legend.position = "none",
+            axis.text.y = element_text(face = "bold", angle = 90))
+    
+    # Convert to plotly
+    gg <- ggplotly(country_profile_bar_plot, tooltip="text")
+    
+    # Create legend
+    leg <- list(font = list(size = 10, color = "#000"),
+                x = 100,
+                y = 0.9,
+                yanchor = "top")
+    
+    # Add plotly legend
+    gg <- gg %>%
+      layout(legend = leg)
+    
+    # Return plot
+    gg
+    
+  })
+  
   
   ### Plotly figure: FAO Marine Capture Production ---------------------
   #[NEED]

@@ -44,7 +44,7 @@ CountryFisheryStats = function(wto_members_and_observers)
            includeHTML("./text/04b_country_fishery_stats_intro.html"),
            
            # Select state
-           selectizeInput("w_country_profile_selected_country",
+           selectizeInput("w_country_fishery_stats_selected_country",
                           label = tagList(tags$b(" WTO Member or Observer:   "),
                                           
                                           # Info button: subsidy types

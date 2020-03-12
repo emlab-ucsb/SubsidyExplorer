@@ -31,12 +31,14 @@ Introduction = function()
                       # Main Text
                       tags$div(class = "picture-overlay-main-text",
                                
-                               tags$h3("An ambitious agreement on fisheries subsidy reform at the WTO could result in increases of up to"),
-                               tags$h1("XX% in global fish biomass"),
-                               tags$h4("and"),
-                               tags$h1("XX% in global fish catch"),
+                               includeHTML("./text/01_introduction_intro.html")
                                
-                               tags$h3("Subsidy reform represents one of the most beneficial actions we can take to restore our world’s oceans.")
+                               # tags$h3("An ambitious agreement on fisheries subsidy reform at the WTO could result in increases of up to"),
+                               # tags$h1("XX% in global fish biomass"),
+                               # tags$h4("and"),
+                               # tags$h1("XX% in global fish catch"),
+                               # 
+                               # tags$h3("Subsidy reform represents one of the most beneficial actions we can take to restore our world’s oceans.")
                                
                                
                       ),

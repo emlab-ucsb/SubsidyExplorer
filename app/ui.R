@@ -27,6 +27,7 @@ library(rsconnect) # needed to deploy app to shinyapps.io
 require(stats) # statistical functions
 library(sf) # shapefiles
 library(DT) # interactive data tables
+library(countrycode)
 library(tidyverse) # workhorse data manipulation
 
 # Plotting
@@ -100,6 +101,9 @@ shinyUI(
             
             # Want it collapsed by default
             collapsed = T,
+            
+            # Want it disabled by default
+            disable = T,
             
             # Menu container
             sidebarMenu(

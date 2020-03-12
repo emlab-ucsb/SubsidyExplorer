@@ -1,0 +1,24 @@
+﻿tab_num,tab_id,tab_name,item_id,item_label,item_description
+01,introduction,Main Menu,ab_introduction_to_selected_results,Explore the Results,left button
+01,introduction,Main Menu,ab_introduction_to_methods_process,Learn About the Methods and Process,center button
+01,introduction,Main Menu,ab_introduction_to_global_subsidies,More About Fisheries Subsidies,right button
+01,introduction,Main Menu,al_introduction_to_need_help,Need Help?,bottom link
+02a,selected-results,View Selected Results,ab_selected_results_to_introduction,Return to Main Menu,top left button
+02a,selected-results,View Selected Results,ab_selected_results_to_edit_policies,Next: Edit Policies (Advanced Users),bottom right button
+02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_to_introduction,Return to Main Menu,top left button
+02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_to_selected_results,Back: Selected Results,bottom left button
+02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_instructions_to_iuu,Next: IUU Disciplines,within TabBox - instructions to iuu disciplines
+02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_iuu_to_instructions,Back: Instructions,within TabBox - iuu disciplines back to instructions
+02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_iuu_to_oa,Next: Overfished Disciplines,within TabBox - iuu disciplines to OA disciplines
+02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_oa_to_iuu,Back: IUU Disciplines,within TabBox - OA disciplines to iuu disciplines
+02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_oa_to_overcap,Next: Overcapacity Disciplines,within TabBox - OA disciplines to overcap disciplines
+02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_overcap_to_oa,Back: Overfished Disciplines,within TabBox - overcap disciplines to OA disciplines
+02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_overcap_to_other,Next: Other Disciplines,within TabBox - overcap disciplines to other disciplines
+03,methods-process,Learn About the Methods and Process,,,
+04a,global-subsidies,Global Fisheries Subsidies,,,
+04b,country-fishery-stats,Fishery Statistics by State,,,
+04c,compare-fishery-stats,Compare Fishery Statistics,,,
+04d,global-fishing-footprint,Global Fishing Footprint,,,
+05,need-help,Need Help?,,,
+,,instructions,Step 1: Instructions,,
+,,iuu,Step 2: IUU,,

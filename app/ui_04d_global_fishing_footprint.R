@@ -52,9 +52,9 @@ GlobalFishingFootprint = function()
     ),
     
     ### Map disclaimer
-    column(12, style = "padding: 10px 25px; color: #ffffff;",
+    column(12, style = "padding: 25px 25px; color: #ffffff;",
            
-           includeHTML("./text/00_map_disclaimer.html")
+           tags$i(text$item_label[text$item_id == "map_disclaimer"])
     ),
     
     ### Bottom navigation buttons

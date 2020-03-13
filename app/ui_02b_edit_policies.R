@@ -107,7 +107,7 @@ column(12,
                                                 # Provide policy description
                                                 textInput("w_run_name",
                                                           label = text$item_label[text$item_id == "w_run_name"],
-                                                          value = text$item_value[text$item_id == "w_run_name"]),
+                                                          value = text$value[text$item_id == "w_run_name"]),
                                          ),
                                          
                                          # Next tab button
@@ -164,7 +164,7 @@ column(12,
                                                     fluidRow( 
                                                       
                                                       ### Left column: Definitions
-                                                      column(6, style = "padding: 0 10px;",
+                                                      column(5, style = "padding: 0 10px;",
                                                          
                                                              # Input: IUU definitions
                                                              checkboxGroupInput("w_iuu_definitions", 
@@ -219,7 +219,7 @@ column(12,
                                                   
                                                   
                                                   ### Middle column: scope
-                                                  column(3, style = "padding: 0 10px;",
+                                                  column(4, style = "padding: 0 10px;",
                                                          
                                                          conditionalPanel('input.w_iuu_definitions.length > 0',
                                                                           
@@ -260,6 +260,7 @@ column(12,
                                                          
                                                          conditionalPanel("(input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0)",
                                                                           
+                                                                          # S&DT - Who?
                                                                           radioButtons("w_iuu_sdt_who",
                                                                                        label = tagList(tags$b(text$item_label[text$item_id == "w_iuu_sdt_who"]),
                                                                                                        # Info button
@@ -271,24 +272,29 @@ column(12,
                                                                                        width = "100%",
                                                                                        inline = FALSE),
                                                                           
+                                                                          # S&DT - What? 
                                                                           checkboxGroupInput("w_iuu_sdt_what",
                                                                                              label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what"]),
-                                                                                             choices = c("A", "B"),
+                                                                                             choices = c("all", "domestic", "time"),
                                                                                              selected = "",
                                                                                              width = "100%",
                                                                                              inline = FALSE),
                                                                           
-                                                                          # conditionalPanel("input.iuu_sdt_what.includes('time')",
-                                                                          #                  
-                                                                          #                  sliderInput("iuu_sdt_time_delay", 
-                                                                          #                              label = tags$b("Time delay (years):"), 
-                                                                          #                              min = 0, 
-                                                                          #                              max = 5, 
-                                                                          #                              value = 1,
-                                                                          #                              width = "100%")
-                                                                          #                  
-                                                                          # ) # /conditionalpanel - input.w_iuu_sdt_what.includes('time')
+                                                                          # S&DT - Time delay if relevant
+                                                                          conditionalPanel("input.w_iuu_sdt_what.includes('time')",
+
+                                                                                           sliderInput("w_iuu_sdt_time_delay",
+                                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay"]),
+                                                                                                       min = 0,
+                                                                                                       max = 5,
+                                                                                                       value = 1,
+                                                                                                       width = "100%")
+
+                                                                          ), # /conditionalpanel - input.w_iuu_sdt_what.includes('time')
                                                                           
+                                                                          tags$hr(),
+                                                                          
+                                                                          # S&DT - Specify second S&DT?
                                                                           radioButtons("w_iuu_allow_sdt_second",
                                                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_allow_sdt_second"]),
                                                                                        choices = c("Yes", "No"),
@@ -296,27 +302,36 @@ column(12,
                                                                                        width = "100%",
                                                                                        inline = FALSE),
                                                                           
-                                                                          # Second IUU S&DT
                                                                           conditionalPanel("(input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0 && input.w_iuu_allow_sdt_second == 'Yes')",
-                                                                                           
-                                                                                           radioButtons("w_iuu_sdt_who2",
-                                                                                                        label = tagList(tags$b(text$item_label[text$item_id == "w_iuu_sdt_who2"]),
-                                                                                                                        # Info button
-                                                                                                                        tags$button(id = "info_iuu_sdt",
-                                                                                                                                    class = "btn action-button info-button",
-                                                                                                                                    icon("info"))),
+                                                                                           # S&DT - Who for second?
+                                                                                           radioButtons("w_iuu_sdt_who_second",
+                                                                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_who_second"]),
                                                                                                         choices = c("A", "B", "ldc"),
                                                                                                         selected = "ldc",
                                                                                                         width = "100%",
                                                                                                         inline = FALSE),
                                                                                            
-                                                                                           checkboxGroupInput("w_iuu_sdt_what2",
-                                                                                                              label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what2"]),
-                                                                                                              choices = c("A", "B"),
+                                                                                           # S&DT - What for second?
+                                                                                           checkboxGroupInput("w_iuu_sdt_what_second",
+                                                                                                              label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what_second"]),
+                                                                                                              choices = c("all", "domestic", "time"),
                                                                                                               selected = "",
                                                                                                               width = "100%",
-                                                                                                              inline = FALSE)
-                                                                          ) # /conditionapanel
+                                                                                                              inline = FALSE),
+                                                                                           
+                                                                                           # S&DT - Time delay for second if relevant
+                                                                                           conditionalPanel("input.w_iuu_sdt_what_second.includes('time')",
+
+                                                                                                            sliderInput("w_iuu_sdt_time_delay_second",
+                                                                                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay_second"]),
+                                                                                                                        min = 0,
+                                                                                                                        max = 5,
+                                                                                                                        value = 1,
+                                                                                                                        width = "100%")
+
+                                                                                           ) # /conditionalpanel - input.w_iuu_sdt_what_second.includes('time')
+                                                                                           
+                                                                          ) # /conditionalPanel - (input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0 && input.w_iuu_allow_sdt_second == 'Yes')
                                                                           
                                                          ) # /conditionalpanel - input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0
                                                   ) # /column - IUU S&DT
@@ -349,7 +364,7 @@ column(12,
                                                 
                                                 tags$button(id = "ab_edit_policies_tabs_iuu_to_instructions",
                                                             class = "btn action-button nav-button-white-l",
-                                                            icon("chevron-left"), button_text$text[button_text$id == "ab_edit_policies_tabs_iuu_to_instructions"]
+                                                            icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_instructions"]
                                                 )
                                                 
                                            ),
@@ -359,7 +374,7 @@ column(12,
                                                   
                                                   tags$button(id = "ab_edit_policies_tabs_iuu_to_oa",
                                                               class = "btn action-button nav-button-white-r",
-                                                              button_text$text[button_text$id == "ab_edit_policies_tabs_iuu_to_oa"], icon("chevron-right"), 
+                                                              text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_oa"], icon("chevron-right"), 
                                                   )
                                                   
                                            )
@@ -374,7 +389,8 @@ column(12,
                          ### Tab # 1  - Overfished stock disciplines
                          ### --------------------------
                          
-                         tabPanel("Overfished stocks", 
+                         tabPanel(text$item_label[text$item_id == "oa"], 
+                                  value = "oa",
                                   
                                   # Column container for tab panel        
                                   column(12, style = "border-style: solid;
@@ -384,40 +400,38 @@ column(12,
                                          # OA discipline text
                                          column(12, style = "padding: 15px 25px 15px;",
                                                 
-                                                includeHTML("./text/02b_edit_policies_iuu_intro.html")
+                                                includeHTML("./text/02b_edit_policies_oa_intro.html")
                                                 
                                          ),
                                          
-                                         # OA proposal dropdown
-                                         column(12, style = "padding: 0px 25px 15px;",
-                                                
-                                                # Section header
-                                                h4("Prefill disciplines from a proposal"),
-                                                
-                                                # Dropdown widget
-                                                column(12, style = "padding: 0px 10px;",
-                                                       
-                                                       selectInput("w_oa_proposal_selection", 
-                                                                   label = tagList(tags$b("Select a proposal...")),
-                                                                   choices = c("A", "B", "C", "Default"),
-                                                                   selected = "Default",
-                                                                   width = "100%")
-                                                       
-                                                )
-                                                
-                                         ),
+                                         # # OA proposal dropdown
+                                         # column(12, style = "padding: 0px 25px 15px;",
+                                         #        
+                                         #        # Section header
+                                         #        h4("Prefill disciplines from a proposal"),
+                                         #        
+                                         #        # Dropdown widget
+                                         #        column(12, style = "padding: 0px 10px;",
+                                         #               
+                                         #               selectInput("w_oa_proposal_selection", 
+                                         #                           label = tagList(tags$b("Select a proposal...")),
+                                         #                           choices = c("A", "B", "C", "Default"),
+                                         #                           selected = "Default",
+                                         #                           width = "100%")
+                                         #               
+                                         #        )
+                                         #        
+                                         # ),
                                          
                                          # Manual OA discipline selection
                                          column(12, style = "padding: 0px 25px 15px;", 
                                                 
-                                                h4("Manually select disciplines"),
-                                                
                                                 fluidRow(
                                                   ### OA definitions: left column
-                                                  column(6, style = "padding: 0 10px;",
+                                                  column(5, style = "padding: 0 10px;",
                                                          
                                                          checkboxGroupInput("w_oa_definitions",
-                                                                            label = tagList(tags$b("Subsidies for fishing shall be prohibited if the fish stock..."),
+                                                                            label = tagList(tags$b(text$item_label[text$item_id == "w_oa_definitions"]),
                                                                                             # Info button
                                                                                             tags$button(id = "info_oa",
                                                                                                         class = "btn action-button info-button",
@@ -430,13 +444,13 @@ column(12,
                                                   ), # /column - OA definitions
                                                   
                                                   ### OA scope: middle column
-                                                  column(3, style = "padding: 0 10px;",
+                                                  column(4, style = "padding: 0 10px;",
                                                          
                                                          conditionalPanel('input.w_oa_definitions.length > 0',
                                                                           
                                                                           radioButtons("w_oa_scope",
-                                                                                       label = tags$b("Discipline(s) apply to:"),
-                                                                                       choices = c("all", "select"),
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_oa_scope"]),
+                                                                                       choices = c("all", "select", "HS", "DW", "OUT", "LENGTH", "TONNAGE", "ENGINE", "LTE"),
                                                                                        selected = "all",
                                                                                        width = "100%",
                                                                                        inline = FALSE), 
@@ -444,7 +458,7 @@ column(12,
                                                                           conditionalPanel("input.w_oa_scope == 'select'",
                                                                                            
                                                                                            selectizeInput("w_oa_scope_manual",
-                                                                                                          label = tags$b("Select Members:"),
+                                                                                                          label = tags$b(text$item_label[text$item_id == "w_oa_scope_manual"]),
                                                                                                           choices = c("A", "B", "C"),
                                                                                                           selected = NULL,
                                                                                                           width = "100%",
@@ -457,7 +471,7 @@ column(12,
                                                          conditionalPanel('(input.w_oa_definitions.length > 0 && (input.w_oa_scope == "HS" || input.w_oa_scope == "OUT"))',
                                                                           
                                                                           sliderInput("w_oa_hs_cutoff",
-                                                                                      label = tagList(tags$b("What constitutes a high seas vessel?\n (min % of total fishing effort \n on the high seas)"),
+                                                                                      label = tagList(tags$b(text$item_label[text$item_id == "w_oa_hs_cutoff"]),
                                                                                                       # Info button
                                                                                                       tags$button(id = "info_oa_hs",
                                                                                                                   class = "btn action-button info-button",
@@ -469,16 +483,39 @@ column(12,
                                                                           
                                                          ), # /conditionalPanel - input.w_oa_definitions.length > 0 && input.w_oa_scope == "HS"
                                                          
-                                                         conditionalPanel('(input.w_oa_definitions.length > 0 && input.w_oa_scope == "LENGTH")',
+                                                         conditionalPanel('(input.w_oa_definitions.length > 0 && (input.w_oa_scope == "LENGTH" || input.w_oa_scope == "LTE"))',
                                                                           
                                                                           sliderInput("w_oa_length_cutoff",
-                                                                                      label = tags$b("Minimum total vessel length (m)"),
+                                                                                      label = tags$b(text$item_label[text$item_id == "w_oa_length_cutoff"]),
                                                                                       min = 10,
                                                                                       max = 100,
                                                                                       value = 24,
                                                                                       width = "100%")
                                                                           
-                                                         ) # /conditionalPanel - input.w_oa_definitions.length > 0 && input.w_oa_scope == "LENGTH"
+                                                         ), # /conditionalPanel - input.w_oa_definitions.length > 0 && input.w_oa_scope == "LENGTH"
+                                                         
+                                                         conditionalPanel('(input.w_oa_definitions.length > 0 && (input.w_oa_scope == "TONNAGE" || input.w_oa_scope == "LTE"))',
+                                                                          
+                                                                          sliderInput("w_oa_tonnage_cutoff",
+                                                                                      label = tags$b(text$item_label[text$item_id == "w_oa_tonnage_cutoff"]),
+                                                                                      min = 10,
+                                                                                      max = 100,
+                                                                                      value = 24,
+                                                                                      width = "100%")
+                                                                          
+                                                         ), # /conditionalPanel - input.w_oa_definitions.length > 0 && input.w_oa_scope == "TONNAGE"
+                                                         
+                                                         conditionalPanel('(input.w_oa_definitions.length > 0 && (input.w_oa_scope == "ENGINE" || input.w_oa_scope == "LTE"))',
+                                                                          
+                                                                          sliderInput("w_oa_engine_cutoff",
+                                                                                      label = tags$b(text$item_label[text$item_id == "w_oa_engine_cutoff"]),
+                                                                                      min = 10,
+                                                                                      max = 100,
+                                                                                      value = 24,
+                                                                                      width = "100%")
+                                                                          
+                                                         ) # /conditionalPanel - input.w_oa_definitions.length > 0 && input.w_oa_scope == "ENGINE"
+                                                         
                                                   ), # /column - OA scope
                                                   
                                                   ### OA S&DT: right column
@@ -487,9 +524,8 @@ column(12,
                                                          # S&DT - Allow?
                                                          conditionalPanel('input.w_oa_definitions.length > 0',
                                                                           
-                                                                          
                                                                           radioButtons("w_oa_allow_sdt",
-                                                                                       label = tags$b("Allow S&DT?"),
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_oa_allow_sdt"]),
                                                                                        choices = c("Yes", "No"),
                                                                                        selected = "No",
                                                                                        width = "100%",
@@ -501,7 +537,7 @@ column(12,
                                                                           
                                                                           # S&DT - Who recieves it
                                                                           radioButtons("w_oa_sdt_who",
-                                                                                       label = tagList(tags$b("S&DT applies to:"),
+                                                                                       label = tagList(tags$b(text$item_label[text$item_id == "w_oa_sdt_who"]),
                                                                                                        # Info button
                                                                                                        tags$button(id = "info_oa_sdt",
                                                                                                                    class = "btn action-button info-button",
@@ -513,36 +549,89 @@ column(12,
                                                                           
                                                                           # S&DT - What is it
                                                                           checkboxGroupInput("w_oa_sdt_what",
-                                                                                             label = tags$b("S&DT:"),
-                                                                                             choices = c("A", "B", "C"),
-                                                                                             selected = "",
+                                                                                             label = tags$b(text$item_label[text$item_id == "w_oa_sdt_what"]),
+                                                                                             choices = c("all", "domestic", "HS", "time"),
+                                                                                             selected = "all",
                                                                                              width = "100%",
                                                                                              inline = FALSE), 
                                                                           
                                                                           # S&DT - Define "high seas" fishing if relevant
                                                                           conditionalPanel('input.w_oa_sdt_what.includes("HS")',
                                                                                            
-                                                                                           
-                                                                                           sliderInput("w_oa_hs_cutoff_sdt",
-                                                                                                       label = tags$b("What constitutes a high seas vessel?\n (min % of total fishing effort \n on the high seas)"),
+                                                                                           sliderInput("w_oa_sdt_hs_cutoff",
+                                                                                                       label = tags$b(text$item_label[text$item_id == "w_oa_sdt_hs_cutoff"]),
                                                                                                        min = 1,
                                                                                                        max = 100,
                                                                                                        value = 5,
                                                                                                        width = "100%")
                                                                                            
-                                                                          ) # /conditionalPanel - input.oa_sdt_what.includes("HS")
+                                                                          ), # /conditionalPanel - input.oa_sdt_what.includes("HS")
                                                                           
-                                                                          # conditionalPanel("input.oa_sdt_what.includes('time')",
-                                                                          #
-                                                                          #                  sliderInput("oa_sdt_time_delay",
-                                                                          #                              
-                                                                          #label = tags$i("Time delay (years):"),
-                                                                          #                              min = 0,
-                                                                          #                              max = 5,
-                                                                          #                              value = 1,
-                                                                          #                              width = "100%")
-                                                                          #
-                                                                          # ) # /conditionalPanel - input.oa_sdt_what.includes('time')
+                                                                          # S&DT - Time delay if relevant
+                                                                          conditionalPanel("input.oa_sdt_what.includes('time')",
+
+                                                                                           sliderInput("w_oa_sdt_time_delay",
+
+                                                                                                       label = tags$b(text$item_label[text$item_id == "w_oa_sdt_time_delay"]),
+                                                                                                       min = 0,
+                                                                                                       max = 5,
+                                                                                                       value = 1,
+                                                                                                       width = "100%")
+
+                                                                          ), # /conditionalPanel - input.oa_sdt_what.includes('time')
+                                                                          
+                                                                          tags$hr(),
+                                                                          
+                                                                          # S&DT - Specify second S&DT?
+                                                                          radioButtons("w_oa_allow_sdt_second",
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_oa_allow_sdt_second"]),
+                                                                                       choices = c("Yes", "No"),
+                                                                                       selected = "No",
+                                                                                       width = "100%",
+                                                                                       inline = FALSE),
+                                                                          
+                                                                          conditionalPanel("(input.w_oa_allow_sdt == 'Yes' && input.w_oa_definitions.length > 0 && input.w_oa_allow_sdt_second == 'Yes')",
+                                                                                           # S&DT - Who for second?
+                                                                                           radioButtons("w_oa_sdt_who_second",
+                                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_sdt_who_second"]),
+                                                                                                        choices = c("A", "B", "ldc"),
+                                                                                                        selected = "ldc",
+                                                                                                        width = "100%",
+                                                                                                        inline = FALSE),
+                                                                                           
+                                                                                           # S&DT - What for second?
+                                                                                           checkboxGroupInput("w_oa_sdt_what_second",
+                                                                                                              label = tags$b(text$item_label[text$item_id == "w_oa_sdt_what_second"]),
+                                                                                                              choices = c("all", "domestic", "HS", "time"),
+                                                                                                              selected = "",
+                                                                                                              width = "100%",
+                                                                                                              inline = FALSE),
+                                                                                           
+                                                                                           # S&DT - High seas cutoff for second if relevant
+                                                                                           conditionalPanel('input.w_oa_sdt_what_second.includes("HS")',
+                                                                                                            
+                                                                                                            sliderInput("w_oa_sdt_hs_cutoff_second",
+                                                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_sdt_hs_cutoff_second"]),
+                                                                                                                        min = 1,
+                                                                                                                        max = 100,
+                                                                                                                        value = 5,
+                                                                                                                        width = "100%")
+                                                                                                            
+                                                                                           ), # /conditionalPanel - input.oa_sdt_what.includes("HS")
+                                                                                           
+                                                                                           # S&DT - Time delay for second if relevant
+                                                                                           conditionalPanel("input.w_oa_sdt_what_second.includes('time')",
+                                                                                                            
+                                                                                                            sliderInput("w_oa_sdt_time_delay_second",
+                                                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_sdt_time_delay_second"]),
+                                                                                                                        min = 0,
+                                                                                                                        max = 5,
+                                                                                                                        value = 1,
+                                                                                                                        width = "100%")
+                                                                                                            
+                                                                                           ) # /conditionalpanel - input.w_iuu_sdt_what_second.includes('time')
+                                                                                           
+                                                                          ) # /conditionalPanel - (input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0 && input.w_iuu_allow_sdt_second == 'Yes')
                                                                           
                                                          ) # /conditionalpanel - input.oa_allow_sdt == 'Yes' && input.oa_definitions.length > 0
                                                   ) # /column - OA S&DT
@@ -576,7 +665,8 @@ column(12,
                          ### Tab # 2  - Overcapacity and overfishing disciplines
                          ### ------------------------------------------
                          
-                         tabPanel("Overcapacity and overfishing", 
+                         tabPanel(text$item_label[text$item_id == "overcap"], 
+                                  value = "overcap",
                                   
                                   # Column container for tab panel        
                                   column(12, style = "border-style: solid;
@@ -586,28 +676,28 @@ column(12,
                                          # Overcap discipline text
                                          column(12, style = "padding: 15px 25px 15px;",
                                                 
-                                                includeHTML("./text/02b_edit_policies_iuu_intro.html")
+                                                includeHTML("./text/02b_edit_policies_overcap_intro.html")
                                                 
                                          ),
                                          
-                                         # Overcap proposal dropdown
-                                         column(12, style = "padding: 0px 25px 15px;",
-                                                
-                                                # Section header
-                                                h4("Prefill disciplines from a proposal"),
-                                                
-                                                # Dropdown widget
-                                                column(12, style = "padding: 0px 10px;",
-                                                       
-                                                       selectInput("w_overcap_proposal_selection", 
-                                                                   label = tagList(tags$b("Select a proposal...")),
-                                                                   choices = c("oc1", "oc2"),
-                                                                   selected = "Default",
-                                                                   width = "100%")
-                                                       
-                                                )
-                                                
-                                         ),
+                                         # # Overcap proposal dropdown
+                                         # column(12, style = "padding: 0px 25px 15px;",
+                                         #        
+                                         #        # Section header
+                                         #        h4("Prefill disciplines from a proposal"),
+                                         #        
+                                         #        # Dropdown widget
+                                         #        column(12, style = "padding: 0px 10px;",
+                                         #               
+                                         #               selectInput("w_overcap_proposal_selection", 
+                                         #                           label = tagList(tags$b("Select a proposal...")),
+                                         #                           choices = c("oc1", "oc2"),
+                                         #                           selected = "Default",
+                                         #                           width = "100%")
+                                         #               
+                                         #        )
+                                         #        
+                                         # ),
                                          
                                          # Manual Overcap discipline selection
                                          column(12, style = "padding: 0px 25px 15px;", 
@@ -1078,7 +1168,7 @@ column(12,
  #### Right column - Menu of selected policies
  #### ----------------------------------------------------------------------------------------
            
- column(4,
+ column(3,
         style = "position: absolute; 
         background-color: #286182; 
         color: #ffffff; 
@@ -1087,7 +1177,7 @@ column(12,
         bottom:0;
         right:0;",
                   
-        tags$h4("Summary of Selections"),
+        tags$h4(text$item_label[text$item_id == "selected-policy"]),
         tags$p("Text here")
         
  )

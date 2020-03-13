@@ -139,8 +139,6 @@ Outside of the EU, the only other dependencies we need to worry about are those 
 
 # Section 1 - Subsidies Data
 
-For the two datasets in this section, we'll export tidied versions individually for use in SubsidyExplorer. 
-
 ## Updated estimates and analysis of global fisheries subsidies from Sumaila et al. (2019)
 
 ```{r}
@@ -232,8 +230,6 @@ write_csv(oecd_fse_dat_edit, paste0(app_data_dir, "oecd_2019_fse_tidy.csv"))
 ```
 
 # Section 2 - Demographic Data
-
-For the four datasets in this section, we'll export a single aggregated demographic dataset for use in SubsidyExplorer.
 
 ## Demographic statistics by state from the World Bank's World Development Indicators Database (2000 - 2018)
 
@@ -357,3 +353,6 @@ write_csv(teh_fte_dat_edit, paste0(data_dir, "teh_and_sumaila_2013_fte_tidy.csv"
 write_csv(teh_fte_dat_edit, paste0(app_data_dir, "teh_and_sumaila_2013_fte_tidy.csv"))
 ```
 
+# Section 3 - Fisheries Data
+
+## Fisheries landings for 2000-2017 from the FAO Global Capture Production database (2019)

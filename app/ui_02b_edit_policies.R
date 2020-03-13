@@ -702,11 +702,9 @@ column(12,
                                          # Manual Overcap discipline selection
                                          column(12, style = "padding: 0px 25px 15px;", 
                                                 
-                                                h4("Manually select overcapacity and overfishing disciplines"),
-                                                
                                                 fluidRow(
                                                   ### Overcapacity definitions: left column
-                                                  column(6, style = "padding: 0 10px;",
+                                                  column(5, style = "padding: 0 10px;",
                                                          
                                                          checkboxGroupInput("w_overcap_definitions",
                                                                             label = tagList(tags$b("The following types of subsidies are considered to \ncontribute to overcapacity and overfishing and are prohibited..."),
@@ -722,7 +720,7 @@ column(12,
                                                   ), # /column - Overcapcity definitions
                                                   
                                                   ### Overcapacity scope: middle column
-                                                  column(3, style = "padding: 0 10px;",
+                                                  column(4, style = "padding: 0 10px;",
                                                          
                                                          conditionalPanel('input.w_overcap_definitions.length > 0',
                                                                           

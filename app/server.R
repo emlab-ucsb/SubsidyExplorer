@@ -104,8 +104,8 @@ shinyServer(function(input, output, session) {
   })
   
   # Navigation button from tab 3 to tab 4
-  observeEvent(input$ab_edit_policies_tabs_overcap_to_preview, {
-    updateTabsetPanel(session, "policy_tabs", "preview") 
+  observeEvent(input$ab_edit_policies_tabs_overcap_to_other, {
+    updateTabsetPanel(session, "policy_tabs", "other") 
   })
   
   ### Text Output: IUU data warning -------------------
@@ -117,8 +117,6 @@ shinyServer(function(input, output, session) {
       ""
     }
   })
-  
-  
   
   ### Reactive data frame: All select policy inputs -------------
   

@@ -165,14 +165,23 @@ shinyServer(function(input, output, session) {
   observe({
     
     # Only allow types from the selected category to be chosen
+    if(input$w_global_subsidies_category == "All"){
+      
+    new_choices <- subsidy_classification_sumaila$type
+    names(new_choices) <- subsidy_classification_sumaila$type_name
+      
+    }else{
+      
     new_choices <- subsidy_classification_sumaila$type[subsidy_classification_sumaila$category == input$w_global_subsidies_category]
     names(new_choices) <- subsidy_classification_sumaila$type_name[subsidy_classification_sumaila$category == input$w_global_subsidies_category]
+    
+    }
     
     # Update input
     updateSelectizeInput(session, 
                          "w_global_subsidies_types",
                          choices = new_choices,
-                         selected = new_choices[1])
+                         selected = new_choices)
   })
   
   
@@ -185,6 +194,7 @@ shinyServer(function(input, output, session) {
     
     # Color palette to use based off selected input
     global_subsidies_map_color <- switch(input$w_global_subsidies_category,
+                                         "All" = list("YlOrRd", 1, 9.2e9),
                                          "A" = list("Blues", 1, 2.2e9),
                                          "B" = list("Reds", 1, 6e9),
                                          "C" = list("Purples", 1, 1e9))

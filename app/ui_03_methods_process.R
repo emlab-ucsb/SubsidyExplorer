@@ -11,12 +11,17 @@ MethodsProcess = function()
     # Page style
     style = "background-color: #262626; color: #ffffff;",
     
-    ### Top navigation buttons
+    ### Top navigation button
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Back to main menu button
-                    column(12, style = "height: 30px;")
+                    # Return to main menu
+                    column(3,
+                           tags$button(id = "ab_methods_process_to_introduction",
+                                       class = "btn action-button nav-button-l",
+                                       icon("undo"), text$item_label[text$item_id == "ab_methods_process_to_introduction"]
+                           )
+                    )
                     
            )
     ),
@@ -25,7 +30,7 @@ MethodsProcess = function()
     column(12, style = "padding: 25px 25px;",
            
            # Title
-           tags$h3(style = "padding: 0; margin: 0 0 10px;", tab_text$tab[tab_text$id == "methods-process"]),
+           tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px; color: #ffffff;", text$item_label[text$item_id == "methods-process"]),
            
            # Text
            includeHTML("./text/03_methods_process_intro.html"),
@@ -35,7 +40,7 @@ MethodsProcess = function()
                   
                   downloadButton("db_download_methods", 
                                  style = "padding: 10px; width: auto;", 
-                                 button_text$text[button_text$id == "db_download_methods"])
+                                 text$item_label[text$item_id == "db_download_methods"])
                   
            )
            
@@ -45,18 +50,11 @@ MethodsProcess = function()
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Return to main menu
-                    column(3,
-                           tags$button(id = "ab_methods_process_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("undo"), button_text$text[button_text$id == "ab_methods_process_to_introduction"]
-                           )
-                    )
+                    # Empty
+                    column(12, style = "height: 30px;")
                     
            )
     )
-            
-    
     
   ) # /fluidPage
   

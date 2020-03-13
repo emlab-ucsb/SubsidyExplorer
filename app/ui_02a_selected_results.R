@@ -11,15 +11,15 @@ SelectedResults = function()
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     
-    ### Navigation buttons
+    ### Top navigation button
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Next to edit-policies
-                    column(3, offset = 9,
-                           tags$button(id = "ab_selected_results_to_edit_policies",
-                                       class = "btn action-button nav-button-r",
-                                       button_text$text[button_text$id == "ab_selected_results_to_edit_policies"], icon("chevron-right")
+                    # Return to main menu
+                    column(3,
+                           tags$button(id = "ab_selected_results_to_introduction",
+                                       class = "btn action-button nav-button-l",
+                                       icon("undo"), text$item_label[text$item_id == "ab_selected_results_to_introduction"]
                            )
                     )
                     
@@ -30,7 +30,7 @@ SelectedResults = function()
     column(12, style = "padding: 25px 25px;",
            
            # Title
-           tags$h3(style = "padding: 0; margin: 0 0 10px;", tab_text$tab[tab_text$id == "selected-results"]),
+           tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "selected-results"]),
            
            # Text
            includeHTML("./text/02a_selected_results_intro.html"),
@@ -39,16 +39,17 @@ SelectedResults = function()
            fluidRow(
              column(6, align = "center",
                     
-                    selectizeInput("timeseries_variable", label = tags$b("Plot... "),
+                    selectizeInput("w_selected_results_timeseries_plot_variable", 
+                                   label = tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_variable"]),
                                    choices = list("Biomass" = "biomass", "Catches" = "catches_total", "Revenue" = "revenue_total"),
-                                   selected = "biomass")
+                                   selected = text$selected[text$item_id == "w_selected_results_timeseries_plot_variable"])
                     
              ),
              column(6, align = "center",
-                    radioButtons("timeseries_resolution", label = tags$b("Resolution: "),
+                    radioButtons("w_selected_results_timeseries_plot_resolution", 
+                                 label = tags$b("Resolution: "),
                                  choices = list("Global" = 1, "Regional" = 2), 
-                                 selected = 1,
-                                 inline = T)
+                                 selected = text$selected[text$item_id == "w_selected_results_timeseries_plot_resolution"])
                     
              )
            )
@@ -69,19 +70,17 @@ SelectedResults = function()
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Return to main menu
-                    column(3,
-                           tags$button(id = "ab_selected_results_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("undo"), button_text$text[button_text$id == "ab_selected_results_to_introduction"]
+                    # Next to edit-policies
+                    column(3, offset = 9,
+                           tags$button(id = "ab_selected_results_to_edit_policies",
+                                       class = "btn action-button nav-button-r",
+                                       text$item_label[text$item_id == "ab_selected_results_to_edit_policies"], icon("chevron-right")
                            )
                     )
                     
            )
     )
             
-    
-    
   ) # /fluidPage
   
   

@@ -77,7 +77,7 @@ shinyUI(
             tags$li(
                 class = "dropdown",
                 a(href = 'http://sfg.msi.ucsb.edu/',
-                  img(src = 'sfg-logo-white.png', title = "The Sustainable Fisheries Group", height = "40px"), 
+                  img(src = 'sfg-logo-white.png', title = text$item_label[text$item_id == "sfg_logo"], height = "40px"), 
                   style = "padding-top:10px; padding-bottom:10px;"
                   ) # /a
             ), # /tags$li
@@ -86,7 +86,7 @@ shinyUI(
             tags$li(
                 class = "dropdown",
                 a(href = 'http://emlab.msi.ucsb.edu/',
-                  img(src = 'emlab_logo_horizontal_w.png', title = "The Environmental Market Solutions Lab", height = "40px"), 
+                  img(src = 'emlab_logo_horizontal_w.png', title = text$item_label[text$item_id == "emlab_logo"], height = "40px"), 
                   style = "padding-top:10px; padding-bottom:10px;"
                 ) # /a
             ) # /tags$li
@@ -112,62 +112,62 @@ shinyUI(
                 id = "menu_items",
                 
                 ### Introduction ---
-                menuItem(tab_text$tab[tab_text$id == "introduction"], 
+                menuItem(text$item_label[text$item_id == "introduction"], 
                          tabName = "introduction", 
                          icon = NULL,
                          selected = TRUE),
                 
                 ### Explore results ---
-                menuItem(tab_text$tab[tab_text$id == "explore-results"],
+                menuItem("",
                          icon = NULL,
                          
                          # Explore results - Item #1 - Selected results
-                         menuSubItem(tab_text$tab[tab_text$id == "selected-results"],
+                         menuSubItem(text$item_label[text$item_id == "selected-results"],
                                      tabName = 'selected-results',
                                      icon = NULL),
                                   
                          # Explore results - Item #2 - Edit policies and view those results
-                         menuSubItem(tab_text$tab[tab_text$id == "edit-policies"],
+                         menuSubItem(text$item_label[text$item_id == "edit-policies"],
                                      tabName = 'edit-policies',
                                      icon = NULL)
                          
                 ), 
                 
                 ### About methods and process ---
-                menuItem(tab_text$tab[tab_text$id == "methods-process"], 
+                menuItem(text$item_label[text$item_id == "methods-process"], 
                          icon = NULL,
                          tabName = "methods-process"
                          
                 ),
                 
                 ### About fisheries subsidies ---
-                menuItem(tab_text$tab[tab_text$id == "fisheries-subsidies"], 
+                menuItem("", 
                          icon = NULL,
                          
                          # About fisheries subsidies - Item #1 - Global subsidy map
-                         menuItem(tab_text$tab[tab_text$id == "global-subsidies"],
+                         menuItem(text$item_label[text$item_id == "global-subsidies"],
                                      tabName = 'global-subsidies',
                                      icon = NULL),
                          
                          # About fisheries subsidies - Item #2 - Fishery statistics by state
-                         menuItem(tab_text$tab[tab_text$id == "country-fishery-stats"],
+                         menuItem(text$item_label[text$item_id == "country-fishery-stats"],
                                      tabName = 'country-fishery-stats',
                                      icon = NULL),
                          
                          # About fisheries subsidies - Item #3 - Compare fishery statistics
-                         menuItem(tab_text$tab[tab_text$id == "compare-fishery-stats"],
+                         menuItem(text$item_label[text$item_id == "compare-fishery-stats"],
                                      tabName = 'compare-fishery-stats',
                                      icon = NULL),
                          
                          # About fisheries subsidies - Item #4 - Global effort map
-                         menuItem(tab_text$tab[tab_text$id == "global-fishing-footprint"],
+                         menuItem(text$item_label[text$item_id == "global-fishing-footprint"],
                                      tabName = 'global-fishing-footprint',
                                      icon = NULL)
                          
                 ),
                 
                 ### Help and Contact ---
-                menuItem(tab_text$tab[tab_text$id == "need-help"], 
+                menuItem(text$item_label[text$item_id == "need-help"], 
                          icon = NULL,
                          tabName = "need-help"
                          

@@ -1,24 +1,50 @@
-﻿tab_num,tab_id,tab_name,item_id,item_label,item_description
-01,introduction,Main Menu,ab_introduction_to_selected_results,Explore the Results,left button
-01,introduction,Main Menu,ab_introduction_to_methods_process,Learn About the Methods and Process,center button
-01,introduction,Main Menu,ab_introduction_to_global_subsidies,More About Fisheries Subsidies,right button
-01,introduction,Main Menu,al_introduction_to_need_help,Need Help?,bottom link
-02a,selected-results,View Selected Results,ab_selected_results_to_introduction,Return to Main Menu,top left button
-02a,selected-results,View Selected Results,ab_selected_results_to_edit_policies,Next: Edit Policies (Advanced Users),bottom right button
-02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_to_introduction,Return to Main Menu,top left button
-02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_to_selected_results,Back: Selected Results,bottom left button
-02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_instructions_to_iuu,Next: IUU Disciplines,within TabBox - instructions to iuu disciplines
-02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_iuu_to_instructions,Back: Instructions,within TabBox - iuu disciplines back to instructions
-02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_iuu_to_oa,Next: Overfished Disciplines,within TabBox - iuu disciplines to OA disciplines
-02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_oa_to_iuu,Back: IUU Disciplines,within TabBox - OA disciplines to iuu disciplines
-02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_oa_to_overcap,Next: Overcapacity Disciplines,within TabBox - OA disciplines to overcap disciplines
-02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_overcap_to_oa,Back: Overfished Disciplines,within TabBox - overcap disciplines to OA disciplines
-02b,edit-policies,Edit Policies (Advanced Users),ab_edit_policies_tabs_overcap_to_other,Next: Other Disciplines,within TabBox - overcap disciplines to other disciplines
-03,methods-process,Learn About the Methods and Process,,,
-04a,global-subsidies,Global Fisheries Subsidies,,,
-04b,country-fishery-stats,Fishery Statistics by State,,,
-04c,compare-fishery-stats,Compare Fishery Statistics,,,
-04d,global-fishing-footprint,Global Fishing Footprint,,,
-05,need-help,Need Help?,,,
-,,instructions,Step 1: Instructions,,
-,,iuu,Step 2: IUU,,
+﻿tab_num,tab_id,item_type,item_id,item_label,item_description,choices,choice_names,selected
+header,,link,sfg_logo,The Sustainable Fisheries Group,text if logo doesn't work,,,
+header,,link,emlab_logo,The Environmental Market Solutions Lab,text if logo doesn't work,,,
+01,introduction,tab,introduction,Main Menu,page name,,,
+01,introduction,nav-button,ab_introduction_to_selected_results,Explore the Results,left button,,,
+01,introduction,nav-button,ab_introduction_to_methods_process,Learn About the Methods and Process,center button,,,
+01,introduction,nav-button,ab_introduction_to_global_subsidies,More About Fisheries Subsidies,right button,,,
+01,introduction,link,al_introduction_to_need_help,Need Help?,bottom link,,,
+02a,selected-results,tab,selected-results,View Selected Results,page name,,,
+02a,selected-results,nav-button,ab_selected_results_to_introduction,Return to Main Menu,top left button,,,
+02a,selected-results,nav-button,ab_selected_results_to_edit_policies,Next: Edit Policies (Advanced Users),bottom right button,,,
+02a,selected-results,widget,w_selected_results_timeseries_plot_variable,Plot…,select variable to plot widget,"biomass, catches_total, revenue_total","Biomass, Catches, Revenue",biomass
+02a,selected-results,widget,w_selected_results_timeseries_plot_resolution,Resolution…,select resolution (global/regional),"1, 2","Global, Regional",1
+02b,edit-policies,tab,edit-policies,Edit Policies (Advanced Users),page name,,,
+02b,edit-policies,nav-button,ab_edit_policies_to_introduction,Return to Main Menu,top left button,,,
+02b,edit-policies,nav-button,ab_edit_policies_to_selected_results,Back: Selected Results,bottom left button,,,
+02b,edit-policies,tab,instructions,Step 1) Instructions,tabBox tab,,,
+02b,edit-policies,nav-button,ab_edit_policies_tabs_instructions_to_iuu,Next: IUU Disciplines,within TabBox - instructions to iuu disciplines,,,
+02b,edit-policies,tab,iuu,Step 2) IUU Disciplines,tabBox tab,,,
+02b,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_instructions,Back: Instructions,within TabBox - iuu disciplines back to instructions,,,
+02b,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_oa,Next: Overfished Disciplines,within TabBox - iuu disciplines to OA disciplines,,,
+02b,edit-policies,tab,oa,Step 3) Overfished Disciplines,tabBox tab,,,
+02b,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_iuu,Back: IUU Disciplines,within TabBox - OA disciplines to iuu disciplines,,,
+02b,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_overcap,Next: Overcapacity Disciplines,within TabBox - OA disciplines to overcap disciplines,,,
+02b,edit-policies,tab,overcap,Step 4) Overcapacity Disciplines,tabBox tab,,,
+02b,edit-policies,nav-button,ab_edit_policies_tabs_overcap_to_oa,Back: Overfished Disciplines,within TabBox - overcap disciplines to OA disciplines,,,
+02b,edit-policies,nav-button,ab_edit_policies_tabs_overcap_to_other,Next: Other Disciplines,within TabBox - overcap disciplines to other disciplines,,,
+02b,edit-policies,tab,other,Step 5) Other Discplines,tabBox tab,,,
+02b,edit-policies,nav-button,ab_edit_policies_tabs_other_to_overcap,Back: Overcapacity Disciplines,within TabBox - other disciplines to overcap disciplines,,,
+03,methods-process,tab,methods-process,Learn About the Methods and Process,page name,,,
+03,methods-process,nav-button,ab_methods_process_to_introduction,Return to Main Menu,top left button,,,
+03,methods-process,download-button,db_download_methods,Download Methods (PDF),center download button,,,
+04a,global-subsidies,tab,global-subsidies,Global Fisheries Subsidies,page name,,,
+04a,global-subsidies,nav-button,ab_global_subsidies_to_introduction,Return to Main Menu,top left button,,,
+04a,global-subsidies,nav-button,ab_global_subsidies_to_country_fishery_stats,Next: Fishery Statistics by State,bottom right button,,,
+04a,global-subsidies,widget,w_global_subsidies_category,Show..,select subsidy category widget,"All, A, B, C","All subsidies, Beneficial subsidies only, Capacity-enhancing subsidies only, Ambiguous subsidies only",B
+04a,global-subsidies,widget,w_global_subsidies_types,Subsidy type(s) to include…,select subsidy types widget,,,
+04b,country-fishery-stats,tab,country-fishery-stats,Fishery Statistics by State,page name,,,
+04b,country-fishery-stats,nav-button,ab_country_fishery_stats_to_introduction,Return to Main Menu,top left button,,,
+04b,country-fishery-stats,nav-button,ab_country_fishery_stats_to_global_subsidies,Back: Global Fisheries Subsidies,bottom left button,,,
+04b,country-fishery-stats,nav-button,ab_country_fishery_stats_to_compare_fishery_stats,Next: Compare Fishery Statistics,bottom right button,,,
+04c,compare-fishery-stats,tab,compare-fishery-stats,Compare Fishery Statistics,page name,,,
+04c,compare-fishery-stats,nav-button,ab_compare_fishery_stats_to_introduction,Return to Main Menu,top left button,,,
+04c,compare-fishery-stats,nav-button,ab_compare_fishery_stats_to_country_fishery_stats,Back: Fishery Statistics by State,bottom left button,,,
+04c,compare-fishery-stats,nav-button,ab_compare_fishery_stats_to_global_fishing_footprint,Next: Global Fishing Footprint,bottom right button,,,
+04d,global-fishing-footprint,tab,global-fishing-footprint,Global Fishing Footprint,page name,,,
+04d,global-fishing-footprint,nav-button,ab_global_fishing_footprint_to_introduction,Return to Main Menu,top left button,,,
+04d,global-fishing-footprint,nav-button,ab_global_fishing_footprint_to_compare_fishery_stats,Back: Compare Fishery Statistics,bottom left button,,,
+5,need-help,tab,need-help,Need Help?,page name,,,
+5,need-help,nav-button,ab_need_help_to_introduction,Return to Main Menu,top left button,,,

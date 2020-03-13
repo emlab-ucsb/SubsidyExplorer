@@ -319,6 +319,8 @@ shinyServer(function(input, output, session) {
       dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country)
     country_fishery_stats_subsidies_plot_dat$value[is.na(country_fishery_stats_subsidies_plot_dat$value)] <- 0
     
+    req(nrow(country_fishery_stats_subsidies_plot_dat) > 0)
+    
     # Make plot  
     country_fishery_stats_subsidies_plot <- ggplot()+
       geom_col(data = country_fishery_stats_subsidies_plot_dat, aes(x = source, y = value, fill = type_name, 
@@ -360,9 +362,208 @@ shinyServer(function(input, output, session) {
     
   })
   
-  
   ### Plotly figure: FAO Marine Capture Production ---------------------
   #[NEED]
+  
+  ### Plotly figure: World Bank Population ---------------------
+  output$country_fishery_stats_pop_plot <- renderPlotly({
+
+    req(input$w_country_fishery_stats_selected_country)
+
+    # Filter data
+    country_fishery_stats_pop_plot_dat <- demographic_dat %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country) %>%
+      dplyr::filter(variable %in% c("population"))
+    
+    req(nrow(country_fishery_stats_pop_plot_dat) > 0)
+    req(all(is.na(country_fishery_stats_pop_plot_dat$value)) == F)
+
+    # Make plot
+    country_fishery_stats_pop_plot <- ggplot(country_fishery_stats_pop_plot_dat)+
+      aes(x = year, y = value/1e6)+
+      geom_line(color = '#3c8dbc')+
+      geom_point(aes(text = paste0("<b>","Year: ","</b>", year,
+                                          "<br>",
+                                          "<b>", "Population: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 0, color = '#3c8dbc')+
+      scale_y_continuous(name = "Population (persons, millions)",
+                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+      scale_x_continuous(expand = c(0,0))+
+      theme_bw()+
+      labs(x = "Year")+
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+
+    # Convert to plotly
+    gg <- ggplotly(country_fishery_stats_pop_plot, tooltip="text") %>%
+      style(
+        traces = 2,
+        hoverlabel = list(bgcolor = "white")
+      )
+
+    gg <- gg %>%
+      layout(xaxis = list(
+        showspikes = TRUE,
+        spikemode = "across",
+        spikecolor = '#3c8dbc',
+        spikedash = "solid",
+        spikethickness = 1))
+
+    # Plot object to return
+    gg
+
+  })
+  
+  ### Plotly figure: Fishers and fisheries employment ---------------------
+  output$country_fishery_stats_fisher_plot <- renderPlotly({
+    
+    req(input$w_country_fishery_stats_selected_country)
+    
+    # Filter data
+    country_fishery_stats_fisher_plot_dat <- demographic_dat %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country) %>%
+      dplyr::filter(variable %in% c("fishers", "fishers_fte"))
+    
+    req(nrow(country_fishery_stats_fisher_plot_dat) > 0)
+    req(all(is.na(country_fishery_stats_fisher_plot_dat$value)) == F)
+    
+    # Make dummy values for missing fishers data
+    if(nrow(country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers")) == 0){
+      
+      country_fishery_stats_fisher_plot_dat <- country_fishery_stats_fisher_plot_dat %>%
+        bind_rows(
+          tibble(
+            iso3 = input$w_country_fishery_stats_selected_country,
+            year = seq(2000, 2018, by = 1),
+            variable = "fishers",
+            value = NA,
+            units = NA,
+            source = NA
+          )
+        )
+    }
+    
+    # Make dummy values for missing full-time-equivalent data
+    if(nrow(country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers_fte")) == 0){
+      
+      country_fishery_stats_fisher_plot_dat <- country_fishery_stats_fisher_plot_dat %>%
+        bind_rows(
+          tibble(
+            iso3 = input$w_country_fishery_stats_selected_country,
+            year = 2003,
+            variable = "fishers_fte",
+            value = NA,
+            units = NA,
+            source = NA
+          )
+        )
+    }
+    
+    # Make plot
+    country_fishery_stats_fisher_plot <- ggplot()+
+      aes(x = year, y = value)+
+      geom_line(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers"), color = 'navy')+
+      geom_point(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers"),
+                 aes(text = paste0("<b>","Year: ","</b>", year,
+                                   "<br>",
+                                   "<b>", "Fishers: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 0, color = 'navy')+
+      geom_point(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers_fte"),
+                 aes(text = paste0("<b>","Year: ","</b>", year,
+                                   "<br>",
+                                   "<b>", "Full-time-equivalent fisheries jobs: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 1, color = 'navy')+
+      scale_y_continuous(name = "Fishers (persons)",
+                         labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
+      scale_x_continuous(expand = c(0,0))+
+      theme_bw()+
+      labs(x = "Year")+
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+    
+    # Convert to plotly
+    gg <- ggplotly(country_fishery_stats_fisher_plot, tooltip="text")
+    
+    gg <- gg %>%
+      layout(xaxis = list(
+        showspikes = TRUE,
+        spikemode = "across",
+        spikecolor = '#3c8dbc',
+        spikedash = "solid",
+        spikethickness = 1))
+    
+    # Plot object to return
+    gg
+    
+  })
+  
+  ### Plotly figure: GDP ---------------------
+  output$country_fishery_stats_gdp_plot <- renderPlotly({
+    
+    req(input$w_country_fishery_stats_selected_country)
+    
+    # Filter data
+    country_fishery_stats_gdp_plot_dat <- demographic_dat %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country) %>%
+      dplyr::filter(variable %in% c("gdp", "gdp_ffa"))
+    
+    req(nrow(country_fishery_stats_gdp_plot_dat) > 0)
+    req(all(is.na(country_fishery_stats_gdp_plot_dat$value)) == F)
+    
+    # Make dummy values for missing data? 
+    if(nrow(country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa")) == 0){
+      
+      country_fishery_stats_gdp_plot_dat <- country_fishery_stats_gdp_plot_dat %>%
+        bind_rows(
+          tibble(
+            iso3 = input$w_country_fishery_stats_selected_country,
+            year = seq(2000, 2018, by = 1),
+            variable = "gdp_ffa",
+            value = NA,
+            units = NA,
+            source = NA
+          )
+        )
+    }
+    
+    # Make plot
+    country_fishery_stats_gdp_plot <- ggplot()+
+      aes(x = year, y = value/1e9)+
+      geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"), fill = '#3c8dbc')+
+      geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"),
+                 aes(text = paste0("<b>","Year: ","</b>", year,
+                                   "<br>",
+                                   "<b>", "GDP - Total (US$): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 0, color = '#3c8dbc')+
+      geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"), fill = 'navy')+
+      geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"),
+                 aes(text = paste0("<b>","Year: ","</b>", year,
+                                   "<br>",
+                                   "<b>", "GDP - Fisheries, Forestry, and Agriculture (US$): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 0, color = 'navy')+
+      scale_y_continuous(name = "GDP (US$, billions)",
+                         labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
+      scale_x_continuous(expand = c(0,0))+
+      theme_bw()+
+      labs(x = "Year")+
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+    
+    # Convert to plotly
+    gg <- ggplotly(country_fishery_stats_gdp_plot, tooltip="text")
+    
+    gg <- gg %>%
+      layout(xaxis = list(
+        showspikes = TRUE,
+        spikemode = "across",
+        spikecolor = '#3c8dbc',
+        spikedash = "solid",
+        spikethickness = 1))
+    
+    # Plot object to return
+    gg
+    
+  })
   
   ### ------------------------------
   ### 04c. compare-fishery-stats ---

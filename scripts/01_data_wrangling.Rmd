@@ -61,9 +61,9 @@ melnychuk_price_path <- here::here("data", "raw", "Melnychuk-et-al-2013-price", 
 
 # Paths to fisheries mgmt files 
 costello_upsides_path <- here::here("data", "raw", "Costello-et-al-2016-upsides", "ProjectionData_2012.csv")
-melnychuk_fmi_path <- here::here("data", "raw", "Melnychuk-et-al-2017-fmi", )
+melnychuk_fmi_path <- here::here("data", "raw", "Melnychuk-et-al-2017-fmi", "fmi_values_country.csv")
 ram_sadb_path <- here::here("data", "raw", "RAM-2018-stock-assessment-database", "RLSADB v4.40", "DB Files With Assessment Data", "RLSADB v4.40 (assessment data only).xlsx")
-anderson_fpi_path <- here::here("data", "raw", "Anderson-et-al-")
+anderson_fpi_path <- here::here("data", "raw", "Anderson-et-al-2015-fpi", "fpi_values_fishery.csv")
 
 # Paths to other files
 iuu_vessel_path <- here::here("data", "raw", "IUU-Vessel-List-2019", "IUUList-20190430.csv")
@@ -71,13 +71,15 @@ iuu_vessel_path <- here::here("data", "raw", "IUU-Vessel-List-2019", "IUUList-20
 
 The following data sources are included in this analysis: 
 
+**Subsidy Data**
 Estimates of annual fisheries subsidies provision by state from Sumaila et al. (2019) in 2018 US\$. These data were provided to us directly by the authors as a .xlsx file and are stored at `r sumaila_subsidies_path`.
 > Sumaila, U. R., Ebrahim, N., Schuhbauer, A., Skerritt, D., Li, Y., Kim, H. S., … Pauly, D. (2019). Updated estimates and analysis of global fisheries subsidies. Marine Policy, 109, 103695. https://doi.org/10.1016/j.marpol.2019.103695
 
 Estimates of fisheries support provision by state from the OECD (2008 - 2018). These data were last downloaded from the OECD iLibrary portal as a CSV file on March 10, 2019 and are stored as `r oecd_fse_path`.
 > OECD (2019), "Fisheries: Fisheries support estimates", OECD Agriculture Statistics (database), https://doi.org/10.1787/ade64fdc-en (accessed on 10 March 2019).
 
-Total GDP and population by state from the World Bank's World Development Indicators Database (2000 - 2018). These data were accessed through the `WDI` package. The code used to pull the data is below. 
+**Demographic Data**
+Total GDP, GDP from fisheries, forestry, and agriculture, and population by state from the World Bank's World Development Indicators Database (2000 - 2018). These data were accessed through the `WDI` package. The code used to pull the data is below. 
 > The World Bank (2019). "World Development Indicators", https://datacatalog.worldbank.org/dataset/world-development-indicators (accessed on 24 October 2019). 
 
 Total number of fishers by state from the FAO Yearbook of Fishery and Aquaculture Statistics (misc. years between 1995 and 2017). These data were manually transcribed from PDF (`./data/raw/fleet_&_employment.pdf`) to CSV format on July 6, 2019 and are stored as `r fao_fishers_path`. 
@@ -86,9 +88,27 @@ Total number of fishers by state from the FAO Yearbook of Fishery and Aquacultur
 Estimated number of full-time jobs in fisheries from Teh and Sumaila (2013) in 2003. These data were provided to us directly by the authors as a .xlsx file and are stored as `r teh_fte_path`. 
 > Teh, L. C. L., & Sumaila, U. R. (2011). Contribution of marine fisheries to worldwide employment. Fish and Fisheries, 14(1), 77–88. https://doi.org/10.1111/j.1467-2979.2011.00450.x
 
+**Fisheries Data**
 Fisheries landings in 2017 from the FAO Global Capture Production database (2019) and estimates of landed value generated using the ex-vessel price database created by Melnychuk et al. (2017). These data were were wrangled in the previous script, and the edited data are stored as `r catch_dat_path`. 
 > FAO (2019). FAO yearbook. Fishery and Aquaculture Statistics 2017, http://www.fao.org/fishery/statistics/global-capture-production/en (accessed on 24 October 2019). 
+
+Estimated landed price 
 > Melnychuk, M. C., Clavelle, T., Owashi, B., & Strauss, K. (2017). Reconstruction of global ex-vessel prices of fished species. ICES Journal of Marine Science, 74(1), 121–133. https://doi.org/10.1093/icesjms/fsw169
+
+Stock status database
+> Costello, C., Ovando, D., Clavelle, T., Strauss, C. K., Hilborn, R., Melnychuk, M. C., Branch, T. A., Gaines, S. D., Szuwalski, C. S., Cabral, R. B., Rader, D. N., & Leland, A. (2016). Global fishery prospects under contrasting management regimes. Proceedings of the National Academy of Sciences, 113(18), 5125–5129. https://doi.org/10.1073/pnas.1520420113
+
+Fisheries management indicators
+> Melnychuk, M. C., Peterson, E., Elliott, M., & Hilborn, R. (2017). Fisheries management impacts on target species status. Proceedings of the National Academy of Sciences, 114(1), 178–183. https://doi.org/10.1073/pnas.1609915114
+
+RAM Stock assessment database
+> RAM Legacy Stock Assessment Database. (2018). Version 4.44-assessment-only. Released 2018-12-22. DOI:10.5281/zenodo.2542919
+
+Fisheries performance indicators
+> Anderson, J. L., Anderson, C. M., Chu, J., Meredith, J., Asche, F., Sylvia, G., Smith, M. D., Anggraeni, D., Arthur, R., Guttormsen, A., McCluney, J. K., Ward, T., Akpalu, W., Eggert, H., Flores, J., Freeman, M. A., Holland, D. S., Knapp, G., Kobayashi, M., … Valderrama, D. (2015). The Fishery Performance Indicators: A Management Tool for Triple Bottom Line Outcomes. PLOS ONE, 10(5), e0122809. https://doi.org/10.1371/journal.pone.0122809
+
+IUU Consolidated vessel list
+> NEED
 
 # Note: Political entities, dependencies, and naming
 
@@ -118,6 +138,8 @@ The Netherlands, France, Denmark, and the United Kingdom also have overseas depe
 Outside of the EU, the only other dependencies we need to worry about are those that relate to the United States. The following overseas dependencies are considered to be a part of the United States for the purpose of aggregating data in this analysis: `r paste(us_territory_names, collapse = ", ")`. 
 
 # Section 1 - Subsidies Data
+
+For the two datasets in this section, we'll export tidied versions individually for use in SubsidyExplorer. 
 
 ## Updated estimates and analysis of global fisheries subsidies from Sumaila et al. (2019)
 
@@ -157,7 +179,8 @@ sumaila_2019_dat_eu <- sumaila_2019_dat_edit %>%
 
 # Add the EU back in
 sumaila_2019_dat_edit <- sumaila_2019_dat_edit %>%
-  bind_rows(sumaila_2019_dat_eu)
+  bind_rows(sumaila_2019_dat_eu) %>%
+  mutate(variable = "subsidies_Sumaila")
 
 # Save
 write_csv(sumaila_2019_dat_edit, paste0(data_dir, "sumaila_et_al_2019_subsidies_tidy.csv"))
@@ -199,11 +222,138 @@ oecd_fse_dat_eu <- oecd_fse_dat_edit %>%
 
 # Add EU back in 
 oecd_fse_dat_edit <- oecd_fse_dat_edit %>%
-  bind_rows(oecd_fse_dat_eu)
+  bind_rows(oecd_fse_dat_eu) %>%
+  mutate(variable = "subsidies_OECD")
   
 # Save
 write_csv(oecd_fse_dat_edit, paste0(data_dir, "oecd_2019_fse_tidy.csv"))
 write_csv(oecd_fse_dat_edit, paste0(app_data_dir, "oecd_2019_fse_tidy.csv"))
 
+```
+
+# Section 2 - Demographic Data
+
+For the four datasets in this section, we'll export a single aggregated demographic dataset for use in SubsidyExplorer.
+
+## Demographic statistics by state from the World Bank's World Development Indicators Database (2000 - 2018)
+
+```{r}
+# Load data using WDI package
+wb_demo_dat <- WDI(country = "all",
+                   indicator = c("gdp" = "NY.GDP.MKTP.CD",
+                                 "gdp_ffa" = "NV.AGR.TOTL.CD",
+                                 "population" = "SP.POP.TOTL"),
+                                  start = 2000,
+                                  end = 2018,
+                                  extra = TRUE) %>%
+  dplyr::filter(region != "Aggregates") %>%
+  dplyr::select(iso3 = iso3c,
+                year,
+                gdp,
+                gdp_ffa,
+                population) %>%
+  mutate(iso3 = as.character(iso3)) %>%
+  arrange(iso3, year) %>%
+  gather(variable, value, c("gdp", "gdp_ffa", "population")) %>%
+  dplyr::filter(!is.na(value)) %>%
+  mutate(units = case_when(variable == "population" ~ "individuals",
+                           TRUE ~ paste0(year, " US$")),
+         source = "World Bank WDI database")
+
+# Deal with the EU + territories
+wb_dat_eu <- wb_demo_dat %>%
+  dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
+  mutate(entity = "EU") %>%
+  group_by(entity, year, variable, units, source) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity) %>%
+  arrange(iso3, year, variable)
+
+# Deal with the US + territories
+wb_dat_us <- wb_demo_dat %>%
+  dplyr::filter(iso3 %in% c(us_territories, "USA")) %>%
+  mutate(entity = "USA") %>%
+  group_by(entity, year, variable, units, source) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity) %>%
+  arrange(iso3, year, variable)
+
+# Add back in
+wb_dat_edit <- wb_demo_dat %>%
+  dplyr::filter(iso3 != "USA") %>%
+  bind_rows(wb_dat_eu) %>%
+  bind_rows(wb_dat_us)
+
+# Export clean
+write_csv(wb_dat_edit, paste0(data_dir, "world_bank_2020_wdi_tidy.csv"))
+write_csv(wb_dat_edit, paste0(app_data_dir, "world_bank_2020_wdi_tidy.csv"))
+```
+
+## Total number of fishers by state from the FAO Yearbook of Fishery and Aquaculture Statistics (misc. years between 1995 and 2016)
+
+```{r}
+# Pull data and wrangle
+fao_fishers_dat <- read_csv(fao_fishers_path) %>%
+  mutate(iso3 = countrycode(country, "country.name", "iso3c")) %>%
+  dplyr::select(-country) %>%
+  gather(year, value, c('1995', '2000', '2005', '2010', '2011', '2012', '2013', '2014', '2015', '2016')) %>%
+  mutate(year = as.numeric(year)) %>%
+  dplyr::filter(!is.na(value)) %>%
+  mutate(variable = "fishers",
+         units = "individuals",
+         source = "FAO Yearbook of Fishery and Aquaculture Statistics (2017)")
+
+# Deal with EU
+fao_fishers_dat_eu <- fao_fishers_dat %>%
+  dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
+  mutate(entity = "EU") %>%
+  group_by(entity, year, variable, units, source) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity) %>%
+  arrange(iso3, year, variable)
+
+# Add EU back in 
+fao_fishers_dat_edit <- fao_fishers_dat %>%
+  bind_rows(fao_fishers_dat_eu) %>%
+  arrange(year, iso3)
+
+# Export clean
+write_csv(fao_fishers_dat_edit, paste0(data_dir, "fao_2017_yearbook_fishers_tidy.csv"))
+write_csv(fao_fishers_dat_edit, paste0(app_data_dir, "fao_2017_yearbook_fishers_tidy.csv"))
+```
+
+## Estimated number of full-time jobs in fisheries from Teh and Sumaila (2013) in 2003
+
+```{r}
+# Pull data and wrangle
+teh_fte_dat <- read_xlsx(teh_fte_path) %>%
+  clean_names(case = "snake") %>%
+  mutate(iso3 = case_when(country == "Dominican Rp" ~ "DOM",
+                          country == "Micronesia" ~ "FSM",
+                          country == "Untd Arab Em" ~ "ARE",
+                          TRUE ~ countrycode(country, "country.name", "iso3c"))) %>%
+  dplyr::select(-country) %>%
+  mutate(variable = "fishers_fte",
+         year = 2003,
+         units = "full-time equivalent jobs",
+         source = "Teh and Sumaila (2013)") %>%
+  dplyr::select(iso3, year, variable, value = total_fte, units, source)
+
+# Deal with EU
+teh_fte_dat_eu <- teh_fte_dat %>%
+  dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
+  mutate(entity = "EU") %>%
+  group_by(entity, year, variable, units, source) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity) %>%
+  arrange(iso3, year, variable)
+
+# Add EU back in 
+teh_fte_dat_edit <- teh_fte_dat %>%
+  bind_rows(teh_fte_dat_eu)
+
+# Export clean
+write_csv(teh_fte_dat_edit, paste0(data_dir, "teh_and_sumaila_2013_fte_tidy.csv"))
+write_csv(teh_fte_dat_edit, paste0(app_data_dir, "teh_and_sumaila_2013_fte_tidy.csv"))
 ```
 

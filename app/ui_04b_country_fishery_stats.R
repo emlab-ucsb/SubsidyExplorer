@@ -70,9 +70,6 @@ CountryFisheryStats = function(wto_members_and_observers)
            #Fishery subsidies bar plot
            plotlyOutput("country_fishery_stats_subsidies_plot")
            
-           # # Temp image
-           # img(src = "/sample-images/04b_subsidy_plot_image.png", width = "100%")
-           
     ),
     
     ### Section 2: Capture fisheries production                                                     
@@ -87,6 +84,37 @@ CountryFisheryStats = function(wto_members_and_observers)
            # Temp image
            img(src = "/sample-images/04b_capture_production_plot_image.png", width = "100%")
            
+    ),
+    
+    ### Section 3: Demographics                                                  
+    column(12, style = "padding: 10px 25px;",
+           
+           # Header and text
+           includeHTML("./text/04b_country_fishery_stats_section3.html"),
+           
+           # Top row of demographic plots
+           fluidRow(
+             
+             column(6,
+                    # Population plot
+                    plotlyOutput("country_fishery_stats_pop_plot")
+             ),
+             
+             column(6,
+                    # Fishers plot
+                    plotlyOutput("country_fishery_stats_fisher_plot")
+                    
+             )
+           ),
+           
+           # Bottom row of demographic plots
+           fluidRow(
+             
+             column(12,
+                    # GDP plot
+                    plotlyOutput("country_fishery_stats_gdp_plot")
+             )
+           )
     ),
     
     ### Bottom navigation buttons

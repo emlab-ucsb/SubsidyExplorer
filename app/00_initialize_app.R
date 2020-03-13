@@ -65,17 +65,15 @@ world_small_countries <- world  %>%
 # ### Data ---------------
 # ### --------------------
 
-### SUBSIDIES -----------------------------------------------------------------------------------
+### SUBSIDY DATA -----------------------------------------------------------------------------------
 
 # 1) Subsidy estimates (Sumaila et al. 2019) ---
 subsidy_dat_sumaila_raw <- read_csv("./data/sumaila_et_al_2019_subsidies_tidy.csv") %>%
-  arrange(iso3) %>%
-  mutate(variable = "subsidies_Sumaila")
+  arrange(iso3)
 
 # 2) Subsidy estimates (OECD 2019) ---
 subsidy_dat_oecd_raw <- read_csv("./data/oecd_2019_fse_tidy.csv") %>%
   arrange(iso3) %>%
-  mutate(variable = "subsidies_OECD") %>%
   mutate(category = as.character(category)) %>%
   group_by(iso3, type) %>%
   dplyr::filter(year == max(year)) %>%
@@ -133,6 +131,25 @@ myColors <- c(goodColors, badColors, ambigColors, totColor, oecdColors)
 
 categoryColors <- c(goodColors[1], badColors[1], ambigColors[1])
 names(categoryColors) <- names(subsidy_categories_sorted_sumaila)
+
+### DEMOGRAPHIC DATA -----------------------------------------------------------------------------------
+
+# 1) GDP and Population (World Bank WDI database 2020) ---
+demo_dat_world_bank <- read_csv("./data/world_bank_2020_wdi_tidy.csv") %>%
+  arrange(iso3)
+
+# 2) Number of fishers (FAO Yearbook 2017) ---
+fisher_dat_fao <- read_csv("./data/fao_2017_yearbook_fishers_tidy.csv") %>%
+  arrange(iso3)
+
+# 3) Full-time fisheries employment (Teh and Sumaila 2013) ---
+fisher_dat_teh_and_sumaila <- read_csv("./data/teh_and_sumaila_2013_fte_tidy.csv") %>%
+  arrange(iso3)
+
+# Aggregate
+demographic_dat <- demo_dat_world_bank %>%
+  bind_rows(fisher_dat_fao) %>%
+  bind_rows(fisher_dat_teh_and_sumaila)
 
 # # 2) Country profiles ---
 # profile_dat_raw <- read.csv("./data/country-profiles-tidy.csv", stringsAsFactors = F)

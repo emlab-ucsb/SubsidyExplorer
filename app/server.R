@@ -109,7 +109,7 @@ shinyServer(function(input, output, session) {
   })
   
   ### Text Output: IUU data warning -------------------
-  output$o_iuu_warning <- renderText({
+  output$iuu_warning <- renderText({
     
     if("iuu2" %in% input$iuu_definitions | "iuu3" %in% input$iuu_definitions | "iuu4" %in% input$iuu_definitions){
       "Note: At present, no data exists on a global scale to identify vessels listed as having engaged in IUU fishing activities by a coastal state, flag state, or subsidizing Member state."

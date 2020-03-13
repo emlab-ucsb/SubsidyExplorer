@@ -11,15 +11,15 @@ GlobalFishingFootprint = function()
     # Page style
     style = "background-color: #262626; color: #ffffff;",
     
-    ### Top navigation buttons
+    ### Top navigation button
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Back to compare fishery stats
+                    # Return to main menu
                     column(3,
-                           tags$button(id = "ab_global_fishing_footprint_to_compare_fishery_stats",
+                           tags$button(id = "ab_global_fishing_footprint_to_introduction",
                                        class = "btn action-button nav-button-l",
-                                       icon("chevron-left"), button_text$text[button_text$id == "ab_global_fishing_footprint_to_compare_fishery_stats"]
+                                       icon("undo"), text$item_label[text$item_id == "ab_global_fishing_footprint_to_introduction"]
                            )
                     )
                     
@@ -30,7 +30,7 @@ GlobalFishingFootprint = function()
     column(12, style = "padding: 25px 25px;",
            
            # Title
-           tags$h3(style = "padding: 0; margin: 0 0 10px;", tab_text$tab[tab_text$id == "global-fishing-footprint"], tags$button(id = "info_global_fishing_footprint",
+           tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px; color: #ffffff;", text$item_label[text$item_id == "global-fishing-footprint"], tags$button(id = "info_global_fishing_footprint",
                                                                                                                                  class = "btn action-button info-button",
                                                                                                                                  icon("info"))),
            
@@ -61,11 +61,11 @@ GlobalFishingFootprint = function()
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Return to main menu
+                    # Back to compare fishery stats
                     column(3,
-                           tags$button(id = "ab_global_fishing_footprint_to_introduction",
+                           tags$button(id = "ab_global_fishing_footprint_to_compare_fishery_stats",
                                        class = "btn action-button nav-button-l",
-                                       icon("undo"), button_text$text[button_text$id == "ab_global_fishing_footprint_to_introduction"]
+                                       icon("chevron-left"), text$item_label[text$item_id == "ab_global_fishing_footprint_to_compare_fishery_stats"]
                            )
                     )
                     

@@ -11,23 +11,15 @@ CountryFisheryStats = function(wto_members_and_observers)
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     
-    ### Navigation buttons
+    ### Top Navigation button
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Back to global-subsidies
+                    # Return to main menu
                     column(3,
-                           tags$button(id = "ab_country_fishery_stats_to_global_subsidies",
+                           tags$button(id = "ab_country_fishery_stats_to_introduction",
                                        class = "btn action-button nav-button-l",
-                                       icon("chevron-left"), button_text$text[button_text$id == "ab_country_fishery_stats_to_global_subsidies"]
-                           )
-                    ),
-                    
-                    # Next to compare-fishery-stats
-                    column(3, offset = 6,
-                           tags$button(id = "ab_country_fishery_stats_to_compare_fishery_stats",
-                                       class = "btn action-button nav-button-r",
-                                       button_text$text[button_text$id == "ab_country_fishery_stats_to_compare_fishery_stats"], icon("chevron-right")
+                                       icon("undo"), text$item_label[text$item_id == "ab_country_fishery_stats_to_introduction"]
                            )
                     )
                     
@@ -38,14 +30,14 @@ CountryFisheryStats = function(wto_members_and_observers)
     column(12, style = "padding: 25px 25px 0px;",
            
            # Title
-           tags$h3(style = "padding: 0; margin: 0;", tab_text$tab[tab_text$id == "country-fishery-stats"]),
+           tags$h3(style = "text-align: left; padding: 0; margin: 0;", text$item_label[text$item_id == "country-fishery-stats"]),
            
            # Text
            includeHTML("./text/04b_country_fishery_stats_intro.html"),
            
            # Select state
            selectizeInput("w_country_fishery_stats_selected_country",
-                          label = tagList(tags$b(" WTO Member or Observer:   "),
+                          label = tagList(tags$b(text$item_label[text$item_id == "w_country_fishery_stats_selected_country"]),
                                           
                                           # Info button: subsidy types
                                           tags$button(id = "territory_info",
@@ -121,11 +113,19 @@ CountryFisheryStats = function(wto_members_and_observers)
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Return to main menu
+                    # Back to global-subsidies
                     column(3,
-                           tags$button(id = "ab_country_fishery_stats_to_introduction",
+                           tags$button(id = "ab_country_fishery_stats_to_global_subsidies",
                                        class = "btn action-button nav-button-l",
-                                       icon("undo"), button_text$text[button_text$id == "ab_country_fishery_stats_to_introduction"]
+                                       icon("chevron-left"), text$item_label[text$item_id == "ab_country_fishery_stats_to_global_subsidies"]
+                           )
+                    ),
+                    
+                    # Next to compare-fishery-stats
+                    column(3, offset = 6,
+                           tags$button(id = "ab_country_fishery_stats_to_compare_fishery_stats",
+                                       class = "btn action-button nav-button-r",
+                                       text$item_label[text$item_id == "ab_country_fishery_stats_to_compare_fishery_stats"], icon("chevron-right")
                            )
                     )
                     

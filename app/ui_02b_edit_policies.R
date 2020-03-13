@@ -53,11 +53,11 @@ EditPolicies = function()
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                     
-                    # Back to compare fishery stats
+                    # Return to main menu
                     column(3,
-                           tags$button(id = "ab_edit_policies_to_selected_results",
+                           tags$button(id = "ab_edit_policies_to_introduction",
                                        class = "btn action-button nav-button-l",
-                                       icon("chevron-left"), button_text$text[button_text$id == "ab_edit_policies_to_selected_results"]
+                                       icon("undo"), text$item_label[text$item_id == "ab_edit_policies_to_introduction"]
                            )
                     )
                     
@@ -69,13 +69,13 @@ EditPolicies = function()
   #### ----------------------------------------------------------------------------------------
 column(12,
        
-  column(8,
+  column(9,
     
     ### Title and introductory text 
     column(12, style = "padding: 25px 25px;",
            
            # Title
-           tags$h3(style = "padding: 0; margin: 0 0 10px;", tab_text$tab[tab_text$id == "edit-policies"])
+           tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "edit-policies"])
            
     ),
     
@@ -90,7 +90,7 @@ column(12,
                          ### Tab # 0  - Introduction
                          ### --------------------------
                          
-                         tabPanel(tab_text$tab[tab_text$id == "instructions"],
+                         tabPanel(text$item_label[text$item_id == "instructions"],
                                   value = "instructions",
                                   
                                   # Column container for tab panel        
@@ -101,13 +101,13 @@ column(12,
                                          # Intro text and policy name
                                          column(12, style = "padding: 15px 25px 15px;",
                                                 
-                                                
+                                                # Introductory text
                                                 includeHTML("./text/02b_edit_policies_intro.html"),
                                                 
                                                 # Provide policy description
-                                                textInput(inputId = "w_run_name",
-                                                          label = widget_text$label[widget_text$id == "w_run_name"],
-                                                          value = widget_text$value[widget_text$id == "w_run_name"]),
+                                                textInput("w_run_name",
+                                                          label = text$item_label[text$item_id == "w_run_name"],
+                                                          value = text$item_value[text$item_id == "w_run_name"]),
                                          ),
                                          
                                          # Next tab button
@@ -115,7 +115,7 @@ column(12,
                                                 
                                                 tags$button(id = "ab_edit_policies_tabs_instructions_to_iuu",
                                                             class = "btn action-button nav-button-white-r",
-                                                            button_text$text[button_text$id == "ab_edit_policies_tabs_instructions_to_iuu"], icon("chevron-right")
+                                                            text$item_label[text$item_id == "ab_edit_policies_tabs_instructions_to_iuu"], icon("chevron-right")
                                                 )
                                          )
                                          
@@ -128,7 +128,7 @@ column(12,
                          ### Tab # 1  - IUU 
                          ### --------------------------
                          
-                         tabPanel(tab_text$tab[tab_text$id == "iuu"], 
+                         tabPanel(text$item_label[text$item_id == "iuu"], 
                                   value = "iuu",
                                   
                                   # Column container for tab panel        
@@ -143,33 +143,24 @@ column(12,
                                                 
                                          ),
                                          
-                                         # IUU proposal dropdown
-                                         column(12, style = "padding: 0px 25px 15px;",
-                                                
-                                                # Dropdown widget
-                                                column(12, style = "padding: 0px 10px;",
-                                                       
-                                                       selectInput("w_iuu_proposal_selection", 
-                                                                   label = tags$b(widget_text$label[widget_text$id == "w_iuu_proposal_selection"]),
-                                                                   choices = c("Default", "A", "B"),
-                                                                   selected = "Default",
-                                                                   width = "100%")
-                                                )
-                                                
-                                         ), # /column - IUU proposal dropdown
+                                         # # IUU proposal dropdown
+                                         # column(12, style = "padding: 0px 25px 15px;",
+                                         #        
+                                         #        # Dropdown widget
+                                         #        column(12, style = "padding: 0px 10px;",
+                                         #               
+                                         #               selectInput("w_iuu_proposal_selection", 
+                                         #                           label = tags$b(widget_text$label[widget_text$id == "w_iuu_proposal_selection"]),
+                                         #                           choices = c("Default", "A", "B"),
+                                         #                           selected = "Default",
+                                         #                           width = "100%")
+                                         #        )
+                                         #        
+                                         # ), # /column - IUU proposal dropdown
                                          
-                                         # Collapsable box with more info
-                                         # column(12, style = "padding: 0px 25px 15px; align: 'center';",
-                                         
-                                         # Collapsable box with manual IUU discipline selection
+                                         # Manual IUU discipline selection
                                          column(12, style = "padding: 0px 25px 15px;", 
                                                 
-                                                box(title = "Manually select IUU disciplines...",
-                                                    collapsible = TRUE,
-                                                    width = "100%",
-                                                    collapsed = T,
-                                                
-                                                    
                                                     fluidRow( 
                                                       
                                                       ### Left column: Definitions
@@ -178,7 +169,7 @@ column(12,
                                                              # Input: IUU definitions
                                                              checkboxGroupInput("w_iuu_definitions", 
                                                                                 
-                                                                                label = tagList(tags$b(widget_text$label[widget_text$id == "w_iuu_definitions"]),
+                                                                                label = tagList(tags$b(text$item_label[text$item_id == "w_iuu_definitions"]),
                                                                                                 # IUU definitions info button
                                                                                                 tags$button(id = "info_iuu",
                                                                                                             class = "btn action-button info-button",
@@ -190,7 +181,7 @@ column(12,
                                                                                 inline = FALSE), 
                                                              
                                                              # IUU data warning
-                                                             tags$i(textOutput("o_iuu_warning")),
+                                                             tags$i(textOutput("iuu_warning")),
                                                          
                                                          br(),
                                                          
@@ -199,7 +190,7 @@ column(12,
                                                                           
                                                                           # Input: Make IUU assumption
                                                                           radioButtons("w_iuu_assumption",
-                                                                                       label = tagList(tags$b("Would you like to make an assumption about IUU fishing worldwide instead?"),
+                                                                                       label = tagList(tags$b(text$item_label[text$item_id == "w_iuu_assumption"]),
                                                                                                        # IUU assumption info button
                                                                                                        tags$button(id = "info_iuu_assumption",
                                                                                                                    class = "btn action-button info-button",
@@ -215,10 +206,10 @@ column(12,
                                                                                            
                                                                                            # Input: Assumed level of IUU fishing
                                                                                            sliderInput("w_iuu_percent", 
-                                                                                                       label = tags$b("Assumed amount of fishing effort identified as IUU (%): "),
-                                                                                                       min = 0,
-                                                                                                       max = 100,
-                                                                                                       value = 20,
+                                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_percent"]),
+                                                                                                       min = text$min[text$item_id == "w_iuu_percent"],
+                                                                                                       max = text$max[text$item_id == "w_iuu_percent"],
+                                                                                                       value = text$value[text$item_id == "w_iuu_percent"],
                                                                                                        width = "100%")
                                                                                            
                                                                           ) # /conditionalPanel: IUU assumption value
@@ -233,7 +224,7 @@ column(12,
                                                          conditionalPanel('input.w_iuu_definitions.length > 0',
                                                                           
                                                                           radioButtons("w_iuu_scope",
-                                                                                       label = tags$b("Discipline(s) apply to:"),
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_scope"]),
                                                                                        choices = c("all", "other"),
                                                                                        selected = "all",
                                                                                        width = "100%",
@@ -243,7 +234,7 @@ column(12,
                                                                           conditionalPanel("input.w_iuu_scope == 'select'",
                                                                                            
                                                                                            selectizeInput("w_iuu_scope_manual",
-                                                                                                          label = tags$b("Select Members:"),
+                                                                                                          label = tags$b(text$item_label[text$item_id == "w_iuu_scope_manual"]),
                                                                                                           choices = c("A", "B", "C"),
                                                                                                           selected = NULL,
                                                                                                           width = "100%",
@@ -259,7 +250,7 @@ column(12,
                                                          conditionalPanel('input.w_iuu_definitions.length > 0',
                                                                           
                                                                           radioButtons("w_iuu_allow_sdt",
-                                                                                       label = tags$b("Allow S&DT?"),
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_allow_sdt"]),
                                                                                        choices = c("Yes", "No"),
                                                                                        selected = "No",
                                                                                        width = "100%",
@@ -270,7 +261,7 @@ column(12,
                                                          conditionalPanel("(input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0)",
                                                                           
                                                                           radioButtons("w_iuu_sdt_who",
-                                                                                       label = tagList(tags$b("S&DT applies to:"),
+                                                                                       label = tagList(tags$b(text$item_label[text$item_id == "w_iuu_sdt_who"]),
                                                                                                        # Info button
                                                                                                        tags$button(id = "info_iuu_sdt",
                                                                                                                    class = "btn action-button info-button",
@@ -280,13 +271,12 @@ column(12,
                                                                                        width = "100%",
                                                                                        inline = FALSE),
                                                                           
-                                                                          
                                                                           checkboxGroupInput("w_iuu_sdt_what",
-                                                                                             label = tags$b("S&DT:"),
+                                                                                             label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what"]),
                                                                                              choices = c("A", "B"),
                                                                                              selected = "",
                                                                                              width = "100%",
-                                                                                             inline = FALSE)
+                                                                                             inline = FALSE),
                                                                           
                                                                           # conditionalPanel("input.iuu_sdt_what.includes('time')",
                                                                           #                  
@@ -299,13 +289,40 @@ column(12,
                                                                           #                  
                                                                           # ) # /conditionalpanel - input.w_iuu_sdt_what.includes('time')
                                                                           
+                                                                          radioButtons("w_iuu_allow_sdt_second",
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_allow_sdt_second"]),
+                                                                                       choices = c("Yes", "No"),
+                                                                                       selected = "No",
+                                                                                       width = "100%",
+                                                                                       inline = FALSE),
+                                                                          
+                                                                          # Second IUU S&DT
+                                                                          conditionalPanel("(input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0 && input.w_iuu_allow_sdt_second == 'Yes')",
+                                                                                           
+                                                                                           radioButtons("w_iuu_sdt_who2",
+                                                                                                        label = tagList(tags$b(text$item_label[text$item_id == "w_iuu_sdt_who2"]),
+                                                                                                                        # Info button
+                                                                                                                        tags$button(id = "info_iuu_sdt",
+                                                                                                                                    class = "btn action-button info-button",
+                                                                                                                                    icon("info"))),
+                                                                                                        choices = c("A", "B", "ldc"),
+                                                                                                        selected = "ldc",
+                                                                                                        width = "100%",
+                                                                                                        inline = FALSE),
+                                                                                           
+                                                                                           checkboxGroupInput("w_iuu_sdt_what2",
+                                                                                                              label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what2"]),
+                                                                                                              choices = c("A", "B"),
+                                                                                                              selected = "",
+                                                                                                              width = "100%",
+                                                                                                              inline = FALSE)
+                                                                          ) # /conditionapanel
+                                                                          
                                                          ) # /conditionalpanel - input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0
                                                   ) # /column - IUU S&DT
                                                   
                                                 ) # /fluidRow - IUU
                                                 
-                                         ) # /box - IUU manual options
-                                         
                                          ), # /column 12 - IUU manual options
                                          
                                          # # Collapsable box with more info
@@ -1078,21 +1095,19 @@ column(12,
 ), # close column 12
                   
   ### Bottom navigation buttons
-    column(12,
-           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
-                    
-                    # Return to main menu
-                    column(3,
-                           tags$button(id = "ab_edit_policies_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("undo"), button_text$text[button_text$id == "ab_edit_policies_to_introduction"]
-                           )
-                    )
-                    
-           )
-    )
-            
-    
+  column(12,
+       fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
+                
+                # Back to compare fishery stats
+                column(3,
+                       tags$button(id = "ab_edit_policies_to_selected_results",
+                                   class = "btn action-button nav-button-l",
+                                   icon("chevron-left"), button_text$text[button_text$id == "ab_edit_policies_to_selected_results"]
+                       )
+                )
+                
+       )
+  )
     
   ) # /fluidPage
   

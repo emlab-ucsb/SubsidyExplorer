@@ -259,7 +259,7 @@ WITH
 SELECT
   *,
   CASE
-    WHEN engine_power_kw IS NULL THEN fishing_hours_lat_lon
+    WHEN engine_power_kw IS NULL THEN fishing_hours_lat_lon*400
     ELSE fishing_hours_lat_lon*engine_power_kw
   END AS fishing_KWh_lat_lon
 FROM

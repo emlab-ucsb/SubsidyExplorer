@@ -58,7 +58,14 @@ map_theme <- theme(panel.background = element_rect(fill ="black"),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
 
-plot_theme <- theme_bw()
+plot_theme <- theme_bw()+
+  theme(legend.text = element_text(color = "black", size = 16),
+        legend.title = element_text(color = "black", size = 16),
+        legend.title.align = 1,
+        legend.direction = "horizontal",
+        legend.position = "bottom",
+        legend.justification = "center",
+        axis.text = element_text(color = "black", size = rel(1)))
 
 # Land shapefile
 world_land <- st_as_sf(rworldmap::countriesLow) ## data(countriesLow) is from the rworldmap package
@@ -83,26 +90,40 @@ Before allocating catches and subsidies across vessels, we need to identify vess
 # Load country dependencies helper file
 country_dependencies <- read_csv(here::here("data", "lookup-tables", "country_dependencies.csv"))
 
-# EU countries
-eu_countries <- country_dependencies$iso3[country_dependencies$is_EU]
+# Netherlands overseas territories
+nld_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "NLD"]
 
-# EU overseas territories
-eu_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 %in% eu_countries]
+# France overseas territories
+fra_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "FRA"]
+
+# Denmark overseas territories
+dnk_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "DNK"]
+
+# British overseas territories
+gbr_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "GBR"]
+
+# Norway overseas territories
+nor_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "NOR"]
 
 # US overseas territories:  American Samoa, Guam, Northern Marianas Islands, Puerto Rico, US Virgin Islands
-us_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "USA"]
+usa_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "USA"]
+
+# Australian overseas territories: Christmas Island
+aus_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "AUS"]
 ```
 
 We apply these to our binned fishing effort
 
 ```{r}
 effort_binned <- effort_binned_good_fishing_vessels_2018 %>%
-  mutate(is_eu = case_when(flag %in% c(eu_countries, eu_territories) ~ TRUE,
-                           TRUE ~ FALSE),
-         is_usa = case_when(flag %in% c(us_territories, "USA") ~ TRUE,
-                            TRUE ~ FALSE),
-         new_flag = case_when(is_eu ~ "EU", 
-                              is_usa ~ "USA", 
+  mutate(new_flag = case_when(flag %in% nld_territories ~ "NLD",
+                              flag %in% fra_territories ~ "FRA",
+                              flag %in% dnk_territories ~ "DNK",
+                              flag %in% gbr_territories ~ "GBR",
+                              flag %in% nor_territories ~ "NOR",
+                              flag %in% usa_territories ~ "USA",
+                              flag %in% aus_territories ~ "AUS",
+                              flag == "COK" ~ "NZL", # for now assign cook islands to new zealand
                               TRUE ~ flag))
 
 effort_binned$new_flag[effort_binned$new_flag == "GCA"] <- "GTM"
@@ -130,7 +151,9 @@ subsidy_dat_sumaila <- read_csv(subsidy_dat_sumaila_path) %>%
   spread(category, subs) %>%
   rename(A_subs = A,
          B_subs = B,
-         C_subs = C)
+         C_subs = C) %>%
+  mutate(BC_subs = B_subs + C_subs,
+         tot_subs = A_subs + B_subs + C_subs)
 ```
 
 ```{r}
@@ -140,12 +163,41 @@ subsidy_rates_flag <- effort_totals_flag %>%
   mutate(A_subs_KWh = A_subs/fishing_KWh_lat_lon,
          B_subs_KWh = B_subs/fishing_KWh_lat_lon,
          C_subs_KWh = C_subs/fishing_KWh_lat_lon,
-         tot_subs_KWh = (A_subs+B_subs+C_subs)/fishing_KWh_lat_lon) %>%
+         BC_subs_KWh = BC_subs/fishing_KWh_lat_lon,
+         tot_subs_KWh = tot_subs/fishing_KWh_lat_lon) %>%
   dplyr::select(new_flag, contains("subs_KWh"))
 
 # Apply subsidy rates to binned effort
 effort_binned_sub_intensity <- effort_binned %>%
   left_join(subsidy_rates_flag, by = "new_flag")
+
+# Summarize by lat/lon
+subsidy_intensity_binned <- effort_binned_sub_intensity %>%
+  group_by(lat_bin_center, lon_bin_center) %>%
+  summarize(med_B_subs_KWh = median(B_subs_KWh, na.rm = T),
+            med_BC_subs_KWh = median(BC_subs_KWh, na.rm = T),
+            med_tot_subs_KWh = median(tot_subs_KWh, na.rm = T),
+            mean_B_subs_KWh = mean(B_subs_KWh, na.rm = T),
+            mean_BC_subs_KWh = mean(BC_subs_KWh, na.rm = T),
+            mean_tot_subs_KWh = mean(tot_subs_KWh, na.rm = T),
+            w_mean_B_subs_KWh = weighted.mean(B_subs_KWh, w = fishing_KWh_lat_lon, na.rm = T),
+            w_mean_BC_subs_KWh = weighted.mean(BC_subs_KWh, w = fishing_KWh_lat_lon, na.rm = T),
+            w_mean_tot_subs_KWh = weighted.mean(tot_subs_KWh, w = fishing_KWh_lat_lon, na.rm = T),
+            tot_fishing_KWh = sum(fishing_KWh_lat_lon, na.rm = T))
+
+# Summarize by fao region
+subsidy_intensity_region <- effort_binned_sub_intensity %>%
+  group_by(fao_region) %>%
+  summarize(med_B_subs_KWh = median(B_subs_KWh, na.rm = T),
+            med_BC_subs_KWh = median(BC_subs_KWh, na.rm = T),
+            med_tot_subs_KWh = median(tot_subs_KWh, na.rm = T),
+            mean_B_subs_KWh = mean(B_subs_KWh, na.rm = T),
+            mean_BC_subs_KWh = mean(BC_subs_KWh, na.rm = T),
+            mean_tot_subs_KWh = mean(tot_subs_KWh, na.rm = T),
+            w_mean_B_subs_KWh = weighted.mean(B_subs_KWh, w = fishing_KWh_lat_lon, na.rm = T),
+            w_mean_BC_subs_KWh = weighted.mean(BC_subs_KWh, w = fishing_KWh_lat_lon, na.rm = T),
+            w_mean_tot_subs_KWh = weighted.mean(tot_subs_KWh, w = fishing_KWh_lat_lon, na.rm = T),
+            tot_fishing_KWh = sum(fishing_KWh_lat_lon, na.rm = T))
 ```
 
 Now we go back to our effort data, and apply our subsidy rates. 
@@ -153,13 +205,41 @@ Now we go back to our effort data, and apply our subsidy rates.
 Now let's calculate and plot the median bad subsidy intensities by lat/lon bin and FAO region.
 
 ```{r}
-median_breaks <- seq(0,6, by = 1)
-median_limits <- c(0,6)
-median_labels <- c("0", "1", "2", "3", "4", "5", paste0("\u2265","6"))
+median_breaks <- seq(0,8, by = 2)
+median_limits <- c(0,8)
+median_labels <- c("0", "2", "4", "6", paste0("\u2265","8"))
 
-median_subsidy_intensity_B_grid_map <- effort_binned_sub_intensity %>%
-  group_by(year, lat_bin_center, lon_bin_center) %>%
-  summarize(med_B_subs_KWh = median(B_subs_KWh, na.rm = T)) %>%
+# Total subsidies
+median_subsidy_intensity_tot_grid_map <- subsidy_intensity_binned %>%
+  ggplot()+
+  geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = med_tot_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
+  scale_fill_viridis_c(name="Median Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = median_limits, 
+                       breaks = median_breaks,
+                       labels = median_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+median_subsidy_intensity_tot_grid_map
+
+ggsave(paste0(results_dir, "median_subsidy_intensity_tot_grid_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad subsidies only
+median_subsidy_intensity_B_grid_map <- subsidy_intensity_binned %>%
   ggplot()+
   geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = med_B_subs_KWh)) +
   geom_sf(data=world_land, color = NA, fill="grey30") +
@@ -187,6 +267,35 @@ median_subsidy_intensity_B_grid_map
 
 ggsave(paste0(results_dir, "median_subsidy_intensity_B_grid_map.png"), dpi = 200, width = 7, height = 5)
 
+# Bad and ambiguous subsidies
+median_subsidy_intensity_BC_grid_map <- subsidy_intensity_binned %>%
+  ggplot()+
+  geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = med_BC_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
+  scale_fill_viridis_c(name="Median Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = median_limits, 
+                       breaks = median_breaks,
+                       labels = median_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+median_subsidy_intensity_BC_grid_map
+
+ggsave(paste0(results_dir, "median_subsidy_intensity_BC_grid_map.png"), dpi = 200, width = 7, height = 5)
+
 ```
 
 ```{r}
@@ -194,14 +303,41 @@ region_median_breaks <- seq(0,2, by = 0.5)
 region_median_limits <- c(0,2)
 region_median_labels <- c("0", "0.5", "1", "1.5", paste0("\u2265","2"))
 
-median_subsidy_intensity_B_region_map <- effort_binned_sub_intensity %>%
-  group_by(year, fao_region) %>%
-  summarize(med_B_subs_KWh = median(B_subs_KWh, na.rm = T)) %>%
+# Total subsidies
+median_subsidy_intensity_tot_region_map <- subsidy_intensity_region %>%
+  right_join(fao_regions, by = "fao_region") %>%
+  ggplot()+
+  geom_sf(aes(geometry = geometry, fill = med_tot_subs_KWh), color = "#000000") +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  scale_fill_viridis_c(name="Median Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = region_median_limits, 
+                       breaks = region_median_breaks,
+                       labels = region_median_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+median_subsidy_intensity_tot_region_map
+
+ggsave(paste0(results_dir, "median_subsidy_intensity_tot_region_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad subsidies
+median_subsidy_intensity_B_region_map <- subsidy_intensity_region %>%
   right_join(fao_regions, by = "fao_region") %>%
   ggplot()+
   geom_sf(aes(geometry = geometry, fill = med_B_subs_KWh), color = "#000000") +
   geom_sf(data=world_land, color = NA, fill="grey30") +
-  #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
   scale_fill_viridis_c(name="Median Subsidy Intensity \n($/KWh)", 
                        na.value = "#000000", 
                        limits = region_median_limits, 
@@ -225,18 +361,75 @@ median_subsidy_intensity_B_region_map
 
 ggsave(paste0(results_dir, "median_subsidy_intensity_B_region_map.png"), dpi = 200, width = 7, height = 5)
 
+# Ambiguous and Bad subsidies
+median_subsidy_intensity_BC_region_map <- subsidy_intensity_region %>%
+  right_join(fao_regions, by = "fao_region") %>%
+  ggplot()+
+  geom_sf(aes(geometry = geometry, fill = med_BC_subs_KWh), color = "#000000") +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  scale_fill_viridis_c(name="Median Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = region_median_limits, 
+                       breaks = region_median_breaks,
+                       labels = region_median_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+median_subsidy_intensity_BC_region_map
+
+ggsave(paste0(results_dir, "median_subsidy_intensity_BC_region_map.png"), dpi = 200, width = 7, height = 5)
+
 ```
 
 Do means too. 
 
 ```{r}
-mean_breaks <- seq(0,6, by = 1)
-mean_limits <- c(0,6)
-mean_labels <- c("0", "1", "2", "3", "4", "5", paste0("\u2265","6"))
+mean_breaks <- seq(0,8, by = 2)
+mean_limits <- c(0,8)
+mean_labels <- c("0", "2", "4", "6", paste0("\u2265","8"))
 
-mean_subsidy_intensity_B_grid_map <- effort_binned_sub_intensity %>%
-  group_by(year, lat_bin_center, lon_bin_center) %>%
-  summarize(mean_B_subs_KWh = mean(B_subs_KWh, na.rm = T)) %>%
+# Total subsidies 
+mean_subsidy_intensity_tot_grid_map <- subsidy_intensity_binned %>%
+  ggplot()+
+  geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = mean_tot_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
+  scale_fill_viridis_c(name="Mean Subsidy Intensity \n($/KWh)", 
+                     na.value = "#000000", 
+                     limits = mean_limits, 
+                     breaks = mean_breaks,
+                     labels = mean_labels,
+                     oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+mean_subsidy_intensity_tot_grid_map
+
+ggsave(paste0(results_dir, "mean_subsidy_intensity_tot_grid_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad subsidies 
+mean_subsidy_intensity_B_grid_map <- subsidy_intensity_binned %>%
   ggplot()+
   geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = mean_B_subs_KWh)) +
   geom_sf(data=world_land, color = NA, fill="grey30") +
@@ -263,18 +456,74 @@ mean_subsidy_intensity_B_grid_map <- effort_binned_sub_intensity %>%
 mean_subsidy_intensity_B_grid_map
 
 ggsave(paste0(results_dir, "mean_subsidy_intensity_B_grid_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad and ambiguous subsidies 
+mean_subsidy_intensity_BC_grid_map <- subsidy_intensity_binned %>%
+  ggplot()+
+  geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = mean_BC_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
+  scale_fill_viridis_c(name="Mean Subsidy Intensity \n($/KWh)", 
+                     na.value = "#000000", 
+                     limits = mean_limits, 
+                     breaks = mean_breaks,
+                     labels = mean_labels,
+                     oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+mean_subsidy_intensity_BC_grid_map
+
+ggsave(paste0(results_dir, "mean_subsidy_intensity_BC_grid_map.png"), dpi = 200, width = 7, height = 5)
 ```
 
 ```{r}
-mean_subsidy_intensity_B_region_map <- effort_binned_sub_intensity %>%
-  group_by(year, fao_region) %>%
-  summarize(mean_B_subs_KWh = mean(B_subs_KWh, na.rm = T)) %>%
+# Tot subs
+mean_subsidy_intensity_tot_region_map <- subsidy_intensity_region %>%
+  right_join(fao_regions, by = "fao_region") %>%
+  ggplot()+
+  geom_sf(aes(geometry = geometry, fill = mean_tot_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  scale_fill_viridis_c(name="Mean Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = mean_limits, 
+                       breaks = mean_breaks,
+                       labels = mean_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+mean_subsidy_intensity_tot_region_map
+
+ggsave(paste0(results_dir, "mean_subsidy_intensity_tot_region_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad subs
+mean_subsidy_intensity_B_region_map <- subsidy_intensity_region %>%
   right_join(fao_regions, by = "fao_region") %>%
   ggplot()+
   geom_sf(aes(geometry = geometry, fill = mean_B_subs_KWh)) +
   geom_sf(data=world_land, color = NA, fill="grey30") +
-  #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
-  scale_fill_viridis_c(name="Mean Subsidy Intensity ($/KWh)", 
+  scale_fill_viridis_c(name="Mean Subsidy Intensity \n($/KWh)", 
                        na.value = "#000000", 
                        limits = mean_limits, 
                        breaks = mean_breaks,
@@ -296,6 +545,35 @@ mean_subsidy_intensity_B_region_map <- effort_binned_sub_intensity %>%
 mean_subsidy_intensity_B_region_map
 
 ggsave(paste0(results_dir, "mean_subsidy_intensity_B_region_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad and ambiguous subs
+mean_subsidy_intensity_BC_region_map <- subsidy_intensity_region %>%
+  right_join(fao_regions, by = "fao_region") %>%
+  ggplot()+
+  geom_sf(aes(geometry = geometry, fill = mean_BC_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  scale_fill_viridis_c(name="Mean Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = mean_limits, 
+                       breaks = mean_breaks,
+                       labels = mean_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+mean_subsidy_intensity_BC_region_map
+
+ggsave(paste0(results_dir, "mean_subsidy_intensity_BC_region_map.png"), dpi = 200, width = 7, height = 5)
 ```
 
 Let's make ones for the weighted means too using fishing KWh as the weights. 
@@ -305,11 +583,10 @@ weighted_mean_breaks <- seq(0,6, by = 1)
 weighted_mean_limits <- c(0,6)
 weighted_mean_labels <- c("0", "1", "2", "3", "4", "5", paste0("\u2265","6"))
 
-weighted_mean_subsidy_intensity_B_grid_map <- effort_binned_sub_intensity %>%
-  group_by(year, lat_bin_center, lon_bin_center) %>%
-  summarize(weighted_mean_B_subs_KWh = weighted.mean(B_subs_KWh, w = fishing_KWh_lat_lon)) %>%
+# Tot subs
+w_mean_subsidy_intensity_tot_grid_map <- subsidy_intensity_binned %>%
   ggplot()+
-  geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = weighted_mean_B_subs_KWh)) +
+  geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = w_mean_tot_subs_KWh)) +
   geom_sf(data=world_land, color = NA, fill="grey30") +
   #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
   scale_fill_viridis_c(name="Weighted Mean Subsidy Intensity \n($/KWh)", 
@@ -331,9 +608,65 @@ weighted_mean_subsidy_intensity_B_grid_map <- effort_binned_sub_intensity %>%
    barheight=0.25,
    default.unit="inch"))
 
-weighted_mean_subsidy_intensity_B_grid_map
+w_mean_subsidy_intensity_tot_grid_map
 
-ggsave(paste0(results_dir, "weighted_mean_subsidy_intensity_B_grid_map.png"), dpi = 200, width = 7, height = 5)
+ggsave(paste0(results_dir, "w_mean_subsidy_intensity_tot_grid_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad subs
+w_mean_subsidy_intensity_B_grid_map <- subsidy_intensity_binned %>%
+  ggplot()+
+  geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = w_mean_B_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  scale_fill_viridis_c(name="Weighted Mean Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = weighted_mean_limits, 
+                       breaks = weighted_mean_breaks,
+                       labels = weighted_mean_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+w_mean_subsidy_intensity_B_grid_map
+
+ggsave(paste0(results_dir, "w_mean_subsidy_intensity_B_grid_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad and ambiguous subs
+w_mean_subsidy_intensity_BC_grid_map <- subsidy_intensity_binned %>%
+  ggplot()+
+  geom_tile(aes(x = lon_bin_center, y=lat_bin_center, fill = w_mean_BC_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  scale_fill_viridis_c(name="Weighted Mean Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = weighted_mean_limits, 
+                       breaks = weighted_mean_breaks,
+                       labels = weighted_mean_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+w_mean_subsidy_intensity_BC_grid_map
+
+ggsave(paste0(results_dir, "w_mean_subsidy_intensity_BC_grid_map.png"), dpi = 200, width = 7, height = 5)
 ```
 
 ```{r}
@@ -341,12 +674,11 @@ region_weighted_mean_breaks <- seq(0,4, by = 1)
 region_weighted_mean_limits <- c(0,4)
 region_weighted_mean_labels <- c("0", "1", "2", "3", paste0("\u2265","4"))
 
-weighted_mean_subsidy_intensity_B_region_map <- effort_binned_sub_intensity %>%
-  group_by(year, fao_region) %>%
-  summarize(weighted_mean_B_subs_KWh = weighted.mean(B_subs_KWh, w = fishing_KWh_lat_lon, na.rm = T)) %>%
+# Tot subs
+w_mean_subsidy_intensity_tot_region_map <- subsidy_intensity_region %>%
   right_join(fao_regions, by = "fao_region") %>%
   ggplot()+
-  geom_sf(aes(geometry = geometry, fill = weighted_mean_B_subs_KWh)) +
+  geom_sf(aes(geometry = geometry, fill = w_mean_tot_subs_KWh)) +
   geom_sf(data=world_land, color = NA, fill="grey30") +
   scale_fill_viridis_c(name="Weighted Mean Subsidy Intensity \n($/KWh)", 
                        na.value = "#000000", 
@@ -367,67 +699,122 @@ weighted_mean_subsidy_intensity_B_region_map <- effort_binned_sub_intensity %>%
    barheight=0.25,
    default.unit="inch"))
 
-weighted_mean_subsidy_intensity_B_region_map
+w_mean_subsidy_intensity_tot_region_map
 
-ggsave(paste0(results_dir, "weighted_mean_subsidy_intensity_B_region_map.png"), dpi = 200, width = 7, height = 5)
+ggsave(paste0(results_dir, "w_mean_subsidy_intensity_tot_region_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad subs
+w_mean_subsidy_intensity_B_region_map <- subsidy_intensity_region %>%
+  right_join(fao_regions, by = "fao_region") %>%
+  ggplot()+
+  geom_sf(aes(geometry = geometry, fill = w_mean_B_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  scale_fill_viridis_c(name="Weighted Mean Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = region_weighted_mean_limits, 
+                       breaks = region_weighted_mean_breaks,
+                       labels = region_weighted_mean_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+w_mean_subsidy_intensity_B_region_map
+
+ggsave(paste0(results_dir, "w_mean_subsidy_intensity_B_region_map.png"), dpi = 200, width = 7, height = 5)
+
+# Bad and ambiguous subs
+w_mean_subsidy_intensity_BC_region_map <- subsidy_intensity_region %>%
+  right_join(fao_regions, by = "fao_region") %>%
+  ggplot()+
+  geom_sf(aes(geometry = geometry, fill = w_mean_BC_subs_KWh)) +
+  geom_sf(data=world_land, color = NA, fill="grey30") +
+  scale_fill_viridis_c(name="Weighted Mean Subsidy Intensity \n($/KWh)", 
+                       na.value = "#000000", 
+                       limits = region_weighted_mean_limits, 
+                       breaks = region_weighted_mean_breaks,
+                       labels = region_weighted_mean_labels,
+                       oob = scales::squish) +
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+  xlab("") +
+  ylab("") +
+  map_theme + 
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
+
+w_mean_subsidy_intensity_BC_region_map
+
+ggsave(paste0(results_dir, "w_mean_subsidy_intensity_BC_region_map.png"), dpi = 200, width = 7, height = 5)
 ```
 
-
-### Stock status 
+### Overfishing status 
 
 Now we load the upsides database, calculate mean and median F/Fmsy by FAO region, and plot. 
 
 ```{r}
 upsides_dat <- read_csv(upsides_dat_path) 
 
-upsides_regional_averages <- upsides_dat %>%
+upsides_region <- upsides_dat %>%
   group_by(region_fao_split) %>%
-  summarize(mean_f_v_fmsy = mean(fv_fmsy),
-            mean_weighted_f_v_fmsy = weighted.mean(fv_fmsy, w = msy),
-            median_f_v_fmsy = median(fv_fmsy),
-            mean_b_v_bmsy = mean(bv_bmsy),
-            mean_weighted_b_v_bmsy = weighted.mean(bv_bmsy, w = msy),
-            median_b_v_bmsy = median(bv_bmsy))
-
-
-```
-
-```{r}
-
-
-upsides_regional_averages_spatial <- fao_regions %>%
-  right_join(upsides_regional_averages, by = c("fao_region" = "region_fao_split"))
+  summarize(mean_f_v_fmsy = mean(fv_fmsy, na.rm = T),
+            w_mean_f_v_fmsy = weighted.mean(fv_fmsy, w = msy, na.rm = T),
+            med_f_v_fmsy = median(fv_fmsy, na.rm = T),
+            mean_b_v_bmsy = mean(bv_bmsy, na.rm = T),
+            w_mean_b_v_bmsy = weighted.mean(bv_bmsy, w = msy, na.rm = T),
+            med_b_v_bmsy = median(bv_bmsy, na.rm = T),
+            tot_msy = sum(msy, na.rm = T)) %>%
+  rename(fao_region = region_fao_split) %>%
+  right_join(fao_regions, by = c("fao_region"))
 
 ```
 
 Mean F/Fmsy by region. 
 
 ```{r}
-mean_f_v_fmsy_regional_map <- ggplot()+
-  geom_sf(data=upsides_regional_averages_spatial, color = "black", aes(fill = mean_f_v_fmsy)) +
+mean_f_v_fmsy_region_map <- ggplot()+
+  geom_sf(data=upsides_region, color = "black", aes(geometry = geometry, fill = mean_f_v_fmsy)) +
   geom_sf(data=world_land, color = NA, fill="grey30") +
   #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
-  scale_fill_viridis_c(name="Mean F/Fmsy", na.value = "#000000") +
+  scale_fill_viridis_c(name="Mean F/Fmsy", 
+                       na.value = "#000000") +
   scale_x_continuous(expand = c(0,0))+
   scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
   xlab("") +
   ylab("") +
   map_theme + 
- guides(fill=guide_legend(
-                 keywidth=0.25,
-                 keyheight=0.25,
-                 default.unit="inch"))
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
 
-mean_f_v_fmsy_regional_map
+mean_f_v_fmsy_region_map
 
-ggsave(paste0(results_dir, "mean_f_v_fmsy_regional_map.png"), dpi = 200, width = 7, height = 5)
+ggsave(paste0(results_dir, "mean_f_v_fmsy_region_map.png"), dpi = 200, width = 7, height = 5)
 ```
 
 Weighted mean F/Fmsy by region (weighted by MSY of each stock). 
 
 ```{r}
-weighted_mean_f_v_fmsy_regional_map <- ggplot()+
-  geom_sf(data=upsides_regional_averages_spatial, color = "black", aes(fill = mean_weighted_f_v_fmsy)) +
+w_mean_f_v_fmsy_region_map <- ggplot()+
+  geom_sf(data=upsides_region, color = "black", aes(geometry = geometry, fill = w_mean_f_v_fmsy)) +
   geom_sf(data=world_land, color = NA, fill="grey30") +
   #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
   scale_fill_viridis_c(name="Weighted Mean F/Fmsy", na.value = "#000000") +
@@ -436,21 +823,24 @@ weighted_mean_f_v_fmsy_regional_map <- ggplot()+
   xlab("") +
   ylab("") +
   map_theme + 
-  guides(fill=guide_legend(
-                 keywidth=0.25,
-                 keyheight=0.25,
-                 default.unit="inch"))
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
 
-weighted_mean_f_v_fmsy_regional_map
+w_mean_f_v_fmsy_region_map
 
-ggsave(paste0(results_dir, "weighted_mean_f_v_fmsy_regional_map.png"), dpi = 200, width = 7, height = 5)
+ggsave(paste0(results_dir, "w_mean_f_v_fmsy_region_map.png"), dpi = 200, width = 7, height = 5)
 ```
 
 Median F/Fmsy by region.
 
 ```{r}
-median_f_v_fmsy_regional_map <- ggplot()+
-  geom_sf(data=upsides_regional_averages_spatial, color = "black", aes(fill = median_f_v_fmsy)) +
+median_f_v_fmsy_region_map <- ggplot()+
+  geom_sf(data=upsides_region, color = "black", aes(geometry = geometry, fill = med_f_v_fmsy)) +
   geom_sf(data=world_land, color = NA, fill="grey30") +
   #geom_sf(data=eez_boundaries, color="grey80", size=0.1, aes(group = mrgid_eez)) +
   scale_fill_viridis_c(name="Median F/Fmsy", na.value = "#000000") +
@@ -459,14 +849,49 @@ median_f_v_fmsy_regional_map <- ggplot()+
   xlab("") +
   ylab("") +
   map_theme +
- guides(fill=guide_legend(
-                 keywidth=0.25,
-                 keyheight=0.25,
-                 default.unit="inch"))
+  guides(fill=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"))
 
-median_f_v_fmsy_regional_map
+median_f_v_fmsy_region_map
 
-ggsave(paste0(results_dir, "median_f_v_fmsy_regional_map.png"), dpi = 200, width = 7, height = 5)
+ggsave(paste0(results_dir, "median_f_v_fmsy_region_map.png"), dpi = 200, width = 7, height = 5)
+```
+
+### Combine
+
+```{r}
+subsidy_intensity_upsides_region <- upsides_region %>%
+  left_join(subsidy_intensity_region, by = "fao_region")
+
+# Weighted mean of Bad + Ambig vs F/Fmsy
+w_mean_BC_vs_f_v_fmsy_plot <- ggplot(subsidy_intensity_upsides_region)+
+  aes(x = w_mean_BC_subs_KWh, y = w_mean_f_v_fmsy, size = tot_fishing_KWh, color = tot_fishing_KWh)+
+  geom_point()+
+  scale_color_viridis_c(name="Total Fishing Effort \n(KWh)", na.value = "#000000")+
+  scale_x_continuous(limits = c(0,2))+
+  scale_y_continuous(limits = c(0,2.5))+
+  xlab("Weighted Mean Subsidy Intensity ($/KWh)") +
+  ylab("Weighted Mean F/Fmsy") +
+  geom_hline(yintercept = 1, linetype = "dashed")+
+  geom_vline(xintercept = 1, linetype = "dashed")+
+  plot_theme+
+  guides(color=guide_colorbar(
+   title.position = "left",
+   title.hjust = 0.5,
+   frame.colour = "white",
+   barwidth=4,
+   barheight=0.25,
+   default.unit="inch"),
+   size = "none")
+
+w_mean_BC_vs_f_v_fmsy_plot
+
+ggsave(paste0(results_dir, "w_mean_BC_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 7)
 ```
 
 

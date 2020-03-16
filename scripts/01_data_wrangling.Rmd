@@ -129,13 +129,17 @@ eu_territory_names <- sort(c(countrycode(eu_territories, "iso3c", "country.name"
 # US overseas territories:  American Samoa, Guam, Northern Marianas Islands, Puerto Rico, US Virgin Islands
 us_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "USA"]
 us_territory_names <- sort(countrycode(us_territories, "iso3c", "country.name"))
+
+# Norwegian overseas territories: 
+nor_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "NOR"]
+nor_territory_names <- sort(countrycode(nor_territories, "iso3c", "country.name"))
 ```
 
 Additionally, it is important to note that the European Union as a political entity is a Member of the World Trade Organization, rather then the individual states that make up the European Union. We therefore need to create a profile for the European Union as a whole.  The following `r length(eu_country_names)` states are considered to be part of the European Union for the purposes of this analysis: `r paste(eu_country_names, collapse = ", ")`. 
 
 The Netherlands, France, Denmark, and the United Kingdom also have overseas dependencies that should be considered to be a part of the European Union for statistical purposes. The following overseas dependencies are also considered to be a part of the European Union for the purpose of aggregating data in this analysis: `r paste(eu_territory_names, collapse = ", ")`.
 
-Outside of the EU, the only other dependencies we need to worry about are those that relate to the United States. The following overseas dependencies are considered to be a part of the United States for the purpose of aggregating data in this analysis: `r paste(us_territory_names, collapse = ", ")`. 
+Outside of the EU, the other dependencies we need to worry about are those that relate to the United States and Norway. The following overseas dependencies are considered to be a part of the United States for the purpose of aggregating data in this analysis: `r paste(us_territory_names, collapse = ", ")`. The following overseas dependencies are considered to be a part of Norway for the purpose of aggregating data in this analysis: `r paste(norway_territory_names, collapse = ", ")`. 
 
 # Section 1 - Subsidies Data
 
@@ -356,3 +360,56 @@ write_csv(teh_fte_dat_edit, paste0(app_data_dir, "teh_and_sumaila_2013_fte_tidy.
 # Section 3 - Fisheries Data
 
 ## Fisheries landings for 2000-2017 from the FAO Global Capture Production database (2019)
+
+## Estimated landed price 
+
+## Stock status database
+```{r}
+# Load data
+costello_upsides_dat <- read_csv(costello_upsides_path) %>%
+  clean_names(case = "snake")
+
+# We need to split the entries that span multiple FAO regions...  
+costello_upsides_dat_edit <- costello_upsides_dat %>%
+  mutate(region_fao_chr = as.character(region_fao),
+         n_regions = nchar(region_fao_chr)/2,
+         region_fao_split = str_split(gsub("(.{2})", "\\1 ", region_fao_chr), " ")) %>%
+  unnest(cols = c(region_fao_split)) %>%
+  mutate(region_fao_split = as.numeric(region_fao_split)) %>%
+  dplyr::filter(region_fao_split != "") %>%
+  mutate(iso3 = case_when(country == "Channel Islands" ~ "JEY",
+                          country == "Micronesia" ~ "FSM",
+                          country == "Zanzibar" ~ "TZA",
+                          TRUE ~ countrycode(country, "country.name", "iso3c")))
+
+# Save clean
+write_csv(costello_upsides_dat_edit, paste0(data_dir, "costello_et_al_2016_upsides_tidy.csv"))
+
+```
+
+# Melnychuk FMI
+```{r}
+# Load data and wrangle
+melnychuk_fmi_dat <- read_csv(melnychuk_fmi_path) %>%
+  clean_names(case = "snake") %>%
+  mutate(iso3 = countrycode(country, "country.name", "iso3c")) %>%
+  dplyr::select(-country) %>%
+  gather(variable, value, -iso3)
+
+# Create a mean aggregate for the EU
+melnychuk_fmi_dat_eu <- melnychuk_fmi_dat  %>%
+  dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
+  mutate(entity = "EU") %>%
+  group_by(entity, variable) %>%
+  summarize(value = mean(value, na.rm = T)) %>%
+  rename(iso3 = entity)
+
+# Add EU back in
+melnychuk_fmi_dat_edit <- melnychuk_fmi_dat %>%
+  bind_rows(melnychuk_fmi_dat_eu)
+
+# Export clean
+write_csv(melnychuk_fmi_dat_edit, paste0(data_dir, "melnychuk_et_al_2017_fmi_tidy.csv"))
+
+```
+

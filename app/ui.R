@@ -198,7 +198,7 @@ shinyUI(
                 
                 # Explore results - Item #2 - Edit policies and view those results
                 tabItem(tabName = "edit-policies",
-                        EditPolicies(wto_members_and_observers)
+                        EditPolicies(wto_members_and_observers, subsidy_types_sorted_sumaila)
                 ),
                 
                 ### About methods and process ---

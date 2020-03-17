@@ -20,8 +20,8 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,nav-button,ab_edit_policies_tabs_instructions_to_iuu,Next: IUU Disciplines,within TabBox - instructions to iuu disciplines
 02b,edit-policies,tab,iuu,Step 2) IUU Disciplines,tabBox tab
 02b,edit-policies,widget,w_iuu_definitions,Subsidies for fishing shall be prohibited to those…,Checkbox to select specific IUU disciplines
-02b,edit-policies,widget,w_iuu_assumptions,Would you like to make an assumption about IUU fishing worldwide instead?,Yes/No to make iuu assumption
-02b,edit-policies,widget,w_iuu_percent,Assumed amount of fishing effort identified as IUU (%):,Slider to set value of assumed IUU fishing
+02b,edit-policies,widget,w_iuu_assumption,Would you like to make an assumption about IUU fishing worldwide instead?,Yes/No to make iuu assumption
+02b,edit-policies,widget,w_iuu_percent,% of global  fishing effort that is IUU:,Slider to set value of assumed IUU fishing
 02b,edit-policies,widget,w_iuu_scope,IUU discipline(s) apply to:,Buttons to set IUU scope
 02b,edit-policies,widget,w_iuu_scope_manual,Select WTO Members:,Manual selection for IUU scope
 02b,edit-policies,widget,w_iuu_allow_sdt,Allow S&DT for IUU disciplines?,Yes/No for IUU S&DT
@@ -68,21 +68,26 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,widget,w_overcap_tonnage_cutoff,Minimum vessel gross tonnage (GT),Vessel tonnage cutoff for Overcapacity disciplines
 02b,edit-policies,widget,w_overcap_engine_cutoff,Minimum vessel engine power (kw),Vessel engine power cutoff for Overcapacity disciplines
 02b,edit-policies,widget,w_overcap_allow_sdt,Allow S&DT for Overcapacity disciplines?,Yes/No for Overcapacity S&DT
-02b,edit-policies,widget,w_overcap_sdt_who,S&DT applies to: ,Buttons to set first Overcapacity S&DT scope
-02b,edit-policies,widget,w_overcap_sdt_what,S&DT: ,Set first set of Overcapacity S&DT
-02b,edit-policies,widget,w_overcap_sdt_hs_cutoff,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for Overcapacity S&DT
-02b,edit-policies,widget,w_overcap_sdt_time_delay,Allowed transition period (years): ,Transition period for first set of Overcapacity S&DT
-02b,edit-policies,widget,w_overcap_allow_sdt_second,Specify different S&DT for another group?,Allow second set of Overcapacity S&DT?
-02b,edit-policies,widget,w_overcap_sdt_who_second,S&DT applies to: ,Buttons to set second Overcapacity S&DT scope
-02b,edit-policies,widget,w_overcap_sdt_what_second,S&DT: ,Set second set of Overcapacity S&DT
-02b,edit-policies,widget,w_overcap_sdt_hs_cutoff_second,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for second Overcapacity S&DT
-02b,edit-policies,widget,w_overcap_sdt_time_delay_second,Allowed transition period (years): ,Transition period for second set of Overcapacity S&DT
+02b,edit-policies,widget,w_overcap_sdt_ldc,Allow S&DT for LDC Members?,Yes/No for Overcapacity S&DT
+02b,edit-policies,widget,w_overcap_sdt_what_ldc,S&DT for LDCs: ,Set LDC S&DT
+02b,edit-policies,widget,w_overcap_sdt_hs_cutoff_ldc,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for Overcapacity LDC S&DT
+02b,edit-policies,widget,w_overcap_sdt_time_delay_ldc,Allowed transition period for LDCs (years): ,Transition period for LDCs S&DT
+02b,edit-policies,widget,w_overcap_sdt_developing,Allow S&DT for developing country Members?,Yes/No for Developing S&DT
+02b,edit-policies,widget,w_overcap_sdt_what_developing,S&DT for developing countries: ,Set developing S&DT
+02b,edit-policies,widget,w_overcap_sdt_hs_cutoff_developing,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for Overcapacity Developing S&DT
+02b,edit-policies,widget,w_overcap_sdt_time_delay_developing,Allowed transition period for developing countries (years): ,Transition period for developing S&DT
+02b,edit-policies,widget,w_overcap_sdt_sve,Allow S&DT for SVE Members?,Yes/No for SVE S&DT
+02b,edit-policies,widget,w_overcap_sdt_what_sve,S&DT for SVEs:,Set SVE S&DT
+02b,edit-policies,widget,w_overcap_sdt_hs_cutoff_sve,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for Overcapacity SVE S&DT
+02b,edit-policies,widget,w_overcap_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
 02b,edit-policies,widget,w_cap_on_off,Apply subsidy caps?,Yes/no for cap/tier
 02b,edit-policies,widget,w_cap_subsidy_types,Which subsidy type(s) are included in the cap?,Checkbox to select subsidy types included in the cap
-02b,edit-policies,widget,w_cap_tier_number,How many tiers?,How many tiers should members be sorted into
+02b,edit-policies,header,tier-structure,Tier structure,header for tier section
+02b,edit-policies,widget,w_cap_tier_number,Members should be sorted into how many tiers?,How many tiers should members be sorted into
 02b,edit-policies,widget,w_tier_system,How should Members be grouped into tiers?,Buttons to determine tiering
 02b,edit-policies,widget,w_two_tier_cutoff,Threshold for top tier (%),Set threshold for top tier
 02b,edit-policies,widget,w_three_tier_cutoff,Thresholds for bottom (left) and top (right) tiers (%),Set thresholds for three tiers
+02b,edit-policies,header,caps,Set subsidy caps,header for cap section
 02b,edit-policies,widget,w_tier1_cap_rule,Tier 1: How should the cap be set?,Methods for setting top tier cap
 02b,edit-policies,widget,w_tier1_cap_value,"Tier 1: Subsidy cap ($USD, millions)",Absolute value for top tier cap
 02b,edit-policies,widget,w_tier1_cap_fishers,Tier 1: Subsidies per fisher (US$),Subsidy per value for top tier cap

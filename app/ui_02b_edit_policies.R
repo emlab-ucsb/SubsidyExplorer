@@ -5,7 +5,7 @@
 ### This script contains the content for the "edit-policies" tab
 ### --------------------------------------------------------------------
 
-EditPolicies = function(wto_members_and_observers) 
+EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila) 
   fluidPage(
     
     # Page style
@@ -64,649 +64,112 @@ EditPolicies = function(wto_members_and_observers)
            )
     ),
     
-  ####-----------------------------------------------------------------------------------------
-  #### Left column - tabBox with manual policy selection
-  #### ----------------------------------------------------------------------------------------
-column(12,
-       
-  column(9,
-    
-    ### Title and introductory text 
-    column(12, style = "padding: 25px 25px;",
-           
-           # Title
-           tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "edit-policies"])
-           
-    ),
-    
     ### Content
-    column(12, style = "padding: 0 0 25px;",
-           
-           column(12, style = "padding: 0 10px;",
-
-                  tabBox(width = 12, id = "policy_tabs", 
-                         
-                         ### --------------------------
-                         ### Tab # 0  - Instructions
-                         ### --------------------------
-                         
-                         tabPanel(text$item_label[text$item_id == "instructions"],
-                                  value = "instructions",
-                                  
-                                  Instructions()
-                                  
-                         ), # /tabPanel - instructions
-                         
-                         ### --------------------------
-                         ### Tab # 1  - IUU 
-                         ### --------------------------
-                         
-                         tabPanel(text$item_label[text$item_id == "iuu"], 
-                                  value = "iuu",
-                                  
-                                  IUU(wto_members_and_observers)
-                                         
-                         ), # /tabPanel #0
-                         
-                         ### --------------------------
-                         ### Tab # 2  - Overfished stock disciplines
-                         ### --------------------------
-                         
-                         tabPanel(text$item_label[text$item_id == "oa"], 
-                                  value = "oa",
-                                  
-                                  OA(wto_members_and_observers)
-                                  
-                         ), #/tabPanel 1
-                         
-                         ### ------------------------------------------
-                         ### Tab # 2  - Overcapacity and overfishing disciplines
-                         ### ------------------------------------------
-                         
-                         tabPanel(text$item_label[text$item_id == "overcap"], 
-                                  value = "overcap",
-                                  
-                                  # Column container for tab panel        
-                                  column(12, style = "border-style: solid;
-                                         border-width: 2px 1px 1px 1px;
-                                         border-color: #28292C;",
-                                         
-                                         # Overcap discipline text
-                                         column(12, style = "padding: 15px 25px 15px;",
-                                                
-                                                includeHTML("./text/02b_edit_policies_overcap_intro.html")
-                                                
-                                         ),
-                                         
-                                         # Manual Overcap discipline selection
-                                         column(12, style = "padding: 0px 25px 15px;", 
-                                                
-                                                fluidRow(
-                                                  ### Overcapacity definitions: left column
-                                                  column(5, style = "padding: 0 10px;",
-                                                         
-                                                         checkboxGroupInput("w_overcap_definitions",
-                                                                            label = tagList(tags$b(text$item_label[text$item_id == "w_overcap_definitions"]),
-                                                                                            # Info button
-                                                                                            tags$button(id = "info_overcap",
-                                                                                                        class = "btn action-button info-button",
-                                                                                                        icon("info"))), 
-                                                                            choices = c("B1", "B2", "B3"),
-                                                                            selected = c(""),
-                                                                            width = "100%",
-                                                                            inline = FALSE)
-                                                         
-                                                  ), # /column - Overcapcity definitions
-                                                  
-                                                  ### Overcapacity scope: middle column
-                                                  column(4, style = "padding: 0 10px;",
-                                                         
-                                                         conditionalPanel('input.w_overcap_definitions.length > 0',
-                                                                          
-                                                                          radioButtons("w_overcap_scope",
-                                                                                       label = tags$b(text$item_label[text$item_id == "w_overcap_scope"]),
-                                                                                       choices = c("all", "select", "HS", "OUT", "LENGTH", "TONNAGE", "ENGINE", "LTE"),
-                                                                                       selected = "all",
-                                                                                       width = "100%",
-                                                                                       inline = FALSE), 
-                                                                          
-                                                                          conditionalPanel("input.w_overcap_scope == 'select'",
-                                                                                           
-                                                                                           selectizeInput("w_overcap_scope_manual",
-                                                                                                          
-                                                                                                          label = tags$b(text$item_label[text$item_id == "w_overcap_scope_manual"]),
-                                                                                                          choices = c("A", "B", "D"),
-                                                                                                          selected = NULL,
-                                                                                                          width = "100%",
-                                                                                                          options = list(placeholder = 'Select...'),
-                                                                                                          multiple = T)
-                                                                                           
-                                                                          ) # /conditionalPanel - input.overcap_scope == 'select'
-                                                                          
-                                                         ), # close overcap scope conditional
-                                                         
-                                                         conditionalPanel('(input.w_overcap_definitions.length > 0 && (input.w_overcap_scope == "HS" || input.w_overcap_scope == "OUT"))',
-                                                                          
-                                                                          sliderInput("w_overcap_hs_cutoff",
-                                                                                      label = tagList(tags$b(text$item_label[text$item_id == "w_overcap_hs_cutoff"]),
-                                                                                                      # Info button
-                                                                                                      tags$button(id = "info_overcap_hs",
-                                                                                                                  class = "btn action-button info-button",
-                                                                                                                  icon("info"))), 
-                                                                                      min = 1,
-                                                                                      max = 100,
-                                                                                      value = 5,
-                                                                                      width = "100%")
-                                                                          
-                                                         ), # close overcap hs cutoff conditional
-                                                         
-                                                         conditionalPanel('(input.w_overcap_definitions.length > 0 && (input.w_overcap_scope == "LENGTH" || input.w_overcap_scope == "LTE"))',
-                                                                          
-                                                                          sliderInput("w_overcap_length_cutoff",
-                                                                                      label = tags$b(text$item_label[text$item_id == "w_overcap_length_cutoff"]),
-                                                                                      min = 10,
-                                                                                      max = 100,
-                                                                                      value = 24,
-                                                                                      width = "100%")
-                                                                          
-                                                         ), # /conditionalPanel - input.overcap_definitions.length > 0 && input.overcap_scope == "LENGTH"
-                                                         conditionalPanel('(input.w_overcap_definitions.length > 0 && (input.w_overcap_scope == "TONNAGE" || input.w_overcap_scope == "LTE"))',
-                                                                          
-                                                                          sliderInput("w_overcap_tonnage_cutoff",
-                                                                                      label = tags$b(text$item_label[text$item_id == "w_overcap_tonnage_cutoff"]),
-                                                                                      min = 10,
-                                                                                      max = 100,
-                                                                                      value = 24,
-                                                                                      width = "100%")
-                                                                          
-                                                         ), # /conditionalPanel - input.overcap_definitions.length > 0 && input.overcap_scope == "TONNAGE"
-                                                         conditionalPanel('(input.w_overcap_definitions.length > 0 && (input.w_overcap_scope == "ENGINE" || input.w_overcap_scope == "LTE"))',
-                                                                          
-                                                                          sliderInput("w_overcap_engine_cutoff",
-                                                                                      label = tags$b(text$item_label[text$item_id == "w_overcap_engine_cutoff"]),
-                                                                                      min = 10,
-                                                                                      max = 100,
-                                                                                      value = 24,
-                                                                                      width = "100%")
-                                                                          
-                                                         )
-                                                  ), # close middle column
-                                                  
-                                                  ### Overcapacity S&DT: right column
-                                                  column(3, style = "padding: 0 10px;",
-                                                         
-                                                         # Overcapacity S&DT - Allow?
-                                                         conditionalPanel(
-                                                           'input.w_overcap_definitions.length > 0',
-                                                           
-                                                           radioButtons(
-                                                             "w_overcap_allow_sdt",
-                                                             label = tags$b(text$item_label[text$item_id == "w_overcap_allow_sdt"]),
-                                                             choices = c("Yes", "No"),
-                                                             selected = "No",
-                                                             width = "100%",
-                                                             inline = FALSE
-                                                           )
-                                                           
-                                                         ), # close overcap sdt conditional
-                                                         
-                                                         conditionalPanel("(input.w_overcap_allow_sdt == 'Yes' && input.w_overcap_definitions.length > 0)",
-                                                                          
-                                                                          # Overcapacity S&DT - Who does it apply to?
-                                                                          radioButtons("w_overcap_sdt_who",
-                                                                                       label = tagList(tags$b(text$item_label[text$item_id == "w_overcap_sdt_who"]),
-                                                                                                       # Info button
-                                                                                                       tags$button(id = "info_overcap_sdt",
-                                                                                                                   class = "btn action-button info-button",
-                                                                                                                   icon("info"))), 
-                                                                                       choices = c("ldc", "B"),
-                                                                                       selected = "ldc",
-                                                                                       width = "100%",
-                                                                                       inline = FALSE), 
-                                                                          
-                                                                          
-                                                                          # Overcapacity S7DT - What is it?
-                                                                          checkboxGroupInput("w_overcap_sdt_what",
-                                                                                             
-                                                                                             label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_what"]),
-                                                                                             choices = c("HS", "B", "time"),
-                                                                                             selected = "",
-                                                                                             width = "100%",
-                                                                                             inline = FALSE), 
-                                                                          
-                                                                          # Overcapacity S&DT - Define "high seas" fishing (if necessary)
-                                                                          conditionalPanel('input.w_overcap_sdt_what.includes("HS")',
-                                                                                           
-                                                                                           sliderInput("w_overcap_sdt_hs_cutoff",
-                                                                                                       label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_hs_cutoff"]),
-                                                                                                       min = 1,
-                                                                                                       max = 100,
-                                                                                                       value = 5,
-                                                                                                       width = "100%")
-                                                                                           
-                                                                          ), # /conditionalPanel - input.overcap_sdt_what.includes("HS")
-                                                                          
-                                                                          conditionalPanel("input.overcap_sdt_what.includes('time')",
-                                                                                           sliderInput("w_overcap_sdt_time_delay",
-
-                                                                          label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_time_delay"]),
-                                                                                                       min = 0,
-                                                                                                       max = 5,
-                                                                                                       value = 1,
-                                                                                                       width = "100%")
-
-                                                                          ), # close overcap sdt time conditional
-                                                                          
-                                                                          tags$hr(),
-                                                                          
-                                                                          # S&DT - Specify second S&DT?
-                                                                          radioButtons("w_overcap_allow_sdt_second",
-                                                                                       label = tags$b(text$item_label[text$item_id == "w_overcap_allow_sdt_second"]),
-                                                                                       choices = c("Yes", "No"),
-                                                                                       selected = "No",
-                                                                                       width = "100%",
-                                                                                       inline = FALSE),
-                                                                          
-                                                                          conditionalPanel("(input.w_overcap_allow_sdt == 'Yes' && input.w_overcap_definitions.length > 0 && input.w_overcap_allow_sdt_second == 'Yes')",
-                                                                                           # S&DT - Who for second?
-                                                                                           radioButtons("w_overcap_sdt_who_second",
-                                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_who_second"]),
-                                                                                                        choices = c("A", "B", "ldc"),
-                                                                                                        selected = "ldc",
-                                                                                                        width = "100%",
-                                                                                                        inline = FALSE),
-                                                                                           
-                                                                                           # S&DT - What for second?
-                                                                                           checkboxGroupInput("w_overcap_sdt_what_second",
-                                                                                                              label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_what_second"]),
-                                                                                                              choices = c("all", "domestic", "HS", "time"),
-                                                                                                              selected = "",
-                                                                                                              width = "100%",
-                                                                                                              inline = FALSE),
-                                                                                           
-                                                                                           # S&DT - High seas cutoff for second if relevant
-                                                                                           conditionalPanel('input.w_overcap_sdt_what_second.includes("HS")',
-                                                                                                            
-                                                                                                            sliderInput("w_overcap_sdt_hs_cutoff_second",
-                                                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_hs_cutoff_second"]),
-                                                                                                                        min = 1,
-                                                                                                                        max = 100,
-                                                                                                                        value = 5,
-                                                                                                                        width = "100%")
-                                                                                                            
-                                                                                           ), # /conditionalPanel - input.oa_sdt_what.includes("HS")
-                                                                                           
-                                                                                           # S&DT - Time delay for second if relevant
-                                                                                           conditionalPanel("input.w_overcap_sdt_what_second.includes('time')",
-                                                                                                            
-                                                                                                            sliderInput("w_overcap_sdt_time_delay_second",
-                                                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_time_delay_second"]),
-                                                                                                                        min = 0,
-                                                                                                                        max = 5,
-                                                                                                                        value = 1,
-                                                                                                                        width = "100%")
-                                                                                                            
-                                                                                           ) # /conditionalpanel - input.w_iuu_sdt_what_second.includes('time')
-                                                                                           
-                                                                          ) # /conditionalPanel - (input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0 && input.w_iuu_allow_sdt_second == 'Yes')
-                                                                          
-                                                         ) # close overcap sdt conditional
-                                                         
-                                                  ) # close right column
-                                                  
-                                                ), # close overcap fluid row
-                                                
-                                                ### Cap/Tier here
-                                                
-                                                column(12,
-                                                       
-                                                       includeHTML("./text/02b_edit_policies_cap_tier_intro.html")
-                                                       
-                                                ),
-                                                
-                                                # On/off buttons
-                                                column(12, align = "center",
-                                                       radioButtons("w_cap_on_off",
-                                                                    label = tags$b(text$item_label[text$item_id == "w_cap_on_off"]),
-                                                                    selected = "No",
-                                                                    choices = c("Yes", "No"),
-                                                                    width = "100%",
-                                                                    inline = FALSE)
-                                                ),
-                                                
-                                                # Cap is turned on
-                                                conditionalPanel("input.w_cap_on_off == 'Yes'",
-                                                                 
-                                                                 # Subsidy types to include in cap
-                                                                 column(12, align = "center",
-                                                                        checkboxGroupInput("w_cap_subsidy_types",
-                                                                                           label = tags$b(text$item_label[text$item_id == "w_cap_subsidy_types"]),
-                                                                                           choices = c("B1", "B2", "B3"),
-                                                                                           selected = "B1",
-                                                                                           width = "100%",
-                                                                                           inline = TRUE)
-                                                                 ),
-                                                                 
-                                                                 # Length
-                                                                 conditionalPanel("input.w_cap_subsidy_types.length > 0",
-                                                                                  
-                                                                                  ### Step 1: Tier structure -------------------
-                                                                                  column(12, style = "padding: 5px;",
-                                                                                         
-                                                                                         h4(class = "header-line-light", "Tier structure"),
-                                                                                         
-                                                                                         # Row 1: Number of tiers
-                                                                                         fluidRow(
-                                                                                           column(12, style = "padding: 0 10px;",
-                                                                                                  
-                                                                                                  radioButtons("w_cap_tier_number",
-                                                                                                               label = tags$b(text$item_label[text$item_id == "w_cap_tier_number"]),
-                                                                                                               choices = c("One (cap applies equally to all Members)" = "One",
-                                                                                                                           "Two" = "Two",
-                                                                                                                           "Three" = "Three"),
-                                                                                                               selected = "Three",
-                                                                                                               width = "100%",
-                                                                                                               inline = FALSE)
-                                                                                                  
-                                                                                           ) # close left column
-                                                                                         ),
-                                                                                         
-                                                                                         # Row 2: How should Members be sorted into tiers?
-                                                                                         fluidRow(
-                                                                                           
-                                                                                           # Left Column
-                                                                                           column(6, style = "padding: 0 10px;",
-                                                                                                  
-                                                                                                  # Only one tier
-                                                                                                  conditionalPanel('input.w_cap_tier_number == "One"',
-                                                                                                                   ""
-                                                                                                  ),
-                                                                                                  
-                                                                                                  # Two or three tiers
-                                                                                                  conditionalPanel('input.w_cap_tier_number != "One"',
-                                                                                                                   radioButtons("w_tier_system",
-                                                                                                                                label = tags$b(text$item_label[text$item_id == "w_tier_system"]),
-                                                                                                                                choices = c("capture", "other"),
-                                                                                                                                selected = "capture",
-                                                                                                                                width = "100%",
-                                                                                                                                inline = FALSE)
-                                                                                                  ) # close multiple tier conditional
-                                                                                                  
-                                                                                           ), # close left column
-                                                                                           
-                                                                                           # Right Column
-                                                                                           column(6, style = "padding: 0 10px;",
-                                                                                                  
-                                                                                                  # Only one tier
-                                                                                                  conditionalPanel('input.w_cap_tier_number == "One"',
-                                                                                                                   ""
-                                                                                                  ),
-                                                                                                  
-                                                                                                  # Two tiers
-                                                                                                  conditionalPanel('input.w_cap_tier_number == "Two" & input.w_tier_system != "development"',
-                                                                                                                   
-                                                                                                                   sliderInput("w_two_tier_cutoff",
-                                                                                                                               label = tags$b(text$item_label[text$item_id == "w_two_tier_cutoff"]),
-                                                                                                                               min = 0.01,
-                                                                                                                               max = 2,
-                                                                                                                               step = 0.001,
-                                                                                                                               value = 0.7)
-                                                                                                                   
-                                                                                                  ), # close two tier cutoff conditional
-                                                                                                  
-                                                                                                  # Three tiers
-                                                                                                  conditionalPanel('input.w_cap_tier_number == "Three" & input.w_tier_system != "development"',
-                                                                                                                   
-                                                                                                                   sliderInput("w_three_tier_cutoff",
-                                                                                                                               label = tags$b(text$item_label[text$item_id == "w_three_tier_cutoff"]),
-                                                                                                                               min = 0.01,
-                                                                                                                               max = 2,
-                                                                                                                               step = 0.01,
-                                                                                                                               value = c(0.07,0.7))
-                                                                                                                   
-                                                                                                  ) # close two tier cutoff conditional
-                                                                                           ) # close right column
-                                                                                         ) # close tier row
-                                                                                  ), # close tier column
-                                                                                  
-                                                                                  ### Step 2: Subsidy caps
-                                                                                  
-                                                                                  column(12, style = "padding: 5px;",
-                                                                                         
-                                                                                         h4(class = "header-line-light", "Set subsidy caps"),
-                                                                                         
-                                                                                         # Tier 1
-                                                                                         fluidRow(style = "background-color: #f7f7f7; padding: 10px;",
-                                                                                                  
-                                                                                                  column(6, style = "padding: 0 10px;",
-                                                                                                         
-                                                                                                         # Tier 1 cap:
-                                                                                                         radioButtons("w_tier1_cap_rule",
-                                                                                                                      label = tags$b(text$item_label[text$item_id == "w_tier1_cap_rule"]),
-                                                                                                                      choices = c("percent_subs", "other"),
-                                                                                                                      selected = "percent_subs",
-                                                                                                                      width = "100%",
-                                                                                                                      inline = FALSE)
-                                                                                                         
-                                                                                                  ), # close column
-                                                                                                  
-                                                                                                  column(6, style = "padding: 0 10px;",
-                                                                                                         
-                                                                                                         # Tier 1 cap:
-                                                                                                         # Slider for absolute value
-                                                                                                         conditionalPanel(condition = "input.w_tier1_cap_rule == 'value'",
-                                                                                                                          
-                                                                                                                          sliderInput("w_tier1_cap_value",
-                                                                                                                                      label = tags$b(text$item_label[text$item_id == "w_tier1_cap_value"]),
-                                                                                                                                      min = 0,
-                                                                                                                                      max = 2000,
-                                                                                                                                      value = 5,
-                                                                                                                                      width = "100%")
-                                                                                                         ),
-                                                                                                         
-                                                                                                         # Slider for per fisher value
-                                                                                                         conditionalPanel(condition = "input.w_tier1_cap_rule == 'fishers'",
-                                                                                                                          
-                                                                                                                          sliderInput("w_tier1_cap_fishers",
-                                                                                                                                      label = tags$b(text$item_label[text$item_id == "w_tier1_cap_fishers"]),
-                                                                                                                                      min = 0,
-                                                                                                                                      max = 5000,
-                                                                                                                                      value = 800,
-                                                                                                                                      width = "100%")
-                                                                                                         ),
-                                                                                                         
-                                                                                                         # Slider for percentage value
-                                                                                                         conditionalPanel(condition = "input.w_tier1_cap_rule != 'value' && input.w_tier1_cap_rule != 'fishers'",
-                                                                                                                          
-                                                                                                                          sliderInput("w_tier1_cap_percent",
-                                                                                                                                      label = tags$b(text$item_label[text$item_id == "w_tier1_cap_percent"]),
-                                                                                                                                      min = 0,
-                                                                                                                                      max = 100,
-                                                                                                                                      value = 5,
-                                                                                                                                      width = "100%")
-                                                                                                         )
-                                                                                                  )
-                                                                                         ), # close fluid row
-                                                                                         
-                                                                                         conditionalPanel('input.w_cap_tier_number != "One"',
-                                                                                                          
-                                                                                                          # Tier 2
-                                                                                                          fluidRow(style = "background-color: #d6d6d6; padding: 10px;",
-                                                                                                                   
-                                                                                                                   # Left column
-                                                                                                                   column(6, style = "padding: 0 10px;",
-                                                                                                                          
-                                                                                                                          # Tier 2 cap:
-                                                                                                                          radioButtons("w_tier2_cap_rule",
-                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier2_cap_rule"]),
-                                                                                                                                       choices = c("Value" = "value", "No cap" = "none"),
-                                                                                                                                       selected = "value",
-                                                                                                                                       width = "100%",
-                                                                                                                                       inline = FALSE)
-                                                                                                                          
-                                                                                                                   ), # close column
-                                                                                                                   
-                                                                                                                   # Middle column
-                                                                                                                   column(6, style = "padding: 0 10px;",
-                                                                                                                          
-                                                                                                                          # Tier 1 cap:
-                                                                                                                          # Slider for absolute value
-                                                                                                                          conditionalPanel(condition = "input.w_tier2_cap_rule == 'value'",
-                                                                                                                                           sliderInput("w_tier2_cap_value",
-                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier2_cap_value"]),
-                                                                                                                                                       min = 0,
-                                                                                                                                                       max = 500,
-                                                                                                                                                       value = 5,
-                                                                                                                                                       width = "100%")
-                                                                                                                          ),
-                                                                                                                          
-                                                                                                                          # Slider for per fisher value
-                                                                                                                          conditionalPanel(condition = "input.w_tier2_cap_rule == 'fishers'",
-                                                                                                                                           sliderInput("w_tier2_cap_fishers",
-                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier2_cap_fishers"]),
-                                                                                                                                                       min = 0,
-                                                                                                                                                       max = 5000,
-                                                                                                                                                       value = 800,
-                                                                                                                                                       width = "100%")
-                                                                                                                          ),
-                                                                                                                          
-                                                                                                                          # Slider for percentage value
-                                                                                                                          conditionalPanel(condition = "input.w_tier2_cap_rule != 'value' && input.w_tier2_cap_rule != 'none' && input.w_tier2_cap_rule != 'fishers'",
-                                                                                                                                           sliderInput("w_tier2_cap_percent",
-                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier2_cap_percent"]),
-                                                                                                                                                       min = 0,
-                                                                                                                                                       max = 100,
-                                                                                                                                                       value = 5,
-                                                                                                                                                       width = "100%")
-                                                                                                                          )
-                                                                                                                   )
-                                                                                                          ) # close fluid row
-                                                                                         ), # close tier 2 conditional
-                                                                                         
-                                                                                         conditionalPanel('input.w_cap_tier_number == "Three"',
-                                                                                                          
-                                                                                                          # Tier 3
-                                                                                                          fluidRow(style = "background-color: #f7f7f7; padding: 10px;",
-                                                                                                                   
-                                                                                                                   column(6, style = "padding: 0 10px;",
-                                                                                                                          
-                                                                                                                          # Tier 1 cap:
-                                                                                                                          radioButtons("w_tier3_cap_rule",
-                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier3_cap_rule"]),
-                                                                                                                                       choices = c("Value" = "value",
-                                                                                                                                                   "No cap" = "none"),
-                                                                                                                                       selected = "none",
-                                                                                                                                       width = "100%",
-                                                                                                                                       inline = FALSE)
-                                                                                                                          
-                                                                                                                   ), # close column
-                                                                                                                   
-                                                                                                                   column(6, style = "padding: 0 10px;",
-                                                                                                                          
-                                                                                                                          # Tier 1 cap:
-                                                                                                                          # Slider for absolute value
-                                                                                                                          conditionalPanel(condition = "input.w_tier3_cap_rule == 'value'",
-                                                                                                                                           sliderInput("w_tier3_cap_value",
-                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier3_cap_value"]),
-                                                                                                                                                       min = 0,
-                                                                                                                                                       max = 500,
-                                                                                                                                                       value = 5,
-                                                                                                                                                       width = "100%")
-                                                                                                                          ),
-                                                                                                                          
-                                                                                                                          # Slider for per fisher value
-                                                                                                                          conditionalPanel(condition = "input.w_tier3_cap_rule == 'fishers'",
-                                                                                                                                           sliderInput("w_tier3_cap_fishers",
-                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier3_cap_fishers"]),
-                                                                                                                                                       min = 0,
-                                                                                                                                                       max = 5000,
-                                                                                                                                                       value = 800,
-                                                                                                                                                       width = "100%")
-                                                                                                                          ),
-                                                                                                                          
-                                                                                                                          # Slider for percentage value
-                                                                                                                          conditionalPanel(condition = "input.w_tier3_cap_rule != 'value' && input.w_tier3_cap_rule != 'none' && input.w_tier3_cap_rule != 'fishers'",
-                                                                                                                                           sliderInput("w_tier3_cap_percent",
-                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier3_cap_percent"]),
-                                                                                                                                                       min = 0,
-                                                                                                                                                       max = 100,
-                                                                                                                                                       value = 5,
-                                                                                                                                                       width = "100%")
-                                                                                                                          )
-                                                                                                                   )
-                                                                                                          ) # close fluid row
-                                                                                         ) # close tier 3 conditional
-                                                                                         
-                                                                                  ) # close cap selection
-                                                                                  
-                                                                 ) # close subsidy types conditional
-                                                                 
-                                                ) # close cap on/off conditional 
-                                                
-                                         ), # close overcap manual selection
-                                         
-                                         # Previous and next tab buttons
-                                         fluidRow(
-                                           
-                                           # Previous tab
-                                           column(3, style = "padding: 5px;",
-                                                  
-                                                  tags$button(id = "ab_edit_policies_tabs_overcap_to_oa",
-                                                              class = "btn action-button nav-button-white-l",
-                                                              icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_overcap_to_oa"]
-                                                  )
-                                                  
-                                           )
-                                           
-                                         ) # /fluidRow
-                                         
-
-                                  ) # close overcap container column
-                                  
-                         ) # /tabPanel #2  
-                         
-                  ) # /tabBox
-                  
-           ) # /column 12 (tabBox container)
-           
-    ) # /column 12 (content)
+    column(12,
     
-  ), # /column 9 - left column
+           ####-----------------------------------------------------------------------------------------
+           #### Left column - tabBox with manual policy selection
+           #### ----------------------------------------------------------------------------------------
+           column(9,
+    
+                  ### Title and introductory text
+                  column(12, style = "padding: 25px 25px;",
            
- ####-----------------------------------------------------------------------------------------
- #### Right column - Menu of selected policies
- #### ----------------------------------------------------------------------------------------
-           
- column(3,
-        style = "position: absolute; 
-        background-color: #286182; 
-        color: #ffffff; 
-        padding: 0 10px;
-        top:0;
-        bottom:0;
-        right:0;",
+                         # Title
+                         tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "edit-policies"])
+                         
+                  ),
+    
+                  ### tabBox container
+                  column(12, style = "padding: 10px 0 25px;",
+
+                         # tabBox
+                         tabBox(width = 12, id = "policy_tabs", 
+                         
+                                ### --------------------------
+                                ### Tab # 0  - Instructions
+                                ### --------------------------
+                                
+                                tabPanel(text$item_label[text$item_id == "instructions"],
+                                         value = "instructions",
+                                         
+                                         Instructions()
+                                  
+                                ), # /tabPanel - instructions
+                         
+                                ### --------------------------
+                                ### Tab # 1  - IUU
+                                ### --------------------------
+                                
+                                tabPanel(text$item_label[text$item_id == "iuu"], 
+                                         value = "iuu",
+                                         
+                                         IUU(wto_members_and_observers)
+                                         
+                                ), # /tabPanel #0
+                         
+                                ### --------------------------
+                                ### Tab # 2  - Overfished stock disciplines
+                                ### --------------------------
+                                
+                                tabPanel(text$item_label[text$item_id == "oa"], 
+                                         value = "oa",
+                                         
+                                         OA(wto_members_and_observers)
+                                         
+                                ), #/tabPanel 1
+                         
+                                ### ------------------------------------------
+                                ### Tab # 3  - Overcapacity and overfishing disciplines
+                                ### ------------------------------------------
+                                
+                                tabPanel(text$item_label[text$item_id == "overcap"], 
+                                         value = "overcap",
+                                         
+                                         Overcap(wto_members_and_observers, subsidy_types_sorted_sumaila)
+                                         
+                                ) # /tabPanel #3  
+                         
+                         ) # /tabBox
                   
-        tags$h4(text$item_label[text$item_id == "selected-policy"]),
-        tags$p("Text here")
-        
- )
+                  ) # /column 12 - tabBox container
+           
+           ), # /column 9 - Left column
+    
+           
+           ####-----------------------------------------------------------------------------------------
+           #### Right column - Menu of selected policies
+           #### ----------------------------------------------------------------------------------------
+           column(3,
+                  style = "position: absolute;
+                  background-color: #286182;
+                  color: #ffffff;
+                  padding: 0 10px;
+                  top:0;
+                  bottom:0;
+                  right:0;", 
+                  
+                  tags$h4(text$item_label[text$item_id == "selected-policy"]),
+                  tags$p("Text here")
+                  
+           ) # /column 3 - Right column
  
-), # close column 12
+    ), # /column 12 - content
                   
-  ### Bottom navigation buttons
-  column(12,
-       fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
+    ### Bottom navigation buttons
+    column(12,
+           
+           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
                 
-                # Back to compare fishery stats
-                column(3,
-                       tags$button(id = "ab_edit_policies_to_selected_results",
-                                   class = "btn action-button nav-button-l",
-                                   icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_to_selected_results"]
-                       )
-                )
+                    # Back to compare fishery stats
+                    column(3,
+                           tags$button(id = "ab_edit_policies_to_selected_results",
+                                       class = "btn action-button nav-button-l",
+                                       icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_to_selected_results"])
+                    )
                 
-       )
-  )
+           )
+    )
     
 ) # /fluidPage
   

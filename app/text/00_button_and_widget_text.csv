@@ -11,7 +11,7 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02a,selected-results,nav-button,ab_selected_results_to_introduction,Return to Main Menu,top left button,,,,,,
 02a,selected-results,nav-button,ab_selected_results_to_edit_policies,Next: Edit Policies (Advanced Users),bottom right button,,,,,,
 02a,selected-results,widget,w_selected_results_timeseries_plot_variable,Plot…,select variable to plot widget,biomass;catches_total;revenue_total,Biomass;Catches;Revenue,biomass,,,
-02a,selected-results,widget,w_selected_results_timeseries_plot_resolution,Resolution…,select resolution (global/regional),1;2,Global;Regional,1,,,
+02a,selected-results,widget,w_selected_results_timeseries_plot_resolution,Resolution…,select resolution (global/regional),1;2,Global;Regional,global,,,
 02b,edit-policies,tab,edit-policies,Edit Policies (Advanced Users),page name,,,,,,
 02b,edit-policies,nav-button,ab_edit_policies_to_introduction,Return to Main Menu,top left button,,,,,,
 02b,edit-policies,nav-button,ab_edit_policies_to_selected_results,Back: Selected Results,bottom left button,,,,,,
@@ -25,13 +25,15 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,widget,w_iuu_scope,IUU discipline(s) apply to:,Buttons to set IUU scope,,,,,,
 02b,edit-policies,widget,w_iuu_scope_manual,Select WTO Members:,Manual selection for IUU scope,,,,,,
 02b,edit-policies,widget,w_iuu_allow_sdt,Allow S&DT for IUU disciplines?,Yes/No for IUU S&DT,Yes;No,Yes;No,No,,,
-02b,edit-policies,widget,w_iuu_sdt_who,S&DT applies to: ,Buttons to set first IUU S&DT scope,,,,,,
-02b,edit-policies,widget,w_iuu_sdt_what,S&DT: ,Set first set of IUU S&DT,,,,,,
-02b,edit-policies,widget,w_iuu_sdt_time_delay,Allowed transition period (years): ,Transition period for first set of IUU S&DT,,,,0,10,3
-02b,edit-policies,widget,w_iuu_allow_sdt_second,Specify different S&DT for another group?,Allow second set of IUU S&DT?,Yes;No,Yes;No,No,,,
-02b,edit-policies,widget,w_iuu_sdt_who_second,S&DT applies to: ,Buttons to set second IUU S&DT scope,,,,,,
-02b,edit-policies,widget,w_iuu_sdt_what_second,S&DT: ,Set second set of IUU S&DT,,,,,,
-02b,edit-policies,widget,w_iuu_sdt_time_delay_second,Allowed transition period (years): ,Transition period for second set of IUU S&DT,,,,0,10,5
+02b,edit-policies,widget,w_iuu_sdt_ldc,Allow S&DT for LDC Members?,Yes/No for LDC S&DT,Yes;No,Yes;No,No,,,
+02b,edit-policies,widget,w_iuu_sdt_what_ldc,S&DT for LDCs: ,Set LDC S&DT,,,,,,
+02b,edit-policies,widget,w_iuu_sdt_time_delay_ldc,Allowed transition period for LDCs (years): ,Transition period for LDCs S&DT,,,,0,10,3
+02b,edit-policies,widget,w_iuu_sdt_developing,Allow S&DT for developing country Members?,Yes/No for Developing S&DT,Yes;No,Yes;No,No,,,
+02b,edit-policies,widget,w_iuu_sdt_what_developing,S&DT for developing countries: ,Set developing S&DT,,,,,,
+02b,edit-policies,widget,w_iuu_sdt_time_delay_developing,Allowed transition period for developing countries (years): ,Transition period for developing S&DT,,,,0,10,5
+02b,edit-policies,widget,w_iuu_sdt_sve,Allow S&DT for SVE Members?,Yes/No for Developing S&DT,Yes;No,Yes;No,No,,,
+02b,edit-policies,widget,w_iuu_sdt_what_sve,S&DT for SVEs:,Set developing S&DT,,,,,,
+02b,edit-policies,widget,w_iuu_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for developing S&DT,,,,0,10,5
 02b,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_instructions,Back: Instructions,within TabBox - iuu disciplines back to instructions,,,,,,
 02b,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_oa,Next: Overfished Disciplines,within TabBox - iuu disciplines to OA disciplines,,,,,,
 02b,edit-policies,tab,oa,Step 3) Overfished Disciplines,tabBox tab,,,,,,

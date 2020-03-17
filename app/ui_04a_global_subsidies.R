@@ -97,7 +97,7 @@ GlobalSubsidies = function(subsidy_categories_sorted_sumaila, subsidy_types_sort
                     column(3, offset = 9,
                            tags$button(id = "ab_global_subsidies_to_country_fishery_stats",
                                        class = "btn action-button nav-button-r",
-                                       button_text$text[button_text$id == "ab_global_subsidies_to_country_fishery_stats"], icon("chevron-right")
+                                       text$item_label[text$item_id == "ab_global_subsidies_to_country_fishery_stats"], icon("chevron-right")
                            )
                     )
                     

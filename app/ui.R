@@ -198,7 +198,7 @@ shinyUI(
                 
                 # Explore results - Item #2 - Edit policies and view those results
                 tabItem(tabName = "edit-policies",
-                        EditPolicies()
+                        EditPolicies(wto_members_and_observers)
                 ),
                 
                 ### About methods and process ---

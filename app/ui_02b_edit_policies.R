@@ -5,7 +5,7 @@
 ### This script contains the content for the "edit-policies" tab
 ### --------------------------------------------------------------------
 
-EditPolicies = function() 
+EditPolicies = function(wto_members_and_observers) 
   fluidPage(
     
     # Page style
@@ -65,7 +65,7 @@ EditPolicies = function()
     ),
     
   ####-----------------------------------------------------------------------------------------
-  #### Left column - tabBox with select policies
+  #### Left column - tabBox with manual policy selection
   #### ----------------------------------------------------------------------------------------
 column(12,
        
@@ -93,35 +93,40 @@ column(12,
                          tabPanel(text$item_label[text$item_id == "instructions"],
                                   value = "instructions",
                                   
-                                  # Column container for tab panel        
-                                  column(12, style = "border-style: solid;
-                                         border-width: 2px 1px 1px 1px;
-                                         border-color: #28292C;",
-                                         
-                                         # Intro text and policy name
-                                         column(12, style = "padding: 15px 25px 15px;",
-                                                
-                                                # Introductory text
-                                                includeHTML("./text/02b_edit_policies_intro.html"),
-                                                
-                                                # Provide policy description
-                                                textInput("w_run_name",
-                                                          label = text$item_label[text$item_id == "w_run_name"],
-                                                          value = text$value[text$item_id == "w_run_name"])
-                                         ),
-                                         
-                                         # Next tab button
-                                         column(3, offset = 9, style = "padding: 5px;",
-                                                
-                                                tags$button(id = "ab_edit_policies_tabs_instructions_to_iuu",
-                                                            class = "btn action-button nav-button-white-r",
-                                                            text$item_label[text$item_id == "ab_edit_policies_tabs_instructions_to_iuu"], icon("chevron-right")
-                                                )
-                                         )
-                                         
-                                  ) # /column 12 - column container for instructions tabPanel
+                                  Instructions()
                                   
                          ), # /tabPanel - instructions
+                         
+                         #          
+                         #          # Column container for tab panel        
+                         #          column(12, style = "border-style: solid;
+                         #                 border-width: 2px 1px 1px 1px;
+                         #                 border-color: #28292C;",
+                         #                 
+                         #                 # Intro text and policy name
+                         #                 column(12, style = "padding: 15px 25px 15px;",
+                         #                        
+                         #                        # Introductory text
+                         #                        includeHTML("./text/02b_edit_policies_intro.html"),
+                         #                        
+                         #                        # Provide policy description
+                         #                        textInput("w_run_name",
+                         #                                  label = text$item_label[text$item_id == "w_run_name"],
+                         #                                  value = text$value[text$item_id == "w_run_name"])
+                         #                 ),
+                         #                 
+                         #                 # Next tab button
+                         #                 column(3, offset = 9, style = "padding: 5px;",
+                         #                        
+                         #                        tags$button(id = "ab_edit_policies_tabs_instructions_to_iuu",
+                         #                                    class = "btn action-button nav-button-white-r",
+                         #                                    text$item_label[text$item_id == "ab_edit_policies_tabs_instructions_to_iuu"], icon("chevron-right")
+                         #                        )
+                         #                 )
+                         #                 
+                         #          ) # /column 12 - column container for instructions tabPanel
+                         #          
+                         # ), # /tabPanel - instructions
                         
                          
                          ### --------------------------
@@ -203,11 +208,12 @@ column(12,
                                                   ), # /column: Left column 
                                                   
                                                   
-                                                  ### Middle column: scope
+                                                  ### Middle column: scope/allow S&DT
                                                   column(4, style = "padding: 0 10px;",
                                                          
                                                          conditionalPanel('input.w_iuu_definitions.length > 0',
                                                                           
+                                                                          # Set IUU scope
                                                                           radioButtons("w_iuu_scope",
                                                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_scope"]),
                                                                                        choices = c("all", "other"),
@@ -215,69 +221,106 @@ column(12,
                                                                                        width = "100%",
                                                                                        inline = FALSE),
                                                                           
-                                                                          # Manual selection of countries
+                                                                          # Manual selection of Members
                                                                           conditionalPanel("input.w_iuu_scope == 'select'",
                                                                                            
                                                                                            selectizeInput("w_iuu_scope_manual",
                                                                                                           label = tags$b(text$item_label[text$item_id == "w_iuu_scope_manual"]),
-                                                                                                          choices = c("A", "B", "C"),
+                                                                                                          choices = wto_members_and_observers,
                                                                                                           selected = NULL,
                                                                                                           width = "100%",
                                                                                                           options = list(placeholder = 'Select...'),
                                                                                                           multiple = T)
                                                                                            
-                                                                          ) # close iuu scope manual conditional
-                                                         ) # close iuu scope conditional
-                                                  ), # close iuu scope column
-                                                  
-                                                  ### S&DT: right column
-                                                  column(3, style = "padding: 0 10px;",
-                                                         conditionalPanel('input.w_iuu_definitions.length > 0',
+                                                                          ), # close iuu scope manual conditional
                                                                           
+                                                                          tags$hr(),
+                                                                          
+                                                                          # Should S&DT be allowed?
                                                                           radioButtons("w_iuu_allow_sdt",
-                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_allow_sdt"]),
+                                                                                       label = tagList(
+                                                                                         tags$b(text$item_label[text$item_id == "w_iuu_allow_sdt"]),
+                                                                                         # Info button
+                                                                                         tags$button(id = "info_iuu_sdt",
+                                                                                                     class = "btn action-button info-button",
+                                                                                                     icon("info"))
+                                                                                         ),
                                                                                        choices = c("Yes", "No"),
                                                                                        selected = "No",
                                                                                        width = "100%",
                                                                                        inline = FALSE)
                                                                           
-                                                         ), # /conditionalPanel - input.w_iuu_definitions.length > 0
-                                                         
-                                                         conditionalPanel("(input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0)",
                                                                           
-                                                                          # S&DT - Who?
-                                                                          radioButtons("w_iuu_sdt_who",
-                                                                                       label = tagList(tags$b(text$item_label[text$item_id == "w_iuu_sdt_who"]),
-                                                                                                       # Info button
-                                                                                                       tags$button(id = "info_iuu_sdt",
-                                                                                                                   class = "btn action-button info-button",
-                                                                                                                   icon("info"))),
-                                                                                       choices = c("A", "B", "ldc"),
-                                                                                       selected = "ldc",
+                                                         ) # close iuu scope conditional
+                                                  ), # close iuu scope column
+                                                  
+                                                  ### S&DT: right column
+                                                  column(3, style = "padding: 0 10px;",
+                                                        
+                                                         conditionalPanel("(input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0)",
+                                                                          # LDC S&DT - Who?
+                                                                          radioButtons("w_iuu_sdt_ldc",
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_ldc"]),
+                                                                                       choices = c("Yes", "No"),
+                                                                                       selected = "No",
                                                                                        width = "100%",
                                                                                        inline = FALSE),
                                                                           
-                                                                          # S&DT - What? 
-                                                                          checkboxGroupInput("w_iuu_sdt_what",
-                                                                                             label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what"]),
+                                                                          conditionalPanel("input.w_iuu_sdt_ldc == 'Yes'",
+                                                                          
+                                                                          # LDC S&DT - What? 
+                                                                          checkboxGroupInput("w_iuu_sdt_what_ldc",
+                                                                                             label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what_ldc"]),
                                                                                              choices = c("all", "domestic", "time"),
                                                                                              selected = "",
                                                                                              width = "100%",
                                                                                              inline = FALSE),
                                                                           
                                                                           # S&DT - Time delay if relevant
-                                                                          conditionalPanel("input.w_iuu_sdt_what.includes('time')",
+                                                                          conditionalPanel("input.w_iuu_sdt_what_ldc.includes('time')",
 
-                                                                                           sliderInput("w_iuu_sdt_time_delay",
-                                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay"]),
+                                                                                           sliderInput("w_iuu_sdt_time_delay_ldc",
+                                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay_ldc"]),
                                                                                                        min = 0,
                                                                                                        max = 5,
                                                                                                        value = 1,
                                                                                                        width = "100%")
 
-                                                                          ), # /conditionalpanel - input.w_iuu_sdt_what.includes('time')
+                                                                          ) # /conditionalpanel - input.w_iuu_sdt_what.includes('time')
+                                                                          ), # /conditionalPanel - input.w_iuu_sdt_ldc == 'Yes'
                                                                           
                                                                           tags$hr(),
+                                                                          
+                                                                          # LDC S&DT - Who?
+                                                                          radioButtons("w_iuu_sdt_developing",
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_developing"]),
+                                                                                       choices = c("Yes", "No"),
+                                                                                       selected = "No",
+                                                                                       width = "100%",
+                                                                                       inline = FALSE),
+                                                                          
+                                                                          conditionalPanel("input.w_iuu_sdt_developing == 'Yes'",
+                                                                                           
+                                                                                           # LDC S&DT - What? 
+                                                                                           checkboxGroupInput("w_iuu_sdt_what_developing",
+                                                                                                              label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what_developing"]),
+                                                                                                              choices = c("all", "domestic", "time"),
+                                                                                                              selected = "",
+                                                                                                              width = "100%",
+                                                                                                              inline = FALSE),
+                                                                                           
+                                                                                           # S&DT - Time delay if relevant
+                                                                                           conditionalPanel("input.w_iuu_sdt_what_developing.includes('time')",
+                                                                                                            
+                                                                                                            sliderInput("w_iuu_sdt_time_delay_ldc",
+                                                                                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay_ldc"]),
+                                                                                                                        min = 0,
+                                                                                                                        max = 5,
+                                                                                                                        value = 1,
+                                                                                                                        width = "100%")
+                                                                                                            
+                                                                                           ) # /conditionalpanel - input.w_iuu_sdt_what.includes('time')
+                                                                          ), # /conditionalPanel - input.w_iuu_sdt_ldc == 'Yes'
                                                                           
                                                                           # S&DT - Specify second S&DT?
                                                                           radioButtons("w_iuu_allow_sdt_second",

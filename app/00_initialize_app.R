@@ -13,13 +13,22 @@
 ### Text ---------
 ### --------------
 
+# This file contains all of the button, widget label, tab, and header text
 text <- read_csv("./text/00_button_and_widget_text.csv")
-# 
-# button_text <- read_csv("./text/00_button_text.csv")
-# 
-# tab_text <- read_csv("./text/00_tab_text.csv")
-# 
-# widget_text <- read_csv("./text/00_widget_text.csv")
+
+# This file contains the values and display names for the widgets
+wid <- read_csv("./text/00_widget_values.csv") %>%
+  group_by(tab_num, tab_id, item_id) %>%
+  summarize(choices = paste0(choice, collapse = ", "),
+            choice_names = paste0(choice_name, collapse = ", "),
+            selected = paste0(choice[selected == TRUE], collapse = ", "),
+            min = unique(min),
+            max = unique(max), 
+            value = unique(value)) %>%
+  group_by(tab_num, tab_id, item_id) %>%
+  mutate(choices = list(setNames(unlist(str_split(choices, ", ")),
+                                 unlist(str_split(choice_names, ", ")))),
+         selected = list(unlist(str_split(selected, ", "))))
 
 ### ----------------------------------
 ### Country/Territory Naming ---------

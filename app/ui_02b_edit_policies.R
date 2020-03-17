@@ -81,9 +81,9 @@ column(12,
     
     ### Content
     column(12, style = "padding: 0 0 25px;",
-
+           
            column(12, style = "padding: 0 10px;",
-                  
+
                   tabBox(width = 12, id = "policy_tabs", 
                          
                          ### --------------------------
@@ -107,7 +107,7 @@ column(12,
                                                 # Provide policy description
                                                 textInput("w_run_name",
                                                           label = text$item_label[text$item_id == "w_run_name"],
-                                                          value = text$value[text$item_id == "w_run_name"]),
+                                                          value = text$value[text$item_id == "w_run_name"])
                                          ),
                                          
                                          # Next tab button
@@ -142,21 +142,6 @@ column(12,
                                                 includeHTML("./text/02b_edit_policies_iuu_intro.html")
                                                 
                                          ),
-                                         
-                                         # # IUU proposal dropdown
-                                         # column(12, style = "padding: 0px 25px 15px;",
-                                         #        
-                                         #        # Dropdown widget
-                                         #        column(12, style = "padding: 0px 10px;",
-                                         #               
-                                         #               selectInput("w_iuu_proposal_selection", 
-                                         #                           label = tags$b(widget_text$label[widget_text$id == "w_iuu_proposal_selection"]),
-                                         #                           choices = c("Default", "A", "B"),
-                                         #                           selected = "Default",
-                                         #                           width = "100%")
-                                         #        )
-                                         #        
-                                         # ), # /column - IUU proposal dropdown
                                          
                                          # Manual IUU discipline selection
                                          column(12, style = "padding: 0px 25px 15px;", 
@@ -340,22 +325,6 @@ column(12,
                                                 
                                          ), # /column 12 - IUU manual options
                                          
-                                         # # Collapsable box with more info
-                                         # column(12, style = "padding: 0px 25px 15px; align: 'center';",
-                                         #        
-                                         #        box(title = "More information on IUU disciplines...",
-                                         #            collapsible = TRUE,
-                                         #            width = "100%",
-                                         #            collapsed = T,
-                                         #            
-                                         #            # Text with links
-                                         #            column(12, style = "padding: 0px 10px;",
-                                         #                   
-                                         #                   includeHTML("./text/06_iuu_more_info.html")
-                                         #            )
-                                         #        )
-                                         # )
-                                         
                                          # Previous and next tab buttons
                                          fluidRow(
                                            
@@ -374,7 +343,7 @@ column(12,
                                                   
                                                   tags$button(id = "ab_edit_policies_tabs_iuu_to_oa",
                                                               class = "btn action-button nav-button-white-r",
-                                                              text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_oa"], icon("chevron-right"), 
+                                                              text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_oa"], icon("chevron-right") 
                                                   )
                                                   
                                            )
@@ -403,25 +372,6 @@ column(12,
                                                 includeHTML("./text/02b_edit_policies_oa_intro.html")
                                                 
                                          ),
-                                         
-                                         # # OA proposal dropdown
-                                         # column(12, style = "padding: 0px 25px 15px;",
-                                         #        
-                                         #        # Section header
-                                         #        h4("Prefill disciplines from a proposal"),
-                                         #        
-                                         #        # Dropdown widget
-                                         #        column(12, style = "padding: 0px 10px;",
-                                         #               
-                                         #               selectInput("w_oa_proposal_selection", 
-                                         #                           label = tagList(tags$b("Select a proposal...")),
-                                         #                           choices = c("A", "B", "C", "Default"),
-                                         #                           selected = "Default",
-                                         #                           width = "100%")
-                                         #               
-                                         #        )
-                                         #        
-                                         # ),
                                          
                                          # Manual OA discipline selection
                                          column(12, style = "padding: 0px 25px 15px;", 
@@ -638,24 +588,32 @@ column(12,
                                                   
                                                 ) # /fluidRow - OA
                                                 
-                                         ) #/column - OA manual selection
+                                         ), #/column - OA manual selection
                                          
-                                         # # Collapsable box with more info
-                                         # column(12, style = "padding: 0px 25px 15px; align: 'center';",
-                                         #        
-                                         #        box(title = "More information on overfished stock disciplines...",
-                                         #            collapsible = TRUE,
-                                         #            width = "100%",
-                                         #            collapsed = T,
-                                         #            
-                                         #            # Text with links
-                                         #            column(12, style = "padding: 0px 10px;",
-                                         #                   
-                                         #                   includeHTML("./text/06_iuu_more_info.html")
-                                         #            )
-                                         #            
-                                         #        ) # /box - OA more information
-                                         # ) # /column - OA more information container
+                                         # Previous and next tab buttons
+                                         fluidRow(
+                                           
+                                           # Previous tab
+                                           column(3, style = "padding: 5px;",
+                                                  
+                                                  tags$button(id = "ab_edit_policies_tabs_oa_to_iuu",
+                                                              class = "btn action-button nav-button-white-l",
+                                                              icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_oa_to_iuu"]
+                                                  )
+                                                  
+                                           ),
+                                           
+                                           # Next tab
+                                           column(3, offset = 6, style = "padding: 5px;",
+                                                  
+                                                  tags$button(id = "ab_edit_policies_tabs_oa_to_overcap",
+                                                              class = "btn action-button nav-button-white-r",
+                                                              text$item_label[text$item_id == "ab_edit_policies_tabs_oa_to_overcap"], icon("chevron-right") 
+                                                  )
+                                                  
+                                           )
+                                           
+                                         ) # /fluidRow
                                          
                                   ) #/coumn - OA tab panel container
                                   
@@ -680,25 +638,6 @@ column(12,
                                                 
                                          ),
                                          
-                                         # # Overcap proposal dropdown
-                                         # column(12, style = "padding: 0px 25px 15px;",
-                                         #        
-                                         #        # Section header
-                                         #        h4("Prefill disciplines from a proposal"),
-                                         #        
-                                         #        # Dropdown widget
-                                         #        column(12, style = "padding: 0px 10px;",
-                                         #               
-                                         #               selectInput("w_overcap_proposal_selection", 
-                                         #                           label = tagList(tags$b("Select a proposal...")),
-                                         #                           choices = c("oc1", "oc2"),
-                                         #                           selected = "Default",
-                                         #                           width = "100%")
-                                         #               
-                                         #        )
-                                         #        
-                                         # ),
-                                         
                                          # Manual Overcap discipline selection
                                          column(12, style = "padding: 0px 25px 15px;", 
                                                 
@@ -707,7 +646,7 @@ column(12,
                                                   column(5, style = "padding: 0 10px;",
                                                          
                                                          checkboxGroupInput("w_overcap_definitions",
-                                                                            label = tagList(tags$b("The following types of subsidies are considered to \ncontribute to overcapacity and overfishing and are prohibited..."),
+                                                                            label = tagList(tags$b(text$item_label[text$item_id == "w_overcap_definitions"]),
                                                                                             # Info button
                                                                                             tags$button(id = "info_overcap",
                                                                                                         class = "btn action-button info-button",
@@ -725,8 +664,8 @@ column(12,
                                                          conditionalPanel('input.w_overcap_definitions.length > 0',
                                                                           
                                                                           radioButtons("w_overcap_scope",
-                                                                                       label = tags$b("Discipline(s) apply to:"),
-                                                                                       choices = c("all", "select"),
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_overcap_scope"]),
+                                                                                       choices = c("all", "select", "HS", "OUT", "LENGTH", "TONNAGE", "ENGINE", "LTE"),
                                                                                        selected = "all",
                                                                                        width = "100%",
                                                                                        inline = FALSE), 
@@ -735,7 +674,7 @@ column(12,
                                                                                            
                                                                                            selectizeInput("w_overcap_scope_manual",
                                                                                                           
-                                                                                                          label = tags$b("Select Members:"),
+                                                                                                          label = tags$b(text$item_label[text$item_id == "w_overcap_scope_manual"]),
                                                                                                           choices = c("A", "B", "D"),
                                                                                                           selected = NULL,
                                                                                                           width = "100%",
@@ -749,7 +688,7 @@ column(12,
                                                          conditionalPanel('(input.w_overcap_definitions.length > 0 && (input.w_overcap_scope == "HS" || input.w_overcap_scope == "OUT"))',
                                                                           
                                                                           sliderInput("w_overcap_hs_cutoff",
-                                                                                      label = tagList(tags$b("What constitutes a high seas vessel?\n (min % of total fishing \n effort on the high seas)"),
+                                                                                      label = tagList(tags$b(text$item_label[text$item_id == "w_overcap_hs_cutoff"]),
                                                                                                       # Info button
                                                                                                       tags$button(id = "info_overcap_hs",
                                                                                                                   class = "btn action-button info-button",
@@ -761,16 +700,36 @@ column(12,
                                                                           
                                                          ), # close overcap hs cutoff conditional
                                                          
-                                                         conditionalPanel('(input.w_overcap_definitions.length > 0 && input.w_overcap_scope == "LENGTH")',
+                                                         conditionalPanel('(input.w_overcap_definitions.length > 0 && (input.w_overcap_scope == "LENGTH" || input.w_overcap_scope == "LTE"))',
                                                                           
                                                                           sliderInput("w_overcap_length_cutoff",
-                                                                                      label = tags$b("Minimum total vessel length (m)"),
+                                                                                      label = tags$b(text$item_label[text$item_id == "w_overcap_length_cutoff"]),
                                                                                       min = 10,
                                                                                       max = 100,
                                                                                       value = 24,
                                                                                       width = "100%")
                                                                           
-                                                         ) # /conditionalPanel - input.overcap_definitions.length > 0 && input.overcap_scope == "LENGTH"
+                                                         ), # /conditionalPanel - input.overcap_definitions.length > 0 && input.overcap_scope == "LENGTH"
+                                                         conditionalPanel('(input.w_overcap_definitions.length > 0 && (input.w_overcap_scope == "TONNAGE" || input.w_overcap_scope == "LTE"))',
+                                                                          
+                                                                          sliderInput("w_overcap_tonnage_cutoff",
+                                                                                      label = tags$b(text$item_label[text$item_id == "w_overcap_tonnage_cutoff"]),
+                                                                                      min = 10,
+                                                                                      max = 100,
+                                                                                      value = 24,
+                                                                                      width = "100%")
+                                                                          
+                                                         ), # /conditionalPanel - input.overcap_definitions.length > 0 && input.overcap_scope == "TONNAGE"
+                                                         conditionalPanel('(input.w_overcap_definitions.length > 0 && (input.w_overcap_scope == "ENGINE" || input.w_overcap_scope == "LTE"))',
+                                                                          
+                                                                          sliderInput("w_overcap_engine_cutoff",
+                                                                                      label = tags$b(text$item_label[text$item_id == "w_overcap_engine_cutoff"]),
+                                                                                      min = 10,
+                                                                                      max = 100,
+                                                                                      value = 24,
+                                                                                      width = "100%")
+                                                                          
+                                                         )
                                                   ), # close middle column
                                                   
                                                   ### Overcapacity S&DT: right column
@@ -782,7 +741,7 @@ column(12,
                                                            
                                                            radioButtons(
                                                              "w_overcap_allow_sdt",
-                                                             label = tags$b("Allow S&DT?"),
+                                                             label = tags$b(text$item_label[text$item_id == "w_overcap_allow_sdt"]),
                                                              choices = c("Yes", "No"),
                                                              selected = "No",
                                                              width = "100%",
@@ -795,7 +754,7 @@ column(12,
                                                                           
                                                                           # Overcapacity S&DT - Who does it apply to?
                                                                           radioButtons("w_overcap_sdt_who",
-                                                                                       label = tagList(tags$b("S&DT applies to:"),
+                                                                                       label = tagList(tags$b(text$item_label[text$item_id == "w_overcap_sdt_who"]),
                                                                                                        # Info button
                                                                                                        tags$button(id = "info_overcap_sdt",
                                                                                                                    class = "btn action-button info-button",
@@ -809,8 +768,8 @@ column(12,
                                                                           # Overcapacity S7DT - What is it?
                                                                           checkboxGroupInput("w_overcap_sdt_what",
                                                                                              
-                                                                                             label = tags$b("S&DT:"),
-                                                                                             choices = c("A", "B"),
+                                                                                             label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_what"]),
+                                                                                             choices = c("HS", "B", "time"),
                                                                                              selected = "",
                                                                                              width = "100%",
                                                                                              inline = FALSE), 
@@ -818,25 +777,78 @@ column(12,
                                                                           # Overcapacity S&DT - Define "high seas" fishing (if necessary)
                                                                           conditionalPanel('input.w_overcap_sdt_what.includes("HS")',
                                                                                            
-                                                                                           sliderInput("w_overcap_hs_cutoff_sdt",
-                                                                                                       label = tags$b("What constitutes a high seas vessel?\n (min % of total fishing effort \n on the high seas)"),
+                                                                                           sliderInput("w_overcap_sdt_hs_cutoff",
+                                                                                                       label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_hs_cutoff"]),
                                                                                                        min = 1,
                                                                                                        max = 100,
                                                                                                        value = 5,
                                                                                                        width = "100%")
                                                                                            
-                                                                          ) # /conditionalPanel - input.overcap_sdt_what.includes("HS")
+                                                                          ), # /conditionalPanel - input.overcap_sdt_what.includes("HS")
                                                                           
-                                                                          # conditionalPanel("input.overcap_sdt_what.includes('time')",
-                                                                          #                  sliderInput("overcap_sdt_time_delay",
-                                                                          #                              
-                                                                          #label = tags$b("Time delay (years):"),
-                                                                          #                              min = 0,
-                                                                          #                              max = 5,
-                                                                          #                              value = 1,
-                                                                          #                              width = "100%")
-                                                                          #
-                                                                          # ) # close overcap sdt time conditional
+                                                                          conditionalPanel("input.overcap_sdt_what.includes('time')",
+                                                                                           sliderInput("w_overcap_sdt_time_delay",
+
+                                                                          label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_time_delay"]),
+                                                                                                       min = 0,
+                                                                                                       max = 5,
+                                                                                                       value = 1,
+                                                                                                       width = "100%")
+
+                                                                          ), # close overcap sdt time conditional
+                                                                          
+                                                                          tags$hr(),
+                                                                          
+                                                                          # S&DT - Specify second S&DT?
+                                                                          radioButtons("w_overcap_allow_sdt_second",
+                                                                                       label = tags$b(text$item_label[text$item_id == "w_overcap_allow_sdt_second"]),
+                                                                                       choices = c("Yes", "No"),
+                                                                                       selected = "No",
+                                                                                       width = "100%",
+                                                                                       inline = FALSE),
+                                                                          
+                                                                          conditionalPanel("(input.w_overcap_allow_sdt == 'Yes' && input.w_overcap_definitions.length > 0 && input.w_overcap_allow_sdt_second == 'Yes')",
+                                                                                           # S&DT - Who for second?
+                                                                                           radioButtons("w_overcap_sdt_who_second",
+                                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_who_second"]),
+                                                                                                        choices = c("A", "B", "ldc"),
+                                                                                                        selected = "ldc",
+                                                                                                        width = "100%",
+                                                                                                        inline = FALSE),
+                                                                                           
+                                                                                           # S&DT - What for second?
+                                                                                           checkboxGroupInput("w_overcap_sdt_what_second",
+                                                                                                              label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_what_second"]),
+                                                                                                              choices = c("all", "domestic", "HS", "time"),
+                                                                                                              selected = "",
+                                                                                                              width = "100%",
+                                                                                                              inline = FALSE),
+                                                                                           
+                                                                                           # S&DT - High seas cutoff for second if relevant
+                                                                                           conditionalPanel('input.w_overcap_sdt_what_second.includes("HS")',
+                                                                                                            
+                                                                                                            sliderInput("w_overcap_sdt_hs_cutoff_second",
+                                                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_hs_cutoff_second"]),
+                                                                                                                        min = 1,
+                                                                                                                        max = 100,
+                                                                                                                        value = 5,
+                                                                                                                        width = "100%")
+                                                                                                            
+                                                                                           ), # /conditionalPanel - input.oa_sdt_what.includes("HS")
+                                                                                           
+                                                                                           # S&DT - Time delay for second if relevant
+                                                                                           conditionalPanel("input.w_overcap_sdt_what_second.includes('time')",
+                                                                                                            
+                                                                                                            sliderInput("w_overcap_sdt_time_delay_second",
+                                                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_time_delay_second"]),
+                                                                                                                        min = 0,
+                                                                                                                        max = 5,
+                                                                                                                        value = 1,
+                                                                                                                        width = "100%")
+                                                                                                            
+                                                                                           ) # /conditionalpanel - input.w_iuu_sdt_what_second.includes('time')
+                                                                                           
+                                                                          ) # /conditionalPanel - (input.w_iuu_allow_sdt == 'Yes' && input.w_iuu_definitions.length > 0 && input.w_iuu_allow_sdt_second == 'Yes')
                                                                           
                                                          ) # close overcap sdt conditional
                                                          
@@ -848,14 +860,14 @@ column(12,
                                                 
                                                 column(12,
                                                        
-                                                       tags$p("A cap and tier system is an additional constraint imposed on top of any selected prohibitions to further restrict fisheries subsidies. A subsidy cap sets a specific monetary limit on the total amount of fisheries subsidies each member is allowed to provide. Subsidies that exceed this cap would be prohibited. A tiered approach that accommodates the differential circumstances of members can be used. Under this approach, member groups are given different caps based on rule that separates them into tiers.")
+                                                       includeHTML("./text/02b_edit_policies_cap_tier_intro.html")
                                                        
                                                 ),
                                                 
                                                 # On/off buttons
                                                 column(12, align = "center",
                                                        radioButtons("w_cap_on_off",
-                                                                    label = tags$i("Apply subsidy caps?"),
+                                                                    label = tags$b(text$item_label[text$item_id == "w_cap_on_off"]),
                                                                     selected = "No",
                                                                     choices = c("Yes", "No"),
                                                                     width = "100%",
@@ -868,7 +880,7 @@ column(12,
                                                                  # Subsidy types to include in cap
                                                                  column(12, align = "center",
                                                                         checkboxGroupInput("w_cap_subsidy_types",
-                                                                                           label = tags$i("Which subsidy type(s) are included in the cap?"),
+                                                                                           label = tags$b(text$item_label[text$item_id == "w_cap_subsidy_types"]),
                                                                                            choices = c("B1", "B2", "B3"),
                                                                                            selected = "B1",
                                                                                            width = "100%",
@@ -888,7 +900,7 @@ column(12,
                                                                                            column(12, style = "padding: 0 10px;",
                                                                                                   
                                                                                                   radioButtons("w_cap_tier_number",
-                                                                                                               label = tags$i("How many tiers?"),
+                                                                                                               label = tags$b(text$item_label[text$item_id == "w_cap_tier_number"]),
                                                                                                                choices = c("One (cap applies equally to all Members)" = "One",
                                                                                                                            "Two" = "Two",
                                                                                                                            "Three" = "Three"),
@@ -913,7 +925,7 @@ column(12,
                                                                                                   # Two or three tiers
                                                                                                   conditionalPanel('input.w_cap_tier_number != "One"',
                                                                                                                    radioButtons("w_tier_system",
-                                                                                                                                label = tags$i("How should Members be grouped into tiers?"),
+                                                                                                                                label = tags$b(text$item_label[text$item_id == "w_tier_system"]),
                                                                                                                                 choices = c("capture", "other"),
                                                                                                                                 selected = "capture",
                                                                                                                                 width = "100%",
@@ -934,7 +946,7 @@ column(12,
                                                                                                   conditionalPanel('input.w_cap_tier_number == "Two" & input.w_tier_system != "development"',
                                                                                                                    
                                                                                                                    sliderInput("w_two_tier_cutoff",
-                                                                                                                               label = tags$i("Threshold for top tier (%)"),
+                                                                                                                               label = tags$b(text$item_label[text$item_id == "w_two_tier_cutoff"]),
                                                                                                                                min = 0.01,
                                                                                                                                max = 2,
                                                                                                                                step = 0.001,
@@ -946,7 +958,7 @@ column(12,
                                                                                                   conditionalPanel('input.w_cap_tier_number == "Three" & input.w_tier_system != "development"',
                                                                                                                    
                                                                                                                    sliderInput("w_three_tier_cutoff",
-                                                                                                                               label = tags$i("Thresholds for bottom (left) and top (right) tiers (%)"),
+                                                                                                                               label = tags$b(text$item_label[text$item_id == "w_three_tier_cutoff"]),
                                                                                                                                min = 0.01,
                                                                                                                                max = 2,
                                                                                                                                step = 0.01,
@@ -970,7 +982,7 @@ column(12,
                                                                                                          
                                                                                                          # Tier 1 cap:
                                                                                                          radioButtons("w_tier1_cap_rule",
-                                                                                                                      label = tags$i("Tier 1: How should the cap be set?"),
+                                                                                                                      label = tags$b(text$item_label[text$item_id == "w_tier1_cap_rule"]),
                                                                                                                       choices = c("percent_subs", "other"),
                                                                                                                       selected = "percent_subs",
                                                                                                                       width = "100%",
@@ -985,7 +997,7 @@ column(12,
                                                                                                          conditionalPanel(condition = "input.w_tier1_cap_rule == 'value'",
                                                                                                                           
                                                                                                                           sliderInput("w_tier1_cap_value",
-                                                                                                                                      label = tags$i("Tier 1: Subsidy cap ($USD, millions)"),
+                                                                                                                                      label = tags$b(text$item_label[text$item_id == "w_tier1_cap_value"]),
                                                                                                                                       min = 0,
                                                                                                                                       max = 2000,
                                                                                                                                       value = 5,
@@ -996,7 +1008,7 @@ column(12,
                                                                                                          conditionalPanel(condition = "input.w_tier1_cap_rule == 'fishers'",
                                                                                                                           
                                                                                                                           sliderInput("w_tier1_cap_fishers",
-                                                                                                                                      label = tags$i("Tier 1: Subsidies per fisher (US$)"),
+                                                                                                                                      label = tags$b(text$item_label[text$item_id == "w_tier1_cap_fishers"]),
                                                                                                                                       min = 0,
                                                                                                                                       max = 5000,
                                                                                                                                       value = 800,
@@ -1007,7 +1019,7 @@ column(12,
                                                                                                          conditionalPanel(condition = "input.w_tier1_cap_rule != 'value' && input.w_tier1_cap_rule != 'fishers'",
                                                                                                                           
                                                                                                                           sliderInput("w_tier1_cap_percent",
-                                                                                                                                      label = tags$i("Tier 1: Percent for cap rule"),
+                                                                                                                                      label = tags$b(text$item_label[text$item_id == "w_tier1_cap_percent"]),
                                                                                                                                       min = 0,
                                                                                                                                       max = 100,
                                                                                                                                       value = 5,
@@ -1026,7 +1038,7 @@ column(12,
                                                                                                                           
                                                                                                                           # Tier 2 cap:
                                                                                                                           radioButtons("w_tier2_cap_rule",
-                                                                                                                                       label = tags$i("Tier 2: How should the cap be set?"),
+                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier2_cap_rule"]),
                                                                                                                                        choices = c("Value" = "value", "No cap" = "none"),
                                                                                                                                        selected = "value",
                                                                                                                                        width = "100%",
@@ -1041,7 +1053,7 @@ column(12,
                                                                                                                           # Slider for absolute value
                                                                                                                           conditionalPanel(condition = "input.w_tier2_cap_rule == 'value'",
                                                                                                                                            sliderInput("w_tier2_cap_value",
-                                                                                                                                                       label = tags$i("Tier 2: Subsidy cap ($USD, millions)"),
+                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier2_cap_value"]),
                                                                                                                                                        min = 0,
                                                                                                                                                        max = 500,
                                                                                                                                                        value = 5,
@@ -1051,7 +1063,7 @@ column(12,
                                                                                                                           # Slider for per fisher value
                                                                                                                           conditionalPanel(condition = "input.w_tier2_cap_rule == 'fishers'",
                                                                                                                                            sliderInput("w_tier2_cap_fishers",
-                                                                                                                                                       label = tags$i("Tier 2: Subsidies per fisher (US$)"),
+                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier2_cap_fishers"]),
                                                                                                                                                        min = 0,
                                                                                                                                                        max = 5000,
                                                                                                                                                        value = 800,
@@ -1061,7 +1073,7 @@ column(12,
                                                                                                                           # Slider for percentage value
                                                                                                                           conditionalPanel(condition = "input.w_tier2_cap_rule != 'value' && input.w_tier2_cap_rule != 'none' && input.w_tier2_cap_rule != 'fishers'",
                                                                                                                                            sliderInput("w_tier2_cap_percent",
-                                                                                                                                                       label = tags$i("Tier 2: Percent for cap rule"),
+                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier2_cap_percent"]),
                                                                                                                                                        min = 0,
                                                                                                                                                        max = 100,
                                                                                                                                                        value = 5,
@@ -1080,7 +1092,7 @@ column(12,
                                                                                                                           
                                                                                                                           # Tier 1 cap:
                                                                                                                           radioButtons("w_tier3_cap_rule",
-                                                                                                                                       label = tags$i("Tier 3: How should the cap be set?"),
+                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier3_cap_rule"]),
                                                                                                                                        choices = c("Value" = "value",
                                                                                                                                                    "No cap" = "none"),
                                                                                                                                        selected = "none",
@@ -1095,7 +1107,7 @@ column(12,
                                                                                                                           # Slider for absolute value
                                                                                                                           conditionalPanel(condition = "input.w_tier3_cap_rule == 'value'",
                                                                                                                                            sliderInput("w_tier3_cap_value",
-                                                                                                                                                       label = tags$i("Tier 3: Subsidy cap ($USD, millions)"),
+                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier3_cap_value"]),
                                                                                                                                                        min = 0,
                                                                                                                                                        max = 500,
                                                                                                                                                        value = 5,
@@ -1105,7 +1117,7 @@ column(12,
                                                                                                                           # Slider for per fisher value
                                                                                                                           conditionalPanel(condition = "input.w_tier3_cap_rule == 'fishers'",
                                                                                                                                            sliderInput("w_tier3_cap_fishers",
-                                                                                                                                                       label = tags$i("Tier 3: Subsidies per fisher (US$)"),
+                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier3_cap_fishers"]),
                                                                                                                                                        min = 0,
                                                                                                                                                        max = 5000,
                                                                                                                                                        value = 800,
@@ -1115,7 +1127,7 @@ column(12,
                                                                                                                           # Slider for percentage value
                                                                                                                           conditionalPanel(condition = "input.w_tier3_cap_rule != 'value' && input.w_tier3_cap_rule != 'none' && input.w_tier3_cap_rule != 'fishers'",
                                                                                                                                            sliderInput("w_tier3_cap_percent",
-                                                                                                                                                       label = tags$i("Tier 3: Percent for cap rule"),
+                                                                                                                                                       label = tags$b(text$item_label[text$item_id == "w_tier3_cap_percent"]),
                                                                                                                                                        min = 0,
                                                                                                                                                        max = 100,
                                                                                                                                                        value = 5,
@@ -1131,25 +1143,24 @@ column(12,
                                                                  
                                                 ) # close cap on/off conditional 
                                                 
-                                         ) # close overcap manual selection
+                                         ), # close overcap manual selection
                                          
-                                         # # Collapsable box with more info
-                                         # column(12, style = "padding: 0px 25px 15px; align: 'center';",
-                                         #        
-                                         #        box(title = "More information on overcapacity and overfishing disciplines...",
-                                         #            collapsible = TRUE,
-                                         #            width = "100%",
-                                         #            collapsed = T,
-                                         #            
-                                         #            # Text with links
-                                         #            column(12, style = "padding: 0px 10px;",
-                                         #                   
-                                         #                   includeHTML("./text/06_iuu_more_info.html")
-                                         #            )
-                                         #            
-                                         #        ) # /box - OCOF more information
-                                         # ) # /column - OCOF more information container
+                                         # Previous and next tab buttons
+                                         fluidRow(
+                                           
+                                           # Previous tab
+                                           column(3, style = "padding: 5px;",
+                                                  
+                                                  tags$button(id = "ab_edit_policies_tabs_overcap_to_oa",
+                                                              class = "btn action-button nav-button-white-l",
+                                                              icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_overcap_to_oa"]
+                                                  )
+                                                  
+                                           )
+                                           
+                                         ) # /fluidRow
                                          
+
                                   ) # close overcap container column
                                   
                          ) # /tabPanel #2  
@@ -1160,7 +1171,7 @@ column(12,
            
     ) # /column 12 (content)
     
-  ), # /column 8 - left column
+  ), # /column 9 - left column
            
  ####-----------------------------------------------------------------------------------------
  #### Right column - Menu of selected policies
@@ -1190,13 +1201,13 @@ column(12,
                 column(3,
                        tags$button(id = "ab_edit_policies_to_selected_results",
                                    class = "btn action-button nav-button-l",
-                                   icon("chevron-left"), button_text$text[button_text$id == "ab_edit_policies_to_selected_results"]
+                                   icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_to_selected_results"]
                        )
                 )
                 
        )
   )
     
-  ) # /fluidPage
+) # /fluidPage
   
   

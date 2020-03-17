@@ -24,7 +24,8 @@ wid <- read_csv("./text/00_widget_values.csv") %>%
             selected = paste0(choice[selected == TRUE], collapse = ", "),
             min = unique(min),
             max = unique(max), 
-            value = unique(value)) %>%
+            value = unique(value),
+            step = unique(step)) %>%
   group_by(tab_num, tab_id, item_id) %>%
   mutate(choices = list(setNames(unlist(str_split(choices, ", ")),
                                  unlist(str_split(choice_names, ", ")))),

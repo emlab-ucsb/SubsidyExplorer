@@ -209,7 +209,7 @@ shinyUI(
                 ### About fisheries subsidies ---
                 # About fisheries subsidies - Item #1 - Global subsidy map
                 tabItem(tabName = "global-subsidies",
-                        GlobalSubsidies(subsidy_categories_sorted_sumaila, subsidy_types_sorted_sumaila)
+                        GlobalSubsidies(subsidy_types_sorted_sumaila)
                 ),
                 
                 # About fisheries subsidies - Item #2 - Fishery statistics by state

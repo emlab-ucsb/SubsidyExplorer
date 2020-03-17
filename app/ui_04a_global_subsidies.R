@@ -5,7 +5,7 @@
 ### This script contains the content for the global-subsidies tab
 ### --------------------------------------------------------------------
 
-GlobalSubsidies = function(subsidy_categories_sorted_sumaila, subsidy_types_sorted_sumaila) 
+GlobalSubsidies = function(subsidy_types_sorted_sumaila) 
   fluidPage(
     
     # Page style
@@ -42,11 +42,8 @@ GlobalSubsidies = function(subsidy_categories_sorted_sumaila, subsidy_types_sort
                     
                     selectInput("w_global_subsidies_category",
                                 label = tags$b(text$item_label[text$item_id == "w_global_subsidies_category"]),
-                                choices = setNames(c("All", subsidy_categories_sorted_sumaila), c("All subsidies", 
-                                                                                                  "Beneficial subsidies only", 
-                                                                                                  "Capacity-enhancing subsidies only",
-                                                                                                  "Ambiguous subsidies only")),
-                                selected = "Capacity-enhancing",
+                                choices = unlist(wid$choices[wid$item_id == "w_global_subsidies_category"]),
+                                selected = unlist(wid$selected[wid$item_id == "w_global_subsidies_category"]),
                                 width = "100%")
              ),
              

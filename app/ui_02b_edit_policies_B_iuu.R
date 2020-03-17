@@ -37,18 +37,18 @@ IUU = function(wto_members_and_observers)
                                                           class = "btn action-button info-button",
                                                           icon("info"))
                                               ), 
-                                            choices = c("iuu1", "iuu2", "iuu3", "iuu4"),
-                                            selected = c(""),
+                                            choices = unlist(wid$choices[wid$item_id == "w_iuu_definitions"]),
+                                            selected = unlist(wid$selected[wid$item_id == "w_iuu_definitions"]),
                                             width = "100%",
                                             inline = FALSE), 
-                         
+                        
                          # IUU missing data warning
                          tags$i(textOutput("iuu_warning")),
                          
                          br(),
                          
                          # Conditional panel - IUU discipline(s) with no data selected
-                         conditionalPanel(condition = "input.w_iuu_definitions.includes('iuu2') | input.w_iuu_definitions.includes('iuu3') | input.w_iuu_definitions.includes('iuu4')",
+                         conditionalPanel(condition = "input.w_iuu_definitions.includes('IUU2') | input.w_iuu_definitions.includes('IUU3') | input.w_iuu_definitions.includes('IUU4')",
                                           
                                           # Input - Make IUU assumption
                                           radioButtons("w_iuu_assumption",
@@ -59,8 +59,8 @@ IUU = function(wto_members_and_observers)
                                                                      class = "btn action-button info-button",
                                                                      icon("info"))
                                                          ), 
-                                                       choices = c("Yes", "No"),
-                                                       selected = "No",
+                                                       choices = unlist(wid$choices[wid$item_id == "w_iuu_assumption"]),
+                                                       selected = unlist(wid$selected[wid$item_id == "w_iuu_assumption"]),
                                                        width = "100%",
                                                        inline = FALSE), 
                                           
@@ -70,9 +70,9 @@ IUU = function(wto_members_and_observers)
                                                            # Input - Set assumed level of IUU fishing
                                                            sliderInput("w_iuu_percent", 
                                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_percent"]),
-                                                                       min = text$min[text$item_id == "w_iuu_percent"],
-                                                                       max = text$max[text$item_id == "w_iuu_percent"],
-                                                                       value = text$value[text$item_id == "w_iuu_percent"],
+                                                                       min = wid$min[wid$item_id == "w_iuu_percent"],
+                                                                       max = wid$max[wid$item_id == "w_iuu_percent"],
+                                                                       value = wid$value[wid$item_id == "w_iuu_percent"],
                                                                        width = "100%")
                                                            
                                           ) # /conditionalPanel - Make IUU assumption selected
@@ -90,19 +90,19 @@ IUU = function(wto_members_and_observers)
                                           # Input - Set IUU scope
                                           radioButtons("w_iuu_scope",
                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_scope"]),
-                                                       choices = c("all", "other"),
-                                                       selected = "all",
+                                                       choices = unlist(wid$choices[wid$item_id == "w_iuu_scope"]),
+                                                       selected = unlist(wid$selected[wid$item_id == "w_iuu_scope"]),
                                                        width = "100%",
                                                        inline = FALSE),
                                           
                                           # Conditional panel - Manually select members
-                                          conditionalPanel("input.w_iuu_scope == 'select'",
+                                          conditionalPanel("input.w_iuu_scope == 'SELECT'",
                                                            
                                                            # Input: Manual selection of Members
                                                            selectizeInput("w_iuu_scope_manual",
                                                                           label = tags$b(text$item_label[text$item_id == "w_iuu_scope_manual"]),
                                                                           choices = wto_members_and_observers,
-                                                                          selected = NULL,
+                                                                          selected = "",
                                                                           width = "100%",
                                                                           options = list(placeholder = 'Select...'),
                                                                           multiple = T)
@@ -120,8 +120,8 @@ IUU = function(wto_members_and_observers)
                                                                      class = "btn action-button info-button",
                                                                      icon("info"))
                                                        ),
-                                                       choices = c("Yes", "No"),
-                                                       selected = "No",
+                                                       choices = unlist(wid$choices[wid$item_id == "w_iuu_allow_sdt"]),
+                                                       selected = unlist(wid$selected[wid$item_id == "w_iuu_allow_sdt"]),
                                                        width = "100%",
                                                        inline = FALSE)
                                           
@@ -139,8 +139,8 @@ IUU = function(wto_members_and_observers)
                                           # Input - allow S&DT for LDCs
                                           radioButtons("w_iuu_sdt_ldc",
                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_ldc"]),
-                                                       choices = c("Yes", "No"),
-                                                       selected = "No",
+                                                       choices = unlist(wid$choices[wid$item_id == "w_iuu_sdt_ldc"]),
+                                                       selected = unlist(wid$selected[wid$item_id == "w_iuu_sdt_ldc"]),
                                                        width = "100%",
                                                        inline = FALSE),
                                           
@@ -150,20 +150,20 @@ IUU = function(wto_members_and_observers)
                                                            # Input - LDC S&DT
                                                            checkboxGroupInput("w_iuu_sdt_what_ldc",
                                                                               label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what_ldc"]),
-                                                                              choices = c("all", "domestic", "time"),
-                                                                              selected = "",
+                                                                              choices = unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_ldc"]),
+                                                                              selected = unlist(wid$selected[wid$item_id == "w_iuu_sdt_what_ldc"]),
                                                                               width = "100%",
                                                                               inline = FALSE),
                                                            
                                                            # Conditional panel - Time delay for LDCs allowed
-                                                           conditionalPanel("input.w_iuu_sdt_what_ldc.includes('time')",
+                                                           conditionalPanel("input.w_iuu_sdt_what_ldc.includes('TIME')",
                                                                             
                                                                             # Input - Time delay for LDCs
                                                                             sliderInput("w_iuu_sdt_time_delay_ldc",
                                                                                         label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay_ldc"]),
-                                                                                        min = 0,
-                                                                                        max = 5,
-                                                                                        value = 1,
+                                                                                        min = wid$min[wid$item_id == "w_iuu_sdt_time_delay_ldc"],
+                                                                                        max = wid$max[wid$item_id == "w_iuu_sdt_time_delay_ldc"],
+                                                                                        value = wid$value[wid$item_id == "w_iuu_sdt_time_delay_ldc"],
                                                                                         width = "100%")
                                                                             
                                                            ) # /conditionalpanel - Time delay for LDCs allowed
@@ -174,8 +174,8 @@ IUU = function(wto_members_and_observers)
                                           # Input - allow S&DT for developing
                                           radioButtons("w_iuu_sdt_developing",
                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_developing"]),
-                                                       choices = c("Yes", "No"),
-                                                       selected = "No",
+                                                       choices = unlist(wid$choices[wid$item_id == "w_iuu_sdt_developing"]),
+                                                       selected = unlist(wid$selected[wid$item_id == "w_iuu_sdt_developing"]),
                                                        width = "100%",
                                                        inline = FALSE),
                                           
@@ -185,19 +185,20 @@ IUU = function(wto_members_and_observers)
                                                            # Input - developing S&DT
                                                            checkboxGroupInput("w_iuu_sdt_what_developing",
                                                                               label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what_developing"]),
-                                                                              choices = c("all", "domestic", "time"),
-                                                                              selected = "",
+                                                                              choices = unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_developing"]),
+                                                                              selected = unlist(wid$selected[wid$item_id == "w_iuu_sdt_what_developing"]),
                                                                               width = "100%",
                                                                               inline = FALSE),
                                                            
                                                            # Conditional panel - Time delay for developing allowed
-                                                           conditionalPanel("input.w_iuu_sdt_what_developing.includes('time')",
+                                                           conditionalPanel("input.w_iuu_sdt_what_developing.includes('TIME')",
+                                                                            
                                                                             # Input - Time delay for developing
                                                                             sliderInput("w_iuu_sdt_time_delay_developing",
                                                                                         label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay_developing"]),
-                                                                                        min = 0,
-                                                                                        max = 5,
-                                                                                        value = 1,
+                                                                                        min = wid$min[wid$item_id == "w_iuu_sdt_time_delay_developing"],
+                                                                                        max = wid$max[wid$item_id == "w_iuu_sdt_time_delay_developing"],
+                                                                                        value = wid$value[wid$item_id == "w_iuu_sdt_time_delay_developing"],
                                                                                         width = "100%")
                                                                             
                                                            ) # /conditionalpanel - Time delay for developing allowed
@@ -208,8 +209,8 @@ IUU = function(wto_members_and_observers)
                                           # Input - allow S&DT for SVEs
                                           radioButtons("w_iuu_sdt_sve",
                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_sve"]),
-                                                       choices = c("Yes", "No"),
-                                                       selected = "No",
+                                                       choices = unlist(wid$choices[wid$item_id == "w_iuu_sdt_sve"]),
+                                                       selected = unlist(wid$selected[wid$item_id == "w_iuu_sdt_sve"]),
                                                        width = "100%",
                                                        inline = FALSE),
                                           
@@ -219,20 +220,20 @@ IUU = function(wto_members_and_observers)
                                                            # Input - SVE S&DT
                                                            checkboxGroupInput("w_iuu_sdt_what_sve",
                                                                               label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_what_sve"]),
-                                                                              choices = c("all", "domestic", "time"),
-                                                                              selected = "",
+                                                                              choices = unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_sve"]),
+                                                                              selected = unlist(wid$selected[wid$item_id == "w_iuu_sdt_what_sve"]),
                                                                               width = "100%",
                                                                               inline = FALSE),
                                                            
                                                            # Conditional panel - Time delay for SVE allowed
-                                                           conditionalPanel("input.w_iuu_sdt_what_sve.includes('time')",
+                                                           conditionalPanel("input.w_iuu_sdt_what_sve.includes('TIME')",
                                                                             
                                                                             # Input - Time delay for SVE
                                                                             sliderInput("w_iuu_sdt_time_delay_sve",
                                                                                         label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay_sve"]),
-                                                                                        min = 0,
-                                                                                        max = 5,
-                                                                                        value = 1,
+                                                                                        min = wid$min[wid$item_id == "w_iuu_sdt_time_delay_sve"],
+                                                                                        max = wid$max[wid$item_id == "w_iuu_sdt_time_delay_sve"],
+                                                                                        value = wid$value[wid$item_id == "w_iuu_sdt_time_delay_sve"],
                                                                                         width = "100%")
                                                                             
                                                            ) # /conditionalpanel - Time delay for SVE allowed

@@ -108,7 +108,7 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 04a,global-subsidies,tab,global-subsidies,Global Fisheries Subsidies,page name
 04a,global-subsidies,nav-button,ab_global_subsidies_to_introduction,Return to Main Menu,top left button
 04a,global-subsidies,nav-button,ab_global_subsidies_to_country_fishery_stats,Next: Fishery Statistics by State,bottom right button
-04a,global-subsidies,widget,w_global_subsidies_category,Show..,select subsidy category widget
+04a,global-subsidies,widget,w_global_subsidies_category,Show…,select subsidy category widget
 04a,global-subsidies,widget,w_global_subsidies_types,Subsidy type(s) to include…,select subsidy types widget
 04b,country-fishery-stats,tab,country-fishery-stats,Fishery Statistics by State,page name
 04b,country-fishery-stats,nav-button,ab_country_fishery_stats_to_introduction,Return to Main Menu,top left button
@@ -119,6 +119,11 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 04c,compare-fishery-stats,nav-button,ab_compare_fishery_stats_to_introduction,Return to Main Menu,top left button
 04c,compare-fishery-stats,nav-button,ab_compare_fishery_stats_to_country_fishery_stats,Back: Fishery Statistics by State,bottom left button
 04c,compare-fishery-stats,nav-button,ab_compare_fishery_stats_to_global_fishing_footprint,Next: Global Fishing Footprint,bottom right button
+04c,compare-fishery-stats,widget,w_compare_fishery_stats_selected_country,Select a WTO Member or Observer State:,select country widget
+04c,compare-fishery-stats,widget,w_compare_fishery_stats_plot_variable,View…,select variable to plot widget
+04c,compare-fishery-stats,widget,w_compare_fishery_stats_method,Compare Selected State To…,who to compare to
+04c,compare-fishery-stats,widget,w_compare_fishery_stats_select_manual,Select WTO Member or Observer States (max of 10): ,other countries to compare to
+04c,compare-fishery-stats,widget,w_compare_fishery_stats_subsidy_types,Subsidy type(s) to include…,which subsidy types to include on plot
 04d,global-fishing-footprint,tab,global-fishing-footprint,Global Fishing Footprint,page name
 04d,global-fishing-footprint,nav-button,ab_global_fishing_footprint_to_introduction,Return to Main Menu,top left button
 04d,global-fishing-footprint,nav-button,ab_global_fishing_footprint_to_compare_fishery_stats,Back: Compare Fishery Statistics,bottom left button

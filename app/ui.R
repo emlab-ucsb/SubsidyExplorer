@@ -219,7 +219,7 @@ shinyUI(
                 
                 # About fisheries subsidies - Item #3 - Compare fishery statistics
                 tabItem(tabName = "compare-fishery-stats",
-                        CompareFisheryStats()
+                        CompareFisheryStats(wto_members_and_observers, subsidy_types_sorted_sumaila)
                 ),
                 
                 # About fisheries subsidies - Item #4 - Global effort map

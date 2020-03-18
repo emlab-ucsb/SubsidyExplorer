@@ -652,7 +652,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                   
                   tags$button(id = "ab_edit_policies_tabs_overcap_to_oa",
                               class = "btn action-button nav-button-white-l",
-                              icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_overcap_to_iuu"]
+                              icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_overcap_to_oa"]
                   )
                   
            )

@@ -18,7 +18,7 @@ Instructions = function()
                 # Provide policy description
                 textInput("w_run_name",
                           label = text$item_label[text$item_id == "w_run_name"],
-                          value = text$value[text$item_id == "w_run_name"])
+                          value = "")
                 
          ), # /column 12
                   

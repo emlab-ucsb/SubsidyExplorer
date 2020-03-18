@@ -111,7 +111,7 @@ shinyServer(function(input, output, session) {
   ### Text Output: IUU data warning -------------------
   output$iuu_warning <- renderText({
     
-    if("iuu2" %in% input$iuu_definitions | "iuu3" %in% input$iuu_definitions | "iuu4" %in% input$iuu_definitions){
+    if("iuu2" %in% input$w_iuu_definitions | "iuu3" %in% input$w_iuu_definitions | "iuu4" %in% input$w_iuu_definitions){
       "Note: At present, no data exists on a global scale to identify vessels listed as having engaged in IUU fishing activities by a coastal state, flag state, or subsidizing Member state."
     }else{
       ""
@@ -170,8 +170,8 @@ shinyServer(function(input, output, session) {
       
     }else{
       
-    new_choices <- subsidy_classification_sumaila$type[subsidy_classification_sumaila$category == input$w_global_subsidies_category]
-    names(new_choices) <- subsidy_classification_sumaila$type_name[subsidy_classification_sumaila$category == input$w_global_subsidies_category]
+    new_choices <- subsidy_classification_sumaila$type[subsidy_classification_sumaila$category_name == input$w_global_subsidies_category]
+    names(new_choices) <- subsidy_classification_sumaila$type_name[subsidy_classification_sumaila$category_name == input$w_global_subsidies_category]
     
     }
     
@@ -192,10 +192,10 @@ shinyServer(function(input, output, session) {
     
     # Color palette to use based off selected input
     global_subsidies_map_color <- switch(input$w_global_subsidies_category,
-                                         "All" = list("YlOrRd", 1, 9.2e9),
-                                         "A" = list("Blues", 1, 2.2e9),
-                                         "B" = list("Reds", 1, 6e9),
-                                         "C" = list("Purples", 1, 1e9))
+                                         "All" = list("YlOrRd", 1, 10e9),
+                                         "Beneficial" = list("Blues", 1, 10e9),
+                                         "Capacity-enhancing" = list("Reds", 1, 10e9),
+                                         "Ambiguous" = list("Purples", 1, 10e9))
     
     global_subsidies_map_pal <- colorNumeric(palette = global_subsidies_map_color[[1]],
                                              log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])))

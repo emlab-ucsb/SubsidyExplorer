@@ -163,6 +163,8 @@ demographic_dat <- demo_dat_world_bank %>%
   bind_rows(fisher_dat_fao) %>%
   bind_rows(fisher_dat_teh_and_sumaila)
 
+### FISHERIES DATA -----------------------------------------------------------------------------------
+
 # # 2) Country profiles ---
 # profile_dat_raw <- read.csv("./data/country-profiles-tidy.csv", stringsAsFactors = F)
 # profile_dat_raw$subtype[profile_dat_raw$type == "B1"] <- "Boat construction and renovation"
@@ -235,29 +237,6 @@ demographic_dat <- demo_dat_world_bank %>%
 # proposal_settings <- read.csv("./data/wto-proposal-settings.csv", stringsAsFactors = F)
 # default_settings <- proposal_settings %>% dplyr::filter(proposal == "Default")
 # 
-# ### -----------------------
-# ### Color Palette ---------
-# ### -----------------------
-# 
-# # Subsidy subtypes - includes option for "Total"
-# goodColors <- rev(brewer.pal(3,"Blues"))
-# names(goodColors) <- levels(profile_dat$subtype)[1:3]
-# 
-# badColors <- rev(brewer.pal(7, "Reds"))
-# names(badColors) <- levels(profile_dat$subtype)[4:10]
-# 
-# ambigColors <- c("purple", "mediumorchid", "violet")
-# names(ambigColors) <- levels(profile_dat$subtype)[11:13]
-# 
-# totColor <- "#3c8dbc"
-# names(totColor) <- levels(profile_dat$subtype)[14] 
-# 
-# oecdColors <- rev(colorRampPalette(c("white", "black"), interpolate = "linear")(28))
-# oecdColors <- oecdColors[1:25]
-# names(oecdColors) <- levels(profile_dat$subtype)[15:39]
-# 
-# myColors <- c(goodColors, badColors, ambigColors, totColor, oecdColors)
-# 
 # ### -----------------------------------------------
 # ### Widget Choices that Depend on Data ---------
 # ### -----------------------------------------------
@@ -278,68 +257,3 @@ demographic_dat <- demo_dat_world_bank %>%
 # proposal_choices <- proposal_names$proposal
 # names(proposal_choices) <- proposal_names$display_name
 # 
-# ### -----------------------------------------------
-# ### Widget Choices that are Text Heavy ---------
-# ### -----------------------------------------------
-# 
-# # IUU
-# iuu_definitions <- c(
-#   "Currently listed as having engaged in IUU fishing activities by an RFMO or international agreement" = "iuu1",
-#   "Found to have engaged in IUU fishing activities by a coastal Member state" = "iuu2",
-#   "Found to have engaged in IUU fishing activities by the flag Member state" = "iuu3",
-#   "Found to have engaged in IUU fishing activities by the subsidizing Member state" = "iuu4"
-# )
-# 
-# iuu_scope <- c(
-#   "All Members" = "all",
-#   "Select Members..." = "select"
-# )
-# 
-# # All others
-# oa_definitions <- c(
-#   "Is considered to be overfished (B/Bmsy < 0.8) as determined by the most recent stock assessment in the RAM Legacy Stock Assessment database" = "OA1",
-#   "Is considered to be overfished (B/Bmsy < 0.8) as determined by the data-limited assessment done by Costello et al. (2016)" = "OA2"
-# )
-# 
-# overcap_definitions <- subsidy_types_all[4:10]
-# 
-# scope <- c(
-#   "All Members" = "all",
-#   "Only Member-flagged vessels fishing in areas beyond national jurisdiction (on the “high seas”)" = "HS",
-#   "Only Member-flagged vessels fishing in the EEZs of other coastal states" = "DW",
-#   "Only Member-flagged vessels fishing on the high seas or in the EEZs of other coastal states" = "OUT",
-#   "Only vessels flagged to the 10 Member states responsible for providing the greatest amount of capacity-enhancing fisheries subsidies" = "SUB",
-#   "Only vessels over a certain size" = "LENGTH",
-#   "Only vessels fishing in disputed areas" = "disputed",
-#   "Only vessels meeting at least two of the specified length, gross tonnage, and engine power characteristics" = "LTE",
-#   "Select Members..." = "select"
-# )
-# 
-# sdt_who <- c(
-#   "LDCs only" = "ldc",
-#   "Both developing countries and LDCs" = "developing",
-#   "Small, vulnerable economies (SVEs) only" = "sve"
-# )
-# 
-# sdt_what <- c(
-#   #"Time delay allowed for implementation" = "time",
-#   "All Member-flagged vessels are exempted" = "all",
-#   "Member-flagged vessels fishing soley within their own EEZs are exempted" = "domestic",
-#   "Member-flagged vessels fishing in areas beyond national jurisdiction (on the “high seas”) are exempted" = "HS"
-# )
-# 
-# # Cap/tier
-# tiering_options <- c(
-#   "% of global marine capture production" = "capture",
-#   "% of global seafood exports" = "exports",
-#   "% of global fisheries subsidies" = "subs",
-#   "development status" = "development"
-# )
-# 
-# cap_set_methods <- c(
-#   "i) an absolute amount" = "value",
-#   "ii) % of existing subsides" = "percent_subs",
-#   "iii) % of landed value" = "percent_revenue",
-#   "iv) an amount multiplied by the number of fishers" = "fishers",
-#   "v) the highest value of options ii-iv above" = "best"
-# )

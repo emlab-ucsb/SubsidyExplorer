@@ -67,6 +67,7 @@ anderson_fpi_path <- here::here("data", "raw", "Anderson-et-al-2015-fpi", "fpi_v
 
 # Paths to other files
 iuu_vessel_path <- here::here("data", "raw", "IUU-Vessel-List-2019", "IUUList-20190430.csv")
+cap_tier_path <- here::here("data", "raw", "USA-Cap-Tier-Proposal", "US_cap_tier_data.csv")
 ```
 
 The following data sources are included in this analysis: 
@@ -608,6 +609,10 @@ write_csv(melnychuk_fmi_dat_edit, paste0(data_dir, "melnychuk_et_al_2017_fmi_tid
 cap_tier_dat <- read_csv(cap_tier_path) %>%
   mutate(iso3 = case_when(country == "Eswatini" ~ "SWZ",
                           country == "EU" ~ "EU",
-                          TRUE ~ countrycode(country, "country.name", "iso3c")))
+                          TRUE ~ countrycode(country, "country.name", "iso3c"))) %>%
+  dplyr::select(-country)
+
+write_csv(cap_tier_dat, paste0(data_dir, "USA_cap_tier_tidy.csv"))
+write_csv(cap_tier_dat, paste0(app_data_dir, "USA_cap_tier_tidy.csv"))
 ```
 

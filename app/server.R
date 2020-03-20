@@ -191,19 +191,19 @@ shinyServer(function(input, output, session) {
     req(input$w_global_subsidies_types)
     
     # Color palette to use based off selected input
-    global_subsidies_map_color <- switch(input$w_global_subsidies_category,
-                                         "All" = list("YlOrRd", 1, 10e9),
-                                         "Beneficial" = list("Blues", 1, 10e9),
-                                         "Capacity-enhancing" = list("Reds", 1, 10e9),
-                                         "Ambiguous" = list("Purples", 1, 10e9))
+    global_subsidies_map_switch <- switch(input$w_global_subsidies_category,
+                                         "All" = list("YlOrRd", 1, 10e9, subsidy_types_sorted_sumaila),
+                                         "Beneficial" = list("Blues", 1, 10e9, subsidy_types_sorted_sumaila[1:3]),
+                                         "Capacity-enhancing" = list("Reds", 1, 10e9, subsidy_types_sorted_sumaila[4:10]),
+                                         "Ambiguous" = list("Purples", 1, 10e9, subsidy_types_sorted_sumaila[11:13]))
     
-    global_subsidies_map_pal <- colorNumeric(palette = global_subsidies_map_color[[1]],
-                                             log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])))
+    global_subsidies_map_pal <- colorNumeric(palette = global_subsidies_map_switch[[1]],
+                                             log10(c(global_subsidies_map_switch[[2]], global_subsidies_map_switch[[3]])))
     
     # Filter data
     global_subsidies_map_dat <- subsidy_dat %>%
       dplyr::filter(variable == "subsidies_Sumaila") %>%
-      dplyr::filter(if(input$w_global_subsidies_category == "All") category_name %in% c("Beneficial", "Capacity-enhancing", "Ambiguous") else category_name == input$w_global_subsidies_category) %>%
+      dplyr::filter(type %in% global_subsidies_map_switch[[4]]) %>%
       dplyr::filter(type %in% c(input$w_global_subsidies_types)) %>%
       dplyr::filter(!is.na(value) & value > 0) %>%
       group_by(iso3, display_name, category, category_name, type, type_name) %>%
@@ -286,8 +286,8 @@ shinyServer(function(input, output, session) {
       setView(0,20, zoom = 2) %>%
       addLegend("bottomright", 
                 pal = global_subsidies_map_pal,
-                values = log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])),
-                labels = round(log10(c(global_subsidies_map_color[[2]], global_subsidies_map_color[[3]])), 0),
+                values = log10(c(global_subsidies_map_switch[[2]], global_subsidies_map_switch[[3]])),
+                labels = round(log10(c(global_subsidies_map_switch[[2]], global_subsidies_map_switch[[3]])), 0),
                 title = "Est. fisheries subsidies<br>(2018 US$)",
                 opacity = 1,
                 labFormat = labelFormat(prefix = "$",

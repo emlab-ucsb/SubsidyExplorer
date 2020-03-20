@@ -215,12 +215,12 @@ bio_dat <- read.csv("./data/regional_model_parameters.csv")
 ### POLICY DATA -----------------------------------------------------------------------------------
 
 # 1) Cap/tier data (from US proposal) ---
-cap_tier_dat <- read_csv("./data/cap_tier_dat_tidy.csv") %>%
+cap_tier_dat <- read_csv("./data/USA_cap_tier_tidy.csv") %>%
   arrange(iso3)
 
 # 2) Proposal settings
-proposal_settings <- read.csv("./data/wto-proposal-settings.csv", stringsAsFactors = F)
-default_settings <- proposal_settings %>% dplyr::filter(proposal == "Default")
+# proposal_settings <- read.csv("./data/wto-proposal-settings.csv", stringsAsFactors = F)
+# default_settings <- proposal_settings %>% dplyr::filter(proposal == "Default")
 
 # # Proposal names
 # proposal_names <- proposal_settings %>%

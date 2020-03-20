@@ -1,0 +1,9 @@
+parameter,value,source
+phi,0.188,Thorson et al. 2012
+MSY,98204403.4653846,Costello et al. 2016
+K,2362007816.3576922,Costello et al. 2016
+r,0.10394639263109808,Costello et al. 2016
+epsilon,-1.15,Costello et al. 2016
+beta,1.3,Costello et al. 2016
+p0,1450.402943684634,Costello et al. 2016
+eta,0.1,Calculated

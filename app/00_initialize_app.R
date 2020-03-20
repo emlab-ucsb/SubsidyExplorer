@@ -172,33 +172,24 @@ capture_production_dat_fao <- read_csv("./data/fao_2019_capture_production_issca
   mutate(prop_annual_total = value/sum(value)) %>%
   ungroup()
 
-# # 2) Country profiles ---
-# profile_dat_raw <- read.csv("./data/country-profiles-tidy.csv", stringsAsFactors = F)
-# profile_dat_raw$subtype[profile_dat_raw$type == "B1"] <- "Boat construction and renovation"
-# 
-# # Get unique types so we can order them as factors
-# types <- unique(profile_dat_raw$type)
-# names(types) <- unique(profile_dat_raw$subtype)
-# types_sorted <- sort(types) 
-# 
-# # Now put them in the order we want
-# types_arranged <- c(types_sorted[26:38], types_sorted[39], types_sorted[1:25])
-# subtypes_arranged <- names(types_arranged)
-# categories_arranged <- c("Beneficial", "Capacity-enhancing", "Ambiguous", "Total", "Non Budgetary Transfers", "Budgetary Transfers", "General Service Support", "Cost Recovery Charges")
-# 
-# # Add back in to profile dat and order factors to aid with plotting throughout
-# profile_dat <- profile_dat_raw %>%
-#   mutate(type = factor(type, levels = types_arranged, ordered = T),
-#          category = factor(category, levels = categories_arranged, ordered = T),
-#          subtype = factor(subtype, levels = subtypes_arranged, ordered = T)) %>%
-#   mutate(country = case_when(iso3 == "EU" ~ "European Union",
-#                              iso3 == "TWN" ~ "Chinese Taipei",
-#                              TRUE ~ countrycode(iso3, "iso3c", "country.name")))
-# 
-# # 3) Vessel list ---
+capture_production_dat_tot <- capture_production_dat_fao %>%
+  group_by(iso3, year, variable, units, source) %>%
+  summarize(value = sum(value, na.rm = T))
+
+# 2) Landed value by ISSCAAP Group (2000-2017)
+landed_value_dat <- read_csv("./data/estimated_landed_value_isscaap_groups_tidy.csv") %>%
+  group_by(iso3, year) %>%
+  mutate(prop_annual_total = value/sum(value)) %>%
+  ungroup()
+
+landed_value_dat_tot <- landed_value_dat %>%
+  group_by(iso3, year, variable, units, source) %>%
+  summarize(value = sum(value, na.rm = T))
+
+# 3) GFW Vessel list (2018)
 # pro_rate_subsidies <- F
 # 
-# vessel_dat <- read.csv("./data/vessel-list-2018-final.csv", stringsAsFactors = F)
+# vessel_dat <- read.csv("./data/vessel_list_2018_final.csv", stringsAsFactors = F)
 # 
 # if(pro_rate_subsidies == T){
 #   
@@ -217,45 +208,20 @@ capture_production_dat_fao <- read_csv("./data/fao_2019_capture_production_issca
 # vessel_dat <- vessel_dat %>%
 #   mutate(eez_hs_code = case_when(eez_id == 0 ~ paste0("HS-", fao_region),
 #                                  TRUE ~ as.character(eez_id)))
-# 
-# # 4) Cap/tier data (from US proposal) ---
-# cap_tier_dat <- read_csv("./data/US_cap_tier_data.csv") %>%
-#   mutate(iso3 = countrycode(country, "country.name", "iso3c"))
-# cap_tier_dat$iso3[cap_tier_dat$country == "Eswatini"] <- "SWZ"
-# cap_tier_dat$iso3[cap_tier_dat$country == "EU"] <- "EU"  
-# 
-# 
-# # 5) FAO Marine Capture Production Data (by ISSCAAP group) ---
-# landing_dat <- read_csv("./data/fao-landings-group-2000-2017.csv") %>%
-#   group_by(year, iso3, isscaap_group) %>%
-#   summarize(landings = sum(value, na.rm = T)) %>%
-#   ungroup() %>%
-#   complete(nesting(iso3, isscaap_group), year, fill = list(landings = 0)) %>%
-#   group_by(year, iso3) %>%
-#   mutate(tot_landings = sum(landings, na.rm = T)) %>%
-#   ungroup() %>%
-#   mutate(prop_landings = landings/tot_landings)
-# 
-# 
-# # 6) Biological parameters for the model 
-# bio_dat <- read.csv("./data/regional-model-parameters.csv")
-# 
-# # 7) Proposal settings
-# proposal_settings <- read.csv("./data/wto-proposal-settings.csv", stringsAsFactors = F)
-# default_settings <- proposal_settings %>% dplyr::filter(proposal == "Default")
-# 
-# ### -----------------------------------------------
-# ### Widget Choices that Depend on Data ---------
-# ### -----------------------------------------------
-# 
-# # Vector of country names: values are ISO3 codes, names are full english names
-# country_choices <- unique(profile_dat$iso3)
-# names(country_choices) <- unique(profile_dat$country)
-# country_choices <- country_choices[order(names(country_choices))]
-# 
-# # Vector of subsidy types: values are Named vector of subsidy types
-# subsidy_types_all <- setNames(as.character(subsidy_type_Sumaila$type), subsidy_type_Sumaila$subtype)
-# 
+
+# 4) Biological parameters for the model
+bio_dat <- read.csv("./data/regional_model_parameters.csv")
+
+### POLICY DATA -----------------------------------------------------------------------------------
+
+# 1) Cap/tier data (from US proposal) ---
+cap_tier_dat <- read_csv("./data/cap_tier_dat_tidy.csv") %>%
+  arrange(iso3)
+
+# 2) Proposal settings
+proposal_settings <- read.csv("./data/wto-proposal-settings.csv", stringsAsFactors = F)
+default_settings <- proposal_settings %>% dplyr::filter(proposal == "Default")
+
 # # Proposal names
 # proposal_names <- proposal_settings %>%
 #   mutate(display_name = case_when(proposal == "Default" ~ "None",

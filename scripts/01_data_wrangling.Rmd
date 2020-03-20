@@ -107,8 +107,12 @@ RAM Stock assessment database
 Fisheries performance indicators
 > Anderson, J. L., Anderson, C. M., Chu, J., Meredith, J., Asche, F., Sylvia, G., Smith, M. D., Anggraeni, D., Arthur, R., Guttormsen, A., McCluney, J. K., Ward, T., Akpalu, W., Eggert, H., Flores, J., Freeman, M. A., Holland, D. S., Knapp, G., Kobayashi, M., … Valderrama, D. (2015). The Fishery Performance Indicators: A Management Tool for Triple Bottom Line Outcomes. PLOS ONE, 10(5), e0122809. https://doi.org/10.1371/journal.pone.0122809
 
+**Other**
 IUU Consolidated vessel list
 > NEED
+
+Cap and Tier Data from the US Proposal
+> Citation for this?
 
 # Note: Political entities, dependencies, and naming
 
@@ -437,21 +441,115 @@ fao_production_dat_us <- fao_production_dat %>%
 fao_production_dat_edit <- fao_production_dat %>%
   dplyr::filter(iso3 != "EU") %>%
   bind_rows(fao_production_dat_eu) %>%
-  bind_rows(fao_production_dat_us)
+  bind_rows(fao_production_dat_us) %>%
+  mutate(variable = "capture_production",
+         units = "tonnes",
+         source = "FAO (2019)")
 
 write_csv(fao_production_dat_edit, paste0(data_dir, "fao_2019_capture_production_tidy.csv"))
 
 # Aggregate by ISCCAP groups and export for time series plot
 fao_production_dat_edit_groups <- fao_production_dat_edit %>%
-  group_by(iso3, year, isscaap_group) %>%
+  group_by(iso3, year, isscaap_group, variable, units, source) %>%
   summarize(value = sum(value, na.rm = T))
 
 write_csv(fao_production_dat_edit_groups, paste0(data_dir, "fao_2019_capture_production_isscaap_groups_tidy.csv"))
 write_csv(fao_production_dat_edit_groups, paste0(app_data_dir, "fao_2019_capture_production_isscaap_groups_tidy.csv"))
 ```
 
-## Estimated landed price 
+## Ex-vessel prices from Melnychuk et al. (2017)
+```{r}
+# Price data from Melynchuk et al. (2017)
+melnychuk_price_dat <- read_csv(melnychuk_price_path) %>%
+  clean_names(case = "snake") %>%
+  dplyr::select(-entry) %>%
+  dplyr::filter(year >= 2000 & year <= 2012) %>%
+  group_by(year, scientific_name, asfis_species, isscaap_group, group_for_pairing) %>%
+  summarize(exvessel = mean(exvessel, na.rm = T)) %>%
+  ungroup()
 
+# Pull data from 2012 to use for extrapolation to 2017
+melnychuk_price_dat_mry <- melnychuk_price_dat %>%
+  dplyr::filter(year == 2012) %>%
+  rename(exvessel_for_extrap = exvessel) %>%
+  dplyr::select(-year)
+
+# CPI for 2012 - 2018 to convert USD
+cpi_2012 <- 229.594
+cpi_2013 <- 232.957
+cpi_2014 <- 236.736
+cpi_2015 <- 237.017
+cpi_2016 <- 240.007
+cpi_2017 <- 245.120
+
+# Do extrapolation for missing years
+melnychuk_price_dat_extrapolation <- melnychuk_price_dat %>%
+  complete(nesting(scientific_name, asfis_species, isscaap_group, group_for_pairing), year = 2000:2017) %>%
+  left_join(melnychuk_price_dat_mry, by = c("scientific_name", "asfis_species", "isscaap_group", "group_for_pairing")) %>%
+  mutate(exvessel_adjusted = case_when(year <= 2012 ~ exvessel,
+                                       year == 2013 ~ exvessel_for_extrap * (cpi_2013/cpi_2012),
+                                       year == 2014 ~ exvessel_for_extrap * (cpi_2014/cpi_2012),
+                                       year == 2015 ~ exvessel_for_extrap * (cpi_2015/cpi_2012),
+                                       year == 2016 ~ exvessel_for_extrap * (cpi_2016/cpi_2012),
+                                       year == 2017 ~ exvessel_for_extrap * (cpi_2017/cpi_2012))) %>%
+  dplyr::select(-exvessel, -exvessel_for_extrap) %>%
+  rename(exvessel = exvessel_adjusted)
+
+# Get rid of NAs and save
+melnychuk_price_dat_extrapolation <- melnychuk_price_dat_extrapolation %>%
+  dplyr::filter(!is.nan(exvessel)) %>%
+  mutate(variable = "ex_vessel_price",
+         units = paste(year, "US$"),
+         source = "Melnychuk et al. (2017)")
+
+write_csv(melnychuk_price_dat_extrapolation, paste0(data_dir, "melnychuk_2017_price_tidy.csv"))
+
+# Create averages by pairing group for each year
+price_dat_group_year <- melnychuk_price_dat_extrapolation %>%
+  group_by(year, group_for_pairing) %>%
+  summarize(exvessel_group_avg = mean(exvessel, na.rm = T)) %>%
+  ungroup()
+
+# Create averages by pairing group (no year) 
+price_dat_group <- melnychuk_price_dat_extrapolation %>%
+  group_by(group_for_pairing) %>%
+  summarize(exvessel_group_avg_allyears = mean(exvessel, na.rm = T)) %>%
+  ungroup()
+```
+
+## Estimated landed value from FAO/Melnychuk et al. (2017)
+
+```{r}
+# Combine landings and price data
+combine_catch_price_dat <- fao_production_dat_edit %>%
+  left_join(melnychuk_price_dat_extrapolation %>% dplyr::select(-isscaap_group, -variable, -source, -units), by = c("year", "scientific_name", "asfis_species", "isscaap_group" = "group_for_pairing")) %>%
+  left_join(price_dat_group_year, by = c("year", "isscaap_group" = "group_for_pairing")) %>%
+  left_join(price_dat_group, by = c("isscaap_group" = "group_for_pairing")) %>%
+  mutate(exvessel_inclusive = case_when(!is.na(exvessel) ~ exvessel,
+                                        !is.na(exvessel_group_avg) ~ exvessel_group_avg,
+                                        !is.na(exvessel_group_avg_allyears) ~ exvessel_group_avg_allyears))
+
+# Look at NAs - 8498 entries
+combine_nas <- combine_catch_price_dat %>%
+  dplyr::filter(is.na(exvessel_inclusive))
+
+# Set price to 0 for those
+combine_catch_price_dat$exvessel_inclusive[is.na(combine_catch_price_dat$exvessel_inclusive)] <- 0
+
+# Calculate revenues and aggregate by ISSCAAP group
+landed_value_dat <- combine_catch_price_dat %>%
+  dplyr::select(-exvessel, -exvessel_group_avg, -exvessel_group_avg_allyears) %>%
+  rename(exvessel = exvessel_inclusive) %>%
+  mutate(landed_value = value*exvessel) %>%
+  group_by(iso3, year, isscaap_group) %>%
+  summarize(value = sum(landed_value, na.rm = T)) %>%
+  mutate(variable = "landed_value",
+         units = paste(year, "US$"),
+         source = "FAO (2019); Melnychuk et al. (2017)")
+
+write_csv(landed_value_dat, paste0(data_dir, "estimated_landed_value_isscaap_groups_tidy.csv"))
+write_csv(landed_value_dat, paste0(app_data_dir, "estimated_landed_value_isscaap_groups_tidy.csv"))
+```
 
 ## Stock status database
 ```{r}
@@ -501,5 +599,15 @@ melnychuk_fmi_dat_edit <- melnychuk_fmi_dat %>%
 # Export clean
 write_csv(melnychuk_fmi_dat_edit, paste0(data_dir, "melnychuk_et_al_2017_fmi_tidy.csv"))
 
+```
+
+# Section 4 - Other Data
+
+## Cap and Tier Data from the US Proposal
+```{r}
+cap_tier_dat <- read_csv(cap_tier_path) %>%
+  mutate(iso3 = case_when(country == "Eswatini" ~ "SWZ",
+                          country == "EU" ~ "EU",
+                          TRUE ~ countrycode(country, "country.name", "iso3c")))
 ```
 

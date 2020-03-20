@@ -134,6 +134,15 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
            
     ), # /column 12 - widgets
     
+    ### Bar plot 
+    column(12, style = "padding: 0 25px 15px;",
+           
+           # Bar chart
+           plotlyOutput("compare_fishery_stats_bar_plot", width = "100%")
+           
+           
+    ),
+    
     ### Bottom navigation buttons
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",

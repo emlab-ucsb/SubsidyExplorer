@@ -70,11 +70,9 @@ CountryFisheryStats = function(wto_members_and_observers)
            # Header and text
            includeHTML("./text/04b_country_fishery_stats_section2.html"),
            
-           # Capture fisheries production line plot (PLACEHOLDER - REPLACE WITH PLOTLY OBJECT)
-           #plotlyOutput("country_profile_landings_plot")
-           
-           # Temp image
-           img(src = "/sample-images/04b_capture_production_plot_image.png", width = "100%")
+           # Capture fisheries production plot
+           plotlyOutput("country_fishery_stats_production_plot")
+          
            
     ),
     

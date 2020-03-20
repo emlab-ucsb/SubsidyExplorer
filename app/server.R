@@ -203,6 +203,7 @@ shinyServer(function(input, output, session) {
     # Filter data
     global_subsidies_map_dat <- subsidy_dat %>%
       dplyr::filter(variable == "subsidies_Sumaila") %>%
+      dplyr::filter(if(input$w_global_subsidies_category == "All") category_name %in% c("Beneficial", "Capacity-enhancing", "Ambiguous") else category_name == input$w_global_subsidies_category) %>%
       dplyr::filter(type %in% c(input$w_global_subsidies_types)) %>%
       dplyr::filter(!is.na(value) & value > 0) %>%
       group_by(iso3, display_name, category, category_name, type, type_name) %>%
@@ -371,7 +372,62 @@ shinyServer(function(input, output, session) {
   })
   
   ### Plotly figure: FAO Marine Capture Production ---------------------
-  #[NEED]
+  output$country_fishery_stats_production_plot <- renderPlotly({
+    
+    req(input$w_country_fishery_stats_selected_country)
+    
+    # Filter data
+    country_fishery_stats_production_plot_dat <- capture_production_dat_fao %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country)
+    
+    req(nrow(country_fishery_stats_production_plot_dat) > 0)
+    
+    # Make plot
+    country_fishery_stats_production_plot <- country_fishery_stats_production_plot_dat %>%
+      ggplot()+
+      aes(x = year, y = value/1000, fill = isscaap_group)+
+      geom_area()+
+      geom_area(aes(text = paste0("<b>","Year: ","</b>", year,
+                                  "<br>",
+                                  "<b>", "ISSCAAP group: ", "</b>", isscaap_group,
+                                  "<br>",
+                                  "<b>", "Capture production (tonnes): ", "</b>", format(round(value, 0), big.mark = ","),
+                                  "<br>",
+                                  "<b>", "% of annual total: ", "</b>", round(prop_annual_total *100, 2))))+
+      scale_y_continuous(expand = c(0,0),
+                         name = "Capture production (tonnes, thousands)", 
+                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+      scale_x_continuous(expand = c(0,0))+
+      theme_bw()+
+      labs(x = "Year")+
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+    
+    # Convert to plotly
+    gg <- ggplotly(country_fishery_stats_production_plot, tooltip = "text") %>%
+      style(hoveron = "points")
+    
+    # Create Legend
+    leg <- list(font = list(size = 10, color = "#000"),
+                x = 100,
+                y = 0.9,
+                yanchor = "top")
+    
+    # Plotly syntax to adjust hover spike lines
+    gg <- gg %>%
+      layout(xaxis = list(
+        showspikes = TRUE,
+        spikemode = "across",
+        spikedash = "solid",
+        spikesnap = 'compare',
+        spikethickness = 1,
+        hovermode = 'compare'),
+        legend = leg)
+    
+    # Return plot
+    gg
+    
+  })
   
   ### Plotly figure: World Bank Population ---------------------
   output$country_fishery_stats_pop_plot <- renderPlotly({
@@ -594,8 +650,97 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "menu_items", "introduction")
   })
   
+  ### Update input: Remove selected state from list of comparison states --------------------------
+  observe({
+    
+    # Removed selected country from the list of choices
+    new_choices <- wto_members_and_observers[wto_members_and_observers != input$w_compare_fishery_stats_selected_country]
+    
+    # Update input
+    updateSelectizeInput(session, 
+                         "w_compare_fishery_stats_select_manual",
+                         choices = new_choices)
+  })
+  
   ### Plotly figure: Compare fishery stats ---------------------
-  #[NEED]
+  output$compare_fishery_stats_bar_plot <- renderPlotly({
+    
+    req(input$w_compare_fishery_stats_selected_country)
+    req(input$w_compare_fishery_stats_plot_variable)
+    req(input$w_compare_fishery_stats_method)
+    req(input$w_compare_fishery_stats_select_manual)
+    req(input$w_compare_fishery_stats_subsidy_types)
+    
+    # Plot arguments: 1 = variable name, 2 = hover/x-axis caption, 3 = rounding digits, 4 = units prefix.
+    compare_fishery_stats_bar_plot_args <- switch(
+      input$w_compare_fishery_stats_plot_variable,
+      "subsidies" = list("subsidies_Sumaila", "Est. fisheries subsidies (2018 US$)", 0, "$"),
+      "landings" = list("landings", "Capture production (mt, 2017)", 0, ""),
+      "revenue" = list("revenue", "Est. landed value (2017 US$)", 0, "$"),
+      "subsidies_per_landing" = list("subsidies_per_landing", "Fisheries subsidies per volume landed (2018 US$/mt)", 2, "$"),
+      "subsidies_per_revenue" = list("subsidies_per_revenue", "Ratio of fisheries subsidies to landed value", 2, ""), 
+      "subsidies_per_capita" = list("subsidies_per_capita", "Fisheries subsidies per capita (2018 US$/person)", 2, "$"),
+      "subsidies_per_gdp" = list("subsidies_per_gdp", "Ratio of fisheries subsidies to GDP", 4, ""),
+      "subsidies_per_fte" = list("subsidies_per_fte", "Fisheries subsidies per number of FTE persons employed in fisheries (2018 US$/person)", 2, "$"))
+    
+    # Filter data by selected variable and by selected subsidy type(s) [if applicable]
+    # compare_bar_plot_dat <- profile_dat %>%
+    #   dplyr::filter(variable == compare_bar_plot_args[[1]]) %>%
+    #   dplyr::filter(type %in% c(input$compare_included_subsidy_types, "T")) %>%
+    #   group_by(iso3, country, variable) %>%
+    #   mutate(tot_value = sum(value, na.rm = T)) %>%
+    #   ungroup() %>%
+    #   mutate(rank = dense_rank(desc(tot_value)),
+    #          country = fct_rev(fct_reorder(country, tot_value)),
+    #          iso3 = fct_rev(fct_reorder(iso3, tot_value)))
+    # 
+    # # Filter for the top 10 countries
+    # if(input$compare_method == "top10"){
+    #   
+    #   compare_bar_plot_dat <- compare_bar_plot_dat %>%
+    #     dplyr::filter(rank <= 10 | iso3 == input$compare_selected_country) %>%
+    #     mutate(color = ifelse(iso3 == input$compare_selected_country, "red", NA))
+    #   compare_bar_plot_dat$value[is.na(compare_bar_plot_dat$value)] <- 0
+    #   
+    #   # Filter for manually selected states
+    # }else if(input$compare_method == "choose"){
+    #   
+    #   compare_bar_plot_dat <- compare_bar_plot_dat %>%
+    #     dplyr::filter(iso3 %in% input$compare_manually_select_countries | iso3 == input$compare_selected_country) %>%
+    #     mutate(color = ifelse(iso3 == input$compare_selected_country, "red", NA))
+    #   compare_bar_plot_dat$value[is.na(compare_bar_plot_dat$value)] <- 0
+    #   
+    # }
+    # 
+    # # Require at least one matching entry
+    # req(nrow(compare_bar_plot_dat) > 0)
+    # 
+    # # Make plot  
+    # compare_bar_plot <- ggplot()+
+    #   geom_col(data = compare_bar_plot_dat, aes(x = country, y = value, fill = subtype,
+    #                                             text = paste0("<b>","State: ","</b>",country,
+    #                                                           "<br>",
+    #                                                           "<b>","Type: ","</b>",subtype,
+    #                                                           "<br>",
+    #                                                           "<b>", compare_bar_plot_args[[2]],": ","</b>",
+    #                                                           compare_bar_plot_args[[4]], format(round(value, compare_bar_plot_args[[3]]), big.mark = ","))))+
+    #   #geom_col(data = totals, aes(x = country, y = value, colour = color), size = 1, fill = NA)+
+    #   scale_fill_manual(values = myColors[names(myColors) %in% compare_bar_plot_dat$subtype])+
+    #   scale_y_continuous(expand = c(0,0), name = compare_bar_plot_args[[2]], 
+    #                      labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+    #   coord_flip()+
+    #   theme_bw()+
+    #   labs(x = "")+
+    #   theme(legend.title = element_blank(),
+    #         legend.position = "none")
+    # 
+    # # Convert to plotly
+    # gg <- ggplotly(compare_bar_plot, tooltip="text")
+    # 
+    # # Return plot
+    # gg 
+    
+  })
   
   ### ---------------------------------
   ### 04d. global-fishing-footprint ---

@@ -55,7 +55,7 @@ fao_fishers_path <- here::here("data", "raw", "FAO-2019-yearbook", "fao_fishers_
 teh_fte_path <- here::here("data", "raw", "Teh-and-Sumaila-2013-fte", "Fisher employment FTE.xlsx")
 
 # Paths to fisheries data files
-fao_production_path <- here::here("data", "raw", "FAO-2019-capture-production", "TS_FI_CAPTURE.csv")
+fao_production_path <- here::here("data", "raw", "FAO-2019-capture-production", "Capture_2019.1.0/")
 #fao_value_path
 melnychuk_price_path <- here::here("data", "raw", "Melnychuk-et-al-2013-price", "Melnychuk_Exvessel_Price_Database.csv")
 
@@ -361,7 +361,97 @@ write_csv(teh_fte_dat_edit, paste0(app_data_dir, "teh_and_sumaila_2013_fte_tidy.
 
 ## Fisheries landings for 2000-2017 from the FAO Global Capture Production database (2019)
 
+```{r}
+# FAO stores a lot of characteristics in lookup tables that come with the production dataset. We need to use these tables to match country names, species names, and source
+fao_country_lookup <- read_csv(paste0(fao_production_path, "CL_FI_COUNTRY_GROUPS.csv")) %>%
+  clean_names(case = "snake") %>%
+  dplyr::select(country = un_code,
+                iso3 = iso3_code,
+                name = name_en) %>%
+  mutate(iso3_new = case_when(name == "Belgium-Luxembourg" ~ "BEL",
+                              name %in% c("Canton and Enderbury Is", "Czechoslovakia", "Neutral Zone", "Pacific Islands Trust Tr", "Serbia and Montenegro", "Un. Sov. Soc. Rep.", "Yemen Arab Republic", "Yemen, Democratic", "Yugoslavia SFR") ~ "XXX",
+                              name %in% c("Channel Islands", "Sark") ~ "GGY",
+                              name == "Eswatini" ~ "SWZ",
+                              name == "European Union" ~ "EU",
+                              name %in% c("Johnston Island", "Midway Islands", "Wake Island", "US Minor Outlying Is.") ~ "UMI",
+                              name == "Netherlands Antilles" ~ "ANT",
+                              name == "Saint-Martin" ~ "MAF",
+                              name == "Zanzibar" ~ "TZA",
+                              name == "Other nei" ~ "UNK",
+                              is.na(name) ~ "UNK",
+                              TRUE ~ countrycode(name, "country.name", "iso3c"))) %>%
+  dplyr::filter(iso3_new != "XXX") %>% # remove entities that no longer exist today
+  dplyr::select(iso3 = iso3_new, country) %>%
+  mutate(country = as.integer(country))
+
+# FAO species lookup 
+fao_species_lookup <- read_csv(paste0(fao_production_path, "CL_FI_SPECIES_GROUPS.csv")) %>%
+  clean_names(case = "snake") %>%
+  dplyr::select(species = x3alpha_code,
+                asfis_species = name_en,
+                scientific_name,
+                yearbook_group,
+                isscaap_group)
+
+# FAO Symbol lookup
+fao_symbol_lookup <- read_csv(paste0(fao_production_path, "CL_FI_SYMBOL.csv"))
+
+# FAO Area lookup
+fao_area_lookup <- read_csv(paste0(fao_production_path, "CL_FI_WATERAREA_GROUPS.csv")) %>%
+  clean_names(case = "snake") %>%
+  mutate(keep = ifelse(is.na(fa_region_group), F, T)) %>%
+  dplyr::filter(keep) %>%
+  dplyr::select(area = code) %>%
+  mutate(area = as.integer(area))
+  
+# Load data
+fao_production_dat <- read.csv(paste0(fao_production_path, "TS_FI_CAPTURE.csv")) %>%
+  clean_names(case = "snake") %>%
+  dplyr::filter(year >= 2000) %>%
+  dplyr::filter(unit == "t") %>% # remove catches measured in number of individuals
+  mutate(species = as.character(species)) %>%
+  left_join(fao_country_lookup, by = "country") %>%
+  inner_join(fao_area_lookup, by = c("fishing_area" = "area")) %>%
+  group_by(iso3, year, species, fishing_area) %>%
+  summarize(value = sum(quantity, na.rm = T)) %>%
+  ungroup() %>%
+  left_join(fao_species_lookup, by = "species")
+
+# Deal with the EU + territories
+fao_production_dat_eu <- fao_production_dat %>%
+  dplyr::filter(iso3 %in% c(eu_countries, eu_territories, "EU")) %>%
+  mutate(entity = "EU") %>%
+  group_by(entity, year, fishing_area, species, asfis_species, scientific_name, yearbook_group, isscaap_group) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity)
+
+# Deal with the US + territories
+fao_production_dat_us <- fao_production_dat %>%
+  dplyr::filter(iso3 %in% c(us_territories, "USA")) %>%
+  mutate(entity = "USA-T") %>%
+  group_by(entity, year, fishing_area, species, asfis_species, scientific_name, yearbook_group, isscaap_group) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity)
+
+# Put them back together
+fao_production_dat_edit <- fao_production_dat %>%
+  dplyr::filter(iso3 != "EU") %>%
+  bind_rows(fao_production_dat_eu) %>%
+  bind_rows(fao_production_dat_us)
+
+write_csv(fao_production_dat_edit, paste0(data_dir, "fao_2019_capture_production_tidy.csv"))
+
+# Aggregate by ISCCAP groups and export for time series plot
+fao_production_dat_edit_groups <- fao_production_dat_edit %>%
+  group_by(iso3, year, isscaap_group) %>%
+  summarize(value = sum(value, na.rm = T))
+
+write_csv(fao_production_dat_edit_groups, paste0(data_dir, "fao_2019_capture_production_isscaap_groups_tidy.csv"))
+write_csv(fao_production_dat_edit_groups, paste0(app_data_dir, "fao_2019_capture_production_isscaap_groups_tidy.csv"))
+```
+
 ## Estimated landed price 
+
 
 ## Stock status database
 ```{r}

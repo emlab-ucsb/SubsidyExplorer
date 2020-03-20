@@ -46,7 +46,7 @@ CountryFisheryStats = function(wto_members_and_observers)
                                           )
                           ), 
                           choices = wto_members_and_observers,
-                          selected = NULL,
+                          selected = "",
                           width = "50%",
                           options = list(placeholder = 'Select...')
            )

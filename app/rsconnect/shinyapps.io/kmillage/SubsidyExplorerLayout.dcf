@@ -5,8 +5,8 @@ account: kmillage
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1915280
-bundleId: 2858143
+bundleId: 2895954
 url: https://kmillage.shinyapps.io/SubsidyExplorerLayout/
-when: 1583521408.42972
+when: 1584572641.3647
 asMultiple: FALSE
 asStatic: FALSE

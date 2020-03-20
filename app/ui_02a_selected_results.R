@@ -37,24 +37,29 @@ SelectedResults = function()
            
            # Widgets
            fluidRow(
+             
              column(6, align = "center",
                     
+                    # Input - timeseries plot variable
                     selectizeInput("w_selected_results_timeseries_plot_variable", 
                                    label = tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_variable"]),
-                                   choices = list("Biomass" = "biomass", "Catches" = "catches_total", "Revenue" = "revenue_total"),
-                                   selected = text$selected[text$item_id == "w_selected_results_timeseries_plot_variable"])
+                                   choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_variable"]),
+                                   selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_variable"]))
                     
              ),
+             
              column(6, align = "center",
+                    
+                    # Input - timeseries plot resolution
                     radioButtons("w_selected_results_timeseries_plot_resolution", 
-                                 label = tags$b("Resolution: "),
-                                 choices = list("Global" = 1, "Regional" = 2), 
-                                 selected = text$selected[text$item_id == "w_selected_results_timeseries_plot_resolution"])
+                                 label = tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_resolution"]),
+                                 choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
+                                 selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
+                                 inline = T)
+                                 
                     
              )
            )
-           
-           # [NEED]
            
     ),
     

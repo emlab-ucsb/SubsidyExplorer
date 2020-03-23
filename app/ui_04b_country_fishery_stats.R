@@ -71,7 +71,10 @@ CountryFisheryStats = function(wto_members_and_observers)
            includeHTML("./text/04b_country_fishery_stats_section2.html"),
            
            # Capture fisheries production plot
-           plotlyOutput("country_fishery_stats_production_plot")
+           plotlyOutput("country_fishery_stats_production_plot"),
+           
+           # Total landed value plot
+           plotlyOutput("country_fishery_stats_landed_value_plot")
           
            
     ),

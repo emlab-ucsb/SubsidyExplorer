@@ -163,23 +163,17 @@ shinyServer(function(input, output, session) {
   observe({
     
     # Only allow types from the selected category to be chosen
-    if(input$w_global_subsidies_category == "All"){
+    global_subsidies_allowable_types <- switch(input$w_global_subsidies_category,
+                                               "All" = list(subsidy_types_sorted_sumaila),
+                                               "Beneficial" = list(subsidy_types_sorted_sumaila[1:3]),
+                                               "Capacity-enhancing" = list(subsidy_types_sorted_sumaila[4:10]),
+                                               "Ambiguous" = list(subsidy_types_sorted_sumaila[11:13]))
       
-    new_choices <- subsidy_classification_sumaila$type
-    names(new_choices) <- subsidy_classification_sumaila$type_name
-      
-    }else{
-      
-    new_choices <- subsidy_classification_sumaila$type[subsidy_classification_sumaila$category_name == input$w_global_subsidies_category]
-    names(new_choices) <- subsidy_classification_sumaila$type_name[subsidy_classification_sumaila$category_name == input$w_global_subsidies_category]
-    
-    }
-    
     # Update input
     updateSelectizeInput(session, 
                          "w_global_subsidies_types",
-                         choices = new_choices,
-                         selected = new_choices)
+                         choices = global_subsidies_allowable_types[[1]],
+                         selected = global_subsidies_allowable_types[[1]])
   })
   
   
@@ -192,10 +186,10 @@ shinyServer(function(input, output, session) {
     
     # Color palette to use based off selected input
     global_subsidies_map_switch <- switch(input$w_global_subsidies_category,
-                                         "All" = list("YlOrRd", 1, 10e9, subsidy_types_sorted_sumaila),
-                                         "Beneficial" = list("Blues", 1, 10e9, subsidy_types_sorted_sumaila[1:3]),
-                                         "Capacity-enhancing" = list("Reds", 1, 10e9, subsidy_types_sorted_sumaila[4:10]),
-                                         "Ambiguous" = list("Purples", 1, 10e9, subsidy_types_sorted_sumaila[11:13]))
+                                         "All" = list("YlOrRd", 1, 10e9),
+                                         "Beneficial" = list("Blues", 1, 10e9),
+                                         "Capacity-enhancing" = list("Reds", 1, 10e9),
+                                         "Ambiguous" = list("Purples", 1, 10e9))
     
     global_subsidies_map_pal <- colorNumeric(palette = global_subsidies_map_switch[[1]],
                                              log10(c(global_subsidies_map_switch[[2]], global_subsidies_map_switch[[3]])))
@@ -203,7 +197,6 @@ shinyServer(function(input, output, session) {
     # Filter data
     global_subsidies_map_dat <- subsidy_dat %>%
       dplyr::filter(variable == "subsidies_Sumaila") %>%
-      dplyr::filter(type %in% global_subsidies_map_switch[[4]]) %>%
       dplyr::filter(type %in% c(input$w_global_subsidies_types)) %>%
       dplyr::filter(!is.na(value) & value > 0) %>%
       group_by(iso3, display_name, category, category_name, type, type_name) %>%
@@ -405,6 +398,60 @@ shinyServer(function(input, output, session) {
     
     # Convert to plotly
     gg <- ggplotly(country_fishery_stats_production_plot, tooltip = "text") %>%
+      style(hoveron = "points")
+    
+    # Create Legend
+    leg <- list(font = list(size = 10, color = "#000"),
+                x = 100,
+                y = 0.9,
+                yanchor = "top")
+    
+    # Plotly syntax to adjust hover spike lines
+    gg <- gg %>%
+      layout(xaxis = list(
+        showspikes = TRUE,
+        spikemode = "across",
+        spikedash = "solid",
+        spikesnap = 'compare',
+        spikethickness = 1,
+        hovermode = 'compare'),
+        legend = leg)
+    
+    # Return plot
+    gg
+    
+  })
+  
+  ### Plotly figure: Estimated landed value ---------------------
+  output$country_fishery_stats_landed_value_plot <- renderPlotly({
+    
+    req(input$w_country_fishery_stats_selected_country)
+    
+    # Filter data
+    country_fishery_stats_landed_value_plot_dat <- landed_value_dat_tot %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country)
+    
+    req(nrow(country_fishery_stats_landed_value_plot_dat) > 0)
+    
+    # Make plot
+    country_fishery_stats_landed_value_plot <- country_fishery_stats_landed_value_plot_dat %>%
+      ggplot()+
+      aes(x = year, y = value/1e6)+
+      geom_area(fill = '#3c8dbc')+
+      geom_area(aes(text = paste0("<b>","Year: ","</b>", year,
+                                  "<br>",
+                                  "<b>", "Estimated landed value (US$): ", "</b>", "$", format(round(value, 0), big.mark = ","))))+
+      scale_y_continuous(expand = c(0,0),
+                         name = "Estimated landed value (US$, millions)", 
+                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+      scale_x_continuous(expand = c(0,0))+
+      theme_bw()+
+      labs(x = "Year")+
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+    
+    # Convert to plotly
+    gg <- ggplotly(country_fishery_stats_landed_value_plot, tooltip = "text") %>%
       style(hoveron = "points")
     
     # Create Legend

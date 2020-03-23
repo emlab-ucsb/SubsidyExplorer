@@ -50,7 +50,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
              # Select subsidy type(s) within selected category to plot
              column(6, style = "padding: 0 0 0 12.5px;",
                     
-                    conditionalPanel("input.w_global_subsidies_category != 'All'",
+                    #conditionalPanel("input.w_global_subsidies_category != 'All'",
                                      
                     selectizeInput("w_global_subsidies_types",
                                    label = tagList(tags$b(text$item_label[text$item_id == "w_global_subsidies_types"]),
@@ -60,10 +60,11 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                                                                icon("info"))),
                                    
                                    choices = subsidy_types_sorted_sumaila,
+                                   selected = subsidy_types_sorted_sumaila,
                                    width = "100%",
                                    multiple = T)
                     
-                    ) # /conditionalPanel
+                    #) # /conditionalPanel
              )
            )
            

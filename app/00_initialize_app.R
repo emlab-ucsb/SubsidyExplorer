@@ -186,6 +186,7 @@ landed_value_dat_tot <- landed_value_dat %>%
   group_by(iso3, year, variable, units, source) %>%
   summarize(value = sum(value, na.rm = T))
 
+
 # 3) GFW Vessel list (2018)
 # pro_rate_subsidies <- F
 # 

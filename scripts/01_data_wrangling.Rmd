@@ -621,14 +621,26 @@ write_csv(cap_tier_dat, paste0(app_data_dir, "USA_cap_tier_tidy.csv"))
 This second is a bit of a relic from when we were doing "country profiles", but there are a couple of relative metrics we want to calculate from our data sources. This is done here. 
 
 ```{r}
+# Sumaila dat for matching
+subs_dat_match <- sumaila_2019_dat_edit %>%
+  dplyr::select(-units, -variable) %>%
+  rename(subs = value, subs_year = year, subs_source = source)
+
 # GDP
 gdp_dat_mry <- wb_dat_edit %>%
   dplyr::filter(variable == "gdp") %>%
   group_by(iso3, variable) %>%
   dplyr::filter(year == max(year[!is.na(value)])) %>%
   ungroup() %>%
-  dplyr::select(-units) %>%
-  dplyr::select(iso3, gdp_year = year, gdp = value)
+  dplyr::select(iso3, gdp_year = year, gdp = value, gdp_source = source) %>%
+  right_join(subs_dat_match, by = c("iso3")) %>%
+  mutate(variable = "subsidies_per_gdp",
+         data_type = paste0(data_type),
+         source = paste0(subs_source, "; ", gdp_source),
+         value = subs/gdp,
+         units = paste0(subs_year, " US$/", gdp_year, " US$")) %>%
+  dplyr::select(iso3, category, category_name, type, type_name, variable, value, units, data_type, source) %>%
+  dplyr::filter(!is.na(value))
 
 # Population
 pop_dat_mry <- wb_dat_edit %>%
@@ -636,31 +648,88 @@ pop_dat_mry <- wb_dat_edit %>%
   group_by(iso3, variable) %>%
   dplyr::filter(year == max(year[!is.na(value)])) %>%
   ungroup() %>%
-  dplyr::select(-units) %>%
-  dplyr::select(iso3, population_year = year, population = value)
+  dplyr::select(iso3, population_year = year, population = value, population_source = source) %>%
+  right_join(subs_dat_match, by = c("iso3")) %>%
+  mutate(variable = "subsidies_per_capita",
+         data_type = paste0(data_type),
+         source = paste0(subs_source, "; ", population_source),
+         value = subs/population,
+         units = paste0(subs_year, " US$/person (", population_year, ")")) %>%
+  dplyr::select(iso3, category, category_name, type, type_name, variable, value, units, data_type, source) %>%
+  dplyr::filter(!is.na(value))
 
 # Fishers
 fisher_dat_mry <- fao_fishers_dat_edit %>%
   group_by(iso3, variable) %>%
   dplyr::filter(year == max(year[!is.na(value)])) %>%
   ungroup() %>%
-  dplyr::select(-units) %>%
-  dplyr::select(iso3, fishers_year = year, fishers = value)
+  dplyr::select(iso3, fishers_year = year, fishers = value, fishers_source = source) %>%
+  right_join(subs_dat_match, by = c("iso3")) %>%
+  mutate(variable = "subsidies_per_fisher",
+         data_type = paste0(data_type),
+         source = paste0(subs_source, "; ", fishers_source),
+         value = subs/fishers,
+         units = paste0(subs_year, " US$/fisher (", fishers_year, ")")) %>%
+  dplyr::select(iso3, category, category_name, type, type_name, variable, value, units, data_type, source) %>%
+  dplyr::filter(!is.na(value))
 
 # FTE
 fte_dat_mry <- teh_fte_dat_edit %>%
-  dplyr::select(iso3, fte_year = year, fte = value)
+  dplyr::select(iso3, fte_year = year, fte = value, fte_source = source) %>%
+  right_join(subs_dat_match, by = c("iso3")) %>%
+  mutate(variable = "subsidies_per_fte",
+         data_type = paste0(data_type),
+         source = paste0(subs_source, "; ", fte_source),
+         value = subs/fte,
+         units = paste0(subs_year, " US$/full-time-equivalent (", fte_year, ")")) %>%
+  dplyr::select(iso3, category, category_name, type, type_name, variable, value, units, data_type, source) %>%
+  dplyr::filter(!is.na(value))
 
 # Capture Production
-
+production_dat_mry <- fao_production_dat_edit_groups %>%
+  group_by(iso3, year, variable) %>%
+  summarize(value = sum(value, na.rm = T),
+            source = unique(source)) %>%
+  group_by(iso3, variable) %>%
+  dplyr::filter(year == max(year[!is.na(value)])) %>%
+  ungroup() %>%
+  dplyr::select(iso3, production_year = year, production = value, production_source = source) %>%
+  right_join(subs_dat_match, by = c("iso3")) %>%
+  mutate(variable = "subsidies_per_production",
+         data_type = paste0(data_type),
+         source = paste0(subs_source, "; ", production_source),
+         value = subs/production,
+         units = paste0(subs_year, " US$/tonne (", production_year, ")")) %>%
+  dplyr::select(iso3, category, category_name, type, type_name, variable, value, units, data_type, source) %>%
+  dplyr::filter(!is.na(value))
 
 # Landed Value
-
+landed_value_dat_mry <- landed_value_dat %>%
+  group_by(iso3, year, variable) %>%
+  summarize(value = sum(value, na.rm = T),
+            source = unique(source)) %>%
+  group_by(iso3, variable) %>%
+  dplyr::filter(year == max(year[!is.na(value)])) %>%
+  ungroup() %>%
+  dplyr::select(iso3, landed_value_year = year, landed_value = value, landed_value_source = source) %>%
+  right_join(subs_dat_match, by = c("iso3")) %>%
+  mutate(variable = "subsidies_per_landed_value",
+         data_type = paste0(data_type),
+         source = paste0(subs_source, "; ", landed_value_source),
+         value = subs/landed_value,
+         units = paste0(subs_year, " US$/", landed_value_year, " US$")) %>%
+  dplyr::select(iso3, category, category_name, type, type_name, variable, value, units, data_type, source) %>%
+  dplyr::filter(!is.na(value))
 
 # Combine with subsidy data and calculate relative metrics
-relative_dat <- sumaila_2019_dat_edit %>%
-  dplyr::select(-data_type, -units, -source, -variable) %>%
-  rename(subs = value) %>%
-  left_join()
+relative_dat <-  gdp_dat_mry %>%
+  bind_rows(pop_dat_mry) %>%
+  bind_rows(fisher_dat_mry) %>%
+  bind_rows(fte_dat_mry) %>%
+  bind_rows(production_dat_mry) %>%
+  bind_rows(landed_value_dat_mry)
+
+write_csv(relative_dat, paste0(data_dir, "relative_subsidy_metrics_tidy.csv"))
+write_csv(relative_dat, paste0(app_data_dir, "relative_subsidy_metrics_tidy.csv"))
 ```
 

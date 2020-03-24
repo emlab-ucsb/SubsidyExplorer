@@ -148,14 +148,17 @@ names(categoryColors) <- names(subsidy_categories_sorted_sumaila)
 
 # 1) GDP and Population (World Bank WDI database 2020) ---
 demo_dat_world_bank <- read_csv("./data/world_bank_2020_wdi_tidy.csv") %>%
+  left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3") %>%
   arrange(iso3)
 
 # 2) Number of fishers (FAO Yearbook 2017) ---
 fisher_dat_fao <- read_csv("./data/fao_2017_yearbook_fishers_tidy.csv") %>%
+  left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3") %>%
   arrange(iso3)
 
 # 3) Full-time fisheries employment (Teh and Sumaila 2013) ---
 fisher_dat_teh_and_sumaila <- read_csv("./data/teh_and_sumaila_2013_fte_tidy.csv") %>%
+  left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3") %>%
   arrange(iso3)
 
 # Aggregate
@@ -170,23 +173,24 @@ demographic_dat <- demo_dat_world_bank %>%
 capture_production_dat_fao <- read_csv("./data/fao_2019_capture_production_isscaap_groups_tidy.csv") %>%
   group_by(iso3, year) %>%
   mutate(prop_annual_total = value/sum(value)) %>%
-  ungroup()
+  ungroup() %>%
+  left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3")
 
 capture_production_dat_tot <- capture_production_dat_fao %>%
-  group_by(iso3, year, variable, units, source) %>%
-  summarize(value = sum(value, na.rm = T))
+  group_by(iso3, year, variable, units, source, display_name) %>%
+  summarize(value = sum(value, na.rm = T)) 
 
 # 2) Landed value by ISSCAAP Group (2000-2017)
 landed_value_dat <- read_csv("./data/estimated_landed_value_isscaap_groups_tidy.csv") %>%
   group_by(iso3, year) %>%
   mutate(prop_annual_total = value/sum(value)) %>%
-  ungroup()
+  ungroup() %>%
+  left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3")
 
 landed_value_dat_tot <- landed_value_dat %>%
-  group_by(iso3, year, variable, units, source) %>%
+  group_by(iso3, year, variable, units, source, display_name) %>%
   summarize(value = sum(value, na.rm = T))
-
-
+  
 # 3) GFW Vessel list (2018)
 # pro_rate_subsidies <- F
 # 
@@ -230,4 +234,23 @@ cap_tier_dat <- read_csv("./data/USA_cap_tier_tidy.csv") %>%
 #   dplyr::select(proposal, display_name)
 # proposal_choices <- proposal_names$proposal
 # names(proposal_choices) <- proposal_names$display_name
-# 
+
+### OTHER -------------------------------------------------------------------------------------------
+
+# # Relative subsidies data
+relative_subs_dat <- read_csv("./data/relative_subsidy_metrics_tidy.csv") %>%
+  left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3") %>%
+  arrange(iso3) %>%
+  mutate(category = factor(category, levels = c(subsidy_categories_sorted_sumaila, subsidy_categories_sorted_oecd), ordered = T),
+         category_name = factor(category_name, levels = c(names(subsidy_categories_sorted_sumaila), names(subsidy_categories_sorted_oecd)), ordered = T),
+         type = factor(type, levels = c(subsidy_types_sorted_sumaila, subsidy_types_sorted_oecd), ordered = T),
+         type_name = factor(type_name, levels = c(names(subsidy_types_sorted_sumaila), names(subsidy_types_sorted_oecd)), ordered = T))
+
+# Create combined dataset for use in the "compare fishery stats" page
+combined_fishery_stats_dat <- subsidy_dat %>%
+  dplyr::filter(variable == "subsidies_Sumaila") %>%
+  bind_rows(capture_production_dat_tot %>% dplyr::filter(year == 2017)) %>%
+  bind_rows(landed_value_dat_tot %>% dplyr::filter(year == 2017)) %>%
+  bind_rows(relative_subs_dat) %>%
+  arrange(iso3, variable, type)
+

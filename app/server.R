@@ -715,77 +715,77 @@ shinyServer(function(input, output, session) {
     req(input$w_compare_fishery_stats_selected_country)
     req(input$w_compare_fishery_stats_plot_variable)
     req(input$w_compare_fishery_stats_method)
-    req(input$w_compare_fishery_stats_select_manual)
     req(input$w_compare_fishery_stats_subsidy_types)
     
     # Plot arguments: 1 = variable name, 2 = hover/x-axis caption, 3 = rounding digits, 4 = units prefix.
     compare_fishery_stats_bar_plot_args <- switch(
       input$w_compare_fishery_stats_plot_variable,
       "subsidies" = list("subsidies_Sumaila", "Est. fisheries subsidies (2018 US$)", 0, "$"),
-      "landings" = list("landings", "Capture production (mt, 2017)", 0, ""),
-      "revenue" = list("revenue", "Est. landed value (2017 US$)", 0, "$"),
-      "subsidies_per_landing" = list("subsidies_per_landing", "Fisheries subsidies per volume landed (2018 US$/mt)", 2, "$"),
-      "subsidies_per_revenue" = list("subsidies_per_revenue", "Ratio of fisheries subsidies to landed value", 2, ""), 
+      "landings" = list("capture_production", "Capture production (mt, 2017)", 0, ""),
+      "revenue" = list("landed_value", "Est. landed value (2017 US$)", 0, "$"),
+      "subsidies_per_landing" = list("subsidies_per_production", "Fisheries subsidies per tonne of capture production (2018 US$/tonne)", 2, "$"),
+      "subsidies_per_revenue" = list("subsidies_per_landed_value", "Ratio of fisheries subsidies to landed value", 2, ""), 
       "subsidies_per_capita" = list("subsidies_per_capita", "Fisheries subsidies per capita (2018 US$/person)", 2, "$"),
       "subsidies_per_gdp" = list("subsidies_per_gdp", "Ratio of fisheries subsidies to GDP", 4, ""),
-      "subsidies_per_fte" = list("subsidies_per_fte", "Fisheries subsidies per number of FTE persons employed in fisheries (2018 US$/person)", 2, "$"))
+      "subsidies_per_fte" = list("subsidies_per_fte", "Fisheries subsidies per full-time-equivalent fisheries jobs (2018 US$/FTE)", 2, "$"))
     
     # Filter data by selected variable and by selected subsidy type(s) [if applicable]
-    # compare_bar_plot_dat <- profile_dat %>%
-    #   dplyr::filter(variable == compare_bar_plot_args[[1]]) %>%
-    #   dplyr::filter(type %in% c(input$compare_included_subsidy_types, "T")) %>%
-    #   group_by(iso3, country, variable) %>%
-    #   mutate(tot_value = sum(value, na.rm = T)) %>%
-    #   ungroup() %>%
-    #   mutate(rank = dense_rank(desc(tot_value)),
-    #          country = fct_rev(fct_reorder(country, tot_value)),
-    #          iso3 = fct_rev(fct_reorder(iso3, tot_value)))
-    # 
-    # # Filter for the top 10 countries
-    # if(input$compare_method == "top10"){
-    #   
-    #   compare_bar_plot_dat <- compare_bar_plot_dat %>%
-    #     dplyr::filter(rank <= 10 | iso3 == input$compare_selected_country) %>%
-    #     mutate(color = ifelse(iso3 == input$compare_selected_country, "red", NA))
-    #   compare_bar_plot_dat$value[is.na(compare_bar_plot_dat$value)] <- 0
-    #   
-    #   # Filter for manually selected states
-    # }else if(input$compare_method == "choose"){
-    #   
-    #   compare_bar_plot_dat <- compare_bar_plot_dat %>%
-    #     dplyr::filter(iso3 %in% input$compare_manually_select_countries | iso3 == input$compare_selected_country) %>%
-    #     mutate(color = ifelse(iso3 == input$compare_selected_country, "red", NA))
-    #   compare_bar_plot_dat$value[is.na(compare_bar_plot_dat$value)] <- 0
-    #   
-    # }
-    # 
-    # # Require at least one matching entry
-    # req(nrow(compare_bar_plot_dat) > 0)
-    # 
-    # # Make plot  
-    # compare_bar_plot <- ggplot()+
-    #   geom_col(data = compare_bar_plot_dat, aes(x = country, y = value, fill = subtype,
-    #                                             text = paste0("<b>","State: ","</b>",country,
-    #                                                           "<br>",
-    #                                                           "<b>","Type: ","</b>",subtype,
-    #                                                           "<br>",
-    #                                                           "<b>", compare_bar_plot_args[[2]],": ","</b>",
-    #                                                           compare_bar_plot_args[[4]], format(round(value, compare_bar_plot_args[[3]]), big.mark = ","))))+
-    #   #geom_col(data = totals, aes(x = country, y = value, colour = color), size = 1, fill = NA)+
-    #   scale_fill_manual(values = myColors[names(myColors) %in% compare_bar_plot_dat$subtype])+
-    #   scale_y_continuous(expand = c(0,0), name = compare_bar_plot_args[[2]], 
-    #                      labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
-    #   coord_flip()+
-    #   theme_bw()+
-    #   labs(x = "")+
-    #   theme(legend.title = element_blank(),
-    #         legend.position = "none")
-    # 
-    # # Convert to plotly
-    # gg <- ggplotly(compare_bar_plot, tooltip="text")
-    # 
-    # # Return plot
-    # gg 
+    compare_fishery_stats_bar_plot_dat <- combined_fishery_stats_dat %>%
+      dplyr::filter(variable == compare_fishery_stats_bar_plot_args[[1]]) %>%
+      dplyr::filter(if(input$w_compare_fishery_stats_plot_variable %in% c("capture_production", "landed_value")) is.na(type) else type %in% c(input$w_compare_fishery_stats_subsidy_types)) %>%
+      group_by(iso3, display_name, variable) %>%
+      mutate(tot_value = sum(value, na.rm = T)) %>%
+      ungroup() %>%
+      mutate(rank = dense_rank(desc(tot_value)),
+             display_name = fct_rev(fct_reorder(display_name, tot_value)),
+             iso3 = fct_rev(fct_reorder(iso3, tot_value)))
+
+    # Filter for the top 10 countries
+    if(input$w_compare_fishery_stats_method == "top10"){
+
+      compare_fishery_stats_bar_plot_dat <- compare_fishery_stats_bar_plot_dat %>%
+        dplyr::filter(rank <= 10 | iso3 == input$w_compare_fishery_stats_selected_country) %>%
+        mutate(color = ifelse(iso3 == input$w_compare_fishery_stats_selected_country, "red", NA))
+      compare_fishery_stats_bar_plot_dat$value[is.na(compare_fishery_stats_bar_plot_dat$value)] <- 0
+
+      # Filter for manually selected states
+    }else if(input$w_compare_fishery_stats_method == "select"){
+      
+      compare_fishery_stats_bar_plot_dat <- compare_fishery_stats_bar_plot_dat %>%
+        dplyr::filter(iso3 %in% input$w_compare_fishery_stats_select_manual | iso3 == input$w_compare_fishery_stats_selected_country) %>%
+        mutate(color = ifelse(iso3 == input$w_compare_fishery_stats_selected_country, "red", NA))
+      compare_fishery_stats_bar_plot_dat$value[is.na(compare_fishery_stats_bar_plot_dat$value)] <- 0
+
+    }
+
+    # Require at least one matching entry
+    req(nrow(compare_fishery_stats_bar_plot_dat) > 0)
+    
+
+    # Make plot
+    compare_fishery_stats_bar_plot <- ggplot()+
+      geom_col(data = compare_fishery_stats_bar_plot_dat, aes(x = display_name, y = value, fill = type_name,
+                                                text = paste0("<b>","State: ","</b>", display_name,
+                                                              "<br>",
+                                                              "<b>","Subsidy Type: ","</b>", type_name,
+                                                              "<br>",
+                                                              "<b>", compare_fishery_stats_bar_plot_args[[2]],": ","</b>",
+                                                              compare_fishery_stats_bar_plot_args[[4]], format(round(value, compare_fishery_stats_bar_plot_args[[3]]), big.mark = ","))))+
+      #geom_col(data = totals, aes(x = country, y = value, colour = color), size = 1, fill = NA)+
+      scale_fill_manual(values = myColors[names(myColors) %in% compare_fishery_stats_bar_plot_dat$type_name])+
+      scale_y_continuous(expand = c(0,0), name = compare_fishery_stats_bar_plot_args[[2]],
+                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+      coord_flip()+
+      theme_bw()+
+      labs(x = "")+
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+
+    # Convert to plotly
+    gg <- ggplotly(compare_fishery_stats_bar_plot, tooltip="text")
+
+    # Return plot
+    gg
     
   })
   

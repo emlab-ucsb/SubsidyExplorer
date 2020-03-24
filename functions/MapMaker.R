@@ -106,16 +106,16 @@ MapMaker <- function(data,
     
   }else if(res == "corr"){
     
-    # This one isn't a map, but puttin it here for now
+    # This one isn't a map, but putting it here for now
     out <- data %>%
       ggplot()+
-      aes(x = get(x), y = get(y), size = get(fill))+
-      geom_point(color = "black")+
+      aes(x = get(x), y = get(y))+
+      geom_smooth(method = "lm", na.rm = T, se = F, color = "black")+
+      geom_point(aes(size = get(fill)), color = "black")+
       scale_size(name = fill_name,
                  limits = fill_limits,
                  breaks = fill_breaks,
                  labels = fill_labels)+
-      geom_smooth(method = "lm", na.rm = T, se = F, color = "black")+
       # scale_color_distiller(type = "seq", palette = "RdYlBu",
       #                      name = fill_name,
       #                      na.value = "#000000", 

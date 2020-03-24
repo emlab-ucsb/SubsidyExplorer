@@ -204,7 +204,7 @@ median_subsidy_intensity_tot_grid_map <- MapMaker(data = subsidy_intensity_binne
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
                                                   fill_breaks = seq(0,8, by = 2),
                                                   fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_labels = c("0", "2", "4", "6", "\u2265 8"),
                                                   land_sf = world_land)
 
 ggsave(paste0(results_dir, "median_subsidy_intensity_tot_grid_map.png"), dpi = 200, width = 7, height = 5)
@@ -218,7 +218,7 @@ mean_subsidy_intensity_tot_grid_map <- MapMaker(data = subsidy_intensity_binned,
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
                                                   fill_breaks = seq(0,8, by = 2),
                                                   fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_labels = c("0", "2", "4", "6", "\u2265 8"),
                                                   land_sf = world_land)
 
 ggsave(paste0(results_dir, "mean_subsidy_intensity_tot_grid_map.png"), dpi = 200, width = 7, height = 5)
@@ -232,7 +232,7 @@ w_mean_subsidy_intensity_tot_grid_map <- MapMaker(data = subsidy_intensity_binne
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
                                                   fill_breaks = seq(0,8, by = 2),
                                                   fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_labels = c("0", "2", "4", "6", "\u2265 8"),
                                                   land_sf = world_land)
 
 ggsave(paste0(results_dir, "w_mean_subsidy_intensity_tot_grid_map.png"), dpi = 200, width = 7, height = 5)
@@ -250,7 +250,6 @@ subsidy_intensity_tot_grid_map <- plot_grid(median_subsidy_intensity_tot_grid_ma
                                             label_x = c(-0.04,-0.03,-0.1,0),
                                             align = "v")
 
-subsidy_intensity_tot_grid_map
 ggsave(paste0(results_dir, "subsidy_intensity_tot_grid_map.png"), dpi = 200, width = 7, height = 12.5)
 
 ```
@@ -265,7 +264,7 @@ median_subsidy_intensity_tot_region_map <- MapMaker(data = subsidy_intensity_reg
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
                                                   fill_breaks = seq(0,8, by = 2),
                                                   fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_labels = c("0", "2", "4", "6", "\u2265 8"),
                                                   land_sf = world_land,
                                                   region_sf = fao_regions)
 
@@ -278,7 +277,7 @@ mean_subsidy_intensity_tot_region_map <- MapMaker(data = subsidy_intensity_regio
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
                                                   fill_breaks = seq(0,8, by = 2),
                                                   fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_labels = c("0", "2", "4", "6", "\u2265 8"),
                                                   land_sf = world_land,
                                                   region_sf = fao_regions)
 
@@ -291,7 +290,7 @@ w_mean_subsidy_intensity_tot_region_map <- MapMaker(data = subsidy_intensity_reg
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
                                                   fill_breaks = seq(0,8, by = 2),
                                                   fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_labels = c("0", "2", "4", "6", "\u2265 8"),
                                                   land_sf = world_land,
                                                   region_sf = fao_regions)
 
@@ -310,10 +309,31 @@ subsidy_intensity_tot_region_map <- plot_grid(median_subsidy_intensity_tot_regio
                                             label_x = c(-0.04,-0.03,-0.1,0),
                                             align = "v")
 
-subsidy_intensity_tot_region_map
 ggsave(paste0(results_dir, "subsidy_intensity_tot_region_map.png"), dpi = 200, width = 7, height = 12.5)
 
 ```
+
+```{r, fig.width=14, fig.height=12.5}
+# Combine into six panel
+subsidy_intensity_tot_noleg <- plot_grid(median_subsidy_intensity_tot_grid_map + theme(legend.position = "none"),
+                                         median_subsidy_intensity_tot_region_map + theme(legend.position = "none"),
+                                         mean_subsidy_intensity_tot_grid_map + theme(legend.position = "none"),
+                                         mean_subsidy_intensity_tot_region_map + theme(legend.position = "none"),
+                                         w_mean_subsidy_intensity_tot_grid_map + theme(legend.position = "none"),
+                                         w_mean_subsidy_intensity_tot_region_map + theme(legend.position = "none"),
+                                         ncol = 2,
+                                         labels = c("A) Median", "", "B) Mean", "", "C) Weighted Mean", ""),
+                                         label_x = c(-0.04, 0, -0.03,0, -0.1, 0))
+
+subsidy_intensity_tot_map <- plot_grid(subsidy_intensity_tot_noleg,
+                                       intensity_tot_region_legend,
+                                       rel_heights = c(2,0.2),
+                                       ncol = 1)
+
+subsidy_intensity_tot_map
+ggsave(paste0(results_dir, "subsidy_intensity_tot_map.png"), dpi = 200, width = 14, height = 12.5)
+```
+
 
 ## Bad Subsidies
 
@@ -327,9 +347,9 @@ median_subsidy_intensity_B_grid_map <- MapMaker(data = subsidy_intensity_binned,
                                                   y = "lat_bin_center",
                                                   fill = "med_B_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land)
 
 ggsave(paste0(results_dir, "median_subsidy_intensity_B_grid_map.png"), dpi = 200, width = 7, height = 5)
@@ -341,9 +361,9 @@ mean_subsidy_intensity_B_grid_map <- MapMaker(data = subsidy_intensity_binned,
                                                   y = "lat_bin_center",
                                                   fill = "mean_B_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land)
 
 ggsave(paste0(results_dir, "mean_subsidy_intensity_B_grid_map.png"), dpi = 200, width = 7, height = 5)
@@ -355,9 +375,9 @@ w_mean_subsidy_intensity_B_grid_map <- MapMaker(data = subsidy_intensity_binned,
                                                   y = "lat_bin_center",
                                                   fill = "w_mean_B_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land)
 
 ggsave(paste0(results_dir, "w_mean_subsidy_intensity_B_grid_map.png"), dpi = 200, width = 7, height = 5)
@@ -375,7 +395,6 @@ subsidy_intensity_B_grid_map <- plot_grid(median_subsidy_intensity_B_grid_map + 
                                             label_x = c(-0.04,-0.03,-0.1,0),
                                             align = "v")
 
-subsidy_intensity_B_grid_map
 ggsave(paste0(results_dir, "subsidy_intensity_B_grid_map.png"), dpi = 200, width = 7, height = 12.5)
 
 ```
@@ -388,9 +407,9 @@ median_subsidy_intensity_B_region_map <- MapMaker(data = subsidy_intensity_regio
                                                   res = "region",
                                                   fill = "med_B_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 >6"),
                                                   land_sf = world_land,
                                                   region_sf = fao_regions)
 
@@ -401,9 +420,9 @@ mean_subsidy_intensity_B_region_map <- MapMaker(data = subsidy_intensity_region,
                                                   res = "region",
                                                   fill = "mean_B_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land,
                                                   region_sf = fao_regions)
 
@@ -414,9 +433,9 @@ w_mean_subsidy_intensity_B_region_map <- MapMaker(data = subsidy_intensity_regio
                                                   res = "region",
                                                   fill = "w_mean_B_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land,
                                                   region_sf = fao_regions)
 
@@ -435,9 +454,30 @@ subsidy_intensity_B_region_map <- plot_grid(median_subsidy_intensity_B_region_ma
                                             label_x = c(-0.04,-0.03,-0.1,0),
                                             align = "v")
 
-subsidy_intensity_B_region_map
 ggsave(paste0(results_dir, "subsidy_intensity_B_region_map.png"), dpi = 200, width = 7, height = 12.5)
 
+```
+
+```{r, fig.width=14, fig.height=12.5}
+# Combine into six panel
+subsidy_intensity_B_noleg <- plot_grid(median_subsidy_intensity_B_grid_map + theme(legend.position = "none"),
+                                       median_subsidy_intensity_B_region_map + theme(legend.position = "none"),
+                                       mean_subsidy_intensity_B_grid_map + theme(legend.position = "none"),
+                                       mean_subsidy_intensity_B_region_map + theme(legend.position = "none"),
+                                       w_mean_subsidy_intensity_B_grid_map + theme(legend.position = "none"),
+                                       w_mean_subsidy_intensity_B_region_map + theme(legend.position = "none"),
+                                       ncol = 2,
+                                       labels = c("A) Median", "", "B) Mean", "", "C) Weighted Mean", ""),
+                                       label_x = c(-0.04, 0, -0.03,0, -0.1, 0))
+
+subsidy_intensity_B_map <- plot_grid(subsidy_intensity_B_noleg,
+                                       intensity_B_region_legend,
+                                       rel_heights = c(2,0.2),
+                                       ncol = 1)
+
+subsidy_intensity_B_map
+
+ggsave(paste0(results_dir, "subsidy_intensity_B_map.png"), dpi = 200, width = 14, height = 12.5)
 ```
 
 ## Bad + Ambiguous Subsidies
@@ -452,9 +492,9 @@ median_subsidy_intensity_BC_grid_map <- MapMaker(data = subsidy_intensity_binned
                                                   y = "lat_bin_center",
                                                   fill = "med_BC_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land)
 
 ggsave(paste0(results_dir, "median_subsidy_intensity_BC_grid_map.png"), dpi = 200, width = 7, height = 5)
@@ -466,9 +506,9 @@ mean_subsidy_intensity_BC_grid_map <- MapMaker(data = subsidy_intensity_binned,
                                                   y = "lat_bin_center",
                                                   fill = "mean_BC_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land)
 
 ggsave(paste0(results_dir, "mean_subsidy_intensity_BC_grid_map.png"), dpi = 200, width = 7, height = 5)
@@ -480,9 +520,9 @@ w_mean_subsidy_intensity_BC_grid_map <- MapMaker(data = subsidy_intensity_binned
                                                   y = "lat_bin_center",
                                                   fill = "w_mean_BC_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land)
 
 ggsave(paste0(results_dir, "w_mean_subsidy_intensity_BC_grid_map.png"), dpi = 200, width = 7, height = 5)
@@ -500,7 +540,7 @@ subsidy_intensity_BC_grid_map <- plot_grid(median_subsidy_intensity_BC_grid_map 
                                             label_x = c(-0.04,-0.03,-0.1,0),
                                             align = "v")
 
-subsidy_intensity_BC_grid_map
+
 ggsave(paste0(results_dir, "subsidy_intensity_BC_grid_map.png"), dpi = 200, width = 7, height = 12.5)
 
 ```
@@ -513,9 +553,9 @@ median_subsidy_intensity_BC_region_map <- MapMaker(data = subsidy_intensity_regi
                                                   res = "region",
                                                   fill = "med_BC_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land,
                                                   region_sf = fao_regions)
 
@@ -526,9 +566,9 @@ mean_subsidy_intensity_BC_region_map <- MapMaker(data = subsidy_intensity_region
                                                   res = "region",
                                                   fill = "mean_BC_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land,
                                                   region_sf = fao_regions)
 
@@ -539,9 +579,9 @@ w_mean_subsidy_intensity_BC_region_map <- MapMaker(data = subsidy_intensity_regi
                                                   res = "region",
                                                   fill = "w_mean_BC_subs_KWh",
                                                   fill_name = "Subsidy Intensity \n($/KWh)",
-                                                  fill_breaks = seq(0,8, by = 2),
-                                                  fill_limits = c(0,8),
-                                                  fill_labels = c("0", "2", "4", "6", "8"),
+                                                  fill_breaks = seq(0,6, by = 2),
+                                                  fill_limits = c(0,6),
+                                                  fill_labels = c("0", "2", "4", "\u2265 6"),
                                                   land_sf = world_land,
                                                   region_sf = fao_regions)
 
@@ -560,9 +600,30 @@ subsidy_intensity_BC_region_map <- plot_grid(median_subsidy_intensity_BC_region_
                                             label_x = c(-0.04,-0.03,-0.1,0),
                                             align = "v")
 
-subsidy_intensity_BC_region_map
 ggsave(paste0(results_dir, "subsidy_intensity_BC_region_map.png"), dpi = 200, width = 7, height = 12.5)
 
+```
+
+```{r, fig.width=14, fig.height=12.5}
+# Combine into six panel
+subsidy_intensity_BC_noleg <- plot_grid(median_subsidy_intensity_BC_grid_map + theme(legend.position = "none"),
+                                       median_subsidy_intensity_BC_region_map + theme(legend.position = "none"),
+                                       mean_subsidy_intensity_BC_grid_map + theme(legend.position = "none"),
+                                       mean_subsidy_intensity_BC_region_map + theme(legend.position = "none"),
+                                       w_mean_subsidy_intensity_BC_grid_map + theme(legend.position = "none"),
+                                       w_mean_subsidy_intensity_BC_region_map + theme(legend.position = "none"),
+                                       ncol = 2,
+                                       labels = c("A) Median", "", "B) Mean", "", "C) Weighted Mean", ""),
+                                       label_x = c(-0.04, 0, -0.03,0, -0.1, 0))
+
+subsidy_intensity_BC_map <- plot_grid(subsidy_intensity_BC_noleg,
+                                       intensity_BC_region_legend,
+                                       rel_heights = c(2,0.2),
+                                       ncol = 1)
+
+subsidy_intensity_BC_map
+
+ggsave(paste0(results_dir, "subsidy_intensity_BC_map.png"), dpi = 200, width = 14, height = 12.5)
 ```
 
 ## Stock status 
@@ -595,7 +656,7 @@ median_f_v_fmsy_region_map <- MapMaker(data = upsides_region,
                                      fill_name = "F/Fmsy",
                                      fill_breaks = seq(0,4, by = 1),
                                      fill_limits = c(0,4),
-                                     fill_labels = c("0", "1", "2", "3", "4"),
+                                     fill_labels = c("0", "1", "2", "3", "\u2265 4"),
                                      land_sf = world_land,
                                      region_sf = fao_regions)
 
@@ -608,7 +669,7 @@ mean_f_v_fmsy_region_map <- MapMaker(data = upsides_region,
                                      fill_name = "F/Fmsy",
                                      fill_breaks = seq(0,4, by = 1),
                                      fill_limits = c(0,4),
-                                     fill_labels = c("0", "1", "2", "3", "4"),
+                                     fill_labels = c("0", "1", "2", "3", "\u2265 4"),
                                      land_sf = world_land,
                                      region_sf = fao_regions)
 
@@ -621,7 +682,7 @@ w_mean_f_v_fmsy_region_map <- MapMaker(data = upsides_region,
                                      fill_name = "F/Fmsy",
                                      fill_breaks = seq(0,4, by = 1),
                                      fill_limits = c(0,4),
-                                     fill_labels = c("0", "1", "2", "3", "4"),
+                                     fill_labels = c("0", "1", "2", "3", "\u2265 4"),
                                      land_sf = world_land,
                                      region_sf = fao_regions)
 
@@ -644,47 +705,683 @@ f_v_fmsy_region_map
 ggsave(paste0(results_dir, "f_v_fmsy_region_map.png"), dpi = 200, width = 7, height = 12.5)
 ```
 
+### B/Bmsy by Region
+
+```{r}
+# Median
+median_b_v_bmsy_region_map <- MapMaker(data = upsides_region, 
+                                     res = "region",
+                                     fill = "med_b_v_bmsy",
+                                     fill_name = "B/Bmsy",
+                                     fill_breaks = seq(0,2, by = 0.5),
+                                     fill_limits = c(0,2),
+                                     fill_labels = c("0", "0.5", "1", "1.5", "\u2265 2"),
+                                     land_sf = world_land,
+                                     region_sf = fao_regions)
+
+ggsave(paste0(results_dir, "median_b_v_bmsy_region_map.png"), dpi = 200, width = 7, height = 5)
+
+# Mean
+mean_b_v_bmsy_region_map <- MapMaker(data = upsides_region, 
+                                     res = "region",
+                                     fill = "mean_b_v_bmsy",
+                                     fill_name = "B/Bmsy",
+                                     fill_breaks = seq(0,2, by = 0.5),
+                                     fill_limits = c(0,2),
+                                     fill_labels = c("0", "0.5", "1", "1.5", "\u2265 2"),
+                                     land_sf = world_land,
+                                     region_sf = fao_regions)
+
+ggsave(paste0(results_dir, "mean_b_v_bmsy_region_map.png"), dpi = 200, width = 7, height = 5)
+
+# Weighted Mean
+w_mean_b_v_bmsy_region_map <- MapMaker(data = upsides_region, 
+                                     res = "region",
+                                     fill = "w_mean_b_v_bmsy",
+                                     fill_name = "B/Bmsy",
+                                     fill_breaks = seq(0,2, by = 0.5),
+                                     fill_limits = c(0,2),
+                                     fill_labels = c("0", "0.5", "1", "1.5", "\u2265 2"),
+                                     land_sf = world_land,
+                                     region_sf = fao_regions)
+
+ggsave(paste0(results_dir, "w_mean_b_v_bmsy_region_map.png"), dpi = 200, width = 7, height = 5)
+
+# Combine into three panel
+b_v_bmsy_region_legend <- get_legend(w_mean_b_v_bmsy_region_map)
+
+b_v_bmsy_region_map <- plot_grid(median_b_v_bmsy_region_map + theme(legend.position = "none"),
+                                 mean_b_v_bmsy_region_map + theme(legend.position = "none"),
+                                 w_mean_b_v_bmsy_region_map + theme(legend.position = "none"),
+                                 b_v_bmsy_region_legend,
+                                 ncol = 1,
+                                 rel_heights = c(1, 1, 1, 0.2),
+                                 labels = c("A) Median", "B) Mean", "C) Weighted Mean", ""),
+                                 label_x = c(-0.04, -0.03, -0.1, 0),
+                                 align = "v")
+
+b_v_bmsy_region_map
+ggsave(paste0(results_dir, "b_v_bmsy_region_map.png"), dpi = 200, width = 7, height = 12.5)
+```
 
 ## Coorelation Between Subsidies and Stock status 
 
 ```{r}
 subsidy_intensity_upsides_region <- upsides_region %>%
   left_join(subsidy_intensity_region, by = "fao_region")
+```
 
-# Weighted mean of Bad + Ambig vs Weighted mean F/Fmsy
-w_mean_BC_vs_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+```{r}
+# Set some plot scales
+subs_x <- c(0,2.5)
+f_y <- c(0,3)
+effort_fill_lim <- c(0,7.5e9)
+effort_fill_breaks <- seq(0,7.5e9, length.out = 5)
+effort_fill_labels <- format(seq(0,7.5e9, length.out = 5)/1e9, scientific = F, digits = 2)
+
+# Labels
+w_mean_subs_label <- "Weighted Mean Subsidy Intensity ($/KWh)"
+mean_subs_label <- "Mean Subsidy Intensity ($/KWh)"
+median_subs_label <- "Median Subsidy Intensity ($/KWh)"
+
+w_mean_f_label <- "Weighted Mean F/Fmsy"
+mean_f_label <- "Mean F/Fmsy"
+median_f_label <- "Median F/Fmsy"
+
+effort_label <- "Total Fishing Effort \n(KWh, billions)"
+```
+
+
+### Use Weighted Mean Subsidies
+
+#### Total Subsidies
+
+```{r}
+# Weighted Mean Total Subs vs Median F/Fmsy [LAST]
+w_mean_tot_vs_median_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
                                        res = "corr",
-                                       x = "w_mean_BC_subs_KWh",
-                                       x_name = "Weighted Mean Subsidy Intensity ($/KWh)",
-                                       x_limits = c(0,2),
-                                       y = "w_mean_f_v_fmsy",
-                                       y_name = "Weighted Mean F/Fmsy",
-                                       y_limits = c(0,2.5),
+                                       x = "w_mean_tot_subs_KWh",
+                                       x_name = w_mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "med_f_v_fmsy",
+                                       y_name = median_f_label,
+                                       y_limits = f_y,
                                        fill = "tot_fishing_KWh",
-                                       fill_name = "Total Fishing Effort \n(KWh, billions)",
-                                       fill_limits = c(0,7.5e9),
-                                       fill_breaks = seq(0,7.5e9, length.out = 5),
-                                       fill_labels = format(seq(0,7.5e9, length.out = 5)/1e9, scientific = F, digits = 2))
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
 
-ggsave(paste0(results_dir, "w_mean_BC_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 7)
+# Weighted Mean Total Subs vs Mean F/Fmsy [BEST]
+w_mean_tot_vs_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "w_mean_tot_subs_KWh",
+                                       x_name = w_mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "mean_f_v_fmsy",
+                                       y_name = mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
 
-# mean of Bad + Ambig vs mean F/Fmsy
+# Weighted Mean Total Subs vs Weighted Mean F/Fmsy [SECOND]
+w_mean_tot_vs_w_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "w_mean_tot_subs_KWh",
+                                       x_name = w_mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "w_mean_f_v_fmsy",
+                                       y_name = w_mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Combine into three panel
+corr_legend <- get_legend(w_mean_tot_vs_w_mean_f_v_fmsy_plot)
+
+w_mean_tot_vs_f_v_fmsy_plot <- plot_grid(
+  
+  plot_grid(w_mean_tot_vs_median_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            w_mean_tot_vs_mean_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            w_mean_tot_vs_w_mean_f_v_fmsy_plot + theme(legend.position = "none"),
+            ncol = 1,
+            align = "hv"),
+  corr_legend,
+  ncol = 1,
+  rel_heights = c(3, 0.2))
+
+w_mean_tot_vs_f_v_fmsy_plot
+ggsave(paste0(results_dir, "w_mean_tot_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 12.5)
+```
+
+#### Bad Subsidies
+
+```{r}
+# Weighted Mean Bad Subs vs Median F/Fmsy [BEST!]
+w_mean_B_vs_median_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "w_mean_B_subs_KWh",
+                                       x_name = w_mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "med_f_v_fmsy",
+                                       y_name = median_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Weighted Mean Bad Subs vs Mean F/Fmsy [LAST]
+w_mean_B_vs_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "w_mean_B_subs_KWh",
+                                       x_name = w_mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "mean_f_v_fmsy",
+                                       y_name = mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Weighted Mean Total Subs vs Weighted Mean F/Fmsy [SECOND]
+w_mean_B_vs_w_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "w_mean_B_subs_KWh",
+                                       x_name = w_mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "w_mean_f_v_fmsy",
+                                       y_name = w_mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Combine into three panel
+w_mean_B_vs_f_v_fmsy_plot <- plot_grid(
+  
+  plot_grid(w_mean_B_vs_median_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            w_mean_B_vs_mean_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            w_mean_B_vs_w_mean_f_v_fmsy_plot + theme(legend.position = "none"),
+            ncol = 1,
+            align = "hv"),
+  corr_legend,
+  ncol = 1,
+  rel_heights = c(3, 0.2))
+
+w_mean_B_vs_f_v_fmsy_plot
+ggsave(paste0(results_dir, "w_mean_B_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 12.5)
+```
+
+#### Bad + Ambiguous Subsidies
+
+```{r}
+# Weighted Mean Bad + Ambiguous Subs vs Median F/Fmsy [BEST]
 w_mean_BC_vs_median_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
                                        res = "corr",
                                        x = "w_mean_BC_subs_KWh",
-                                       x_name = "Weighted Mean Subsidy Intensity ($/KWh)",
-                                       x_limits = c(0,4),
+                                       x_name = w_mean_subs_label,
+                                       x_limits = subs_x,
                                        y = "med_f_v_fmsy",
-                                       y_name = "Median F/Fmsy",
-                                       y_limits = c(0,4),
+                                       y_name = median_f_label,
+                                       y_limits = f_y,
                                        fill = "tot_fishing_KWh",
-                                       fill_name = "Total Fishing Effort \n(KWh, billions)",
-                                       fill_limits = c(0,7.5e9),
-                                       fill_breaks = seq(0,7.5e9, length.out = 5),
-                                       fill_labels = format(seq(0,7.5e9, length.out = 5)/1e9, scientific = F, digits = 2))
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
 
+# Weighted Mean Bad + Ambiguous Subs vs Mean F/Fmsy [LAST]
+w_mean_BC_vs_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "w_mean_BC_subs_KWh",
+                                       x_name = w_mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "mean_f_v_fmsy",
+                                       y_name = mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
 
-ggsave(paste0(results_dir, "w_mean_BC_vs_median_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 7)
+# Weighted Mean Total Subs vs Weighted Mean F/Fmsy [SECOND]
+w_mean_BC_vs_w_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "w_mean_BC_subs_KWh",
+                                       x_name = w_mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "w_mean_f_v_fmsy",
+                                       y_name = w_mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Combine into three panel
+w_mean_BC_vs_f_v_fmsy_plot <- plot_grid(
+  
+  plot_grid(w_mean_BC_vs_median_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            w_mean_BC_vs_mean_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            w_mean_BC_vs_w_mean_f_v_fmsy_plot + theme(legend.position = "none"),
+            ncol = 1,
+            align = "hv"),
+  corr_legend,
+  ncol = 1,
+  rel_heights = c(3, 0.2))
+
+w_mean_BC_vs_f_v_fmsy_plot
+ggsave(paste0(results_dir, "w_mean_BC_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 12.5)
+```
+
+### Use Mean Subsidies
+
+#### Total Subsidies
+
+```{r}
+# Mean Total Subs vs Median F/Fmsy [BEST]
+mean_tot_vs_median_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "mean_tot_subs_KWh",
+                                       x_name = mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "med_f_v_fmsy",
+                                       y_name = median_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+ggsave(paste0(results_dir, "mean_tot_vs_median_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 7)
+
+# Mean Total Subs vs Mean F/Fmsy [LAST]
+mean_tot_vs_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "mean_tot_subs_KWh",
+                                       x_name = mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "mean_f_v_fmsy",
+                                       y_name = mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+ggsave(paste0(results_dir, "mean_tot_vs_mean_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 7)
+
+# Mean Total Subs vs Weighted Mean F/Fmsy [SECOND]
+mean_tot_vs_w_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "mean_tot_subs_KWh",
+                                       x_name = mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "w_mean_f_v_fmsy",
+                                       y_name = w_mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+ggsave(paste0(results_dir, "mean_tot_vs_w_mean_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 7)
+
+# Combine into three panel
+mean_tot_vs_f_v_fmsy_plot <- plot_grid(
+  
+  plot_grid(mean_tot_vs_median_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            mean_tot_vs_mean_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            mean_tot_vs_w_mean_f_v_fmsy_plot + theme(legend.position = "none"),
+            ncol = 1,
+            align = "hv"),
+  corr_legend,
+  ncol = 1,
+  rel_heights = c(3, 0.2))
+
+mean_tot_vs_f_v_fmsy_plot
+ggsave(paste0(results_dir, "mean_tot_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 12.5)
+```
+
+#### Bad Subsidies
+
+```{r}
+# Weighted Mean Bad Subs vs Median F/Fmsy [SECOND]
+mean_B_vs_median_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "mean_B_subs_KWh",
+                                       x_name = mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "med_f_v_fmsy",
+                                       y_name = median_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Weighted Mean Bad Subs vs Mean F/Fmsy [LAST]
+mean_B_vs_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "mean_B_subs_KWh",
+                                       x_name = mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "mean_f_v_fmsy",
+                                       y_name = mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Weighted Mean Total Subs vs Weighted Mean F/Fmsy [BEST]
+mean_B_vs_w_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "mean_B_subs_KWh",
+                                       x_name = mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "w_mean_f_v_fmsy",
+                                       y_name = w_mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Combine into three panel
+mean_B_vs_f_v_fmsy_plot <- plot_grid(
+  
+  plot_grid(mean_B_vs_median_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            mean_B_vs_mean_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            mean_B_vs_w_mean_f_v_fmsy_plot + theme(legend.position = "none"),
+            ncol = 1,
+            align = "hv"),
+  corr_legend,
+  ncol = 1,
+  rel_heights = c(3, 0.2))
+
+mean_B_vs_f_v_fmsy_plot
+ggsave(paste0(results_dir, "mean_B_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 12.5)
+```
+
+#### Bad + Ambiguous Subsidies
+
+```{r}
+# Mean Bad + Ambiguous Subs vs Median F/Fmsy [SECOND]
+mean_BC_vs_median_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "mean_BC_subs_KWh",
+                                       x_name = mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "med_f_v_fmsy",
+                                       y_name = median_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Mean Bad + Ambiguous Subs vs Mean F/Fmsy [LAST]
+mean_BC_vs_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "mean_BC_subs_KWh",
+                                       x_name = mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "mean_f_v_fmsy",
+                                       y_name = mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Mean Total Subs vs Weighted Mean F/Fmsy [BEST]
+mean_BC_vs_w_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "mean_BC_subs_KWh",
+                                       x_name = mean_subs_label,
+                                       x_limits = subs_x,
+                                       y = "w_mean_f_v_fmsy",
+                                       y_name = w_mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Combine into three panel
+mean_BC_vs_f_v_fmsy_plot <- plot_grid(
+  
+  plot_grid(mean_BC_vs_median_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            mean_BC_vs_mean_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            mean_BC_vs_w_mean_f_v_fmsy_plot + theme(legend.position = "none"),
+            ncol = 1,
+            align = "hv"),
+  corr_legend,
+  ncol = 1,
+  rel_heights = c(3, 0.2))
+
+mean_BC_vs_f_v_fmsy_plot
+ggsave(paste0(results_dir, "mean_BC_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 12.5)
+
+```
+
+### Use Median Subsidies
+
+#### Total Subsidies
+
+```{r}
+# Median Total Subs vs Median F/Fmsy [BAD]
+median_tot_vs_median_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "med_tot_subs_KWh",
+                                       x_name = median_subs_label,
+                                       x_limits = subs_x,
+                                       y = "med_f_v_fmsy",
+                                       y_name = median_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Median Total Subs vs Mean F/Fmsy [BAD]
+median_tot_vs_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "med_tot_subs_KWh",
+                                       x_name = median_subs_label,
+                                       x_limits = subs_x,
+                                       y = "mean_f_v_fmsy",
+                                       y_name = mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Median Total Subs vs Weighted Mean F/Fmsy [BEST]
+median_tot_vs_w_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "med_tot_subs_KWh",
+                                       x_name = median_subs_label,
+                                       x_limits = subs_x,
+                                       y = "w_mean_f_v_fmsy",
+                                       y_name = w_mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Combine into three panel
+median_tot_vs_f_v_fmsy_plot <- plot_grid(
+  
+  plot_grid(median_tot_vs_median_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            median_tot_vs_mean_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            median_tot_vs_w_mean_f_v_fmsy_plot + theme(legend.position = "none"),
+            ncol = 1,
+            align = "hv"),
+  corr_legend,
+  ncol = 1,
+  rel_heights = c(3, 0.2))
+
+median_tot_vs_f_v_fmsy_plot
+ggsave(paste0(results_dir, "median_tot_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 12.5)
+
+```
+
+#### Bad Subsidies
+
+```{r}
+# Median Bad Subs vs Median F/Fmsy [BAD]
+median_B_vs_median_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "med_B_subs_KWh",
+                                       x_name = median_subs_label,
+                                       x_limits = subs_x,
+                                       y = "med_f_v_fmsy",
+                                       y_name = median_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Median Bad Subs vs Mean F/Fmsy [BAD]
+median_B_vs_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "med_B_subs_KWh",
+                                       x_name = median_subs_label,
+                                       x_limits = subs_x,
+                                       y = "mean_f_v_fmsy",
+                                       y_name = mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Median Total Subs vs Weighted Mean F/Fmsy [MEH]
+median_B_vs_w_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "med_B_subs_KWh",
+                                       x_name = median_subs_label,
+                                       x_limits = subs_x,
+                                       y = "w_mean_f_v_fmsy",
+                                       y_name = w_mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Combine into three panel
+median_B_vs_f_v_fmsy_plot <- plot_grid(
+  
+  plot_grid(median_B_vs_median_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            median_B_vs_mean_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            median_B_vs_w_mean_f_v_fmsy_plot + theme(legend.position = "none"),
+            ncol = 1,
+            align = "hv"),
+  corr_legend,
+  ncol = 1,
+  rel_heights = c(3, 0.2))
+
+median_B_vs_f_v_fmsy_plot
+ggsave(paste0(results_dir, "median_B_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 12.5)
+```
+
+#### Bad + Ambiguous Subsidies
+
+```{r}
+# Median Bad + Ambiguous Subs vs Median F/Fmsy [BAD]
+median_BC_vs_median_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "med_BC_subs_KWh",
+                                       x_name = median_subs_label,
+                                       x_limits = subs_x,
+                                       y = "med_f_v_fmsy",
+                                       y_name = median_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Median Bad + Ambiguous Subs vs Mean F/Fmsy [MEH]
+median_BC_vs_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "med_BC_subs_KWh",
+                                       x_name = median_subs_label,
+                                       x_limits = subs_x,
+                                       y = "mean_f_v_fmsy",
+                                       y_name = mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Median Total Subs vs Weighted Mean F/Fmsy [MEH]
+median_BC_vs_w_mean_f_v_fmsy_plot <- MapMaker(data = subsidy_intensity_upsides_region,
+                                       res = "corr",
+                                       x = "med_BC_subs_KWh",
+                                       x_name = median_subs_label,
+                                       x_limits = subs_x,
+                                       y = "w_mean_f_v_fmsy",
+                                       y_name = w_mean_f_label,
+                                       y_limits = f_y,
+                                       fill = "tot_fishing_KWh",
+                                       fill_name = effort_label,
+                                       fill_limits = effort_fill_lim,
+                                       fill_breaks = effort_fill_breaks,
+                                       fill_labels = effort_fill_labels)
+
+# Combine into three panel
+median_BC_vs_f_v_fmsy_plot <- plot_grid(
+  
+  plot_grid(median_BC_vs_median_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            median_BC_vs_mean_f_v_fmsy_plot + theme(legend.position = "none", axis.title.x = element_blank()),
+            median_BC_vs_w_mean_f_v_fmsy_plot + theme(legend.position = "none"),
+            ncol = 1,
+            align = "hv"),
+  corr_legend,
+  ncol = 1,
+  rel_heights = c(3, 0.2))
+
+median_BC_vs_f_v_fmsy_plot
+ggsave(paste0(results_dir, "median_BC_vs_f_v_fmsy_plot.png"), dpi = 200, width = 7, height = 12.5)
 
 ```
 

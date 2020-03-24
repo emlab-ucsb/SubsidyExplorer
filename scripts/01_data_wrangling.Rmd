@@ -616,3 +616,51 @@ write_csv(cap_tier_dat, paste0(data_dir, "USA_cap_tier_tidy.csv"))
 write_csv(cap_tier_dat, paste0(app_data_dir, "USA_cap_tier_tidy.csv"))
 ```
 
+# Section 5 - Relative Metrics
+
+This second is a bit of a relic from when we were doing "country profiles", but there are a couple of relative metrics we want to calculate from our data sources. This is done here. 
+
+```{r}
+# GDP
+gdp_dat_mry <- wb_dat_edit %>%
+  dplyr::filter(variable == "gdp") %>%
+  group_by(iso3, variable) %>%
+  dplyr::filter(year == max(year[!is.na(value)])) %>%
+  ungroup() %>%
+  dplyr::select(-units) %>%
+  dplyr::select(iso3, gdp_year = year, gdp = value)
+
+# Population
+pop_dat_mry <- wb_dat_edit %>%
+  dplyr::filter(variable == "population") %>%
+  group_by(iso3, variable) %>%
+  dplyr::filter(year == max(year[!is.na(value)])) %>%
+  ungroup() %>%
+  dplyr::select(-units) %>%
+  dplyr::select(iso3, population_year = year, population = value)
+
+# Fishers
+fisher_dat_mry <- fao_fishers_dat_edit %>%
+  group_by(iso3, variable) %>%
+  dplyr::filter(year == max(year[!is.na(value)])) %>%
+  ungroup() %>%
+  dplyr::select(-units) %>%
+  dplyr::select(iso3, fishers_year = year, fishers = value)
+
+# FTE
+fte_dat_mry <- teh_fte_dat_edit %>%
+  dplyr::select(iso3, fte_year = year, fte = value)
+
+# Capture Production
+
+
+# Landed Value
+
+
+# Combine with subsidy data and calculate relative metrics
+relative_dat <- sumaila_2019_dat_edit %>%
+  dplyr::select(-data_type, -units, -source, -variable) %>%
+  rename(subs = value) %>%
+  left_join()
+```
+

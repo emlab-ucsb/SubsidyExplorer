@@ -8,13 +8,17 @@ MapMaker <- function(data,
                      y_limits = NULL,
                      y_name = NULL,
                      fill,
+                     fill_var,
                      fill_name,
                      fill_breaks,
                      fill_limits,
                      fill_labels,
                      land_sf = NULL,
                      region_sf = NULL,
-                     eez_sf = NULL){
+                     eez_sf = NULL,
+                     file_name = "map",
+                     file_dir = here::here("results/"),
+                     plot_labels = NULL){
   
   ### Themes
   dark_theme <- theme(panel.background = element_rect(fill = "black"),
@@ -49,12 +53,12 @@ MapMaker <- function(data,
   
   if(res == "grid"){
     
-    out <- data %>%
+    median <- data %>%
       ggplot()+
-      geom_tile(aes(x = get(x), y = get(y), fill = get(fill))) +
+      geom_tile(aes(x = get(x), y = get(y), fill = get(paste0(fill, "_median")))) +
       land + 
       scale_fill_distiller(type = "seq", palette = "RdYlBu",
-                           name = fill_name,
+                           name = paste0(fill_name),
                            na.value = "#000000", 
                            limits = fill_limits,
                            breaks = fill_breaks,
@@ -73,14 +77,80 @@ MapMaker <- function(data,
         barheight=0.25,
         default.unit="inch"))
     
-    return(out)
+    mean <- data %>%
+      ggplot()+
+      geom_tile(aes(x = get(x), y = get(y), fill = get(paste0(fill, "_mean")))) +
+      land + 
+      scale_fill_distiller(type = "seq", palette = "RdYlBu",
+                           name = paste0(fill_name),
+                           na.value = "#000000", 
+                           limits = fill_limits,
+                           breaks = fill_breaks,
+                           labels = fill_labels,
+                           oob = scales::squish)+
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    w_mean <- data %>%
+      ggplot()+
+      geom_tile(aes(x = get(x), y = get(y), fill = get(paste0(fill, "_w_mean")))) +
+      land + 
+      scale_fill_distiller(type = "seq", palette = "RdYlBu",
+                           name = paste0(fill_name),
+                           na.value = "#000000", 
+                           limits = fill_limits,
+                           breaks = fill_breaks,
+                           labels = fill_labels,
+                           oob = scales::squish)+
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    # Combine into three panel
+    legend <- get_legend(w_mean)
+    
+    all <- plot_grid(median + theme(legend.position = "none"),
+                     mean + theme(legend.position = "none"),
+                     w_mean + theme(legend.position = "none"),
+                     legend,
+                     ncol = 1,
+                     rel_heights = c(1, 1, 1, 0.2),
+                     labels = plot_labels,
+                     label_x = c(-0.04, -0.03, -0.1, 0),
+                     align = "v")
+    
+    ggsave(paste0(file_dir, file_name, ".png"), dpi = 200, width = 7, height = 12.5)
+    
+    return(list(median = median,
+                mean = mean,
+                w_mean = w_mean,
+                all = all))
     
   }else if(res == "region"){
     
-    out <- data %>%
+    median <- data %>%
       right_join(region_sf, by = "fao_region") %>%
       ggplot()+
-      geom_sf(aes(geometry = geometry, fill = get(fill)), color = "#000000") +
+      geom_sf(aes(geometry = geometry, fill = get(paste0(fill, "_median"))), color = "#000000") +
       land + 
       scale_fill_distiller(type = "seq", palette = "RdYlBu",
                            name = fill_name,
@@ -102,33 +172,93 @@ MapMaker <- function(data,
         barheight=0.25,
         default.unit="inch"))
     
-    return(out)
+    mean <- data %>%
+      right_join(region_sf, by = "fao_region") %>%
+      ggplot()+
+      geom_sf(aes(geometry = geometry, fill = get(paste0(fill, "_mean"))), color = "#000000") +
+      land + 
+      scale_fill_distiller(type = "seq", palette = "RdYlBu",
+                           name = fill_name,
+                           na.value = "#000000", 
+                           limits = fill_limits,
+                           breaks = fill_breaks,
+                           labels = fill_labels,
+                           oob = scales::squish)+
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    w_mean <- data %>%
+      right_join(region_sf, by = "fao_region") %>%
+      ggplot()+
+      geom_sf(aes(geometry = geometry, fill = get(paste0(fill, "_w_mean"))), color = "#000000") +
+      land + 
+      scale_fill_distiller(type = "seq", palette = "RdYlBu",
+                           name = fill_name,
+                           na.value = "#000000", 
+                           limits = fill_limits,
+                           breaks = fill_breaks,
+                           labels = fill_labels,
+                           oob = scales::squish)+
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    # Combine into three panel
+    legend <- get_legend(w_mean)
+    
+    all <- plot_grid(median + theme(legend.position = "none"),
+                     mean + theme(legend.position = "none"),
+                     w_mean + theme(legend.position = "none"),
+                     legend,
+                     ncol = 1,
+                     rel_heights = c(1, 1, 1, 0.2),
+                     labels = plot_labels,
+                     label_x = c(-0.04, -0.03, -0.1, 0),
+                     align = "v")
+    
+    ggsave(paste0(file_dir, file_name, ".png"), dpi = 200, width = 7, height = 12.5)
+    
+    return(list(median = median,
+                mean = mean,
+                w_mean = w_mean,
+                all = all))
     
   }else if(res == "corr"){
     
     # This one isn't a map, but putting it here for now
-    out <- data %>%
+    median <- data %>%
       ggplot()+
-      aes(x = get(x), y = get(y))+
+      aes(x = get(x), y = get(paste0(y, "_median")))+
       geom_smooth(method = "lm", na.rm = T, se = F, color = "black")+
       geom_point(aes(size = get(fill)), color = "black")+
       scale_size(name = fill_name,
                  limits = fill_limits,
                  breaks = fill_breaks,
                  labels = fill_labels)+
-      # scale_color_distiller(type = "seq", palette = "RdYlBu",
-      #                      name = fill_name,
-      #                      na.value = "#000000", 
-      #                      limits = fill_limits,
-      #                      breaks = fill_breaks,
-      #                      labels = fill_labels,
-      #                      oob = scales::squish)+
       scale_x_continuous(limits = x_limits)+
       scale_y_continuous(limits = y_limits)+
       xlab(x_name) +
-      ylab(y_name) +
+      ylab(paste0("Median ", y_name)) +
       geom_hline(yintercept = 1, linetype = "dashed")+
-      geom_vline(xintercept = 1, linetype = "dashed")+
       plot_theme+
       guides(size=guide_legend(
         title.position = "left",
@@ -139,7 +269,72 @@ MapMaker <- function(data,
         default.unit="inch"),
         color = "none")
     
-    return(out)
+    mean <- data %>%
+      ggplot()+
+      aes(x = get(x), y = get(paste0(y, "_mean")))+
+      geom_smooth(method = "lm", na.rm = T, se = F, color = "black")+
+      geom_point(aes(size = get(fill)), color = "black")+
+      scale_size(name = fill_name,
+                 limits = fill_limits,
+                 breaks = fill_breaks,
+                 labels = fill_labels)+
+      scale_x_continuous(limits = x_limits)+
+      scale_y_continuous(limits = y_limits)+
+      xlab(x_name) +
+      ylab(paste0("Mean ", y_name)) +
+      geom_hline(yintercept = 1, linetype = "dashed")+
+      plot_theme+
+      guides(size=guide_legend(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"),
+        color = "none")
+    
+    w_mean <- data %>%
+      ggplot()+
+      aes(x = get(x), y = get(paste0(y, "_w_mean")))+
+      geom_smooth(method = "lm", na.rm = T, se = F, color = "black")+
+      geom_point(aes(size = get(fill)), color = "black")+
+      scale_size(name = fill_name,
+                 limits = fill_limits,
+                 breaks = fill_breaks,
+                 labels = fill_labels)+
+      scale_x_continuous(limits = x_limits)+
+      scale_y_continuous(limits = y_limits)+
+      xlab(x_name) +
+      ylab(paste0("Weighted Mean ", y_name)) +
+      geom_hline(yintercept = 1, linetype = "dashed")+
+      plot_theme+
+      guides(size=guide_legend(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"),
+        color = "none")
+    
+    #Combine into three panel
+    all <- plot_grid(
+      
+      plot_grid(median + theme(legend.position = "none", axis.title.x = element_blank()),
+                mean + theme(legend.position = "none", axis.title.x = element_blank()),
+                w_mean + theme(legend.position = "none"),
+                ncol = 1,
+                align = "hv"),
+      get_legend(w_mean),
+      ncol = 1,
+      rel_heights = c(3, 0.2))
+    
+    ggsave(paste0(file_dir, file_name, ".png"), dpi = 200, width = 7, height = 12.5)
+    
+    return(list(median = median,
+           mean = mean,
+           w_mean = w_mean,
+           all = all))
     
   }else{
     

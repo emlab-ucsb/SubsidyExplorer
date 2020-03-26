@@ -10,14 +10,6 @@ bibliography: "../pew-subsidies.bib"
 
 ---
 
-# Introduction 
-
-This script creates the global vessel list used in the SubsidyExplorer toolkit. It requires access to the raw Global Fishing Watch (GFW) data stored on BigQuery (not-publically available), as well as a valid Google Cloud Console billing account. It outputs a single data file to `r here::here("results", "02-vessel-list")`: 
-
-- vessel_list_2018_raw.csv
-
-It also creates a 1x1 degree version for use in making higher resolution figures. This is output to 
-
 ```{r}
 # Load packages
 library(knitr) 
@@ -29,15 +21,15 @@ library(tidyverse)
 # Path to cleaned subsidies data file
 subsidy_dat_sumaila_path <- here::here("data", "edited", "sumaila_et_al_2019_subsidies_tidy.csv")
 
-# Path to cleaned landings data file
-#catch_dat_path <- here::here("data", "edited", "fisheries-area-2000-2017-tidy.csv")
+# Path to cleaned capture production data file
+catch_dat_path <- here::here("data", "edited", "fao_2019_capture_production_tidy.csv")
+
+# Path to cleaned landed value data file
+landed_value_dat_path <- here::here("data", "edited", "estimated_landed_value_isscaap_groups_tidy.csv")
 
 # Bigquery project
 bq_project <-  "emlab-gcp"
 
-```
-
-```{r}
 # Code options
 knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = F)
 
@@ -46,8 +38,13 @@ results_dir <- here::here("results", "02-vessel-list/")
 if (dir.exists(results_dir) == F) {
   dir.create(results_dir, recursive = T)
 }
-
 ```
+
+# Introduction 
+
+This script creates the global vessel list used in the SubsidyExplorer toolkit. It requires access to the raw Global Fishing Watch (GFW) data stored on BigQuery (not-publically available), as well as a valid Google Cloud Console billing account. It creates and outputs the raw 2018 global vessel list (`r paste0(results_dir, "vessel_list_2018_raw.csv")`) with effort by vessel aggregated to the EEZ and/or FAO statistical region.  
+
+It also creates a 1x1 degree version for use in making higher resolution figures (`r paste0(results_dir, "vessel_list_2018_1x1_binned.csv")`)
 
 # Extract good fishing vessels from existing vessel info table
 
@@ -167,7 +164,7 @@ if(bq_table_exists(fv_table)){
 
 ## By 1x1 degree latititude/longitude 
 
-We first extract the number of hours spent fishing by each of our good fishing vessels in each 5x5 degree latitude/longitude bin from the raw fishing effort table (`world-fishing-827.gfw_research.pipe_v20190502_fishing`). 
+We first extract the number of hours spent fishing by each of our good fishing vessels in each 1x1 degree latitude/longitude bin from the raw fishing effort table (`world-fishing-827.gfw_research.pipe_v20190502_fishing`). 
 
 To identify valid fishing effort here, we apply the following filters: 
 - The fishing activity must have occured during a valid segment as identified by GFW.
@@ -179,10 +176,11 @@ We then extract a vessel table with the the following attributes:
 - lat_bin_center (int): 1 degree latitude bin, coordinates refer to the center of the bin
 - lon_bin_center (int): 1 degree longitude bin, coordinates refer to the center of the bin
 - fao_region (int): Major FAO statistical region
-- fishing_hours_lat_lon: Total annual fishing hours in the specified lat/lon bin by a single vessel
 - ssvid (chr): Unique vessel identification number given by GFW (MMSI number for most vessels)
 - flag (chr): Best flag state of the vessel
 - engine_power_kw (int): Best engine power of the vessel
+- fishing_hours_lat_lon: Total annual fishing hours in the specified lat/lon bin by the vessel
+- fishing_KWh_lat_lon: Total annual fishing KWh in the specified lat/lon bin by the vessel 
 
 ```{r}
 sql2 <- '
@@ -272,13 +270,13 @@ USING
 '
 
 binned_effort_table <- bq_table(project = bq_project, 
-                                table = "effort_5deg_good_fishing_vessels_2018_raw",
+                                table = "effort_1x1_good_fishing_vessels_2018_raw",
                                 dataset = "SubsidyExplorer")
 
 if(bq_table_exists(binned_effort_table)){
   
   bq_table_delete(binned_effort_table)
-  effort_binned_good_fishing_vessels_2018 <- 
+  effort_1x1_good_fishing_vessels_2018 <- 
     bq_project_query(bq_project, 
                     sql2, 
                     destination_table = binned_effort_table, 
@@ -288,7 +286,7 @@ if(bq_table_exists(binned_effort_table)){
   
 }else {
   bq_table_create(binned_effort_table)
-  effort_binned_good_fishing_vessels_2018 <- 
+  effort_1x1_good_fishing_vessels_2018 <- 
     bq_project_query(bq_project, 
                    query = sql2, 
                    destination_table = binned_effort_table,
@@ -298,7 +296,7 @@ if(bq_table_exists(binned_effort_table)){
 }
 
 # Save
-write_csv(effort_binned_good_fishing_vessels_2018, paste0(results_dir, "effort_binned_good_fishing_vessels_2018_raw.csv"))
+write_csv(effort_1x1_good_fishing_vessels_2018, paste0(results_dir, "effort_1x1_good_fishing_vessels_2018_raw.csv"))
 ```
 
 ## By EEZ and/or FAO region
@@ -314,7 +312,6 @@ We then extract a vessel table with the the following attributes:
 - year (int): Year. Matches our data year specified above.
 - eez_id (chr): EEZ identifier. 
 - fao_region (int): Major FAO statistical region
-- fishing_hours_eez_fao: Total annual fishing hours in the specified eez and/or fao region by a single vessel
 - ssvid (chr): Unique vessel identification number given by GFW (MMSI number for most vessels)
 - flag (chr): Best flag state of the vessel. 
 - vessel_class (chr): Best vessel type. 
@@ -325,11 +322,13 @@ We then extract a vessel table with the the following attributes:
 - broadcast_callsign (chr): Most common ship callsign broadcast by the vessel.
 - broadcast_imo (chr): Most common imo number broadcast by the vessel.
 - territory1_iso3 (chr) : Three letter code cooresponding to the administering territory of the EEZ
-- territory2_iso3 (chr) : Three letter code cooresponding to the second administering territory of the EEZ (disputed areas only)
-- territory3_iso3 (chr) : Three letter code cooresponding to the third administering territory of the EEZ (disputed areas only)
+- territory2_iso3 (chr) : Three letter code cooresponding to the second administering territory of the EEZ (disputed and/or joint regime areas only)
+- territory3_iso3 (chr) : Three letter code cooresponding to the third administering territory of the EEZ (disputed and/or joint regime areas only)
 - sovereign1_iso3 (chr) : Three letter code cooresponding to the sovereign state of the EEZ
-- sovereign2_iso3 (chr) : Three letter code cooresponding to the second sovereign state of the EEZ (disputed areas only)
-- sovereign3_iso3 (chr) : Three letter code cooresponding to the third sovereign state of the EEZ (disputed areas only)
+- sovereign2_iso3 (chr) : Three letter code cooresponding to the second sovereign state of the EEZ (disputed and/or joint regime areas only)
+- sovereign3_iso3 (chr) : Three letter code cooresponding to the third sovereign state of the EEZ (disputed and/or joint regime areas only)
+- fishing_hours_eez_fao: Total annual fishing hours in the specified eez and/or FAO statistical region by the vessel
+- fishing_KWh_eez_fao: Total annual fishing KWh hours in the specified eez and/or FAO statistical region by the vessel
 
 ```{r}
 sql3 <- '
@@ -350,7 +349,7 @@ WITH
   SELECT
     *
   FROM
-    `ucsb-gfw.SubsidyExplorer.all_good_fishing_vessels`),
+    `emlab-gcp.SubsidyExplorer.all_good_fishing_vessels`),
     
   # This subquery identifies vessel information that we want to keep
   vessel_info AS (
@@ -422,7 +421,10 @@ WITH
         
 SELECT
   *,
-  fishing_hours_eez_fao*engine_power_kw as fishing_KWh_eez_fao
+  CASE
+    WHEN engine_power_kw IS NULL THEN fishing_hours_eez_fao*400
+    ELSE fishing_hours_eez_fao*engine_power_kw
+  END AS fishing_KWh_eez_fao
 FROM
   fishing_by_eez_and_fao
 LEFT JOIN
@@ -437,7 +439,7 @@ USING
 '
 
 effort_table <- bq_table(project = bq_project, 
-                     table = "effort_good_fishing_vessels_2018_raw",
+                     table = "effort_eez_fao_good_fishing_vessels_2018_raw",
                      dataset = "SubsidyExplorer")
 
 if(bq_table_exists(effort_table)){
@@ -445,7 +447,7 @@ if(bq_table_exists(effort_table)){
   bq_table_delete(effort_table)
   effort_good_fishing_vessels_2018 <- 
     bq_project_query(bq_project, 
-                    sql3, 
+                    query = sql3, 
                     destination_table = effort_table, 
                     use_legacy_sql = FALSE, 
                     allowLargeResults = TRUE) %>%
@@ -454,7 +456,7 @@ if(bq_table_exists(effort_table)){
 }else {
   bq_table_create(effort_table)
   effort_good_fishing_vessels_2018 <- 
-    bq_project_query("world-fishing-827", 
+    bq_project_query(bq_project, 
                    query = sql3, 
                    destination_table = effort_table,
                    use_legacy_sql = FALSE, 
@@ -463,7 +465,7 @@ if(bq_table_exists(effort_table)){
 }
 
 # Save
-write_csv(effort_good_fishing_vessels_2018, paste0(results_dir, "effort_good_fishing_vessels_2018_raw.csv"))
+write_csv(effort_good_fishing_vessels_2018, paste0(results_dir, "effort_eez_fao_good_fishing_vessels_2018_raw.csv"))
 ```
 
 # Correct outdated flag codes and Identify EU and USA dependent vessels
@@ -471,31 +473,32 @@ write_csv(effort_good_fishing_vessels_2018, paste0(results_dir, "effort_good_fis
 Before allocating catches and subsidies across vessels, we need to do some manual corrections for incorrect flag codes and we need to identify vessels flagged to states that are overseas dependencies of the EU or USA. We assume that these vessels recieve subsidies from their sovereign states. 
 
 ```{r}
+# Load country dependencies helper file
+country_dependencies <- read_csv(here::here("data", "lookup-tables", "country_dependencies.csv"))
+
 # EU countries
-#Belgium, Bulgaria, Croatia, Cyprus, Denmark, Estonia, Finland, France, Germany, Greece, Ireland, Italy, Latvia, Lithuania, Malta, Netherlands, Poland, Portugal, Romania, Slovenia, Spain, Sweden, United Kingdom
-eu_countries <- c("BEL", "BGR", "HRV", "CYP", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "IRL", "ITA", "LVA", "LTU", "MLT", "NLD", "POL", "PRT", "ROU", "SVN", "ESP", "SWE", "GBR")
+eu_countries <- country_dependencies$iso3[country_dependencies$is_EU]
 
-# EU overseas territories: 
-# Dutch overseas territories: Aruba, Bonaire/St. Eustatius/Saba, Curacao, Sint Maarten
-dutch_territories <- c("ABW", "BES", "CUW", "SXM")
+# Dutch overseas territories 
+dutch_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "NLD"]
 
-# French overseas territories: French Guiana, French Polynesia, French Southern and Antarctic Territories, Guadeloupe, Martinique, Mayotte, New Caledonia, Reunion, Saint Barthelemy, Saint Martin, St. Pierre and Miquelon, Wallis and Futuna Islands
-french_territories <- c("GUF", "PYF", "ATF", "GLP", "MTQ", "MYT", "NCL", "REU", "BLM", "MAF", "SPM", "WLF")
+# French overseas territories 
+french_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "FRA"]
 
-# Danish overseas territories: Faroe Islands, Greenland
-danish_territories <- c("FRO", "GRL")
+# Danish overseas territories
+danish_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "DNK"]
 
-# British overseas territories: Anguilla, Ascension island, Bermuda, Cayman Islands, Falkland Islands, Guernsey, Gibraltar, British Indian Ocean Territories, Jersey, Monserratt, Pitcairn Island, South Georgia and the South Sandwich Islands, Saint Helena/Ascension/Tristan da Cunha, Tristan da Cunha, Turks and Caicos Islands, British Virgin Islands
-uk_territories <- c("AIA","ASC","BMU","CYM","FLK","GGY","GIB","IOT","JEY","MSR","PCN","SGS","SHN","TAA","TCA","VGB")
+# UK overseas territories
+uk_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "GBR"]
 
-# Combine
-eu_territories <- c(dutch_territories, french_territories, danish_territories, uk_territories)
-
-# Norwegian overseas territories: Bouvet Islands, Svalbard and Jan Mayen Islands
-norwegian_territories <- c("BVT", "SJM")
+# EU overseas territories
+eu_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 %in% eu_countries]
 
 # US overseas territories:  American Samoa, Guam, Northern Marianas Islands, Puerto Rico, US Virgin Islands
-us_territories <- c("ASM", "GUM", "MNP", "PRI", "VIR")
+us_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "USA"]
+
+# Norwegian overseas territories: 
+norwegian_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "NOR"]
 ```
 
 ```{r}
@@ -536,15 +539,14 @@ effort_flag <- effort_flag_fao %>%
 We then need to get total catches and revenues per fishing KWh by flag and FAO region, as well as by flag. We first will assign catch rates for FAO region/flag combinations that appear in both the GFW and FAO data. For FAO region/flag combinations that don't appear in the FAO data, we will allocate the remainder?
 
 ```{r}
-# Load catch and revenue data
+# Load catch data
 catch_flag_fao <- read_csv(catch_dat_path) %>%
   dplyr::filter(year == 2017) %>%
   dplyr::filter(!(iso3 %in% c("EU", "USA-T", "UNK"))) %>%
-  group_by(iso3, area, variable) %>%
+  group_by(iso3, fishing_area, variable) %>% 
   summarize(value = sum(value, na.rm = T)) %>%
   ungroup() %>%
-  spread(variable, value) %>%
-  dplyr::filter(landings > 0)
+  spread(variable, value)
 
 catch_flag <- catch_flag_fao %>%
   group_by(iso3) %>%

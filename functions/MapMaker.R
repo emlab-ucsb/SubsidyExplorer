@@ -18,7 +18,12 @@ MapMaker <- function(data,
                      eez_sf = NULL,
                      file_name = "map",
                      file_dir = here::here("results/"),
-                     plot_labels = NULL){
+                     plot_labels = NULL,
+                     fill_palette = "seq",
+                     fill_low = "#FFF5F0",
+                     fill_high = "#CB181D",
+                     fill_mid = NULL,
+                     fill_midpoint = NULL){
   
   ### Themes
   dark_theme <- theme(panel.background = element_rect(fill = "black"),
@@ -51,19 +56,20 @@ MapMaker <- function(data,
   ### Make land layer
   land <- geom_sf(data=land_sf, color = "grey10", fill="grey30", size = 0.25)
   
-  if(res == "grid"){
+  if(res == "grid" & fill_palette == "seq"){
     
     median <- data %>%
       ggplot()+
       geom_tile(aes(x = get(x), y = get(y), fill = get(paste0(fill, "_median")))) +
       land + 
-      scale_fill_distiller(type = "seq", palette = "RdYlBu",
-                           name = paste0(fill_name),
-                           na.value = "#000000", 
-                           limits = fill_limits,
-                           breaks = fill_breaks,
-                           labels = fill_labels,
-                           oob = scales::squish)+
+      scale_fill_gradient(low = fill_low,
+                          high = fill_high,
+                          name = paste0(fill_name),
+                          na.value = "#ffffff",
+                          limits = fill_limits,
+                          breaks = fill_breaks,
+                          labels = fill_labels,
+                          oob = scales::squish) + 
       scale_x_continuous(expand = c(0,0))+
       scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
       xlab("") +
@@ -81,13 +87,14 @@ MapMaker <- function(data,
       ggplot()+
       geom_tile(aes(x = get(x), y = get(y), fill = get(paste0(fill, "_mean")))) +
       land + 
-      scale_fill_distiller(type = "seq", palette = "RdYlBu",
-                           name = paste0(fill_name),
-                           na.value = "#000000", 
-                           limits = fill_limits,
-                           breaks = fill_breaks,
-                           labels = fill_labels,
-                           oob = scales::squish)+
+      scale_fill_gradient(low = "#FFF5F0",
+                          high = "#CB181D",
+                          name = paste0(fill_name),
+                          na.value = "#ffffff",
+                          limits = fill_limits,
+                          breaks = fill_breaks,
+                          labels = fill_labels,
+                          oob = scales::squish) + 
       scale_x_continuous(expand = c(0,0))+
       scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
       xlab("") +
@@ -105,13 +112,14 @@ MapMaker <- function(data,
       ggplot()+
       geom_tile(aes(x = get(x), y = get(y), fill = get(paste0(fill, "_w_mean")))) +
       land + 
-      scale_fill_distiller(type = "seq", palette = "RdYlBu",
-                           name = paste0(fill_name),
-                           na.value = "#000000", 
-                           limits = fill_limits,
-                           breaks = fill_breaks,
-                           labels = fill_labels,
-                           oob = scales::squish)+
+      scale_fill_gradient(low = "#FFF5F0",
+                          high = "#CB181D",
+                          name = paste0(fill_name),
+                          na.value = "#ffffff",
+                          limits = fill_limits,
+                          breaks = fill_breaks,
+                          labels = fill_labels,
+                          oob = scales::squish) + 
       scale_x_continuous(expand = c(0,0))+
       scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
       xlab("") +
@@ -145,20 +153,124 @@ MapMaker <- function(data,
                 w_mean = w_mean,
                 all = all))
     
-  }else if(res == "region"){
+  }else if(res == "grid" & fill_palette == "div"){
+    
+    median <- data %>%
+      ggplot()+
+      geom_tile(aes(x = get(x), y = get(y), fill = get(paste0(fill, "_median")))) +
+      land + 
+      scale_fill_gradient2(low = fill_low,
+                          high = fill_high,
+                          mid = fill_mid,
+                          midpoint = fill_midpoint,
+                          name = paste0(fill_name),
+                          na.value = "#ffffff",
+                          limits = fill_limits,
+                          breaks = fill_breaks,
+                          labels = fill_labels,
+                          oob = scales::squish) + 
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    mean <- data %>%
+      ggplot()+
+      geom_tile(aes(x = get(x), y = get(y), fill = get(paste0(fill, "_mean")))) +
+      land + 
+      scale_fill_gradient2(low = fill_low,
+                           high = fill_high,
+                           mid = fill_mid,
+                           midpoint = fill_midpoint,
+                           name = paste0(fill_name),
+                           na.value = "#ffffff",
+                           limits = fill_limits,
+                           breaks = fill_breaks,
+                           labels = fill_labels,
+                           oob = scales::squish) + 
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    w_mean <- data %>%
+      ggplot()+
+      geom_tile(aes(x = get(x), y = get(y), fill = get(paste0(fill, "_w_mean")))) +
+      land + 
+      scale_fill_gradient2(low = fill_low,
+                           high = fill_high,
+                           mid = fill_mid,
+                           midpoint = fill_midpoint,
+                           name = paste0(fill_name),
+                           na.value = "#ffffff",
+                           limits = fill_limits,
+                           breaks = fill_breaks,
+                           labels = fill_labels,
+                           oob = scales::squish) + 
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    # Combine into three panel
+    legend <- get_legend(w_mean)
+    
+    all <- plot_grid(median + theme(legend.position = "none"),
+                     mean + theme(legend.position = "none"),
+                     w_mean + theme(legend.position = "none"),
+                     legend,
+                     ncol = 1,
+                     rel_heights = c(1, 1, 1, 0.2),
+                     labels = plot_labels,
+                     label_x = c(-0.04, -0.03, -0.1, 0),
+                     align = "v")
+    
+    ggsave(paste0(file_dir, file_name, ".png"), dpi = 200, width = 7, height = 12.5)
+    
+    return(list(median = median,
+                mean = mean,
+                w_mean = w_mean,
+                all = all))
+    
+  }else if(res == "region" & fill_palette == "seq"){
     
     median <- data %>%
       right_join(region_sf, by = "fao_region") %>%
       ggplot()+
       geom_sf(aes(geometry = geometry, fill = get(paste0(fill, "_median"))), color = "#000000") +
       land + 
-      scale_fill_distiller(type = "seq", palette = "RdYlBu",
-                           name = fill_name,
-                           na.value = "#000000", 
-                           limits = fill_limits,
-                           breaks = fill_breaks,
-                           labels = fill_labels,
-                           oob = scales::squish)+
+      scale_fill_gradient(low = fill_low,
+                          high = fill_high,
+                          name = paste0(fill_name),
+                          na.value = "#ffffff",
+                          limits = fill_limits,
+                          breaks = fill_breaks,
+                          labels = fill_labels,
+                          oob = scales::squish) + 
       scale_x_continuous(expand = c(0,0))+
       scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
       xlab("") +
@@ -177,13 +289,14 @@ MapMaker <- function(data,
       ggplot()+
       geom_sf(aes(geometry = geometry, fill = get(paste0(fill, "_mean"))), color = "#000000") +
       land + 
-      scale_fill_distiller(type = "seq", palette = "RdYlBu",
-                           name = fill_name,
-                           na.value = "#000000", 
-                           limits = fill_limits,
-                           breaks = fill_breaks,
-                           labels = fill_labels,
-                           oob = scales::squish)+
+      scale_fill_gradient(low = fill_low,
+                          high = fill_high,
+                          name = paste0(fill_name),
+                          na.value = "#ffffff",
+                          limits = fill_limits,
+                          breaks = fill_breaks,
+                          labels = fill_labels,
+                          oob = scales::squish) + 
       scale_x_continuous(expand = c(0,0))+
       scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
       xlab("") +
@@ -202,13 +315,120 @@ MapMaker <- function(data,
       ggplot()+
       geom_sf(aes(geometry = geometry, fill = get(paste0(fill, "_w_mean"))), color = "#000000") +
       land + 
-      scale_fill_distiller(type = "seq", palette = "RdYlBu",
-                           name = fill_name,
-                           na.value = "#000000", 
+      scale_fill_gradient(low = fill_low,
+                          high = fill_high,
+                          name = paste0(fill_name),
+                          na.value = "#ffffff",
+                          limits = fill_limits,
+                          breaks = fill_breaks,
+                          labels = fill_labels,
+                          oob = scales::squish) + 
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    # Combine into three panel
+    legend <- get_legend(w_mean)
+    
+    all <- plot_grid(median + theme(legend.position = "none"),
+                     mean + theme(legend.position = "none"),
+                     w_mean + theme(legend.position = "none"),
+                     legend,
+                     ncol = 1,
+                     rel_heights = c(1, 1, 1, 0.2),
+                     labels = plot_labels,
+                     label_x = c(-0.04, -0.03, -0.1, 0),
+                     align = "v")
+    
+    ggsave(paste0(file_dir, file_name, ".png"), dpi = 200, width = 7, height = 12.5)
+    
+    return(list(median = median,
+                mean = mean,
+                w_mean = w_mean,
+                all = all))
+    
+  }else if(res == "region" & fill_palette == "div"){
+    
+    median <- data %>%
+      right_join(region_sf, by = "fao_region") %>%
+      ggplot()+
+      geom_sf(aes(geometry = geometry, fill = get(paste0(fill, "_median"))), color = "#000000") +
+      land + 
+      scale_fill_gradient2(low = fill_low,
+                           high = fill_high,
+                           mid = fill_mid,
+                           midpoint = fill_midpoint,
+                           name = paste0(fill_name),
+                           na.value = "#ffffff",
                            limits = fill_limits,
                            breaks = fill_breaks,
                            labels = fill_labels,
-                           oob = scales::squish)+
+                           oob = scales::squish) + 
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    mean <- data %>%
+      right_join(region_sf, by = "fao_region") %>%
+      ggplot()+
+      geom_sf(aes(geometry = geometry, fill = get(paste0(fill, "_mean"))), color = "#000000") +
+      land + 
+      scale_fill_gradient2(low = fill_low,
+                           high = fill_high,
+                           mid = fill_mid,
+                           midpoint = fill_midpoint,
+                           name = paste0(fill_name),
+                           na.value = "#ffffff",
+                           limits = fill_limits,
+                           breaks = fill_breaks,
+                           labels = fill_labels,
+                           oob = scales::squish) + 
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
+      xlab("") +
+      ylab("") +
+      dark_theme + 
+      guides(fill=guide_colorbar(
+        title.position = "left",
+        title.hjust = 0.5,
+        frame.colour = "black",
+        barwidth=4,
+        barheight=0.25,
+        default.unit="inch"))
+    
+    w_mean <- data %>%
+      right_join(region_sf, by = "fao_region") %>%
+      ggplot()+
+      geom_sf(aes(geometry = geometry, fill = get(paste0(fill, "_w_mean"))), color = "#000000") +
+      land + 
+      scale_fill_gradient2(low = fill_low,
+                           high = fill_high,
+                           mid = fill_mid,
+                           midpoint = fill_midpoint,
+                           name = paste0(fill_name),
+                           na.value = "#ffffff",
+                           limits = fill_limits,
+                           breaks = fill_breaks,
+                           labels = fill_labels,
+                           oob = scales::squish) + 
       scale_x_continuous(expand = c(0,0))+
       scale_y_continuous(expand = c(0,0), limits = c(-80,90))+
       xlab("") +
@@ -248,7 +468,7 @@ MapMaker <- function(data,
     median <- data %>%
       ggplot()+
       aes(x = get(x), y = get(paste0(y, "_median")))+
-      geom_smooth(method = "lm", na.rm = T, se = F, color = "black")+
+      geom_smooth(method = "lm", aes(weight = fishing_KWh_lat_lon_sum), na.rm = T, se = F, color = "black")+
       geom_point(aes(size = get(fill)), color = "black")+
       scale_size(name = fill_name,
                  limits = fill_limits,
@@ -272,7 +492,7 @@ MapMaker <- function(data,
     mean <- data %>%
       ggplot()+
       aes(x = get(x), y = get(paste0(y, "_mean")))+
-      geom_smooth(method = "lm", na.rm = T, se = F, color = "black")+
+      geom_smooth(method = "lm", aes(weight = fishing_KWh_lat_lon_sum), na.rm = T, se = F, color = "black")+
       geom_point(aes(size = get(fill)), color = "black")+
       scale_size(name = fill_name,
                  limits = fill_limits,
@@ -296,7 +516,7 @@ MapMaker <- function(data,
     w_mean <- data %>%
       ggplot()+
       aes(x = get(x), y = get(paste0(y, "_w_mean")))+
-      geom_smooth(method = "lm", na.rm = T, se = F, color = "black")+
+      geom_smooth(method = "lm", aes(weight = fishing_KWh_lat_lon_sum), na.rm = T, se = F, color = "black")+
       geom_point(aes(size = get(fill)), color = "black")+
       scale_size(name = fill_name,
                  limits = fill_limits,

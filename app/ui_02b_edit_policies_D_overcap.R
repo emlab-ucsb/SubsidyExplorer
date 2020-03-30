@@ -308,6 +308,8 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                   
                 ), # /fluidRow
                 
+                tags$hr(),
+                
                 ### ----------------
                 ### Cap/Tier section
                 ### ----------------

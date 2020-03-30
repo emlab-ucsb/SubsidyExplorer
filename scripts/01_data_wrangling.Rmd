@@ -451,7 +451,7 @@ write_csv(fao_production_dat_edit, paste0(data_dir, "fao_2019_capture_production
 
 # Aggregate by ISCCAP groups and export for time series plot
 fao_production_dat_edit_groups <- fao_production_dat_edit %>%
-  group_by(iso3, year, fao_region = fishing_area, isscaap_group, variable, units, source) %>%
+  group_by(iso3, year, isscaap_group, variable, units, source) %>%
   summarize(value = sum(value, na.rm = T))
 
 write_csv(fao_production_dat_edit_groups, paste0(data_dir, "fao_2019_capture_production_isscaap_groups_tidy.csv"))
@@ -537,19 +537,26 @@ combine_nas <- combine_catch_price_dat %>%
 # Set price to 0 for those
 combine_catch_price_dat$exvessel_inclusive[is.na(combine_catch_price_dat$exvessel_inclusive)] <- 0
 
-# Calculate revenues and aggregate by ISSCAAP group
+# Calculate revenues and export
 landed_value_dat <- combine_catch_price_dat %>%
   dplyr::select(-exvessel, -exvessel_group_avg, -exvessel_group_avg_allyears) %>%
   rename(exvessel = exvessel_inclusive) %>%
   mutate(landed_value = value*exvessel) %>%
-  group_by(iso3, year, isscaap_group) %>%
+  group_by(iso3, year, fishing_area, species, asfis_species, scientific_name, yearbook_group, isscaap_group) %>%
   summarize(value = sum(landed_value, na.rm = T)) %>%
   mutate(variable = "landed_value",
          units = paste(year, "US$"),
          source = "FAO (2019); Melnychuk et al. (2017)")
 
-write_csv(landed_value_dat, paste0(data_dir, "estimated_landed_value_isscaap_groups_tidy.csv"))
-write_csv(landed_value_dat, paste0(app_data_dir, "estimated_landed_value_isscaap_groups_tidy.csv"))
+write_csv(landed_value_dat, paste0(data_dir, "estimated_landed_value_tidy.csv"))
+
+# Calculate revenues and aggregate by ISSCAAP group
+landed_value_dat_groups <- landed_value_dat %>%
+  group_by(iso3, year, isscaap_group, variable, units, source) %>%
+  summarize(value = sum(value, na.rm = T))
+
+write_csv(landed_value_dat_groups, paste0(data_dir, "estimated_landed_value_isscaap_groups_tidy.csv"))
+write_csv(landed_value_dat_groups, paste0(app_data_dir, "estimated_landed_value_isscaap_groups_tidy.csv"))
 ```
 
 ## Stock status database

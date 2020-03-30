@@ -301,6 +301,10 @@ header.main-header {
   color: white;
 }
 
+.landing-wrapper .picture-overlay-black .picture-overlay-footer-row .picture-overlay-footer-wrapper a:hover{
+  color: #3c8dbc;
+}
+
 
 
 .overlay-text-center h1{

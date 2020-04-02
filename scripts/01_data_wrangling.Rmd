@@ -125,7 +125,7 @@ country_dependencies <- read_csv(here::here("data", "lookup-tables", "country_de
 
 # EU countries
 eu_countries <- country_dependencies$iso3[country_dependencies$is_EU]
-eu_country_names <- sort(countrycode(eu_countries, "iso3c", "country.name"))
+eu_country_names <- country_dependencies$WTO_name[country_dependencies$iso3 %in% eu_countries]
 
 # EU overseas territories
 eu_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 %in% eu_countries]

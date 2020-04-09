@@ -12,15 +12,13 @@ bibliography: "../pew-subsidies.bib"
 
 # Introduction
 
-The purpose of this script is to classify all of our vessels into three different management regimes: 
+The purpose of this script is to assign management scores to all of our vessels, such that they can later be classified into three different management regimes: 
+- Well-managed
 - Managed
-- Intermediate
 - Open access
 
 This script outputs a single data file to `r here::here("results", "03-management")`: 
 - vessel-list-2018-management.csv
-
-In addition to the vessel list created in the previous script, the following data sources are used to classify management regimes: 
 
 ```{r}
 # General
@@ -30,7 +28,7 @@ library(janitor)
 library(tidyverse)
 
 # Path to vessel list
-vessel_list_path <- here::here("results", "1-vessel-list", "vessel-list-2018-raw.csv")
+vessel_list_path <- here::here("results", "02-vessel-list", "vessel-list-2018-raw.csv")
 
 # Path to Management data
 melnychuk_2017_mgmt_dat_path <- here::here("data", "raw", "management", "Melnychuk_2017", "fmi_values_country.csv" )

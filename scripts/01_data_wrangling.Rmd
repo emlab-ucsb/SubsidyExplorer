@@ -2,7 +2,7 @@
 output:
   html_document: default
 
-title: "SubsidyExplorer - Step 0: Data Wrangling"
+title: "SubsidyExplorer - Step 1: Data Wrangling"
 author: "Kat Millage, Vienna Saccomanno, Laura Lea Rubino, Christopher Costello"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 fontsize: 11pt
@@ -72,16 +72,16 @@ cap_tier_path <- here::here("data", "raw", "USA-Cap-Tier-Proposal", "US_cap_tier
 
 The following data sources are included in this analysis: 
 
-**Subsidy Data**
+**Fisheries (Subsidy) Data**
 Estimates of annual fisheries subsidies provision by state from Sumaila et al. (2019) in 2018 US\$. These data were provided to us directly by the authors as a .xlsx file and are stored at `r sumaila_subsidies_path`.
 > Sumaila, U. R., Ebrahim, N., Schuhbauer, A., Skerritt, D., Li, Y., Kim, H. S., … Pauly, D. (2019). Updated estimates and analysis of global fisheries subsidies. Marine Policy, 109, 103695. https://doi.org/10.1016/j.marpol.2019.103695
 
 Estimates of fisheries support provision by state from the OECD (2008 - 2018). These data were last downloaded from the OECD iLibrary portal as a CSV file on March 10, 2019 and are stored as `r oecd_fse_path`.
-> OECD (2019), "Fisheries: Fisheries support estimates", OECD Agriculture Statistics (database), https://doi.org/10.1787/ade64fdc-en (accessed on 10 March 2019).
+> OECD. (2019). Fisheries: Fisheries support estimates. Fisheries and Aquaculture Statistics, OECD Agriculture Statistics (Database). https://doi.org/10.1787/ade64fdc-en
 
 **Demographic Data**
 Total GDP, GDP from fisheries, forestry, and agriculture, and population by state from the World Bank's World Development Indicators Database (2000 - 2018). These data were accessed through the `WDI` package. The code used to pull the data is below. 
-> The World Bank (2019). "World Development Indicators", https://datacatalog.worldbank.org/dataset/world-development-indicators (accessed on 24 October 2019). 
+> World Bank. (2020). World Development Indicators. https://data.worldbank.org/
 
 Total number of fishers by state from the FAO Yearbook of Fishery and Aquaculture Statistics (misc. years between 1995 and 2017). These data were manually transcribed from PDF (`./data/raw/fleet_&_employment.pdf`) to CSV format on July 6, 2019 and are stored as `r fao_fishers_path`. 
 > FAO (2019). FAO yearbook. Fishery and Aquaculture Statistics 2017, http://www.fao.org/fishery/statistics/global-fishers/en (accessed on 24 October 2019). 
@@ -89,12 +89,15 @@ Total number of fishers by state from the FAO Yearbook of Fishery and Aquacultur
 Estimated number of full-time jobs in fisheries from Teh and Sumaila (2013) in 2003. These data were provided to us directly by the authors as a .xlsx file and are stored as `r teh_fte_path`. 
 > Teh, L. C. L., & Sumaila, U. R. (2011). Contribution of marine fisheries to worldwide employment. Fish and Fisheries, 14(1), 77–88. https://doi.org/10.1111/j.1467-2979.2011.00450.x
 
-**Fisheries Data**
+**Other Fisheries Data**
 Fisheries landings in 2017 from the FAO Global Capture Production database (2019) and estimates of landed value generated using the ex-vessel price database created by Melnychuk et al. (2017). These data were were wrangled in the previous script, and the edited data are stored as `r catch_dat_path`. 
 > FAO (2019). FAO yearbook. Fishery and Aquaculture Statistics 2017, http://www.fao.org/fishery/statistics/global-capture-production/en (accessed on 24 October 2019). 
 
 Estimated landed price 
 > Melnychuk, M. C., Clavelle, T., Owashi, B., & Strauss, K. (2017). Reconstruction of global ex-vessel prices of fished species. ICES Journal of Marine Science, 74(1), 121–133. https://doi.org/10.1093/icesjms/fsw169
+
+RAM Stock assessment database
+> RAM Legacy Stock Assessment Database. (2018). Version 4.44-assessment-only. Released 2018-12-22. DOI:10.5281/zenodo.2542919
 
 Stock status database
 > Costello, C., Ovando, D., Clavelle, T., Strauss, C. K., Hilborn, R., Melnychuk, M. C., Branch, T. A., Gaines, S. D., Szuwalski, C. S., Cabral, R. B., Rader, D. N., & Leland, A. (2016). Global fishery prospects under contrasting management regimes. Proceedings of the National Academy of Sciences, 113(18), 5125–5129. https://doi.org/10.1073/pnas.1520420113
@@ -102,20 +105,13 @@ Stock status database
 Fisheries management indicators
 > Melnychuk, M. C., Peterson, E., Elliott, M., & Hilborn, R. (2017). Fisheries management impacts on target species status. Proceedings of the National Academy of Sciences, 114(1), 178–183. https://doi.org/10.1073/pnas.1609915114
 
-RAM Stock assessment database
-> RAM Legacy Stock Assessment Database. (2018). Version 4.44-assessment-only. Released 2018-12-22. DOI:10.5281/zenodo.2542919
-
-Fisheries performance indicators
-> Anderson, J. L., Anderson, C. M., Chu, J., Meredith, J., Asche, F., Sylvia, G., Smith, M. D., Anggraeni, D., Arthur, R., Guttormsen, A., McCluney, J. K., Ward, T., Akpalu, W., Eggert, H., Flores, J., Freeman, M. A., Holland, D. S., Knapp, G., Kobayashi, M., … Valderrama, D. (2015). The Fishery Performance Indicators: A Management Tool for Triple Bottom Line Outcomes. PLOS ONE, 10(5), e0122809. https://doi.org/10.1371/journal.pone.0122809
-
-**Other**
 IUU Consolidated vessel list
 > NEED
 
 Cap and Tier Data from the US Proposal
 > Citation for this?
 
-# Note: Political entities, dependencies, and naming
+# Note: Country naming, political entities, and dependencies
 
 The naming of flag and coastal states varies widely across our data sources and we recognize that this can be a politially sensitive matter. For the purposes of merging multiple data sources, we therefore translate all state names from the raw data sources to ISO-3 character codes. Country names are only used for display purposes, and the use of any particular name is not meant to convey any options regarding sovereignty on behalf of the authors. 
 
@@ -404,8 +400,6 @@ fao_symbol_lookup <- read_csv(paste0(fao_production_path, "CL_FI_SYMBOL.csv"))
 # FAO Area lookup
 fao_area_lookup <- read_csv(paste0(fao_production_path, "CL_FI_WATERAREA_GROUPS.csv")) %>%
   clean_names(case = "snake") %>%
-  mutate(keep = ifelse(is.na(fa_region_group), F, T)) %>%
-  dplyr::filter(keep) %>%
   dplyr::select(area = code) %>%
   mutate(area = as.integer(area))
   
@@ -530,7 +524,7 @@ combine_catch_price_dat <- fao_production_dat_edit %>%
                                         !is.na(exvessel_group_avg) ~ exvessel_group_avg,
                                         !is.na(exvessel_group_avg_allyears) ~ exvessel_group_avg_allyears))
 
-# Look at NAs - 8498 entries
+# Look at NAs - 9398 entries
 combine_nas <- combine_catch_price_dat %>%
   dplyr::filter(is.na(exvessel_inclusive))
 
@@ -625,7 +619,7 @@ write_csv(cap_tier_dat, paste0(app_data_dir, "USA_cap_tier_tidy.csv"))
 
 # Section 5 - Relative Metrics
 
-This second is a bit of a relic from when we were doing "country profiles", but there are a couple of relative metrics we want to calculate from our data sources. This is done here. 
+This section is a bit of a relic from when we were doing "country profiles", but there are a couple of relative metrics we want to calculate from our data sources. This is done here. 
 
 ```{r}
 # Sumaila dat for matching

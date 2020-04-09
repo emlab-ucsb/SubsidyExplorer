@@ -20,6 +20,7 @@ library(tidyverse)
 
 # Path to cleaned subsidies data file (2018)
 subsidy_dat_sumaila_path <- here::here("data", "edited", "sumaila_et_al_2019_subsidies_tidy.csv")
+subsidy_year <- 2018
 
 # Path to cleaned capture production data file
 catch_dat_path <- here::here("data", "edited", "fao_2019_capture_production_tidy.csv")
@@ -41,6 +42,9 @@ results_dir <- here::here("results", "02-vessel-list/")
 if (dir.exists(results_dir) == F) {
   dir.create(results_dir, recursive = T)
 }
+
+# Do you wnat to make figures? 
+make_figures <- FALSE
 ```
 
 # Introduction 
@@ -495,33 +499,8 @@ Before allocating catches and subsidies across vessels, we need to do some manua
 ```{r}
 # Load country dependencies helper file
 country_dependencies <- read_csv(here::here("data", "lookup-tables", "country_dependencies.csv")) %>%
-  dplyr::select(flag_iso3 = iso3, flag_sovereign_iso3 = sovereign_iso3, is_EU)
+  dplyr::select(flag_iso3 = iso3, flag_sovereign_iso3 = sovereign_iso3, is_EU, is_dependency = is_overseas_territory)
 
-# EU countries
-# eu_countries <- country_dependencies$iso3[country_dependencies$is_EU]
-# 
-# # Dutch overseas territories 
-# dutch_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "NLD"]
-# 
-# # French overseas territories 
-# french_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "FRA"]
-# 
-# # Danish overseas territories
-# danish_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "DNK"]
-# 
-# # UK overseas territories
-# uk_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "GBR"]
-# 
-# # EU overseas territories
-# eu_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 %in% eu_countries]
-# 
-# # US overseas territories:  American Samoa, Guam, Northern Marianas Islands, Puerto Rico, US Virgin Islands
-# us_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "USA"]
-# 
-# # Norwegian overseas territories: 
-# norwegian_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "NOR"]
-
-# 
 ```
 
 ```{r}
@@ -537,17 +516,9 @@ vessel_list$flag_iso3[vessel_list$flag_iso3 == "ROM"] <- "ROU"
 vessel_list$flag_iso3[vessel_list$flag_iso3 == "UNK"] <- NA
 ```
 
-
-```{r}
-# Now lets add sovereign flags
-vessel_list <- vessel_list %>%
-  left_join(country_dependencies, by = c("flag_iso3" = "flag_iso3"))
-```
-
 # Allocating Catches and Subsidies
 
 Before we allocate catches and subsidies, we need to get total fishing kWh by flag and FAO region, as well as by flag. 
-
 ```{r}
 # Effort by flag and fao
 effort_flag_fao <- vessel_list %>%
@@ -575,11 +546,6 @@ catch_flag_fao <- read_csv(catch_dat_path) %>%
   spread(variable, value) %>%
   rename(fao_region = fishing_area)
 
-catch_flag <- catch_flag_fao %>%
-  group_by(iso3) %>%
-  summarize(capture_production = sum(capture_production, na.rm = T)) %>%
-  ungroup()
-
 # Load landed value estimates
 revenue_flag_fao <- read_csv(landed_value_dat_path) %>%
   dplyr::filter(year == catch_year) %>%
@@ -590,132 +556,148 @@ revenue_flag_fao <- read_csv(landed_value_dat_path) %>%
   spread(variable, value) %>%
   rename(fao_region = fishing_area)
 
-revenue_flag <- revenue_flag_fao %>%
+# Combine catches and revenues
+catch_revenue_flag_fao <- catch_flag_fao %>%
+  left_join(revenue_flag_fao, by = c("iso3", "fao_region")) %>%
+  mutate(fao_region = as.character(fao_region))
+
+catch_revenue_flag <- catch_revenue_flag_fao %>%
   group_by(iso3) %>%
-  summarize(landed_value = sum(capture_production, na.rm = T)) %>%
-  ungroup()
+  summarize(capture_production = sum(capture_production, na.rm = T),
+            landed_value = sum(landed_value, na.rm = T))
 
 ```
 
 First, we identify flag states in the GFW data that do not have reported catches. 
 
 ```{r}
-# effort_flag
+# Fishing effort (flag) for which we don't have matching catch data - 2 states (Christmas Island and NA)
 effort_no_matching_catches <- effort_flag %>%
-  dplyr::filter(!(flag %in% catch_flag$iso3))
+  anti_join(catch_revenue_flag, by = c("flag_iso3" = "iso3"))
 
-# There are 3 flag states for which we don't have reported catch data at all: CXR (Christmas Island), LIE (Liechtenstein) and NA (no flag). We're going to try assigning them based on the EEZ in which they spend the most time fishing instead. 
-vessels_new_flag <- vessel_list %>%
-  dplyr::filter(flag %in% effort_no_matching_catches$flag) %>% # 773 entries 
-  dplyr::filter(eez_id != 0) %>% # remove high seas entries
+catch_no_matching_effort <- catch_revenue_flag %>%
+  anti_join(effort_flag, by = c("iso3" = "flag_iso3"))
+
+# There are 2 flag states for which we don't have reported catch data at all: CXR (Christmas Island), LIE (Liechtenstein) and NA (no flag). We're going to try assigning them based on the EEZ in which they spend the most time fishing instead. 
+vessels_no_catches <- vessel_list %>%
+  dplyr::filter(flag_iso3 %in% effort_no_matching_catches$flag_iso3) %>% # 1094 entries 
+  group_by(ssvid, eez_id, eez_territory1_iso3, eez_territory2_iso3, eez_territory3_iso3) %>%
+  summarize(fishing_KWh_eez_fao_ter = sum(fishing_KWh_eez_fao_ter, na.rm = T)) %>%
   group_by(ssvid) %>%
-  top_n(1, fishing_KWh_eez_fao) %>%
-  summarize(new_flag = unique(territory1_iso3))  #486 vessels
+  mutate(rank = dense_rank(desc(fishing_KWh_eez_fao_ter)),
+         max_rank_no_hs = min(rank[!is.na(eez_territory1_iso3)])) %>%
+  ungroup()
 
-# So  there are 75 vessels that have no flag and that only fish on the high seas... We'll be excluding those vessels
-vessel_info_new_flag <- vessel_list %>%
-  dplyr::filter(ssvid %in% vessels_new_flag$ssvid) %>%
-  left_join(vessels_new_flag, by = "ssvid") %>%
-  mutate(flag = new_flag) %>%
-  dplyr::select(-new_flag) # 688 entries
+# Isolate vessels for which we can assign a new flag this way: 474 vessels. 
+vessels_new_flag <- vessels_no_catches %>%
+  dplyr::filter(max_rank_no_hs != Inf) %>%
+  group_by(ssvid) %>%
+  summarize(new_flag = eez_territory1_iso3[rank == max_rank_no_hs])
 
-# Fix vessel list 
+# Vessels still missing flag: So there are 75 vessels that have no flag and that only fish on the high seas... We'll be excluding those vessels. 
+vessels_missing_flag <- vessels_no_catches %>%
+  dplyr::filter(max_rank_no_hs == Inf)
+
+# Assign new flags to those vessels and remove those missing a flag state.  
 vessel_list <- vessel_list %>%
-  dplyr::filter(!(flag %in% effort_no_matching_catches$flag)) %>%
-  bind_rows(vessel_info_new_flag) %>%
-  dplyr::filter(!is.na(flag))
-vessel_list$flag[vessel_list$flag == "ESH"] <- "MAR"
-vessel_list$flag[vessel_list$flag == "CPT"] <- "FRA"
+  dplyr::filter(!(ssvid %in% vessels_missing_flag$ssvid)) %>%
+  left_join(vessels_new_flag, by = "ssvid") %>%
+  mutate(flag_iso3 = case_when(!is.na(new_flag) ~ new_flag,
+                          TRUE ~ flag_iso3)) %>%
+  dplyr::select(-new_flag)
+
 ```
 
-Turns out they all do! 
+```{r}
+# Now lets add sovereign flags
+vessel_list <- vessel_list %>%
+  left_join(country_dependencies, by = c("flag_iso3" = "flag_iso3"))
+
+# And manually correct two - Clipperton Atoll and Western Sahara
+vessel_list$flag_iso3[vessel_list$flag_iso3 == "CPT"] <- "FRA"
+vessel_list$flag_iso3[vessel_list$flag_iso3 == "ESH"] <- "MAR"
+```
+
+Now they all do and we can assign catches. 
 
 ```{r}
 # And we redo one last time
 effort_flag_fao <- vessel_list %>%
-  group_by(flag, fao_region) %>%
-  summarize(fishing_KWh = sum(fishing_KWh_eez_fao, na.rm = T)) %>%
+  group_by(flag_iso3, fao_region) %>%
+  summarize(fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T)) %>%
   ungroup()
 
 # Effort by flag
 effort_flag <- effort_flag_fao %>%
-  group_by(flag) %>%
+  group_by(flag_iso3) %>%
   summarize(fishing_KWh = sum(fishing_KWh, na.rm = T)) %>%
   ungroup()
 
 # effort_flag
 effort_no_matching_catches <- effort_flag %>%
-  dplyr::filter(!(flag %in% catch_flag$iso3))
+  anti_join(catch_revenue_flag, by = c("flag_iso3" = "iso3"))
 ```
 
 Now that we don't have any flags with no associated catch, we can start calculating catch rates by flag and FAO statistical area.  
 
 ```{r}
-# Let's get region specific catch rates we can use for when we don't have matching flag/fao pairs
-catch_region_no_match <- catch_flag_fao %>%
-  anti_join(effort_flag_fao, by = c("iso3" = "flag", "area" = "fao_region")) %>%
-  mutate(join_region = case_when(area == 88 ~ 58,
-                                      TRUE ~ area)) %>%
-  group_by(join_region) %>%
-  summarize(tot_landings = sum(landings, na.rm = T),
-            tot_revenue = sum(revenue, na.rm = T))
-
 # Get matching catch/effort flag and fao region pairings
-match_effort_catch <- effort_flag_fao %>%
-  left_join(catch_flag_fao, by = c("flag" = "iso3", "fao_region" = "area")) %>%
-  arrange(flag, fao_region) %>%
-  mutate(is_match = ifelse(!is.na(fishing_KWh) & !is.na(landings), T, F))
-
-# # Extract those flag/fao pairings for which we have matching entries to calculate catch rates
-match <- match_effort_catch %>%
-  dplyr::filter(is_match) %>%
-  mutate(catch_per_fishing_KWh = landings/fishing_KWh,
-         revenue_per_fishing_KWh = revenue/fishing_KWh) %>%
-  dplyr::select(flag, fao_region, catch_per_fishing_KWh, revenue_per_fishing_KWh)
-
-# # Extract those flag/fao pairings for which we have matching entries to calculate catch rates
-no_match <- match_effort_catch %>%
-  dplyr::filter(is_match == F)
-
-# Get leftover rates
-rates_no_match <- no_match %>%
-  mutate(join_region = case_when(fao_region == 18 ~ 21,
-                                 fao_region == 67 ~ 77,
-                                 fao_region == 47 ~ 41,
-                                 TRUE ~ fao_region)) %>%
-  full_join(catch_region_no_match, by = c("join_region")) %>%
-  group_by(join_region) %>%
-  mutate(tot_fishing_KWh = sum(fishing_KWh, na.rm = T),
-         catch_per_fishing_KWh = tot_landings/tot_fishing_KWh,
-         revenue_per_fishing_KWh = tot_revenue/tot_fishing_KWh) %>%
-  ungroup() %>%
-  group_by(fao_region) %>%
-  summarize(catch_per_fishing_KWh = unique(catch_per_fishing_KWh),
-            revenue_per_fishing_KWh = unique(revenue_per_fishing_KWh))
+effort_catch_flag_region_matching <- effort_flag_fao %>%
+  left_join(catch_revenue_flag_fao, by = c("flag_iso3" = "iso3", "fao_region")) %>%
+  arrange(flag_iso3, fao_region) %>%
+  mutate(is_flag_region_match = ifelse(!is.na(fishing_KWh) & !is.na(capture_production), T, F))
   
-# Add back in to our flag/fao pairings
-no_match <- no_match %>%
-  left_join(rates_no_match, by = c("fao_region")) %>%
-  dplyr::select(flag, fao_region, catch_per_fishing_KWh, revenue_per_fishing_KWh)
+# Matches
+flag_region_matches <- effort_catch_region_matching %>%
+  dplyr::filter(is_flag_region_match)
 
-# Combine
-catch_rates_flag_fao_all <- match %>%
-  bind_rows(no_match)
+# Calculate catch rates for those entries with matching catches and efforts by flag/fao region pairing
+rates_flag_region_matches <- flag_region_matches %>%
+  mutate(flag_region_catch_per_fishing_KWh = capture_production/fishing_KWh,
+         flag_region_revenue_per_fishing_KWh = landed_value/fishing_KWh) %>%
+  dplyr::select(flag_iso3, fao_region, flag_region_catch_per_fishing_KWh, flag_region_revenue_per_fishing_KWh)
+
+### -----------------------------------------------------------------
+# Get matching catch/effort flag pairings
+effort_catch_flag_matching <- effort_flag %>%
+  left_join(catch_revenue_flag, by = c("flag_iso3" = "iso3")) %>%
+  arrange(flag_iso3) %>%
+  mutate(is_flag_match = ifelse(!is.na(fishing_KWh) & !is.na(capture_production), T, F))
+
+### Matches 
+flag_matches <- effort_catch_flag_matching %>%
+  dplyr::filter(is_flag_match)
+
+# Calculate catch rates for those entries with matching catches and efforts by flag/fao region pairing
+rates_flag_matches <- flag_matches %>%
+  mutate(flag_catch_per_fishing_KWh = capture_production/fishing_KWh,
+         flag_revenue_per_fishing_KWh = landed_value/fishing_KWh) %>%
+  dplyr::select(flag_iso3, flag_catch_per_fishing_KWh, flag_revenue_per_fishing_KWh)
+
+### -------------------
+comprehensive_catch_rates <- effort_catch_flag_region_matching %>%
+  left_join(rates_flag_region_matches, by = c("flag_iso3", "fao_region")) %>%
+  left_join(rates_flag_matches, by = c("flag_iso3")) %>%
+  mutate(catch_per_fishing_KWh = case_when(!is.na(flag_region_catch_per_fishing_KWh) ~ flag_region_catch_per_fishing_KWh,
+                                           TRUE ~ flag_catch_per_fishing_KWh),
+         revenue_per_fishing_KWh = case_when(!is.na(flag_region_revenue_per_fishing_KWh) ~ flag_region_revenue_per_fishing_KWh,
+                                           TRUE ~ flag_revenue_per_fishing_KWh)) %>%
+  dplyr::select(flag_iso3, fao_region, catch_per_fishing_KWh, revenue_per_fishing_KWh)
 ```
 
 And now we can apply those catch rates to our vessel list. 
 
 ```{r}
 vessel_list <- vessel_list %>%
-  left_join(catch_rates_flag_fao_all, by = c("flag", "fao_region"))
+  left_join(comprehensive_catch_rates, by = c("flag_iso3", "fao_region"))
 ```
 
 The process for allocating subsidies is slightly more straightforard as we only have data by flag
 
 ```{r}
 # Load subsidy data
-subsidies_dat <- read_csv(subsidy_dat_path) %>%
-  dplyr::filter(year == 2018)
+subsidies_dat <- read_csv(subsidy_dat_sumaila_path) %>%
+  dplyr::filter(year == subsidy_year)
 
 # Summarize total subsidies by type and flag
 subsidies_flag <- subsidies_dat %>%
@@ -729,27 +711,21 @@ ugly_subsidy_types <- c("C1", "C2", "C3")
 bad_subsidy_types <- c("B1", "B2", "B3", "B4", "B5", "B6", "B7")
 
 # Resummarize effort including overseas territories with their sovereign
-effort_flag_revised <- effort_flag %>%
-  mutate(flag_for_matching = case_when(flag %in% c("USA", us_territories) ~ "USA",
-                              flag %in% c("FRA", french_territories) ~ "FRA",
-                              flag %in% c("GBR", uk_territories) ~ "GBR",
-                              flag %in% c("NOR", norwegian_territories) ~ "NOR",
-                              flag %in% c("DNK", danish_territories) ~ "DNK",
-                              flag %in% c("NLD", dutch_territories) ~ "NLD",
-                              TRUE ~ flag)) %>%
-  group_by(flag_for_matching) %>%
-  mutate(tot_fishing_KWh = sum(fishing_KWh, na.rm = T))
+effort_sovereign_flag <- vessel_list %>%
+  group_by(flag_sovereign_iso3) %>%
+  summarize(fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T)) %>%
+  ungroup()
                           
 # Calculate subsidy rates by flag
-subsidy_rates_flag <- effort_flag_revised %>%
-  left_join(subsidies_flag, by = c("flag_for_matching" = "iso3")) %>%
-  group_by(flag) %>%
-  summarize_at(subsidy_types, list(per_fishing_KWh = ~./tot_fishing_KWh))
+subsidy_rates_flag <- effort_sovereign_flag %>%
+  inner_join(subsidies_flag, by = c("flag_sovereign_iso3" = "iso3")) %>%
+  group_by(flag_sovereign_iso3) %>%
+  summarize_at(subsidy_types, list(per_fishing_KWh = ~./fishing_KWh))
 subsidy_rates_flag[is.na(subsidy_rates_flag)] <- 0
 
 # Join back to vessel_list
 vessel_list <- vessel_list %>%
-  left_join(subsidy_rates_flag, by = c("flag"))
+  left_join(subsidy_rates_flag, by = c("flag_sovereign_iso3"))
 
 ```
 
@@ -761,16 +737,16 @@ rename_me <- function(x){
 }
 
 vessel_list <- vessel_list %>%
-  mutate(catch = fishing_KWh_eez_fao*catch_per_fishing_KWh,
-         revenue = fishing_KWh_eez_fao*revenue_per_fishing_KWh) %>%
-  mutate_at(paste0(subsidy_types, "_per_fishing_KWh"), list(subs = ~.*fishing_KWh_eez_fao)) %>%
+  mutate(catch = fishing_KWh_eez_fao_ter*catch_per_fishing_KWh,
+         revenue = fishing_KWh_eez_fao_ter*revenue_per_fishing_KWh) %>%
+  mutate_at(paste0(subsidy_types, "_per_fishing_KWh"), list(subs = ~.*fishing_KWh_eez_fao_ter)) %>%
   rename_at(paste0(subsidy_types, "_per_fishing_KWh_subs"), rename_me) %>%
   dplyr::select_at(vars(-contains("_per_fishing_KWh"))) %>%
   mutate(good_subs = rowSums(select(., one_of(paste0(good_subsidy_types, "_subs")))),
          bad_subs = rowSums(select(., one_of(paste0(bad_subsidy_types, "_subs")))),
          ugly_subs = rowSums(select(., one_of(paste0(ugly_subsidy_types, "_subs")))))
 
-write_csv(vessel_list, paste0(results_dir, "vessel-list-2018-raw.csv"))
+write_csv(vessel_list, paste0(results_dir, "vessel_list_2018_raw.csv"))
 ```
 
 # Vessel list summary figures

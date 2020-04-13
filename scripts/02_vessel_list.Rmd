@@ -533,7 +533,7 @@ effort_flag <- effort_flag_fao %>%
   ungroup()
 ```
 
-We then need to get total catches and revenues per fishing KWh by flag and FAO region, as well as by flag. We first will assign catch rates for FAO region/flag combinations that appear in both the GFW and FAO data. For FAO region/flag combinations that don't appear in the FAO data, we will allocate the remainder?
+We then need to get total catches and revenues per fishing kWh by flag and FAO region, as well as by flag. We first will assign catch rates for FAO region/flag combinations that appear in both the GFW and FAO data. For FAO region/flag combinations that don't appear in the FAO data, we will assign the overall rate by flag state. 
 
 ```{r}
 # Load catch data

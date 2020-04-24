@@ -531,7 +531,7 @@ flag <- out %>%
   arrange(year, flag_iso3)
 
 # save
-write_csv(flag_state, paste0(results_dir, "gfw_for_pew_totals_by_year_flag.csv"))
+write_csv(flag, paste0(results_dir, "gfw_for_pew_totals_by_year_flag.csv"))
 ```
 
 ## Aggregate by EEZ and flag state
@@ -650,6 +650,6 @@ terr <- out %>%
   arrange(year, loc_name, is_territorial, flag_iso3)
 
 # save
-write_csv(area, paste0(results_dir, "gfw_for_pew_totals_by_year_flag_eez_territorial.csv"))
+write_csv(terr, paste0(results_dir, "gfw_for_pew_totals_by_year_flag_eez_territorial.csv"))
 ```
 

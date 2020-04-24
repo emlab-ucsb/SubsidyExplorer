@@ -714,9 +714,57 @@ USING
 </ul>
 <p>We also create 19 high seas regions encompassing the high-seas portions of the FAO Major Fishing areas.</p>
 </div>
-<div id="aggregate-by-eezhigh-seas-region-and-flag-state" class="section level2">
-<h2>Aggregate by EEZ/high seas region and flag state</h2>
-<p>Now that we have merged some of our non-contiguous EEZs, we can aggregate the data. By year, for each EEZ/region and flag state pairing, we calculate summary statistics and save the output dataset with the following attributes:</p>
+<div id="aggregate-by-flag-state" class="section level2">
+<h2>Aggregate by flag state</h2>
+<p>It’s best for us to get vessel totals by flag state. Once we start aggregating by territorial waters/EEZ/high seas region, we’re going to start double counting vessels. This table should help with that.</p>
+<ul>
+<li>year (int): year</li>
+<li>flag_iso3 (chr): ISO3 character code of the flag state of the vessel - “UNK” for unknown flag state</li>
+<li>vessels_n (int): number of unique vessels from this flag state</li>
+<li>fishing_h (num): total number of fishing hours (h)</li>
+<li>fishing_kwh (num): total number of fishing kilowatt hours (kWh)</li>
+<li>length_m_mean (num): mean vessel length (m)</li>
+<li>length_m_min (num): mininum vessel length (m)</li>
+<li>length_m_max (num): maximum vessel length (m)</li>
+<li>tonnage_gt_mean (num): mean vessel tonnage (gt)</li>
+<li>tonnage_gt_min (num): mininum vessel tonnage (gt)</li>
+<li>tonnage_gt_max (num): maximum vessel tonnage (gt)</li>
+<li>engine_power_kw_mean (num): mean vessel engine power (kw)</li>
+<li>engine_power_kw_min (num): mean vessel engine power (kw)</li>
+<li>engine_power_kw_max (num): mean vessel engine power (kw)</li>
+</ul>
+</div>
+<div id="aggregate-by-eez-and-flag-state" class="section level2">
+<h2>Aggregate by EEZ and flag state</h2>
+<p>Now let’s aggregate by EEZ/fao region and flag state (no distinction between territorial waters and not) By year, EEZ/region and flag state pairing, we calculate summary statistics and save the output dataset with the following attributes:</p>
+<ul>
+<li>year (int): year</li>
+<li>loc_id (chr): unique identifier for each EEZ and/or high seas region defined above</li>
+<li>loc_name (chr): name of each location</li>
+<li>loc_ter1_iso3 (chr): ISO3 character code of the administering territory - NA for high seas regions</li>
+<li>loc_sov1_iso3 (chr): ISO3 character code of the sovereign state - NA for high seas regions</li>
+<li>loc_ter2_iso3 (chr): ISO3 character code of the second administering territory - only in cases of joint regime or disputed areas, NA otherwise</li>
+<li>loc_sov2_iso3 (chr): ISO3 character code of the second sovereign state - only in cases of joint regime or disputed areas, NA otherwise</li>
+<li>loc_ter3_iso3 (chr): ISO3 character code of the third administering territory - only in cases of joint regime or disputed areas, NA otherwise</li>
+<li>loc_sov3_iso3 (chr): ISO3 character code of the third sovereign state - only in cases of joint regime or disputed areas, NA otherwise</li>
+<li>flag_iso3 (chr): ISO3 character code of the flag state of the vessel - “UNK” for unknown flag state</li>
+<li>vessels_n (int): number of unique vessels that fished there</li>
+<li>fishing_h (num): total number of fishing hours (h)</li>
+<li>fishing_kwh (num): total number of fishing kilowatt hours (kWh)</li>
+<li>length_m_mean (num): mean vessel length (m)</li>
+<li>length_m_min (num): mininum vessel length (m)</li>
+<li>length_m_max (num): maximum vessel length (m)</li>
+<li>tonnage_gt_mean (num): mean vessel tonnage (gt)</li>
+<li>tonnage_gt_min (num): mininum vessel tonnage (gt)</li>
+<li>tonnage_gt_max (num): maximum vessel tonnage (gt)</li>
+<li>engine_power_kw_mean (num): mean vessel engine power (kw)</li>
+<li>engine_power_kw_min (num): mean vessel engine power (kw)</li>
+<li>engine_power_kw_max (num): mean vessel engine power (kw)</li>
+</ul>
+</div>
+<div id="aggregate-by-eez-territorial-waters-and-flag-state" class="section level2">
+<h2>Aggregate by EEZ, territorial waters, and flag state</h2>
+<p>Now let’s aggregate by EEZ/fao region, and make the distinction between territorial waters and not. By year, for each territorial waters, EEZ/region, and flag state pairing, we calculate summary statistics and save the output dataset with the following attributes:</p>
 <ul>
 <li>year (int): year</li>
 <li>loc_id (chr): unique identifier for each EEZ and/or high seas region defined above</li>

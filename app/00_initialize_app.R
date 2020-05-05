@@ -69,10 +69,10 @@ world_small_countries <- world  %>%
   dplyr::filter(area_km < 300) %>%
   mutate(center = st_centroid(geometry))
 
-# # 2) EEZs/FAO regions ---
-# eez_fao <- read_sf(dsn = "./data/shapefiles_edit/eez_v10_fao_combined_simple", layer="eez_v10_fao_combined_simple") %>% 
-#   mutate(eez_hs_code = ifelse(!is.na(zone), paste0("HS-",zone), as.character(mrgid)))
-# 
+# 2) EEZs/FAO regions ---
+eez_fao <- read_sf(dsn = "./data/shapefiles/eez-v10-fao-combined-simple", layer="eez_v10_fao_combined_simple") %>%
+  mutate(eez_hs_code = ifelse(!is.na(zone), paste0("HS-",zone), as.character(mrgid)))
+ 
 # ### --------------------
 # ### Data ---------------
 # ### --------------------
@@ -192,27 +192,27 @@ landed_value_dat_tot <- landed_value_dat %>%
   summarize(value = sum(value, na.rm = T))
   
 # 3) GFW Vessel list (2018)
-# pro_rate_subsidies <- F
-# 
-# vessel_dat <- read.csv("./data/vessel_list_2018_final.csv", stringsAsFactors = F)
-# 
-# if(pro_rate_subsidies == T){
-#   
-#   vessel_dat <- vessel_dat %>%
-#     mutate(B1_subs = B1_subs * 0.54, # boat construction/renovation - matched to payments based on vessels
-#            B2_subs = B2_subs * 1, # fishery development projects/support services - matched to payments based on variable use
-#            B3_subs = B3_subs * 0.87, # port construction and renovation - matched to payments based on vessels
-#            B4_subs = B4_subs * 0.87, # price/marketing support, processing infrastructure - matched to payments based on output
-#            B5_subs = B5_subs * 0.76, # non-fuel tax exemptions - matched to payments based on fishers income
-#            B6_subs = B6_subs * 0.56, # foreign access agreements - matched to payments based on fishers own capital
-#            B7_subs = B7_subs * 0.84, # fuel - matched to payments based on fuel use
-#            bad_subs = (B1_subs + B2_subs + B3_subs + B4_subs + B5_subs + B6_subs + B7_subs))
-#   
-# }
-# 
-# vessel_dat <- vessel_dat %>%
-#   mutate(eez_hs_code = case_when(eez_id == 0 ~ paste0("HS-", fao_region),
-#                                  TRUE ~ as.character(eez_id)))
+pro_rate_subsidies <- F
+
+vessel_dat <- read.csv("./data/vessel_list_2018_final.csv", stringsAsFactors = F)
+
+if(pro_rate_subsidies == T){
+
+  vessel_dat <- vessel_dat %>%
+    mutate(B1_subs = B1_subs * 0.54, # boat construction/renovation - matched to payments based on vessels
+           B2_subs = B2_subs * 1, # fishery development projects/support services - matched to payments based on variable use
+           B3_subs = B3_subs * 0.87, # port construction and renovation - matched to payments based on vessels
+           B4_subs = B4_subs * 0.87, # price/marketing support, processing infrastructure - matched to payments based on output
+           B5_subs = B5_subs * 0.76, # non-fuel tax exemptions - matched to payments based on fishers income
+           B6_subs = B6_subs * 0.56, # foreign access agreements - matched to payments based on fishers own capital
+           B7_subs = B7_subs * 0.84, # fuel - matched to payments based on fuel use
+           bad_subs = (B1_subs + B2_subs + B3_subs + B4_subs + B5_subs + B6_subs + B7_subs))
+
+}
+
+vessel_dat <- vessel_dat %>%
+  mutate(eez_hs_code = case_when(eez_id == 0 ~ paste0("HS-", fao_region),
+                                 TRUE ~ as.character(eez_id)))
 
 # 4) Biological parameters for the model
 bio_dat <- read.csv("./data/regional_model_parameters.csv")
@@ -237,7 +237,7 @@ cap_tier_dat <- read_csv("./data/USA_cap_tier_tidy.csv") %>%
 
 ### OTHER -------------------------------------------------------------------------------------------
 
-# # Relative subsidies data
+# Relative subsidies data
 relative_subs_dat <- read_csv("./data/relative_subsidy_metrics_tidy.csv") %>%
   left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3") %>%
   arrange(iso3) %>%

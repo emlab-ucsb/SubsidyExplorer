@@ -39,15 +39,13 @@ GlobalFishingFootprint = function()
            
     ),
     
-    ### Global fishing effort map (PLACEHOLDER - change back to leaflet object)
+    ### Global fishing effort map
     column(12, style = "padding: 10px 0;",
            
            
            # Leaflet map
-           #leafletOutput('global_subsidies_map', width = "auto", height = "70vh")
+           leafletOutput('global_fishing_footprint_map', width = "auto", height = "70vh")
            
-           # Temp image
-           img(src = "/sample-images/04d_map_image.png", width = "100%")
            
     ),
     

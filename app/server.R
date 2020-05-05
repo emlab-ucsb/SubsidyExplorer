@@ -178,7 +178,6 @@ shinyServer(function(input, output, session) {
   
   
   ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
-
   output$global_subsidies_map <- renderLeaflet({
     
     req(input$w_global_subsidies_category)
@@ -805,6 +804,70 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "menu_items", "introduction")
   })
   
+  ### Leaflet map: Global map of fishing effort with hover boxes ---------------------
+  output$global_fishing_footprint_map <- renderLeaflet({
+    
+    # Summarize data
+    global_fishing_footprint_map_dat <- vessel_dat %>%
+      group_by(eez_hs_code) %>%
+      summarize(vessels = n_distinct(ssvid),
+                flag_states = n_distinct(flag_iso3),
+                fishing_h = sum(fishing_hours_eez_fao_ter, na.rm = T),
+                fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T))
+    
+    global_fishing_footprint_map_dat_shp <- eez_fao %>%
+      left_join(global_fishing_footprint_map_dat, by = c("eez_hs_code" = "eez_hs_code")) %>%
+      dplyr::filter(!is.na(fishing_KWh) & fishing_KWh > 0)
+    
+    global_fishing_footprint_map_text <- paste0(
+      "<b>","Location: ","</b>", global_fishing_footprint_map_dat_shp$name,"</b>",
+      "<br/>",
+      "<b>", "Area type: ","</b>",global_fishing_footprint_map_dat_shp$type, "</b>",
+      "</br>",
+      "<b>", "State: ", "</b>", global_fishing_footprint_map_dat_shp$trrtry1, "</b>",
+      "<br/>",
+      "<b>", "Sovereign state: ", "</b>", global_fishing_footprint_map_dat_shp$sovrgn1,
+      "<br/>",
+      "<b>", "Active vessels: ", "</b>", global_fishing_footprint_map_dat_shp$vessels,
+      "<br/>",
+      "<b>", "Fishing effort (hours): ", "</b>", format(round(global_fishing_footprint_map_dat_shp$fishing_h, 0), big.mark = ","),
+      "<br/>",
+      "<b>", "Fishing effort (kWh): ", "</b>", format(round(global_fishing_footprint_map_dat_shp$fishing_KWh, 0), big.mark = ","),
+      "<br/>",
+      "<b>", "Unique vessel flag states: ", "</b>", global_fishing_footprint_map_dat_shp$flag_states) %>%
+      lapply(htmltools::HTML)
+    
+    # Chloropleth color palette for global effort map
+    global_fishing_footprint_map_pal <- colorNumeric(palette = "Reds",
+                                          log10(global_fishing_footprint_map_dat_shp$fishing_KWh))
+    
+    # Map
+    leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 2)) %>%
+      addProviderTiles("CartoDB.DarkMatterNoLabels") %>%
+      addPolygons(data = global_fishing_footprint_map_dat_shp,
+                  fillColor = ~global_fishing_footprint_map_pal(log10(fishing_KWh)),
+                  fillOpacity = 0.6,
+                  color= "white",
+                  weight = 0.3,
+                  highlight = highlightOptions(weight = 5,
+                                               color = "#666",
+                                               fillOpacity = 1,
+                                               bringToFront = TRUE),
+                  label = global_fishing_footprint_map_text,
+                  labelOptions = labelOptions(style = list("font-weight" = "normal",
+                                                           padding = "3px 8px"),
+                                              textsize = "13px",
+                                              direction = "auto")) %>%
+      setView(0,20, zoom = 2) %>%
+      addLegend("bottomright", 
+                pal = global_fishing_footprint_map_pal, 
+                values = log10(global_fishing_footprint_map_dat_shp$fishing_KWh),
+                title = "Fishing effort<br>(kWh)",
+                opacity = 1,
+                labFormat = labelFormat(
+                  transform = function(x) 10^(x)))
+    
+  })
 
   ### -----------------
   ### 05. need-help ---

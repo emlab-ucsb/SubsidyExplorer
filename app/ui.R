@@ -193,7 +193,7 @@ shinyUI(
                 ### Explore results ---
                 # Explore results - Item #1 - Selected results
                 tabItem(tabName = "selected-results",
-                        SelectedResults()
+                        SelectedResults(proposal_choices)
                 ),
                 
                 # Explore results - Item #2 - Edit policies and view those results

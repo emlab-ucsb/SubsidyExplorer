@@ -9,6 +9,8 @@
 02b,edit-policies,w_iuu_definitions,Subsidies for fishing shall be prohibited to those…,IUU2,Found to have engaged in IUU fishing activities by a coastal Member state,FALSE,,,,
 02b,edit-policies,w_iuu_definitions,Subsidies for fishing shall be prohibited to those…,IUU3,Found to have engaged in IUU fishing activities by the flag Member state,FALSE,,,,
 02b,edit-policies,w_iuu_definitions,Subsidies for fishing shall be prohibited to those…,IUU4,Found to have engaged in IUU fishing activities by the subsidizing Member state,FALSE,,,,
+02b,edit-policies,w_iuu_definitions,Subsidies for fishing shall be prohibited to those…,IUU5,Found to have engaged in IUU fishing activities by a port Member state,FALSE,,,,
+02b,edit-policies,w_iuu_definitions,Subsidies for fishing shall be prohibited to those…,IUU6,Found to have engaged in IUU fishing activities by a market Member state,FALSE,,,,
 02b,edit-policies,w_iuu_assumption,Would you like to make an assumption about IUU fishing worldwide instead?,Yes,Yes,FALSE,,,,
 02b,edit-policies,w_iuu_assumption,Would you like to make an assumption about IUU fishing worldwide instead?,No,No,TRUE,,,,
 02b,edit-policies,w_iuu_percent,Assumed amount of fishing effort identified as IUU (%):,,,TRUE,0,100,20,

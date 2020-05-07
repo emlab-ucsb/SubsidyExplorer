@@ -5,7 +5,7 @@
 ### This script contains the content for the selected-results tab
 ### --------------------------------------------------------------------
 
-SelectedResults = function() 
+SelectedResults = function(proposal_choices) 
   fluidPage(
     
     # Page style
@@ -26,50 +26,114 @@ SelectedResults = function()
            )
     ),
     
-    ### Title and Introductory Text
-    column(12, style = "padding: 25px 25px;",
+    ####-----------------------------------------------------------------------------------------
+    #### Top section - Results with selected scenario panel
+    #### ----------------------------------------------------------------------------------------
+    
+    column(12,
            
-           # Title
-           tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "selected-results"]),
+           column(12, style = "padding: 25px;",
            
-           # Text
-           includeHTML("./text/02a_selected_results_intro.html"),
+                  # Title
+                  tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "selected-results"]),
            
-           # Widgets
+                  # Text
+                  includeHTML("./text/02a_selected_results_intro.html")
+           
+           ),
+
            fluidRow(
              
-             column(6, align = "center",
+             ### Left column - results
+             column(8,
                     
-                    # Input - timeseries plot variable
-                    selectizeInput("w_selected_results_timeseries_plot_variable", 
-                                   label = tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_variable"]),
-                                   choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_variable"]),
-                                   selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_variable"]))
+                    # Widgets
+                    fluidRow(
+                      
+                      column(6, align = "center",
+                             
+                             # Input - timeseries plot variable
+                             selectizeInput("w_selected_results_timeseries_plot_variable", 
+                                            label = tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_variable"]),
+                                            choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_variable"]),
+                                            selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_variable"]))
+                             
+                             
+                      ),
+                      
+                      column(6, align = "center",
+                             
+                             # Input - timeseries plot resolution
+                             radioButtons("w_selected_results_timeseries_plot_resolution", 
+                                          label = tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_resolution"]),
+                                          choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
+                                          selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
+                                          inline = T)
+                             
+                             
+                      )
+                    ),
                     
+                    # Figure placeholder
+                    img(src = "/sample-images/02a_plot_image.png", width = "100%")
              ),
              
-             column(6, align = "center",
+             ### Right column - selected scenario
+             column(4, style = "background-color: rgba(40, 97, 130, 0.8); color: #ffffff; padding: 10px 10px; height: 100%;",
                     
-                    # Input - timeseries plot resolution
-                    radioButtons("w_selected_results_timeseries_plot_resolution", 
-                                 label = tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_resolution"]),
-                                 choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
-                                 selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
-                                 inline = T)
-                                 
+                    tags$h4(text$item_label[text$item_id == "selected_scenario"]),
                     
+                    uiOutput("proposal_selection_text")
              )
+             
            )
-           
     ),
     
-    ### Plot
-    column(12, style = "padding: 0px 0px 25px;",
+    ####-----------------------------------------------------------------------------------------
+    #### Bottom section - model a selected scenario
+    #### ----------------------------------------------------------------------------------------
+                    
+    ### Select a proposal
+    column(12, style = "padding: 0px 25px 25px;",
            
-           # Figure placeholder
-           img(src = "/sample-images/02a_plot_image.png", width = "100%")
-           
+           column(12, style = "padding: 25px; border: 1px solid black;",
+                  
+                  # Title
+                  tags$h4(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "select_proposal"]),
+                  
+                  # Widgets
+                  fluidRow(
+                    
+                    column(6,
+                           
+                           # Select proposal
+                           selectizeInput("w_selected_results_proposal_selection", 
+                                          label = tags$b(text$item_label[text$item_id == "w_selected_results_proposal_selection"]),
+                                          choices = proposal_choices,
+                                          selected = "Default",
+                                          width = "100%")
+                    ),
+                    
+                    column(6, 
+                           
+                           # Select proposal category
+                           checkboxGroupInput("w_selected_results_proposal_category",
+                                              label = tags$b(text$item_label[text$item_id == "w_selected_results_proposal_category"]),
+                                              choices = proposal_categories,
+                                              selected = proposal_categories,
+                                              width = "100%",
+                                              inline = T)
+                           
+                    )
+                    
+                  ),
+                  
+                  # Summary outputs
+                  htmlOutput("selected_results_proposal_selection_text")
+
+           )
     ),
+           
     
     ### Bottom navigation buttons
     column(12,

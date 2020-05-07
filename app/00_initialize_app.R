@@ -224,16 +224,21 @@ cap_tier_dat <- read_csv("./data/USA_cap_tier_tidy.csv") %>%
   arrange(iso3)
 
 # 2) Proposal settings
-# proposal_settings <- read.csv("./data/wto-proposal-settings.csv", stringsAsFactors = F)
-# default_settings <- proposal_settings %>% dplyr::filter(proposal == "Default")
+proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
+#default_settings <- proposal_settings %>% dplyr::filter(proposal == "Default")
 
-# # Proposal names
-# proposal_names <- proposal_settings %>%
-#   mutate(display_name = case_when(proposal == "Default" ~ "None",
-#                                   TRUE ~ paste0(title, " (", proposal, ")"))) %>%
-#   dplyr::select(proposal, display_name)
-# proposal_choices <- proposal_names$proposal
-# names(proposal_choices) <- proposal_names$display_name
+# Proposal names
+included_proposals <- proposal_settings %>%
+  dplyr::filter(include == "Yes") %>%
+  mutate(display_name = case_when(proposal == "Default" ~ "None",
+                                  TRUE ~ paste0(title_tool, " (", proposal, ")"))) %>%
+  dplyr::select(category, proposal, display_name) %>%
+  arrange(category)
+
+proposal_choices <- included_proposals$proposal
+names(proposal_choices) <- included_proposals$display_name
+
+proposal_categories <- unique(included_proposals$category)[unique(included_proposals$category) != "Default"]
 
 ### OTHER -------------------------------------------------------------------------------------------
 

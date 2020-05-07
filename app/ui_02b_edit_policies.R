@@ -81,7 +81,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                   ),
     
                   ### tabBox container
-                  column(12, style = "padding: 10px 0 25px;",
+                  column(12, style = "padding: 10px 5px 25px;",
 
                          # tabBox
                          tabBox(width = 12, id = "policy_tabs", 

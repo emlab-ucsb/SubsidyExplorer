@@ -56,6 +56,49 @@ shinyServer(function(input, output, session) {
   ### Plotly figure: Model results over time ---------------------
   #[NEED]
   
+  
+  ### Update proposal selection widget ---------------------
+  observe({
+    
+    # Only allow proposals from the selected category to be chosen
+    allowable_policies <- included_proposals %>%
+      dplyr::filter(category %in% input$w_selected_results_proposal_category | proposal == "Default")
+    
+    updated_proposal_choices <- allowable_policies$proposal
+    names(updated_proposal_choices) <- allowable_policies$display_name
+    
+    # Update input
+    updateSelectizeInput(session, 
+                         "w_selected_results_proposal_selection",
+                         choices = updated_proposal_choices,
+                         selected = "Default")
+  })
+  
+  
+  ### Reactive text: Get description for selected proposal --------
+  observe({
+
+    # Want to observe proposal selection
+    req(input$w_selected_results_proposal_selection)
+
+    # Get selected entry
+    selected_policy <- proposal_settings %>%
+      dplyr::filter(proposal == input$w_selected_results_proposal_selection)
+
+    # Create reactive text
+    output$selected_results_proposal_selection_text <- renderUI({
+
+      req(input$w_selected_results_proposal_selection != "Default")
+
+      paste0("<b>", "Formal Title: ", "</b>", selected_policy$title, "</br>",
+             "<b>", "Summary: ", "</b>", selected_policy$summary, "</br>",
+             "<b>", "Modeling assumptions: ", "</b>", selected_policy$model_details_assumptions) %>%
+        lapply(htmltools::HTML)
+
+    })
+    
+  })
+  
   ### ----------------------
   ### 02b. edit-policies ---
   ### ----------------------
@@ -119,6 +162,7 @@ shinyServer(function(input, output, session) {
   })
   
   ### Reactive data frame: All select policy inputs -------------
+  
   
   
   

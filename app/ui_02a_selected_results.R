@@ -45,7 +45,7 @@ SelectedResults = function(proposal_choices)
            fluidRow(
              
              ### Left column - results
-             column(8,
+             column(9,
                     
                     # Widgets
                     fluidRow(
@@ -79,7 +79,7 @@ SelectedResults = function(proposal_choices)
              ),
              
              ### Right column - selected scenario
-             column(4, style = "background-color: rgba(40, 97, 130, 0.8); color: #ffffff; padding: 10px 10px; height: 100%;",
+             column(3, style = "background-color: rgba(40, 97, 130, 0.8); color: #ffffff; padding: 10px 10px; height: 100%;",
                     
                     tags$h4(text$item_label[text$item_id == "selected_scenario"]),
                     
@@ -96,7 +96,7 @@ SelectedResults = function(proposal_choices)
     ### Select a proposal
     column(12, style = "padding: 0px 25px 25px;",
            
-           column(12, style = "padding: 25px; border: 1px solid black;",
+           column(12, style = "padding: 25px; border: 3px solid #28292C;",
                   
                   # Title
                   tags$h4(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "select_proposal"]),
@@ -104,7 +104,7 @@ SelectedResults = function(proposal_choices)
                   # Widgets
                   fluidRow(
                     
-                    column(6,
+                    column(6, style = "padding: 0 10px 0 0;",
                            
                            # Select proposal
                            selectizeInput("w_selected_results_proposal_selection", 
@@ -114,7 +114,7 @@ SelectedResults = function(proposal_choices)
                                           width = "100%")
                     ),
                     
-                    column(6, 
+                    column(6, style = "padding: 0 0 0 10px;",
                            
                            # Select proposal category
                            checkboxGroupInput("w_selected_results_proposal_category",
@@ -129,9 +129,21 @@ SelectedResults = function(proposal_choices)
                   ),
                   
                   # Summary outputs
-                  htmlOutput("selected_results_proposal_selection_text")
+                  htmlOutput("selected_results_proposal_selection_text"),
+                  
+                  # Run model button
+                  column(12, align = "right", style = "padding: 10px 0 0 0;",
+                         
+                         actionButton("ab_run_model_proposal",
+                                      tags$b(text$item_label[text$item_id == "ab_run_model_proposal"]),
+                                      style = "color: black;
+                                               background-color: rgba(255,255,255,0.7); 
+                                               border: 3px #3c8dbc solid; 
+                                               white-space: normal;")
+                         
+                  )
 
-           )
+           )       
     ),
            
     

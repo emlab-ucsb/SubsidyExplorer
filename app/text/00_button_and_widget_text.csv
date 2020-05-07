@@ -13,9 +13,10 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02a,selected-results,widget,w_selected_results_timeseries_plot_variable,Plot…,select variable to plot widget
 02a,selected-results,widget,w_selected_results_timeseries_plot_resolution,Resolution…,select resolution (global/regional)
 02a,selected-results,tab,selected_scenario,Selected Scenario,header
-02a,selected-results,tab,select_proposal,Model a Reform Proposal,reform proposal
+02a,selected-results,tab,select_proposal,Model a Subsidy Reform Proposal,reform proposal
 02a,selected-results,widget,w_selected_results_proposal_selection,Select a proposal…,policy selection
 02a,selected-results,widget,w_selected_results_proposal_category,Narrow proposals by category…,policy category selection
+02a,selected-results,action-button,ab_run_model_proposal,Model selected proposal,
 02b,edit-policies,tab,edit-policies,Edit Policies (Advanced Users),page name
 02b,edit-policies,nav-button,ab_edit_policies_to_introduction,Return to Main Menu,top left button
 02b,edit-policies,nav-button,ab_edit_policies_to_selected_results,Back: Selected Results,bottom left button

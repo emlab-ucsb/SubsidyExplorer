@@ -73,9 +73,12 @@ SelectedResults = function(proposal_choices)
                              
                       )
                     ),
+                  
+                    # Plot
+                    plotlyOutput("model_results_timeseries_plot")
                     
-                    # Figure placeholder
-                    img(src = "/sample-images/02a_plot_image.png", width = "100%")
+                    # # Figure placeholder
+                    # img(src = "/sample-images/02a_plot_image.png", width = "100%")
              ),
              
              ### Right column - selected scenario

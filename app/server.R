@@ -11,6 +11,49 @@
 
 shinyServer(function(input, output, session) {
   
+  ### --------------------------
+  ### Containers and general ---
+  ### --------------------------
+  
+  # Reactive object that keeps track of the current policy being run -----------
+  rv_selected_policy <- reactiveValues(iuu = list(),
+                                       oa = list(),
+                                       overcap = list(),
+                                       cap_tier = list())
+  
+  # Reactive object that keeps track of the affected and unaffected fleets ------
+  rv_fleet <- reactiveValues(vessels = NULL,
+                             summary = NULL)
+  
+  # Reactive df that keeps track all all model timeseries results ------
+  rv_model_results <- reactiveValues(timeseries = remove_all_bad_results_full,
+                                     last = remove_all_bad_results_last)
+  
+  # Reactive object that keeps track of the most recently selected policy -------
+  rv_selected_result <- reactiveValues(id = "A")
+  
+  
+  # observeEvent(c(event_data("plotly_selected", source = "kobe_plot"),
+  #                event_data("plotly_deselect", source = "kobe_plot"),
+  #                event_data("plotly_click", source = "kobe_plot")), {
+  #                  
+  #                  if(length(event_data("plotly_selected", source = "kobe_plot")) > 0){
+  #                    
+  #                    if(event_data("plotly_selected", source = "kobe_plot")$key[[1]] != rdf_selected_run$id){
+  #                      
+  #                      isolate(rdf_selected_run$id <- event_data("plotly_selected", source = "kobe_plot")$key[[1]])
+  #                      
+  #                    }
+  #                    
+  #                  }else if(length(event_data("plotly_selected", source = "kobe_plot")) == 0){
+  #                    
+  #                    isolate(rdf_selected_run$id <- "0")
+  #                    
+  #                  }
+  #                  
+  #                })
+  
+  
   ### --------------------
   ### 01. Introduction ---
   ### --------------------
@@ -53,8 +96,297 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "menu_items", "introduction")
   })
   
+  
+  ### Background happenings: Populate reactive value containers keeping track of model results ------
+  observeEvent(input$ab_run_model_proposal, {
+    
+    # Require policy selection
+    req(input$w_selected_results_proposal_selection != "Default")
+    
+    # Update selection tracker
+    isolate(rv_selected_result$id <- LETTERS[input$ab_run_model_proposal + 1])
+    
+    # Progress bar
+    withProgress(message = 'Processing selection - please wait', value = 0.01, {
+      
+      ### Step 1: Policy selections ---
+      
+      # Get data for selected proposal
+      selected_proposal <- proposal_settings %>%
+        dplyr::filter(proposal == input$w_selected_results_proposal_selection)
+    
+      # IUU
+      rv_selected_policy$iuu <- 
+        list("definitions" = unlist(str_split(selected_proposal$iuu_definitions, ", ")),
+             "assumption" = selected_proposal$iuu_assumption,
+             "percent" = selected_proposal$iuu_percent,
+             "scope" = selected_proposal$iuu_scope,
+             "scope_manual" = selected_proposal$iuu_scope_manual,
+             "allow_sdt" = selected_proposal$iuu_allow_sdt,
+             "sdt_ldc" = selected_proposal$iuu_sdt_ldc,
+             "sdt_what_ldc" = unlist(str_split(selected_proposal$iuu_sdt_what_ldc, ", ")),
+             "sdt_time_delay_ldc" = selected_proposal$iuu_sdt_time_delay_ldc,
+             "sdt_developing" = selected_proposal$iuu_sdt_developing,
+             "sdt_what_developing" = unlist(str_split(selected_proposal$iuu_sdt_what_developing, ", ")),
+             "sdt_time_delay_developing" = selected_proposal$iuu_sdt_time_delay_developing,
+             "sdt_sve" = selected_proposal$iuu_sdt_sve,
+             "sdt_what_sve" = unlist(str_split(selected_proposal$iuu_sdt_what_sve, ", ")),
+             "sdt_time_delay_sve" = selected_proposal$iuu_sdt_time_delay_sve)
+    
+      # OA
+      rv_selected_policy$oa <- 
+        list("definitions" = unlist(str_split(selected_proposal$oa_definitions, ", ")),
+             "scope" = selected_proposal$oa_scope,
+             "scope_manual" = selected_proposal$oa_scope_manual,
+             "hs_cutoff" = selected_proposal$oa_hs_cutoff,
+             "length_cutoff" = selected_proposal$oa_length_cutoff,
+             "tonnage_cutoff" = selected_proposal$oa_tonnage_cutoff,
+             "engine_cutoff" = selected_proposal$oa_engine_cutoff,
+             "allow_sdt" = selected_proposal$oa_allow_sdt,
+             "sdt_ldc" = selected_proposal$oa_sdt_ldc,
+             "sdt_what_ldc" = unlist(str_split(selected_proposal$oa_sdt_what_ldc, ", ")),
+             "sdt_hs_cutoff_ldc" = selected_proposal$oa_sdt_hs_cutoff_ldc,
+             "sdt_time_delay_ldc" = selected_proposal$oa_sdt_time_delay_ldc,
+             "sdt_developing" = selected_proposal$oa_sdt_developing,
+             "sdt_what_developing" = unlist(str_split(selected_proposal$oa_sdt_what_developing, ", ")),
+             "sdt_hs_cutoff_developing" = selected_proposal$oa_sdt_hs_cutoff_developing,
+             "sdt_time_delay_developing" = selected_proposal$oa_sdt_time_delay_developing,
+             "sdt_sve" = selected_proposal$oa_sdt_sve,
+             "sdt_what_sve" = unlist(str_split(selected_proposal$oa_sdt_what_sve, ", ")),
+             "sdt_hs_cutoff_sve" = selected_proposal$oa_sdt_hs_cutoff_sve,
+             "sdt_time_delay_sve" = selected_proposal$oa_sdt_time_delay_sve)
+    
+      # Overcap
+      rv_selected_policy$overcap <- 
+        list("definitions" = unlist(str_split(selected_proposal$overcap_definitions, ", ")),
+             "scope" = selected_proposal$overcap_scope,
+             "scope_manual" = selected_proposal$overcap_scope_manual,
+             "hs_cutoff" = selected_proposal$overcap_hs_cutoff,
+             "length_cutoff" = selected_proposal$overcap_length_cutoff,
+             "tonnage_cutoff" = selected_proposal$overcap_tonnage_cutoff,
+             "engine_cutoff" = selected_proposal$overcap_engine_cutoff,
+             "allow_sdt" = selected_proposal$overcap_allow_sdt,
+             "sdt_ldc" = selected_proposal$overcap_sdt_ldc,
+             "sdt_what_ldc" = unlist(str_split(selected_proposal$overcap_sdt_what_ldc, ", ")),
+             "sdt_hs_cutoff_ldc" = selected_proposal$overcap_sdt_hs_cutoff_ldc,
+             "sdt_time_delay_ldc" = selected_proposal$overcap_sdt_time_delay_ldc,
+             "sdt_developing" = selected_proposal$overcap_sdt_developing,
+             "sdt_what_developing" = unlist(str_split(selected_proposal$overcap_sdt_what_developing, ", ")),
+             "sdt_hs_cutoff_developing" = selected_proposal$overcap_sdt_hs_cutoff_developing,
+             "sdt_time_delay_developing" = selected_proposal$overcap_sdt_time_delay_developing,
+             "sdt_sve" = selected_proposal$overcap_sdt_sve,
+             "sdt_what_sve" = unlist(str_split(selected_proposal$overcap_sdt_what_sve, ", ")),
+             "sdt_hs_cutoff_sve" = selected_proposal$overcap_sdt_hs_cutoff_sve,
+             "sdt_time_delay_sve" = selected_proposal$overcap_sdt_time_delay_sve)
+    
+      # Cap/Tier
+      rv_selected_policy$cap_tier = 
+        list("on_off" = selected_proposal$cap_on_off,
+           "subsidy_types" = unlist(str_split(selected_proposal$cap_subsidy_types, ", ")),
+           "tier_number" = selected_proposal$cap_tier_number,
+           "tier_system" = selected_proposal$tier_system,
+           "two_tier_cutoff" = selected_proposal$two_tier_cutoff,
+           "three_tier_cutoff" = as.numeric(unlist(str_split(selected_proposal$three_tier_cutoff, ", "))),
+           "tier1_cap_rule" = selected_proposal$tier1_cap_rule,
+           "tier2_cap_rule" = selected_proposal$tier2_cap_rule,
+           "tier3_cap_rule" = selected_proposal$tier3_cap_rule,
+           "tier1_cap_value" = selected_proposal$tier1_cap_value,
+           "tier1_cap_fishers" = selected_proposal$tier1_cap_fishers,
+           "tier1_cap_percent" = selected_proposal$tier1_cap_percent,
+           "tier2_cap_value" = selected_proposal$tier2_cap_value,
+           "tier2_cap_fishers" = selected_proposal$tier1_cap_fishers,
+           "tier2_cap_percent" = selected_proposal$tier2_cap_percent,
+           "tier3_cap_value" = selected_proposal$tier3_cap_value,
+           "tier3_cap_fishers" = selected_proposal$tier3_cap_fishers,
+           "tier3_cap_percent" = selected_proposal$tier3_cap_percent)
+    
+      incProgress(0.25)
+    
+    ### Find fleets ---
+    
+    # # Run computation
+    # temp <-  CreateFleets(
+    #   vessel_list = vessel_dat,
+    #   iuu = rv_selected_policy$iuu,
+    #   oa = rv_selected_policy$oa,
+    #   overcap = rv_selected_policy$overcap,
+    #   cap_tier = rv_selected_policy$cap_tier,
+    #   cap_tier_dat = cap_tier_dat,
+    #   profile_dat = combined_fishery_stats_dat,
+    #   managed_threshold = managed_cutoff)
+    
+    # subsidy_types_all = subsidy_types_all,
+    # eu_countries = eu_countries,
+    # eu_territories = eu_territories,
+    # us_territories = us_territories
+    
+    # FIX THIS
+    #temp
+    rv_fleet$vessels <- remove_all_bad_fleet_vessels
+    rv_fleet$summary = remove_all_bad_fleet_summary
+    
+    incProgress(0.75)
+    
+    ### Run Model ---
+    fleet_list <- rv_fleet$summary %>%
+      group_by(region) %>%
+      group_split()
+    names(fleet_list) <- colnames(bio_dat)[-c(1:2)]
+    
+    # Run model                                
+    out <- pmap_df(list(fleet = fleet_list, 
+                            region = names(fleet_list),
+                            bio_param = bio_dat_list),
+                    BioEconModel,
+                    end_year = 2100,
+                    return = "all")
+    
+    # Store time series results both globally and regionally
+    out_all <- out %>%
+      dplyr::filter(Year > 2018) %>%
+      dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total")) %>%
+      group_by(Year, Variable, Fleet) %>%
+      mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
+                              TRUE ~ 0),
+             BAU_global = sum(BAU, na.rm = T),
+             Reform_global = sum(Reform, na.rm = T),
+             Diff_global = case_when(BAU_global != 0 ~ (Reform_global - BAU_global)/abs(BAU_global),
+                                     TRUE ~ 0)) %>%
+      ungroup() %>%
+      mutate(run_number = rv_selected_result$id,
+             id = "B",
+             Description = "Description goes here")
+    
+    isolate(rv_model_results$timeseries <- rbind(rv_model_results$timeseries, out_all))
+    
+    # Just extract global difference in the last time step
+    out_last <- out_all %>%
+      dplyr::filter(Year == 2100) %>%
+      group_by(Year, Variable) %>%
+      summarize(Value = unique(Diff_global)*100) %>%
+      ungroup() %>%
+      spread(Variable, Value) %>%
+      rename(Biomass = biomass,
+             Catches = catches_total,
+             Revenue = revenue_total) %>%
+      mutate(run_number = rv_selected_result$id)
+    
+    isolate(rv_model_results$last <- rbind(rv_model_results$last, out_last))
+    
+    incProgress(0.95)
+    
+    }) # close progress
+    
+  })
+  
+  
   ### Plotly figure: Model results over time ---------------------
-  #[NEED]
+  
+  output$model_results_timeseries_plot <- renderPlotly({
+    
+    req(nrow(rv_model_results$timeseries) > 0)
+    req(input$w_selected_results_timeseries_plot_resolution)
+    req(input$w_selected_results_timeseries_plot_variable)
+    
+    if(input$w_selected_results_timeseries_plot_resolution == "global"){
+      
+      # Global
+      plot_dat <- rv_model_results$timeseries %>%
+        group_by(run_number, id, Year, Variable, Fleet) %>%
+        summarize(BAU = unique(BAU_global),
+                  Reform = unique(Reform_global),
+                  Diff = unique(Diff_global)) %>%
+        ungroup() %>%
+        mutate(Region = "Global")
+      
+    }else if(input$w_selected_results_timeseries_plot_resolution == "regional"){
+      
+      # Regional
+      plot_dat <- rv_model_results$timeseries %>%
+        dplyr::select(run_number, id, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
+        mutate(Region = case_when(Region == "atlantic_e" ~ "Atlantic Ocean (Eastern)",
+                                  Region == "atlantic_w" ~ "Atlantic Ocean (Western)",
+                                  Region == "indian" ~ "Indian Ocean",
+                                  Region == "pacific_e" ~ "Pacific Ocean (Eastern)",
+                                  Region == "pacific_w" ~ "Pacific Ocean (Western)",
+                                  Region == "polar" ~ "Polar Oceans"))
+      
+    }
+    
+    # Determine variable for plotting
+    plot_variable <- switch(input$w_selected_results_timeseries_plot_variable,
+                            "biomass" = list("biomass", "Change in biomass (%)"),
+                            
+                            "catches_total" = list("catches_total", "Change in catch (%)"),
+                            
+                            "revenue_total" = list("revenue_total", "Change in revenue (%)"))
+    
+    # Make biomass plot
+    out_plot_dat <- plot_dat %>%
+      dplyr::filter(Variable == plot_variable[[1]])
+    
+    if(rv_selected_result$id == "0"){
+
+      plot <-  ggplot()+
+        aes(x = Year, y = Diff*100)+
+        geom_line(data = out_plot_dat, size = 1, color = "grey",
+                  aes(key = run_number,
+                      group = run_number,
+                      text = paste0("<b>","Year: ","</b>", Year,
+                                    "<br>",
+                                    "<b>","Policy ID: ","</b>", run_number,
+                                    "<br>",
+                                    "<b>","Region: ", "</b>", Region,
+                                    "<br>",
+                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
+        theme_bw()+
+        geom_hline(yintercept = 0)+
+        #scale_color_manual(values = customDiscrete)+
+        scale_x_continuous(expand = c(0,0))+
+        labs(x = "Year", y = plot_variable[[2]])+
+        theme(legend.position = "none")+
+        facet_wrap(~Region)
+
+    }else {
+      
+      plot <-  ggplot()+
+        aes(x = Year, y = Diff*100, group = run_number)+
+        geom_line(data = out_plot_dat, size = 1, color = "grey",
+                  aes(key = run_number,
+                      text = paste0("<b>","Year: ","</b>", Year,
+                                    "<br>",
+                                    "<b>","Policy ID: ","</b>", run_number,
+                                    "<br>",
+                                    "<b>","Region: ", "</b>", Region,
+                                    "<br>",
+                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
+        theme_bw()+
+        geom_line(data = out_plot_dat %>% dplyr::filter(run_number == rv_selected_result$id), size = 2, color = "#3c8dbc",
+                  aes(text = paste0("<b>","Year: ","</b>", Year,
+                                    "<br>",
+                                    "<b>","Policy ID: ","</b>", run_number,
+                                    "<br>",
+                                    "<b>","Region: ", "</b>", Region,
+                                    "<br>",
+                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
+        geom_hline(yintercept = 0)+
+        #scale_color_manual(values = customDiscrete)+
+        scale_x_continuous(expand = c(0,0))+
+        labs(x = "Year", y = plot_variable[[2]])+
+        theme(legend.position = "none")+
+        facet_wrap(~Region)
+      
+    }
+    
+    # Convert to plotly
+    gg2 <- ggplotly(plot, tooltip = "text") %>%
+      hide_legend() 
+    
+    
+    # Return
+    gg2
+    
+  })
   
   
   ### Update proposal selection widget ---------------------

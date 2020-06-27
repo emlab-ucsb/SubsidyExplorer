@@ -215,7 +215,13 @@ vessel_dat <- vessel_dat %>%
                                  TRUE ~ as.character(eez_id)))
 
 # 4) Biological parameters for the model
-bio_dat <- read.csv("./data/regional_model_parameters.csv")
+bio_dat <- read.csv("./data/regional_model_parameters_new.csv")
+
+# Regional parameter list
+bio_dat_list <- bio_dat %>%
+  gather(region, value, -c(1:2)) %>%
+  group_by(region) %>%
+  group_split()
 
 ### POLICY DATA -----------------------------------------------------------------------------------
 
@@ -225,7 +231,6 @@ cap_tier_dat <- read_csv("./data/USA_cap_tier_tidy.csv") %>%
 
 # 2) Proposal settings
 proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
-#default_settings <- proposal_settings %>% dplyr::filter(proposal == "Default")
 
 # Proposal names
 included_proposals <- proposal_settings %>%
@@ -240,7 +245,10 @@ names(proposal_choices) <- included_proposals$display_name
 
 proposal_categories <- unique(included_proposals$category)[unique(included_proposals$category) != "Default"]
 
-### OTHER -------------------------------------------------------------------------------------------
+# 3) Management cutoff 
+managed_cutoff <- 0.66
+
+### OTHER DATA -------------------------------------------------------------------------------------------
 
 # Relative subsidies data
 relative_subs_dat <- read_csv("./data/relative_subsidy_metrics_tidy.csv") %>%
@@ -258,4 +266,99 @@ combined_fishery_stats_dat <- subsidy_dat %>%
   bind_rows(landed_value_dat_tot %>% dplyr::filter(year == 2017)) %>%
   bind_rows(relative_subs_dat) %>%
   arrange(iso3, variable, type)
+
+### GET MOST AMBITIOUS RESULTS ----------------------------------------------------------------------------
+
+# Create fleet (vessels)
+remove_all_bad_fleet_vessels <- vessel_dat %>%
+  mutate(is_WTO = ifelse(flag_iso3 %in% c(cap_tier_dat$iso3, eu_countries, eu_territories, us_territories, norwegian_territories), T, F)) %>%
+  mutate(fleet = case_when(is_WTO & fmi_best >= managed_cutoff & bad_subs > 0 ~ "affected_managed",
+                           is_WTO & fmi_best < managed_cutoff & bad_subs > 0 ~ "affected_oa",
+                           (!is_WTO & fmi_best >= managed_cutoff) ~ "unaffected_managed",
+                           (!is_WTO & fmi_best < managed_cutoff) ~ "unaffected_oa",
+                           TRUE ~ "unaffected_oa"))
+
+# Create fleet (summary)
+remove_all_bad_fleet_summary <- remove_all_bad_fleet_vessels %>%
+  group_by(region, fleet) %>%
+  summarize(catch = sum(catch, na.rm = T),
+            bad_subs = sum(bad_subs, na.rm = T),
+            fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
+            removed_subs = sum(bad_subs, na.rm = T))
+
+# Get affected fleet stats by flag
+# remove_all_bad_fleet_by_flag <- remove_all_bad_fleet_vessels %>%
+#   dplyr::filter(fleet %in% c("affected_managed", "affected_oa")) %>%
+#   group_by(flag) %>%
+#   summarize(n_vessels = n_distinct(ssvid),
+#             fishing_h = sum(fishing_hours_eez_fao, na.rm = T),
+#             fishing_KWh = sum(fishing_KWh_eez_fao, na.rm = T),
+#             catch = sum(catch, na.rm = T),
+#             removed_subs = round(sum(bad_subs, na.rm = T))) %>%
+#   left_join(total_effort_flag, by = c("flag")) %>%
+#   mutate(percent_vessels = (n_vessels/tot_vessels)*100,
+#          percent_fishing_h = (fishing_h/tot_fishing_h)*100,
+#          percent_fishing_KWh = (fishing_KWh/tot_fishing_KWh)*100,
+#          percent_subs_removed = (removed_subs/tot_bad_subs)*100,
+#          percent_catch = (catch/tot_catch)*100) %>%
+#   dplyr::select(-contains("tot_"))
+
+# Get affected fleet stats by fishing a rea
+# remove_all_bad_fleet_by_area <- remove_all_bad_fleet_vessels %>%
+#   dplyr::filter(fleet %in% c("affected_managed", "affected_oa")) %>%
+#   group_by(eez_hs_code) %>%
+#   summarize(n_vessels = n_distinct(ssvid),
+#             fishing_h = sum(fishing_hours_eez_fao, na.rm = T),
+#             fishing_KWh = sum(fishing_KWh_eez_fao, na.rm = T),
+#             catch = sum(catch, na.rm = T),
+#             removed_subs = round(sum(bad_subs, na.rm = T))) %>%
+#   left_join(total_effort_area, by = c("eez_hs_code")) %>%
+#   mutate(percent_vessels = (n_vessels/tot_vessels)*100,
+#          percent_fishing_h = (fishing_h/tot_fishing_h)*100,
+#          percent_fishing_KWh = (fishing_KWh/tot_fishing_KWh)*100,
+#          percent_subs_removed = (removed_subs/tot_bad_subs)*100,
+#          percent_catch = (catch/tot_catch)*100) %>%
+#   dplyr::select(-contains("tot_"))
+
+# Turn fleet summary into list by region
+remove_all_bad_list <- remove_all_bad_fleet_summary %>%
+  group_by(region) %>%
+  group_split()
+names(remove_all_bad_list) <- colnames(bio_dat)[-c(1:2)]
+
+# Run model
+remove_all_bad_results <- pmap_df(list(fleet = remove_all_bad_list, 
+                                       region = names(remove_all_bad_list),
+                                       bio_param = bio_dat_list),
+                                  BioEconModel,
+                                  end_year = 2100,
+                                  return = "all")
+
+# Extract results timeseries
+remove_all_bad_results_full <- remove_all_bad_results %>%
+  dplyr::filter(Year > 2018) %>%
+  dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total")) %>%
+  group_by(Year, Variable, Fleet) %>%
+  mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
+                          TRUE ~ 0),
+         BAU_global = sum(BAU, na.rm = T),
+         Reform_global = sum(Reform, na.rm = T),
+         Diff_global = case_when(BAU_global != 0 ~ (Reform_global - BAU_global)/abs(BAU_global),
+                                 TRUE ~ 0)) %>%
+  ungroup() %>%
+  mutate(run_number = "A",
+         id = "A",
+         Description = "Complete removal of all capacity-enhancing subsidies (for comparison)")
+
+# Extract ending results (difference only)
+remove_all_bad_results_last <- remove_all_bad_results_full %>%
+  dplyr::filter(Year == 2100) %>%
+  group_by(Year, Variable) %>%
+  summarize(Value = unique(Diff_global)*100) %>%
+  ungroup() %>%
+  spread(Variable, Value) %>%
+  rename(Biomass = biomass,
+         Catches = catches_total,
+         Revenue = revenue_total) %>%
+  mutate(run_number = "A")
 

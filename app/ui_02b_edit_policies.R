@@ -151,6 +151,9 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                   
                   tags$h4(text$item_label[text$item_id == "selected-policy"]),
                   
+                  # Reactive policy summary
+                  uiOutput("custom_policy"),
+                  
                   # Run model button
                   column(12, align = "center", style = "padding: 10px 0 0 0;",
                          
@@ -162,9 +165,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                       white-space: normal;")
                          
                          
-                  ),
-                  
-                  tags$p("Text here")
+                  )
                   
            ) # /column 3 - Right column
  

@@ -565,6 +565,134 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  ### Reactive object: Container for the user input policy selections -----
+  rv_custom_policy <- reactiveValues(
+    name = character(),
+    iuu = list(),
+    oa = list(),
+    overcap = list(),
+    cap_tier = list()
+    )
+  
+  ### Update when any custom widget changes ----------
+  
+  observe({
+    
+    rv_custom_policy$name <- input$w_run_name
+    
+    rv_custom_policy$iuu <- list("definitions" = input$w_iuu_definitions,
+                                 "assumption" = input$w_iuu_assumption,
+                                 "percent" = input$w_iuu_percent,
+                                 "scope" = input$w_iuu_scope,
+                                 "scope_manual" = input$w_iuu_scope_manual,
+                                 "allow_sdt" = input$w_iuu_allow_sdt,
+                                 "sdt_ldc" = input$w_iuu_sdt_ldc,
+                                 "sdt_what_ldc" = input$w_iuu_sdt_what_ldc,
+                                 "sdt_time_delay_ldc" = input$w_iuu_sdt_time_delay_ldc,
+                                 "sdt_developing" = input$w_iuu_sdt_developing,
+                                 "sdt_what_developing" = input$w_iuu_sdt_what_developing,
+                                 "sdt_time_delay_developing" = input$w_iuu_sdt_time_delay_developing,
+                                 "sdt_sve" = input$w_iuu_sdt_sve,
+                                 "sdt_what_sve" = input$w_iuu_sdt_what_sve,
+                                 "sdt_time_delay_sve" = input$w_iuu_sdt_time_delay_sve)
+    
+    rv_custom_policy$oa <- list("definitions" = input$w_oa_definitions,
+                                "scope" = input$w_oa_scope,
+                                "scope_manual" = input$w_oa_scope_manual,
+                                "hs_cutoff" = input$w_oa_hs_cutoff,
+                                "length_cutoff" = input$w_oa_length_cutoff,
+                                "tonnage_cutoff" = input$w_oa_tonnage_cutoff,
+                                "engine_cutoff" = input$w_oa_engine_cutoff,
+                                "allow_sdt" = input$w_oa_allow_sdt,
+                                "sdt_ldc" = input$w_oa_sdt_ldc,
+                                "sdt_what_ldc" = input$w_oa_sdt_what_ldc,
+                                "sdt_hs_cutoff_ldc" = input$w_oa_sdt_hs_cutoff_ldc,
+                                "sdt_time_delay_ldc" = input$w_oa_sdt_time_delay_ldc,
+                                "sdt_developing" = input$w_oa_sdt_developing,
+                                "sdt_what_developing" = input$w_oa_sdt_what_developing,
+                                "sdt_hs_cutoff_developing" = input$w_oa_sdt_hs_cutoff_developing,
+                                "sdt_time_delay_developing" = input$w_oa_sdt_time_delay_developing,
+                                "sdt_sve" = input$w_oa_sdt_sve,
+                                "sdt_what_sve" = input$w_oa_sdt_what_sve,
+                                "sdt_hs_cutoff_sve" = input$w_oa_sdt_hs_cutoff_sve,
+                                "sdt_time_delay_sve" = input$w_oa_sdt_time_delay_sve)
+    
+    rv_custom_policy$overcap <- list("definitions" = input$w_overcap_definitions,
+                                     "scope" = input$w_overcap_scope,
+                                     "scope_manual" = input$w_overcap_scope_manual,
+                                     "hs_cutoff" = input$w_overcap_hs_cutoff,
+                                     "length_cutoff" = input$w_overcap_length_cutoff,
+                                     "tonnage_cutoff" = input$w_overcap_tonnage_cutoff,
+                                     "engine_cutoff" = input$w_overcap_engine_cutoff,
+                                     "allow_sdt" = input$w_overcap_allow_sdt,
+                                     "sdt_ldc" = input$w_overcap_sdt_ldc,
+                                     "sdt_what_ldc" = input$w_overcap_sdt_what_ldc,
+                                     "sdt_hs_cutoff_ldc" = input$w_overcap_sdt_hs_cutoff_ldc,
+                                     "sdt_time_delay_ldc" = input$w_overcap_sdt_time_delay_ldc,
+                                     "sdt_developing" = input$w_overcap_sdt_developing,
+                                     "sdt_what_developing" = input$w_overcap_sdt_what_developing,
+                                     "sdt_hs_cutoff_developing" = input$w_overcap_sdt_hs_cutoff_developing,
+                                     "sdt_time_delay_developing" = input$w_overcap_sdt_time_delay_developing,
+                                     "sdt_sve" = input$w_overcap_sdt_sve,
+                                     "sdt_what_sve" = input$w_overcap_sdt_what_sve,
+                                     "sdt_hs_cutoff_sve" = input$w_overcap_sdt_hs_cutoff_sve,
+                                     "sdt_time_delay_sve" = input$w_overcap_sdt_time_delay_sve)
+    
+    rv_custom_policy$cap_tier <- list("on_off" = input$w_cap_on_off,
+                                      "subsidy_types" = input$w_cap_subsidy_types,
+                                      "tier_number" = input$w_cap_tier_number,
+                                      "tier_system" = input$w_tier_system,
+                                      "two_tier_cutoff" = input$w_two_tier_cutoff,
+                                      "three_tier_cutoff" = input$w_three_tier_cutoff,
+                                      "tier1_cap_rule" = input$w_tier1_cap_rule,
+                                      "tier2_cap_rule" = input$w_tier2_cap_rule,
+                                      "tier3_cap_rule" = input$w_tier3_cap_rule,
+                                      "tier1_cap_value" = input$w_tier1_cap_value,
+                                      "tier1_cap_fishers" = input$w_tier1_cap_fishers,
+                                      "tier1_cap_percent" = input$w_tier1_cap_percent,
+                                      "tier2_cap_value" = input$w_tier2_cap_value,
+                                      "tier2_cap_fishers" = input$w_tier1_cap_fishers,
+                                      "tier2_cap_percent" = input$w_tier2_cap_percent,
+                                      "tier3_cap_value" = input$w_tier3_cap_value,
+                                      "tier3_cap_fishers" = input$w_tier3_cap_fishers,
+                                      "tier3_cap_percent" = input$w_tier3_cap_percent)
+    
+  })
+  
+  ### Ui Output: Custom reform policy ------------------
+  output$custom_policy <- renderUI({
+    
+    iuu_summary <- IUUSummaryText(iuu = rv_custom_policy$iuu,
+                                  iuu_definitions = unlist(wid$choices[wid$item_id == "w_iuu_definitions"]),
+                                  country_choices = wto_members_and_observers)
+    
+    # out <- PolicySummaryText(iuu = rv_custom_policy$iuu,
+    #                          oa = rv_custom_policy$oa,  
+    #                          overcap = rv_custom_policy$overcap, 
+    #                          cap = rv_custom_policy$cap_tier,
+    #                          
+    #                          
+    #                          oa_definitions = unlist(wid$choices[wid$item_id == "w_oa_definitions"]),
+    #                          overcap_definitions = unlist(wid$choices[wid$item_id == "w_overcap_definitions"]),
+    #                          cap_set_methods = unlist(wid$choices[wid$item_id == "w_tier2_cap_rule"]),
+    #                          tiering_options = unlist(wid$choices[wid$item_id == "w_tier_system"]),
+    #                          country_choices = wto_members_and_observers)
+    
+    # return
+    tags$div(
+      tags$b("Name: "), rv_custom_policy$name,
+      tags$br(),
+      tags$b("IUU: "),
+      iuu_summary,
+      tags$br()
+      # tags$h5("OA:"),
+      # out$oa_sum,
+      # tags$h5("Overcapacity:"),
+      # out$overcap_sum
+    )
+
+  })
+  
   ### Background happenings: RUN CUSTOM PROPOSAL ------
   
   observeEvent(input$ab_run_model_custom, {
@@ -582,96 +710,19 @@ shinyServer(function(input, output, session) {
       ### Step 1: Policy selections ---
 
       # IUU
-      iuu <-
-        list("definitions" = input$w_iuu_definitions,
-             "assumption" = input$iuu_assumption,
-             "percent" = input$iuu_percent,
-             "scope" = input$iuu_scope,
-             "scope_manual" = input$iuu_scope_manual,
-             "allow_sdt" = input$iuu_allow_sdt,
-             "sdt_ldc" = input$iuu_sdt_ldc,
-             "sdt_what_ldc" = input$iuu_sdt_what_ldc,
-             "sdt_time_delay_ldc" = input$iuu_sdt_time_delay_ldc,
-             "sdt_developing" = input$iuu_sdt_developing,
-             "sdt_what_developing" = input$iuu_sdt_what_developing,
-             "sdt_time_delay_developing" = input$iuu_sdt_time_delay_developing,
-             "sdt_sve" = input$iuu_sdt_sve,
-             "sdt_what_sve" = input$iuu_sdt_what_sve,
-             "sdt_time_delay_sve" = input$iuu_sdt_time_delay_sve)
-
+      iuu <- rv_custom_policy$iuu
       # rv_selected_policy$iuu <- iuu
 
       # OA
-      oa <-
-        list("definitions" = input$oa_definitions,
-             "scope" = input$oa_scope,
-             "scope_manual" = input$oa_scope_manual,
-             "hs_cutoff" = input$oa_hs_cutoff,
-             "length_cutoff" = input$oa_length_cutoff,
-             "tonnage_cutoff" = input$oa_tonnage_cutoff,
-             "engine_cutoff" = input$oa_engine_cutoff,
-             "allow_sdt" = input$oa_allow_sdt,
-             "sdt_ldc" = input$oa_sdt_ldc,
-             "sdt_what_ldc" = input$oa_sdt_what_ldc,
-             "sdt_hs_cutoff_ldc" = input$oa_sdt_hs_cutoff_ldc,
-             "sdt_time_delay_ldc" = input$oa_sdt_time_delay_ldc,
-             "sdt_developing" = input$oa_sdt_developing,
-             "sdt_what_developing" = input$oa_sdt_what_developing,
-             "sdt_hs_cutoff_developing" = input$oa_sdt_hs_cutoff_developing,
-             "sdt_time_delay_developing" = input$oa_sdt_time_delay_developing,
-             "sdt_sve" = input$oa_sdt_sve,
-             "sdt_what_sve" = input$oa_sdt_what_sve,
-             "sdt_hs_cutoff_sve" = input$oa_sdt_hs_cutoff_sve,
-             "sdt_time_delay_sve" = input$oa_sdt_time_delay_sve)
-
+      oa <- rv_custom_policy$oa
       # rv_selected_policy$oa <- oa
 
       # Overcap
-      overcap <-
-        list("definitions" = input$overcap_definitions,
-             "scope" = input$overcap_scope,
-             "scope_manual" = input$overcap_scope_manual,
-             "hs_cutoff" = input$overcap_hs_cutoff,
-             "length_cutoff" = input$overcap_length_cutoff,
-             "tonnage_cutoff" = input$overcap_tonnage_cutoff,
-             "engine_cutoff" = input$overcap_engine_cutoff,
-             "allow_sdt" = input$overcap_allow_sdt,
-             "sdt_ldc" = input$overcap_sdt_ldc,
-             "sdt_what_ldc" = input$overcap_sdt_what_ldc,
-             "sdt_hs_cutoff_ldc" = input$overcap_sdt_hs_cutoff_ldc,
-             "sdt_time_delay_ldc" = input$overcap_sdt_time_delay_ldc,
-             "sdt_developing" = input$overcap_sdt_developing,
-             "sdt_what_developing" = input$overcap_sdt_what_developing,
-             "sdt_hs_cutoff_developing" = input$overcap_sdt_hs_cutoff_developing,
-             "sdt_time_delay_developing" = input$overcap_sdt_time_delay_developing,
-             "sdt_sve" = input$overcap_sdt_sve,
-             "sdt_what_sve" = input$overcap_sdt_what_sve,
-             "sdt_hs_cutoff_sve" = input$overcap_sdt_hs_cutoff_sve,
-             "sdt_time_delay_sve" = input$overcap_sdt_time_delay_sve)
-
+      overcap <- rv_custom_policy$overcap
       # rv_selected_policy$overcap <- overcap
 
       # Cap/Tier
-      cap_tier =
-        list("on_off" = input$cap_on_off,
-             "subsidy_types" = input$cap_subsidy_types,
-             "tier_number" = input$cap_tier_number,
-             "tier_system" = input$tier_system,
-             "two_tier_cutoff" = input$two_tier_cutoff,
-             "three_tier_cutoff" = input$three_tier_cutoff,
-             "tier1_cap_rule" = input$tier1_cap_rule,
-             "tier2_cap_rule" = input$tier2_cap_rule,
-             "tier3_cap_rule" = input$tier3_cap_rule,
-             "tier1_cap_value" = input$tier1_cap_value,
-             "tier1_cap_fishers" = input$tier1_cap_fishers,
-             "tier1_cap_percent" = input$tier1_cap_percent,
-             "tier2_cap_value" = input$tier2_cap_value,
-             "tier2_cap_fishers" = input$tier1_cap_fishers,
-             "tier2_cap_percent" = input$tier2_cap_percent,
-             "tier3_cap_value" = input$tier3_cap_value,
-             "tier3_cap_fishers" = input$tier3_cap_fishers,
-             "tier3_cap_percent" = input$tier3_cap_percent)
-
+      cap_tier = rv_custom_policy$cap_tier
       # rv_selected_policy$cap_tier <- cap_tier
 
       incProgress(0.25)

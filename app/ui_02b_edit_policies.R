@@ -64,25 +64,29 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
            )
     ),
     
-    ### Content
-    column(12,
+    ### Title and introductory text
+    column(12, style = "padding: 25px 25px 0px;",
+           
+           # Title
+           tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "edit-policies"]),
+           
+           # Text
+           includeHTML("./text/02a_selected_results_intro.html")
+           
+    ),
     
+    
+    ## Main content
+    column(12, style = "margin: 25px 0px 25px;",
+           
            ####----------------------------------------------------
            #### Left column - tabBox with manual policy selection
            #### ----------------------------------------------------
            
            column(9,
     
-                  ### Title and introductory text
-                  column(12, style = "padding: 25px 25px;",
-           
-                         # Title
-                         tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "edit-policies"])
-                         
-                  ),
-    
                   ### tabBox container
-                  column(12, style = "padding: 10px 25px 25px;",
+                  column(12, style = "padding: 0px 25px 0px;",
 
                          # tabBox
                          tabBox(width = 12, id = "policy_tabs", 
@@ -143,7 +147,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
            #### ----------------------------------------------------------------------------------------
            column(3,
                   style = "position: absolute;
-                  background-color: #286182;
+                  background-color: rgba(40, 97, 130, 0.8);
                   color: #ffffff;
                   padding: 0 10px;
                   top:0;

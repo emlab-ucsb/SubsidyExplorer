@@ -31,7 +31,7 @@ SelectedResults = function(proposal_choices)
     #### --------------------------------------------
     
     ### Select a proposal
-    column(12, style = "padding: 25px 25px 25px; margin: 0px 0px 10px;",
+    column(12, style = "padding: 25px 25px 0px;",
            
            # Title
            tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px;", text$item_label[text$item_id == "selected-results"]),
@@ -95,13 +95,13 @@ SelectedResults = function(proposal_choices)
     #### ----------------------------------------------------
     
     ### Content
-    column(12,
+    column(12, style = "margin: 25px 0px 25px 0px;",
            
            ####----------------------------------------------------
            #### Left column - tabBox with manual policy selection
            #### ----------------------------------------------------
            
-           column(9, 
+           column(9, style = "padding: 0px 25px 0px;",
                   
                   ### Widgets
                   fluidRow(
@@ -151,7 +151,7 @@ SelectedResults = function(proposal_choices)
                   top:0;
                   bottom:0;
                   right:0;
-                  margin: 0px 0px 0px 10px;", 
+                  overflow: hidden;", 
                   
                   # Title
                   tags$h4(text$item_label[text$item_id == "selected_scenario"]),

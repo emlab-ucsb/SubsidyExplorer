@@ -179,7 +179,7 @@ global_msy <- sum(costello_2016_dat$msy)/0.78
 
 # Add MSY to parameter table
 global_model_parameters <- global_model_parameters %>%
-  bind_rows(tibble(parameter = "MSY", value = global_msy, source = "Costello et al. 2016"))
+  bind_rows(tibble(parameter = "msy", value = global_msy, source = "Costello et al. 2016"))
 
 ```
 
@@ -194,7 +194,7 @@ global_k <- sum(costello_2016_dat$k)/0.78
 
 # Add K to parameter table
 global_model_parameters <- global_model_parameters %>%
-  bind_rows(tibble(parameter = "K", value = global_k, source = "Costello et al. 2016; World Bank 2017"))
+  bind_rows(tibble(parameter = "k", value = global_k, source = "Costello et al. 2016; World Bank 2017"))
 ```
 
 We can then use all three parameters to estimate the global biomass intrinsic growth rate using the equation above.
@@ -212,7 +212,7 @@ global_r <- ((phi+1)/phi)*global_g
 
 # Add g to parameter table
 global_model_parameters <- global_model_parameters %>%
-  bind_rows(tibble(parameter = "r", value = global_g, source = "Costello et al. 2016"))
+  bind_rows(tibble(parameter = "r", value = global_r, source = "Costello et al. 2016"))
 ```
 
 A great deal of uncertainty exists about the total amount of biomass currently in our oceans. We therefore estimate total biomass in the base year (2018) by assuming an annual rate of biomass growth of 8 million mt/year (World Bank 2017). We then solve for the biomass in 2018 that would have yielded the observed harvest after accounting for the assummed rate of biomass growth ($\xi = 8000000$)  $b_{t+1} = b_t + \xi$
@@ -238,7 +238,7 @@ global_b0 <- biomass_vec[biomass_pos]
 
 # Add base year biomass to parameter table
 global_model_parameters <- global_model_parameters %>%
-  bind_rows(tibble(parameter = "B0", value = global_b0, source = "FAO 2019; World Bank 2017"))
+  bind_rows(tibble(parameter = "b0", value = global_b0, source = "FAO 2019; World Bank 2017"))
 ```
 
 ## Regional biological parameters
@@ -284,7 +284,7 @@ names(regional_msy) <- region_names
 
 # Add MSY to the regional paramter table
 regional_model_parameters <- regional_model_parameters %>%
-  bind_rows(c("parameter" = "MSY", "source" = "Costello et al. 2016", regional_msy))
+  bind_rows(c("parameter" = "msy", "source" = "Costello et al. 2016", regional_msy))
 ```
 
 We estimate regional carrying capacities again by assuming K to be 9.1 times MSY. 
@@ -297,7 +297,7 @@ names(regional_k) <- region_names
 
 # Add MSY to the regional paramter table
 regional_model_parameters <- regional_model_parameters %>%
-  bind_rows(c("parameter" = "K", "source" = "Costello et al. 2016; World Bank 2017", regional_k))
+  bind_rows(c("parameter" = "k", "source" = "Costello et al. 2016; World Bank 2017", regional_k))
 ```
 
 We then calculate regional growth rates using those values of MSY and K. 

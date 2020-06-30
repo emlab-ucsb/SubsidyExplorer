@@ -215,7 +215,7 @@ vessel_dat <- vessel_dat %>%
                                  TRUE ~ as.character(eez_id)))
 
 # 4) Biological parameters for the model
-bio_dat <- read.csv("./data/regional_model_parameters_new.csv")
+bio_dat <- read.csv("./data/model_parameters_regional.csv")
 
 # Regional parameter list
 bio_dat_list <- bio_dat %>%

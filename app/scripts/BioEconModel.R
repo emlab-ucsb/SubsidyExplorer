@@ -29,9 +29,9 @@ BioEconModel <- function(fleet,
   un_oa <- which(fleet_names == "unaffected_oa")
 
   ### Fixed biological parameters ----------------------------
-  B0 <- bio_param$value[bio_param$parameter == "K"]*0.5
-  K <- bio_param$value[bio_param$parameter == "K"]
-  r <- bio_param$value[bio_param$parameter == "r"]
+  b0 <- bio_param$value[bio_param$parameter == "b0"]
+  K <- bio_param$value[bio_param$parameter == "k"]
+  r <- bio_param$value[bio_param$parameter == "g"]
   phi <- bio_param$value[bio_param$parameter == "phi"]
   
   ### Fixed harvest/fleet parameters ----------------------------
@@ -94,7 +94,7 @@ BioEconModel <- function(fleet,
   rownames(profits_total_bau) <- year_range
 
   ## Fill in initial values
-  biomass_bau[1] <- B0
+  biomass_bau[1] <- b0
   price_bau[1] <- p0
   catches_fleet_bau[1, ] <- fleet$catch
   catches_total_bau[1] <- sum(catches_fleet_bau[1, ])

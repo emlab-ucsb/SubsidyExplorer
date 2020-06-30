@@ -695,18 +695,6 @@ shinyServer(function(input, output, session) {
                                   iuu_definitions = unlist(wid$choices[wid$item_id == "w_iuu_definitions"]),
                                   country_choices = wto_members_and_observers)
     
-    # out <- PolicySummaryText(iuu = rv_custom_policy$iuu,
-    #                          oa = rv_custom_policy$oa,  
-    #                          overcap = rv_custom_policy$overcap, 
-    #                          cap = rv_custom_policy$cap_tier,
-    #                          
-    #                          
-    #                          oa_definitions = unlist(wid$choices[wid$item_id == "w_oa_definitions"]),
-    #                          overcap_definitions = unlist(wid$choices[wid$item_id == "w_overcap_definitions"]),
-    #                          cap_set_methods = unlist(wid$choices[wid$item_id == "w_tier2_cap_rule"]),
-    #                          tiering_options = unlist(wid$choices[wid$item_id == "w_tier_system"]),
-    #                          country_choices = wto_members_and_observers)
-    
     # return
     tags$div(
       tags$b("Name: "), rv_custom_policy$name,
@@ -729,6 +717,9 @@ shinyServer(function(input, output, session) {
     # Create run id
     last_run_id <- which(LETTERS == rv_results$run$id[nrow(rv_results$run)])
     new_run_id <- LETTERS[last_run_id + 1]
+    
+    # Get run name
+    run_name <- rv_custom_policy$name
 
     # Update selection tracker so new run is selected
     isolate(rv_selected_result$id <- new_run_id)
@@ -757,38 +748,28 @@ shinyServer(function(input, output, session) {
       incProgress(0.25)
 
       ### Find fleets ---
-
-      # # Run computation
-      fleet <- NULL
-      # fleet <-  CreateFleets(
-      #   vessel_list = vessel_dat,
-      #   iuu = rv_selected_policy$iuu,
-      #   oa = rv_selected_policy$oa,
-      #   overcap = rv_selected_policy$overcap,
-      #   cap_tier = rv_selected_policy$cap_tier,
-      #   cap_tier_dat = cap_tier_dat,
-      #   profile_dat = combined_fishery_stats_dat,
-      #   managed_threshold = managed_cutoff)
-
-      # subsidy_types_all = subsidy_types_all,
-      # eu_countries = eu_countries,
-      # eu_territories = eu_territories,
-      # us_territories = us_territories
-
-      # FIX THIS XXXXXXXXXXXXXX
-      # rv_fleet$vessels <- remove_all_bad_fleet_vessels
-      fleet$summary = remove_all_bad_fleet_summary
-
-      incProgress(0.75)
-
-      ### Run Model ---
-
+      fleet <-  CreateFleets(
+        vessel_list = vessel_dat,
+        iuu = iuu,
+        oa = oa,
+        overcap = overcap,
+        cap_tier = cap_tier,
+        cap_tier_dat = cap_tier_dat,
+        profile_dat = combined_fishery_stats_dat,
+        managed_threshold = managed_cutoff,
+        wto_members_and_observers = wto_members_and_observers,
+        subsidy_types_all = subsidy_types_sorted_sumaila,
+        flag_summary_dat = flag_summary)
+      
+      # Make list
       fleet_list <- fleet$summary %>%
         group_by(region) %>%
         group_split()
       names(fleet_list) <- colnames(bio_dat)[-c(1:2)]
+      
+      incProgress(0.75)
 
-      # Run model
+      ### Run Model ---
       out <- pmap_df(list(fleet = fleet_list,
                           region = names(fleet_list),
                           bio_param = bio_dat_list),
@@ -809,6 +790,7 @@ shinyServer(function(input, output, session) {
                                        TRUE ~ 0)) %>%
         ungroup() %>%
         mutate(run_number = new_run_id,
+               run_name = run_name,
                id = "B",
                Description = "Description")
 
@@ -824,16 +806,19 @@ shinyServer(function(input, output, session) {
         rename(Biomass = biomass,
                Catches = catches_total,
                Revenue = revenue_total) %>%
-        mutate(run_number = new_run_id)
+        mutate(run_number = new_run_id,
+               run_name = run_name)
 
       #isolate(rv_model_results$last <- rbind(rv_model_results$last, out_last))
 
       # Fill in new tibble row
       new_result <- tibble(id = new_run_id,
+                           name = run_name,
                            iuu = list(iuu),
                            oa = list(oa),
                            overcap = list(overcap),
                            cap_tier = list(cap_tier),
+                           policy_description = list("NA"),
                            fleet_summary = list(remove_all_bad_fleet_summary),
                            results_timeseries = list(out_all),
                            results_last = list(out_last))

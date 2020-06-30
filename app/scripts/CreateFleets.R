@@ -138,7 +138,7 @@ CreateFleets <- function(vessel_list,
   
   ### IUU scope ----------
   
-  if(nrow(iuu_vessels) >= 1 & iuu$scope == 'SELECT' & !is.na(iuu$scope_manual)){
+  if(nrow(iuu_vessels) >= 1 & iuu$scope == 'SELECT'){
     
     ### Vessel list for scope
     iuu_vessels_scope <- vessel_subset %>%

@@ -27,7 +27,7 @@ shinyServer(function(input, output, session) {
                  cap_tier = list(),
                  
                  # Policy description (words)
-                 policy_description = character(),
+                 policy_description = list(),
                  
                  # Fleet summary
                  fleet_summary = list(),
@@ -49,6 +49,11 @@ shinyServer(function(input, output, session) {
                           oa = list("NA"),
                           overcap = list("NA"),
                           cap_tier = list("NA"),
+                          policy_description = list(
+                            paste0(
+                              "<b>", "Name: ", "</b>", "Most ambitious scenario", "</br>",
+                              "<b>", "Summary: ", "</b>", "Complete removal of capacity-enhancing subsidies", "</br>")
+                          ),
                           fleet_summary = list(remove_all_bad_fleet_summary),
                           results_timeseries = list(remove_all_bad_results_full),
                           results_last = list(remove_all_bad_results_last))
@@ -58,19 +63,16 @@ shinyServer(function(input, output, session) {
     
   })
   
-  # # Reactive object that keeps track of the current policy being run -----------
-  # rv_selected_policy <- reactiveValues(iuu = list(),
-  #                                      oa = list(),
-  #                                      overcap = list(),
-  #                                      cap_tier = list())
-  # 
-  # # Reactive object that keeps track of the affected and unaffected fleets ------
-  # rv_fleet <- reactiveValues(vessels = NULL,
-  #                            summary = NULL)
-  # 
-  # # Reactive df that keeps track all all model timeseries results ------
-  # rv_model_results <- reactiveValues(timeseries = remove_all_bad_results_full,
-  #                                    last = remove_all_bad_results_last)
+  ### Reactive object that keeps track of user custom input policy selections -----
+  rv_custom_policy <- reactiveValues(
+    
+    name = character(),
+    iuu = list(),
+    oa = list(),
+    overcap = list(),
+    cap_tier = list()
+    
+  )
   
   # Reactive object that keeps track of the currently selected policy -------
   rv_selected_result <- reactiveValues(id = "A")
@@ -252,8 +254,13 @@ shinyServer(function(input, output, session) {
            "tier3_cap_value" = selected_proposal$tier3_cap_value,
            "tier3_cap_fishers" = selected_proposal$tier3_cap_fishers,
            "tier3_cap_percent" = selected_proposal$tier3_cap_percent)
-    
+      
       # rv_selected_policy$cap_tier <- cap_tier
+      
+      # Policy summary
+      policy_summary <- paste0(
+        "<b>", "Name: ", "</b>", selected_proposal$title, "</br>",
+        "<b>", "Summary: ", "</b>", selected_proposal$summary, "</br>")
       
       incProgress(0.25)
     
@@ -335,6 +342,7 @@ shinyServer(function(input, output, session) {
                          oa = list(oa),
                          overcap = list(overcap),
                          cap_tier = list(cap_tier),
+                         policy_description = list(policy_summary),
                          fleet_summary = list(remove_all_bad_fleet_summary),
                          results_timeseries = list(out_all),
                          results_last = list(out_last))
@@ -345,6 +353,22 @@ shinyServer(function(input, output, session) {
     incProgress(0.95)
     
     }) # close progress
+    
+  })
+  
+  ### Reactive text: Get description for selected proposal --------
+  output$selected_policy_description <- renderUI({
+    
+    # Make sure something is selected
+    req(rv_selected_result$id != "0")
+      
+    # Filter for selected proposal
+    selected_results <- rv_results$run %>%
+      dplyr::filter(id == rv_selected_result$id)
+    
+    # Turn into HTML
+    unlist(selected_results$policy_description) %>%
+      lapply(htmltools::HTML)
     
   })
   
@@ -565,14 +589,7 @@ shinyServer(function(input, output, session) {
     }
   })
   
-  ### Reactive object: Container for the user input policy selections -----
-  rv_custom_policy <- reactiveValues(
-    name = character(),
-    iuu = list(),
-    oa = list(),
-    overcap = list(),
-    cap_tier = list()
-    )
+
   
   ### Update when any custom widget changes ----------
   

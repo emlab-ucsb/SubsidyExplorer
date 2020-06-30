@@ -67,9 +67,10 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
     ### Content
     column(12,
     
-           ####-----------------------------------------------------------------------------------------
+           ####----------------------------------------------------
            #### Left column - tabBox with manual policy selection
-           #### ----------------------------------------------------------------------------------------
+           #### ----------------------------------------------------
+           
            column(9,
     
                   ### Title and introductory text

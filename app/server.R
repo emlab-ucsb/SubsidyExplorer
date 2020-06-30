@@ -689,31 +689,66 @@ shinyServer(function(input, output, session) {
   })
   
   ### Ui Output: Custom reform policy ------------------
-  output$custom_policy <- renderUI({
+  rv_custom_policy_description <- reactiveValues(
     
-    iuu_summary <- IUUSummaryText(iuu = rv_custom_policy$iuu,
-                                  iuu_definitions = unlist(wid$choices[wid$item_id == "w_iuu_definitions"]),
-                                  country_choices = wto_members_and_observers)
+  )
+  
+  ### Ui Output: Custom reform policy ------------------
+  observe({
     
-    # return
-    tags$div(
-      tags$b("Name: "), rv_custom_policy$name,
-      tags$br(),
-      tags$b("IUU: "),
-      iuu_summary,
-      tags$br()
-      # tags$h5("OA:"),
-      # out$oa_sum,
-      # tags$h5("Overcapacity:"),
-      # out$overcap_sum
-    )
-
+    rv_custom_policy_description$name <- paste0("<b>", "Name:   ", "</b>", rv_custom_policy$name, "</br>")
+    
+    rv_custom_policy_description$iuu_summary <- paste0("<b>", "IUU: ", "</b>", "</br>",
+      IUUSummaryText(iuu = rv_custom_policy$iuu,
+                     iuu_definitions = unlist(wid$choices[wid$item_id == "w_iuu_definitions"]),
+                     country_choices = wto_members_and_observers),
+      "</br>")
+    
+    rv_custom_policy_description$oa_summary <- paste0("<b>", "Overfishing: ", "</b>", "</br>",
+      OASummaryText(oa = rv_custom_policy$oa,
+                    oa_definitions = unlist(wid$choices[wid$item_id == "w_oa_definitions"]),
+                    country_choices = wto_members_and_observers),
+      "</br>")
+    
+    rv_custom_policy_description$overcap_summary <- paste0("<b>", "Overcapacity: ", "</b>", "</br>",
+      OvercapSummaryText(overcap = rv_custom_policy$overcap,
+                         overcap_definitions = subsidy_types_sorted_sumaila,
+                         country_choices = wto_members_and_observers),
+    "</br>")
+    
+    
+    # Generate output 
+    output$custom_policy <- renderUI({
+      
+      paste0(rv_custom_policy_description$name,
+             rv_custom_policy_description$iuu_summary,
+             rv_custom_policy_description$oa_summary,
+             rv_custom_policy_description$overcap_summary) %>%
+        lapply(htmltools::HTML)
+    
+    })
+  
+  })
+  
+  ### Render uI - warning about missing name ------
+  output$custom_name_warning <- renderUI({
+    
+    if(input$w_run_name == ""){
+      
+    paste0("<b><i>", "Please enter a name for your policy.", "</b></i>") %>% 
+        lapply(htmltools::HTML)
+      
+    }else{
+      ""
+    }
   })
   
   ### Background happenings: RUN CUSTOM PROPOSAL ------
   
   observeEvent(input$ab_run_model_custom, {
-
+    
+    req(input$w_run_name != "")
+    
     # Create run id
     last_run_id <- which(LETTERS == rv_results$run$id[nrow(rv_results$run)])
     new_run_id <- LETTERS[last_run_id + 1]
@@ -731,19 +766,15 @@ shinyServer(function(input, output, session) {
 
       # IUU
       iuu <- rv_custom_policy$iuu
-      # rv_selected_policy$iuu <- iuu
 
       # OA
       oa <- rv_custom_policy$oa
-      # rv_selected_policy$oa <- oa
 
       # Overcap
       overcap <- rv_custom_policy$overcap
-      # rv_selected_policy$overcap <- overcap
 
       # Cap/Tier
       cap_tier = rv_custom_policy$cap_tier
-      # rv_selected_policy$cap_tier <- cap_tier
 
       incProgress(0.25)
 
@@ -766,6 +797,7 @@ shinyServer(function(input, output, session) {
         group_by(region) %>%
         group_split()
       names(fleet_list) <- colnames(bio_dat)[-c(1:2)]
+      
       
       incProgress(0.75)
 
@@ -794,8 +826,6 @@ shinyServer(function(input, output, session) {
                id = "B",
                Description = "Description")
 
-      #isolate(rv_model_results$timeseries <- rbind(rv_model_results$timeseries, out_all))
-
       # Just extract global difference in the last time step
       out_last <- out_all %>%
         dplyr::filter(Year == 2100) %>%
@@ -809,7 +839,11 @@ shinyServer(function(input, output, session) {
         mutate(run_number = new_run_id,
                run_name = run_name)
 
-      #isolate(rv_model_results$last <- rbind(rv_model_results$last, out_last))
+      # Create description 
+      policy_description <- paste0(rv_custom_policy_description$name,
+                                   rv_custom_policy_description$iuu_summary,
+                                   rv_custom_policy_description$oa_summary,
+                                   rv_custom_policy_description$overcap_summary)
 
       # Fill in new tibble row
       new_result <- tibble(id = new_run_id,
@@ -818,7 +852,7 @@ shinyServer(function(input, output, session) {
                            oa = list(oa),
                            overcap = list(overcap),
                            cap_tier = list(cap_tier),
-                           policy_description = list("NA"),
+                           policy_description = list(policy_description),
                            fleet_summary = list(remove_all_bad_fleet_summary),
                            results_timeseries = list(out_all),
                            results_last = list(out_last))

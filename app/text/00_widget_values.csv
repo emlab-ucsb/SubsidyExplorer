@@ -89,7 +89,7 @@
 02b,edit-policies,w_oa_sdt_what_sve,S&DT for SVEs:,TIME,Transition period allowed for implementation,FALSE,,,,
 02b,edit-policies,w_oa_sdt_hs_cutoff_sve,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),,,TRUE,1,100,5,
 02b,edit-policies,w_oa_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,,,TRUE,1,10,5,
-02b,edit-policies,w_overcap_definitions,The following types of subsidies are considered to contribute to overcapacity and overfishing and are prohibited...,,,TRUE,,,,
+02b,edit-policies,w_overcap_definitions,The following types of subsidies are considered to contribute to overcapacity and overfishing and are prohibited...,,,FALSE,,,,
 02b,edit-policies,w_overcap_scope,Overcapacity discipline(s) apply to: ,ALL,All WTO Members,TRUE,,,,
 02b,edit-policies,w_overcap_scope,Overcapacity discipline(s) apply to: ,SELECT,Select WTO Members…,FALSE,,,,
 02b,edit-policies,w_overcap_scope,Overcapacity discipline(s) apply to: ,HS,Only Member-flagged vessels fishing in areas beyond national jurisdiction (on the “high seas”),FALSE,,,,

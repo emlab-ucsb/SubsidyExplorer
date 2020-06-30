@@ -160,14 +160,18 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                   uiOutput("custom_policy"),
                   
                   # Run model button
-                  column(12, align = "center", style = "padding: 10px 0 0 0;",
+                  column(12, align = "center", style = "padding: 25px 0 0 0;",
                          
                          actionButton("ab_run_model_custom",
                                       tags$b(text$item_label[text$item_id == "ab_run_model_custom"]),
                                       style = "color: black;
                                       background-color: rgba(255,255,255,0.7); 
                                       border: 3px #3c8dbc solid; 
-                                      white-space: normal;")
+                                      white-space: normal;"),
+                         
+                         
+                         # Warning about missing name
+                         uiOutput("custom_name_warning")
                          
                          
                   )

@@ -651,8 +651,13 @@ CreateFleets <- function(vessel_list,
   ### Section #3 ---------------------------------------------------------------
   ### Subsidies contributing to overcapacity and overfishing -------------------
   ### --------------------------------------------------------------------------
-  
-  if(length(overcap$definitions) == 0 | overcap$definitions == ""){
+
+  if(length(overcap$definitions) == 0 ){
+    
+    # Shortcut output if no disciplines are selected from this category
+    overcap_vessel_subset <- vessel_tracking_df
+    
+  }else if(overcap$definitions == ""){
     
     # Shortcut output if no disciplines are selected from this category
     overcap_vessel_subset <- vessel_tracking_df
@@ -1018,7 +1023,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   ### Cap and tier --------------------------------------
   ### ---------------------------------------------------
   
-  if(cap_tier$on_off == "Yes"){
+  if(cap_tier$on_off == "YES"){
   
   # Subsidy types to include in cap. 
   # Other bad subsidies could have either been completely prohibited in the overcapacity section, or are allowed.
@@ -1036,7 +1041,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
     ### Create tidy data frame to track caps, already removed subsidies, and allowed subsidies
     # Get total subsidy amount by flag and subtype
     subs_total <- flag_summary_dat %>%
-      dplyr::select(flag, paste0(subsidy_types_all, "_subs")) %>%
+      dplyr::select(flag_iso3, paste0(subsidy_types_all, "_subs")) %>%
       gather(type, subs, -1) %>%
       mutate(type = str_replace(type, "_subs", "")) %>%
       rename(flag = flag_iso3) %>%
@@ -1070,36 +1075,35 @@ overcap_vessels_out <- overcap_vessels_scope %>%
    ### DETERMINE TIERING -----------
     
    ### One Tier
-   if(cap_tier$tier_number == "One"){
+   if(cap_tier$tier_number == "ONE"){
      
-     tier_1_flags_out <- c(unique(cap_tier_dat$iso3)) 
-                           #eu_countries, eu_territories, us_territories)
-    
+     tier_1_flags_out <- wto_members_and_observers 
+
    ### Two Tiers     
-   }else if(cap_tier$tier_number == "Two"){
+   }else if(cap_tier$tier_number == "TWO"){
      
      # Establish who is in which tier
-     if(cap_tier$tier_system == "capture"){
+     if(cap_tier$tier_system == "CAPTURE"){
        
-       percent_cutoff <- cap_tier$tier2_cutoff/100
+       percent_cutoff <- cap_tier$two_tier_cutoff/100
        
        cap_tier_dat_sorted <- cap_tier_dat %>%
          mutate(new_tier = case_when(percent_global_capture >= percent_cutoff ~ 1, 
                                      percent_global_capture < percent_cutoff ~ 2,
                                      is.na(percent_global_capture) ~ 2))
        
-     }else if(cap_tier$tier_system == "exports"){
+     }else if(cap_tier$tier_system == "EXPORTS"){
        
-       percent_cutoff <- cap_tier$tier2_cutoff/100
+       percent_cutoff <- cap_tier$two_tier_cutoff/100
        
        cap_tier_dat_sorted <- cap_tier_dat %>%
          mutate(new_tier = case_when(percent_exports >= percent_cutoff ~ 1, 
                                      percent_exports < percent_cutoff ~ 2,
                                      is.na(percent_exports) ~ 2))
        
-     }else if(cap_tier$tier_system == "subs"){
+     }else if(cap_tier$tier_system == "SUBS"){
        
-       percent_cutoff <- cap_tier$tier2_cutoff/100
+       percent_cutoff <- cap_tier$two_tier_cutoff/100
        
        cap_tier_dat_sorted <- cap_tier_dat %>%
          left_join(flag_summary %>% dplyr::select(flag, percent_bad_subs), by = c("iso3" = "flag")) %>%
@@ -1107,7 +1111,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
                                      percent_bad_subs < percent_cutoff ~ 2,
                                      is.na(percent_bad_subs) ~ 2))
        
-     }else if(cap_tier$tier_system == "development"){
+     }else if(cap_tier$tier_system == "DEVELOPMENT"){
        
        cap_tier_dat_sorted <- cap_tier_dat %>%
          left_join(flag_summary %>% dplyr::select(flag, development_status), by = c("iso3" = "flag")) %>%
@@ -1118,35 +1122,35 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      }
      
      tier_1_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 1])
-     if("EU" %in% tier_1_flags){
-       tier_1_flags_out <- c(tier_1_flags, eu_countries, eu_territories)
-     }else if("USA" %in% tier_1_flags){
-       tier_1_flags_out <- c(tier_1_flags, us_territories)
-     }else if("EU" %in% tier_1_flags &"USA" %in% tier_1_flags){
-       tier_1_flags_out <- c(tier_1_flags, eu_countries, eu_territories, us_territories)
-     }else{
+     # if("EU" %in% tier_1_flags){
+     #   tier_1_flags_out <- c(tier_1_flags, eu_countries, eu_territories)
+     # }else if("USA" %in% tier_1_flags){
+     #   tier_1_flags_out <- c(tier_1_flags, us_territories)
+     # }else if("EU" %in% tier_1_flags &"USA" %in% tier_1_flags){
+     #   tier_1_flags_out <- c(tier_1_flags, eu_countries, eu_territories, us_territories)
+     # }else{
        tier_1_flags_out <- tier_1_flags
-     }
+     #}
      
      tier_2_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 2])
-     if("EU" %in% tier_2_flags){
-       tier_2_flags_out <- c(tier_2_flags, eu_countries, eu_territories)
-     }else if("USA" %in% tier_2_flags){
-       tier_2_flags_out <- c(tier_2_flags, us_territories)
-     }else if("EU" %in% tier_2_flags &"USA" %in% tier_2_flags){
-       tier_2_flags_out <- c(tier_2_flags, eu_countries, eu_territories, us_territories)
-     }else{
+     # if("EU" %in% tier_2_flags){
+     #   tier_2_flags_out <- c(tier_2_flags, eu_countries, eu_territories)
+     # }else if("USA" %in% tier_2_flags){
+     #   tier_2_flags_out <- c(tier_2_flags, us_territories)
+     # }else if("EU" %in% tier_2_flags &"USA" %in% tier_2_flags){
+     #   tier_2_flags_out <- c(tier_2_flags, eu_countries, eu_territories, us_territories)
+     # }else{
        tier_2_flags_out <- tier_2_flags
-     }
+     #}
      
    ### Three tiers    
-   }else if(cap_tier$tier_number == "Three"){
+   }else if(cap_tier$tier_number == "THREE"){
      
      # Establish who is in which tier
-     if(cap_tier$tier_system == "capture"){
+     if(cap_tier$tier_system == "CAPTURE"){
        
-       percent_cutoff_top <- cap_tier$tier3_cutoff[2]/100
-       percent_cutoff_bottom <- cap_tier$tier3_cutoff[1]/100
+       percent_cutoff_top <- cap_tier$three_tier_cutoff[2]/100
+       percent_cutoff_bottom <- cap_tier$three_tier_cutoff[1]/100
        
        cap_tier_dat_sorted <- cap_tier_dat %>%
          mutate(new_tier = case_when(percent_global_capture >= percent_cutoff_top ~ 1, 
@@ -1154,10 +1158,10 @@ overcap_vessels_out <- overcap_vessels_scope %>%
                                      percent_global_capture < percent_cutoff_bottom ~ 3,
                                      is.na(percent_global_capture) ~ 3))
        
-     }else if(cap_tier$tier_system == "exports"){
+     }else if(cap_tier$tier_system == "EXPORTS"){
        
-       percent_cutoff_top <- cap_tier$tier3_cutoff[2]/100
-       percent_cutoff_bottom <- cap_tier$tier3_cutoff[1]/100
+       percent_cutoff_top <- cap_tier$three_tier_cutoff[2]/100
+       percent_cutoff_bottom <- cap_tier$three_tier_cutoff[1]/100
        
        cap_tier_dat_sorted <- cap_tier_dat %>%
          mutate(new_tier = case_when(percent_exports >= percent_cutoff_top ~ 1, 
@@ -1165,62 +1169,60 @@ overcap_vessels_out <- overcap_vessels_scope %>%
                                      percent_exports < percent_cutoff_bottom ~ 3,
                                      is.na(percent_exports) ~ 3))
        
-     }else if(cap_tier$tier_system == "subs"){
+     }else if(cap_tier$tier_system == "SUBS"){
        
-       percent_cutoff_top <- cap_tier$tier3_cutoff[2]/100
-       percent_cutoff_bottom <- cap_tier$tier3_cutoff[1]/100
+       percent_cutoff_top <- cap_tier$three_tier_cutoff[2]/100
+       percent_cutoff_bottom <- cap_tier$three_tier_cutoff[1]/100
        
        cap_tier_dat_sorted <- cap_tier_dat %>%
-         left_join(flag_summary %>% dplyr::select(flag, percent_bad_subs), by = c("iso3" = "flag")) %>%
+         left_join(flag_summary_dat %>% dplyr::select(flag_iso3, percent_bad_subs), by = c("iso3" = "flag_iso3")) %>%
          mutate(new_tier = case_when(percent_bad_subs >= percent_cutoff_top ~ 1, 
                                      (percent_bad_subs < percent_cutoff_top & percent_exports >= percent_cutoff_bottom) ~ 2,
                                      percent_bad_subs < percent_cutoff_bottom ~ 3,
                                      is.na(percent_bad_subs) ~ 3))
        
-     }else if(cap_tier$tier_system == "development"){
+     }else if(cap_tier$tier_system == "DEVELOPMENT"){
        
        cap_tier_dat_sorted <- cap_tier_dat %>%
-         left_join(flag_summary %>% dplyr::select(flag, development_status), by = c("iso3" = "flag")) %>%
+         left_join(flag_summary_dat %>% dplyr::select(flag_iso3, development_status), by = c("iso3" = "flag_iso3")) %>%
          mutate(new_tier = case_when(development_status == "Developed" ~ 1, 
                                      development_status == "Developing" ~ 2,
                                      development_status == "LDC" ~ 3,
                                      is.na(development_status) ~ 3))
-       # Might need to fix this
-       
      }
      
      tier_1_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 1])
-     if("EU" %in% tier_1_flags){
-       tier_1_flags_out <- c(tier_1_flags, eu_countries, eu_territories)
-     }else if("USA" %in% tier_1_flags){
-       tier_1_flags_out <- c(tier_1_flags, us_territories)
-     }else if("EU" %in% tier_1_flags &"USA" %in% tier_1_flags){
-       tier_1_flags_out <- c(tier_1_flags, eu_countries, eu_territories, us_territories)
-     }else{
+     # if("EU" %in% tier_1_flags){
+     #   tier_1_flags_out <- c(tier_1_flags, eu_countries, eu_territories)
+     # }else if("USA" %in% tier_1_flags){
+     #   tier_1_flags_out <- c(tier_1_flags, us_territories)
+     # }else if("EU" %in% tier_1_flags &"USA" %in% tier_1_flags){
+     #   tier_1_flags_out <- c(tier_1_flags, eu_countries, eu_territories, us_territories)
+     # }else{
        tier_1_flags_out <- tier_1_flags
-     }
+     #}
      
      tier_2_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 2])
-     if("EU" %in% tier_2_flags){
-       tier_2_flags_out <- c(tier_2_flags, eu_countries, eu_territories)
-     }else if("USA" %in% tier_2_flags){
-       tier_2_flags_out <- c(tier_2_flags, us_territories)
-     }else if("EU" %in% tier_2_flags &"USA" %in% tier_2_flags){
-       tier_2_flags_out <- c(tier_2_flags, eu_countries, eu_territories, us_territories)
-     }else{
+     # if("EU" %in% tier_2_flags){
+     #   tier_2_flags_out <- c(tier_2_flags, eu_countries, eu_territories)
+     # }else if("USA" %in% tier_2_flags){
+     #   tier_2_flags_out <- c(tier_2_flags, us_territories)
+     # }else if("EU" %in% tier_2_flags &"USA" %in% tier_2_flags){
+     #   tier_2_flags_out <- c(tier_2_flags, eu_countries, eu_territories, us_territories)
+     # }else{
        tier_2_flags_out <- tier_2_flags
-     }
+     #}
      
      tier_3_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 3])
-     if("EU" %in% tier_3_flags){
-       tier_3_flags_out <- c(tier_3_flags, eu_countries, eu_territories)
-     }else if("USA" %in% tier_3_flags){
-       tier_3_flags_out <- c(tier_3_flags, us_territories)
-     }else if("EU" %in% tier_3_flags &"USA" %in% tier_3_flags){
-       tier_3_flags_out <- c(tier_3_flags, eu_countries, eu_territories, us_territories)
-     }else{
+     # if("EU" %in% tier_3_flags){
+     #   tier_3_flags_out <- c(tier_3_flags, eu_countries, eu_territories)
+     # }else if("USA" %in% tier_3_flags){
+     #   tier_3_flags_out <- c(tier_3_flags, us_territories)
+     # }else if("EU" %in% tier_3_flags &"USA" %in% tier_3_flags){
+     #   tier_3_flags_out <- c(tier_3_flags, eu_countries, eu_territories, us_territories)
+     # }else{
        tier_3_flags_out <- tier_3_flags
-     }
+     #}
      
    } # close tiering system
     
@@ -1228,7 +1230,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
    ### DETERMINE CAPS ----------
     
    ### Tier 1 - ALWAYS  
-   if(cap_tier$tier1_cap_rule == "percent_subs"){
+   if(cap_tier$tier1_cap_rule == "PERCENT_SUBS"){
        
        percent_cap <- cap_tier$tier1_cap_percent/100
        
@@ -1236,7 +1238,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          dplyr::filter(flag %in% tier_1_flags_out) %>%
          mutate(cap = subs_for_cap*percent_cap)
        
-    }else if(cap_tier$tier1_cap_rule == "value"){
+    }else if(cap_tier$tier1_cap_rule == "VALUE"){
        
        absolute_cap <- cap_tier$tier1_cap_value*1e6
        
@@ -1244,32 +1246,32 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          dplyr::filter(flag %in% tier_1_flags_out) %>%
          mutate(cap = absolute_cap*subs_for_cap_percent_tot)
        
-    }else if(cap_tier$tier1_cap_rule == "percent_revenue"){
+    }else if(cap_tier$tier1_cap_rule == "PERCENT_REVENUE"){
        
        percent_cap <- cap_tier$tier1_cap_percent/100
        
-       flag_revenue <- flag_summary %>%
-         dplyr::select(flag, revenue) %>%
+       flag_revenue <- flag_summary_dat %>%
+         dplyr::select(flag_iso3, revenue) %>%
          mutate(cap_value = revenue*percent_cap) 
        
        flag_caps_tier1 <- cap_df %>%
          dplyr::filter(flag %in% tier_1_flags_out) %>%
-         left_join(flag_revenue, by = "flag") %>%
+         left_join(flag_revenue, by = c("flag" = "flag_iso3")) %>%
          mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
          mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
          dplyr::select(-revenue, -cap_value, -new_cap_value)
        
-     }else if(cap_tier$tier1_cap_rule == "fishers"){
+     }else if(cap_tier$tier1_cap_rule == "FISHERS"){
        
        money_per_fisher <- cap_tier$tier1_cap_fishers
        
-       flag_fishers <- flag_summary %>%
-         dplyr::select(flag, fishers) %>%
+       flag_fishers <- flag_summary_dat %>%
+         dplyr::select(flag_iso3, fishers) %>%
          mutate(cap_value = fishers*money_per_fisher)
        
        flag_caps_tier1 <- cap_df %>%
          dplyr::filter(flag %in% tier_1_flags_out) %>%
-         left_join(flag_fishers, by = "flag") %>%
+         left_join(flag_fishers, by = c("flag" = "flag_iso3")) %>%
          mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
          mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
          dplyr::select(-fishers, -cap_value, -new_cap_value)
@@ -1280,9 +1282,9 @@ overcap_vessels_out <- overcap_vessels_scope %>%
     flag_caps_out <- flag_caps_tier1
     
     ### Tier 2 - needed regardless of whether there are two total, or three total tiers
-    if(cap_tier$tier_number == "Two" | cap_tier$tier_number == "Three"){
+    if(cap_tier$tier_number == "TWO" | cap_tier$tier_number == "THREE"){
       
-      if(cap_tier$tier2_cap_rule == "percent_subs"){
+      if(cap_tier$tier2_cap_rule == "PERCENT_SUBS"){
         
         percent_cap <- cap_tier$tier2_cap_percent/100
         
@@ -1290,7 +1292,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
           dplyr::filter(flag %in% tier_2_flags_out) %>%
           mutate(cap = subs_for_cap*percent_cap)
         
-      }else if(cap_tier$tier2_cap_rule == "value"){
+      }else if(cap_tier$tier2_cap_rule == "VALUE"){
         
         absolute_cap <- cap_tier$tier2_cap_value*1e6
         
@@ -1298,37 +1300,37 @@ overcap_vessels_out <- overcap_vessels_scope %>%
           dplyr::filter(flag %in% tier_2_flags_out) %>%
           mutate(cap = absolute_cap*subs_for_cap_percent_tot)
         
-      }else if(cap_tier$tier2_cap_rule == "percent_revenue"){
+      }else if(cap_tier$tier2_cap_rule == "PERCENT_REVENUE"){
         
         percent_cap <- cap_tier$tier2_cap_percent/100
         
-        flag_revenue <- flag_summary %>%
-          dplyr::select(flag, revenue) %>%
+        flag_revenue <- flag_summary_dat %>%
+          dplyr::select(flag_iso3, revenue) %>%
           mutate(cap_value = revenue*percent_cap) 
         
         flag_caps_tier2 <- cap_df %>%
           dplyr::filter(flag %in% tier_2_flags_out) %>%
-          left_join(flag_revenue, by = "flag") %>%
+          left_join(flag_revenue, by = c("flag" = "flag_iso3")) %>%
           mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
           mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
           dplyr::select(-revenue, -cap_value, -new_cap_value)
         
-      }else if(cap_tier$tier2_cap_rule == "fishers"){
+      }else if(cap_tier$tier2_cap_rule == "FISHERS"){
         
         money_per_fisher <- cap_tier$tier2_cap_fishers
         
-        flag_fishers <- flag_summary %>%
-          dplyr::select(flag, fishers) %>%
+        flag_fishers <- flag_summary_dat %>%
+          dplyr::select(flag_iso3, fishers) %>%
           mutate(cap_value = fishers*money_per_fisher)
         
         flag_caps_tier2 <- cap_df %>%
           dplyr::filter(flag %in% tier_1_flags_out) %>%
-          left_join(flag_fishers, by = "flag") %>%
+          left_join(flag_fishers, by = c("flag" = "flag_iso3")) %>%
           mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
           mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
           dplyr::select(-fishers, -cap_value, -new_cap_value)
         
-      }else if(cap_tier$tier2_cap_rule == "none"){
+      }else if(cap_tier$tier2_cap_rule == "NONE"){
         
         flag_caps_tier2 <- cap_df %>%
           dplyr::filter(flag %in% tier_2_flags_out) %>%
@@ -1343,9 +1345,9 @@ overcap_vessels_out <- overcap_vessels_scope %>%
     } # close tier 2
     
     ### Tier 3 - only needed if there are three total tiers
-    if(cap_tier$tier_number == "Three"){
+    if(cap_tier$tier_number == "THREE"){
       
-      if(cap_tier$tier3_cap_rule == "percent_subs"){
+      if(cap_tier$tier3_cap_rule == "PERCENT_SUBS"){
         
         percent_cap <- cap_tier$tier3_cap_percent/100
         
@@ -1353,7 +1355,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
           dplyr::filter(flag %in% tier_3_flags_out) %>%
           mutate(cap = subs_for_cap*percent_cap)
         
-      }else if(cap_tier$tier3_cap_rule == "value"){
+      }else if(cap_tier$tier3_cap_rule == "VALUE"){
         
         absolute_cap <- cap_tier$tier3_cap_value*1e6
         
@@ -1361,37 +1363,37 @@ overcap_vessels_out <- overcap_vessels_scope %>%
           dplyr::filter(flag %in% tier_3_flags_out) %>%
           mutate(cap = absolute_cap*subs_for_cap_percent_tot)
         
-      }else if(cap_tier$tier3_cap_rule == "percent_revenue"){
+      }else if(cap_tier$tier3_cap_rule == "PERCENT_REVENUE"){
         
         percent_cap <- cap_tier$tier3_cap_percent/100
         
-        flag_revenue <- flag_summary %>%
-          dplyr::select(flag, revenue) %>%
+        flag_revenue <- flag_summary_dat %>%
+          dplyr::select(flag_iso3, revenue) %>%
           mutate(cap_value = revenue*percent_cap) 
         
         flag_caps_tier3 <- cap_df %>%
           dplyr::filter(flag %in% tier_3_flags_out) %>%
-          left_join(flag_revenue, by = "flag") %>%
+          left_join(flag_revenue, by = c("flag" = "flag_iso3")) %>%
           mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
           mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
           dplyr::select(-revenue, -cap_value, -new_cap_value)
         
-      }else if(cap_tier$tier2_cap_rule == "fishers"){
+      }else if(cap_tier$tier2_cap_rule == "FISHERS"){
         
         money_per_fisher <- cap_tier$tier3_cap_fishers
         
-        flag_fishers <- flag_summary %>%
-          dplyr::select(flag, fishers) %>%
+        flag_fishers <- flag_summary_dat %>%
+          dplyr::select(flag_iso3, fishers) %>%
           mutate(cap_value = fishers*money_per_fisher)
         
         flag_caps_tier3 <- cap_df %>%
           dplyr::filter(flag %in% tier_3_flags_out) %>%
-          left_join(flag_fishers, by = "flag") %>%
+          left_join(flag_fishers, by = c("flag" = "flag_iso3")) %>%
           mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
           mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
           dplyr::select(-fishers, -cap_value, -new_cap_value)
         
-      }else if(cap_tier$tier3_cap_rule == "none"){
+      }else if(cap_tier$tier3_cap_rule == "NONE"){
         
         flag_caps_tier3 <- cap_df %>%
           dplyr::filter(flag %in% tier_3_flags_out) %>%
@@ -1427,7 +1429,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      # Join to vessels and calculate removed subs and allowed subs  
      cap_return_vessels <-  vessel_subset %>%
        dplyr::select(region, ssvid, eez_id, fao_region, flag, catch, revenue, fishing_h, fishing_KWh, contains("_subs")) %>%
-       left_join(flag_reduction_percents, by = "flag") %>%
+       left_join(flag_reduction_percents, by = c("flag")) %>%
        mutate(A1_subs_removed = A1_subs*(1-allowed_A1),
               A2_subs_removed = A2_subs*(1-allowed_A2),
               A3_subs_removed = A3_subs*(1-allowed_A3),
@@ -1442,6 +1444,21 @@ overcap_vessels_out <- overcap_vessels_scope %>%
               C2_subs_removed = C2_subs*(1-allowed_C2),
               C3_subs_removed = C3_subs*(1-allowed_C3)) %>%
        dplyr::select(-contains("allowed_"))
+     
+     cap_return_vessels <- cap_return_vessels %>% 
+       mutate(A1_subs_removed = ifelse(is.na(A1_subs_removed), 0, A1_subs_removed),
+              A2_subs_removed = ifelse(is.na(A2_subs_removed), 0, A2_subs_removed),
+              A3_subs_removed = ifelse(is.na(A3_subs_removed), 0, A3_subs_removed),
+              B1_subs_removed = ifelse(is.na(B1_subs_removed), 0, B1_subs_removed),
+              B2_subs_removed = ifelse(is.na(B2_subs_removed), 0, B2_subs_removed),
+              B3_subs_removed = ifelse(is.na(B3_subs_removed), 0, B3_subs_removed),
+              B4_subs_removed = ifelse(is.na(B4_subs_removed), 0, B4_subs_removed),
+              B5_subs_removed = ifelse(is.na(B5_subs_removed), 0, B5_subs_removed),
+              B6_subs_removed = ifelse(is.na(B6_subs_removed), 0, B6_subs_removed),
+              B7_subs_removed = ifelse(is.na(B7_subs_removed), 0, B7_subs_removed),
+              C1_subs_removed = ifelse(is.na(C1_subs_removed), 0, C1_subs_removed),
+              C2_subs_removed = ifelse(is.na(C2_subs_removed), 0, C2_subs_removed),
+              C3_subs_removed = ifelse(is.na(C3_subs_removed), 0, C3_subs_removed))
      
      # Join to other affected vessels and summarize
      return_vessels <- affected_vessels %>%

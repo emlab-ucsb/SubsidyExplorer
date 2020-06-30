@@ -267,21 +267,19 @@ shinyServer(function(input, output, session) {
     ### Find fleets ---
     
     # # Run computation
-    fleet <- NULL
-    # fleet <-  CreateFleets(
-    #   vessel_list = vessel_dat,
-    #   iuu = rv_selected_policy$iuu,
-    #   oa = rv_selected_policy$oa,
-    #   overcap = rv_selected_policy$overcap,
-    #   cap_tier = rv_selected_policy$cap_tier,
-    #   cap_tier_dat = cap_tier_dat,
-    #   profile_dat = combined_fishery_stats_dat,
-    #   managed_threshold = managed_cutoff)
-    
-    # subsidy_types_all = subsidy_types_all,
-    # eu_countries = eu_countries,
-    # eu_territories = eu_territories,
-    # us_territories = us_territories
+    #fleet <- NULL
+    fleet <-  CreateFleets(
+      vessel_list = vessel_dat,
+      iuu = iuu,
+      oa = oa,
+      overcap = overcap,
+      cap_tier = cap_tier,
+      cap_tier_dat = cap_tier_dat,
+      profile_dat = combined_fishery_stats_dat,
+      managed_threshold = managed_cutoff,
+      wto_members_and_observers = wto_members_and_observers,
+      subsidy_types = subsidy_types_sorted_sumaila,
+      flag_summary_dat = flag_summary)
     
     # FIX THIS XXXXXXXXXXXXXX
     # rv_fleet$vessels <- remove_all_bad_fleet_vessels

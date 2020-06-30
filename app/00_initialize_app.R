@@ -267,7 +267,7 @@ combined_fishery_stats_dat <- subsidy_dat %>%
   bind_rows(relative_subs_dat) %>%
   arrange(iso3, variable, type)
 
-### GET MOST AMBITIOUS RESULTS ----------------------------------------------------------------------------
+### GET MOST AMBITIOUS RESULTS --------------------------------------------------------------
 
 # Create fleet (vessels)
 remove_all_bad_fleet_vessels <- vessel_dat %>%
@@ -361,4 +361,75 @@ remove_all_bad_results_last <- remove_all_bad_results_full %>%
          Catches = catches_total,
          Revenue = revenue_total) %>%
   mutate(run_number = "A")
+
+### Summaries by flag state--------------------------------------------------------------
+
+flag_summary <- bind_cols(
+  
+  # Summarize general variables
+  (vessel_dat %>%
+     group_by(flag_iso3) %>%
+     summarize(n_vessels = n_distinct(ssvid),
+               n_vessel_class = n_distinct(vessel_class),
+               avg_length_m = mean(length_m, na.rm = T),
+               avg_tonnage_gt = mean(tonnage_gt, na.rm = T),
+               avg_engine_power_kw = mean(engine_power_kw, na.rm = T),
+               regions_fished = n_distinct(eez_hs_code),
+               development_status = unique(development_status))),
+  
+  # Summarize variables that are summed
+ (vessel_dat %>%
+             rename(fishing_h = fishing_hours_eez_fao_ter,
+                    fishing_KWh = fishing_KWh_eez_fao_ter) %>%
+             group_by(flag_iso3) %>%
+             summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T))
+) %>%
+  ungroup() %>%
+  select(-flag_iso31) %>%
+  mutate(tot_bad_subs = sum(bad_subs),
+         percent_bad_subs = bad_subs/tot_bad_subs)
+
+### Summary statistics for the EU ---
+eu_summary <- bind_cols(
+  
+  # Summarize general variables
+  (vessel_dat %>%
+     dplyr::filter(is_EU) %>%
+     summarize(n_vessels = n_distinct(ssvid),
+               n_vessel_class = n_distinct(vessel_class),
+               avg_length_m = mean(length_m, na.rm = T),
+               avg_tonnage_gt = mean(tonnage_gt, na.rm = T),
+               avg_engine_power_kw = mean(engine_power_kw, na.rm = T),
+               regions_fished = n_distinct(eez_hs_code),
+               development_status = "Developed")),
+  
+  # Summarize variables that are summed
+  (vessel_dat %>%
+     dplyr::filter(is_EU) %>%
+     rename(fishing_h = fishing_hours_eez_fao_ter,
+            fishing_KWh = fishing_KWh_eez_fao_ter) %>%
+     summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T))
+) %>%
+  ungroup() %>%
+  mutate(flag_iso3 = "EU",
+         tot_bad_subs = unique(flag_summary$tot_bad_subs),
+         percent_bad_subs = bad_subs/tot_bad_subs)
+
+
+### All summary statistics by flag --- 
+flag_summary <- flag_summary %>%
+  bind_rows(eu_summary)
+
+### Get number of fishers by flag and add flag summary statistics ---
+fisher_dat <- demographic_dat %>%
+  dplyr::filter(variable == "fishers") %>%
+  group_by(iso3) %>%
+  mutate(max_year = max(year[!is.na(value)])) %>%
+  ungroup() %>%
+  dplyr::filter(year == max_year) %>%
+  dplyr::select(flag_iso3 = iso3, fishers = value)
+
+flag_summary <- flag_summary %>%
+  left_join(fisher_dat, by = c("flag_iso3"))
+flag_summary$fishers[is.na(flag_summary$fishers)] <- 0
 

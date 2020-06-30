@@ -16,6 +16,8 @@
 # This file contains all of the button, widget label, tab, and header text
 text <- read_csv("./text/00_button_and_widget_text.csv")
 
+browser()
+
 # This file contains the values and display names for the widgets
 wid <- read_csv("./text/00_widget_values.csv") %>%
   group_by(tab_num, tab_id, item_id) %>%

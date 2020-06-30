@@ -21,7 +21,7 @@ BioEconModel <- function(fleet,
   ### Fleets ----------------------------
   nf <- length(fleet$fleet)
   fleet_names <- fleet$fleet
-
+  
   # Get affected/managed, affected/open access, unaffected/managed, and unaffected/open access positions
   aff_man <- which(fleet_names == "affected_managed")
   aff_oa <- which(fleet_names == "affected_oa")
@@ -119,7 +119,7 @@ BioEconModel <- function(fleet,
   q[is.nan(q)] <- 0
 
 # Solve for delta
-delta <- catches_total_bau[1]/(price_bau[1]^epsilon)
+#delta <- catches_total_bau[1]/(price_bau[1]^epsilon)
 
 ## Time loopy loopy loop
 

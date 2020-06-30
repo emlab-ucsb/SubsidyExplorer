@@ -19,6 +19,9 @@ shinyServer(function(input, output, session) {
   rv_results <- reactiveValues(
     
     run = tibble(id = character(),
+                 
+                 # Display name
+                 name = character(),
                     
                  # # Policy triggers
                  iuu = list(),
@@ -45,6 +48,7 @@ shinyServer(function(input, output, session) {
     
     # Ambitious results
     best_result <- tibble(id = "A",
+                          name = "Most ambitious scenario",
                           iuu = list("NA"),
                           oa = list("NA"),
                           overcap = list("NA"),
@@ -148,21 +152,34 @@ shinyServer(function(input, output, session) {
     # Require policy selection
     req(input$w_selected_results_proposal_selection != "Default")
     
-    # Create run id 
-    last_run_id <- which(LETTERS == rv_results$run$id[nrow(rv_results$run)])
-    new_run_id <- LETTERS[last_run_id + 1]
+    # Get data for selected proposal
+    selected_proposal <- proposal_settings %>%
+      dplyr::filter(proposal == input$w_selected_results_proposal_selection)
     
-    # Update selection tracker so new run is selected
-    isolate(rv_selected_result$id <- new_run_id)
-
+    # Create run name
+    run_name <- selected_proposal$proposal
+    
+    if(run_name %in% rv_results$run$name){
+      
+      # Find row cooresponding to that run
+      run_id <- rv_results$run$id[rv_results$run$name == run_name]
+      
+      # Update selection tracker so new run is selected
+      isolate(rv_selected_result$id <- run_id)
+      
+    }else{
+      
+      # Create run id 
+      last_run_id <- which(LETTERS == rv_results$run$id[nrow(rv_results$run)])
+      new_run_id <- LETTERS[last_run_id + 1]
+      
+      # Update selection tracker so new run is selected
+      isolate(rv_selected_result$id <- new_run_id)
+      
     # Progress bar
     withProgress(message = 'Processing selection - please wait', value = 0.01, {
       
       ### Step 1: Policy selections ---
-      
-      # Get data for selected proposal
-      selected_proposal <- proposal_settings %>%
-        dplyr::filter(proposal == input$w_selected_results_proposal_selection)
     
       # IUU
       iuu <- 
@@ -265,9 +282,6 @@ shinyServer(function(input, output, session) {
       incProgress(0.25)
     
     ### Find fleets ---
-    
-    # # Run computation
-    #fleet <- NULL
     fleet <-  CreateFleets(
       vessel_list = vessel_dat,
       iuu = iuu,
@@ -278,23 +292,18 @@ shinyServer(function(input, output, session) {
       profile_dat = combined_fishery_stats_dat,
       managed_threshold = managed_cutoff,
       wto_members_and_observers = wto_members_and_observers,
-      subsidy_types = subsidy_types_sorted_sumaila,
+      subsidy_types_all = subsidy_types_sorted_sumaila,
       flag_summary_dat = flag_summary)
     
-    # FIX THIS XXXXXXXXXXXXXX
-    # rv_fleet$vessels <- remove_all_bad_fleet_vessels
-    fleet$summary = remove_all_bad_fleet_summary
-    
-    incProgress(0.75)
-    
-    ### Run Model ---
-    
+    # Make list
     fleet_list <- fleet$summary %>%
       group_by(region) %>%
       group_split()
     names(fleet_list) <- colnames(bio_dat)[-c(1:2)]
     
-    # Run model                                
+    incProgress(0.75)
+    
+    ### Run Model ---
     out <- pmap_df(list(fleet = fleet_list, 
                         region = names(fleet_list),
                         bio_param = bio_dat_list),
@@ -315,6 +324,7 @@ shinyServer(function(input, output, session) {
                                      TRUE ~ 0)) %>%
       ungroup() %>%
       mutate(run_number = new_run_id,
+             run_name = run_name,
              id = "B",
              Description = "Description")
     
@@ -330,12 +340,14 @@ shinyServer(function(input, output, session) {
       rename(Biomass = biomass,
              Catches = catches_total,
              Revenue = revenue_total) %>%
-      mutate(run_number = new_run_id)
+      mutate(run_number = new_run_id,
+             run_name = run_name)
     
     #isolate(rv_model_results$last <- rbind(rv_model_results$last, out_last))
     
     # Fill in new tibble row 
     new_result <- tibble(id = new_run_id,
+                         name = run_name,
                          iuu = list(iuu),
                          oa = list(oa),
                          overcap = list(overcap),
@@ -351,6 +363,8 @@ shinyServer(function(input, output, session) {
     incProgress(0.95)
     
     }) # close progress
+    
+    }
     
   })
   
@@ -386,7 +400,7 @@ shinyServer(function(input, output, session) {
     if(input$w_selected_results_timeseries_plot_resolution == "global"){
       
       plot_dat <- dat %>%
-        group_by(run_number, id, Year, Variable, Fleet) %>%
+        group_by(run_number, run_name, id, Year, Variable, Fleet) %>%
         summarize(BAU = unique(BAU_global),
                   Reform = unique(Reform_global),
                   Diff = unique(Diff_global)) %>%
@@ -397,7 +411,7 @@ shinyServer(function(input, output, session) {
     }else if(input$w_selected_results_timeseries_plot_resolution == "regional"){
       
       plot_dat <- dat %>%
-        dplyr::select(run_number, id, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
+        dplyr::select(run_number, run_name, id, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
         mutate(Region = case_when(Region == "atlantic_e" ~ "Atlantic Ocean (Eastern)",
                                   Region == "atlantic_w" ~ "Atlantic Ocean (Western)",
                                   Region == "indian" ~ "Indian Ocean",
@@ -428,7 +442,7 @@ shinyServer(function(input, output, session) {
                       group = run_number,
                       text = paste0("<b>","Year: ","</b>", Year,
                                     "<br>",
-                                    "<b>","Policy ID: ","</b>", run_number,
+                                    "<b>","Policy Name: ","</b>", run_name,
                                     "<br>",
                                     "<b>","Region: ", "</b>", Region,
                                     "<br>",
@@ -449,7 +463,7 @@ shinyServer(function(input, output, session) {
                   aes(key = run_number,
                       text = paste0("<b>","Year: ","</b>", Year,
                                     "<br>",
-                                    "<b>","Policy ID: ","</b>", run_number,
+                                    "<b>","Policy Name: ","</b>", run_name,
                                     "<br>",
                                     "<b>","Region: ", "</b>", Region,
                                     "<br>",
@@ -458,7 +472,7 @@ shinyServer(function(input, output, session) {
         geom_line(data = out_plot_dat %>% dplyr::filter(run_number == rv_selected_result$id), size = 2, color = "#3c8dbc",
                   aes(text = paste0("<b>","Year: ","</b>", Year,
                                     "<br>",
-                                    "<b>","Policy ID: ","</b>", run_number,
+                                    "<b>","Policy Name: ","</b>", run_name,
                                     "<br>",
                                     "<b>","Region: ", "</b>", Region,
                                     "<br>",

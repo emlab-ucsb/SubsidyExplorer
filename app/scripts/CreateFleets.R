@@ -652,9 +652,7 @@ CreateFleets <- function(vessel_list,
   ### Subsidies contributing to overcapacity and overfishing -------------------
   ### --------------------------------------------------------------------------
   
-  browser()
-  
-  if(length(overcap$definitions) == 0){
+  if(length(overcap$definitions) == 0 | overcap$definitions == ""){
     
     # Shortcut output if no disciplines are selected from this category
     overcap_vessel_subset <- vessel_tracking_df
@@ -710,19 +708,19 @@ CreateFleets <- function(vessel_list,
   
   ### Overcpacity - scope ---------
   
-  if(nrow(overcap_vessels) >= 1 & overcap$scope != "all"){
+  if(nrow(overcap_vessels) >= 1 & overcap$scope != "ALL"){
     
     ### Vessel list for scope
     overcap_vessels_scope <- vessel_subset %>%
       right_join(overcap_vessels, by = c("region", "ssvid", "eez_id", "fao_region"))
     
-    if(overcap$scope == "HS"){
+    if(overcap$scope == "HS" & !is.na(overcap$hs_cutoff)){
       
       overcap_hs_cutoff <- overcap$hs_cutoff/100
       
       # High seas fishing only
       overcap_vessels_scope <- overcap_vessels_scope %>%
-        dplyr::filter(prop_fishing_KWh_HS >= overcap_hs_cutoff)
+        dplyr::filter(prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
       
     }else if(overcap$scope == "DW"){
       
@@ -730,181 +728,247 @@ CreateFleets <- function(vessel_list,
       overcap_vessels_scope <- overcap_vessels_scope %>%
         dplyr::filter(distant_water)
       
-    }else if(overcap$scope == "OUT"){
+    }else if(overcap$scope == "OUT" & !is.na(overcap$hs_cutoff)){
       
       overcap_hs_cutoff <- overcap$hs_cutoff/100
       
       # High seas or distant water fishing only
       overcap_vessels_scope <- overcap_vessels_scope %>%
-        dplyr::filter(distant_water | prop_fishing_KWh_HS >= overcap_hs_cutoff)
+        dplyr::filter(distant_water | prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
+      
+    }else if(overcap$scope == "DISPUTE"){
+      
+      # Disputed waters
+      overcap_vessels_scope <- overcap_vessels_scope %>%
+        dplyr::filter(is_disputed)
       
     }else if(overcap$scope == "SUB"){
       
       #Get rankings by country in terms of total "bad subsidy" provision
-      country_ranking_subsidies <- flag_summary %>%
-        group_by(flag) %>%
+      country_ranking_subsidies <- flag_summary_dat %>%
+        group_by(flag_iso3) %>%
         summarize(bad_subs = unique(bad_subs)) %>%
         mutate(bad_subs_rank = dense_rank(desc(bad_subs))) %>%
         arrange(bad_subs_rank)
       
       # Find top 10 subsidizing Member states
-      top_countries_subs <- country_ranking_subsidies$flag[country_ranking_subsidies$bad_subs_rank <= 10]
+      top_countries_subs <- country_ranking_subsidies$flag_iso3[country_ranking_subsidies$bad_subs_rank <= 10]
       
       # Deal with EU
       if("EU" %in% top_countries_subs){
-        top_countries_fix <- c(top_countries_subs, eu_countries)
+        
+        # Filter for top 10 subsidizing Member states
+        overcap_vessels_scope <- overcap_vessels_scope %>%
+          dplyr::filter(is_EU | flag %in% top_countries_subs)
+        
       }else{
-        top_countries_fix <- top_countries_subs
+        # Filter for top 10 subsidizing Member states
+        overcap_vessels_scope <- overcap_vessels_scope %>%
+          dplyr::filter(flag %in% top_countries_subs)
       }
       
-      # Filter for top 10 subsidizing Member states
-      overcap_vessels_scope <- overcap_vessels_scope %>%
-        dplyr::filter(flag %in% top_countries_fix)
-      
-    }else if(overcap$scope == "LENGTH"){
+    }else if(overcap$scope == "LENGTH" & !is.na(overcap$length_cutoff)){
       
       # Filter by vessel length
       overcap_vessels_scope <- overcap_vessels_scope %>%
         dplyr::filter(length_m >= overcap$length_cutoff)
       
-    }else if(overcap$scope == "select"){
+    }else if(overcap$scope == "TONNAGE" & !is.na(overcap$tonnage_cutoff)){
+      
+      # Filter by vessel length
+      overcap_vessels_scope <- overcap_vessels_scope %>%
+        dplyr::filter(tonnage_gt >= overcap$tonnage_cutoff)
+      
+    }else if(overcap$scope == "ENGINE" & !is.na(overcap$engine_cutoff)){
+      
+      # Filter by vessel length
+      overcap_vessels_scope <- overcap_vessels_scope %>%
+        dplyr::filter(engine_power_kw >= overcap$engine_cutoff)
+      
+    }else if(overcap$scope == "LTE" & !is.na(overcap$engine_cutoff) & !is.na(overcap$length_cutoff) & !is.na(overcap$tonnage_cutoff)){
+      
+      # Filter by vessel length
+      overcap_vessels_scope <- overcap_vessels_scope %>%
+        dplyr::filter(engine_power_kw >= overcap$engine_cutoff & length_m >= overcap$length_cutoff & tonnage_gt >= overcap$tonnage_cutoff)
+      
+    }else if(overcap$scope == "SELECT"){
       
       # Select only certain member countries 
       countries <- overcap$scope_manual
       
       # Deal with EU
       if("EU" %in% countries){
-        countries_fix <- c(countries, eu_countries)
+        
+        # Filter for selected Members
+        overcap_vessels_scope <- overcap_vessels_scope %>%
+          dplyr::filter(flag %in% countries | is_EU)
+        
       }else{
-        countries_fix <- countries
+        
+        # Filter for selected Members
+        overcap_vessels_scope <- overcap_vessels_scope %>%
+          dplyr::filter(flag %in% countries)
+        
       }
-      
-      # Filter for selected Members
-      overcap_vessels_scope <- overcap_vessels_scope %>%
-        dplyr::filter(flag %in% countries_fix)
       
     }
     
-    # Overcapacity vessels in scope
+    # Overcap vessels in scope
     overcap_vessels_scope <- overcap_vessels_scope %>%
       dplyr::select(region, ssvid, eez_id, fao_region, contains("subs_removed"))
     
   }else{
     
+    #  Overcap vessels in scope
     overcap_vessels_scope <- overcap_vessels
     
   }
   
   ### Overcapacity - SDT ----------
   
-  if(nrow(overcap_vessels_scope) >= 1 & overcap$allow_sdt == "Yes"){
+  if(nrow(overcap_vessels_scope) >= 1 & overcap$allow_sdt == "YES"){
     
     ### Vessel list for S&DT
     overcap_vessels_sdt <- vessel_subset %>%
       right_join(overcap_vessels_scope, by = c("region", "ssvid", "eez_id", "fao_region"))
+  
+  ### 1) LDC S&DT ---
+  
+  if(overcap$sdt_ldc == "YES"){
     
-    ### LDC only
-    if(overcap$sdt_who == "ldc"){
+    overcap_vessels_sdt_ldc <- overcap_vessels_sdt %>%
+      dplyr::filter(development_status == "LDC")
+    
+    if("ALL" %in% overcap$sdt_what_ldc){
       
-      overcap_vessels_sdt <- overcap_vessels_sdt %>%
-        dplyr::filter(development_status == "LDC")
+      # If all Member-flagged vessels are exempt... This trumps all other options
+      overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc
       
-      if("all" %in% overcap$sdt_what){
-        
-        # If all Member-flagged vessels are exempt... This trumps all other options
-        overcap_vessels_sdt <- overcap_vessels_sdt
-        
-      }else if("domestic" %in% overcap$sdt_what){
-        
-        # Exempt domestic fishing vessels (less than 1% of fishing effort)
-        overcap_vessels_sdt <- overcap_vessels_sdt %>%
-          dplyr::filter(prop_fishing_KWh_HS < 0.01) 
-        
-      }else if("HS" %in% overcap$sdt_what){
-        
-        # Exempt vessels fishing on the high seas
-        overcap_hs_cutoff <- overcap$sdt_hs_cutoff/100
-        
-        overcap_vessels_sdt <- overcap_vessels_sdt %>%
-          dplyr::filter(prop_fishing_KWh_HS >= overcap_hs_cutoff)
-        
-      }
+    }else if("DOMESTIC" %in% overcap$sdt_what_ldc){
       
-      ### Developing countries and LDCs  
-    }else if(overcap$sdt_who == "developing"){
+      # Exempt domestic fishing vessels (less than 1% of fishing effort)
+      overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
+        dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
       
-      overcap_vessels_sdt <- overcap_vessels_sdt %>%
-        dplyr::filter(development_status != "Developed")
+    }else if("HS" %in% overcap$sdt_what_ldc){
       
-      if("all" %in% overcap$sdt_what){
-        
-        # If all Member-flagged vessels are exempt... This trumps all other options
-        overcap_vessels_sdt <- overcap_vessels_sdt
-        
-      }else if("domestic" %in% overcap$sdt_what){
-        
-        # Exempt domestic fishing vessels (less than 1% of fishing effort)
-        overcap_vessels_sdt <- overcap_vessels_sdt %>%
-          dplyr::filter(prop_fishing_KWh_HS < 0.01) 
-        
-      }else if("HS" %in% overcap$sdt_what){
-        
-        # Exempt vessels fishing on the high seas
-        overcap_hs_cutoff <- overcap$sdt_hs_cutoff/100
-        
-        overcap_vessels_sdt <- overcap_vessels_sdt %>%
-          dplyr::filter(prop_fishing_KWh_HS >= overcap_hs_cutoff)
-        
-      }
+      # Exempt vessels fishing on the high seas
+      overcap_hs_cutoff <- overcap$sdt_hs_cutoff_developing/100
       
-      ### States with small and vulnerable economies only    
-    }else if(overcap$sdt_who == "sve"){
+      overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
+        dplyr::filter(prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
       
-      sves <- c("ATG", "BRB", "BLZ", "BOL", "CUB", "DMA", "DOM", "SLV", "ECU", "FJI", "GRD", "GTM", "HND", "JAM", "MRT", "NIC", "PAN", "PNG", "KNA", "LCA", "VCT", "WSM", "SYC", "LKA", "TON", "TTO", "BHS")
+    }else if("TIME" %in% overcap$sdt_what_ldc){
       
-      overcap_vessels_sdt <- overcap_vessels_sdt %>%
-        dplyr::filter(flag %in% sves)
-      
-      if("all" %in% overcap$sdt_what){
-        
-        # If all Member-flagged vessels are exempt... This trumps all other options
-        overcap_vessels_sdt <- overcap_vessels_sdt
-        
-      }else if("domestic" %in% overcap$sdt_what){
-        
-        # Exempt domestic fishing vessels (less than 1% of fishing effort)
-        overcap_vessels_sdt <- overcap_vessels_sdt %>%
-          dplyr::filter(prop_fishing_KWh_HS < 0.01) 
-        
-      }else if("HS" %in% overcap$sdt_what){
-        
-        # Exempt vessels fishing on the high seas
-        overcap_hs_cutoff <- overcap$sdt_hs_cutoff/100
-        
-        overcap_vessels_sdt <- overcap_vessels_sdt %>%
-          dplyr::filter(prop_fishing_KWh_HS >= overcap_hs_cutoff)
-        
-      }
+      # NEED TO DO 
       
     }
     
-    # List of vessel ids to be excluded from affected because of s&dt
-    overcap_vessels_sdt_ssvid <- overcap_vessels_sdt %>%
-      group_by(ssvid) %>%
-      summarize()
+  }else{
+    
+    overcap_vessels_sdt_ldc <- tibble(ssvid = numeric(0))
+    
+  }
+  
+  ### 2) Developing country S&DT ---
+  
+  if(overcap$sdt_developing == "YES"){
+    
+    overcap_vessels_sdt_developing <- overcap_vessels_sdt %>%
+      dplyr::filter(development_status == "Developing")
+    
+    if("ALL" %in% overcap$sdt_what_developing){
+      
+      # If all Member-flagged vessels are exempt... This trumps all other options
+      overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing
+      
+    }else if("DOMESTIC" %in% overcap$sdt_what_developing){
+      
+      # Exempt domestic fishing vessels (less than 1% of fishing effort)
+      overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
+        dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+      
+    }else if("HS" %in% overcap$sdt_what_developing){
+      
+      # Exempt vessels fishing on the high seas
+      overcap_hs_cutoff <- overcap$sdt_hs_cutoff_developing/100
+      
+      overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
+        dplyr::filter(prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
+      
+    }else if("TIME" %in% overcap$sdt_what_developing){
+      
+      # NEED TO DO 
+      
+    }
     
   }else{
     
-    # List of vessel ids to be excluded from affected because of s&dt
-    overcap_vessels_sdt_ssvid <- tibble(ssvid = numeric(0))
+    overcap_vessels_sdt_developing <- tibble(ssvid = numeric(0))
+    
   }
   
- 
-  # Stats for all vessels triggering overcapacity prohibitions (within scope - those excluded because of s&dt)
-  overcap_vessels_out <- overcap_vessels_scope %>%
-    anti_join(overcap_vessels_sdt_ssvid, by = "ssvid")
+  ### 3) SVE S&DT ---
   
+  if(overcap$sdt_sve == "YES"){
+    
+    sves <- c("ATG", "BRB", "BLZ", "BOL", "CUB", "DMA", "DOM", "SLV", "ECU", "FJI", "GRD", "GTM", "HND", "JAM", "MRT", "NIC", "PAN", "PNG", "KNA", "LCA", "VCT", "WSM", "SYC", "LKA", "TON", "TTO", "BHS")
+    
+    overcap_vessels_sdt_sve <- overcap_vessels_sdt %>%
+      dplyr::filter(flag %in% sves)
+    
+    if("ALL" %in% overcap$sdt_what_sve){
+      
+      # If all Member-flagged vessels are exempt... This trumps all other options
+      overcap_vessels_sdt_sve <- overcap_vessels_sdt_sve
+      
+    }else if("DOMESTIC" %in% overcap$sdt_what_sve){
+      
+      # Exempt domestic fishing vessels (less than 1% of fishing effort)
+      overcap_vessels_sdt_sve <- overcap_vessels_sdt_sve %>%
+        dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+      
+    }else if("HS" %in% overcap$sdt_what_sve){
+      
+      # Exempt vessels fishing on the high seas
+      overcap_hs_cutoff <- overcap$sdt_hs_cutoff_sve/100
+      
+      overcap_vessels_sdt_sve <- overcap_vessels_sdt_sve %>%
+        dplyr::filter(prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
+      
+    }else if("TIME" %in% overcap$sdt_what_sve){
+      
+      # NEED TO DO 
+      
+    }
+    
+  }else{
+    
+    overcap_vessels_sdt_sve <- tibble(ssvid = numeric(0))
+    
+  }
   
+  # Combine S&DT across all categories
+  overcap_vessels_sdt <- overcap_vessels_sdt_ldc %>%
+    bind_rows(overcap_vessels_sdt_developing) %>%
+    bind_rows(overcap_vessels_sdt_sve)
+  
+  # List of vessel ids to be excluded from affected because of s&dt
+  overcap_vessels_sdt_ssvid <- overcap_vessels_sdt %>%
+    group_by(ssvid) %>%
+    summarize()
+  
+}else{
+  
+  # List of vessel ids to be excluded from affected because of s&dt
+  overcap_vessels_sdt_ssvid <- tibble(ssvid = numeric(0))
+  
+}
+
+### Output subsidy summary for all vessels triggering iuu prohibitions, within scope and excluding S&DT
+overcap_vessels_out <- overcap_vessels_scope %>%
+  anti_join(overcap_vessels_sdt_ssvid, by = "ssvid")
+
   ### ---------------------------------------------------------------
   ### Wrangle pre-cap output -------------------
   ### ---------------------------------------------------------------
@@ -971,15 +1035,16 @@ CreateFleets <- function(vessel_list,
     
     ### Create tidy data frame to track caps, already removed subsidies, and allowed subsidies
     # Get total subsidy amount by flag and subtype
-    subs_total <- flag_summary %>%
+    subs_total <- flag_summary_dat %>%
       dplyr::select(flag, paste0(subsidy_types_all, "_subs")) %>%
       gather(type, subs, -1) %>%
       mutate(type = str_replace(type, "_subs", "")) %>%
+      rename(flag = flag_iso3) %>%
       group_by(flag)
     
     # Get base subsidy amounts by flag and subtype that will be included in the cap
-    subs_for_capping <- flag_summary %>%
-      dplyr::select(flag, one_of(subsidies_to_cap)) %>%
+    subs_for_capping <- flag_summary_dat %>%
+      dplyr::select(flag = flag_iso3, one_of(subsidies_to_cap)) %>%
       gather(type, subs_for_cap, -1) %>%
       mutate(type = str_replace(type, "_subs", "")) %>%
       group_by(flag) %>%
@@ -1007,7 +1072,8 @@ CreateFleets <- function(vessel_list,
    ### One Tier
    if(cap_tier$tier_number == "One"){
      
-     tier_1_flags_out <- c(unique(cap_tier_dat$iso3), eu_countries, eu_territories, us_territories)
+     tier_1_flags_out <- c(unique(cap_tier_dat$iso3)) 
+                           #eu_countries, eu_territories, us_territories)
     
    ### Two Tiers     
    }else if(cap_tier$tier_number == "Two"){
@@ -1432,7 +1498,6 @@ CreateFleets <- function(vessel_list,
     mutate(status = "Unaffected", 
            fleet = ifelse(fmi_best >= managed_threshold, "unaffected_managed", "unaffected_oa"))
   
-  
   ### ---------------------------------
   ### ---------------------------------
   ### SUMMARY -------------------------
@@ -1454,7 +1519,6 @@ CreateFleets <- function(vessel_list,
               ugly_subs = sum(ugly_subs, na.rm = T),
               vessels = n_distinct(ssvid),
               removed_subs = sum(removed_subs, na.rm = T))
-  
   
   # return
     out <- list(vessels = out_vessels,

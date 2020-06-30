@@ -347,6 +347,7 @@ remove_all_bad_results_full <- remove_all_bad_results %>%
                                  TRUE ~ 0)) %>%
   ungroup() %>%
   mutate(run_number = "A",
+         run_name = "Most ambitious scenario",
          id = "A",
          Description = "Complete removal of all capacity-enhancing subsidies (for comparison)")
 
@@ -360,7 +361,8 @@ remove_all_bad_results_last <- remove_all_bad_results_full %>%
   rename(Biomass = biomass,
          Catches = catches_total,
          Revenue = revenue_total) %>%
-  mutate(run_number = "A")
+  mutate(run_number = "A",
+         run_name = "Most ambitious scenario")
 
 ### Summaries by flag state--------------------------------------------------------------
 

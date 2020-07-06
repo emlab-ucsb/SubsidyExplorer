@@ -700,6 +700,7 @@ shinyServer(function(input, output, session) {
     
     rv_custom_policy_description$iuu_summary <- paste0("<b>", "IUU: ", "</b>", "</br>",
       IUUSummaryText(iuu = rv_custom_policy$iuu,
+                     text = text,
                      iuu_definitions = unlist(wid$choices[wid$item_id == "w_iuu_definitions"]),
                      country_choices = wto_members_and_observers),
       "</br>")

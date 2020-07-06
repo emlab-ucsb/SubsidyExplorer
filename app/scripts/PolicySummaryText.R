@@ -1,5 +1,6 @@
 
 IUUSummaryText <- function(iuu,
+                           text,
                            iuu_definitions,
                            country_choices){
   
@@ -11,19 +12,35 @@ IUUSummaryText <- function(iuu,
   }else if(length(iuu$definitions) >= 1){
     
     iuu_prohib_names <- names(iuu_definitions[iuu_definitions %in% iuu$definitions])
-    iuu_pro <- paste0("Subsidies shall be prohibited to any Member-flagged vessel... ", paste0(iuu_prohib_names, collapse = "; "))
+    iuu_pro <- paste0(text$item_label[text$item_id == "w_iuu_definitions"], 
+                      "<ul><li>", 
+                      paste0(iuu_prohib_names, collapse = "</li><li>"), 
+                      "</li></ul>")
     
-    if("IUU2" %in% iuu$definitions | "IUU3" %in% iuu$definitions | "IUU4" %in% iuu$definitions | "IUU5" %in% iuu$definitions | "IUU6" %in% iuu$definitions){
+    if("IUU2" %in% iuu$definitions | 
+       "IUU3" %in% iuu$definitions | 
+       "IUU4" %in% iuu$definitions | 
+       "IUU5" %in% iuu$definitions | 
+       "IUU6" %in% iuu$definitions){
       
       if(iuu$assumption == "YES"){
-        iuu_pro <- paste0(iuu_pro, ". ", iuu$percent, "% of global fishing effort is assumed to have been identified as IUU by coastal, flag, subsidizing Member, and port states")
+        
+        iuu_assump <- paste0(names(iuu_definitions[iuu_definitions %in% iuu$definitions]))
+        iuu_assump_short <- 
+        
+        iuu_pro <- paste0(iuu_pro, iuu$percent, "% of global fishing effort is assumed to have been identified as IUU by coastal-, flag-, subsidizing-, port-, and/or market-Member states")
+        
       }
     }
     
     # IUU - scope
     if(iuu$scope == "ALL"){
       
-      iuu_sco <- "Selected disciplines apply to all Members"
+      iuu_sco <- "Selected disciplines apply to all Member-flagged vessels"
+      
+    }else if(iuu$scope == "EX_TER"){
+      
+      iuu_sco <- "Selected disciplines only apply to Member-flagged vessels fishing outside of their own territorial waters"
       
     }else if(iuu$scope == "SELECT"){
       

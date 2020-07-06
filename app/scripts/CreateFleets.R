@@ -24,6 +24,8 @@ CreateFleets <- function(vessel_list,
   ### SETUP ---------------------------
   ### ---------------------------------
   
+  domestic_vessel_cutoff <- 0.01
+  
   ### Rename variables in in our vessel list ---
   vessel_list <- vessel_list %>%
     rename(fishing_h = fishing_hours_eez_fao_ter,
@@ -102,12 +104,9 @@ CreateFleets <- function(vessel_list,
 
     if(iuu$assumption == "NO"){
       
-      # Identify vessels matching definition (none)
-      iuu2_vessels <- vessel_tracking_df
-      
-      # Join to IUU subset
+      # No matching vessels
       iuu_vessel_subset <- iuu_vessel_subset %>%
-        bind_rows(iuu2_vessels)
+        bind_rows(vessel_tracking_df)
       
     }else if(iuu$assumption == "YES" & !is.na(iuu$percent)){
       
@@ -138,24 +137,33 @@ CreateFleets <- function(vessel_list,
   
   ### IUU scope ----------
   
-  if(nrow(iuu_vessels) >= 1 & iuu$scope == 'SELECT'){
+  if(nrow(iuu_vessels) >= 1 & iuu$scope != 'ALL'){
     
     ### Vessel list for scope
     iuu_vessels_scope <- vessel_subset %>%
       right_join(iuu_vessels, by = c("region", "ssvid", "eez_id", "fao_region"))
     
-    # Select only certain member countries
-    countries <- iuu$scope_manual
+    if(iuu$scope == "EX_TER"){
       
-    # Deal with EU
-    if("EU" %in% countries){
+      # Select only vessels fishing outside of territorial waters
+      browser()
+      # iuu_vessels_scope <- iuu_vessels_scope %>%
+      #   dplyr::filter(!is_territorial)
       
-      iuu_vessels_scope <- iuu_vessels_scope %>%
-        dplyr::filter(is_EU | flag %in% countries)
+    }else if(iuu$scope == "SELECT"){
+    
+      # Select only certain member countries
+      countries <- iuu$scope_manual
       
-    }else{
-      iuu_vessels_scope <- iuu_vessels_scope %>%
-        dplyr::filter(flag %in% countries)
+      # Deal with EU
+      if("EU" %in% countries){
+        iuu_vessels_scope <- iuu_vessels_scope %>%
+          dplyr::filter(is_EU | flag %in% countries)
+      } else{
+        iuu_vessels_scope <- iuu_vessels_scope %>%
+          dplyr::filter(flag %in% countries)
+      }
+    
     }
       
     # Filter
@@ -192,11 +200,17 @@ CreateFleets <- function(vessel_list,
       
       # Exempt domestic fishing vessels (less than 1% of fishing effort)
       iuu_vessels_sdt_ldc <- iuu_vessels_sdt_ldc %>%
-        dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+        dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+      
+    }else if("TER" %in% iuu$sdt_what_ldc){
+      
+      browser()
       
     }else if("TIME" %in% iuu$sdt_what_ldc){
       
-      # NEED TO DO 
+      #################
+      # XXX: NEED TO DO 
+      #################
       
     }
     
@@ -222,11 +236,18 @@ CreateFleets <- function(vessel_list,
       
       # Exempt domestic fishing vessels (less than 1% of fishing effort)
       iuu_vessels_sdt_developing <- iuu_vessels_sdt_developing %>%
-        dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+        dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+      
+    }else if("TER" %in% iuu$sdt_what_developing){
+      
+      # Exempt domestic fishing vessels (less than 1% of fishing effort)
+      browser()
       
     }else if("TIME" %in% iuu$sdt_what_developing){
       
-      # NEED TO DO 
+      #################
+      # XXX: NEED TO DO 
+      #################
       
     }
     
@@ -254,11 +275,18 @@ CreateFleets <- function(vessel_list,
       
       # Exempt domestic fishing vessels (less than 1% of fishing effort)
       iuu_vessels_sdt_sve <- iuu_vessels_sdt_sve %>%
-        dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+        dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+      
+    }else if("TER" %in% iuu$sdt_what_sve){
+      
+      # Exempt domestic fishing vessels (less than 1% of fishing effort)
+      browser()
       
     }else if("TIME" %in% iuu$sdt_what_sve){
       
-      # NEED TO DO 
+      #################
+      # XXX: NEED TO DO 
+      #################
       
     }
     
@@ -394,11 +422,9 @@ CreateFleets <- function(vessel_list,
     
     if(oa$scope == "HS" & !is.na(oa$hs_cutoff)){
       
-      oa_hs_cutoff <- oa$hs_cutoff/100
-      
       # High seas fishing only
       oa_vessels_scope <- oa_vessels_scope %>%
-        dplyr::filter(prop_fishing_KWh_high_seas >= oa_hs_cutoff)
+        dplyr::filter(prop_fishing_KWh_high_seas >= (oa$hs_cutoff/100))
       
     }else if(oa$scope == "DW"){
       
@@ -408,11 +434,9 @@ CreateFleets <- function(vessel_list,
       
     }else if(oa$scope == "OUT" & !is.na(oa$hs_cutoff)){
       
-      oa_hs_cutoff <- oa$hs_cutoff/100
-      
       # High seas or distant water fishing only
       oa_vessels_scope <- oa_vessels_scope %>%
-        dplyr::filter(distant_water | prop_fishing_KWh_high_seas >= oa_hs_cutoff)
+        dplyr::filter(distant_water | prop_fishing_KWh_high_seas >= (oa$hs_cutoff/100))
       
     }else if(oa$scope == "DISPUTE"){
       
@@ -468,6 +492,13 @@ CreateFleets <- function(vessel_list,
       # Filter by vessel length
       oa_vessels_scope <- oa_vessels_scope %>%
         dplyr::filter(engine_power_kw >= oa$engine_cutoff & length_m >= oa$length_cutoff & tonnage_gt >= oa$tonnage_cutoff)
+      
+    }else if(oa$scope == "EX_TER"){
+      
+      # Select only vessels fishing outside of territorial waters
+      browser()
+      # iuu_vessels_scope <- iuu_vessels_scope %>%
+      #   dplyr::filter(!is_territorial)
       
     }else if(oa$scope == "SELECT"){
       
@@ -526,19 +557,24 @@ CreateFleets <- function(vessel_list,
         
         # Exempt domestic fishing vessels (less than 1% of fishing effort)
         oa_vessels_sdt_ldc <- oa_vessels_sdt_ldc %>%
-          dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+          dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+        
+      }else if("TER" %in% oa$sdt_what_ldc){
+        
+        # Exempt domestic fishing vessels (less than 1% of fishing effort)
+        browser()
         
       }else if("HS" %in% oa$sdt_what_ldc){
         
         # Exempt vessels fishing on the high seas
-        oa_hs_cutoff <- oa$sdt_hs_cutoff_developing/100
-        
         oa_vessels_sdt_ldc <- oa_vessels_sdt_ldc %>%
-          dplyr::filter(prop_fishing_KWh_high_seas >= oa_hs_cutoff)
+          dplyr::filter(prop_fishing_KWh_high_seas >= (oa$sdt_hs_cutoff_ldc/100))
         
       }else if("TIME" %in% oa$sdt_what_ldc){
         
-        # NEED TO DO 
+        ####################
+        ### XXX: NEED TO DO 
+        ####################
         
       }
       
@@ -562,21 +598,26 @@ CreateFleets <- function(vessel_list,
         
       }else if("DOMESTIC" %in% oa$sdt_what_developing){
         
-        # Exempt domestic fishing vessels (less than 1% of fishing effort)
+        # Exempt domestic fishing vessels (less than 1% of fishing effort on HS)
         oa_vessels_sdt_developing <- oa_vessels_sdt_developing %>%
-          dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+          dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+        
+      }else if("TER" %in% oa$sdt_what_developing){
+        
+        # Exempt vessels fishing in territorial waters
+        browser() 
         
       }else if("HS" %in% oa$sdt_what_developing){
         
         # Exempt vessels fishing on the high seas
-        oa_hs_cutoff <- oa$sdt_hs_cutoff_developing/100
-        
         oa_vessels_sdt_developing <- oa_vessels_sdt_developing %>%
-          dplyr::filter(prop_fishing_KWh_high_seas >= oa_hs_cutoff)
+          dplyr::filter(prop_fishing_KWh_high_seas >= (oa$sdt_hs_cutoff_developing/100))
         
       }else if("TIME" %in% oa$sdt_what_developing){
         
-        # NEED TO DO 
+        ####################
+        ### XXX: NEED TO DO 
+        ####################
         
       }
       
@@ -602,21 +643,26 @@ CreateFleets <- function(vessel_list,
         
       }else if("DOMESTIC" %in% oa$sdt_what_sve){
         
-        # Exempt domestic fishing vessels (less than 1% of fishing effort)
+        # Exempt domestic fishing vessels (less than 1% of fishing effort on HS)
         oa_vessels_sdt_sve <- oa_vessels_sdt_sve %>%
-          dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+          dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+        
+      }else if("TER" %in% oa$sdt_what_sve){
+        
+        # Exempt vessels fishing in territorial waters
+        browser()
         
       }else if("HS" %in% oa$sdt_what_sve){
         
         # Exempt vessels fishing on the high seas
-        oa_hs_cutoff <- oa$sdt_hs_cutoff_sve/100
-        
         oa_vessels_sdt_sve <- oa_vessels_sdt_sve %>%
-          dplyr::filter(prop_fishing_KWh_high_seas >= oa_hs_cutoff)
+          dplyr::filter(prop_fishing_KWh_high_seas >= (oa$sdt_hs_cutoff_sve/100))
         
       }else if("TIME" %in% oa$sdt_what_sve){
         
-        # NEED TO DO 
+        ####################
+        ### XXX: NEED TO DO 
+        ####################
         
       }
       
@@ -721,11 +767,9 @@ CreateFleets <- function(vessel_list,
     
     if(overcap$scope == "HS" & !is.na(overcap$hs_cutoff)){
       
-      overcap_hs_cutoff <- overcap$hs_cutoff/100
-      
       # High seas fishing only
       overcap_vessels_scope <- overcap_vessels_scope %>%
-        dplyr::filter(prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
+        dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$hs_cutoff/100))
       
     }else if(overcap$scope == "DW"){
       
@@ -735,11 +779,9 @@ CreateFleets <- function(vessel_list,
       
     }else if(overcap$scope == "OUT" & !is.na(overcap$hs_cutoff)){
       
-      overcap_hs_cutoff <- overcap$hs_cutoff/100
-      
       # High seas or distant water fishing only
       overcap_vessels_scope <- overcap_vessels_scope %>%
-        dplyr::filter(distant_water | prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
+        dplyr::filter(distant_water | prop_fishing_KWh_high_seas >= (overcap$hs_cutoff/100))
       
     }else if(overcap$scope == "DISPUTE"){
       
@@ -795,6 +837,13 @@ CreateFleets <- function(vessel_list,
       # Filter by vessel length
       overcap_vessels_scope <- overcap_vessels_scope %>%
         dplyr::filter(engine_power_kw >= overcap$engine_cutoff & length_m >= overcap$length_cutoff & tonnage_gt >= overcap$tonnage_cutoff)
+      
+    }else if(overcap$scope == "EX_TER"){
+      
+      # Select only vessels fishing outside of territorial waters
+      browser()
+      # iuu_vessels_scope <- iuu_vessels_scope %>%
+      #   dplyr::filter(!is_territorial)
       
     }else if(overcap$scope == "SELECT"){
       
@@ -853,19 +902,26 @@ CreateFleets <- function(vessel_list,
       
       # Exempt domestic fishing vessels (less than 1% of fishing effort)
       overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
-        dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+        dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+      
+    }else if("TER" %in% overcap$sdt_what_ldc){
+      
+      browser()
+      # Exempt vessels fishing in territorial waters
+      # overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
+      #   dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
       
     }else if("HS" %in% overcap$sdt_what_ldc){
       
       # Exempt vessels fishing on the high seas
-      overcap_hs_cutoff <- overcap$sdt_hs_cutoff_developing/100
-      
       overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
-        dplyr::filter(prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
+        dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_ldc/100))
       
     }else if("TIME" %in% overcap$sdt_what_ldc){
       
-      # NEED TO DO 
+      #################
+      # XXX: NEED TO DO 
+      #################
       
     }
     
@@ -891,19 +947,26 @@ CreateFleets <- function(vessel_list,
       
       # Exempt domestic fishing vessels (less than 1% of fishing effort)
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
-        dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+        dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+      
+    }else if("TER" %in% overcap$sdt_what_developing){
+      
+      browser()
+      # Exempt vessels fishing in territorial waters
+      # overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
+      #   dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
       
     }else if("HS" %in% overcap$sdt_what_developing){
       
       # Exempt vessels fishing on the high seas
-      overcap_hs_cutoff <- overcap$sdt_hs_cutoff_developing/100
-      
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
-        dplyr::filter(prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
+        dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_developing/100))
       
     }else if("TIME" %in% overcap$sdt_what_developing){
       
-      # NEED TO DO 
+      #################
+      # XXX: NEED TO DO 
+      #################
       
     }
     
@@ -931,19 +994,26 @@ CreateFleets <- function(vessel_list,
       
       # Exempt domestic fishing vessels (less than 1% of fishing effort)
       overcap_vessels_sdt_sve <- overcap_vessels_sdt_sve %>%
-        dplyr::filter(prop_fishing_KWh_high_seas < 0.01) 
+        dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+      
+    }else if("TER" %in% overcap$sdt_what_sve){
+      
+      browser()
+      # Exempt vessels fishing in territorial waters
+      # overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
+      #   dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
       
     }else if("HS" %in% overcap$sdt_what_sve){
       
       # Exempt vessels fishing on the high seas
-      overcap_hs_cutoff <- overcap$sdt_hs_cutoff_sve/100
-      
       overcap_vessels_sdt_sve <- overcap_vessels_sdt_sve %>%
-        dplyr::filter(prop_fishing_KWh_high_seas >= overcap_hs_cutoff)
+        dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_sve/100))
       
     }else if("TIME" %in% overcap$sdt_what_sve){
       
-      # NEED TO DO 
+      #################
+      # XXX: NEED TO DO 
+      #################
       
     }
     
@@ -970,7 +1040,7 @@ CreateFleets <- function(vessel_list,
   
 }
 
-### Output subsidy summary for all vessels triggering iuu prohibitions, within scope and excluding S&DT
+### Output subsidy summary for all vessels triggering overcapacity prohibitions, within scope and excluding S&DT
 overcap_vessels_out <- overcap_vessels_scope %>%
   anti_join(overcap_vessels_sdt_ssvid, by = "ssvid")
 

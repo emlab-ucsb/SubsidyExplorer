@@ -170,7 +170,7 @@ demographic_dat <- demo_dat_world_bank %>%
 
 # 1) FAO Cature Production by ISSCAAP Group (2000-2017)
 
-capture_production_dat_fao <- read_csv("./data/fao_2019_capture_production_isscaap_groups_tidy.csv") %>%
+capture_production_dat_fao <- read_csv("./data/fao_2020_capture_production_isscaap_groups_tidy.csv") %>%
   group_by(iso3, year) %>%
   mutate(prop_annual_total = value/sum(value)) %>%
   ungroup() %>%

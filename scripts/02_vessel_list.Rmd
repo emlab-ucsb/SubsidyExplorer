@@ -22,13 +22,16 @@ library(tidyverse)
 subsidy_dat_sumaila_path <- here::here("data", "edited", "sumaila_et_al_2019_subsidies_tidy.csv")
 subsidy_year <- 2018
 
+# Path to cleaned ssf subsidy data file (2018)
+ssf_subsidy_prop_dat_path <- here::here("data", "edited", "schuhbauer_ssf_subsidies_proportions.csv")
+
 # Path to cleaned capture production data file
-catch_dat_path <- here::here("data", "edited", "fao_2019_capture_production_tidy.csv")
-catch_year <- 2017
+catch_dat_path <- here::here("data", "edited", "fao_2020_capture_production_tidy.csv")
+catch_year <- 2018
 
 # Path to cleaned landed value data file
 landed_value_dat_path <- here::here("data", "edited", "estimated_landed_value_tidy.csv")
-landed_value_year <- 2017
+landed_value_year <- 2018
 
 # Bigquery project
 bq_project <-  "emlab-gcp"
@@ -45,6 +48,9 @@ if (dir.exists(results_dir) == F) {
 
 # Do you wnat to make figures? 
 make_figures <- FALSE
+
+# Temporary solution to bigrquery error (August 5, 2020) - see https://github.com/r-dbi/bigrquery/issues/395 for details
+options(scipen = 20)
 ```
 
 # Introduction 
@@ -507,7 +513,8 @@ country_dependencies <- read_csv(here::here("data", "lookup-tables", "country_de
 # Get table of all flag states in the data to check for weird flag codes
 gfw_flags <- effort_good_fishing_vessels_eez %>%
   distinct(flag_iso3) %>%
-  mutate(flag_name = countrycode(flag_iso3, "iso3c", "country.name"))
+  mutate(flag_name = countrycode(flag_iso3, "iso3c", "country.name")) %>%
+  arrange(flag_iso3)
 
 # Only three we need to fix: GCA (outdated code for Guatemala), ROM (outdated code for Romania), and UNK (unknown, for some reason not just NA)
 vessel_list <- effort_good_fishing_vessels_eez
@@ -565,7 +572,6 @@ catch_revenue_flag <- catch_revenue_flag_fao %>%
   group_by(iso3) %>%
   summarize(capture_production = sum(capture_production, na.rm = T),
             landed_value = sum(landed_value, na.rm = T))
-
 ```
 
 First, we identify flag states in the GFW data that do not have reported catches. 
@@ -575,10 +581,7 @@ First, we identify flag states in the GFW data that do not have reported catches
 effort_no_matching_catches <- effort_flag %>%
   anti_join(catch_revenue_flag, by = c("flag_iso3" = "iso3"))
 
-catch_no_matching_effort <- catch_revenue_flag %>%
-  anti_join(effort_flag, by = c("iso3" = "flag_iso3"))
-
-# There are 2 flag states for which we don't have reported catch data at all: CXR (Christmas Island), LIE (Liechtenstein) and NA (no flag). We're going to try assigning them based on the EEZ in which they spend the most time fishing instead. 
+# There are some vessels for which we don't have flags. We're going to try assigning them based on the EEZ in which they spend the most time fishing instead. 
 vessels_no_catches <- vessel_list %>%
   dplyr::filter(flag_iso3 %in% effort_no_matching_catches$flag_iso3) %>% # 1094 entries 
   group_by(ssvid, eez_id, eez_territory1_iso3, eez_territory2_iso3, eez_territory3_iso3) %>%
@@ -618,7 +621,7 @@ vessel_list$flag_iso3[vessel_list$flag_iso3 == "CPT"] <- "FRA"
 vessel_list$flag_iso3[vessel_list$flag_iso3 == "ESH"] <- "MAR"
 ```
 
-Now they all do and we can assign catches. 
+Now we can assign catches. 
 
 ```{r}
 # And we redo one last time
@@ -633,7 +636,7 @@ effort_flag <- effort_flag_fao %>%
   summarize(fishing_KWh = sum(fishing_KWh, na.rm = T)) %>%
   ungroup()
 
-# effort_flag
+# Verify again 
 effort_no_matching_catches <- effort_flag %>%
   anti_join(catch_revenue_flag, by = c("flag_iso3" = "iso3"))
 ```
@@ -647,8 +650,8 @@ effort_catch_flag_region_matching <- effort_flag_fao %>%
   arrange(flag_iso3, fao_region) %>%
   mutate(is_flag_region_match = ifelse(!is.na(fishing_KWh) & !is.na(capture_production), T, F))
   
-# Matches
-flag_region_matches <- effort_catch_region_matching %>%
+# Flag state-fao region pairings for which we have matching catch and effort data
+flag_region_matches <- effort_catch_flag_region_matching %>%
   dplyr::filter(is_flag_region_match)
 
 # Calculate catch rates for those entries with matching catches and efforts by flag/fao region pairing
@@ -675,6 +678,7 @@ rates_flag_matches <- flag_matches %>%
   dplyr::select(flag_iso3, flag_catch_per_fishing_KWh, flag_revenue_per_fishing_KWh)
 
 ### -------------------
+# Apply catch/revenue rates by flag state-fao region pairings where available, otherwise use flag state rates
 comprehensive_catch_rates <- effort_catch_flag_region_matching %>%
   left_join(rates_flag_region_matches, by = c("flag_iso3", "fao_region")) %>%
   left_join(rates_flag_matches, by = c("flag_iso3")) %>%
@@ -692,17 +696,23 @@ vessel_list <- vessel_list %>%
   left_join(comprehensive_catch_rates, by = c("flag_iso3", "fao_region"))
 ```
 
-The process for allocating subsidies is slightly more straightforard as we only have data by flag
+The process for allocating subsidies is slightly more straightforard as we only have data by flag. However we 
 
 ```{r}
 # Load subsidy data
 subsidies_dat <- read_csv(subsidy_dat_sumaila_path) %>%
   dplyr::filter(year == subsidy_year)
 
+# Load proportions going to SSF, and remove
+subsidies_dat_lsf <- read_csv(ssf_subsidy_prop_dat_path) %>%
+  dplyr::select(-source) %>%
+  left_join(subsidies_dat, by = c("iso3", "category", "category_name", "type", "type_name")) %>%
+  mutate(value_lsf = value*(1-prop_ssf))
+
 # Summarize total subsidies by type and flag
-subsidies_flag <- subsidies_dat %>%
+subsidies_flag <- subsidies_dat_lsf %>%
   group_by(iso3, type) %>%
-  summarize(value = sum(value, na.rm = T)) %>%
+  summarize(value = sum(value_lsf, na.rm = T)) %>%
   spread(type, value)
 
 subsidy_types <- unique(subsidies_dat$type)
@@ -736,7 +746,7 @@ rename_me <- function(x){
   str_replace(x, "_per_fishing_KWh", "")
 }
 
-vessel_list <- vessel_list %>%
+vessel_list_out <- vessel_list %>%
   mutate(catch = fishing_KWh_eez_fao_ter*catch_per_fishing_KWh,
          revenue = fishing_KWh_eez_fao_ter*revenue_per_fishing_KWh) %>%
   mutate_at(paste0(subsidy_types, "_per_fishing_KWh"), list(subs = ~.*fishing_KWh_eez_fao_ter)) %>%
@@ -746,7 +756,7 @@ vessel_list <- vessel_list %>%
          bad_subs = rowSums(select(., one_of(paste0(bad_subsidy_types, "_subs")))),
          ugly_subs = rowSums(select(., one_of(paste0(ugly_subsidy_types, "_subs")))))
 
-write_csv(vessel_list, paste0(results_dir, "vessel_list_2018_raw.csv"))
+write_csv(vessel_list_out, paste0(results_dir, "vessel_list_2018_raw.csv"))
 ```
 
 # Vessel list summary figures
@@ -756,15 +766,16 @@ Quick summary of our global vessel list by gear type:
 ```{r}
 if(make_figures){
 # Summary by gear type
-vessels_by_gear <- vessel_list %>%
+vessels_by_gear <- vessel_list_out %>%
   group_by(vessel_class) %>%
   summarize(count = n_distinct(ssvid),
-            flag_states = n_distinct(flag),
+            flag_states = n_distinct(flag_iso3),
             fao_regions = n_distinct(fao_region),
             length_avg = mean(length_m, na.rm = T),
             tonnage_avg = mean(tonnage_gt, na.rm = T),
             engine_power_avg = mean(engine_power_kw, na.rm = T),
-            fishing_hours = sum(fishing_hours_eez_fao, na.rm = T))
+            fishing_hours = sum(fishing_hours_eez_fao_ter, na.rm = T),
+            fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T))
 
 normal_theme <- theme_linedraw()+
   theme(
@@ -782,13 +793,19 @@ pie_theme <- normal_theme +
     axis.ticks = element_blank()  )
 
 # Total number of vessels
+n_gear_type_plot <- vessels_by_gear %>%
+  mutate(vessel_class = fct_re)
 ggplot(vessels_by_gear)+
-  aes(x = "", y = count, fill = vessel_class)+
+  aes(x = vessel_class, y = count, fill = vessel_class)+
   geom_bar(stat = "identity", width = 1, color = "grey4", size = 0.2)+
-  coord_polar("y")+
+  #coord_polar("y")+
   #scale_fill_tableau(name = "Flag State", palette = "Tableau 20")+
-  pie_theme+
-  labs(title = paste0("Number of vessels by vessel class | Total vessels: ", format(sum(vessels_by_gear$count), big.mark = ",")))
+  normal_theme+
+  labs(title = paste0("Number of vessels by class | Total vessels: ", format(sum(vessels_by_gear$count), big.mark = ",")))+
+  labs(x = "Gear Type", y = "Number of Vessels")+
+  guides(fill = "none")+
+  coord_flip()+
+  scale_y_continuous(expand = c(0,0))
 
 # Flags using each gear types
 ggplot(vessels_by_gear)+

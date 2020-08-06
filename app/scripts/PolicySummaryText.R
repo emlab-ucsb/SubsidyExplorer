@@ -25,8 +25,8 @@ IUUSummaryText <- function(iuu,
       
       if(iuu$assumption == "YES"){
         
-        iuu_assump <- paste0(names(iuu_definitions[iuu_definitions %in% iuu$definitions]))
-        iuu_assump_short <- 
+        # iuu_assump <- paste0(names(iuu_definitions[iuu_definitions %in% iuu$definitions]))
+        # iuu_assump_short <- 
         
         iuu_pro <- paste0(iuu_pro, iuu$percent, "% of global fishing effort is assumed to have been identified as IUU by coastal-, flag-, subsidizing-, port-, and/or market-Member states")
         

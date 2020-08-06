@@ -43,7 +43,7 @@ if (dir.exists(results_dir) == F) {
 
 # Description
 
-This script handles the preliminary data wrangling for the raw datasets underlying the SubsidyExplorer analysis. It outputs tidyed data files to `r data_dir`. Some of these tidied data files are used directly as input data by the SubsidyExplorer toolkit (saved to `r app_data_dir`). 
+This script handles the preliminary data wrangling for the raw data sets underlying the SubsidyExplorer analysis. It outputs tidied data files to `r data_dir`. Some of these tidied data files are used directly as input data by the SubsidyExplorer toolkit (saved to `r app_data_dir`). 
 
 ```{r}
 ### Paths to demographic data files
@@ -103,10 +103,10 @@ Fisheries landings in 2018 from the FAO Global Capture Production database (2020
 Estimates of ex-vessel prices created by Melnychuk et al. (2017). These data were provided to us directly by the authors and are stored as `r melnychuk_price_path`. 
 > Melnychuk, M. C., Clavelle, T., Owashi, B., & Strauss, K. (2017). Reconstruction of global ex-vessel prices of fished species. ICES Journal of Marine Science, 74(1), 121–133. https://doi.org/10.1093/icesjms/fsw169
 
-The RAM Legacy Stock Assessment Database is a compolation of stock assessments for commercially exploited species from around the world. The latest version of this database (version 4.491) was downloaded directly from the RAM website on July 25, 2020 and are stored as `r ram_sadb_path`. 
+The RAM Legacy Stock Assessment Database is a compilation of stock assessments for commercially exploited species from around the world. The latest version of this database (version 4.491) was downloaded directly from the RAM website on July 25, 2020 and are stored as `r ram_sadb_path`. 
 > RAM Legacy Stock Assessment Database. (2020). Version 4.491-assessment only. Released 2020-02-20. https://doi.org/10.5281/zenodo.3676087
 
-Estimates of stock status for comericlaly exploited species not included in the RAM Legacy Stock Assessment Database from Costello et al. (2016). These data were provided to us directly by the authors and are stored as `r costello_upsides_path`. 
+Estimates of stock status for commercially exploited species not included in the RAM Legacy Stock Assessment Database from Costello et al. (2016). These data were provided to us directly by the authors and are stored as `r costello_upsides_path`. 
 > Costello, C., Ovando, D., Clavelle, T., Strauss, C. K., Hilborn, R., Melnychuk, M. C., Branch, T. A., Gaines, S. D., Szuwalski, C. S., Cabral, R. B., Rader, D. N., & Leland, A. (2016). Global fishery prospects under contrasting management regimes. Proceedings of the National Academy of Sciences, 113(18), 5125–5129. https://doi.org/10.1073/pnas.1520420113
 
 Fisheries management indicators for many of the top fishing nations from Melnychuk et al. (2017). These data were manually transcribed from Figure S2 in the supplementary information and are stored as `r melnychuk_fmi_path`. 
@@ -117,7 +117,7 @@ The IUU Consolidated Vessel List created and maintained by Trygg Mat Tracking. T
 
 We also use the following tables to aid in our analysis: 
 
-- Proposed tier assignments for a cap-based approach to limiting subsidies as included in the proposal made to the WTO by the delegations of Austraila and the USA on May 3, 2019 [TN/RL/GEN/197/Rev.1].
+- Proposed tier assignments for a cap-based approach to limiting subsidies as included in the proposal made to the WTO by the delegations of Australia and the USA on May 3, 2019 [TN/RL/GEN/197/Rev.1].
 
 - A manually compiled table of overseas dependencies of WTO Member and Observer countries
 
@@ -125,11 +125,11 @@ We also use the following tables to aid in our analysis:
 
 - All subsidy types used by the OECD FSE database
 
-- A manually compiled table of FAO statistical regions coorepsonding to the stocks contained in version 4.491 of the RAM Legacy Stock Assessment Database. 
+- A manually compiled table of FAO statistical regions corresponding to the stocks contained in version 4.491 of the RAM Legacy Stock Assessment Database. 
 
 # Note: Country naming, political entities, and dependencies
 
-The naming of flag and coastal states varies widely across our data sources and we recognize that this can be a politially sensitive matter. For the purposes of merging multiple data sources, we therefore translate all state names from the raw data sources to ISO-3 character codes. Country names are only used for display purposes, and the use of any particular name is not meant to convey any options regarding sovereignty on behalf of the authors. 
+The naming of flag and coastal states varies widely across our data sources and we recognize that this can be a politically sensitive matter. For the purposes of merging multiple data sources, we therefore translate all state names from the raw data sources to ISO-3 character codes. Country names are only used for display purposes, and the use of any particular name is not meant to convey any options regarding sovereignty on behalf of the authors. 
 
 ```{r}
 # Load country dependencies helper file

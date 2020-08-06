@@ -46,70 +46,79 @@ if (dir.exists(results_dir) == F) {
 This script handles the preliminary data wrangling for the raw datasets underlying the SubsidyExplorer analysis. It outputs tidyed data files to `r data_dir`. Some of these tidied data files are used directly as input data by the SubsidyExplorer toolkit (saved to `r app_data_dir`). 
 
 ```{r}
-# Paths to subsidies data files
-sumaila_subsidies_path <- here::here("data", "raw", "Sumaila-et-al-2019-subsidies", "Subsidies_PEW_Final.xlsx")
-oecd_fse_path <- here::here("data", "raw", "OECD-2019-fse", "FISH_FSE_10032020183349581.csv")
-
-# Paths to demographic data files
+### Paths to demographic data files
+# WDI data - no path, accessed through package
 fao_fishers_path <- here::here("data", "raw", "FAO-2019-yearbook", "fao_fishers_yearbook_070619.csv")
 teh_fte_path <- here::here("data", "raw", "Teh-and-Sumaila-2013-fte", "Fisher employment FTE.xlsx")
 
-# Paths to fisheries data files
+### Paths to fisheries subsidies data files
+sumaila_subsidies_path <- here::here("data", "raw", "Sumaila-et-al-2019-subsidies", "Subsidies_PEW_Final.xlsx")
+oecd_fse_path <- here::here("data", "raw", "OECD-2019-fse", "FISH_FSE_10032020183349581.csv")
+schuhbauer_subsidies_ssf_path <- here::here("data", "raw", "Schuhbauer-et-al-2017-ssf-subsidies", "Subsidies_SSF_split_2018.csv")
+
+### Paths to other fisheries data files
 fao_production_path <- here::here("data", "raw", "FAO-2019-capture-production", "Capture_2019.1.0/")
 #fao_value_path
 melnychuk_price_path <- here::here("data", "raw", "Melnychuk-et-al-2013-price", "Melnychuk_Exvessel_Price_Database.csv")
-
-# Paths to fisheries mgmt files 
+ram_sadb_path <- here::here("data", "raw", "RAM-2018-stock-assessment-database", "RLSADB v4.40", "DB Files With Assessment Data", "RLSADB v4.40 (assessment data only).xlsx")
 costello_upsides_path <- here::here("data", "raw", "Costello-et-al-2016-upsides", "ProjectionData_2012.csv")
 melnychuk_fmi_path <- here::here("data", "raw", "Melnychuk-et-al-2017-fmi", "fmi_values_country.csv")
-ram_sadb_path <- here::here("data", "raw", "RAM-2018-stock-assessment-database", "RLSADB v4.40", "DB Files With Assessment Data", "RLSADB v4.40 (assessment data only).xlsx")
-anderson_fpi_path <- here::here("data", "raw", "Anderson-et-al-2015-fpi", "fpi_values_fishery.csv")
-
-# Paths to other files
 iuu_vessel_path <- here::here("data", "raw", "IUU-Vessel-List-2019", "IUUList-20190430.csv")
+
+### Paths to other necessary files
 cap_tier_path <- here::here("data", "raw", "USA-Cap-Tier-Proposal", "US_cap_tier_data.csv")
+country_lookup_path <- here::here("data", "lookup-tables", "country_dependencies.csv")
+fao_regions_for_ram_lookup_path <- here::here("data", "lookup-tables", "fao_areas_for_ram_stocks_v4.491.csv")
 ```
 
 The following data sources are included in this analysis: 
-
-**Fisheries (Subsidy) Data**
-Estimates of annual fisheries subsidies provision by state from Sumaila et al. (2019) in 2018 US\$. These data were provided to us directly by the authors as a .xlsx file and are stored at `r sumaila_subsidies_path`.
-> Sumaila, U. R., Ebrahim, N., Schuhbauer, A., Skerritt, D., Li, Y., Kim, H. S., … Pauly, D. (2019). Updated estimates and analysis of global fisheries subsidies. Marine Policy, 109, 103695. https://doi.org/10.1016/j.marpol.2019.103695
-
-Estimates of fisheries support provision by state from the OECD (2008 - 2018). These data were last downloaded from the OECD iLibrary portal as a CSV file on March 10, 2019 and are stored as `r oecd_fse_path`.
-> OECD. (2019). Fisheries: Fisheries support estimates. Fisheries and Aquaculture Statistics, OECD Agriculture Statistics (Database). https://doi.org/10.1787/ade64fdc-en
 
 **Demographic Data**
 Total GDP, GDP from fisheries, forestry, and agriculture, and population by state from the World Bank's World Development Indicators Database (2000 - 2018). These data were accessed through the `WDI` package. The code used to pull the data is below. 
 > World Bank. (2020). World Development Indicators. https://data.worldbank.org/
 
 Total number of fishers by state from the FAO Yearbook of Fishery and Aquaculture Statistics (misc. years between 1995 and 2017). These data were manually transcribed from PDF (`./data/raw/fleet_&_employment.pdf`) to CSV format on July 6, 2019 and are stored as `r fao_fishers_path`. 
-> FAO (2019). FAO yearbook. Fishery and Aquaculture Statistics 2017, http://www.fao.org/fishery/statistics/global-fishers/en (accessed on 24 October 2019). 
+> FAO. (2019). FAO Yearbook of Fishery and Aquaculture Statistics 2017 (p. 108).
 
-Estimated number of full-time jobs in fisheries from Teh and Sumaila (2013) in 2003. These data were provided to us directly by the authors as a .xlsx file and are stored as `r teh_fte_path`. 
+Estimated number of full-time jobs in fisheries from Teh and Sumaila (2013) in 2003. These data were provided to us directly by the authors and are stored as `r teh_fte_path`. 
 > Teh, L. C. L., & Sumaila, U. R. (2011). Contribution of marine fisheries to worldwide employment. Fish and Fisheries, 14(1), 77–88. https://doi.org/10.1111/j.1467-2979.2011.00450.x
 
-**Other Fisheries Data**
-Fisheries landings in 2017 from the FAO Global Capture Production database (2019) and estimates of landed value generated using the ex-vessel price database created by Melnychuk et al. (2017). These data were were wrangled in the previous script, and the edited data are stored as `r catch_dat_path`. 
-> FAO (2019). FAO yearbook. Fishery and Aquaculture Statistics 2017, http://www.fao.org/fishery/statistics/global-capture-production/en (accessed on 24 October 2019). 
+**Fisheries Subsidies Data**
+Estimates of annual fisheries subsidies provision by state from Sumaila et al. (2019) in 2018 US\$. These data were provided to us directly by the authors and are stored at `r sumaila_subsidies_path`.
+> Sumaila, U. R., Ebrahim, N., Schuhbauer, A., Skerritt, D., Li, Y., Kim, H. S., … Pauly, D. (2019). Updated estimates and analysis of global fisheries subsidies. Marine Policy, 109, 103695. https://doi.org/10.1016/j.marpol.2019.103695
 
-Estimated landed price 
+Estimates of fisheries support provision by state from the OECD (2008 - 2018). These data were last downloaded from the OECD iLibrary portal on March 10, 2019 and are stored as `r oecd_fse_path`.
+> OECD. (2019). Fisheries: Fisheries support estimates. Fisheries and Aquaculture Statistics, OECD Agriculture Statistics (Database). https://doi.org/10.1787/ade64fdc-en
+
+Estimates of annual fisheries subsidies provision to small scale fisheries by state in 2018 US\$. Data used in this analysis are unpublished updates (based on the Sumaila et al. (2019) data) from those reported in Schuhbauer et al. (2017) (which are in 2009 US\$). These data were provided to us directly by the authors and are stored at `r schuhbauer_subsidies_ssf_path`. 
+> Schuhbauer, A., Chuenpagdee, R., Cheung, W. W. L., Greer, K., & Sumaila, U. R. (2017). How subsidies affect the economic viability of small-scale fisheries. Marine Policy, 82, 114–121. https://doi.org/10.1016/j.marpol.2017.05.013
+
+**Other Fisheries Data**
+Fisheries landings in 2018 from the FAO Global Capture Production database (2020). These data were last downloaded from the FAO website on July 25, 2020 and are stored as `r fao_production_path`. 
+> FAO. (2020). Global Capture Production Dataset. http://www.fao.org/fishery/statistics/global-capture-production/en
+
+Estimates of ex-vessel prices created by Melnychuk et al. (2017). These data were provided to us directly by the authors and are stored as `r melnychuk_price_path`. 
 > Melnychuk, M. C., Clavelle, T., Owashi, B., & Strauss, K. (2017). Reconstruction of global ex-vessel prices of fished species. ICES Journal of Marine Science, 74(1), 121–133. https://doi.org/10.1093/icesjms/fsw169
 
-RAM Stock assessment database
-> RAM Legacy Stock Assessment Database. (2018). Version 4.44-assessment-only. Released 2018-12-22. DOI:10.5281/zenodo.2542919
+The RAM Legacy Stock Assessment Database is a compolation of stock assessments for commercially exploited species from around the world. The latest version of this database (version 4.491) was downloaded directly from the RAM website on July 25, 2020 and are stored as `r ram_sadb_path`. 
+> RAM Legacy Stock Assessment Database. (2020). Version 4.491-assessment only. Released 2020-02-20. https://doi.org/10.5281/zenodo.3676087
 
-Stock status database
+Estimates of stock status for comericlaly exploited species not included in the RAM Legacy Stock Assessment Database from Costello et al. (2016). These data were provided to us directly by the authors and are stored as `r costello_upsides_path`. 
 > Costello, C., Ovando, D., Clavelle, T., Strauss, C. K., Hilborn, R., Melnychuk, M. C., Branch, T. A., Gaines, S. D., Szuwalski, C. S., Cabral, R. B., Rader, D. N., & Leland, A. (2016). Global fishery prospects under contrasting management regimes. Proceedings of the National Academy of Sciences, 113(18), 5125–5129. https://doi.org/10.1073/pnas.1520420113
 
-Fisheries management indicators
+Fisheries management indicators for many of the top fishing nations from Melnychuk et al. (2017). These data were manually transcribed from Figure S2 in the supplementary information and are stored as `r melnychuk_fmi_path`. 
 > Melnychuk, M. C., Peterson, E., Elliott, M., & Hilborn, R. (2017). Fisheries management impacts on target species status. Proceedings of the National Academy of Sciences, 114(1), 178–183. https://doi.org/10.1073/pnas.1609915114
 
-IUU Consolidated vessel list
-> NEED
+The IUU Consolidated Vessel List created and maintained by Trygg Mat Tracking. These data were downloaded directly from the website on November 30, 2019 and are stored as `r iuu_vessel_path`. 
+> Trygg Mat Tracking. (2020). Combined IUU Fishing Vessel List. https://www.iuu-vessels.org/
 
-Cap and Tier Data from the US Proposal
-> Citation for this?
+We also use the following tables to aid in our analysis: 
+
+- Proposed tier assignments for a cap-based approach to limiting subsidies as included in the proposal made to the WTO by the US Delegation on May 3, 2019 [TN/RL/GEN/197/Rev.1].
+
+- A manually compiled table of overseas dependencies of WTO Member and Observer countries
+
+- A manually compiled table of FAO statistical regions coorepsonding to the stocks contained in version 4.491 of the RAM Legacy Stock Assessment Database. 
 
 # Note: Country naming, political entities, and dependencies
 
@@ -117,7 +126,7 @@ The naming of flag and coastal states varies widely across our data sources and 
 
 ```{r}
 # Load country dependencies helper file
-country_dependencies <- read_csv(here::here("data", "lookup-tables", "country_dependencies.csv"))
+country_dependencies <- read_csv(country_lookup_path)
 
 # EU countries
 eu_countries <- country_dependencies$iso3[country_dependencies$is_EU]

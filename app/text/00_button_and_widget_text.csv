@@ -24,7 +24,8 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,widget,w_run_name,Description of policy: ,text input to describe policy
 02b,edit-policies,nav-button,ab_edit_policies_tabs_instructions_to_iuu,Next: IUU Disciplines,within TabBox - instructions to iuu disciplines
 02b,edit-policies,tab,iuu,Step 2) IUU Disciplines,tabBox tab
-02b,edit-policies,widget,w_iuu_definitions,Subsidies for fishing shall be prohibited to those…,Checkbox to select specific IUU disciplines
+02b,edit-policies,action-button,ab_run_model_custom,Model this policy,button to run custom policy
+02b,edit-policies,widget,w_iuu_definitions,Subsidies shall be prohibited to all Member-flagged vessels classified as IUU by a:,Checkbox to select specific IUU disciplines
 02b,edit-policies,widget,w_iuu_assumption,Would you like to make an assumption about IUU fishing worldwide instead?,Yes/No to make iuu assumption
 02b,edit-policies,widget,w_iuu_percent,% of global  fishing effort that is IUU:,Slider to set value of assumed IUU fishing
 02b,edit-policies,widget,w_iuu_scope,IUU discipline(s) apply to:,Buttons to set IUU scope

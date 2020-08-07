@@ -1,0 +1,101 @@
+---
+output:
+  html_document: default
+
+title: "SubsidyExplorer - Step 5: Run Model"
+author: "Kat Millage, Vienna Saccomanno, Laura Lea Rubino, Christopher Costello"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+fontsize: 11pt
+bibliography: "../pew-subsidies.bib"
+---
+
+```{r setup, include=FALSE}
+# Load packages
+library(knitr) 
+library(tidyverse)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction 
+
+This script generates the most ambitous global and regional results obtained by removing all capacity enhancing subsidies from all WTO Members and Observers.
+
+```{r}
+# Source model script
+source(here::here("app", "scripts", "BioEconModel.R"))
+```
+
+```{r}
+# Load vessel list
+pro_rate_subsidies <- F
+
+vessel_dat <- read.csv(here::here("app", "data", "vessel_list_2018_final.csv"), stringsAsFactors = F)
+
+if(pro_rate_subsidies == T){
+
+  vessel_dat <- vessel_dat %>%
+    mutate(B1_subs = B1_subs * 0.54, # boat construction/renovation - matched to payments based on vessels
+           B2_subs = B2_subs * 1, # fishery development projects/support services - matched to payments based on variable use
+           B3_subs = B3_subs * 0.87, # port construction and renovation - matched to payments based on vessels
+           B4_subs = B4_subs * 0.87, # price/marketing support, processing infrastructure - matched to payments based on output
+           B5_subs = B5_subs * 0.76, # non-fuel tax exemptions - matched to payments based on fishers income
+           B6_subs = B6_subs * 0.56, # foreign access agreements - matched to payments based on fishers own capital
+           B7_subs = B7_subs * 0.84, # fuel - matched to payments based on fuel use
+           bad_subs = (B1_subs + B2_subs + B3_subs + B4_subs + B5_subs + B6_subs + B7_subs))
+
+}
+
+vessel_dat <- vessel_dat %>%
+  mutate(eez_hs_code = case_when(eez_id == 0 ~ paste0("HS-", fao_region),
+                                 TRUE ~ as.character(eez_id)))
+```
+
+```{r}
+# Load biological parameters for the model
+bio_dat_global <- read.csv(here::here("app", "data", "model_parameters_global.csv"))
+bio_dat_regional <- read.csv(here::here("app", "data", "model_parameters_regional.csv"))
+
+# Regional parameter list
+bio_dat_regional_list <- bio_dat_regional %>%
+  gather(region, value, -c(1:2)) %>%
+  group_by(region) %>%
+  group_split()
+```
+
+```{r}
+# Get WTO countries territories
+```
+
+```{r}
+# Threshold to be considered managed
+managed_cutoff <- 0.66
+```
+
+## Create global fleet
+
+```{r pressure, echo=FALSE}
+# Assign fleets to vessels
+global_fleet_vessels <- vessel_dat %>%
+  mutate(is_WTO = ifelse(flag_iso3 %in% c(cap_tier_dat$iso3, eu_countries, eu_territories, us_territories, norwegian_territories), T, F)) %>%
+  mutate(fleet = case_when(is_WTO & fmi_best >= managed_cutoff & bad_subs > 0 ~ "affected_managed",
+                           is_WTO & fmi_best < managed_cutoff & bad_subs > 0 ~ "affected_oa",
+                           (!is_WTO & fmi_best >= managed_cutoff) ~ "unaffected_managed",
+                           (!is_WTO & fmi_best < managed_cutoff) ~ "unaffected_oa",
+                           TRUE ~ "unaffected_oa"))
+
+# Create fleet (summary)
+global_fleet_summary <- global_fleet_vessels %>%
+  group_by(region, fleet) %>%
+  summarize(catch = sum(catch, na.rm = T),
+            bad_subs = sum(bad_subs, na.rm = T),
+            fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
+            removed_subs = sum(bad_subs, na.rm = T))
+```
+
+## Run Model (Remove all bad subsidies)
+
+```{r}
+
+```
+

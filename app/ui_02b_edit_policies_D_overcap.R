@@ -38,7 +38,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                           icon("info"))
                                               ), 
                                             choices = subsidy_types_sorted_sumaila[4:10],
-                                            selected = subsidy_types_sorted_sumaila[4:10],
+                                            selected = "",
                                             width = "100%",
                                             inline = FALSE)
 

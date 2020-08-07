@@ -39,11 +39,21 @@ costello_2016_upsides_dat_path <- here::here("data", "edited", "costello_et_al_2
 # Make figures?
 make_plots <- F
 
-# Few more packages if you're making figures
+# Few more packages and dataif you're making figures
 if(make_plots){
+  
   library(ggridges)
   library(ggrepel)
   library(scales)
+  library(sf)
+  
+  # 1) World map ---
+  world <- read_sf(here::here("app", "data", "shapefiles", "ne_50m_admin_SubsidyExplorer"), layer = "land_50m")
+
+  # 2) EEZs/FAO regions ---
+  eez_fao <- read_sf(dsn = here::here("app", "data", "shapefiles", "eez-v10-fao-combined-simple"), layer="eez_v10_fao_combined_simple") %>%
+    mutate(eez_hs_code = ifelse(!is.na(zone), paste0("HS-",zone), as.character(mrgid)))
+  
 }
 ```
 
@@ -157,6 +167,28 @@ eez_management_indices <- eez_info_tidy %>%
   ungroup()
 
 ```
+
+```{r}
+if(make_plots){
+  
+  # Summarize data
+    fmi_map_dat <- eez_fao %>%
+      left_join(eez_management_indices %>% mutate(eez_hs_code = as.character(eez_id)), by = c("eez_hs_code")) %>%
+      mutate(fmi_best = ifelse(is.na(fmi_best), 0.21, fmi_best))
+  
+  fmi_map <- ggplot()+
+    geom_sf(data = world, fill = "black", color = "grey", size = 0.25)+
+    geom_sf(data = fmi_map_dat, aes(fill = fmi_best), color = "grey", size = 0.25)+
+    theme_bw()+
+    scale_fill_distiller(palette = "YlGn", 
+                         direction = 1,
+                         limits = c(0.2, 1))+
+    labs(fill = "FMI Score")
+  
+  ggsave(paste0(results_dir, "fmi_score_map.png"), width = 7.5, units = "in")
+}
+```
+
 
 # Median fishing pressure by FAO region
 

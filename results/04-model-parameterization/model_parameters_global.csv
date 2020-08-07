@@ -1,0 +1,15 @@
+parameter,value,source
+phi,0.188,Thorson et al. 2012
+msy,109408999.19358975,Costello et al. 2016
+k,2457345698.40641,Costello et al. 2016; World Bank 2017
+g,0.11131317718927634,Costello et al. 2016
+r,0.703404545217342,Costello et al. 2016
+h0,82459325.91391553,FAO 2019
+b0,493853003.3951076,FAO 2019; World Bank 2017
+e0,24235624425.29395,GFW 2019
+epsilon,-1.15,Costello et al. 2016
+delta,398832869375.8968,Costello et al. 2016
+beta,1.3,Costello et al. 2016
+p0,1599.4016247845286,Costello et al. 2016
+eta,0.1,Calculated
+omega,0.001,Calculated

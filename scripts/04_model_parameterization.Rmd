@@ -12,9 +12,7 @@ bibliography: "../pew-subsidies.bib"
 
 # Introduction 
 
-This script handles the preliminary data wrangling necessary to create the biological parameters for the bio-economic model underlying the SubsidyExplorer toolkit. It outputs two CSV files used by the SubsidyExplorer toolkit (located in `r here::here("WTOToolkit", "data")`): 
-- model_parameters_global.csv
-- model_parameters_regional.csv
+This script handles the preliminary data wrangling necessary to create the biological parameters for the bio-economic model underlying the SubsidyExplorer toolkit. It allows for specification of different regional configurations, though we have selected the one for which we believe the data is most supportive. 
 
 ```{r}
 # Load packages
@@ -29,15 +27,7 @@ costello_2016_upsides_dat_path <- here::here("data", "edited", "costello_et_al_2
 
 # Path to vessel list
 vessel_list_path <- here::here("results", "03-management", "vessel_list_2018_management.csv")
-```
 
-In addition to the data sources described in the inital data wrangling script, we also draw on the folloing data sources: 
-
-- Bioeconomic model parameters from both of the World Bank's Sunken Billions Reports (2009 and 2017). 
-> World Bank, & FAO. (2009). The Sunken Billions: The Economic Justification for Fisheries Reform. Retrieved from https://siteresources.worldbank.org/EXTARD/Resources/336681-1224775570533/SunkenBillionsFinal.pdf
-> World Bank. (2017). The Sunken Billions Revisited: Progress and Challenges in Global Marine Fisheries. Retrieved from https://openknowledge.worldbank.org/handle/10986/24056
-
-```{r setup, include=FALSE}
 # Code options
 knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = F)
 
@@ -52,8 +42,52 @@ if (dir.exists(app_dir) == F) {
   dir.create(app_dir, recursive = T)
 }
 
+# Select number of regions (choices are 3 or 6)
+n_regions <- 3
+
+```
+
+In addition to the data sources described in the inital data wrangling script, we also draw on the folloing sources: 
+
+- Bioeconomic model parameters from both of the World Bank's Sunken Billions Reports (2009 and 2017). 
+> World Bank, & FAO. (2009). The Sunken Billions: The Economic Justification for Fisheries Reform. Retrieved from https://siteresources.worldbank.org/EXTARD/Resources/336681-1224775570533/SunkenBillionsFinal.pdf
+> World Bank. (2017). The Sunken Billions Revisited: Progress and Challenges in Global Marine Fisheries. Retrieved from https://openknowledge.worldbank.org/handle/10986/24056
+
+```{r}
+if(n_regions == 3){
+  
+  # Define regions 
+  region_names <- sort(c("atlantic", "indian", "pacific"))
+  
+  # Create a tidy df with the cooresponding fao regions
+  regions_tidy <- tibble(
+    region = region_names,
+    fao_region = list(c(21, 27, 31, 37, 34, 41, 47, 48), # atlantic (and med)
+                      c(51, 57, 58), # indian
+                      c(18, 61, 67, 71, 77, 81, 87, 88)) # pacific 
+  ) %>%
+    unnest(cols = c(fao_region))
+  
+  # Also create a blank tibble with regions as column names
+  regions_spread <- setNames(data.frame(matrix(ncol = length(region_names), nrow = 0)), as.character(region_names))
+  
+  # Now make empty output tables for both our global parameters, and for our regional parameters
+  global_model_parameters <- tibble(parameter = character(0), value = numeric(0), source = character(0))
+  
+  regional_model_parameters <- tibble(parameter = character(0), source = character(0)) %>%
+    bind_cols(regions_spread) %>%
+    mutate(atlantic = as.character(atlantic),
+           indian = as.character(indian),
+           pacific = as.character(pacific))
+}
+```
+
+
+```{r setup, include=FALSE}
+if(n_regions == 6){
+  
 # Define regions 
-region_names <- sort(c("atlantic_e", "atlantic_w", "indian", "pacific_e", "pacific_w", "polar"))
+region_names <- sort(c("atlantic_e", "atlantic_w", "indian", "pacific_e", "pacific_w", "polar")) # ran into difficulties with the polar region. 6 regions needs more work
 
 # Create a tidy df with the cooresponding fao regions
 regions_tidy <- tibble(
@@ -62,7 +96,7 @@ regions_tidy <- tibble(
                     c(21, 31, 41), # atlantic west
                     c(51, 57), # indian
                     c(67, 77, 87), # pacific e
-                    c(61, 71, 81),# pacific w 
+                    c(61, 71, 81),# pacific w
                     c(18, 48, 58, 88)) # polar
 ) %>%
   unnest(cols = c(fao_region))
@@ -75,6 +109,8 @@ global_model_parameters <- tibble(parameter = character(0), value = numeric(0), 
 
 regional_model_parameters <- tibble(parameter = character(0), source = character(0)) %>%
   bind_cols(regions_spread)
+
+}
 ```
 
 ```{r}
@@ -152,7 +188,7 @@ $$ X_{MSY} = \bigg(\frac{r}{\gamma\beta}\bigg)^{\frac{1}{\gamma-1}}$$
 
 We first parameterize our bio-economic model of fisheries subsidies reform globally. 
 
-We assume $\phi = 1.188$ based on literature for all (Thorson et al. 2012; World Bank 2017). 
+We assume $\phi = 1.188$ based on literature for all (Thorson et al. 2012; World Bank 2017; Costello et al. 2016). 
 
 ```{r}
 # Phi
@@ -189,8 +225,7 @@ Very little is known about the global carrying capacity of fish stocks, though m
 
 ```{r}
 # One estimate of global carrying capacity
-global_k <- sum(costello_2016_dat$k)/0.78
-#global_k <- global_msy*9.1
+global_k <- global_msy*9.1
 
 # Add K to parameter table
 global_model_parameters <- global_model_parameters %>%
@@ -205,19 +240,19 @@ global_g <- (global_msy/global_k)*(phi+1)^(1/phi)
 
 # Add g to parameter table
 global_model_parameters <- global_model_parameters %>%
-  bind_rows(tibble(parameter = "g", value = global_g, source = "Costello et al. 2016"))
+  bind_rows(tibble(parameter = "g", value = global_g, source = "Calculated"))
 
 # Calculate intrinsic growth rate
 global_r <- ((phi+1)/phi)*global_g
 
 # Add g to parameter table
 global_model_parameters <- global_model_parameters %>%
-  bind_rows(tibble(parameter = "r", value = global_r, source = "Costello et al. 2016"))
+  bind_rows(tibble(parameter = "r", value = global_r, source = "Calculated"))
 ```
 
 A great deal of uncertainty exists about the total amount of biomass currently in our oceans. We therefore estimate total biomass in the base year (2018) by assuming an annual rate of biomass growth of 8 million mt/year (World Bank 2017). We then solve for the biomass in 2018 that would have yielded the observed harvest after accounting for the assummed rate of biomass growth ($\xi = 8000000$)  $b_{t+1} = b_t + \xi$
 
-$$ h_0+ \xi =\frac{\phi + 1}{\phi} r b_{0}\Bigg(1 - \bigg(\frac{b_{0}}{K}\bigg)^{\phi}\Bigg)$$
+$$ h_0+ \xi =\frac{\phi + 1}{\phi} g b_{0}\Bigg(1 - \bigg(\frac{b_{0}}{K}\bigg)^{\phi}\Bigg)$$
 
 ```{r}
 # Calculate global total harvest
@@ -225,13 +260,13 @@ global_h0 <- sum(vessel_list_out$catch, na.rm = T)
 
 # Add base year harvest to parameter table
 global_model_parameters <- global_model_parameters %>%
-  bind_rows(tibble(parameter = "h0", value = global_h0, source = "FAO 2019"))
+  bind_rows(tibble(parameter = "h0", value = global_h0, source = "FAO 2020"))
 ```
 
 
 ```{r}
 # Estimation of starting biomass
-biomass_vec <- seq(0, 0.5*global_k, length.out = 10000)
+biomass_vec <- seq(0, 0.75*global_k, length.out = 1000000)
 growth_approx <- (((phi+1)/phi)*global_g*biomass_vec*(1-((biomass_vec/global_k)^phi)))
 biomass_pos <- which.min(abs(growth_approx - (global_h0+8000000)))
 global_b0 <- biomass_vec[biomass_pos] 
@@ -243,7 +278,7 @@ global_model_parameters <- global_model_parameters %>%
 
 ## Regional biological parameters
 
-We also apply our bio-economic model of fisheries subsidies reform on a regional basis. For this analysis, we have chosen to use six regions based loosly on the major ocean basins and using the FAO statistical regions as subdivisions as needed to further separate regions: Atlantic Ocean (East) and Mediterranean [`r paste(regions_tidy$fao_region[regions_tidy$region == "atlantic_e"], collapse = ", ")`], Atlantic Ocean (West) [`r paste(regions_tidy$fao_region[regions_tidy$region == "atlantic_w"], collapse = ", ")`], Indian Ocean [`r paste(regions_tidy$fao_region[regions_tidy$region == "indian"], collapse = ", ")`], Pacific Ocean (East) [`r paste(regions_tidy$fao_region[regions_tidy$region == "pacific_e"], collapse = ", ")`], Pacific Ocean (West) [`r paste(regions_tidy$fao_region[regions_tidy$region == "pacific_w"], collapse = ", ")`], and Polar Oceans [`r paste(regions_tidy$fao_region[regions_tidy$region == "polar"], collapse = ", ")`]. 
+We also apply our bio-economic model of fisheries subsidies reform on a regional basis. 
 
 This regional breakdown was chosen with the goal of trying to reflect commonly used delimitations of the boundaries of the world's largest fish stocks. Regional characterizations used by other studies (see World Bank 2017) are often organized around continents and political boundaries, which is inherently problematic for fisheries as most of the world's major fish stocks straddle these boundaries. While our regional model has tried to overcome some of these problems by aggregating ocean areas with more similar physical characteristics, we aknowledge that our results by region are likely to be less dependable than our global results. 
 
@@ -291,9 +326,7 @@ We estimate regional carrying capacities again by assuming K to be 9.1 times MSY
 
 ```{r}
 # Extract carrying capacity
-#regional_k <- regional_msy*9.1
-regional_k <- round(costello_2016_dat_regional$k/0.78)
-names(regional_k) <- region_names
+regional_k <- regional_msy*9.1
 
 # Add MSY to the regional paramter table
 regional_model_parameters <- regional_model_parameters %>%
@@ -308,14 +341,14 @@ regional_g <- (regional_msy/regional_k)*(regional_phi+1)^(1/regional_phi)
 
 # Add r to parameter table
 regional_model_parameters <- regional_model_parameters %>%
-  bind_rows(c("parameter" = "g", "source" = "Costello et al. 2016", regional_g))
+  bind_rows(c("parameter" = "g", "source" = "Calculated", regional_g))
 
 # Calculate r regionally
 regional_r <- ((regional_phi+1)/(regional_phi))*regional_g
 
 # Add r to parameter table
 regional_model_parameters <- regional_model_parameters %>%
-  bind_rows(c("parameter" = "r", "source" = "Costello et al. 2016", regional_r))
+  bind_rows(c("parameter" = "r", "source" = "Calculated", regional_r))
 ```
 
 ```{r}
@@ -330,20 +363,20 @@ regional_model_parameters <- regional_model_parameters %>%
   bind_rows(c("parameter" = "h0", "source" = "FAO 2019", regional_h0))
 ```
 
+We assume biomass growth to be equally divided among regions. 
 
 ```{r}
 #Estimate starting biomass
-#regional_b0 <- numeric(length(region_names))
-# regional_biomass_growth <- c(1.33e6, 1.33e6, 1.33e6, 1.33e6, 1.33e6, 1.33e6)
-# 
-# for(i in 1:length(regional_h0)){
-#   biomass_vec <- seq(0, regional_k[i], length.out = 10000)
-#   growth_approx <- (((regional_phi[i]+1)/regional_phi[i])*regional_r[i]*biomass_vec*(1-((biomass_vec/regional_k[i])^regional_phi[i])))
-#   biomass_pos <- which.min(abs(growth_approx - (regional_h0 + regional_biomass_growth[i])))
-#   regional_b0[i] <- biomass_vec[biomass_pos] 
-# }
+regional_b0 <- numeric(length(region_names))
+regional_biomass_growth <- c(2.66e6, 2.66e6, 2.66e6)
 
-regional_b0 <- regional_k*0.2
+for(i in 1:length(regional_h0)){
+  biomass_vec <- seq(0, 0.75*regional_k[i], length.out = 10000)
+  growth_approx <- (((regional_phi[i]+1)/regional_phi[i])*regional_g[i]*biomass_vec*(1-((biomass_vec/regional_k[i])^regional_phi[i])))
+  biomass_pos <- which.min(abs(growth_approx - (regional_h0 + regional_biomass_growth[i])))
+  regional_b0[i] <- biomass_vec[biomass_pos]
+}
+
 names(regional_b0) <- region_names
 
 # Add base year biomass to parameter table
@@ -438,22 +471,6 @@ global_model_parameters <- global_model_parameters %>%
   bind_rows(tibble(parameter = "epsilon", value = global_epsilon, source = "Costello et al. 2016"))
 ```
 
-<!-- We can then calculate the price constant using 2012 data from Costello et al. (2016).  -->
-
-```{r}
-# Global price constant
-global_price_wrangling <- costello_2016_dat %>%
-  group_by(year) %>%
-  summarize(price = median(price, na.rm = T),
-            harvest = sum(catch, na.rm = T))
-
-global_delta <- global_price_wrangling$harvest/(global_price_wrangling$price^global_epsilon)
-
-# Add price constant to parameter table
-global_model_parameters <- global_model_parameters %>%
-  bind_rows(tibble(parameter = "delta", value = global_delta, source = "Costello et al. 2016"))
-```
-
 ## Regional demand parameters
 
 For the regional analysis, we assume that the price flexibility/elasticity ($\epsilon$) is equal to -1.15 for all regions based on Costello et al. (2016). 
@@ -466,17 +483,6 @@ names(regional_epsilon) <- region_names
 # Add epsilon to parameter table
 regional_model_parameters <- regional_model_parameters %>%
   bind_rows(c("parameter" = "epsilon", "source" = "Costello et al. 2016", regional_epsilon))
-```
-
-<!-- We then calculate the price constant for each region using 2012 data from Costello et al. (2016).  -->
-
-```{r}
-# Regional price constant
-regional_delta <- costello_2016_dat_regional$catch/(costello_2016_dat_regional$price^regional_epsilon)
-
-# Add price constant to parameter table
-regional_model_parameters <- regional_model_parameters %>%
-  bind_rows(c("parameter" = "delta", "source" = "Costello et al. 2016", regional_delta))
 ```
 
 <!-- xxxxxxxxxxxxxxxxxxxx -->
@@ -528,24 +534,31 @@ global_model_parameters <- global_model_parameters %>%
   bind_rows(tibble(parameter = "beta", value = global_beta, source = "Costello et al. 2016"))
 ```
 
-In order to calculate $\alpha$, we first need to determine fish price in the base year. We compare two alternatives - 1) using the median price from Costello et al. (2016) adjusted to 2018 US$, and 2) solving for price based on the observed base year harvest. 
+In order to calculate $\alpha$, we first need to determine fish price in the base year. We compare two alternatives - 1) using the median price from Costello et al. (2016) adjusted to 2018 US\$, and 2) using the global price from the latest Sunken Billions report adjusted to 2018 US\$. The first price looks a bit high (comparable global price estimates are in the range of $1200-1400 per ton), so we use the second 
 
 ```{r}
-# Calculate global base prices
-global_base_price1 <- ((1/global_delta)^(1/global_epsilon))*(global_h0^(1/global_epsilon))
+CPI_2012 <- 229.594  #BLS CPI All Items (Annual Ave), (BLS Series ID: CUUR0000SA0)
+CPI_2018 <- 251.107  #BLS CPI All Items (Annual Ave), (BLS Series ID: CUUR0000SA0)
 
-# CPI_2012 <- 229.594  #BLS CPI All Items (Annual Ave), (BLS Series ID: CUUR0000SA0)
-# CPI_2018 <- 251.107  #BLS CPI All Items (Annual Ave), (BLS Series ID: CUUR0000SA0)
-# 
-# global_base_price2 <- global_price_wrangling$price * (CPI_2018/CPI_2012)
-```
+# Global price constant
+global_price_wrangling <- costello_2016_dat %>%
+  group_by(year) %>%
+  summarize(price = median(price, na.rm = T))
 
-The second price looks a bit high (comparable global price estimates are in the range of $1200-1400 per ton), so we use the first. 
+global_base_price1 <- global_price_wrangling$price*(CPI_2018/CPI_2012)
+global_base_price2 <- 1260*(CPI_2018/CPI_2012)
 
-```{r}
 # Add to parameter table
 global_model_parameters <- global_model_parameters %>%
-  bind_rows(tibble(parameter = "p0", value = global_base_price1, source = "Costello et al. 2016"))
+  bind_rows(tibble(parameter = "p0", value = global_base_price2, source = "World Bank 2017"))
+```
+
+```{r}
+global_delta <- global_h0/(global_base_price2^global_epsilon)
+
+# Add price constant to parameter table
+global_model_parameters <- global_model_parameters %>%
+  bind_rows(tibble(parameter = "delta", value = global_delta, source = "Costello et al. 2016"))
 ```
 
 Finally, we assume that $\eta$ is equal to 0.1 based on literature (Costello et al. 2016). 
@@ -557,7 +570,6 @@ global_eta <- 0.1
 # Add to parameter table
 global_model_parameters <- global_model_parameters %>%
   bind_rows(tibble(parameter = "eta", value = global_eta, source = "Calculated"))
-
 ```
 
 We also define an omega which is equal to 0.001. 
@@ -585,16 +597,26 @@ regional_model_parameters <- regional_model_parameters %>%
   bind_rows(c("parameter" = "beta", "source" = "Costello et al. 2016", regional_beta))
 ```
 
-We then calculate price in the base year in the same way regionally
+For simplicity, we assume the starting price to be equal across all regions. 
 
 ```{r}
 # Calculate base price regionally
-regional_base_price1 <- ((1/regional_delta)^(1/regional_epsilon))*(regional_fleet$catch^(1/regional_epsilon))
+regional_base_price <- rep(global_base_price2, length = length(region_names))
+names(regional_base_price) <- region_names
 
 # Add catchability to parameter table
 regional_model_parameters <- regional_model_parameters %>%
-  bind_rows(c("parameter" = "p0", "source" = "Calculated", regional_base_price1))
+  bind_rows(c("parameter" = "p0", "source" = "World Bank 2017", regional_base_price))
 
+```
+
+```{r}
+# Regional price constant
+regional_delta <- regional_h0/(regional_base_price^regional_epsilon)
+
+# Add price constant to parameter table
+regional_model_parameters <- regional_model_parameters %>%
+  bind_rows(c("parameter" = "delta", "source" = "Costello et al. 2016", regional_delta))
 ```
 
 And we again assume $\eta$ to be equal to 0.1 and $\omega$ to be equal to 0.001 across all regions
@@ -609,7 +631,7 @@ regional_model_parameters <- regional_model_parameters %>%
 ```
 
 ```{r}
-regional_omega <- rep(0.0011, length = length(region_names))
+regional_omega <- rep(0.001, length = length(region_names))
 names(regional_omega) <- region_names
 
 # Add subsidy base to parameter table
@@ -622,8 +644,10 @@ regional_model_parameters <- regional_model_parameters %>%
 write_csv(global_model_parameters, paste0(results_dir, "model_parameters_global.csv"))
 write_csv(global_model_parameters, paste0(app_dir, "model_parameters_global.csv"))
 
-write_csv(regional_model_parameters, paste0(results_dir, "model_parameters_regional.csv"))
-write_csv(regional_model_parameters, paste0(app_dir, "model_parameters_regional.csv"))
+regional_name <- paste0("model_parameters_regional_", n_regions, "_regions.csv")
+
+write_csv(regional_model_parameters, paste0(results_dir, regional_name))
+write_csv(regional_model_parameters, paste0(app_dir, regional_name))
 ```
 
 <!-- xxxxxxxxxxxxxxxxxxxx -->

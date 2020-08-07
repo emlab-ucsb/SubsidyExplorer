@@ -783,41 +783,51 @@ normal_theme <- theme_linedraw()+
     plot.title=element_text(size=14, face="bold")
   )
 
-pie_theme <- normal_theme +
-  theme(
-    axis.line = element_blank(),
-    axis.title.x = element_blank(),
-    axis.text = element_blank(),
-    axis.title.y = element_blank(),
-    panel.border = element_blank(),
-    axis.ticks = element_blank()  )
-
-# Total number of vessels
+# Total number of vessels by gear type
 n_gear_type_plot <- vessels_by_gear %>%
-  mutate(vessel_class = fct_re)
-ggplot(vessels_by_gear)+
+  mutate(vessel_class = fct_reorder(vessel_class, count)) %>%
+  ggplot()+
   aes(x = vessel_class, y = count, fill = vessel_class)+
   geom_bar(stat = "identity", width = 1, color = "grey4", size = 0.2)+
   #coord_polar("y")+
   #scale_fill_tableau(name = "Flag State", palette = "Tableau 20")+
   normal_theme+
-  labs(title = paste0("Number of vessels by class | Total vessels: ", format(sum(vessels_by_gear$count), big.mark = ",")))+
+  labs(title = paste0("Number of vessels by gear type | Total vessels: ", format(sum(vessels_by_gear$count), big.mark = ",")))+
   labs(x = "Gear Type", y = "Number of Vessels")+
   guides(fill = "none")+
   coord_flip()+
   scale_y_continuous(expand = c(0,0))
 
-# Flags using each gear types
-ggplot(vessels_by_gear)+
-  aes(x = fct_reorder(vessel_class, flag_states, .desc = TRUE), y = flag_states, fill = vessel_class)+
+ggsave(paste0(results_dir, "n_vessels_gear_type_plot.png"), n_gear_type_plot, width = 7.5, height = 6, units = "in")
+
+# Total number of vessels by flag
+vessels_by_flag_gear <- vessel_list_out %>%
+  group_by(flag_iso3, vessel_class) %>%
+  summarize(count = n_distinct(ssvid),
+            fao_regions = n_distinct(fao_region),
+            length_avg = mean(length_m, na.rm = T),
+            tonnage_avg = mean(tonnage_gt, na.rm = T),
+            engine_power_avg = mean(engine_power_kw, na.rm = T),
+            fishing_hours = sum(fishing_hours_eez_fao_ter, na.rm = T),
+            fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T)) %>%
+  mutate(tot_count = sum(count)) %>%
+  ungroup()
+
+n_flag_plot <- vessels_by_flag_gear %>%
+  mutate(flag = fct_reorder(countrycode(flag_iso3, "iso3c", "country.name"), tot_count)) %>%
+  ggplot()+
+  aes(x = flag, y = log(count), fill = vessel_class)+
   geom_bar(stat = "identity", width = 1, color = "grey4", size = 0.2)+
+  #coord_polar("y")+
+  #scale_fill_tableau(name = "Flag State", palette = "Tableau 20")+
+  normal_theme+
+  labs(title = paste0("Number of vessels by flag state and gear type | Total vessels: ", format(sum(vessels_by_gear$count), big.mark = ",")))+
+  labs(x = "Flag State", y = "log(Number of Vessels)", fill = "Gear Type")+
+  coord_flip()+
   scale_y_continuous(expand = c(0,0))+
-  scale_fill_discrete(guide = "none")+
-  normal_theme +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
-  labs(title = paste0("Number of flag states using each vessel class | Total vessels: ", format(sum(vessels_by_gear$count), big.mark = ",")),
-       x = "Vessel Class",
-       y = "Number of Flag States")
+  theme(axis.text.y = element_text(size = 4, angle = 20))
+
+ggsave(paste0(results_dir, "n_vessels_flag_gear_type_plot.png"), n_flag_plot, width = 7.5, height = 10, units = "in")
 }
 ```
 

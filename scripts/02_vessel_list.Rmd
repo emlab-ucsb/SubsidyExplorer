@@ -47,7 +47,12 @@ if (dir.exists(results_dir) == F) {
 }
 
 # Do you wnat to make figures? 
-make_figures <- FALSE
+make_plots <- FALSE
+
+# Few more packages if you're making figures
+if(make_plots){
+  library(forcats)
+}
 
 # Temporary solution to bigrquery error (August 5, 2020) - see https://github.com/r-dbi/bigrquery/issues/395 for details
 options(scipen = 20)
@@ -761,10 +766,8 @@ write_csv(vessel_list_out, paste0(results_dir, "vessel_list_2018_raw.csv"))
 
 # Vessel list summary figures
 
-Quick summary of our global vessel list by gear type: 
-
 ```{r}
-if(make_figures){
+if(make_plots){
 # Summary by gear type
 vessels_by_gear <- vessel_list_out %>%
   group_by(vessel_class) %>%

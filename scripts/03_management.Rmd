@@ -12,10 +12,7 @@ bibliography: "../pew-subsidies.bib"
 
 # Introduction
 
-The purpose of this script is to assign management scores to all of our vessels, such that they can later be classified into three different management regimes: 
-- Well-managed
-- Managed
-- Open access
+The purpose of this script is to assign management scores to all of our vessels, such that they can later be classified into different management regimes. The idea being that fisheries with effective management controls in place are less likely to see as large of changes in fishing effort resulting from subsidy reforms (e.g., Subsidies are likely to be less coupled with effort in well-managed fisheries; effort is instead likely dictated more by management). 
 
 This script outputs a single data file to `r here::here("results", "03-management")`: 
 - vessel-list-2018-management.csv
@@ -37,7 +34,7 @@ melnychuk_2017_mgmt_dat_path <- here::here("data", "edited", "melnychuk_et_al_20
 costello_2016_upsides_dat_path <- here::here("data", "edited", "costello_et_al_2016_upsides_tidy.csv")
 
 # Make figures?
-make_plots <- F
+make_plots <- T
 
 # Few more packages and dataif you're making figures
 if(make_plots){
@@ -53,6 +50,9 @@ if(make_plots){
   # 2) EEZs/FAO regions ---
   eez_fao <- read_sf(dsn = here::here("app", "data", "shapefiles", "eez-v10-fao-combined-simple"), layer="eez_v10_fao_combined_simple") %>%
     mutate(eez_hs_code = ifelse(!is.na(zone), paste0("HS-",zone), as.character(mrgid)))
+  
+  # 3) Just FAO regions ---
+  fao_areas <- read_sf(here::here("data", "shapefiles", "fao"), layer = "World_Fao_Zones")
   
 }
 ```
@@ -105,7 +105,7 @@ eez_info_tidy$eez_sovereign_iso3[eez_info_tidy$eez_id == 49003] <- "CHN"
 
 # Management Scores from FMI indices
 
-## Assign FMI indicies to regions
+## Assign FMI indices to regions
 
 ```{r setup, include=FALSE}
 # Load management indicies by state
@@ -176,6 +176,7 @@ if(make_plots){
       left_join(eez_management_indices %>% mutate(eez_hs_code = as.character(eez_id)), by = c("eez_hs_code")) %>%
       mutate(fmi_best = ifelse(is.na(fmi_best), 0.21, fmi_best))
   
+  # Map by EEZ/FAO area
   fmi_map <- ggplot()+
     geom_sf(data = world, fill = "black", color = "grey", size = 0.25)+
     geom_sf(data = fmi_map_dat, aes(fill = fmi_best), color = "grey", size = 0.25)+
@@ -183,12 +184,15 @@ if(make_plots){
     scale_fill_distiller(palette = "YlGn", 
                          direction = 1,
                          limits = c(0.2, 1))+
-    labs(fill = "FMI Score")
+    labs(fill = "FMI Score")+
+    theme(plot.background = element_rect(color = NA),
+          panel.border = element_rect(color = NA))
   
-  ggsave(paste0(results_dir, "fmi_score_map.png"), width = 7.5, units = "in")
+  fmi_map
+  
+  ggsave(paste0(results_dir, "fmi_score_map.png"), width = 7.5, height = 4, units = "in")
 }
 ```
-
 
 # Median fishing pressure by FAO region
 
@@ -202,57 +206,79 @@ median_fvfmsy_fao <- costello_2016_upsides_dat %>%
   summarize(fvfmsy_med_region = median(fv_fmsy, na.rm = T),
             fvfmsy_mean_region = mean(fv_fmsy, na.rm = T),
             fvfmsy_w_mean_region = weighted.mean(fv_fmsy, w = msy, na.rm = T)) %>%
-  dplyr::select(fao_region = region_fao_split, fvfmsy_med_region)
+  dplyr::select(fao_region = region_fao_split, fvfmsy_med_region, fvfmsy_mean_region, fvfmsy_w_mean_region)
 ```
 
-# Median fishing pressure by FAO region and state
-
 ```{r}
-# median_fvfmsy_fao_flag <- costello_2016_upsides_dat %>%
-#   group_by(iso3, region_fao_split) %>%
-#   summarize(fvfmsy_med_eez = median(fv_fmsy, na.rm = T),
-#             fvfmsy_mean_eez = mean(fv_fmsy, na.rm = T),
-#             fvfmsy_w_mean_eez = weighted.mean(fv_fmsy, w = msy, na.rm = T)) %>%
-#   dplyr::select(iso3, fao_region = region_fao_split, fvfmsy_med_eez)
+if(make_plots){
+  
+  # Summarize data
+    fvfmsy_map_dat <- fao_areas %>%
+      rename(fao_region = zone) %>%
+      left_join(median_fvfmsy_fao, by = "fao_region") %>%
+      gather(metric, value, 3:5) %>%
+      mutate(metric = str_replace(str_replace(metric, "fvfmsy_", ""), "_region", ""),
+             metric_display = case_when(metric == "med" ~ "Median",
+                                        metric == "w_mean" ~ "Weighted Mean",
+                                        metric == "mean" ~ "Mean"))
+  
+  # Map by EEZ/FAO area
+  fvfmsy_map <- ggplot()+
+    geom_sf(data = world, fill = "black", color = "grey", size = 0.25)+
+    geom_sf(data = fvfmsy_map_dat, aes(fill = value), color = "grey", size = 0.25)+
+    theme_bw()+
+    scale_fill_gradient2(low = "blue",
+                         high = 'red',
+                         mid = "white",
+                         midpoint = 1,
+                         limits = c(0,5),
+                         oob = scales::squish)+
+    labs(fill = "F/Fmsy")+
+    theme(plot.background = element_rect(color = NA),
+          panel.border = element_rect(color = NA))+
+    facet_wrap(~metric_display, ncol = 1)
+  
+  fvfmsy_map
+  
+  ggsave(paste0(results_dir, "fvfmsy_map.png"), width = 7.5, height = 9.5, units = "in")
+}
 ```
 
 # Proportion of formally assessed stocks by FAO region
 
-In order to include flag state, we would need to fix this one - How to treat "multinational" stocks. These should be attributed to all flag states that are fishing in those fisheries.  
-
-```{r}
-prop_assessed_stocks <- costello_2016_upsides_dat %>%
-  group_by(region_fao_split) %>%
-  summarize(catch_ram = sum(catch[dbase == "RAM"]),
-            catch_other = sum(catch[dbase != "RAM"])) %>%
-  mutate(catch_prop_ram = catch_ram/(catch_ram + catch_other)) %>%
-  dplyr::select(fao_region = region_fao_split, catch_prop_ram)
-```
+# ```{r}
+# prop_assessed_stocks <- costello_2016_upsides_dat %>%
+#   group_by(region_fao_split) %>%
+#   summarize(catch_ram = sum(catch[dbase == "RAM"]),
+#             catch_other = sum(catch[dbase != "RAM"])) %>%
+#   mutate(catch_prop_ram = catch_ram/(catch_ram + catch_other)) %>%
+#   dplyr::select(fao_region = region_fao_split, catch_prop_ram)
+# ```
 
 # Proportion of catch share stocks by FAO region
 
-```{r}
-prop_catch_share_stocks <- costello_2016_upsides_dat %>%
-  group_by(region_fao_split) %>%
-  summarize(catch_share= sum(catch[catch_share == 1]),
-            catch_other = sum(catch[catch_share != 1])) %>%
-  mutate(catch_prop_cs= catch_share/(catch_share + catch_other)) %>%
-  dplyr::select(fao_region = region_fao_split, catch_prop_cs)
-```
+# ```{r}
+# prop_catch_share_stocks <- costello_2016_upsides_dat %>%
+#   group_by(region_fao_split) %>%
+#   summarize(catch_share= sum(catch[catch_share == 1]),
+#             catch_other = sum(catch[catch_share != 1])) %>%
+#   mutate(catch_prop_cs= catch_share/(catch_share + catch_other)) %>%
+#   dplyr::select(fao_region = region_fao_split, catch_prop_cs)
+# ```
 
 # Apply management indices to vessels
 
 ```{r}
 vessel_list_manage <- vessel_list_raw %>%
   left_join(eez_management_indices, by = c("eez_id")) %>%
-  left_join(median_fvfmsy_fao, by = c("fao_region")) %>%
-  left_join(prop_assessed_stocks, by = c("fao_region")) %>%
-  left_join(prop_catch_share_stocks, by = c("fao_region"))
+  left_join(median_fvfmsy_fao, by = c("fao_region"))
+  # left_join(prop_assessed_stocks, by = c("fao_region")) %>%
+  # left_join(prop_catch_share_stocks, by = c("fao_region"))
 
 # FAO region 18 is missing stock data, but has some effort
 vessel_list_manage$fvfmsy_med_region[is.na(vessel_list_manage$fvfmsy_med_region)] <- 1
-vessel_list_manage$catch_prop_ram[is.na(vessel_list_manage$catch_prop_ram)] <- 0
-vessel_list_manage$catch_prop_cs[is.na(vessel_list_manage$catch_prop_cs)] <- 0
+vessel_list_manage$fvfmsy_mean_region[is.na(vessel_list_manage$fvfmsy_mean_region)] <- 1
+vessel_list_manage$fvfmsy_w_mean_region[is.na(vessel_list_manage$fvfmsy_w_mean_region)] <- 1
 
 write_csv(vessel_list_manage, paste0(results_dir, "vessel_list_2018_management.csv"))
 
@@ -260,125 +286,100 @@ write_csv(vessel_list_manage, paste0(results_dir, "vessel_list_2018_management.c
 fmi_quantile <- tibble("indicator" = "fmi") %>%
   bind_cols(setNames(as.data.frame(matrix(quantile(vessel_list_manage$fmi_best), nrow = 1)), names(quantile(vessel_list_manage$fmi_best))))
 
-fvfmsy_quantile <- tibble("indicator" = "fvfmsy") %>%
+fvfmsy_med_quantile <- tibble("indicator" = "fvfmsy_median") %>%
   bind_cols(setNames(as.data.frame(matrix(quantile(vessel_list_manage$fvfmsy_med_region), nrow = 1)), names(quantile(vessel_list_manage$fvfmsy_med_region))))
 
-catch_ram_quantile <- tibble("indicator" = "catch_prop_ram") %>%
-  bind_cols(setNames(as.data.frame(matrix(quantile(vessel_list_manage$catch_prop_ram), nrow = 1)), names(quantile(vessel_list_manage$catch_prop_ram))))
+fvfmsy_mean_quantile <- tibble("indicator" = "fvfmsy_mean") %>%
+  bind_cols(setNames(as.data.frame(matrix(quantile(vessel_list_manage$fvfmsy_mean_region), nrow = 1)), names(quantile(vessel_list_manage$fvfmsy_mean_region))))
 
-catch_cs_quantile <- tibble("indicator" = "catch_prop_cs") %>%
-  bind_cols(setNames(as.data.frame(matrix(quantile(vessel_list_manage$catch_prop_cs), nrow = 1)), names(quantile(vessel_list_manage$catch_prop_cs))))
+fvfmsy_w_mean_quantile <- tibble("indicator" = "fvfmsy_w_mean") %>%
+  bind_cols(setNames(as.data.frame(matrix(quantile(vessel_list_manage$fvfmsy_w_mean_region), nrow = 1)), names(quantile(vessel_list_manage$fvfmsy_w_mean_region))))
 
 indicator_quantiles <- fmi_quantile %>%
-  bind_rows(fvfmsy_quantile) %>%
-  bind_rows(catch_ram_quantile) %>%
-  bind_rows(catch_cs_quantile)
+  bind_rows(fvfmsy_med_quantile) %>%
+  bind_rows(fvfmsy_mean_quantile) %>%
+  bind_rows(fvfmsy_w_mean_quantile)
 
 write_csv(indicator_quantiles, paste0(results_dir, "management_indicator_quantiles.csv"))
 ```
 
-# Summary plots
-
-## Coorelation between average FMI by flag/fao region and subsidy provisioning
-
 ```{r}
-if(make_plots){
-  
-# FMI by flag and FAO from vessel list
-fmi_flag_fao <- vessel_list_manage %>%
-  group_by(flag) %>%
-  mutate(tot_bad_subs = sum(bad_subs),
-         tot_fuel_subs = sum(B7_subs)) %>%
-  ungroup() %>%
-  group_by(flag, fao_region) %>%
-  summarize(fmi_weighted_avg = weighted.mean(fmi_best, catch),
-            tot_bad_subs = unique(tot_bad_subs),
-            tot_fuel_subs = unique(tot_fuel_subs))
-
-ggplot(fmi_flag_fao)+
-  aes(x = tot_bad_subs, y = fmi_weighted_avg)+
-  geom_point()+
-  theme_linedraw()+
-  labs(x = "Total capacity-enhancing subsidies (2018 $US)",
-       y = "Mean Weighted FMI")+
-  scale_y_continuous(limits = c(0,1))+
-  scale_x_continuous(labels = comma)
-
-# FMI by flag from vessel list
-fmi_flag <- vessel_list_manage %>%
-  group_by(flag) %>%
-  mutate(tot_bad_subs = sum(bad_subs),
-         tot_fuel_subs = sum(B7_subs)) %>%
-  ungroup() %>%
-  group_by(flag) %>%
-  summarize(fmi_weighted_avg = weighted.mean(fmi_best, catch),
-            tot_bad_subs = unique(tot_bad_subs),
-            tot_fuel_subs = unique(tot_fuel_subs))
-
-ggplot(fmi_flag)+
-  aes(x = tot_bad_subs, y = fmi_weighted_avg)+
-  geom_point()+
-  theme_linedraw()+
-  labs(x = "Total capacity-enhancing subsidies (2018 $US)",
-       y = "Mean Weighted FMI")+
-  scale_y_continuous(limits = c(0,1))+
-  scale_x_continuous(labels = comma)
-
-countries_to_highlight <- c("CHN", "USA", "IDN", "JPN", "ISL", "THA")
-  
-# FMI by just from Melnychuk et al
-fmi_flag_melnychuk_only <- vessel_list_manage %>%
-  group_by(flag) %>%
-  summarize(tot_bad_subs = sum(bad_subs),
-         tot_fuel_subs = sum(B7_subs),
-         tot_landings = sum(catch)) %>%
-  right_join(melnychuk_2017_mgmt_dat, by = c("flag" = "iso3")) %>%
-  mutate(display_name = case_when(flag %in% countries_to_highlight ~ countrycode(flag, "iso3c", "country.name")))
-
-# plot
-ggplot(fmi_flag_melnychuk_only)+
-  aes(x = tot_bad_subs/1e6, y = fmi_weighted, size = tot_landings/1e6, color = display_name)+
-  geom_point()+
-  geom_text_repel(aes(label = display_name), size = 4, force = 100, point.padding = 0.25, box.padding = 1)+
-  theme_linedraw()+
-  labs(x = "Total capacity-enhancing subsidies (million 2018 $US)",
-       y = "Weighted FMI")+
-  scale_y_continuous(limits = c(0,1))+
-  scale_x_continuous(labels = comma)+
-  scale_size(range = c(2,8), breaks = c(5,10,15), limits = c(0,15), name = "Marine Capture Production (million mt, 2017)")+
-  theme(legend.position = "top")+
-  scale_color_discrete(guide = "none")
-
-ggsave(paste0(results_dir, "fmi_flag_melnychuk_allbad.png"), width = 7, height = 4.5, units = "in")
-
-# Plot fuel subsidies only 
-ggplot(fmi_flag_melnychuk_only)+
-  aes(x = tot_fuel_subs/1e6, y = fmi_weighted, size = tot_landings/1e6, color = display_name)+
-  geom_point()+
-  geom_text_repel(aes(label = display_name), size = 4, force = 100, point.padding = 0.25, box.padding = 1)+
-  theme_linedraw()+
-  labs(x = "Total fuel subsidies (million 2018 $US)",
-       y = "Weighted FMI")+
-  scale_y_continuous(limits = c(0,1))+
-  scale_x_continuous(labels = comma)+
-  scale_size(range = c(2,8), breaks = c(5,10,15), limits = c(0,15), name = "Marine Capture Production (million mt, 2017)")+
-  theme(legend.position = "top")+
-  scale_color_discrete(guide = "none")
-
-ggsave(paste0(results_dir, "fmi_flag_melnychuk_fuel.png"), width = 7, height = 4.5, units = "in")
-
-}
+# if(make_plots){
+#   
+#   # Summarize data
+#   density_dat <- vessel_list_manage %>%
+#     dplyr::select(fmi_best, fvfmsy_med_region, fvfmsy_mean_region, fvfmsy_w_mean_region)
+#   
+#   probs <- c(0, 1/3, 2/3, 1)
+#   
+#   # Make FMI density plot (across all vessels)
+#   fmi_density <- density(density_dat$fmi_best)
+#   
+#   fmi_density_plot_dat <- data.frame(name = "FMI Score", x = fmi_density$x, y = fmi_density$y)
+#  
+#   fmi_quantiles <- quantile(fmi_density_plot_dat$y, prob=probs)
+#   fmi_density_plot_dat$quant <- factor(findInterval(fmi_density_plot_dat$x, fmi_quantiles))
+#   
+#   fmi_density_plot <- ggplot(fmi_density_plot_dat, aes(x,y)) + 
+#     geom_line() + 
+#     geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + 
+#     scale_y_continuous(expand = c(0,0)) + 
+#     scale_fill_manual(labels = c("0-33%", "33-66%", "66-100%"), values = brewer.pal(3, "Blues"), name = "Quantile")+
+#     labs(x = "FMI Score", y = "Kernal Density")+
+#     theme_bw()
+# 
+#   # Make median F/Fmsy density plot (across all vessels)
+#   med_density <- density(density_dat$fvfmsy_med_region)
+# 
+#   med_density_plot_dat <- data.frame(name = "Median F/Fmsy", x = med_density$x, y = med_density$y)
+#   
+#   med_quantiles <- quantile(med_density_plot_dat$y, prob=probs)
+#   med_density_plot_dat$quant <- factor(findInterval(med_density_plot_dat$x, med_quantiles))
+#   
+#   med_density_plot <- ggplot(med_density_plot_dat, aes(x,y)) + 
+#     geom_line() + 
+#     geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + 
+#     scale_y_continuous(expand = c(0,0)) + 
+#     scale_fill_manual(labels = c("66-100%"), values = brewer.pal(3, "Blues")[3], name = "Quantile")+
+#     labs(x = "Median F/Fmsy", y = "Kernal Density")+
+#     theme_bw()
+#   
+#   # Make mean F/Fmsy density plot (across all vessels)
+#   mean_density <- density(density_dat$fvfmsy_mean_region)
+# 
+#   mean_density_plot_dat <- data.frame(name = "Mean F/Fmsy", x = mean_density$x, y = mean_density$y)
+#   
+#   mean_quantiles <- quantile(mean_density_plot_dat$y, prob=probs)
+#   mean_density_plot_dat$quant <- factor(findInterval(mean_density_plot_dat$x, mean_quantiles))
+#   
+#   mean_density_plot <- ggplot(mean_density_plot_dat, aes(x,y)) + 
+#     geom_line() + 
+#     geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + 
+#     scale_y_continuous(expand = c(0,0)) + 
+#     scale_fill_manual(labels = c("66-100%"), values = brewer.pal(3, "Blues")[3], name = "Quantile")+
+#     labs(x = "Mean F/Fmsy", y = "Kernal Density")+
+#     theme_bw()
+#   
+#   # Make weighted mean F/Fmsy density plot (across all vessels)
+#   w_mean_density <- density(density_dat$fvfmsy_w_mean_region)
+# 
+#   w_mean_density_plot_dat <- data.frame(name = "Weight. Mean F/Fmsy", x = w_mean_density$x, y = w_mean_density$y)
+#   
+#   w_mean_quantiles <- quantile(w_mean_density_plot_dat$y, prob=probs)
+#   w_mean_density_plot_dat$quant <- factor(findInterval(w_mean_density_plot_dat$x, w_mean_quantiles))
+#   
+#   w_mean_density_plot <- ggplot(w_mean_density_plot_dat, aes(x,y)) + 
+#     geom_line() + 
+#     geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + 
+#     scale_y_continuous(expand = c(0,0)) + 
+#     scale_fill_manual(labels = c("66-100%"), values = brewer.pal(3, "Blues")[3], name = "Quantile")+
+#     labs(x = "Weight. Mean F/Fmsy", y = "Kernal Density")+
+#     theme_bw()
+#     
+# }
 ```
 
 ```{r}
-# For later use, get fraction of catch in each region from catch share fisheries, vs. not
-# costello_catch_share_frac <- costello_2016_dat_edit %>%
-#   group_by(region, catch_share) %>%
-#   summarize(landings = sum(catch_new, na.rm = T)) %>%
-#   ungroup() %>%
-#   group_by(region) %>%
-#   mutate(tot_landings = sum(landings, na.rm = T)) %>%
-#   ungroup() %>%
-#   mutate(frac_landings = landings/tot_landings) %>%
-#   arrange(region)
+
 ```
+

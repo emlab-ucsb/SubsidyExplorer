@@ -38,26 +38,37 @@ wid <- read_csv("./text/00_widget_values.csv") %>%
 ### ----------------------------------
 
 # Load list of WTO Member states and their dependencies with chosen display names
-country_lookup <- read_csv("./data/country_lookup.csv") %>%
+country_lookup <- read_csv("./data/country_dependencies.csv") %>%
   mutate(display_name = case_when(!is.na(WTO_name) ~ WTO_name,
+                                  iso3 == "ANT" ~ "Netherlands Antilles",
+                                  iso3 == "ASC" ~ "Ascension Island", 
+                                  iso3 == "CPT" ~ "Clipperton Island",
+                                  iso3 == "TAA" ~ "Tristan da Cunha",
                                   TRUE ~ countrycode(iso3, "iso3c", "country.name"))) %>%
   arrange(sovereign_iso3) 
 
-# Vector of all WTO Members and Observers for use in the app
-wto_members_and_observers <- country_lookup$iso3[country_lookup$WTO_member_status %in% c("Member", "Observer")]
-names(wto_members_and_observers) <- country_lookup$display_name[country_lookup$WTO_member_status %in% c("Member", "Observer")]
+# Vector of all WTO Members and Observers for use in the app [does not include the overseas territories associated with them]
+wto_members_and_observers <- country_lookup$iso3[country_lookup$is_WTO & !country_lookup$is_overseas_territory]
+names(wto_members_and_observers) <- country_lookup$display_name[country_lookup$iso3 %in% wto_members_and_observers]
 
 # EU states
-eu_countries <- country_lookup$iso3[country_lookup$iso3 != "EU" & country_lookup$is_EU]
+eu_countries <- country_lookup$iso3[country_lookup$is_EU]
+names(eu_countries) <- country_lookup$display_name[country_lookup$iso3 %in% eu_countries]
 
 # List of all EU overseas territories - vessels flagged here should be considered WTO Members
 eu_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 %in% eu_countries]
+names(eu_territories) <- country_lookup$display_name[country_lookup$iso3 %in% eu_territories]
 
-# List of all US overseas territories - vessels flagged here should be considered WTO Members
-us_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "USA"]
+# All WTO territories (with their sovereign states) -  vessels flagged here should be considered WTO Members
+territories <- country_lookup %>%
+  dplyr::filter(is_overseas_territory & is_WTO) %>%
+  distinct(iso3, sovereign_iso3)
 
-# List of all Norwegian overseas territories - vessels flagged here should be considered WTO Members
-norwegian_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "NOR"]
+# # List of all US overseas territories - vessels flagged here should be considered WTO Members
+# us_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "USA"]
+# 
+# # List of all Norwegian overseas territories - vessels flagged here should be considered WTO Members
+# norwegian_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "NOR"]
 
 # ### --------------------
 # ### Shapefiles ---------
@@ -170,12 +181,13 @@ demographic_dat <- demo_dat_world_bank %>%
 
 ### FISHERIES DATA -----------------------------------------------------------------------------------
 
-# 1) FAO Cature Production by ISSCAAP Group (2000-2017)
-
+# 1) FAO Cature Production by ISSCAAP Group (2000-2017) - only for display purposes
 capture_production_dat_fao <- read_csv("./data/fao_2020_capture_production_isscaap_groups_tidy.csv") %>%
   group_by(iso3, year) %>%
   mutate(prop_annual_total = value/sum(value)) %>%
   ungroup() %>%
+  dplyr::filter(!(iso3 %in% unique(territories$sovereign_iso3))) %>% # remove entries for sovereign states without the data cooresponding to their territories 
+  mutate(iso3 = str_replace(iso3, "-T", "")) %>% # rename entries for sovereign states that include data cooresponding to their territories
   left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3")
 
 capture_production_dat_tot <- capture_production_dat_fao %>%
@@ -188,6 +200,8 @@ landed_value_dat <- read_csv("./data/estimated_landed_value_isscaap_groups_tidy.
   group_by(iso3, year) %>%
   mutate(prop_annual_total = value/sum(value)) %>%
   ungroup() %>%
+  dplyr::filter(!(iso3 %in% unique(territories$sovereign_iso3))) %>% # remove entries for sovereign states without the data cooresponding to their territories 
+  mutate(iso3 = str_replace(iso3, "-T", "")) %>% # rename entries for sovereign states that include data cooresponding to their territories
   left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3")
 
 landed_value_dat_tot <- landed_value_dat %>%
@@ -198,7 +212,8 @@ landed_value_dat_tot <- landed_value_dat %>%
 # 3) GFW Vessel list (2018)
 #pro_rate_subsidies <- F
 
-vessel_dat <- read.csv("./data/vessel_list_2018_final.csv", stringsAsFactors = F)
+vessel_dat <- read.csv("./data/vessel_list_2018_final.csv", stringsAsFactors = F) %>%
+  left_join(country_lookup %>% dplyr::select(iso3, is_WTO), by = c("flag_iso3" = "iso3"))
 
 # if(pro_rate_subsidies == T){
 # 
@@ -232,6 +247,9 @@ bio_dat_list <- bio_dat %>%
 # 1) Cap/tier data (from US proposal) ---
 cap_tier_dat <- read_csv("./data/USA_cap_tier_tidy.csv") %>%
   arrange(iso3)
+
+# 1) Cap/tier lookup table
+cap_tier_lookup_table <- read_csv("./data/cap_tier_lookup_table.csv")
 
 # 2) Proposal settings
 proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
@@ -275,7 +293,6 @@ combined_fishery_stats_dat <- subsidy_dat %>%
 
 # Create fleet (vessels)
 remove_all_bad_fleet_vessels <- vessel_dat %>%
-  mutate(is_WTO = ifelse(flag_iso3 %in% c(cap_tier_dat$iso3, eu_countries, eu_territories, us_territories, norwegian_territories), T, F)) %>%
   mutate(fleet = case_when(is_WTO & fmi_best >= managed_cutoff & bad_subs > 0 ~ "affected_managed",
                            is_WTO & fmi_best < managed_cutoff & bad_subs > 0 ~ "affected_oa",
                            (!is_WTO & fmi_best >= managed_cutoff) ~ "unaffected_managed",
@@ -370,7 +387,6 @@ remove_all_bad_results_last <- remove_all_bad_results_full %>%
          run_name = "Most ambitious scenario")
 
 ### Summaries by flag state for use in Cap/Tier--------------------------------------------------------------
-# Need to update this to allow some things to be selected by year (e.g., average over the last 3 or 5 years)
 
 flag_summary <- left_join(
   

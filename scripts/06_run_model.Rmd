@@ -65,21 +65,7 @@ vessel_dat <- vessel_dat %>%
                                  TRUE ~ as.character(eez_id)))
 
 # Load country dependencies helper file
-country_dependencies <- read_csv(here::here("data", "lookup-tables", "country_dependencies.csv")) %>%
-  mutate(territory_is_WTO = case_when(WTO_status %in% c("Member", "Observer") ~ T,
-                            TRUE ~ F))
-
-sovereign_statuses <- country_dependencies %>%
-  distinct(sovereign_iso3, WTO_status) %>%
-  mutate(sovereign_is_WTO = case_when(WTO_status %in% c("Member", "Observer") ~ T,
-                            TRUE ~ F))
-
-wto_lookup <- country_dependencies %>%
-  left_join(sovereign_statuses, by = c("sovereign_iso3", "WTO_status")) %>%
-  mutate(is_WTO = case_when(territory_is_WTO ~ T,
-                            sovereign_is_WTO ~ T,
-                            TRUE ~ F)) %>%
-  dplyr::select(iso3, is_WTO)
+country_dependencies <- read_csv(here::here("data", "lookup-tables", "country_dependencies.csv"))
 ```
 
 ```{r}
@@ -103,7 +89,7 @@ managed_cutoff <- 0.66
 ```{r pressure, echo=FALSE}
 # Assign fleets to vessels
 global_fleet_vessels <- vessel_dat %>%
-  left_join(wto_lookup, by = c("flag_iso3" = "iso3")) %>%
+  left_join(country_dependencies %>% dplyr::select(iso3, is_WTO), by = c("flag_iso3" = "iso3")) %>%
   mutate(fleet = case_when(is_WTO & fmi_best >= managed_cutoff & bad_subs > 0 ~ "affected_managed",
                            is_WTO & fmi_best < managed_cutoff & bad_subs > 0 ~ "affected_oa",
                            (!is_WTO & fmi_best >= managed_cutoff) ~ "unaffected_managed",

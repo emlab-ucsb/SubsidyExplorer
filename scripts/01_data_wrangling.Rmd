@@ -13,6 +13,7 @@ fontsize: 11pt
 library(knitr) # Necessary to convert file to .html
 library(countrycode) # Country name matching
 library(here) # File path handling
+#remotes::install_github('vincentarelbundock/WDI')
 library(WDI) # World Bank World Development Indicators data
 library(janitor) # Column name handling
 library(tidyverse) # General data wrangling
@@ -135,28 +136,28 @@ The naming of flag and coastal states varies widely across our data sources and 
 # Load country dependencies helper file
 country_dependencies <- read_csv(country_lookup_path)
 
+# Get all overseas dependencies that are relevant for the WTO - there are 49
+territories <- country_dependencies %>%
+  dplyr::filter(is_overseas_territory & is_WTO) %>%
+  distinct(iso3, sovereign_iso3)
+
+# Get all cooresponding sovereign states (we need to make sure any totals for these states include their dependencies) - there are 9
+# Australia, Denmark, France, United Kingdom, Morocco, Netherlands, Norway, New Zealand, and the United States
+sovereigns_with_territories <- territories %>%
+  distinct(sovereign_iso3)
+
 # EU countries
 eu_countries <- country_dependencies$iso3[country_dependencies$is_EU]
-eu_country_names <- country_dependencies$WTO_name[country_dependencies$iso3 %in% eu_countries]
 
 # EU overseas territories
 eu_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 %in% eu_countries]
-eu_territory_names <- sort(c(countrycode(eu_territories, "iso3c", "country.name"), "Ascension Island", "Tristan da Cunha"))
-
-# US overseas territories:  American Samoa, Guam, Northern Marianas Islands, Puerto Rico, US Virgin Islands
-us_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "USA"]
-us_territory_names <- sort(countrycode(us_territories, "iso3c", "country.name"))
-
-# Norwegian overseas territories: 
-nor_territories <- country_dependencies$iso3[country_dependencies$is_overseas_territory & country_dependencies$sovereign_iso3 == "NOR"]
-nor_territory_names <- sort(countrycode(nor_territories, "iso3c", "country.name"))
 ```
 
-Additionally, it is important to note that the European Union as a political entity is a Member of the World Trade Organization, rather then the individual states that make up the European Union. We therefore need to create a profile for the European Union as a whole.  The following `r length(eu_country_names)` states are considered to be part of the European Union for the purposes of this analysis: `r paste(eu_country_names, collapse = ", ")`. 
+Additionally, it is important to note that the European Union as a political entity is a Member of the World Trade Organization, rather then the individual states that make up the European Union. We therefore need to create a profile for the European Union as a whole.  The following `r length(eu_country_names)` states are considered to be part of the European Union for the purposes of this analysis: `r paste(country_dependencies$WTO_name[country_dependencies$iso3 %in% eu_countries], collapse = ", ")`. 
 
-The Netherlands, France, Denmark, and the United Kingdom also have overseas dependencies that should be considered to be a part of the European Union for statistical purposes. The following overseas dependencies are also considered to be a part of the European Union for the purpose of aggregating data in this analysis: `r paste(eu_territory_names, collapse = ", ")`.
+The Netherlands, France, Denmark, and the United Kingdom also have overseas dependencies that should be considered to be a part of the European Union for statistical purposes.
 
-Outside of the EU, the other dependencies we need to worry about are those that relate to the United States and Norway. The following overseas dependencies are considered to be a part of the United States for the purpose of aggregating data in this analysis: `r paste(us_territory_names, collapse = ", ")`. The following overseas dependencies are considered to be a part of Norway for the purpose of aggregating data in this analysis: `r paste(norway_territory_names, collapse = ", ")`. 
+Outside of the EU, the other dependencies we need to worry about are those that relate to the Austraila, Morocco, Norway, New Zealand, and the United States.
 
 # Section 1 - Subsidies Data
 
@@ -194,12 +195,17 @@ sumaila_2019_dat_eu <- sumaila_2019_dat_edit %>%
          data_type = "Aggregate") %>%
   group_by(entity, year, category, category_name, type, type_name, data_type, units, source) %>%
   summarize(value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
   rename(iso3 = entity)
 
 # Add the EU back in
 sumaila_2019_dat_edit <- sumaila_2019_dat_edit %>%
   bind_rows(sumaila_2019_dat_eu) %>%
   mutate(variable = "subsidies_Sumaila")
+
+# Test to make sure there isn't data for any other dependencies - nope we're good
+sumaila_2019_dat_overseas_territory <- sumaila_2019_dat_edit %>%
+  dplyr::filter(iso3 %in% territories$iso3 & !(iso3 %in% eu_territories))
 
 # Save
 write_csv(sumaila_2019_dat_edit, paste0(data_dir, "sumaila_et_al_2019_subsidies_tidy.csv"))
@@ -236,6 +242,7 @@ oecd_fse_dat_eu <- oecd_fse_dat_edit %>%
          data_type = "Aggregate") %>%
   group_by(entity, year, category, category_name, type, type_name, data_type, units, source) %>%
   summarize(value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
   rename(iso3 = entity) %>%
   arrange(iso3, year, type)
 
@@ -243,6 +250,10 @@ oecd_fse_dat_eu <- oecd_fse_dat_edit %>%
 oecd_fse_dat_edit <- oecd_fse_dat_edit %>%
   bind_rows(oecd_fse_dat_eu) %>%
   mutate(variable = "subsidies_OECD")
+
+# Test to make sure there isn't data for any other dependencies - nope we're good
+oecd_fse_dat_overseas_territory <- oecd_fse_dat_edit %>%
+  dplyr::filter(iso3 %in% territories$iso3 & !(iso3 %in% eu_territories))
   
 # Save
 write_csv(oecd_fse_dat_edit, paste0(data_dir, "oecd_2019_fse_tidy.csv"))
@@ -299,10 +310,13 @@ schuhbauer_subsidies_ssf_dat_eu <- read_csv(schuhbauer_subsidies_ssf_path) %>%
 schuhbauer_subsidies_ssf_dat_edit <- schuhbauer_subsidies_ssf_dat_edit %>%
   bind_rows(schuhbauer_subsidies_ssf_dat_eu)
 
+# Test to make sure there isn't data for any other dependencies - nope we're good
+schuhbauer_subsidies_ssf_dat_overseas_territory <- schuhbauer_subsidies_ssf_dat_edit %>%
+  dplyr::filter(iso3 %in% territories$iso3 & !(iso3 %in% eu_territories))
+
 # Save
 write_csv(schuhbauer_subsidies_ssf_dat_edit, paste0(data_dir, "schuhbauer_ssf_subsidies_proportions.csv"))
 write_csv(schuhbauer_subsidies_ssf_dat_edit, paste0(app_data_dir, "schuhbauer_ssf_subsidies_proportions.csv"))
-
 ```
 
 # Section 2 - Demographic Data
@@ -310,55 +324,61 @@ write_csv(schuhbauer_subsidies_ssf_dat_edit, paste0(app_data_dir, "schuhbauer_ss
 ## Demographic statistics by state from the World Bank's World Development Indicators Database (2000 - 2018)
 
 ```{r}
-# Load data using WDI package
-wb_demo_dat <- WDI(country = "all",
-                   indicator = c("gdp" = "NY.GDP.MKTP.CD",
-                                 "gdp_ffa" = "NV.AGR.TOTL.CD",
-                                 "population" = "SP.POP.TOTL"),
-                                  start = 2000,
-                                  end = 2018,
-                                  extra = TRUE) %>%
-  dplyr::filter(region != "Aggregates") %>%
-  dplyr::select(iso3 = iso3c,
-                year,
-                gdp,
-                gdp_ffa,
-                population) %>%
-  mutate(iso3 = as.character(iso3)) %>%
-  arrange(iso3, year) %>%
-  gather(variable, value, c("gdp", "gdp_ffa", "population")) %>%
-  dplyr::filter(!is.na(value)) %>%
-  mutate(units = case_when(variable == "population" ~ "individuals",
-                           TRUE ~ paste0(year, " US$")),
-         source = "World Bank WDI database")
+# Load data using WDI package'
+# wb_demo_dat <- WDI(country = "all",
+#                    indicator = c("gdp" = "NY.GDP.MKTP.CD",
+#                                  "gdp_ffa" = "NV.AGR.TOTL.CD",
+#                                  "population" = "SP.POP.TOTL"),
+#                                   start = 2000,
+#                                   end = 2018,
+#                                   extra = TRUE) %>%
+#   dplyr::filter(region != "Aggregates") %>%
+#   dplyr::select(iso3 = iso3c,
+#                 year,
+#                 gdp,
+#                 gdp_ffa,
+#                 population) %>%
+#   mutate(iso3 = as.character(iso3)) %>%
+#   arrange(iso3, year) %>%
+#   gather(variable, value, c("gdp", "gdp_ffa", "population")) %>%
+#   dplyr::filter(!is.na(value)) %>%
+#   mutate(units = case_when(variable == "population" ~ "individuals",
+#                            TRUE ~ paste0(year, " US$")),
+#          source = "World Bank WDI database")
+# 
+# # Deal with the EU + territories
+# wb_dat_eu <- wb_demo_dat %>%
+#   dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
+#   mutate(entity = "EU") %>%
+#   group_by(entity, year, variable, units, source) %>%
+#   summarize(value = sum(value, na.rm = T)) %>%
+#   rename(iso3 = entity) %>%
+#   arrange(iso3, year, variable)
+# 
+# # Test to make sure there isn't data for any other dependencies - will need to add this once I can figure out why the WDI API isn't working
+# wb_dat_overseas_territory <- wb_demo_dat %>%
+#   dplyr::filter(iso3 %in% territories$iso3 & !(iso3 %in% eu_territories))
+# # Deal with the US + territories
+# wb_dat_us <- wb_demo_dat %>%
+#   dplyr::filter(iso3 %in% c(us_territories, "USA")) %>%
+#   mutate(entity = "USA") %>%
+#   group_by(entity, year, variable, units, source) %>%
+#   summarize(value = sum(value, na.rm = T)) %>%
+#   rename(iso3 = entity) %>%
+#   arrange(iso3, year, variable)
+# 
+# # Add back in
+# wb_dat_edit <- wb_demo_dat %>%
+#   dplyr::filter(iso3 != "USA") %>%
+#   bind_rows(wb_dat_eu) %>%
+#   bind_rows(wb_dat_us)
+# 
+# # Export clean
+# write_csv(wb_dat_edit, paste0(data_dir, "world_bank_2020_wdi_tidy.csv"))
+# write_csv(wb_dat_edit, paste0(app_data_dir, "world_bank_2020_wdi_tidy.csv"))
 
-# Deal with the EU + territories
-wb_dat_eu <- wb_demo_dat %>%
-  dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
-  mutate(entity = "EU") %>%
-  group_by(entity, year, variable, units, source) %>%
-  summarize(value = sum(value, na.rm = T)) %>%
-  rename(iso3 = entity) %>%
-  arrange(iso3, year, variable)
-
-# Deal with the US + territories
-wb_dat_us <- wb_demo_dat %>%
-  dplyr::filter(iso3 %in% c(us_territories, "USA")) %>%
-  mutate(entity = "USA") %>%
-  group_by(entity, year, variable, units, source) %>%
-  summarize(value = sum(value, na.rm = T)) %>%
-  rename(iso3 = entity) %>%
-  arrange(iso3, year, variable)
-
-# Add back in
-wb_dat_edit <- wb_demo_dat %>%
-  dplyr::filter(iso3 != "USA") %>%
-  bind_rows(wb_dat_eu) %>%
-  bind_rows(wb_dat_us)
-
-# Export clean
-write_csv(wb_dat_edit, paste0(data_dir, "world_bank_2020_wdi_tidy.csv"))
-write_csv(wb_dat_edit, paste0(app_data_dir, "world_bank_2020_wdi_tidy.csv"))
+# Load in
+wb_dat_edit <- read_csv(paste0(data_dir, "world_bank_2020_wdi_tidy.csv"))
 ```
 
 ## Total number of fishers by state from the FAO Yearbook of Fishery and Aquaculture Statistics (misc. years between 1995 and 2016)
@@ -381,6 +401,7 @@ fao_fishers_dat_eu <- fao_fishers_dat %>%
   mutate(entity = "EU") %>%
   group_by(entity, year, variable, units, source) %>%
   summarize(value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
   rename(iso3 = entity) %>%
   arrange(iso3, year, variable)
 
@@ -388,6 +409,10 @@ fao_fishers_dat_eu <- fao_fishers_dat %>%
 fao_fishers_dat_edit <- fao_fishers_dat %>%
   bind_rows(fao_fishers_dat_eu) %>%
   arrange(year, iso3)
+
+# # Test to make sure there isn't data for any other dependencies - nope we're good
+fao_fishers_dat_overseas_territory <- fao_fishers_dat %>%
+  dplyr::filter(iso3 %in% territories$iso3 & !(iso3 %in% eu_territories))
 
 # Export clean
 write_csv(fao_fishers_dat_edit, paste0(data_dir, "fao_2017_yearbook_fishers_tidy.csv"))
@@ -417,12 +442,17 @@ teh_fte_dat_eu <- teh_fte_dat %>%
   mutate(entity = "EU") %>%
   group_by(entity, year, variable, units, source) %>%
   summarize(value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
   rename(iso3 = entity) %>%
   arrange(iso3, year, variable)
 
 # Add EU back in 
 teh_fte_dat_edit <- teh_fte_dat %>%
   bind_rows(teh_fte_dat_eu)
+
+# # Test to make sure there isn't data for any other dependencies - nope we're good
+teh_fte_dat_overseas_territory <- teh_fte_dat_edit %>%
+  dplyr::filter(iso3 %in% territories$iso3 & !(iso3 %in% eu_territories))
 
 # Export clean
 write_csv(teh_fte_dat_edit, paste0(data_dir, "teh_and_sumaila_2013_fte_tidy.csv"))
@@ -493,21 +523,26 @@ fao_production_dat_eu <- fao_production_dat %>%
   mutate(entity = "EU") %>%
   group_by(entity, year, fishing_area, species, asfis_species, scientific_name, yearbook_group, isscaap_group) %>%
   summarize(value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
   rename(iso3 = entity)
 
-# Deal with the US + territories
-fao_production_dat_us <- fao_production_dat %>%
-  dplyr::filter(iso3 %in% c(us_territories, "USA")) %>%
-  mutate(entity = "USA-T") %>%
+# Deal with all territories 
+fao_production_dat_overseas_territories <- fao_production_dat %>%
+  dplyr::filter(iso3 %in% territories$iso3 | iso3 %in% territories$sovereign_iso3) %>%
+  left_join(territories, by = c("iso3")) %>%
+  mutate(sovereign_iso3 = case_when(is.na(sovereign_iso3) ~ iso3,
+                                    TRUE ~ sovereign_iso3)) %>%
+  mutate(entity = paste0(sovereign_iso3, "-T")) %>%
   group_by(entity, year, fishing_area, species, asfis_species, scientific_name, yearbook_group, isscaap_group) %>%
   summarize(value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
   rename(iso3 = entity)
 
 # Put them back together
 fao_production_dat_edit <- fao_production_dat %>%
   dplyr::filter(iso3 != "EU") %>%
   bind_rows(fao_production_dat_eu) %>%
-  bind_rows(fao_production_dat_us) %>%
+  bind_rows(fao_production_dat_overseas_territories) %>%
   mutate(variable = "capture_production",
          units = "tonnes",
          source = "FAO (2020)")
@@ -517,7 +552,12 @@ write_csv(fao_production_dat_edit, paste0(data_dir, "fao_2020_capture_production
 # Aggregate by ISCCAP groups and export for time series plot
 fao_production_dat_edit_groups <- fao_production_dat_edit %>%
   group_by(iso3, year, isscaap_group, variable, units, source) %>%
-  summarize(value = sum(value, na.rm = T))
+  summarize(value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
+  spread(year, value) %>% # adding empty rows to make the plotting work better
+  gather(year, value, as.character(c(2000:2018))) %>% # second part of that process
+  mutate(year = as.numeric(year))
+fao_production_dat_edit_groups$value[is.na(fao_production_dat_edit_groups$value)] <- 0 # for plotting purposes - we don't get gaps on area plot this way
 
 write_csv(fao_production_dat_edit_groups, paste0(data_dir, "fao_2020_capture_production_isscaap_groups_tidy.csv"))
 write_csv(fao_production_dat_edit_groups, paste0(app_data_dir, "fao_2020_capture_production_isscaap_groups_tidy.csv"))
@@ -597,9 +637,11 @@ combine_catch_price_dat <- fao_production_dat_edit %>%
                                         !is.na(exvessel_group_avg) ~ exvessel_group_avg,
                                         !is.na(exvessel_group_avg_allyears) ~ exvessel_group_avg_allyears))
 
-# Look at NAs - 10,023 entries
+# Look at NAs - 11,553 entries
 combine_nas <- combine_catch_price_dat %>%
   dplyr::filter(is.na(exvessel_inclusive))
+
+combine_nas_groups <- unique(combine_nas$isscaap_group)
 
 # Set price to 0 for those
 combine_catch_price_dat$exvessel_inclusive[is.na(combine_catch_price_dat$exvessel_inclusive)] <- 0
@@ -619,8 +661,13 @@ write_csv(landed_value_dat, paste0(data_dir, "estimated_landed_value_tidy.csv"))
 
 # Calculate revenues and aggregate by ISSCAAP group
 landed_value_dat_groups <- landed_value_dat %>%
-  group_by(iso3, year, isscaap_group, variable, units, source) %>%
-  summarize(value = sum(value, na.rm = T))
+  group_by(iso3, year, isscaap_group, variable, source) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
+  spread(year, value) %>% # adding empty rows to make the plotting work better
+  gather(year, value, as.character(c(2000:2018))) %>% # second part of that process
+  mutate(year = as.numeric(year)) %>%
+  mutate(units = paste0(year, " US$"))
 
 write_csv(landed_value_dat_groups, paste0(data_dir, "estimated_landed_value_isscaap_groups_tidy.csv"))
 write_csv(landed_value_dat_groups, paste0(app_data_dir, "estimated_landed_value_isscaap_groups_tidy.csv"))
@@ -708,21 +755,9 @@ write_csv(melnychuk_fmi_dat_edit, paste0(data_dir, "melnychuk_et_al_2017_fmi_tid
 
 ```
 
-## Cap and Tier Data from the US Proposal
-```{r}
-cap_tier_dat <- read_csv(cap_tier_path) %>%
-  mutate(iso3 = case_when(country == "Eswatini" ~ "SWZ",
-                          country == "EU" ~ "EU",
-                          TRUE ~ countrycode(country, "country.name", "iso3c"))) %>%
-  dplyr::select(-country)
-
-write_csv(cap_tier_dat, paste0(data_dir, "USA_cap_tier_tidy.csv"))
-write_csv(cap_tier_dat, paste0(app_data_dir, "USA_cap_tier_tidy.csv"))
-```
-
 # Section 5 - Relative Metrics
 
-This section is a bit of a relic from when we were doing "country profiles", but there are a couple of relative metrics we want to calculate from our data sources. This is done here. 
+This section is a bit of a relic from when we were doing "country profiles", but there are a couple of relative subsidy metrics we want to calculate from our data sources. This is done here. 
 
 ```{r}
 # Sumaila dat for matching
@@ -835,5 +870,57 @@ relative_dat <-  gdp_dat_mry %>%
 
 write_csv(relative_dat, paste0(data_dir, "relative_subsidy_metrics_tidy.csv"))
 write_csv(relative_dat, paste0(app_data_dir, "relative_subsidy_metrics_tidy.csv"))
+```
+
+# Section 6 - Cap/Tier Lookup Tables
+
+## Cap and Tier Data from the US Proposal
+```{r}
+cap_tier_dat <- read_csv(cap_tier_path) %>%
+  mutate(iso3 = case_when(country == "Eswatini" ~ "SWZ",
+                          country == "EU" ~ "EU",
+                          TRUE ~ countrycode(country, "country.name", "iso3c"))) %>%
+  dplyr::select(-country)
+
+write_csv(cap_tier_dat, paste0(data_dir, "USA_cap_tier_tidy.csv"))
+write_csv(cap_tier_dat, paste0(app_data_dir, "USA_cap_tier_tidy.csv"))
+```
+
+Many of the capping proposals utilize some metric to sort Members into tiers. This is often done based upon the average over some period. In order to allow this to be interactive later on, we need to craft a lookup table with all possible date ranges. 
+
+```{r}
+# Capture production lookup
+capture_production_lookup <- fao_production_dat_edit_groups %>%
+  group_by(iso3, year) %>%
+  summarize(capture_production = sum(value, na.rm = T)) %>%
+  ungroup() %>%
+  spread(year, capture_production) %>%
+  mutate(variable = "capture_production") %>%
+  left_join(country_dependencies %>% dplyr::select(iso3, is_WTO), by = "iso3") %>%
+  mutate(is_WTO = case_when(!is.na(is_WTO) ~ is_WTO,
+                            iso3 %in% unique(paste0(territories$sovereign_iso3, "-T")) ~ TRUE,
+                            iso3 == "EU" ~ TRUE,
+                            TRUE ~ FALSE))
+
+# Landed value
+landed_value_lookup <- landed_value_dat_groups %>%
+  group_by(iso3, year) %>%
+  summarize(landed_value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
+  spread(year, landed_value) %>%
+  mutate(variable = "landed_value") %>%
+  left_join(country_dependencies %>% dplyr::select(iso3, is_WTO), by = "iso3") %>%
+  mutate(is_WTO = case_when(!is.na(is_WTO) ~ is_WTO,
+                            iso3 %in% unique(paste0(territories$sovereign_iso3, "-T")) ~ TRUE,
+                            iso3 == "EU" ~ TRUE,
+                            TRUE ~ FALSE))
+
+# Combine 
+cap_tier_lookup <- capture_production_lookup %>%
+  bind_rows(landed_value_lookup)
+
+write_csv(cap_tier_lookup, paste0(data_dir, "cap_tier_lookup_table.csv"))
+write_csv(cap_tier_lookup, paste0(app_data_dir, "cap_tier_lookup_table.csv"))
+
 ```
 

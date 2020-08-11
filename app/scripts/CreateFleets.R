@@ -496,7 +496,6 @@ CreateFleets <- function(vessel_list,
     }else if(oa$scope == "EX_TER"){
       
       # Select only vessels fishing outside of territorial waters
-      browser()
       # iuu_vessels_scope <- iuu_vessels_scope %>%
       #   dplyr::filter(!is_territorial)
       
@@ -698,7 +697,7 @@ CreateFleets <- function(vessel_list,
   ### Subsidies contributing to overcapacity and overfishing -------------------
   ### --------------------------------------------------------------------------
 
-  if(length(overcap$definitions) == 0 ){
+  if(length(overcap$definitions) == 0){
     
     # Shortcut output if no disciplines are selected from this category
     overcap_vessel_subset <- vessel_tracking_df
@@ -841,7 +840,6 @@ CreateFleets <- function(vessel_list,
     }else if(overcap$scope == "EX_TER"){
       
       # Select only vessels fishing outside of territorial waters
-      browser()
       # iuu_vessels_scope <- iuu_vessels_scope %>%
       #   dplyr::filter(!is_territorial)
       
@@ -1087,7 +1085,8 @@ overcap_vessels_out <- overcap_vessels_scope %>%
     
   ) %>%
     ungroup() %>%
-    dplyr::select(-flag1)
+    dplyr::select(-`flag...9`) %>%
+    rename(flag = `flag...1`)
   
   ### Section # 4 ---------------------------------------
   ### Cap and tier --------------------------------------

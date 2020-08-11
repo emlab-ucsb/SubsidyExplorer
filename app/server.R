@@ -412,12 +412,9 @@ shinyServer(function(input, output, session) {
       
       plot_dat <- dat %>%
         dplyr::select(run_number, run_name, id, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
-        mutate(Region = case_when(Region == "atlantic_e" ~ "Atlantic Ocean (Eastern)",
-                                  Region == "atlantic_w" ~ "Atlantic Ocean (Western)",
+        mutate(Region = case_when(Region == "atlantic" ~ "Atlantic Ocean",
                                   Region == "indian" ~ "Indian Ocean",
-                                  Region == "pacific_e" ~ "Pacific Ocean (Eastern)",
-                                  Region == "pacific_w" ~ "Pacific Ocean (Western)",
-                                  Region == "polar" ~ "Polar Oceans"))
+                                  Region == "pacific" ~ "Pacific Ocean"))
       
     }
     

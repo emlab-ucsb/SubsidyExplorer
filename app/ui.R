@@ -36,6 +36,9 @@ library(plotly) # interactive charts
 library(viridis) # colorblind color scales
 library(RColorBrewer) # other color scales
 
+# Silence new dplyr grouping messages
+options(dplyr.summarise.inform=F)
+
 # The content for each tab is stored in a separate file. Source all .R files in the current directory that start with "ui_":  
 sapply(list.files(
     pattern = "^ui_.*\\.R$",

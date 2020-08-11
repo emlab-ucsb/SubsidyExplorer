@@ -83,7 +83,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
            #### Left column - tabBox with manual policy selection
            #### ----------------------------------------------------
            
-           column(9,
+           column(12,
     
                   ### tabBox container
                   column(12, style = "padding: 0px 25px 0px;",
@@ -139,44 +139,44 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                   
                   ) # /column 12 - tabBox container
            
-           ), # /column 9 - Left column
+           ) # /column 9 - Left column
     
            
            ####-----------------------------------------------------------------------------------------
            #### Right column - Menu of selected policies
            #### ----------------------------------------------------------------------------------------
-           column(3,
-                  style = "position: absolute;
-                  background-color: rgba(40, 97, 130, 0.8);
-                  color: #ffffff;
-                  padding: 0 10px;
-                  top:0;
-                  bottom:0;
-                  right:0;", 
-                  
-                  tags$h4(text$item_label[text$item_id == "selected-policy"]),
-                  
-                  # Reactive policy summary
-                  uiOutput("custom_policy"),
-                  
-                  # Run model button
-                  column(12, align = "center", style = "padding: 25px 0 0 0;",
-                         
-                         actionButton("ab_run_model_custom",
-                                      tags$b(text$item_label[text$item_id == "ab_run_model_custom"]),
-                                      style = "color: black;
-                                      background-color: rgba(255,255,255,0.7); 
-                                      border: 3px #3c8dbc solid; 
-                                      white-space: normal;"),
-                         
-                         
-                         # Warning about missing name
-                         uiOutput("custom_name_warning")
-                         
-                         
-                  )
-                  
-           ) # /column 3 - Right column
+           # column(3,
+           #        style = "position: absolute;
+           #        background-color: rgba(40, 97, 130, 0.8);
+           #        color: #ffffff;
+           #        padding: 0 10px;
+           #        top:0;
+           #        bottom:0;
+           #        right:0;", 
+           #        
+           #        tags$h4(text$item_label[text$item_id == "selected-policy"]),
+           #        
+           #        # Reactive policy summary
+           #        uiOutput("custom_policy"),
+           #        
+           #        # Run model button
+           #        column(12, align = "center", style = "padding: 25px 0 0 0;",
+           #               
+           #               actionButton("ab_run_model_custom",
+           #                            tags$b(text$item_label[text$item_id == "ab_run_model_custom"]),
+           #                            style = "color: black;
+           #                            background-color: rgba(255,255,255,0.7); 
+           #                            border: 3px #3c8dbc solid; 
+           #                            white-space: normal;"),
+           #               
+           #               
+           #               # Warning about missing name
+           #               uiOutput("custom_name_warning")
+           #               
+           #               
+           #        )
+           #        
+           # ) # /column 3 - Right column
  
     ), # /column 12 - content
                   

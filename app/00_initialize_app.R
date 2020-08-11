@@ -26,10 +26,12 @@ wid <- read_csv("./text/00_widget_values.csv") %>%
             max = unique(max), 
             value = unique(value),
             step = unique(step)) %>%
+  ungroup() %>%
   group_by(tab_num, tab_id, item_id) %>%
   mutate(choices = list(setNames(unlist(str_split(choices, ", ")),
                                  unlist(str_split(choice_names, ", ")))),
-         selected = list(unlist(str_split(selected, ", "))))
+         selected = list(unlist(str_split(selected, ", ")))) %>%
+  ungroup()
 
 ### ----------------------------------
 ### Country/Territory Naming ---------
@@ -178,7 +180,8 @@ capture_production_dat_fao <- read_csv("./data/fao_2020_capture_production_issca
 
 capture_production_dat_tot <- capture_production_dat_fao %>%
   group_by(iso3, year, variable, units, source, display_name) %>%
-  summarize(value = sum(value, na.rm = T)) 
+  summarize(value = sum(value, na.rm = T)) %>%
+  ungroup()
 
 # 2) Landed value by ISSCAAP Group (2000-2017)
 landed_value_dat <- read_csv("./data/estimated_landed_value_isscaap_groups_tidy.csv") %>%
@@ -189,33 +192,34 @@ landed_value_dat <- read_csv("./data/estimated_landed_value_isscaap_groups_tidy.
 
 landed_value_dat_tot <- landed_value_dat %>%
   group_by(iso3, year, variable, units, source, display_name) %>%
-  summarize(value = sum(value, na.rm = T))
+  summarize(value = sum(value, na.rm = T)) %>%
+  ungroup()
   
 # 3) GFW Vessel list (2018)
-pro_rate_subsidies <- F
+#pro_rate_subsidies <- F
 
 vessel_dat <- read.csv("./data/vessel_list_2018_final.csv", stringsAsFactors = F)
 
-if(pro_rate_subsidies == T){
-
-  vessel_dat <- vessel_dat %>%
-    mutate(B1_subs = B1_subs * 0.54, # boat construction/renovation - matched to payments based on vessels
-           B2_subs = B2_subs * 1, # fishery development projects/support services - matched to payments based on variable use
-           B3_subs = B3_subs * 0.87, # port construction and renovation - matched to payments based on vessels
-           B4_subs = B4_subs * 0.87, # price/marketing support, processing infrastructure - matched to payments based on output
-           B5_subs = B5_subs * 0.76, # non-fuel tax exemptions - matched to payments based on fishers income
-           B6_subs = B6_subs * 0.56, # foreign access agreements - matched to payments based on fishers own capital
-           B7_subs = B7_subs * 0.84, # fuel - matched to payments based on fuel use
-           bad_subs = (B1_subs + B2_subs + B3_subs + B4_subs + B5_subs + B6_subs + B7_subs))
-
-}
+# if(pro_rate_subsidies == T){
+# 
+#   vessel_dat <- vessel_dat %>%
+#     mutate(B1_subs = B1_subs * 0.54, # boat construction/renovation - matched to payments based on vessels
+#            B2_subs = B2_subs * 1, # fishery development projects/support services - matched to payments based on variable use
+#            B3_subs = B3_subs * 0.87, # port construction and renovation - matched to payments based on vessels
+#            B4_subs = B4_subs * 0.87, # price/marketing support, processing infrastructure - matched to payments based on output
+#            B5_subs = B5_subs * 0.76, # non-fuel tax exemptions - matched to payments based on fishers income
+#            B6_subs = B6_subs * 0.56, # foreign access agreements - matched to payments based on fishers own capital
+#            B7_subs = B7_subs * 0.84, # fuel - matched to payments based on fuel use
+#            bad_subs = (B1_subs + B2_subs + B3_subs + B4_subs + B5_subs + B6_subs + B7_subs))
+# 
+# }
 
 vessel_dat <- vessel_dat %>%
   mutate(eez_hs_code = case_when(eez_id == 0 ~ paste0("HS-", fao_region),
                                  TRUE ~ as.character(eez_id)))
 
 # 4) Biological parameters for the model
-bio_dat <- read.csv("./data/model_parameters_regional.csv")
+bio_dat <- read.csv("./data/model_parameters_regional_3_regions.csv")
 
 # Regional parameter list
 bio_dat_list <- bio_dat %>%
@@ -284,7 +288,8 @@ remove_all_bad_fleet_summary <- remove_all_bad_fleet_vessels %>%
   summarize(catch = sum(catch, na.rm = T),
             bad_subs = sum(bad_subs, na.rm = T),
             fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
-            removed_subs = sum(bad_subs, na.rm = T))
+            removed_subs = sum(bad_subs, na.rm = T)) %>%
+  ungroup()
 
 # Get affected fleet stats by flag
 # remove_all_bad_fleet_by_flag <- remove_all_bad_fleet_vessels %>%
@@ -364,9 +369,10 @@ remove_all_bad_results_last <- remove_all_bad_results_full %>%
   mutate(run_number = "A",
          run_name = "Most ambitious scenario")
 
-### Summaries by flag state--------------------------------------------------------------
+### Summaries by flag state for use in Cap/Tier--------------------------------------------------------------
+# Need to update this to allow some things to be selected by year (e.g., average over the last 3 or 5 years)
 
-flag_summary <- bind_cols(
+flag_summary <- left_join(
   
   # Summarize general variables
   (vessel_dat %>%
@@ -384,19 +390,21 @@ flag_summary <- bind_cols(
              rename(fishing_h = fishing_hours_eez_fao_ter,
                     fishing_KWh = fishing_KWh_eez_fao_ter) %>%
              group_by(flag_iso3) %>%
-             summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T))
+             summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T)),
+ by = "flag_iso3"
 ) %>%
   ungroup() %>%
-  select(-flag_iso31) %>%
   mutate(tot_bad_subs = sum(bad_subs),
          percent_bad_subs = bad_subs/tot_bad_subs)
 
 ### Summary statistics for the EU ---
-eu_summary <- bind_cols(
+eu_summary <- left_join(
   
   # Summarize general variables
   (vessel_dat %>%
      dplyr::filter(is_EU) %>%
+     mutate(flag_iso3 = "EU") %>%
+     group_by(flag_iso3) %>%
      summarize(n_vessels = n_distinct(ssvid),
                n_vessel_class = n_distinct(vessel_class),
                avg_length_m = mean(length_m, na.rm = T),
@@ -408,15 +416,16 @@ eu_summary <- bind_cols(
   # Summarize variables that are summed
   (vessel_dat %>%
      dplyr::filter(is_EU) %>%
+    
      rename(fishing_h = fishing_hours_eez_fao_ter,
             fishing_KWh = fishing_KWh_eez_fao_ter) %>%
-     summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T))
+     summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T) %>%
+     mutate(flag_iso3 = "EU")),
+  by = "flag_iso3"
 ) %>%
   ungroup() %>%
-  mutate(flag_iso3 = "EU",
-         tot_bad_subs = unique(flag_summary$tot_bad_subs),
+  mutate(tot_bad_subs = unique(flag_summary$tot_bad_subs),
          percent_bad_subs = bad_subs/tot_bad_subs)
-
 
 ### All summary statistics by flag --- 
 flag_summary <- flag_summary %>%

@@ -17,7 +17,7 @@ BioEconModel <- function(fleet,
   ### Time ----------------------------
   year_range <- seq(2018, end_year, by = 1)
   stop_time <- length(year_range) 
-
+  
   ### Fleets ----------------------------
   nf <- length(fleet$fleet)
   fleet_names <- fleet$fleet

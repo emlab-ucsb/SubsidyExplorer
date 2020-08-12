@@ -33,6 +33,14 @@ CreateFleets <- function(vessel_list,
   # Subsidy types removed if an Overfished discipline is triggered
   oa_subtypes_removed <- c("B1", "B2", "B3", "B4", "B5", "B6", "B7")
   
+  # SVE countries
+  sves <- c("ATG", "BRB", "BLZ", "BOL", "CUB", "DMA", "DOM", "SLV", "ECU", "FJI", "GRD", "GTM", "HND", "JAM", "MRT", "NIC", "PAN", "PNG", "KNA", "LCA", "VCT", "WSM", "SYC", "LKA", "TON", "TTO", "BHS")
+  
+  # All subsidy types
+  good_sub_types <- subsidy_types_all[1:3]
+  bad_sub_types <- subsidy_types_all[4:10]
+  ugly_sub_types <- subsidy_types_all[11:13]
+  
   ### ---------------------------------
   ### ---------------------------------
   ### AFFECTED ------------------------
@@ -167,13 +175,13 @@ CreateFleets <- function(vessel_list,
           
           # Filter for selected Members
           iuu_vessels_scope <- iuu_vessels_scope %>%
-            dplyr::filter(flag %in% countries | is_EU)
+            dplyr::filter(flag_iso3 %in% countries | is_EU)
           
         }else{
           
           # Filter for selected Members
           iuu_vessels_scope <- iuu_vessels_scope %>%
-            dplyr::filter(flag %in% countries)
+            dplyr::filter(flag_iso3 %in% countries)
           
         }
         
@@ -328,10 +336,8 @@ CreateFleets <- function(vessel_list,
   
   if(iuu$sdt_sve == "YES"){
     
-    sves <- c("ATG", "BRB", "BLZ", "BOL", "CUB", "DMA", "DOM", "SLV", "ECU", "FJI", "GRD", "GTM", "HND", "JAM", "MRT", "NIC", "PAN", "PNG", "KNA", "LCA", "VCT", "WSM", "SYC", "LKA", "TON", "TTO", "BHS")
-    
     iuu_vessels_sdt_sve <- iuu_vessels_sdt %>%
-      dplyr::filter(flag %in% sves)
+      dplyr::filter(flag_iso3 %in% sves)
     
     if("ALL" %in% iuu$sdt_what_sve){
       
@@ -531,13 +537,13 @@ CreateFleets <- function(vessel_list,
           
           # Filter for selected Members
           oa_vessels_scope <- oa_vessels_scope %>%
-            dplyr::filter(flag %in% countries | is_EU)
+            dplyr::filter(flag_iso3 %in% countries | is_EU)
           
         }else{
           
           # Filter for selected Members
           oa_vessels_scope <- oa_vessels_scope %>%
-            dplyr::filter(flag %in% countries)
+            dplyr::filter(flag_iso3 %in% countries)
           
         }
         
@@ -703,10 +709,8 @@ CreateFleets <- function(vessel_list,
     
     if(oa$sdt_sve == "YES"){
       
-      sves <- c("ATG", "BRB", "BLZ", "BOL", "CUB", "DMA", "DOM", "SLV", "ECU", "FJI", "GRD", "GTM", "HND", "JAM", "MRT", "NIC", "PAN", "PNG", "KNA", "LCA", "VCT", "WSM", "SYC", "LKA", "TON", "TTO", "BHS")
-      
       oa_vessels_sdt_sve <- oa_vessels_sdt %>%
-        dplyr::filter(flag %in% sves)
+        dplyr::filter(flag_iso3 %in% sves)
       
       if("ALL" %in% oa$sdt_what_sve){
         
@@ -883,13 +887,13 @@ CreateFleets <- function(vessel_list,
           
           # Filter for selected Members
           overcap_vessels_scope <- overcap_vessels_scope %>%
-            dplyr::filter(flag %in% countries | is_EU)
+            dplyr::filter(flag_iso3 %in% countries | is_EU)
           
         }else{
           
           # Filter for selected Members
           overcap_vessels_scope <- overcap_vessels_scope %>%
-            dplyr::filter(flag %in% countries)
+            dplyr::filter(flag_iso3 %in% countries)
           
         }
         
@@ -961,7 +965,7 @@ CreateFleets <- function(vessel_list,
     
     ### Vessel list for S&DT
     overcap_vessels_sdt <- vessel_subset %>%
-      right_join(overcap_vessels_scope, by = c("region", "ssvid", "eez_id", "fao_region"))
+      right_join(overcap_vessels_scope, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial"))
   
   ### 1) LDC S&DT ---
   
@@ -972,7 +976,7 @@ CreateFleets <- function(vessel_list,
     
     if("ALL" %in% overcap$sdt_what_ldc){
       
-      # If all Member-flagged vessels are exempt... This trumps all other options
+      # If all Member-flagged vessels should be exempt
       overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc
       
     }else if("DOMESTIC" %in% overcap$sdt_what_ldc){
@@ -983,10 +987,9 @@ CreateFleets <- function(vessel_list,
       
     }else if("TER" %in% overcap$sdt_what_ldc){
       
-      browser()
       # Exempt vessels fishing in territorial waters
-      # overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
-      #   dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+      overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
+        dplyr::filter(is_territorial)
       
     }else if("HS" %in% overcap$sdt_what_ldc){
       
@@ -1004,7 +1007,7 @@ CreateFleets <- function(vessel_list,
     
   }else{
     
-    overcap_vessels_sdt_ldc <- tibble(ssvid = numeric(0))
+    overcap_vessels_sdt_ldc <- vessel_sdt_df
     
   }
   
@@ -1017,7 +1020,7 @@ CreateFleets <- function(vessel_list,
     
     if("ALL" %in% overcap$sdt_what_developing){
       
-      # If all Member-flagged vessels are exempt... This trumps all other options
+      # If all Member-flagged vessels are exempt
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing
       
     }else if("DOMESTIC" %in% overcap$sdt_what_developing){
@@ -1028,10 +1031,9 @@ CreateFleets <- function(vessel_list,
       
     }else if("TER" %in% overcap$sdt_what_developing){
       
-      browser()
       # Exempt vessels fishing in territorial waters
-      # overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
-      #   dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+      overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
+        dplyr::filter(is_territorial)
       
     }else if("HS" %in% overcap$sdt_what_developing){
       
@@ -1049,7 +1051,7 @@ CreateFleets <- function(vessel_list,
     
   }else{
     
-    overcap_vessels_sdt_developing <- tibble(ssvid = numeric(0))
+    overcap_vessels_sdt_developing <- vessel_sdt_df
     
   }
   
@@ -1057,10 +1059,8 @@ CreateFleets <- function(vessel_list,
   
   if(overcap$sdt_sve == "YES"){
     
-    sves <- c("ATG", "BRB", "BLZ", "BOL", "CUB", "DMA", "DOM", "SLV", "ECU", "FJI", "GRD", "GTM", "HND", "JAM", "MRT", "NIC", "PAN", "PNG", "KNA", "LCA", "VCT", "WSM", "SYC", "LKA", "TON", "TTO", "BHS")
-    
     overcap_vessels_sdt_sve <- overcap_vessels_sdt %>%
-      dplyr::filter(flag %in% sves)
+      dplyr::filter(flag_iso3 %in% sves)
     
     if("ALL" %in% overcap$sdt_what_sve){
       
@@ -1075,10 +1075,9 @@ CreateFleets <- function(vessel_list,
       
     }else if("TER" %in% overcap$sdt_what_sve){
       
-      browser()
       # Exempt vessels fishing in territorial waters
-      # overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
-      #   dplyr::filter(prop_fishing_KWh_high_seas < domestic_vessel_cutoff) 
+      overcap_vessels_sdt_sve <- overcap_vessels_sdt_sve %>%
+        dplyr::filter(is_territorial)
       
     }else if("HS" %in% overcap$sdt_what_sve){
       
@@ -1096,7 +1095,7 @@ CreateFleets <- function(vessel_list,
     
   }else{
     
-    overcap_vessels_sdt_sve <- tibble(ssvid = numeric(0))
+    overcap_vessels_sdt_sve <- vessel_sdt_df
     
   }
   
@@ -1106,49 +1105,44 @@ CreateFleets <- function(vessel_list,
     bind_rows(overcap_vessels_sdt_sve)
   
   # List of vessel ids to be excluded from affected because of s&dt
-  overcap_vessels_sdt_ssvid <- overcap_vessels_sdt %>%
-    group_by(ssvid) %>%
-    summarize()
-  
+  overcap_vessels_sdt_exclude <- overcap_vessels_sdt %>%
+    distinct(ssvid, region, fao_region, eez_id, is_territorial)
+
 }else{
   
   # List of vessel ids to be excluded from affected because of s&dt
-  overcap_vessels_sdt_ssvid <- tibble(ssvid = numeric(0))
+  overcap_vessels_sdt_exclude <- vessel_sdt_df
   
 }
 
 ### Output subsidy summary for all vessels triggering overcapacity prohibitions, within scope and excluding S&DT
 overcap_vessels_out <- overcap_vessels_scope %>%
-  anti_join(overcap_vessels_sdt_ssvid, by = "ssvid")
+  anti_join(overcap_vessels_sdt_exclude, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial"))
 
   ### ---------------------------------------------------------------
   ### Wrangle pre-cap output -------------------
   ### ---------------------------------------------------------------
-
-  good_sub_types <- subsidy_types_all[1:3]
-  bad_sub_types <- subsidy_types_all[4:10]
-  ugly_sub_types <- subsidy_types_all[11:13]
   
   # Combine info on subsidies removed by vessel and area
   affected_subset <- vessel_tracking_df %>%
     bind_rows(iuu_vessels_out) %>%
     bind_rows(oa_vessels_out) %>%
     bind_rows(overcap_vessels_out) %>%
-    group_by(region, ssvid, eez_id, fao_region) %>%
+    group_by(ssvid, region, fao_region, eez_id, is_territorial) %>%
     summarize_all(max, na.rm = T) %>%
     ungroup() %>%
     dplyr::select(-subs_removed)
   
   # Combine with full affected vessel info
   affected_vessels <- vessel_subset %>%
-    right_join(affected_subset, by = c("region", "ssvid", "eez_id", "fao_region"))
+    right_join(affected_subset, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial"))
   
   # Summarize affected subsidy info by flag (needed for cap)
-  affected_flag <- bind_cols(
+  affected_flag <- left_join(
     
     # Affected general
     (affected_vessels %>%
-    group_by(flag) %>%
+    group_by(flag_iso3) %>%
     summarize(n_vessels = n_distinct(ssvid),
               n_vessel_class = n_distinct(vessel_class),
               avg_length_m = mean(length_m, na.rm = T),
@@ -1159,13 +1153,12 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   
     # Affected summed values
     (affected_vessels %>%
-    group_by(flag) %>%
-    summarize_at(c("fishing_hours_eez_fao_ter", "fishing_KWh_eez_fao_ter", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_all, "_subs"), paste0(subsidy_types_all, "_subs_removed")), sum, na.rm = T))
+    group_by(flag_iso3) %>%
+    summarize_at(c("fishing_hours_eez_fao_ter", "fishing_KWh_eez_fao_ter", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_all, "_subs"), paste0(subsidy_types_all, "_subs_removed")), sum, na.rm = T)),
     
+    by = "flag_iso3"
   ) %>%
-    ungroup() %>%
-    dplyr::select(-`flag...9`) %>%
-    rename(flag = `flag...1`)
+    ungroup()
   
   ### Section # 4 ---------------------------------------
   ### Cap and tier --------------------------------------
@@ -1182,25 +1175,24 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   if(length(subsidies_to_cap) == 0){
     
     return_vessels <- affected_vessels %>%
-      dplyr::select(region, ssvid, flag, eez_id, fao_region, catch, revenue, fishing_hours_eez_fao_ter, fishing_KWh, contains("subs"))
+      dplyr::select(region, ssvid, flag_iso3, is_territorial, eez_id, fao_region, catch, revenue, fishing_hours_eez_fao_ter, fishing_KWh, contains("subs"))
     
   }else{
     
     ### Create tidy data frame to track caps, already removed subsidies, and allowed subsidies
     # Get total subsidy amount by flag and subtype
     subs_total <- flag_summary_dat %>%
-      dplyr::select(flag, paste0(subsidy_types_all, "_subs")) %>%
+      dplyr::select(flag_iso3, paste0(subsidy_types_all, "_subs")) %>%
       gather(type, subs, -1) %>%
       mutate(type = str_replace(type, "_subs", "")) %>%
-      rename(flag = flag_iso3) %>%
-      group_by(flag)
+      group_by(flag_iso3)
     
     # Get base subsidy amounts by flag and subtype that will be included in the cap
     subs_for_capping <- flag_summary_dat %>%
-      dplyr::select(flag = flag_iso3, one_of(subsidies_to_cap)) %>%
+      dplyr::select(flag_iso3, one_of(subsidies_to_cap)) %>%
       gather(type, subs_for_cap, -1) %>%
       mutate(type = str_replace(type, "_subs", "")) %>%
-      group_by(flag) %>%
+      group_by(flag_iso3) %>%
       mutate(tot_subs_for_cap = sum(subs_for_cap, na.rm = T)) %>%
       ungroup() %>%
       mutate(subs_for_cap_percent_tot = ifelse(tot_subs_for_cap == 0, 0, subs_for_cap/tot_subs_for_cap)) %>%
@@ -1208,15 +1200,15 @@ overcap_vessels_out <- overcap_vessels_scope %>%
     
     # Get already removed subsidies by flag and subtype
     subs_removed <- affected_flag %>%
-      dplyr::select(flag, contains("_subs_removed")) %>%
+      dplyr::select(flag_iso3, contains("_subs_removed")) %>%
       gather(type, subs_removed, -1) %>%
       mutate(type = str_replace(type, "_subs_removed", "")) %>%
-      group_by(flag)
+      group_by(flag_iso3)
     
     # Combine back together
     cap_df <- subs_total %>%
-      left_join(subs_for_capping, by = c("flag", "type")) %>%
-      left_join(subs_removed, by = c("flag", "type"))
+      left_join(subs_for_capping, by = c("flag_iso3", "type")) %>%
+      left_join(subs_removed, by = c("flag_iso3", "type"))
     cap_df[is.na(cap_df)] <- 0
     
     
@@ -1254,7 +1246,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        percent_cutoff <- cap_tier$two_tier_cutoff/100
        
        cap_tier_dat_sorted <- cap_tier_dat %>%
-         left_join(flag_summary %>% dplyr::select(flag, percent_bad_subs), by = c("iso3" = "flag")) %>%
+         left_join(flag_summary %>% dplyr::select(flag_iso3, percent_bad_subs), by = c("iso3" = "flag_iso3")) %>%
          mutate(new_tier = case_when(percent_bad_subs >= percent_cutoff ~ 1, 
                                      percent_bad_subs < percent_cutoff ~ 2,
                                      is.na(percent_bad_subs) ~ 2))
@@ -1622,7 +1614,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   }else{
     
     return_vessels <- affected_vessels %>%
-      dplyr::select(region, ssvid, flag, eez_id, fao_region, catch, revenue, fishing_hours_eez_fao_ter, fishing_KWh_eez_fao_ter, contains("subs"))
+      dplyr::select(region, ssvid, is_territorial, flag_iso3, eez_id, fao_region, catch, revenue, fishing_hours_eez_fao_ter, fishing_KWh_eez_fao_ter, contains("subs"))
     
   }
  
@@ -1632,12 +1624,16 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   
   affected_vessels <- vessel_subset %>%
     right_join(return_vessels %>%
-               dplyr::select(region, ssvid, flag, eez_id, fao_region, contains("_subs_removed")),
-               by = c("region", "ssvid", "flag", "eez_id", "fao_region")) %>%
-    dplyr::filter(flag %in% c(cap_tier_dat$iso3, eu_countries, eu_territories, us_territories)) %>% # Filter for WTO members only
+               dplyr::select(ssvid, region, fao_region, eez_id, is_territorial, contains("_subs_removed")),
+               by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial")) %>%
     mutate(removed_subs = rowSums(select(., one_of(paste0(bad_sub_types, "_subs_removed"))))) %>%
     mutate(status = "Affected") %>%
     mutate(fleet = ifelse(fmi_best >= managed_threshold, "affected_managed", "affected_oa"))
+  
+  if(nrow(affected_vessels) == 0){
+    affected_vessels <- affected_vessels %>%
+      mutate(fleet = as.character(fleet))
+  }
   
   ### ---------------------------------
   ### ---------------------------------
@@ -1647,11 +1643,11 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   
   # Get unaffected vessels
   unaffected_vessels <- vessel_list %>%
-    anti_join(affected_vessels, by = c("region", "ssvid", "eez_id", "fao_region")) 
+    anti_join(affected_vessels, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial")) 
   
   # Create a blank df with columns we need
   blank_columns <- vessel_tracking_df %>%
-    select(-region, -ssvid, -eez_id, -fao_region) %>%
+    select(-ssvid, -region, -fao_region, -eez_id, -is_territorial) %>%
     rename(removed_subs = subs_removed)
   
   blank_df <- as.data.frame(matrix(ncol = length(colnames(blank_columns)), nrow = nrow(unaffected_vessels), 0))

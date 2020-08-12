@@ -205,6 +205,7 @@ shinyServer(function(input, output, session) {
       oa <- 
         list("definitions" = unlist(str_split(selected_proposal$oa_definitions, ", ")),
              "scope" = selected_proposal$oa_scope,
+             "scope_select" = unlist(str_split(selected_proposal$oa_scope_select, ", ")),
              "scope_manual" = selected_proposal$oa_scope_manual,
              "hs_cutoff" = selected_proposal$oa_hs_cutoff,
              "length_cutoff" = selected_proposal$oa_length_cutoff,
@@ -624,6 +625,7 @@ shinyServer(function(input, output, session) {
     
     rv_custom_policy$oa <- list("definitions" = input$w_oa_definitions,
                                 "scope" = input$w_oa_scope,
+                                "scope_select" = input$w_oa_scope_select,
                                 "scope_manual" = input$w_oa_scope_manual,
                                 "hs_cutoff" = input$w_oa_hs_cutoff,
                                 "length_cutoff" = input$w_oa_length_cutoff,

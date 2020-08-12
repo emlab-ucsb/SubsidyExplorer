@@ -48,7 +48,7 @@ IUU = function(wto_members_and_observers)
                          br(),
                          
                          # Conditional panel - IUU discipline(s) with no data selected
-                         conditionalPanel(condition = "input.w_iuu_definitions.includes('IUU2') | input.w_iuu_definitions.includes('IUU3') | input.w_iuu_definitions.includes('IUU4')",
+                         conditionalPanel(condition = "input.w_iuu_definitions.includes('IUU2') | input.w_iuu_definitions.includes('IUU3') | input.w_iuu_definitions.includes('IUU4') | input.w_iuu_definitions.includes('IUU5') | input.w_iuu_definitions.includes('IUU6')",
                                           
                                           # Input - Make IUU assumption
                                           radioButtons("w_iuu_assumption",
@@ -87,7 +87,7 @@ IUU = function(wto_members_and_observers)
                          # Conditional panel - At least one IUU discipline(s) selected
                          conditionalPanel('input.w_iuu_definitions.length > 0',
                                           
-                                          # Input - Set IUU scope
+                                          # Input - Should these prohibitions apply to all, or only to selected states/fishing activity
                                           radioButtons("w_iuu_scope",
                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_scope"]),
                                                        choices = unlist(wid$choices[wid$item_id == "w_iuu_scope"]),
@@ -95,20 +95,33 @@ IUU = function(wto_members_and_observers)
                                                        width = "100%",
                                                        inline = FALSE),
                                           
-                                          # Conditional panel - Manually select members
+                                          # Conditional panel - Only certain states and/or vessel characteristics
                                           conditionalPanel("input.w_iuu_scope == 'SELECT'",
                                                            
-                                                           # Input: Manual selection of Members
-                                                           selectizeInput("w_iuu_scope_manual",
-                                                                          label = tags$b(text$item_label[text$item_id == "w_iuu_scope_manual"]),
-                                                                          choices = wto_members_and_observers,
-                                                                          selected = "",
-                                                                          width = "100%",
-                                                                          options = list(placeholder = 'Select...'),
-                                                                          multiple = T)
+                                                           # Input - Set OA scope (only certain states and/or vessel characteristics)
+                                                           checkboxGroupInput("w_iuu_scope_select",
+                                                                              label = tags$b(text$item_label[text$item_id == "w_iuu_scope_select"]),
+                                                                              choices = unlist(wid$choices[wid$item_id == "w_iuu_scope_select"]),
+                                                                              selected = unlist(wid$selected[wid$item_id == "w_iuu_scope_select"]),
+                                                                              width = "100%",
+                                                                              inline = FALSE),
                                                            
-                                          ), # /conditionalPanel - Manually select members
-                                          
+                                                           # Conditional panel - Manually select members
+                                                           conditionalPanel("input.w_iuu_scope_select.includes('MANUAL')",
+                                                                            
+                                                                            # Input: Manual selection of Members
+                                                                            selectizeInput("w_iuu_scope_manual",
+                                                                                           label = tags$b(text$item_label[text$item_id == "w_iuu_scope_manual"]),
+                                                                                           choices = wto_members_and_observers,
+                                                                                           selected = "",
+                                                                                           width = "100%",
+                                                                                           options = list(placeholder = 'Select...'),
+                                                                                           multiple = T)
+                                                                            
+                                                                            
+                                                           ) # /conditionalPanel - Manually select members
+                                          ), #/select scope
+
                                           tags$hr(),
                                           
                                           # Input: Allow S&DT

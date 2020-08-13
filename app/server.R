@@ -737,7 +737,7 @@ shinyServer(function(input, output, session) {
     
     if(input$w_run_name == ""){
       
-    paste0("<b><i>", "Please enter a name for your policy.", "</b></i>") %>% 
+    paste0("<b style='color:red;'><i>", "Error: Please enter a name for your policy.", "</b></i>") %>% 
         lapply(htmltools::HTML)
       
     }else{

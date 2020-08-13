@@ -9,16 +9,9 @@ IUU = function(wto_members_and_observers)
   
   # Column container for tab panel        
   column(12, id = "edit-policies-tab-panel",
-                  
-         # Introductory text about the IUU disciplines
-         column(12, style = "padding: 15px 25px 15px;",
-                
-                includeHTML("./text/02b_edit_policies_iuu_intro.html")
-                
-         ),
          
          # Manual IUU discipline selection
-         column(12, style = "padding: 0px 25px 15px;", 
+         column(12, id = "spaced-div", 
                 
                 fluidRow( 
                   
@@ -263,22 +256,12 @@ IUU = function(wto_members_and_observers)
          # Bottom navigation buttons
          fluidRow(
            
-           # Previous tab
-           column(3, style = "padding: 5px;",
-                  
-                  tags$button(id = "ab_edit_policies_tabs_iuu_to_instructions",
-                              class = "btn action-button nav-button-white-l",
-                              icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_instructions"]
-                  )
-                  
-           ),
-           
            # Next tab
-           column(3, offset = 6, style = "padding: 5px;",
+           column(2, offset = 10, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_iuu_to_oa",
-                              class = "btn action-button nav-button-white-r",
-                              text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_oa"], icon("chevron-right") 
+                              class = "btn action-button nav-button-c",
+                              text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_oa"]
                   )
                   
            )

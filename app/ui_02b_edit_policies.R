@@ -60,19 +60,20 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
 
                            tags$tr(id = "edit-policies-table-row",
                                    
-                                   tags$td(id = "edit-policies-table-cell-l",
+                                   tags$td(id = "edit-policies-table-cell-number",
                                            
-                                           tags$button(class = "btn action-button step-number", "1")
+                                           tags$div(class = "step-number", "1")
                                            
                                    ),
                                    
                                    tags$td(id = "edit-policies-table-cell-c",
+                                     
+                                           text$item_label[text$item_id == "run-name"] %>% lapply(htmltools::HTML)
                                            
-                                           tags$b(class = "big", text$item_label[text$item_id == "run_name"])
                                      
                                    ),
                                    
-                                   tags$td(id = "edit-policies-table-cell-r",
+                                   tags$td(
                                            
                                      textInput("w_run_name",
                                                label = NULL,
@@ -89,15 +90,15 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                     
                                     tags$tr(id = "edit-policies-table-row",
                                             
-                                            tags$td(id = "edit-policies-table-cell-l",
+                                            tags$td(id = "edit-policies-table-cell-number",
                                                     
-                                                    tags$button(class = "btn action-button step-number", "2")
+                                                    tags$div(class = "step-number", "2")
                                                     
                                             ),
                                           
-                                            tags$td(id = "edit-policies-table-cell-cr",
+                                            tags$td(
                                                     
-                                                    text$item_label[text$item_id == "select_disciplines"] %>% lapply(htmltools::HTML)
+                                                    text$item_label[text$item_id == "select-disciplines"] %>% lapply(htmltools::HTML)
                                             )
                                     )
                          )
@@ -105,7 +106,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                   ),
     
                   ### tabBox container
-                  column(12, id = "spaced-div",
+                  column(12,
 
                          # tabBox
                          tabBox(width = 12, id = "policy-tabs", 
@@ -114,10 +115,29 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                 ### Tab # 1  - IUU
                                 ### --------------------------
                                 
-                                tabPanel(text$item_label[text$item_id == "iuu"] %>% lapply(htmltools::HTML), 
-                                         value = "iuu",
-                                         
-                                         IUU(wto_members_and_observers)
+                                tabPanel(
+                                  # Tab title
+                                  tagList(
+                                    tags$table(id = "edit-policies-table",
+                                               
+                                               tags$tr(id = "edit-policies-table-row",
+                                                       
+                                                       tags$td(id = "edit-policies-table-cell-number",
+                                                               
+                                                               tags$div(class = "step-number", "2a")
+                                                               
+                                                       ),
+                                                       
+                                                       tags$td(id = "edit-policies-table-cell-r",
+                                                               
+                                                               text$item_label[text$item_id == "iuu"] %>% lapply(htmltools::HTML)),
+                                                       )
+                                               )
+                                    ),
+   
+                                  value = "iuu",
+                                  
+                                  IUU(wto_members_and_observers)
                                          
                                 ), # /tabPanel #0
                          
@@ -125,10 +145,28 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                 ### Tab # 2  - Overfished stock disciplines
                                 ### --------------------------
                                 
-                                tabPanel(text$item_label[text$item_id == "oa"] %>% lapply(htmltools::HTML), 
-                                         value = "oa",
+                                tabPanel(
+                                  # Tab title
+                                  tagList(
+                                    tags$table(id = "edit-policies-table",
+                                               
+                                               tags$tr(id = "edit-policies-table-row",
+                                                       
+                                                       tags$td(id = "edit-policies-table-cell-number",
+                                                               
+                                                               tags$div(class = "step-number", "2b")
+                                                               
+                                                       ),
+                                                       
+                                                       tags$td(id = "edit-policies-table-cell-r",
+                                                               
+                                                               text$item_label[text$item_id == "oa"] %>% lapply(htmltools::HTML)),
+                                               )
+                                    )
+                                  ),
+                                  value = "oa",
                                          
-                                         OA(wto_members_and_observers)
+                                  OA(wto_members_and_observers)
                                          
                                 ), #/tabPanel 1
                          
@@ -136,10 +174,29 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                 ### Tab # 3  - Overcapacity and overfishing disciplines
                                 ### ------------------------------------------
                                 
-                                tabPanel(text$item_label[text$item_id == "overcap"] %>% lapply(htmltools::HTML), 
-                                         value = "overcap",
-                                         
-                                         Overcap(wto_members_and_observers, subsidy_types_sorted_sumaila)
+                                tabPanel(
+                                  # Tab title
+                                  tagList(
+                                    tags$table(id = "edit-policies-table",
+                                               
+                                               tags$tr(id = "edit-policies-table-row",
+                                                       
+                                                       tags$td(id = "edit-policies-table-cell-number",
+                                                               
+                                                               tags$div(class = "step-number", "2c")
+                                                               
+                                                       ),
+                                                       
+                                                       tags$td(id = "edit-policies-table-cell-r",
+                                                               
+                                                               text$item_label[text$item_id == "overcap"] %>% lapply(htmltools::HTML)),
+                                               )
+                                    )
+                                  ),
+                                 
+                                  value = "overcap",
+                                  
+                                  Overcap(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                          
                                 ) # /tabPanel #3  
                          
@@ -157,28 +214,72 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
 
                   column(12, id = "spaced-div",
                          
-                        tags$b(class = "big", text$item_label[text$item_id == "selected-policy"]),
-
+                         # Step 3
+                         tags$table(id = "edit-policies-table",
+                                    
+                                    tags$tr(id = "edit-policies-table-row",
+                                            
+                                            tags$td(id = "edit-policies-table-cell-number",
+                                                    
+                                                    tags$div(class = "step-number", "3")
+                                                    
+                                            ),
+                                            
+                                            tags$td(
+                                                    
+                                              text$item_label[text$item_id == "selected-policy"] %>% lapply(htmltools::HTML)
+                                              
+                                            )
+                                    )
+                         )
+                  ),
+                  
+                  column(12, id = "spaced-div",
+                         
                         # Reactive policy summary
-                        uiOutput("custom_policy"),
-
-                        # Run model button
-                        column(12, align = "center", style = "padding: 25px 0 0 0;",
-
-                               
-                               actionButton("ab_run_model_custom",
-                                            tags$b(text$item_label[text$item_id == "ab_run_model_custom"]),
-                                            style = "color: black;
-                                            background-color: rgba(255,255,255,0.7);
-                                            border: 3px #3c8dbc solid;
-                                            white-space: normal;"),
-
-
-                         # Warning about missing name
-                         uiOutput("custom_name_warning")
-
-                        )
+                         uiOutput("custom_policy")
                         
+                  ),
+                  
+                  column(12, id = "spaced-div",
+                         
+                         # Step 4
+                         tags$table(id = "edit-policies-table",
+                                    
+                                    tags$tr(id = "edit-policies-table-row",
+                                            
+                                            tags$td(id = "edit-policies-table-cell-number",
+                                                    
+                                                    tags$div(class = "step-number", "4")
+                                                    
+                                            ),
+                                            
+                                            tags$td(
+                                              
+                                              text$item_label[text$item_id == "run-model"] %>% lapply(htmltools::HTML)
+                                              
+                                            )
+                                            
+                                           
+                                    )
+                         )
+                  ),
+                  
+                  column(12, id = "spaced-div", align = "center",
+                         
+                         # Warning about missing name
+                         uiOutput("custom_name_warning"),
+                         
+                         actionButton("ab_run_model_custom",
+                                      tags$b(text$item_label[text$item_id == "ab_run_model_custom"]),
+                                      style = "color: black;
+                                               background-color: rgba(255,255,255,0.7);
+                                               border: 3px #3c8dbc solid;
+                                               white-space: normal;")
+                                              
+                        
+                                              
+                         
                   )
 
            ), # /column 3 - Right column

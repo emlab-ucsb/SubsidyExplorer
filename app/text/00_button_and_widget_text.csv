@@ -20,11 +20,9 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,tab,edit-policies,Create a Policy (Advanced Users),page name
 02b,edit-policies,nav-button,ab_edit_policies_to_introduction,Return to Main Menu,top left button
 02b,edit-policies,nav-button,ab_edit_policies_to_selected_results,Back: Selected Results,bottom left button
-02b,edit-policies,text,run_name,Name your policy:  ,text input to describe policy
-02b,edit-policies,text,select_disciplines,"<b class=""big"">Select discipline(s) below</b></br><small class=""gray"">You do not need to select disciplines from every category</small>",
-02b,edit-policies,nav-button,ab_edit_policies_tabs_instructions_to_iuu,Next: IUU Disciplines,within TabBox - instructions to iuu disciplines
-02b,edit-policies,tab,iuu,"<b class=""big"">Illegal, Unreported, & Unregulated</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
-02b,edit-policies,action-button,ab_run_model_custom,Model this policy,button to run custom policy
+02b,edit-policies,text,run-name,"<b class=""big"">Name your policy: </b>",text input to describe policy
+02b,edit-policies,text,select-disciplines,"<b class=""big"">Select discipline(s) below</b></br><small class=""gray"">You do not need to select disciplines from every category</small>",
+02b,edit-policies,text,iuu,"<b class=""big"">Illegal, Unreported, & Unregulated</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02b,edit-policies,widget,w_iuu_definitions,Subsidies shall be prohibited to all Member-flagged vessels classified as IUU by a:,Checkbox to select specific IUU disciplines
 02b,edit-policies,widget,w_iuu_assumption,Would you like to make an assumption about IUU fishing worldwide instead?,Yes/No to make iuu assumption
 02b,edit-policies,widget,w_iuu_percent,% of global  fishing effort that is IUU:,Slider to set value of assumed IUU fishing
@@ -41,8 +39,7 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,widget,w_iuu_sdt_sve,Allow S&DT for SVE Members?,Yes/No for SVE S&DT
 02b,edit-policies,widget,w_iuu_sdt_what_sve,S&DT for SVEs:,Set SVE S&DT
 02b,edit-policies,widget,w_iuu_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
-02b,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_instructions,Back: Instructions,within TabBox - iuu disciplines back to instructions
-02b,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_oa,Next: Overfished Disciplines,within TabBox - iuu disciplines to OA disciplines
+02b,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_oa,Next,within TabBox - iuu disciplines to OA disciplines
 02b,edit-policies,tab,oa,"<b class=""big"">Overfished</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02b,edit-policies,widget,w_oa_definitions,Subsidies for fishing shall be prohibited if the fish stock...,Checkbox to select specific OA disciplines
 02b,edit-policies,widget,w_oa_scope,Overfished discipline(s) apply to: ,Buttons to set OA scope
@@ -65,8 +62,8 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,widget,w_oa_sdt_what_sve,S&DT for SVEs:,Set SVE S&DT
 02b,edit-policies,widget,w_oa_sdt_hs_cutoff_sve,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for OA SVE S&DT
 02b,edit-policies,widget,w_oa_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
-02b,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_iuu,Back: IUU Disciplines,within TabBox - OA disciplines to iuu disciplines
-02b,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_overcap,Next: Overcapacity Disciplines,within TabBox - OA disciplines to overcap disciplines
+02b,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_iuu,Back,within TabBox - OA disciplines to iuu disciplines
+02b,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_overcap,Next,within TabBox - OA disciplines to overcap disciplines
 02b,edit-policies,tab,overcap,"<b class=""big"">Overcapacity & Overfishing</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02b,edit-policies,widget,w_overcap_definitions,The following types of subsidies are considered to contribute to overcapacity and overfishing and are prohibited...,Checkbox to select specific Overcapacity disciplines
 02b,edit-policies,widget,w_overcap_scope,OCOF discipline(s) apply to: ,Buttons to set OA scope
@@ -109,8 +106,10 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,widget,w_tier3_cap_value,"Tier 3: Subsidy cap ($USD, millions)",Absolute value for tier 3 cap
 02b,edit-policies,widget,w_tier3_cap_fishers,Tier 3: Subsidies per fisher (US$),Subsidy per value for tier 3 cap
 02b,edit-policies,widget,w_tier3_cap_percent,Tier 3: Percent for cap rule,Percentage for tier 3 cap
-02b,edit-policies,nav-button,ab_edit_policies_tabs_overcap_to_oa,Back: Overfished Disciplines,within TabBox - overcap disciplines to OA disciplines
-02b,edit-policies,tab,selected-policy,Summary of Policy Selections,title of left summary panel
+02b,edit-policies,nav-button,ab_edit_policies_tabs_overcap_to_oa,Back,within TabBox - overcap disciplines to OA disciplines
+02b,edit-policies,text,selected-policy,"<b class=""big"">Review policy selections</b></br><small class=""gray"">Ensure selections are correct</small>",Title of step 3
+02b,edit-policies,text,run-model,"<b class=""big"">Model your policy</b></br><small class=""gray"">Clicking the button below will redirect you </small>",title of Step 4
+02b,edit-policies,action-button,ab_run_model_custom,Run model!,button to run custom policy
 3,methods-process,tab,methods-process,Learn About the Methods and Process,page name
 3,methods-process,nav-button,ab_methods_process_to_introduction,Return to Main Menu,top left button
 3,methods-process,download-button,db_download_methods,Download Methods (PDF),center download button

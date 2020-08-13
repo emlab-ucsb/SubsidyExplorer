@@ -10,15 +10,15 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
   # Column container for tab panel        
   column(12, id = "edit-policies-tab-panel",
                   
-         # Introductory text about the Overcapacity disciplines
-         column(12, style = "padding: 15px 25px 15px;",
-                
-                includeHTML("./text/02b_edit_policies_overcap_intro.html")
-                
-         ),
+         # # Introductory text about the Overcapacity disciplines
+         # column(12, style = "padding: 15px 25px 15px;",
+         #        
+         #        includeHTML("./text/02b_edit_policies_overcap_intro.html")
+         #        
+         # ),
          
          # Manual Overcapacity discipline selection
-         column(12, style = "padding: 0px 25px 15px;", 
+         column(12, id = "spaced-div",
                 
                 fluidRow( 
                   
@@ -668,11 +668,11 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
          fluidRow(
            
            # Previous tab
-           column(3, style = "padding: 5px;",
+           column(2, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_overcap_to_oa",
-                              class = "btn action-button nav-button-white-l",
-                              icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_overcap_to_oa"]
+                              class = "btn action-button nav-button-c",
+                              text$item_label[text$item_id == "ab_edit_policies_tabs_overcap_to_oa"]
                   )
                   
            )

@@ -31,6 +31,14 @@ a:hover {
   text-decoration: underline;
 }
 
+b.big {
+  font-size: 12pt;
+}
+
+small.gray {
+  color: #404040;
+}
+
 
 /*----------------------------*/  
 /*----------------------------*/
@@ -537,4 +545,134 @@ padding: 0 40px 20px;
   font-size: 8px; 
   margin: 0 3px; 
   border-radius: 50%;
+}
+
+/*--------------------------*/
+/*--------------------------*/
+/* Custom Items ------------*/
+/*--------------------------*/
+/*--------------------------*/
+
+/* --------- */
+/* Universal */
+/* --------- */
+#page-title-div-underline-blue {
+  padding: 15px 25px 15px 25px;
+  border-bottom: 1px solid #000044;
+  background-color: #f2f2f2;
+}
+
+#page-title-div-underline-blue h3 {
+ text-align: left;
+}
+
+#spaced-div {
+  padding: 7.5px 25px 7.5px 25px;
+}
+
+/* ------------------------------ */
+/* Edit Policies (Advanced Users) */
+/* ------------------------------ */
+
+/* Table attributes for Step 1 & Step 2 */
+#edit-policies-table { 
+  width: 100%;
+  vertical-align: middle;
+  table-layout: fixed;
+} 
+
+#edit-policies-table-row{
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#edit-policies-table-cell-l{
+  width: 5%;
+}
+
+#edit-policies-table-cell-c{
+  width: 15%;
+}
+
+#edit-policies-table-cell-r{
+  width: 80%;
+}
+
+#edit-policies-table-cell-cr{
+  width: 95%;
+}
+
+/* Gets rid of bottom margin on textInput widget */
+.form-group{
+  margin-bottom: 0;
+}
+
+/* Blue circular number container */
+.step-number {
+  color: #fff; 
+  background-color: #3c8dbc; 
+  border-width: 0; 
+  padding: 0; 
+  width:35px; 
+  height:35px; 
+  font-size: 14px; 
+  font-weight: bold;
+  margin: 0 3px; 
+  border-radius: 50%;
+}
+
+/* TabBox for disciplines */
+.nav-tabs-custom {
+    margin-bottom: 20px;
+    background: #fff;
+    box-shadow: transparent;
+    border-radius: 3px;
+}
+
+.nav-tabs-custom #policy-tabs.nav-tabs{
+  border-bottom-color: transparent;
+}
+
+.nav-tabs-custom #policy-tabs.nav-tabs{
+  background: #ffffff;
+  color: #000000;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li a{
+  color: #000000;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li:hover {
+  color: #3c8dbc;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li.active:hover a{
+  color: #3c8dbc;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li.active {
+  border-bottom: 3px solid #3c8dbc;
+  border-top: transparent;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li.active a {
+  color: #3c8dbc;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+#edit-policies-tab-panel{
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+#edit-policies-right-column{
+  position: absolute;
+  background-color: #f2f2f2;
+  color: #000000;
+  padding: 0 10px;
+  top:0;
+  bottom:0;
+  right:0;
 }

@@ -17,13 +17,13 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02a,selected-results,widget,w_selected_results_proposal_selection,Select a proposal…,policy selection
 02a,selected-results,widget,w_selected_results_proposal_category,Narrow proposals by category…,policy category selection
 02a,selected-results,action-button,ab_run_model_proposal,Model selected proposal,
-02b,edit-policies,tab,edit-policies,Edit Policies (Advanced Users),page name
+02b,edit-policies,tab,edit-policies,Create a Policy (Advanced Users),page name
 02b,edit-policies,nav-button,ab_edit_policies_to_introduction,Return to Main Menu,top left button
 02b,edit-policies,nav-button,ab_edit_policies_to_selected_results,Back: Selected Results,bottom left button
-02b,edit-policies,tab,instructions,Step 1) Instructions,tabBox tab
-02b,edit-policies,widget,w_run_name,Description of policy: ,text input to describe policy
+02b,edit-policies,text,run_name,Name your policy:  ,text input to describe policy
+02b,edit-policies,text,select_disciplines,"<b class=""big"">Select discipline(s) below</b></br><small class=""gray"">You do not need to select disciplines from every category</small>",
 02b,edit-policies,nav-button,ab_edit_policies_tabs_instructions_to_iuu,Next: IUU Disciplines,within TabBox - instructions to iuu disciplines
-02b,edit-policies,tab,iuu,Step 2) IUU Disciplines,tabBox tab
+02b,edit-policies,tab,iuu,"<b class=""big"">Illegal, Unreported, & Unregulated</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02b,edit-policies,action-button,ab_run_model_custom,Model this policy,button to run custom policy
 02b,edit-policies,widget,w_iuu_definitions,Subsidies shall be prohibited to all Member-flagged vessels classified as IUU by a:,Checkbox to select specific IUU disciplines
 02b,edit-policies,widget,w_iuu_assumption,Would you like to make an assumption about IUU fishing worldwide instead?,Yes/No to make iuu assumption
@@ -43,7 +43,7 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,widget,w_iuu_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
 02b,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_instructions,Back: Instructions,within TabBox - iuu disciplines back to instructions
 02b,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_oa,Next: Overfished Disciplines,within TabBox - iuu disciplines to OA disciplines
-02b,edit-policies,tab,oa,Step 3) Overfished Disciplines,tabBox tab
+02b,edit-policies,tab,oa,"<b class=""big"">Overfished</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02b,edit-policies,widget,w_oa_definitions,Subsidies for fishing shall be prohibited if the fish stock...,Checkbox to select specific OA disciplines
 02b,edit-policies,widget,w_oa_scope,Overfished discipline(s) apply to: ,Buttons to set OA scope
 02b,edit-policies,widget,w_oa_scope_select,Select all conditions that must apply : ,Set OA scope characteristics
@@ -67,7 +67,7 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,widget,w_oa_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
 02b,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_iuu,Back: IUU Disciplines,within TabBox - OA disciplines to iuu disciplines
 02b,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_overcap,Next: Overcapacity Disciplines,within TabBox - OA disciplines to overcap disciplines
-02b,edit-policies,tab,overcap,Step 4) Overcapacity Disciplines,tabBox tab
+02b,edit-policies,tab,overcap,"<b class=""big"">Overcapacity & Overfishing</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02b,edit-policies,widget,w_overcap_definitions,The following types of subsidies are considered to contribute to overcapacity and overfishing and are prohibited...,Checkbox to select specific Overcapacity disciplines
 02b,edit-policies,widget,w_overcap_scope,OCOF discipline(s) apply to: ,Buttons to set OA scope
 02b,edit-policies,widget,w_overcap_scope_select,Select all conditions that must apply : ,Set OA scope characteristics

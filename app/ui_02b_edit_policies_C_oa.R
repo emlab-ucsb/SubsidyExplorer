@@ -8,7 +8,7 @@
 OA = function(wto_members_and_observers) 
   
   # Column container for tab panel        
-  column(12, style = "border-style: solid; border-width: 2px 3px 3px 3px; border-color: #28292C;",
+  column(12, id = "edit-policies-tab-panel",
                   
          # Introductory text about the OA disciplines
          column(12, style = "padding: 15px 25px 15px;",

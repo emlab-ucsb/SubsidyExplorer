@@ -613,6 +613,7 @@ shinyServer(function(input, output, session) {
                                  "assumption" = input$w_iuu_assumption,
                                  "percent" = input$w_iuu_percent,
                                  "scope" = input$w_iuu_scope,
+                                 "scope_select" = input$w_iuu_scope_select,
                                  "scope_manual" = input$w_iuu_scope_manual,
                                  "allow_sdt" = input$w_iuu_allow_sdt,
                                  "sdt_ldc" = input$w_iuu_sdt_ldc,
@@ -649,6 +650,7 @@ shinyServer(function(input, output, session) {
     
     rv_custom_policy$overcap <- list("definitions" = input$w_overcap_definitions,
                                      "scope" = input$w_overcap_scope,
+                                     "scope_select" = input$w_overcap_scope_select,
                                      "scope_manual" = input$w_overcap_scope_manual,
                                      "hs_cutoff" = input$w_overcap_hs_cutoff,
                                      "length_cutoff" = input$w_overcap_length_cutoff,
@@ -697,26 +699,29 @@ shinyServer(function(input, output, session) {
   ### Ui Output: Custom reform policy ------------------
   observe({
     
-    rv_custom_policy_description$name <- paste0("<b>", "Name:   ", "</b>", rv_custom_policy$name, "</br>")
+    rv_custom_policy_description$name <- paste0("<b class='big'>", "Name: ", "</b>", "<small>", rv_custom_policy$name, "</br></small>")
     
-    rv_custom_policy_description$iuu_summary <- paste0("<b>", "IUU: ", "</b>", "</br>",
-      IUUSummaryText(iuu = rv_custom_policy$iuu,
-                     text = text,
-                     iuu_definitions = unlist(wid$choices[wid$item_id == "w_iuu_definitions"]),
-                     country_choices = wto_members_and_observers),
-      "</br>")
+    rv_custom_policy_description$iuu_summary <- paste0(IUUSummaryText(iuu = rv_custom_policy$iuu,
+                                                                      text = text,
+                                                                      wid = wid,
+                                                                      country_choices = wto_members_and_observers),
+                                                       "</br>")
     
-    rv_custom_policy_description$oa_summary <- paste0("<b>", "Overfishing: ", "</b>", "</br>",
-      OASummaryText(oa = rv_custom_policy$oa,
-                    oa_definitions = unlist(wid$choices[wid$item_id == "w_oa_definitions"]),
-                    country_choices = wto_members_and_observers),
-      "</br>")
+    rv_custom_policy_description$oa_summary <- ""
+      
+      # paste0("<b>", "Overfishing: ", "</b>", "</br>",
+      # OASummaryText(oa = rv_custom_policy$oa,
+      #               oa_definitions = unlist(wid$choices[wid$item_id == "w_oa_definitions"]),
+      #               country_choices = wto_members_and_observers),
+      # "</br>")
     
-    rv_custom_policy_description$overcap_summary <- paste0("<b>", "Overcapacity: ", "</b>", "</br>",
-      OvercapSummaryText(overcap = rv_custom_policy$overcap,
-                         overcap_definitions = subsidy_types_sorted_sumaila,
-                         country_choices = wto_members_and_observers),
-    "</br>")
+    rv_custom_policy_description$overcap_summary <- ""
+      
+    #   paste0("<b>", "Overcapacity: ", "</b>", "</br>",
+    #   OvercapSummaryText(overcap = rv_custom_policy$overcap,
+    #                      overcap_definitions = subsidy_types_sorted_sumaila,
+    #                      country_choices = wto_members_and_observers),
+    # "</br>")
     
     
     # Generate output 
@@ -737,7 +742,7 @@ shinyServer(function(input, output, session) {
     
     if(input$w_run_name == ""){
       
-    paste0("<b style='color:red;'><i>", "Error: Please enter a name for your policy.", "</b></i>") %>% 
+    paste0("<b style='color:red;'><i>", "Error: Please enter a name for your policy.", "</b></i></br>") %>% 
         lapply(htmltools::HTML)
       
     }else{

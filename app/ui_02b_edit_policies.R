@@ -41,19 +41,24 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
     ## Main content
     column(12, id = "edit-policies-main",
            
+           fluidRow(
+           
            ####----------------------------------------------------
            #### Left column - tabBox with manual policy selection
            #### ----------------------------------------------------
            
            column(9, id = "edit-policies-left-column",
                   
-                  ### Text with name your policy and select displiplines intro
-                  column(12, id = "spaced-div",
-                         
-                         ### Text
-                         includeHTML("./text/02b_edit_policies_intro.html"),
-                         
-                         tags$br(),
+                  # ### Text with name your policy and select displiplines intro
+                  # column(12, id = "spaced-div", style = "border-bottom: 1px solid #f2f2f2;",
+                  #        
+                  #        ### Text
+                  #        includeHTML("./text/02b_edit_policies_intro.html")
+                  #        
+                  # ),
+                  
+                  ### Step 1
+                  column(12, id = "spaced-div", style = "border-bottom: 1px solid #f2f2f2;",
                          
                          # Step 1
                          tags$table(id = "edit-policies-table",
@@ -81,11 +86,13 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                width = "100%")
                                    )
                            )
-                         ),
+                         )
                          
-                         tags$br(),
+                  ),
+                  
+                  ### Step 2
+                  column(12, id = "spaced-div", 
                          
-                         # Step 2
                          tags$table(id = "edit-policies-table",
                                     
                                     tags$tr(id = "edit-policies-table-row",
@@ -102,6 +109,12 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                             )
                                     )
                          )
+                  ),
+                  
+                  ### Step 2 text
+                  column(12, id = "spaced-div",
+                        
+                         includeHTML("./text/02b_edit_policies_select_disciplines.html")
                          
                   ),
     
@@ -124,7 +137,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                        
                                                        tags$td(id = "edit-policies-table-cell-number",
                                                                
-                                                               tags$div(class = "step-number", "2a")
+                                                               tags$div(class = "step-number", "a")
                                                                
                                                        ),
                                                        
@@ -154,7 +167,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                        
                                                        tags$td(id = "edit-policies-table-cell-number",
                                                                
-                                                               tags$div(class = "step-number", "2b")
+                                                               tags$div(class = "step-number", "b")
                                                                
                                                        ),
                                                        
@@ -183,7 +196,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                        
                                                        tags$td(id = "edit-policies-table-cell-number",
                                                                
-                                                               tags$div(class = "step-number", "2c")
+                                                               tags$div(class = "step-number", "c")
                                                                
                                                        ),
                                                        
@@ -234,7 +247,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                          )
                   ),
                   
-                  column(12, id = "spaced-div",
+                  column(12, id = "spaced-div", style = "border-bottom: 1px solid #ffffff;",
                          
                         # Reactive policy summary
                          uiOutput("custom_policy")
@@ -269,7 +282,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                          
                          # Warning about missing name
                          uiOutput("custom_name_warning"),
-                         
+
                          actionButton("ab_run_model_custom",
                                       tags$b(text$item_label[text$item_id == "ab_run_model_custom"]),
                                       style = "color: black;
@@ -282,7 +295,9 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                          
                   )
 
-           ), # /column 3 - Right column
+           ) # /column 3 - Right column
+           
+           ) # /fluidRow
  
     ), # /column 12 - content
                   

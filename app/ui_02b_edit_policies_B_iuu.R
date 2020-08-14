@@ -58,7 +58,7 @@ IUU = function(wto_members_and_observers)
                                                        inline = FALSE), 
                                           
                                           # Conditional panel - Make IUU assumption selected
-                                          conditionalPanel(condition = "input.w_iuu_assumption == 'Yes'",
+                                          conditionalPanel(condition = "input.w_iuu_assumption == 'YES'",
                                                            
                                                            # Input - Set assumed level of IUU fishing
                                                            sliderInput("w_iuu_percent", 

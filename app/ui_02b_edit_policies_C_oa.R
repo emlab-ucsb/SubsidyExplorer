@@ -8,17 +8,17 @@
 OA = function(wto_members_and_observers) 
   
   # Column container for tab panel        
-  column(12, style = "border-style: solid; border-width: 2px 3px 3px 3px; border-color: #28292C;",
+  column(12, id = "edit-policies-tab-panel",
                   
-         # Introductory text about the OA disciplines
-         column(12, style = "padding: 15px 25px 15px;",
-                
-                includeHTML("./text/02b_edit_policies_oa_intro.html")
-                
-         ),
+         # # Introductory text about the OA disciplines
+         # column(12, style = "padding: 15px 25px 15px;",
+         #        
+         #        includeHTML("./text/02b_edit_policies_oa_intro.html")
+         #        
+         # ),
          
          # Manual OA discipline selection
-         column(12, style = "padding: 0px 25px 15px;", 
+         column(12, id = "spaced-div",
                 
                 fluidRow( 
                   
@@ -52,7 +52,7 @@ OA = function(wto_members_and_observers)
                          # Conditional panel - At least one OA discipline(s) selected
                          conditionalPanel('input.w_oa_definitions.length > 0',
                                           
-                                          # Input - Set OA scope
+                                          # Input - Should these prohibitions apply to all, or only to selected states/fishing activity
                                           radioButtons("w_oa_scope",
                                                        label = tags$b(text$item_label[text$item_id == "w_oa_scope"]),
                                                        choices = unlist(wid$choices[wid$item_id == "w_oa_scope"]),
@@ -60,77 +60,94 @@ OA = function(wto_members_and_observers)
                                                        width = "100%",
                                                        inline = FALSE),
                                           
-                                          # Conditional panel - Manually select members
+                                          # Conditional panel - Only certain states and/or vessel characteristics
                                           conditionalPanel("input.w_oa_scope == 'SELECT'",
                                                            
-                                                           # Input: Manual selection of Members
-                                                           selectizeInput("w_oa_scope_manual",
-                                                                          label = tags$b(text$item_label[text$item_id == "w_oa_scope_manual"]),
-                                                                          choices = wto_members_and_observers,
-                                                                          selected = "",
-                                                                          width = "100%",
-                                                                          options = list(placeholder = 'Select...'),
-                                                                          multiple = T)
+                                                           # Input - Set OA scope (only certain states and/or vessel characteristics)
+                                                           checkboxGroupInput("w_oa_scope_select",
+                                                                              label = tags$b(text$item_label[text$item_id == "w_oa_scope_select"]),
+                                                                              choices = unlist(wid$choices[wid$item_id == "w_oa_scope_select"]),
+                                                                              selected = unlist(wid$selected[wid$item_id == "w_oa_scope_select"]),
+                                                                              width = "100%",
+                                                                              inline = FALSE),
+
+                                                           # Conditional panel - Manually select members
+                                                           conditionalPanel("input.w_oa_scope_select.includes('MANUAL')",
                                                            
-                                          ), # /conditionalPanel - Manually select members
+                                                                            # Input: Manual selection of Members
+                                                                            selectizeInput("w_oa_scope_manual",
+                                                                                           label = tags$b(text$item_label[text$item_id == "w_oa_scope_manual"]),
+                                                                                           choices = wto_members_and_observers,
+                                                                                           selected = "",
+                                                                                           width = "100%",
+                                                                                           options = list(placeholder = 'Select...'),
+                                                                                           multiple = T)
+                                                           
+                                                                            
+                                                           ), # /conditionalPanel - Manually select members
                                           
-                                          # Conditional panel - High seas scope
-                                          conditionalPanel("input.w_oa_scope == 'HS' || input.w_oa_scope == 'OUT'",
+                                                           # Conditional panel - High seas scope
+                                                           conditionalPanel("input.w_oa_scope_select.includes('HS') || input.w_oa_scope_select.includes('OUT')",
                                                            
-                                                           # Input: High seas cutoff
-                                                           sliderInput("w_oa_hs_cutoff",
-                                                                       label = tagList(
-                                                                         tags$b(text$item_label[text$item_id == "w_oa_hs_cutoff"]),
-                                                                         # Info button
-                                                                         tags$button(id = "info_oa_hs",
-                                                                                     class = "btn action-button info-button",
-                                                                                     icon("info"))),
-                                                                       min = wid$min[wid$item_id == "w_oa_hs_cutoff"],
-                                                                       max = wid$max[wid$item_id == "w_oa_hs_cutoff"],
-                                                                       value = wid$value[wid$item_id == "w_oa_hs_cutoff"],
-                                                                       width = "100%")
+                                                                            # Input: High seas cutoff
+                                                                            sliderInput("w_oa_hs_cutoff",
+                                                                                        label = tagList(
+                                                                                          tags$b(text$item_label[text$item_id == "w_oa_hs_cutoff"]),
+                                                                                          # Info button
+                                                                                          tags$button(id = "info_oa_hs",
+                                                                                                      class = "btn action-button info-button",
+                                                                                                      icon("info"))
+                                                                                        ),
+                                                                                        min = wid$min[wid$item_id == "w_oa_hs_cutoff"],
+                                                                                        max = wid$max[wid$item_id == "w_oa_hs_cutoff"],
+                                                                                        value = wid$value[wid$item_id == "w_oa_hs_cutoff"],
+                                                                                        width = "100%")
                                                            
-                                          ), # /conditionalPanel - High seas scope
+                                                                            
+                                                           ), # /conditionalPanel - High seas scope
                                           
-                                          # Conditional panel - Length cutoff
-                                          conditionalPanel("input.w_oa_scope == 'LENGTH' || input.w_oa_scope == 'LTE'",
+                                                           # Conditional panel - Length cutoff
+                                                           conditionalPanel("input.w_oa_scope_select.includes('LENGTH')",
                                                            
-                                                           # Input: High seas cutoff
-                                                           sliderInput("w_oa_length_cutoff",
-                                                                       label = tags$b(text$item_label[text$item_id == "w_oa_length_cutoff"]),
-                                                                       min = wid$min[wid$item_id == "w_oa_length_cutoff"],
-                                                                       max = wid$max[wid$item_id == "w_oa_length_cutoff"],
-                                                                       value = wid$value[wid$item_id == "w_oa_length_cutoff"],
-                                                                       width = "100%")
+                                                                            # Input: High seas cutoff
+                                                                            sliderInput("w_oa_length_cutoff",
+                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_length_cutoff"]),
+                                                                                        min = wid$min[wid$item_id == "w_oa_length_cutoff"],
+                                                                                        max = wid$max[wid$item_id == "w_oa_length_cutoff"],
+                                                                                        value = wid$value[wid$item_id == "w_oa_length_cutoff"],
+                                                                                        width = "100%")
                                                            
-                                          ), # /conditionalPanel - Length cutoff
+                                                                            
+                                                           ), # /conditionalPanel - Length cutoff
                                           
-                                          # Conditional panel - tonnage cutoff
-                                          conditionalPanel("input.w_oa_scope == 'TONNAGE' || input.w_oa_scope == 'LTE'",
+                                                           # Conditional panel - tonnage cutoff
+                                                           conditionalPanel("input.w_oa_scope_select.includes('TONNAGE')",
                                                            
-                                                           # Input: High seas cutoff
-                                                           sliderInput("w_oa_tonnage_cutoff",
-                                                                       label = tags$b(text$item_label[text$item_id == "w_oa_tonnage_cutoff"]),
-                                                                       min = wid$min[wid$item_id == "w_oa_tonnage_cutoff"],
-                                                                       max = wid$max[wid$item_id == "w_oa_tonnage_cutoff"],
-                                                                       value = wid$value[wid$item_id == "w_oa_tonnage_cutoff"],
-                                                                       width = "100%")
+                                                                            # Input: High seas cutoff
+                                                                            sliderInput("w_oa_tonnage_cutoff",
+                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_tonnage_cutoff"]),
+                                                                                        min = wid$min[wid$item_id == "w_oa_tonnage_cutoff"],
+                                                                                        max = wid$max[wid$item_id == "w_oa_tonnage_cutoff"],
+                                                                                        value = wid$value[wid$item_id == "w_oa_tonnage_cutoff"],
+                                                                                        width = "100%")
                                                            
-                                          ), # /conditionalPanel - tonnage cutoff
+                                                                            
+                                                           ), # /conditionalPanel - tonnage cutoff
                                           
-                                          # Conditional panel - engine power cutoff
-                                          conditionalPanel("input.w_oa_scope == 'ENGINE' || input.w_oa_scope == 'LTE'",
+                                                           # Conditional panel - engine power cutoff
+                                                           conditionalPanel("input.w_oa_scope_select.includes('ENGINE')",
                                                            
-                                                           # Input: High seas cutoff
-                                                           sliderInput("w_oa_engine_cutoff",
-                                                                       label = tags$b(text$item_label[text$item_id == "w_oa_engine_cutoff"]),
-                                                                       min = wid$min[wid$item_id == "w_oa_engine_cutoff"],
-                                                                       max = wid$max[wid$item_id == "w_oa_engine_cutoff"],
-                                                                       value = wid$value[wid$item_id == "w_oa_engine_cutoff"],
-                                                                       width = "100%")
+                                                                            # Input: High seas cutoff
+                                                                            sliderInput("w_oa_engine_cutoff",
+                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_engine_cutoff"]),
+                                                                                        min = wid$min[wid$item_id == "w_oa_engine_cutoff"],
+                                                                                        max = wid$max[wid$item_id == "w_oa_engine_cutoff"],
+                                                                                        value = wid$value[wid$item_id == "w_oa_engine_cutoff"],
+                                                                                        width = "100%")
                                                            
-                                          ), # /conditionalPanel - engine power cutoff
-                                          
+                                                                            
+                                                           ) # /conditionalPanel - engine power cutoff
+                                          ), # /conditionalPanel - select scope
                                           
                                           tags$hr(),
                                           
@@ -314,21 +331,21 @@ OA = function(wto_members_and_observers)
          fluidRow(
            
            # Previous tab
-           column(3, style = "padding: 5px;",
+           column(2, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_oa_to_iuu",
-                              class = "btn action-button nav-button-white-l",
-                              icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_oa_to_iuu"]
+                              class = "btn action-button nav-button-c",
+                              text$item_label[text$item_id == "ab_edit_policies_tabs_oa_to_iuu"]
                   )
                   
            ),
            
            # Next tab
-           column(3, offset = 6, style = "padding: 5px;",
+           column(2, offset = 8, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_oa_to_overcap",
-                              class = "btn action-button nav-button-white-r",
-                              text$item_label[text$item_id == "ab_edit_policies_tabs_oa_to_overcap"], icon("chevron-right") 
+                              class = "btn action-button nav-button-c",
+                              text$item_label[text$item_id == "ab_edit_policies_tabs_oa_to_overcap"] 
                   )
                   
            )

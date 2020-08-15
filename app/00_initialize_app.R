@@ -26,36 +26,49 @@ wid <- read_csv("./text/00_widget_values.csv") %>%
             max = unique(max), 
             value = unique(value),
             step = unique(step)) %>%
+  ungroup() %>%
   group_by(tab_num, tab_id, item_id) %>%
   mutate(choices = list(setNames(unlist(str_split(choices, ", ")),
                                  unlist(str_split(choice_names, ", ")))),
-         selected = list(unlist(str_split(selected, ", "))))
+         selected = list(unlist(str_split(selected, ", ")))) %>%
+  ungroup()
 
 ### ----------------------------------
 ### Country/Territory Naming ---------
 ### ----------------------------------
 
 # Load list of WTO Member states and their dependencies with chosen display names
-country_lookup <- read_csv("./data/country_lookup.csv") %>%
+country_lookup <- read_csv("./data/country_dependencies.csv") %>%
   mutate(display_name = case_when(!is.na(WTO_name) ~ WTO_name,
+                                  iso3 == "ANT" ~ "Netherlands Antilles",
+                                  iso3 == "ASC" ~ "Ascension Island", 
+                                  iso3 == "CPT" ~ "Clipperton Island",
+                                  iso3 == "TAA" ~ "Tristan da Cunha",
                                   TRUE ~ countrycode(iso3, "iso3c", "country.name"))) %>%
   arrange(sovereign_iso3) 
 
-# Vector of all WTO Members and Observers for use in the app
-wto_members_and_observers <- country_lookup$iso3[country_lookup$WTO_member_status %in% c("Member", "Observer")]
-names(wto_members_and_observers) <- country_lookup$display_name[country_lookup$WTO_member_status %in% c("Member", "Observer")]
+# Vector of all WTO Members and Observers for use in the app [does not include the overseas territories associated with them]
+wto_members_and_observers <- country_lookup$iso3[country_lookup$is_WTO & !country_lookup$is_overseas_territory]
+names(wto_members_and_observers) <- country_lookup$display_name[country_lookup$iso3 %in% wto_members_and_observers]
 
 # EU states
-eu_countries <- country_lookup$iso3[country_lookup$iso3 != "EU" & country_lookup$is_EU]
+eu_countries <- country_lookup$iso3[country_lookup$is_EU]
+names(eu_countries) <- country_lookup$display_name[country_lookup$iso3 %in% eu_countries]
 
 # List of all EU overseas territories - vessels flagged here should be considered WTO Members
 eu_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 %in% eu_countries]
+names(eu_territories) <- country_lookup$display_name[country_lookup$iso3 %in% eu_territories]
 
-# List of all US overseas territories - vessels flagged here should be considered WTO Members
-us_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "USA"]
+# All WTO territories (with their sovereign states) -  vessels flagged here should be considered WTO Members
+territories <- country_lookup %>%
+  dplyr::filter(is_overseas_territory & is_WTO) %>%
+  distinct(iso3, sovereign_iso3)
 
-# List of all Norwegian overseas territories - vessels flagged here should be considered WTO Members
-norwegian_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "NOR"]
+# # List of all US overseas territories - vessels flagged here should be considered WTO Members
+# us_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "USA"]
+# 
+# # List of all Norwegian overseas territories - vessels flagged here should be considered WTO Members
+# norwegian_territories <- country_lookup$iso3[country_lookup$is_overseas_territory & country_lookup$sovereign_iso3 == "NOR"]
 
 # ### --------------------
 # ### Shapefiles ---------
@@ -168,54 +181,60 @@ demographic_dat <- demo_dat_world_bank %>%
 
 ### FISHERIES DATA -----------------------------------------------------------------------------------
 
-# 1) FAO Cature Production by ISSCAAP Group (2000-2017)
-
+# 1) FAO Cature Production by ISSCAAP Group (2000-2017) - only for display purposes
 capture_production_dat_fao <- read_csv("./data/fao_2020_capture_production_isscaap_groups_tidy.csv") %>%
   group_by(iso3, year) %>%
   mutate(prop_annual_total = value/sum(value)) %>%
   ungroup() %>%
+  dplyr::filter(!(iso3 %in% unique(territories$sovereign_iso3))) %>% # remove entries for sovereign states without the data cooresponding to their territories 
+  mutate(iso3 = str_replace(iso3, "-T", "")) %>% # rename entries for sovereign states that include data cooresponding to their territories
   left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3")
 
 capture_production_dat_tot <- capture_production_dat_fao %>%
   group_by(iso3, year, variable, units, source, display_name) %>%
-  summarize(value = sum(value, na.rm = T)) 
+  summarize(value = sum(value, na.rm = T)) %>%
+  ungroup()
 
 # 2) Landed value by ISSCAAP Group (2000-2017)
 landed_value_dat <- read_csv("./data/estimated_landed_value_isscaap_groups_tidy.csv") %>%
   group_by(iso3, year) %>%
   mutate(prop_annual_total = value/sum(value)) %>%
   ungroup() %>%
+  dplyr::filter(!(iso3 %in% unique(territories$sovereign_iso3))) %>% # remove entries for sovereign states without the data cooresponding to their territories 
+  mutate(iso3 = str_replace(iso3, "-T", "")) %>% # rename entries for sovereign states that include data cooresponding to their territories
   left_join(country_lookup %>% dplyr::select(iso3, display_name), by = "iso3")
 
 landed_value_dat_tot <- landed_value_dat %>%
   group_by(iso3, year, variable, units, source, display_name) %>%
-  summarize(value = sum(value, na.rm = T))
+  summarize(value = sum(value, na.rm = T)) %>%
+  ungroup()
   
 # 3) GFW Vessel list (2018)
-pro_rate_subsidies <- F
+#pro_rate_subsidies <- F
 
-vessel_dat <- read.csv("./data/vessel_list_2018_final.csv", stringsAsFactors = F)
+vessel_dat <- read.csv("./data/vessel_list_2018_final.csv", stringsAsFactors = F) %>%
+  left_join(country_lookup %>% dplyr::select(iso3, is_WTO), by = c("flag_iso3" = "iso3"))
 
-if(pro_rate_subsidies == T){
-
-  vessel_dat <- vessel_dat %>%
-    mutate(B1_subs = B1_subs * 0.54, # boat construction/renovation - matched to payments based on vessels
-           B2_subs = B2_subs * 1, # fishery development projects/support services - matched to payments based on variable use
-           B3_subs = B3_subs * 0.87, # port construction and renovation - matched to payments based on vessels
-           B4_subs = B4_subs * 0.87, # price/marketing support, processing infrastructure - matched to payments based on output
-           B5_subs = B5_subs * 0.76, # non-fuel tax exemptions - matched to payments based on fishers income
-           B6_subs = B6_subs * 0.56, # foreign access agreements - matched to payments based on fishers own capital
-           B7_subs = B7_subs * 0.84, # fuel - matched to payments based on fuel use
-           bad_subs = (B1_subs + B2_subs + B3_subs + B4_subs + B5_subs + B6_subs + B7_subs))
-
-}
+# if(pro_rate_subsidies == T){
+# 
+#   vessel_dat <- vessel_dat %>%
+#     mutate(B1_subs = B1_subs * 0.54, # boat construction/renovation - matched to payments based on vessels
+#            B2_subs = B2_subs * 1, # fishery development projects/support services - matched to payments based on variable use
+#            B3_subs = B3_subs * 0.87, # port construction and renovation - matched to payments based on vessels
+#            B4_subs = B4_subs * 0.87, # price/marketing support, processing infrastructure - matched to payments based on output
+#            B5_subs = B5_subs * 0.76, # non-fuel tax exemptions - matched to payments based on fishers income
+#            B6_subs = B6_subs * 0.56, # foreign access agreements - matched to payments based on fishers own capital
+#            B7_subs = B7_subs * 0.84, # fuel - matched to payments based on fuel use
+#            bad_subs = (B1_subs + B2_subs + B3_subs + B4_subs + B5_subs + B6_subs + B7_subs))
+# 
+# }
 
 vessel_dat <- vessel_dat %>%
   mutate(eez_hs_code = case_when(eez_id == 0 ~ paste0("HS-", fao_region),
                                  TRUE ~ as.character(eez_id)))
 
 # 4) Biological parameters for the model
-bio_dat <- read.csv("./data/model_parameters_regional.csv")
+bio_dat <- read.csv("./data/model_parameters_regional_3_regions.csv")
 
 # Regional parameter list
 bio_dat_list <- bio_dat %>%
@@ -228,6 +247,9 @@ bio_dat_list <- bio_dat %>%
 # 1) Cap/tier data (from US proposal) ---
 cap_tier_dat <- read_csv("./data/USA_cap_tier_tidy.csv") %>%
   arrange(iso3)
+
+# 1) Cap/tier lookup table
+cap_tier_lookup_table <- read_csv("./data/cap_tier_lookup_table.csv")
 
 # 2) Proposal settings
 proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
@@ -271,7 +293,6 @@ combined_fishery_stats_dat <- subsidy_dat %>%
 
 # Create fleet (vessels)
 remove_all_bad_fleet_vessels <- vessel_dat %>%
-  mutate(is_WTO = ifelse(flag_iso3 %in% c(cap_tier_dat$iso3, eu_countries, eu_territories, us_territories, norwegian_territories), T, F)) %>%
   mutate(fleet = case_when(is_WTO & fmi_best >= managed_cutoff & bad_subs > 0 ~ "affected_managed",
                            is_WTO & fmi_best < managed_cutoff & bad_subs > 0 ~ "affected_oa",
                            (!is_WTO & fmi_best >= managed_cutoff) ~ "unaffected_managed",
@@ -284,7 +305,8 @@ remove_all_bad_fleet_summary <- remove_all_bad_fleet_vessels %>%
   summarize(catch = sum(catch, na.rm = T),
             bad_subs = sum(bad_subs, na.rm = T),
             fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
-            removed_subs = sum(bad_subs, na.rm = T))
+            removed_subs = sum(bad_subs, na.rm = T)) %>%
+  ungroup()
 
 # Get affected fleet stats by flag
 # remove_all_bad_fleet_by_flag <- remove_all_bad_fleet_vessels %>%
@@ -364,9 +386,9 @@ remove_all_bad_results_last <- remove_all_bad_results_full %>%
   mutate(run_number = "A",
          run_name = "Most ambitious scenario")
 
-### Summaries by flag state--------------------------------------------------------------
+### Summaries by flag state for use in Cap/Tier--------------------------------------------------------------
 
-flag_summary <- bind_cols(
+flag_summary <- left_join(
   
   # Summarize general variables
   (vessel_dat %>%
@@ -384,19 +406,21 @@ flag_summary <- bind_cols(
              rename(fishing_h = fishing_hours_eez_fao_ter,
                     fishing_KWh = fishing_KWh_eez_fao_ter) %>%
              group_by(flag_iso3) %>%
-             summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T))
+             summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T)),
+ by = "flag_iso3"
 ) %>%
   ungroup() %>%
-  select(-flag_iso31) %>%
   mutate(tot_bad_subs = sum(bad_subs),
          percent_bad_subs = bad_subs/tot_bad_subs)
 
 ### Summary statistics for the EU ---
-eu_summary <- bind_cols(
+eu_summary <- left_join(
   
   # Summarize general variables
   (vessel_dat %>%
      dplyr::filter(is_EU) %>%
+     mutate(flag_iso3 = "EU") %>%
+     group_by(flag_iso3) %>%
      summarize(n_vessels = n_distinct(ssvid),
                n_vessel_class = n_distinct(vessel_class),
                avg_length_m = mean(length_m, na.rm = T),
@@ -408,15 +432,16 @@ eu_summary <- bind_cols(
   # Summarize variables that are summed
   (vessel_dat %>%
      dplyr::filter(is_EU) %>%
+    
      rename(fishing_h = fishing_hours_eez_fao_ter,
             fishing_KWh = fishing_KWh_eez_fao_ter) %>%
-     summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T))
+     summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T) %>%
+     mutate(flag_iso3 = "EU")),
+  by = "flag_iso3"
 ) %>%
   ungroup() %>%
-  mutate(flag_iso3 = "EU",
-         tot_bad_subs = unique(flag_summary$tot_bad_subs),
+  mutate(tot_bad_subs = unique(flag_summary$tot_bad_subs),
          percent_bad_subs = bad_subs/tot_bad_subs)
-
 
 ### All summary statistics by flag --- 
 flag_summary <- flag_summary %>%

@@ -31,6 +31,14 @@ a:hover {
   text-decoration: underline;
 }
 
+b.big {
+  font-size: 12pt;
+}
+
+small.gray {
+  color: #404040;
+}
+
 
 /*----------------------------*/  
 /*----------------------------*/
@@ -448,8 +456,8 @@ padding: 0 40px 20px;
   background-color: #3c8dbc; 
   padding: 5px; 
   width: 100%;
-  height: 30px;
-  font-size: 12px;
+  height: 40px;
+  font-size: 12pt;
   white-space: normal;
   text-align: left;
 }
@@ -490,8 +498,8 @@ padding: 0 40px 20px;
   background-color: #3c8dbc; 
   padding: 5px; 
   width: 100%;
-  height: 30px;
-  font-size: 12px;
+  height: 40px;
+  font-size: 12pt;
   white-space: normal;
   text-align: right;
 }
@@ -512,7 +520,7 @@ padding: 0 40px 20px;
   padding: 5px; 
   width: 100%;
   height: 30px;
-  font-size: 12px;
+  font-size: 12pt;
   white-space: normal;
   text-align: center;
 }
@@ -523,6 +531,26 @@ padding: 0 40px 20px;
 
 .nav-button-white-r:hover {
   color: #ffffff;
+  background-color: #31749b; 
+}
+
+/* Center navigation button */
+.nav-button-c {
+  color: #fff; 
+  background-color: #3c8dbc; 
+  padding: 5px; 
+  width: 100%;
+  height: 40px;
+  font-size: 12pt;
+  white-space: normal;
+  text-align: center;
+}
+
+.nav-button-c i{
+  margin: 0 10px;
+}
+
+.nav-button-r:hover {
   background-color: #31749b; 
 }
 
@@ -537,4 +565,127 @@ padding: 0 40px 20px;
   font-size: 8px; 
   margin: 0 3px; 
   border-radius: 50%;
+}
+
+/*--------------------------*/
+/*--------------------------*/
+/* Custom Items ------------*/
+/*--------------------------*/
+/*--------------------------*/
+
+/* --------- */
+/* Universal */
+/* --------- */
+#page-title-div-underline-blue {
+  padding: 15px 25px 15px 25px;
+  border-bottom: 1px solid #000044;
+  background-color: #f2f2f2;
+}
+
+#page-title-div-underline-blue h3 {
+ text-align: left;
+ font-weight: bold;
+}
+
+#spaced-div {
+  padding: 15px 25px 7.5px 25px;
+}
+
+/* ------------------------------ */
+/* Edit Policies (Advanced Users) */
+/* ------------------------------ */
+
+/* Table attributes for Steps */
+#edit-policies-table { 
+  width: 100%;
+  vertical-align: middle;
+  table-layout: fixed;
+} 
+
+#edit-policies-table-row{
+  width: 100%;
+}
+
+#edit-policies-table-cell-number{
+  width: 50px;
+}
+
+#edit-policies-table-cell-c{
+  width: 150px;
+}
+
+/* Gets rid of bottom margin on textInput widget */
+.form-group{
+  margin-bottom: 0;
+}
+
+/* Blue circular number container */
+.step-number {
+  color: #ffffff; 
+  background-color: #3c8dbc; 
+  width:35px; 
+  height:35px; 
+  line-height: 35px;
+  text-align: center;
+  font-size: 14pt; 
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+/* TabBox for disciplines */
+.nav-tabs-custom {
+    margin-bottom: 20px;
+    margin-left: 0;
+    margin-right: 0;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0,0,0,0);
+    border-radius: 3px;
+}
+
+.nav-tabs-custom #policy-tabs.nav-tabs{
+  border-bottom-color: transparent;
+}
+
+.nav-tabs-custom #policy-tabs.nav-tabs{
+  background: #ffffff;
+  color: #000000;
+}
+
+.nav-tabs-custom #policy-tabs.nav-tabs li {
+  width: 33%;
+  margin: 0;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li a{
+  color: #000000;
+  padding: 15px 25px;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li:hover {
+  color: #3c8dbc;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li.active:hover a{
+  color: #3c8dbc;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li.active {
+  border-bottom: 3px solid #3c8dbc;
+  border-top: transparent;
+}
+      
+.nav-tabs-custom #policy-tabs.nav-tabs li.active a {
+  color: #3c8dbc;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+#edit-policies-tab-panel{
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+#edit-policies-right-column{
+  background-color: #f2f2f2;
+  color: #000000;
 }

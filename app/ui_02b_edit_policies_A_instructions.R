@@ -7,7 +7,7 @@
 
 Instructions = function() 
   # Column container for tab panel        
-  column(12, style = "border-style: solid; border-width: 2px 3px 3px 3px; border-color: #28292C;",
+  column(12, id = "edit-policies-tab-panel",
                   
          # Intro text and policy name
          column(12, style = "padding: 15px 25px 15px;",

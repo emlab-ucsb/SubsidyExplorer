@@ -29,8 +29,9 @@ library(startR)
 vessel_list_path <- here::here("results", "04-model-parameterization", "vessel_list_2018_regions.csv")
 
 # Paths to other data files
-iuu_dat_path <- here::here("data", "raw", "IUU-Vessel-List-2019", "IUUList-20190430.csv")
+iuu_dat_path <- here::here("data", "raw", "combined-IUU-vessel-list", "IUUList-20190430.csv")
 costello_2016_path <- here::here("data", "edited", "costello_et_al_2016_upsides_tidy.csv")
+ram_dat_path <- here::here("data", "edited", "RAMLDB_v4.491_bvmsy_tidy.csv")
 eez_info_path <- here::here("data", "lookup-tables", "eez_info.csv")
 
 ```
@@ -206,6 +207,7 @@ iuu_list <- read_csv(iuu_dat_path) %>%
   clean_names(case = "snake")
 
 # Extract only vessels currently listed, and create a new entry for each using the "name" field
+# We also normalize shipname using the same function GFW uses to normalize their shipnames (ignore roman numeral error - double checked this and it's working fine)
 iuu_clean_name <- iuu_list %>% 
    dplyr::filter(currently_listed) %>%
    mutate(name_new = str_split(name, ", "))%>%
@@ -317,7 +319,7 @@ temp_vessel_list <- temp_vessel_list %>%
 ### OA #1/#2: B/Bmsy < 1/0.8 as determined by the RAM legacy stock assessment database
 
 ```{r}
-# Load costello data to get the fraction of catches by eez/fao region that are in RAM and are determined to be overfished
+# Load RAM data to get the status of stocks
 costello_2016_dat <- read_csv(costello_2016_path) %>%
   clean_names(case = "snake")
 
@@ -356,6 +358,7 @@ eez_ram_stocks <- eez_ram_stocks %>%
             mean_bv_bmsy = mean(bv_bmsy, na.rm = T),
             median_bv_bmsy = mean(bv_bmsy, na.rm = T),
             w_mean_bv_bmsy = weighted.mean(bv_bmsy, w = (msy/n_regions), na.rm = T)) %>%
+  ungroup() %>%
   mutate(oa1_median = ifelse(median_bv_bmsy >= 1, F, T),
          oa1_w_mean = ifelse(w_mean_bv_bmsy >= 1, F, T),
          oa2_median = ifelse(median_bv_bmsy >= 0.8, F, T),
@@ -404,6 +407,7 @@ eez_stocks <- costello_2016_dat %>%
             mean_bv_bmsy = mean(bv_bmsy, na.rm = T),
             median_bv_bmsy = mean(bv_bmsy, na.rm = T),
             w_mean_bv_bmsy = weighted.mean(bv_bmsy, w = (msy/n_regions), na.rm = T)) %>%
+  ungroup() %>%
   mutate(oa3_median = ifelse(median_bv_bmsy >= 1, F, T),
          oa3_w_mean = ifelse(w_mean_bv_bmsy >= 1, F, T),
          oa4_median = ifelse(median_bv_bmsy >= 0.8, F, T),

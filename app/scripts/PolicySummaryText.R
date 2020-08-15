@@ -1,73 +1,6 @@
-
-IUUSummaryText <- function(iuu,
-                           text,
-                           iuu_definitions,
-                           country_choices){
-  
-  # IUU
-  if(length(iuu$definitions) == 0){
-    
-    iuu_sum <- "None selected."
-    
-  }else if(length(iuu$definitions) >= 1){
-    
-    iuu_prohib_names <- names(iuu_definitions[iuu_definitions %in% iuu$definitions])
-    iuu_pro <- paste0(text$item_label[text$item_id == "w_iuu_definitions"], 
-                      "<ul><li>", 
-                      paste0(iuu_prohib_names, collapse = "</li><li>"), 
-                      "</li></ul>")
-    
-    if("IUU2" %in% iuu$definitions | 
-       "IUU3" %in% iuu$definitions | 
-       "IUU4" %in% iuu$definitions | 
-       "IUU5" %in% iuu$definitions | 
-       "IUU6" %in% iuu$definitions){
-      
-      if(iuu$assumption == "YES"){
-        
-        # iuu_assump <- paste0(names(iuu_definitions[iuu_definitions %in% iuu$definitions]))
-        # iuu_assump_short <- 
-        
-        iuu_pro <- paste0(iuu_pro, iuu$percent, "% of global fishing effort is assumed to have been identified as IUU by coastal-, flag-, subsidizing-, port-, and/or market-Member states")
-        
-      }
-    }
-    
-    # IUU - scope
-    if(iuu$scope == "ALL"){
-      
-      iuu_sco <- "Selected disciplines apply to all Member-flagged vessels"
-      
-    }else if(iuu$scope == "EX_TER"){
-      
-      iuu_sco <- "Selected disciplines only apply to Member-flagged vessels fishing outside of their own territorial waters"
-      
-    }else if(iuu$scope == "SELECT"){
-      
-      iuu_country_names <- names(country_choices[country_choices %in% iuu$scope_manual])
-      iuu_sco <- paste0("Selected disciplines only apply to the following Members: ", paste0(iuu_country_names, collapse = ", "))
-      
-    }
-    
-    # # IUU - S&DT
-    # if(iuu$allow_sdt == "Yes"){
-    #   
-    #   iuu_sdt_names <- names(sdt_who[sdt_who == iuu$sdt_who])
-    #   iuu_sdt_what <- names(sdt_what[sdt_what == iuu$sdt_what])
-    #   
-    #   iuu_sdt <- paste0("S&DT is allowed. The following S&DT applies to ", iuu_sdt_names, ": ", iuu_sdt_what) 
-    #   
-    # }else if(iuu$allow_sdt == "No"){
-    #   
-    #   iuu_sdt <- "S&DT is not allowed"
-    #   
-    # }
-    
-    iuu_sum <- paste0(iuu_pro, ". ", iuu_sco, ". ")
-    
-  } # /IUU
-  
-}
+###---------------------------------
+### Overfished reactive policy summary
+### --------------------------------
 
 OASummaryText <- function(oa,
                           oa_definitions,
@@ -121,6 +54,10 @@ OASummaryText <- function(oa,
   
   }
 }
+
+###---------------------------------
+### OCOF reactive policy summary
+### --------------------------------
   
 OvercapSummaryText <- function(overcap,
                                overcap_definitions,
@@ -176,6 +113,7 @@ OvercapSummaryText <- function(overcap,
   } # /overcapacity
   
 }
+
 # 
 # PolicySummaryText <- function(oa,
 #                               overcap,

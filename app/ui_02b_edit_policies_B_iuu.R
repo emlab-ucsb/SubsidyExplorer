@@ -8,17 +8,10 @@
 IUU = function(wto_members_and_observers) 
   
   # Column container for tab panel        
-  column(12, style = "border-style: solid; border-width: 2px 3px 3px 3px; border-color: #28292C;",
-                  
-         # Introductory text about the IUU disciplines
-         column(12, style = "padding: 15px 25px 15px;",
-                
-                includeHTML("./text/02b_edit_policies_iuu_intro.html")
-                
-         ),
+  column(12, id = "edit-policies-tab-panel",
          
          # Manual IUU discipline selection
-         column(12, style = "padding: 0px 25px 15px;", 
+         column(12, id = "spaced-div", 
                 
                 fluidRow( 
                   
@@ -48,7 +41,7 @@ IUU = function(wto_members_and_observers)
                          br(),
                          
                          # Conditional panel - IUU discipline(s) with no data selected
-                         conditionalPanel(condition = "input.w_iuu_definitions.includes('IUU2') | input.w_iuu_definitions.includes('IUU3') | input.w_iuu_definitions.includes('IUU4')",
+                         conditionalPanel(condition = "input.w_iuu_definitions.includes('IUU2') | input.w_iuu_definitions.includes('IUU3') | input.w_iuu_definitions.includes('IUU4') | input.w_iuu_definitions.includes('IUU5') | input.w_iuu_definitions.includes('IUU6')",
                                           
                                           # Input - Make IUU assumption
                                           radioButtons("w_iuu_assumption",
@@ -65,7 +58,7 @@ IUU = function(wto_members_and_observers)
                                                        inline = FALSE), 
                                           
                                           # Conditional panel - Make IUU assumption selected
-                                          conditionalPanel(condition = "input.w_iuu_assumption == 'Yes'",
+                                          conditionalPanel(condition = "input.w_iuu_assumption == 'YES'",
                                                            
                                                            # Input - Set assumed level of IUU fishing
                                                            sliderInput("w_iuu_percent", 
@@ -87,7 +80,7 @@ IUU = function(wto_members_and_observers)
                          # Conditional panel - At least one IUU discipline(s) selected
                          conditionalPanel('input.w_iuu_definitions.length > 0',
                                           
-                                          # Input - Set IUU scope
+                                          # Input - Should these prohibitions apply to all, or only to selected states/fishing activity
                                           radioButtons("w_iuu_scope",
                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_scope"]),
                                                        choices = unlist(wid$choices[wid$item_id == "w_iuu_scope"]),
@@ -95,20 +88,33 @@ IUU = function(wto_members_and_observers)
                                                        width = "100%",
                                                        inline = FALSE),
                                           
-                                          # Conditional panel - Manually select members
+                                          # Conditional panel - Only certain states and/or vessel characteristics
                                           conditionalPanel("input.w_iuu_scope == 'SELECT'",
                                                            
-                                                           # Input: Manual selection of Members
-                                                           selectizeInput("w_iuu_scope_manual",
-                                                                          label = tags$b(text$item_label[text$item_id == "w_iuu_scope_manual"]),
-                                                                          choices = wto_members_and_observers,
-                                                                          selected = "",
-                                                                          width = "100%",
-                                                                          options = list(placeholder = 'Select...'),
-                                                                          multiple = T)
+                                                           # Input - Set OA scope (only certain states and/or vessel characteristics)
+                                                           checkboxGroupInput("w_iuu_scope_select",
+                                                                              label = tags$b(text$item_label[text$item_id == "w_iuu_scope_select"]),
+                                                                              choices = unlist(wid$choices[wid$item_id == "w_iuu_scope_select"]),
+                                                                              selected = unlist(wid$selected[wid$item_id == "w_iuu_scope_select"]),
+                                                                              width = "100%",
+                                                                              inline = FALSE),
                                                            
-                                          ), # /conditionalPanel - Manually select members
-                                          
+                                                           # Conditional panel - Manually select members
+                                                           conditionalPanel("input.w_iuu_scope_select.includes('MANUAL')",
+                                                                            
+                                                                            # Input: Manual selection of Members
+                                                                            selectizeInput("w_iuu_scope_manual",
+                                                                                           label = tags$b(text$item_label[text$item_id == "w_iuu_scope_manual"]),
+                                                                                           choices = wto_members_and_observers,
+                                                                                           selected = "",
+                                                                                           width = "100%",
+                                                                                           options = list(placeholder = 'Select...'),
+                                                                                           multiple = T)
+                                                                            
+                                                                            
+                                                           ) # /conditionalPanel - Manually select members
+                                          ), #/select scope
+
                                           tags$hr(),
                                           
                                           # Input: Allow S&DT
@@ -250,22 +256,12 @@ IUU = function(wto_members_and_observers)
          # Bottom navigation buttons
          fluidRow(
            
-           # Previous tab
-           column(3, style = "padding: 5px;",
-                  
-                  tags$button(id = "ab_edit_policies_tabs_iuu_to_instructions",
-                              class = "btn action-button nav-button-white-l",
-                              icon("chevron-left"), text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_instructions"]
-                  )
-                  
-           ),
-           
            # Next tab
-           column(3, offset = 6, style = "padding: 5px;",
+           column(2, offset = 10, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_iuu_to_oa",
-                              class = "btn action-button nav-button-white-r",
-                              text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_oa"], icon("chevron-right") 
+                              class = "btn action-button nav-button-c",
+                              text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_oa"]
                   )
                   
            )

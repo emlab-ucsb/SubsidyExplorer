@@ -11,10 +11,6 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     
-    ### Custom formatting for tabs
-    tags$style(
-    ),
-    
     ### Top navigation buttons
     column(12,
            fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",

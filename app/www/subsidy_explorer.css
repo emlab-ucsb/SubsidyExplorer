@@ -688,4 +688,5 @@ padding: 0 40px 20px;
 #edit-policies-right-column{
   background-color: #f2f2f2;
   color: #000000;
+  bottom: 0;
 }

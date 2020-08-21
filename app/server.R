@@ -728,8 +728,11 @@ shinyServer(function(input, output, session) {
     output$custom_policy <- renderUI({
       
       paste0(rv_custom_policy_description$name,
+             "<hr>",
              rv_custom_policy_description$iuu_summary,
+             "<hr>",
              rv_custom_policy_description$oa_summary,
+             "<hr>",
              rv_custom_policy_description$overcap_summary) %>%
         lapply(htmltools::HTML)
     

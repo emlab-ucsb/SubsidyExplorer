@@ -106,7 +106,7 @@ shinyUI(
             collapsed = T,
             
             # Want it disabled by default
-            disable = T,
+            disable = F,
             
             # Menu container
             sidebarMenu(

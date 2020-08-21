@@ -58,7 +58,7 @@ IUUSummaryText <- function(iuu,
     if(iuu$scope == "ALL"){
       
       iuu_scope <- paste0("<small class = 'gray'>", "SCOPE:  ", "</small>",
-                          "<small>", "Selected disciplines apply to all Members & vessels.", "</br></small>")
+                          "<small>", "Disciplines apply to all Members & vessels.", "</br></small>")
       
     }else if(iuu$scope == "SELECT"){
       
@@ -109,10 +109,12 @@ IUUSummaryText <- function(iuu,
       # LDC S&DT
       if(iuu$sdt_ldc == "YES"){
         
-        iuu_sdt_ldc <- paste0("LDCs: ", "None.", "</br>")
+        iuu_sdt_ldc_names <- unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_ldc"])
+        iuu_sdt_ldc_selected <- paste0(names(iuu_sdt_ldc_names[iuu$sdt_what_ldc %in% iuu_sdt_ldc_names]), collapse = ", ")
+        iuu_sdt_ldc <- paste0("<li>", "LDCs: ", iuu_sdt_ldc_selected, "</li>")
         
       }else{
-        iuu_sdt_ldc <- paste0("LDCs: ", "None.", "</br>")
+        iuu_sdt_ldc <- paste0("<li>", "LDCs: None.","</li>")
       }
       
       # Developing S&DT
@@ -121,7 +123,7 @@ IUUSummaryText <- function(iuu,
         iuu_sdt_developing <- paste0("Developing: ", "None.", "</br>")
         
       }else{
-        iuu_sdt_developing <- paste0("Developing: ", "None.", "</br>")
+        iuu_sdt_developing <- paste0("<li>", "Developing: None.", "</li>")
       }
       
       # Developing S&DT
@@ -130,15 +132,15 @@ IUUSummaryText <- function(iuu,
         iuu_sdt_sve <- paste0("SVEs: ", "None.", "</br>")
         
       }else{
-        iuu_sdt_sve <- paste0("SVEs: ", "None.", "</br>")
+        iuu_sdt_sve <- paste0("<li>", "SVEs: None.", "</li>")
       }
       
       iuu_sdt <- paste0("<small class = 'gray'>", "S&DT: ", "</br></small>",
-                        "<small>", 
+                        "<small><ul>", 
                         iuu_sdt_ldc,
                         iuu_sdt_developing,
                         iuu_sdt_sve,
-                        "</small>")
+                        "</small></ul>")
       
     }
     

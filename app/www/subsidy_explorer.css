@@ -1,3 +1,22 @@
+/*-------*/
+/* Setup */
+/*-------*/
+
+:root {
+    --main-color: #2b4860;
+    --secondary-color: #243e54;
+    --accent-color: #0d5ba2;
+    --accent-color-2: green;
+    --grey-dark: #6f6f6f;
+    --grey-text: #404040;
+    --grey-light: #f7f8f9;
+}
+
+/*@font-face {  
+  src: url(Kirnberg.ttf);
+  font-family: "Kirnberg";
+}*/
+
 /*--------------------*/  
 /*--------------------*/
 /* General containers */
@@ -17,17 +36,17 @@
 
 /* hyperlinks */
 a {
-  color: #3c8dbc;
+  color: var(--accent-color);
   text-decoration: none;
 }
 
 a:visited {
-  color: #3c8dbc;
+  color: var(--accent-color);
   text-decoration: none;
 }
 
 a:hover {
-  color: #3c8dbc;
+  color: var(--accent-color);
   text-decoration: underline;
 }
 
@@ -36,7 +55,7 @@ b.big {
 }
 
 small.gray {
-  color: #404040;
+  color: var(--grey-dark);
 }
 
 
@@ -59,7 +78,7 @@ header.main-header {
 
 /* navigation bar */
 .skin-blue .main-header .navbar {
-  background-color: #2b4860;
+  background-color: var(--main-color);
 }
 
 /* logo (title container) - hidden for this app */
@@ -67,12 +86,12 @@ header.main-header {
   height: 60px;
   padding: 0;
   margin: 0;
-  background-color: #2b4860;
+  background-color: var(--main-color);
 }
 
 /* logo (title container) when hovered - hidden for this app */
 .skin-blue .main-header .logo:hover {
-  background-color: #2b4860;
+  background-color: var(--main-color);
 }
 
 /* sidebar menu toggle button */
@@ -84,7 +103,7 @@ header.main-header {
 
 /* sidebar menue toggle button when hovered  */
 .skin-blue .main-header .navbar .sidebar-toggle:hover{
-  background-color: #243e54;
+  background-color: var(--secondary-color);
 }
 
 /*----------------------------------------------*/
@@ -94,7 +113,7 @@ header.main-header {
 /* sidebar container */
 .skin-blue .main-sidebar {
   padding-top: 60px; /* spacing to allow for top nav bar */
-  background-color: #243e54; /* background color for sidebar */
+  background-color: var(--secondary-color); /* background color for sidebar */
   padding-bottom: 60px;
 }
 
@@ -123,32 +142,32 @@ header.main-header {
 
 /* active selected tab in the sidebar */
   .skin-blue .sidebar-menu>li.active>a {
-    background-color: #0d5ba2;
-    border-left-color: #0d5ba2;
+    background-color: var(--accent-color);
+    border-left-color: var(--accent-color);
   }
 
 /* hover over a tab in the sidebar */
   .skin-blue .sidebar-menu>li:hover>a {
-    background-color: #0d5ba2;
-    border-left-color: #0d5ba2;
+    background-color: var(--accent-color);
+    border-left-color: var(--accent-color);
   }
 
 /* Submenu container */
   .skin-blue .sidebar-menu>li>.treeview-menu {
     margin: 0;
     padding: 0;
-    background: #2b4860;
+    background: var(--secondary-color);
     border-left: 3px solid transparent;
   }
 
 /* Submenu container - expanded */
   .skin-blue .sidebar-menu>li>.menu-expanded {
-    border-left-color: #2b4860;
+    border-left-color: var(--secondary-color);
   }
 
 /* Submenu container - Parent menu item selected */
   .skin-blue .sidebar-menu>li.active>.treeview-menu {
-    border-left-color: #2b4860;
+    border-left-color: var(--secondary-color);
   }
 
 /* Subitems within submenu */
@@ -165,14 +184,14 @@ header.main-header {
 
 /* Active subitem link within submenu */
   .sidebar-menu .treeview-menu>li.active {
-    background: #0d5ba2;
-    border-left-color: #0d5ba2;
+    background: var(--accent-color);
+    border-left-color: var(--accent-color);
   }
 
 /* Subitem links within submenu - Hover over item */
   .sidebar-menu .treeview-menu>li:hover {
-    background: #0d5ba2;
-    border-left-color: #0d5ba2;
+    background: var(--accent-color);
+    border-left-color: var(--accent-color);
   }
 
 /*----------------------------------------------*/
@@ -186,7 +205,7 @@ header.main-header {
 
 /* Content wrapper - includes only content */
 .skin-blue div.content-wrapper{
-  background: #262626;
+  background: var(--main-color);
   height: auto;
 }
 
@@ -553,14 +572,31 @@ padding: 0 40px 20px;
 /* Info button */
 .info-button {
   color: #fff; 
-    background-color: #3c8dbc; 
-    border-width: 0; 
+  background-color: var(--accent-color); 
+  border-width: 0; 
   padding: 0; 
   width:18px; 
   height:18px; 
   font-size: 8px; 
   margin: 0 3px; 
   border-radius: 50%;
+}
+
+/* Wide plain rounded button */
+.rounded-button {
+  color: #fff;
+  background-color: var(--accent-color); 
+  border-width: 0; 
+  padding: 10px; 
+  width: 100%; 
+  font-size: 10pt; 
+  margin: 3px; 
+}
+
+/* Wide plain rounded button */
+.rounded-button:hover {
+  color: #fff;
+  background-color: var(--accent-color-2); 
 }
 
 /*--------------------------*/
@@ -574,7 +610,7 @@ padding: 0 40px 20px;
 /* --------- */
 #page-title-div-underline-blue {
   padding: 15px 25px 15px 25px;
-  border: solid 2px #0d5ba2;
+  border-bottom: solid 2px #243e54;
   background-color: #f7f8f9;
 }
 

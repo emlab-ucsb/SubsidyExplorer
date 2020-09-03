@@ -108,7 +108,7 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02b,edit-policies,widget,w_tier3_cap_percent,Tier 3: Percent for cap rule,Percentage for tier 3 cap
 02b,edit-policies,nav-button,ab_edit_policies_tabs_overcap_to_oa,Back,within TabBox - overcap disciplines to OA disciplines
 02b,edit-policies,text,selected-policy,"<b class=""big"">Review policy selections</b></br><small class=""gray"">Ensure selections are correct</small>",Title of step 3
-02b,edit-policies,text,run-model,"<b class=""big"">Model your policy</b></br><small class=""gray"">Clicking the button below will redirect you </small>",title of Step 4
+02b,edit-policies,text,run-model,"<b class=""big"">Model your policy</b></br><small class=""gray"">Clicking the button will redirect you </small>",title of Step 4
 02b,edit-policies,action-button,ab_run_model_custom,Run model!,button to run custom policy
 3,methods-process,tab,methods-process,Learn About the Methods and Process,page name
 3,methods-process,nav-button,ab_methods_process_to_introduction,Return to Main Menu,top left button

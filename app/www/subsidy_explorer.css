@@ -693,7 +693,7 @@ padding: 0 40px 20px;
 }
 
 hr.white-narrow{
-  color: #000000;
+  border-top-color: #ffffff;
   margin-top: 10px;
   margin-bottom: 10px;
 }

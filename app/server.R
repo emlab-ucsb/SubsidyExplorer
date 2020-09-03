@@ -725,11 +725,11 @@ shinyServer(function(input, output, session) {
     output$custom_policy <- renderUI({
       
       paste0(rv_custom_policy_description$name,
-             "<hr>",
+             "<hr class = 'white-narrow'>",
              rv_custom_policy_description$iuu_summary,
-             "<hr>",
+             "<hr class = 'white-narrow'>",
              rv_custom_policy_description$oa_summary,
-             "<hr>",
+             "<hr class = 'white-narrow'>",
              rv_custom_policy_description$overcap_summary) %>%
         lapply(htmltools::HTML)
     

@@ -15,7 +15,7 @@ IUUSummaryText <- function(iuu,
     
     iuu_pro <- "None selected."
     iuu_disciplines <- paste0("<small class = 'gray'>", "DISCIPLINES:  ", "</small>",
-                              "<small>", iuu_pro, "</br></small>")
+                              "<small>", iuu_pro, "</small>")
     
     iuu_scope <- ""
     
@@ -110,7 +110,7 @@ IUUSummaryText <- function(iuu,
       if(iuu$sdt_ldc == "YES"){
         
         iuu_sdt_ldc_names <- unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_ldc"])
-        iuu_sdt_ldc_selected <- paste0(names(iuu_sdt_ldc_names[iuu$sdt_what_ldc %in% iuu_sdt_ldc_names]), collapse = ", ")
+        iuu_sdt_ldc_selected <- paste0(names(iuu_sdt_ldc_names[iuu_sdt_ldc_names %in% iuu$sdt_what_ldc]), collapse = ", ")
         iuu_sdt_ldc <- paste0("<li>", "LDCs: ", iuu_sdt_ldc_selected, "</li>")
         
       }else{
@@ -120,7 +120,9 @@ IUUSummaryText <- function(iuu,
       # Developing S&DT
       if(iuu$sdt_developing == "YES"){
         
-        iuu_sdt_developing <- paste0("Developing: ", "None.", "</br>")
+        iuu_sdt_developing_names <- unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_developing"])
+        iuu_sdt_developing_selected <- paste0(names(iuu_sdt_developing_names[iuu_sdt_developing_names %in% iuu$sdt_what_developing]), collapse = ", ")
+        iuu_sdt_developing <- paste0("<li>", "Developing: ", iuu_sdt_developing_selected, "</li>")
         
       }else{
         iuu_sdt_developing <- paste0("<li>", "Developing: None.", "</li>")
@@ -129,7 +131,9 @@ IUUSummaryText <- function(iuu,
       # Developing S&DT
       if(iuu$sdt_sve == "YES"){
         
-        iuu_sdt_sve <- paste0("SVEs: ", "None.", "</br>")
+        iuu_sdt_sve_names <- unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_sve"])
+        iuu_sdt_sve_selected <- paste0(names(iuu_sdt_sve_names[iuu_sdt_sve_names %in% iuu$sdt_what_sve]), collapse = ", ")
+        iuu_sdt_sve <- paste0("<li>", "SVEs: ", iuu_sdt_sve_selected, "</li>")
         
       }else{
         iuu_sdt_sve <- paste0("<li>", "SVEs: None.", "</li>")

@@ -15,7 +15,7 @@ OASummaryText <- function(oa,
     
     oa_pro <- "None selected."
     oa_disciplines <- paste0("<small class = 'gray'>", "DISCIPLINES:  ", "</small>",
-                              "<small>", oa_pro, "</br></small>")
+                              "<small>", oa_pro, "</small>")
     
     oa_scope <- ""
     
@@ -64,7 +64,7 @@ OASummaryText <- function(oa,
         }
         
         # MANUAL: Manual country selection
-        if("MANUAL" %in% oa$scope_select){
+        if("MANUAL" %in% oa$scope_select & length(oa$scope_manual) > 0){
           oa_country_names <- names(country_choices[country_choices %in% oa$scope_manual])
           oa_scope_manual <- paste0("<li>", names(oa_scope_names[oa_scope_names == "MANUAL"]),
                                     " (", paste0(oa_country_names, collapse = ", "), ")", "</li>")
@@ -164,7 +164,7 @@ OASummaryText <- function(oa,
       if(oa$sdt_ldc == "YES"){
         
         oa_sdt_ldc_names <- unlist(wid$choices[wid$item_id == "w_oa_sdt_what_ldc"])
-        oa_sdt_ldc_selected <- paste0(names(oa_sdt_ldc_names[oa$sdt_what_ldc %in% oa_sdt_ldc_names]), collapse = ", ")
+        oa_sdt_ldc_selected <- paste0(names(oa_sdt_ldc_names[oa_sdt_ldc_names %in% oa$sdt_what_ldc]), collapse = ", ")
         oa_sdt_ldc <- paste0("<li>", "LDCs: ", oa_sdt_ldc_selected, "</li>")
         
       }else{
@@ -174,7 +174,9 @@ OASummaryText <- function(oa,
       # Developing S&DT
       if(oa$sdt_developing == "YES"){
         
-        oa_sdt_developing <- paste0("Developing: ", "None.", "</br>")
+        oa_sdt_developing_names <- unlist(wid$choices[wid$item_id == "w_oa_sdt_what_developing"])
+        oa_sdt_developing_selected <- paste0(names(oa_sdt_developing_names[oa_sdt_developing_names %in% oa$sdt_what_developing]), collapse = ", ")
+        oa_sdt_developing <- paste0("<li>", "Developing: ", oa_sdt_developing_selected, "</li>")
         
       }else{
         oa_sdt_developing <- paste0("<li>", "Developing: None.", "</li>")
@@ -183,7 +185,9 @@ OASummaryText <- function(oa,
       # Developing S&DT
       if(oa$sdt_sve == "YES"){
         
-        oa_sdt_sve <- paste0("SVEs: ", "None.", "</br>")
+        oa_sdt_sve_names <- unlist(wid$choices[wid$item_id == "w_oa_sdt_what_sve"])
+        oa_sdt_sve_selected <- paste0(names(oa_sdt_sve_names[oa_sdt_sve_names %in% oa$sdt_what_sve]), collapse = ", ")
+        oa_sdt_sve <- paste0("<li>", "SVEs: ", oa_sdt_sve_selected, "</li>")
         
       }else{
         oa_sdt_sve <- paste0("<li>", "SVEs: None.", "</li>")

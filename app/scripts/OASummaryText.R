@@ -54,36 +54,103 @@ OASummaryText <- function(oa,
       oa_scope <- paste0("<small class = 'gray'>", "SCOPE:  ", "</small>",
                           "<small>", "Disciplines only apply to vessels: ", "<ul>")
       
-      # MANUAL: Manual country selection
-      if("MANUAL" %in% oa$scope_select & length(oa$scope_manual) >= 1){
+      if(length(oa$scope_select) >= 1){
         
-        oa_country_names <- names(country_choices[country_choices %in% oa$scope_manual])
-        oa_scope_manual <- paste0("<li>", names(oa_scope_names[oa_scope_names == "MANUAL"]),
-                                   " (", paste0(oa_country_names, collapse = ", "), ")", "</li>")
-      }else{
+        # SUB: Top 10 subsidizers
+        if("SUB" %in% oa$scope_select){
+          oa_scope_sub <- paste0("<li>", names(oa_scope_names[oa_scope_names == "SUB"]), "</li>")
+        }else{
+          oa_scope_sub <- ""
+        }
         
-        oa_scope_manual <- ""
-      }
-      
-      # EX_TER: Outside of territorial waters
-      if("EX_TER" %in% oa$scope_select){
+        # MANUAL: Manual country selection
+        if("MANUAL" %in% oa$scope_select){
+          oa_country_names <- names(country_choices[country_choices %in% oa$scope_manual])
+          oa_scope_manual <- paste0("<li>", names(oa_scope_names[oa_scope_names == "MANUAL"]),
+                                    " (", paste0(oa_country_names, collapse = ", "), ")", "</li>")
+        }else{
+          oa_scope_manual <- ""
+        }
         
-        oa_scope_ex_ter <- paste0("<li>", names(oa_scope_names[oa_scope_names == "EX_TER"]), "</li>")
+        # EX_TER: Outside of territorial waters
+        if("EX_TER" %in% oa$scope_select){
+          oa_scope_ex_ter <- paste0("<li>", names(oa_scope_names[oa_scope_names == "EX_TER"]), "</li>")
+        }else{
+          oa_scope_ex_ter <- ""
+        }
         
-      }else{
+        # HS: Fishing in ABNJ
+        if("HS" %in% oa$scope_select){
+          oa_scope_hs <- paste0("<li>", names(oa_scope_names[oa_scope_names == "HS"]), " (min. of ", oa$hs_cutoff, "% of annual effort)", "</li>")
+        }else{
+          oa_scope_hs <- ""
+        }
         
-        oa_scope_ex_ter <- ""
+        # DW: Fishing in other countries' EEZs
+        if("DW" %in% oa$scope_select){
+          oa_scope_dw <- paste0("<li>", names(oa_scope_names[oa_scope_names == "DW"]), "</li>")
+        }else{
+          oa_scope_dw <- ""
+        }
         
-      }
+        # OUT: Fishing in ABNJ or in other countries' EEZs
+        if("OUT" %in% oa$scope_select){
+          oa_scope_out <- paste0("<li>", names(oa_scope_names[oa_scope_names == "OUT"]), " (min. of ", oa$hs_cutoff, "% of annual effort)", "</li>")
+        }else{
+          oa_scope_out <- ""
+        }
+        
+        # DISPUTE: Fishing in disputed areas
+        if("DISPUTE" %in% oa$scope_select){
+          oa_scope_dispute <- paste0("<li>", names(oa_scope_names[oa_scope_names == "DISPUTE"]), "</li>")
+        }else{
+          oa_scope_dispute <- ""
+        }
+        
+        # LENGTH: Minimum vessel length
+        if("LENGTH" %in% oa$scope_select){
+          oa_scope_length <- paste0("<li>", names(oa_scope_names[oa_scope_names == "LENGTH"]), " (", oa$length_cutoff, "m)", "</li>")
+        }else{
+          oa_scope_length <- ""
+        }
+        
+        # TONNAGE: Fishing in disputed areas
+        if("TONNAGE" %in% oa$scope_select){
+          oa_scope_tonnage <- paste0("<li>", names(oa_scope_names[oa_scope_names == "TONNAGE"]), " (", oa$tonnage_cutoff, "gt)", "</li>")
+        }else{
+          oa_scope_tonnage <- ""
+        }
+        
+        # ENGINE: Fishing in disputed areas
+        if("ENGINE" %in% oa$scope_select){
+          oa_scope_engine <- paste0("<li>", names(oa_scope_names[oa_scope_names == "ENGINE"]), " (", oa$engine_cutoff, "kW)", "</li>")
+        }else{
+          oa_scope_engine <- ""
+        }
       
       # Scope output
       oa_scope <- paste0(oa_scope,
-                          oa_scope_manual,
-                          oa_scope_ex_ter,
-                          "</ul></small>")
+                         oa_scope_sub,
+                         oa_scope_manual,
+                         oa_scope_ex_ter,
+                         oa_scope_hs,
+                         oa_scope_dw,
+                         oa_scope_out,
+                         oa_scope_dispute,
+                         oa_scope_length,
+                         oa_scope_tonnage,
+                         oa_scope_engine,
+                         "</ul></small>")
       
-    }
-    
+      }else if(length(oa$scope_select) == 0){
+        
+        oa_scope <- paste0(oa_scope,
+                           "</ul></small>")
+        
+      }
+      
+    } # /scope == select
+      
     ### S&DT (at least one definition selected) ---
     if(oa$allow_sdt == "NO"){
       
@@ -137,6 +204,6 @@ OASummaryText <- function(oa,
                       oa_scope,
                       oa_sdt)
     
-  } # /OA
+  } # / length OA definitions > 0
   
 }

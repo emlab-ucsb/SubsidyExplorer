@@ -9,68 +9,75 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
   
   # Column container for tab panel        
   column(12, id = "edit-policies-tab-panel",
-                  
-         # # Introductory text about the Overcapacity disciplines
-         # column(12, style = "padding: 15px 25px 15px;",
-         #        
-         #        includeHTML("./text/02b_edit_policies_overcap_intro.html")
-         #        
-         # ),
          
-         # Manual Overcapacity discipline selection
-         column(12, id = "spaced-div",
+         # Manual IUU discipline selection
+         column(12, id = "spaced-div", 
                 
+                ### ------------------------
+                ### Top Row: Disciplines
+                ### ------------------------
                 fluidRow( 
                   
-                  ### ------------------------
-                  ### Left column: Definitions
-                  ### ------------------------
-                  column(5, style = "padding: 0 10px;",
+                  tags$h4("DISCIPLINES: "),
+                  
+                  column(12,
                          
-                         # Input - Select Overcapacity discipline(s)
+                         # Input - Select OCOF discipline(s)
                          checkboxGroupInput("w_overcap_definitions", 
                                             
                                             label = tagList(
                                               tags$b(text$item_label[text$item_id == "w_overcap_definitions"]),
-                                              # Overcapacity definitions info button
+                                              # OA definitions info button
                                               tags$button(id = "info_overcap",
                                                           class = "btn action-button info-button",
                                                           icon("info"))
-                                              ), 
-                                            choices = subsidy_types_sorted_sumaila[4:10],
-                                            selected = "",
+                                            ), 
+                                            choices = subsidy_types_sorted_sumaila[4:13],
+                                            selected = NULL,
                                             width = "100%",
                                             inline = FALSE)
-
-                  ), # /column 5 - Left column 
-                  
-                  ### -------------------------------
-                  ### Middle column: scope/allow S&DT
-                  ### -------------------------------
-                  column(4, style = "padding: 0 10px;",
                          
-                         # Conditional panel - At least one Overcapacity discipline(s) selected
-                         conditionalPanel('input.w_overcap_definitions.length > 0',
-                                          
+                         
+                  ) # /column 12
+                ), #/fluidRow - top Row
+                
+                ### ------------------------
+                ### Middle Row: Scope
+                ### ------------------------
+                fluidRow(
+                  
+                  # Conditional panel - At least one OCOF discipline(s) selected
+                  conditionalPanel('input.w_overcap_definitions.length > 0',
+                                   
+                                   tags$hr(),
+                                   tags$h4("SCOPE: "),
+                                   
+                                   ### Left column
+                                   column(6, style = "padding-right: 10px;",
                                           # Input - Should these prohibitions apply to all, or only to selected states/fishing activity
                                           radioButtons("w_overcap_scope",
                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_scope"]),
                                                        choices = unlist(wid$choices[wid$item_id == "w_overcap_scope"]),
                                                        selected = unlist(wid$selected[wid$item_id == "w_overcap_scope"]),
                                                        width = "100%",
-                                                       inline = FALSE),
+                                                       inline = FALSE)
+                                          
+                                   ),
+                                   
+                                   ### Right column
+                                   column(6, style = "padding-left: 10px;",
                                           
                                           # Conditional panel - Only certain states and/or vessel characteristics
                                           conditionalPanel("input.w_overcap_scope == 'SELECT'",
                                                            
-                                                           # Input - Set OA scope (only certain states and/or vessel characteristics)
+                                                           # Input - Set OCOF scope (only certain states and/or vessel characteristics)
                                                            checkboxGroupInput("w_overcap_scope_select",
                                                                               label = tags$b(text$item_label[text$item_id == "w_overcap_scope_select"]),
                                                                               choices = unlist(wid$choices[wid$item_id == "w_overcap_scope_select"]),
                                                                               selected = unlist(wid$selected[wid$item_id == "w_overcap_scope_select"]),
                                                                               width = "100%",
                                                                               inline = FALSE),
-
+                                                           
                                                            # Conditional panel - Manually select members
                                                            conditionalPanel("input.w_overcap_scope_select.includes('MANUAL')",
                                                                             
@@ -147,16 +154,29 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                             
                                                                             
                                                            ) # /conditionalPanel - engine power cutoff
-                                          ), # /conditionalPanel - select scope
-                                          
-                                          
-                                          tags$hr(),
+                                          ) #/select scope
+                                   ) # /column 6
+                  ) #/conditionalPanel
+                ), # /fluidRow
+                
+                ### ------------------------
+                ### Bottom Row: S&DT
+                ### ------------------------
+                fluidRow(
+                  
+                  # Conditional panel - At least one OCOF discipline(s) selected
+                  conditionalPanel("input.w_overcap_definitions.length > 0",
+                                   
+                                   tags$hr(),
+                                   tags$h4("S&DT: "),
+                                   
+                                   # First column
+                                   column(6, style = "padding-right: 10px;",
                                           
                                           # Input: Allow S&DT
                                           radioButtons("w_overcap_allow_sdt",
                                                        label = tagList(
                                                          tags$b(text$item_label[text$item_id == "w_overcap_allow_sdt"]),
-                                                         
                                                          # Info button
                                                          tags$button(id = "info_overcap_sdt",
                                                                      class = "btn action-button info-button",
@@ -165,29 +185,43 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                        choices = unlist(wid$choices[wid$item_id == "w_overcap_allow_sdt"]),
                                                        selected = unlist(wid$selected[wid$item_id == "w_overcap_allow_sdt"]),
                                                        width = "100%",
-                                                       inline = FALSE)
-                                          
-                         ) # /conditionalPanel - At least one Overcapacity discipline(s) selected
-                  ), # # /column 4 - Middle column 
-                  
-                  ### ----------------------
-                  ### Right column: set S&DT
-                  ### ----------------------
-                  column(3, style = "padding: 0 10px;",
-                         
-                         # Conditional panel - S&DT should be allowed
-                         conditionalPanel("(input.w_overcap_allow_sdt == 'Yes' && input.w_overcap_definitions.length > 0)",
-                                          
-                                          # Input - allow S&DT for LDCs
-                                          radioButtons("w_overcap_sdt_ldc",
-                                                       label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_ldc"]),
-                                                       choices = unlist(wid$choices[wid$item_id == "w_overcap_sdt_ldc"]),
-                                                       selected = unlist(wid$selected[wid$item_id == "w_overcap_sdt_ldc"]),
-                                                       width = "100%",
                                                        inline = FALSE),
                                           
-                                          # Conditional panel - S&DT should be allowed for LDCs
-                                          conditionalPanel("input.w_overcap_sdt_ldc == 'Yes'",
+                                          # Conditional: Allow S&DT
+                                          conditionalPanel("input.w_overcap_allow_sdt == 'YES'",
+                                                           
+                                                           # Input - allow S&DT for LDCs
+                                                           radioButtons("w_overcap_sdt_ldc",
+                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_ldc"]),
+                                                                        choices = unlist(wid$choices[wid$item_id == "w_overcap_sdt_ldc"]),
+                                                                        selected = unlist(wid$selected[wid$item_id == "w_overcap_sdt_ldc"]),
+                                                                        width = "100%",
+                                                                        inline = FALSE),
+                                                           
+                                                           # Input - allow S&DT for developing
+                                                           radioButtons("w_overcap_sdt_developing",
+                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_developing"]),
+                                                                        choices = unlist(wid$choices[wid$item_id == "w_overcap_sdt_developing"]),
+                                                                        selected = unlist(wid$selected[wid$item_id == "w_overcap_sdt_developing"]),
+                                                                        width = "100%",
+                                                                        inline = FALSE),
+                                                           
+                                                           # Input - allow S&DT for SVEs
+                                                           radioButtons("w_overcap_sdt_sve",
+                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_sve"]),
+                                                                        choices = unlist(wid$choices[wid$item_id == "w_overcap_sdt_sve"]),
+                                                                        selected = unlist(wid$selected[wid$item_id == "w_overcap_sdt_sve"]),
+                                                                        width = "100%",
+                                                                        inline = FALSE)
+                                                           
+                                          ) # /conditional - allow S&DT 
+                                   ), # /column 4
+                                   
+                                   # Second column
+                                   column(6, style = "padding-left: 10px;",
+                                          
+                                          # Conditional - Allow S&DT for LDCS
+                                          conditionalPanel("(input.w_overcap_allow_sdt == 'YES' & input.w_overcap_sdt_ldc == 'YES')",
                                                            
                                                            # Input - LDC S&DT
                                                            checkboxGroupInput("w_overcap_sdt_what_ldc",
@@ -224,18 +258,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                            ) # /conditionalpanel - Time delay for LDCs allowed
                                           ), # /conditionalPanel - S&DT should be allowed for LDCs
                                           
-                                          tags$hr(),
-                                          
-                                          # Input - allow S&DT for developing
-                                          radioButtons("w_overcap_sdt_developing",
-                                                       label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_developing"]),
-                                                       choices = unlist(wid$choices[wid$item_id == "w_overcap_sdt_developing"]),
-                                                       selected = unlist(wid$selected[wid$item_id == "w_overcap_sdt_developing"]),
-                                                       width = "100%",
-                                                       inline = FALSE),
-                                          
-                                          # Conditional panel - S&DT should be allowed for developing
-                                          conditionalPanel("input.w_overcap_sdt_developing == 'Yes'",
+                                          conditionalPanel("(input.w_overcap_allow_sdt == 'YES' & input.w_overcap_sdt_developing == 'YES')",
                                                            
                                                            # Input - developing S&DT
                                                            checkboxGroupInput("w_overcap_sdt_what_developing",
@@ -269,21 +292,12 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                                         value = wid$value[wid$item_id == "w_overcap_sdt_time_delay_developing"],
                                                                                         width = "100%")
                                                                             
+                                                                            
                                                            ) # /conditionalpanel - Time delay for developing allowed
                                           ), # /conditionalPanel - S&DT should be allowed for developing
                                           
-                                          tags$hr(),
-                                          
-                                          # Input - allow S&DT for SVEs
-                                          radioButtons("w_overcap_sdt_sve",
-                                                       label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_sve"]),
-                                                       choices = unlist(wid$choices[wid$item_id == "w_overcap_sdt_sve"]),
-                                                       selected = unlist(wid$selected[wid$item_id == "w_overcap_sdt_sve"]),
-                                                       width = "100%",
-                                                       inline = FALSE),
-                                          
                                           # Conditional panel - S&DT should be allowed for SVEs
-                                          conditionalPanel("input.w_overcap_sdt_sve == 'Yes'",
+                                          conditionalPanel("(input.w_overcap_allow_sdt == 'YES' & input.w_overcap_sdt_sve == 'YES')",
                                                            
                                                            # Input - SVE S&DT
                                                            checkboxGroupInput("w_overcap_sdt_what_sve",
@@ -317,27 +331,24 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                                         value = wid$value[wid$item_id == "w_overcap_sdt_time_delay_sve"],
                                                                                         width = "100%")
                                                                             
+                                                                            
                                                            ) # /conditionalpanel - Time delay for SVE allowed
                                           ) # /conditionalPanel - S&DT should be allowed for SVE
-                                          
-                         ) # /conditionalPanel - S&DT should be allowed
-     
-                  ) # /column 3 - Right column 
+                                   ) # /column 8
+                                   
+                  ) # / conditional - length of definitions > 0
                   
-                ), # /fluidRow
+                ), # /fluidRow  
                 
-                tags$hr(),
+                ### ------------------------
+                ### Forth Row: Cap/Tier
+                ### ------------------------
+                fluidRow(
+                  
+                  tags$hr(),
+                  tags$h4("CAP & TIER: "),
                 
-                ### ----------------
-                ### Cap/Tier section
-                ### ----------------
-                column(12,
-                       
-                       includeHTML("./text/02b_edit_policies_cap_tier_intro.html")
-                       
-                ),
-                
-                column(12, align = "center",
+                  column(12, align = "center",
                        
                        # Input - cap/tier on/off
                        radioButtons("w_cap_on_off",
@@ -353,17 +364,17 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                         # Input - subsidy types to include in cap
                                         checkboxGroupInput("w_cap_subsidy_types",
                                                            label = tags$b(text$item_label[text$item_id == "w_cap_subsidy_types"]),
-                                                           choices = subsidy_types_sorted_sumaila[4:10],
-                                                           selected = subsidy_types_sorted_sumaila[4:10],
+                                                           choices = subsidy_types_sorted_sumaila[4:13],
+                                                           selected = subsidy_types_sorted_sumaila[4:13],
                                                            width = "100%",
                                                            inline = TRUE)
                                         
                        ) # /conditionalPanel - Cap is turned on
                        
-                ),
+                  ),
                 
-                # Conditional Panel - Cap is turned on and at least one subsidy type selected
-                conditionalPanel("input.w_cap_on_off == 'Yes' && input.w_cap_subsidy_types.length > 0",
+                  # Conditional Panel - Cap is turned on and at least one subsidy type selected
+                  conditionalPanel("input.w_cap_on_off == 'Yes' && input.w_cap_subsidy_types.length > 0",
                                  
                                  ### Step 1 - Tier structure -------------------
                                  column(12, style = "padding: 5px;",
@@ -660,7 +671,9 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                          
                                  ) # /column 12 - Subsidy caps
                                                   
-                ) # /conditionalPanel - Cap is on and at leaast one subsidy type selected
+                  ) # /conditionalPanel - Cap is on and at leaast one subsidy type selected
+                
+                ) # /fluidRow - forth row
                                  
          ), # /column 12 - Manual Overcapacity discipline selection
          
@@ -668,7 +681,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
          fluidRow(
            
            # Previous tab
-           column(2, id = "spaced-div",
+           column(3, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_overcap_to_oa",
                               class = "btn action-button nav-button-c",
@@ -676,16 +689,6 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                   )
                   
            )
-           
-           # # Next tab
-           # column(3, offset = 6, style = "padding: 5px;",
-           #        
-           #        tags$button(id = "ab_edit_policies_tabs_overcap_to_overcap",
-           #                    class = "btn action-button nav-button-white-r",
-           #                    text$item_label[text$item_id == "ab_edit_policies_tabs_overcap_to_overcap"], icon("chevron-right") 
-           #        )
-           #        
-           # )
            
          ) # /fluidRow - Bottom navigation buttons
          

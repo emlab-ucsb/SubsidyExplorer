@@ -20,7 +20,7 @@ OA = function(wto_members_and_observers)
                   
                   tags$h4("DISCIPLINES: "),
                   
-                  column(12, style = "padding-right: 10px;",
+                  column(12,
                          
                          # Input - Select OA discipline(s)
                          checkboxGroupInput("w_oa_definitions", 
@@ -85,7 +85,7 @@ OA = function(wto_members_and_observers)
                                                                             selectizeInput("w_oa_scope_manual",
                                                                                            label = tags$b(text$item_label[text$item_id == "w_oa_scope_manual"]),
                                                                                            choices = wto_members_and_observers,
-                                                                                           selected = "",
+                                                                                           selected = NULL,
                                                                                            width = "100%",
                                                                                            options = list(placeholder = 'Select...'),
                                                                                            multiple = T)
@@ -114,7 +114,7 @@ OA = function(wto_members_and_observers)
                                                            ), # /conditionalPanel - High seas scope
                                                            
                                                            # Conditional panel - Length cutoff
-                                                           conditionalPanel("input.w_oa_scope_select.includes('LENGTH') || input.w_oa_scope_select_includes('LTE')",
+                                                           conditionalPanel("input.w_oa_scope_select.includes('LENGTH')",
                                                                             
                                                                             # Input: High seas cutoff
                                                                             sliderInput("w_oa_length_cutoff",
@@ -128,7 +128,7 @@ OA = function(wto_members_and_observers)
                                                            ), # /conditionalPanel - Length cutoff
                                                            
                                                            # Conditional panel - tonnage cutoff
-                                                           conditionalPanel("input.w_oa_scope_select.includes('TONNAGE') || input.w_oa_scope_select_includes('LTE')",
+                                                           conditionalPanel("input.w_oa_scope_select.includes('TONNAGE')",
                                                                             
                                                                             # Input: High seas cutoff
                                                                             sliderInput("w_oa_tonnage_cutoff",
@@ -142,7 +142,7 @@ OA = function(wto_members_and_observers)
                                                            ), # /conditionalPanel - tonnage cutoff
                                                            
                                                            # Conditional panel - engine power cutoff
-                                                           conditionalPanel("input.w_oa_scope_select.includes('ENGINE') || input.w_oa_scope_select_includes('LTE')",
+                                                           conditionalPanel("input.w_oa_scope_select.includes('ENGINE')",
                                                                             
                                                                             # Input: High seas cutoff
                                                                             sliderInput("w_oa_engine_cutoff",
@@ -166,7 +166,7 @@ OA = function(wto_members_and_observers)
                   
                   # Conditional panel - At least one OA discipline(s) selected
                   conditionalPanel('input.w_oa_definitions.length > 0',
-                                   
+                    
                                    tags$hr(),
                                    tags$h4("S&DT: "),
                                    
@@ -335,6 +335,7 @@ OA = function(wto_members_and_observers)
                                                            ) # /conditionalpanel - Time delay for SVE allowed
                                           ) # /conditionalPanel - S&DT should be allowed for SVE
                                    ) # /column 8
+                                   
                   ) # / conditional - length of definitions > 0
                   
                 ) # /fluidRow  

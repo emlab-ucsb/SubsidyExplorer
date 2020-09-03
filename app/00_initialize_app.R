@@ -270,6 +270,9 @@ proposal_categories <- unique(included_proposals$category)[unique(included_propo
 # 3) Management cutoff 
 managed_cutoff <- 0.66
 
+# 4) Default end year 
+end_year <- 2060
+
 ### OTHER DATA -------------------------------------------------------------------------------------------
 
 # Relative subsidies data
@@ -308,40 +311,6 @@ remove_all_bad_fleet_summary <- remove_all_bad_fleet_vessels %>%
             removed_subs = sum(bad_subs, na.rm = T)) %>%
   ungroup()
 
-# Get affected fleet stats by flag
-# remove_all_bad_fleet_by_flag <- remove_all_bad_fleet_vessels %>%
-#   dplyr::filter(fleet %in% c("affected_managed", "affected_oa")) %>%
-#   group_by(flag) %>%
-#   summarize(n_vessels = n_distinct(ssvid),
-#             fishing_h = sum(fishing_hours_eez_fao, na.rm = T),
-#             fishing_KWh = sum(fishing_KWh_eez_fao, na.rm = T),
-#             catch = sum(catch, na.rm = T),
-#             removed_subs = round(sum(bad_subs, na.rm = T))) %>%
-#   left_join(total_effort_flag, by = c("flag")) %>%
-#   mutate(percent_vessels = (n_vessels/tot_vessels)*100,
-#          percent_fishing_h = (fishing_h/tot_fishing_h)*100,
-#          percent_fishing_KWh = (fishing_KWh/tot_fishing_KWh)*100,
-#          percent_subs_removed = (removed_subs/tot_bad_subs)*100,
-#          percent_catch = (catch/tot_catch)*100) %>%
-#   dplyr::select(-contains("tot_"))
-
-# Get affected fleet stats by fishing a rea
-# remove_all_bad_fleet_by_area <- remove_all_bad_fleet_vessels %>%
-#   dplyr::filter(fleet %in% c("affected_managed", "affected_oa")) %>%
-#   group_by(eez_hs_code) %>%
-#   summarize(n_vessels = n_distinct(ssvid),
-#             fishing_h = sum(fishing_hours_eez_fao, na.rm = T),
-#             fishing_KWh = sum(fishing_KWh_eez_fao, na.rm = T),
-#             catch = sum(catch, na.rm = T),
-#             removed_subs = round(sum(bad_subs, na.rm = T))) %>%
-#   left_join(total_effort_area, by = c("eez_hs_code")) %>%
-#   mutate(percent_vessels = (n_vessels/tot_vessels)*100,
-#          percent_fishing_h = (fishing_h/tot_fishing_h)*100,
-#          percent_fishing_KWh = (fishing_KWh/tot_fishing_KWh)*100,
-#          percent_subs_removed = (removed_subs/tot_bad_subs)*100,
-#          percent_catch = (catch/tot_catch)*100) %>%
-#   dplyr::select(-contains("tot_"))
-
 # Turn fleet summary into list by region
 remove_all_bad_list <- remove_all_bad_fleet_summary %>%
   group_by(region) %>%
@@ -368,23 +337,21 @@ remove_all_bad_results_full <- remove_all_bad_results %>%
          Diff_global = case_when(BAU_global != 0 ~ (Reform_global - BAU_global)/abs(BAU_global),
                                  TRUE ~ 0)) %>%
   ungroup() %>%
-  mutate(run_number = "A",
-         run_name = "Most ambitious scenario",
-         id = "A",
+  mutate(Id = "A",
+         Name = "Most ambitious scenario",
+         Type = "Reference",
          Description = "Complete removal of all capacity-enhancing subsidies (for comparison)")
 
 # Extract ending results (difference only)
 remove_all_bad_results_last <- remove_all_bad_results_full %>%
-  dplyr::filter(Year == 2100) %>%
-  group_by(Year, Variable) %>%
+  dplyr::filter(Year == end_year) %>%
+  group_by(Year, Variable, Id, Name, Type, Description) %>%
   summarize(Value = unique(Diff_global)*100) %>%
   ungroup() %>%
   spread(Variable, Value) %>%
   rename(Biomass = biomass,
          Catches = catches_total,
-         Revenue = revenue_total) %>%
-  mutate(run_number = "A",
-         run_name = "Most ambitious scenario")
+         Revenue = revenue_total)
 
 ### Summaries by flag state for use in Cap/Tier--------------------------------------------------------------
 

@@ -281,7 +281,7 @@ IUU = function(wto_members_and_observers)
          fluidRow(
            
            # Next tab
-           column(2, offset = 10, id = "spaced-div",
+           column(3, offset = 9, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_iuu_to_oa",
                               class = "btn action-button nav-button-c",

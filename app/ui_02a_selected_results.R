@@ -11,25 +11,27 @@ SelectedResults = function(proposal_choices)
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     
-    ### Top navigation button
-    column(12,
-           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
-                    
-                    # Return to main menu
-                    column(3,
-                           tags$button(id = "ab_selected_results_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("undo"), text$item_label[text$item_id == "ab_selected_results_to_introduction"]
-                           )
-                    )
-                    
-           )
+    ### Page Header
+    column(12, id = "page-title-div-underline-blue",
+           
+           # Title
+           tags$h3(text$item_label[text$item_id == "selected-results"])
+           
     ),
     
     ####---------------------------------------------
-    #### Top section - model a selected scenario
+    #### Left section - model a selected scenario
     #### --------------------------------------------
     
+    column(5, style = "position: absolute; top: 0; bottom: 0;",
+           
+           column(12, 
+                  
+                  "text text text text"
+           )
+           
+    ),
+           
     ### Select a proposal
     column(12, style = "padding: 25px 25px 0px;",
            

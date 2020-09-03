@@ -11,21 +11,6 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     
-    ### Top navigation buttons
-    column(12,
-           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
-                    
-                    # Return to main menu
-                    column(3,
-                           tags$button(id = "ab_edit_policies_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("undo"), text$item_label[text$item_id == "ab_edit_policies_to_introduction"]
-                           )
-                    )
-                    
-           )
-    ),
-    
     ### Page Header
     column(12, id = "page-title-div-underline-blue",
              

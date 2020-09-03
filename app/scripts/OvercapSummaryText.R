@@ -2,10 +2,11 @@
 ### OCOF reactive policy summary
 ### --------------------------------
 
-OCOFSummaryText <- function(overcap,
-                          wid,
-                          text,
-                          country_choices){
+OvercapSummaryText <- function(overcap,
+                               cap_tier,
+                               wid,
+                               text,
+                               country_choices){
   
   ### OCOF title
   overcap_header <- paste0("<b class = 'big'>", "Overfished", "</b>", "</br>")

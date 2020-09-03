@@ -59,7 +59,7 @@ header.main-header {
 
 /* navigation bar */
 .skin-blue .main-header .navbar {
-  background-color: #1A1B1D;
+  background-color: #2b4860;
 }
 
 /* logo (title container) - hidden for this app */
@@ -67,12 +67,12 @@ header.main-header {
   height: 60px;
   padding: 0;
   margin: 0;
-  background-color: #1A1B1D;
+  background-color: #2b4860;
 }
 
 /* logo (title container) when hovered - hidden for this app */
 .skin-blue .main-header .logo:hover {
-  background-color: #1A1B1D;
+  background-color: #2b4860;
 }
 
 /* sidebar menu toggle button */
@@ -84,7 +84,7 @@ header.main-header {
 
 /* sidebar menue toggle button when hovered  */
 .skin-blue .main-header .navbar .sidebar-toggle:hover{
-  background-color: #323337;
+  background-color: #243e54;
 }
 
 /*----------------------------------------------*/
@@ -94,7 +94,7 @@ header.main-header {
 /* sidebar container */
 .skin-blue .main-sidebar {
   padding-top: 60px; /* spacing to allow for top nav bar */
-  background-color: #323337; /* background color for sidebar */
+  background-color: #243e54; /* background color for sidebar */
   padding-bottom: 60px;
 }
 
@@ -102,16 +102,12 @@ header.main-header {
 @media (max-width: 767px){
 .skin-blue .main-sidebar {
   padding-top: 120px; /* spacing to allow for top nav bar */
-  /*background-color: #323337; /* background color for sidebar */
-  /*padding-bottom: 60px; */
 }
 }
 /* sidebar container for phone */
   @media (max-width: 344px){
     .skin-blue .main-sidebar {
       padding-top: 180px; /* spacing to allow for top nav bar */
-        background-color: #323337; /* background color for sidebar */
-        padding-bottom: 60px;
     }
   }
 
@@ -127,32 +123,32 @@ header.main-header {
 
 /* active selected tab in the sidebar */
   .skin-blue .sidebar-menu>li.active>a {
-    background-color: #28292C;
-      border-left-color: #3c8dbc;
+    background-color: #0d5ba2;
+    border-left-color: #0d5ba2;
   }
 
 /* hover over a tab in the sidebar */
   .skin-blue .sidebar-menu>li:hover>a {
-    background-color: #28292C;
-      border-left-color: #3c8dbc;
+    background-color: #0d5ba2;
+    border-left-color: #0d5ba2;
   }
 
 /* Submenu container */
   .skin-blue .sidebar-menu>li>.treeview-menu {
     margin: 0;
     padding: 0;
-    background: #414246;
-      border-left: 3px solid transparent;
+    background: #2b4860;
+    border-left: 3px solid transparent;
   }
 
 /* Submenu container - expanded */
   .skin-blue .sidebar-menu>li>.menu-expanded {
-    border-left-color: #3c8dbc;
+    border-left-color: #2b4860;
   }
 
 /* Submenu container - Parent menu item selected */
   .skin-blue .sidebar-menu>li.active>.treeview-menu {
-    border-left-color: #3c8dbc;
+    border-left-color: #2b4860;
   }
 
 /* Subitems within submenu */
@@ -164,19 +160,19 @@ header.main-header {
 /* Subitem links within submenu */
   .skin-blue .treeview-menu>li>a {
     color: #ffffff;
-      text-decoration: none;
+    text-decoration: none;
   }
 
 /* Active subitem link within submenu */
   .sidebar-menu .treeview-menu>li.active {
-    background: #28292C;
-      border-left-color: #3c8dbc;
+    background: #0d5ba2;
+    border-left-color: #0d5ba2;
   }
 
 /* Subitem links within submenu - Hover over item */
   .sidebar-menu .treeview-menu>li:hover {
-    background: #28292C;
-      border-left-color: #3c8dbc;
+    background: #0d5ba2;
+    border-left-color: #0d5ba2;
   }
 
 /*----------------------------------------------*/
@@ -578,8 +574,8 @@ padding: 0 40px 20px;
 /* --------- */
 #page-title-div-underline-blue {
   padding: 15px 25px 15px 25px;
-  border-bottom: 1px solid #000044;
-  background-color: #f2f2f2;
+  border: solid 2px #0d5ba2;
+  background-color: #f7f8f9;
 }
 
 #page-title-div-underline-blue h3 {

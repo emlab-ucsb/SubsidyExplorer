@@ -121,7 +121,7 @@ shinyUI(
                          selected = TRUE),
                 
                 ### Explore results ---
-                menuItem("",
+                menuItem("Explore the Results",
                          icon = NULL,
                          
                          # Explore results - Item #1 - Selected results
@@ -144,7 +144,7 @@ shinyUI(
                 ),
                 
                 ### About fisheries subsidies ---
-                menuItem("", 
+                menuItem("More About Fisheries Subsidies", 
                          icon = NULL,
                          
                          # About fisheries subsidies - Item #1 - Global subsidy map

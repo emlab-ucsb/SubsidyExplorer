@@ -1710,7 +1710,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
     
     ### Calculate remainders, apply to vessel list and be done --------
       
-    browser()  
     # After caps are set, calculate remaining subs, accounting for already removed subs
      flag_remainders <- flag_caps_out %>%
        arrange(flag_iso3, type) %>%

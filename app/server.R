@@ -44,7 +44,7 @@ shinyServer(function(input, output, session) {
   )
   
   # Reactive object that keeps track of what policy we're on ----
-  rv_policy_id <- reactiveValues(id = character())
+  rv_policy_id <- reactiveValues(id = "A")
   
   
   # Add most ambitious results to our reactive results data frame
@@ -804,6 +804,7 @@ shinyServer(function(input, output, session) {
                      return = "all")
       
 
+      browser()
       # Store time series results both globally and regionally
       out_all <- out %>%
         dplyr::filter(Year > 2018) %>%

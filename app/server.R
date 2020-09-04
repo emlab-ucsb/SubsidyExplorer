@@ -111,7 +111,7 @@ shinyServer(function(input, output, session) {
   
   # Navigation button from introduction to selected-results
   observeEvent(input$ab_introduction_to_selected_results, {
-    updateTabItems(session, "menu_items", "selected-results")
+    updateTabItems(session, "menu_items", "explore-results")
   })
   
   # Navigation button from introduction to methods-process
@@ -547,16 +547,6 @@ shinyServer(function(input, output, session) {
   
   ### Navigation buttons ---------------------
   
-  # Navigation button from edit-policies to selected-results
-  observeEvent(input$ab_edit_policies_to_selected_results, {
-    updateTabItems(session, "menu_items", "selected-results")
-  })
-  
-  # Navigation button from edit-policies to introduction
-  observeEvent(input$ab_edit_policies_to_introduction, {
-    updateTabItems(session, "menu_items", "introduction")
-  })
-  
   ### Tabs
   # Navigation button from tab 0 to tab 1
   observeEvent(input$ab_edit_policies_tabs_instructions_to_iuu, {
@@ -596,14 +586,12 @@ shinyServer(function(input, output, session) {
   ### Text Output: IUU data warning -------------------
   output$iuu_warning <- renderText({
     
-    if("iuu2" %in% input$w_iuu_definitions | "iuu3" %in% input$w_iuu_definitions | "iuu4" %in% input$w_iuu_definitions){
-      "Note: At present, no data exists on a global scale to identify vessels listed as having engaged in IUU fishing activities by a coastal state, flag state, or subsidizing Member state."
+    if("IUU2" %in% input$w_iuu_definitions | "IUU3" %in% input$w_iuu_definitions | "IUU4" %in% input$w_iuu_definitions | "IUU5" %in% input$w_iuu_definitions | "IUU6" %in% input$w_iuu_definitions){
+      "Note: At present, no data exists on a global scale to identify vessels listed as having engaged in IUU fishing activities by coastal, flag, subsidizing Member, port, or market states."
     }else{
       ""
     }
   })
-  
-
   
   ### Update when any custom widget changes ----------
   
@@ -725,11 +713,8 @@ shinyServer(function(input, output, session) {
     output$custom_policy <- renderUI({
       
       paste0(rv_custom_policy_description$name,
-             "<hr class = 'white-narrow'>",
              rv_custom_policy_description$iuu_summary,
-             "<hr class = 'white-narrow'>",
              rv_custom_policy_description$oa_summary,
-             "<hr class = 'white-narrow'>",
              rv_custom_policy_description$overcap_summary) %>%
         lapply(htmltools::HTML)
     

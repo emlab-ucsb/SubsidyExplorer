@@ -43,7 +43,7 @@ ExploreResults = function(proposal_choices)
                     
              ),
              
-             column(12,
+             column(12, id = "t-spaced-div",
                     
                     tags$p("In addition to the Most Ambitious Scenario displayed here, the SubsidyExplorer contains many more pre-populated proposals to explore.")
                     
@@ -69,13 +69,13 @@ ExploreResults = function(proposal_choices)
                     
              ),
              
-             column(12,
+             column(12, id = "t-spaced-div",
                     
                     tags$p("Advanced users can design their own subsidy reform proposal and plot how it affects Biomass, Fish Catch, and Revenue over time.")
                     
              ),
              
-             column(12, 
+             column(12, id = "tb-spaced-div",
                     
                     # Button
                     tags$button(id = "ab_design_custom_proposal",
@@ -94,7 +94,7 @@ ExploreResults = function(proposal_choices)
              ### Section Title ---
              column(12, id = "section-title-div-underline",
                     
-                    tags$h3(text$item_label[text$item_id == "proposal-results-a"])
+                    tags$h3(text$item_label[text$item_id == "proposal-results"])
                     
              ),
            
@@ -102,7 +102,7 @@ ExploreResults = function(proposal_choices)
              fluidRow(
                
                ### Timeseries plot variable 
-               column(12, id = "spaced-div", align = "center",
+               column(12, id = "t-spaced-div", align = "center",
                     
                     tags$table(id = "explore-results-table",
                                
@@ -147,7 +147,7 @@ ExploreResults = function(proposal_choices)
              ),
            
              ### Plot ---
-             plotlyOutput("model_results_timeseries_plot", height = "60vh"),
+             #plotlyOutput("model_results_timeseries_plot", height = "50vh"),
              
              
              ### ------------------------------------------------
@@ -155,12 +155,12 @@ ExploreResults = function(proposal_choices)
              ### Section Title ---
              column(12, id = "section-title-div-underline",
                     
-                    tags$h3(text$item_label[text$item_id == "selected-scenario-a"])
+                    tags$h3(text$item_label[text$item_id == "selected-scenario"])
                     
              ),
              
              ### Selected Policy Description ---
-             column(12,
+             column(12, id = "t-spaced-div",
                     
                     uiOutput("selected_policy_description")
                     

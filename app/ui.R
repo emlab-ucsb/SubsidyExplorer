@@ -121,7 +121,7 @@ shinyUI(
                          selected = TRUE),
                 
                 ### Explore results ---
-                menuItem("Explore the Results",
+                menuItem("Subsidy Reform Results",
                          icon = NULL,
                          
                          # Explore results - Item # 1 - Explore the Results

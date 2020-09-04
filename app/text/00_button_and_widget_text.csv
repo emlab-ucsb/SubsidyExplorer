@@ -12,12 +12,12 @@ footer,,text,map_disclaimer,"The use of the map above is not meant to imply the 
 02a,explore-results,action-button,ab_explore_proposals,Explore Proposals,button to selected proposal page
 02a,explore-results,section,design-custom-proposal,Design a Custom Proposal,section name
 02a,explore-results,action-button,ab_design_custom_proposal,Design a Custom Proposal,button to custom policy page
-02a,explore-results,section,proposal-results-a,Proposal Results,section name
+02a/02b,explore-results,section,proposal-results,Proposal Results,section name
 02a,explore-results,widget,w_explore_results_timeseries_plot_variable,Plot,select variable to plot widget
 02a,explore-results,widget,w_explore_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
-02a,explore-results,section,selected-scenario-a,Selected Scenario,section name
-02b,selected-results,page,selected-results,Explore Subsidy Reform Results,page name
-02b,selected-results,section,explore_proposals,Explore Proposals,section name
+02a/02b,explore-results,section,selected-scenario,Selected Scenario,section name
+02b,selected-results,page,selected-results,Explore Proposals,page name
+02b,selected-results,section,select-proposal,Select a Proposal,section name
 02b,selected-results,widget,w_selected_results_timeseries_plot_variable,Plot,select variable to plot widget
 02b,selected-results,widget,w_selected_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
 02b,selected-results,section,selected_scenario,Selected Scenario,header

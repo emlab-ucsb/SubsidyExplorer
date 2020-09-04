@@ -168,18 +168,18 @@ header.main-header {
   .skin-blue .sidebar-menu>li>.treeview-menu {
     margin: 0;
     padding: 0;
-    background: var(--secondary-color);
+    background: var(--main-color);
     border-left: 3px solid transparent;
   }
 
 /* Submenu container - expanded */
   .skin-blue .sidebar-menu>li>.menu-expanded {
-    border-left-color: var(--secondary-color);
+    border-left-color: var(--main-color);
   }
 
 /* Submenu container - Parent menu item selected */
   .skin-blue .sidebar-menu>li.active>.treeview-menu {
-    border-left-color: var(--secondary-color);
+    border-left-color: var(--main-color);
   }
 
 /* Subitems within submenu */
@@ -241,127 +241,6 @@ header.main-header {
 /*-------------------*/
 /*-------------------*/
 
-/*--------------*/
-/* Introduction */
-/*--------------*/
-
-.landing-wrapper{
-  position: absolute;
-  height: 95vh;
-}
-
-.landing-wrapper .picture-wrapper{
-  display: block;
-  height: 95vh;
-  width: auto;
-  overflow: hidden;
-}
-
-.landing-wrapper .picture-wrapper img{
-  object-fit: cover;
-  min-width: 100vw;
-  min-height: 95vh;
-  max-width: 200%;
-  max-height: 200%;
-}
-
-.landing-wrapper .picture-overlay-black{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: block;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0,0,0,0.5);
-  border-bottom: 5px solid #3c8dbc;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-main-text{
-   color: white;
-   text-align: center;
-   padding: 5% 10% 5%;
-   width: 100%;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-button-row{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-button-row .picture-overlay-button-wrapper-l{
-  color: white;
-  text-align: center;
-  margin: 50px 25px 50px 50px;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-button-row .picture-overlay-button-wrapper-c{
-  color: white;
-  text-align: center;
-  margin: 50px 25px;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-button-row .picture-overlay-button-wrapper-r{
-  color: white;
-  text-align: center;
-  margin: 50px 50px 50px 25px;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-button-row button{
-  color: black;
-  background-color: rgba(255,255,255,0.7); 
-  border: 3px #3c8dbc solid; 
-  padding: 25px 50px; 
-  white-space: normal;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-button-row button:hover{
-  color: white;
-  background-color: #3c8dbc; 
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-footer-row{
-  display: block;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-footer-row .picture-overlay-footer-wrapper{
-  color: white;
-  text-align: center;
-  padding: 40px;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-footer-row .picture-overlay-footer-wrapper a{
-  color: white;
-}
-
-.landing-wrapper .picture-overlay-black .picture-overlay-footer-row .picture-overlay-footer-wrapper a:hover{
-  color: #3c8dbc;
-}
-
-.overlay-text-center h1{
-  font-size:60px;
-}
-.overlay-text-center h2{
-  font-size:30px;
-}
-.overlay-text-center h4{
-  font-size: 18px;
-}
-
-@media (max-width: 767px){
-  .overlay-text-center h1{
-    font-size:46px;
-  }
-  .overlay-text-center h2{
-    font-size:24px;
-  }
-  .overlay-text-center h4{
-    font-size:14px;
-  }
-}
-
 /* Introduction */
 .button-container {
   position: absolute;
@@ -387,76 +266,9 @@ min-height: 60vh;
 height: auto;
 }
 
-/*--------------------------*/
-  /* Footer */
-  /*--------------------------*/
-  /* Container holding the image and the text */
-  footer {
-    max-height: 80px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background-color: #ffffff;
-  }
-
-#sfg-footer {
-margin: 0;
-padding: 0 40px 20px;
-}
-
-/* Footer SFG Logo */
-  .footer-container {
-    position: relative;
-    text-align: center;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, -20%);
-  }
-
-/* Footer SFG Logo */
-  .footer-text {
-    font-size: 80%;
-    color: #1A1B1D;
-  }
-
-/*--------------------------*/
-  /* Header with line */
-  /*--------------------------*/
-  
-  .header-line:after {
-    content:' ';
-    display:block;
-    border:1px solid black;
-  }
-
-.header-line-white:after {
-  content:' ';
-  display:block;
-  border:1px solid white;
-}
-
-.header-line-light:after {
-  content:' ';
-  display:block;
-  border:1px solid;
-  border-color: #919191;
-}
-
-
-.header-line-color {
-  color: #ffffff;
-    padding: 0;
-  margin: 5px 0;
-}
-.header-line-color:after {
-  content:' ';
-  display:block;
-  border:1px solid #3c8dbc;
-}
-
-/*--------------------------*/
-  /* Leaflet legends */
-  /*--------------------------*/
+/*-----------------*/
+/* Leaflet legends */
+/*-----------------*/
   
 .leaflet .legend {
     min-width:150px; 
@@ -634,7 +446,7 @@ padding: 0 40px 20px;
 
 /* General section title container */
 #section-title {
-  padding: 10px 0px 10px 0px;
+  padding: 15px 0px 5px 0px;
 }
 
 #section-title h4 {
@@ -656,13 +468,197 @@ padding: 0 40px 20px;
 
 /* General container with grey underline */
 #div-underline {
-  padding: 10px 0px 20px 0px;
+  padding: 15px 0px 15px 0px;
   border-bottom: 1px solid var(--grey-dark);
 }
 
 /* General spaced divider */
 #spaced-div {
   padding: 15px 25px 7.5px 25px;
+}
+
+/* TB spaced divider */
+#t-spaced-div {
+  padding: 15px 0px 0px 0px;
+}
+
+/* TB spaced divider */
+#tb-spaced-div {
+  padding: 15px 0px 15px 0px;
+}
+
+/*--------------*/
+/* Introduction */
+/*--------------*/
+
+.intro-div{
+  position: absolute;
+  height: 95vh;
+}
+
+.intro-picture-div{
+  display: block;
+  height: 95vh;
+  width: auto;
+  overflow: hidden;
+}
+
+.intro-picture-div img{
+  object-fit: cover;
+  min-width: 100vw;
+  min-height: 95vh;
+  max-width: 200%;
+  max-height: 200%;
+}
+
+.intro-overlay-div{
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  right: 10%;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255,255,255,0.9);
+  border-radius: 25px;
+  color: black;
+}
+
+#introduction-table {
+  width: 100%;
+  vertical-align: middle;
+  table-layout: fixed;
+}
+
+#introduction-table-row{
+  width: 100%;
+  padding: 25px;
+}
+
+#introduction-table-cell-l{
+  width: 50%;
+  padding: 0px 25px 0px 25px;
+  border-right: 1px solid var(--grey-dark);
+}
+
+#introduction-table-cell-r{
+  width: 50%;
+  padding: 0px 25px 0px 25px;
+}
+
+#ab_introduction_to_selected_results{
+  width: 100%;
+  background-color: var(--main-color);
+  border: 1px solid var(--main-color);
+  color: white;
+  padding: 25px;
+}
+
+#ab_introduction_to_selected_results h3{
+  text-align: center;
+}
+
+#ab_introduction_to_selected_results:hover{
+  background-color: var(--accent-color-2);
+}
+
+#ab_introduction_to_global_subsidies{
+  width: 80%;
+  background-color: transparent;
+  border: transparent;
+  padding: 25px;
+}
+
+#ab_introduction_to_global_subsidies:hover{
+  background-color: var(--accent-color-2);
+}
+
+#ab_introduction_to_methods_process{
+  width: 80%;
+  background-color: transparent;
+  border: transparent;
+  padding: 25px;
+}
+
+#ab_introduction_to_methods_process:hover{
+  background-color: var(--accent-color-2);
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row .picture-overlay-button-wrapper-l{
+  color: white;
+  text-align: center;
+  margin: 50px 25px 50px 50px;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row .picture-overlay-button-wrapper-c{
+  color: white;
+  text-align: center;
+  margin: 50px 25px;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row .picture-overlay-button-wrapper-r{
+  color: white;
+  text-align: center;
+  margin: 50px 50px 50px 25px;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row button{
+  color: black;
+  background-color: rgba(255,255,255,0.7); 
+  border: 3px #3c8dbc solid; 
+  padding: 25px 50px; 
+  white-space: normal;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-button-row button:hover{
+  color: white;
+  background-color: #3c8dbc; 
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-footer-row{
+  display: block;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-footer-row .picture-overlay-footer-wrapper{
+  color: white;
+  text-align: center;
+  padding: 40px;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-footer-row .picture-overlay-footer-wrapper a{
+  color: white;
+}
+
+.landing-wrapper .picture-overlay-black .picture-overlay-footer-row .picture-overlay-footer-wrapper a:hover{
+  color: #3c8dbc;
+}
+
+.overlay-text-center h1{
+  font-size:60px;
+}
+.overlay-text-center h2{
+  font-size:30px;
+}
+.overlay-text-center h4{
+  font-size: 18px;
+}
+
+@media (max-width: 767px){
+  .overlay-text-center h1{
+    font-size:46px;
+  }
+  .overlay-text-center h2{
+    font-size:24px;
+  }
+  .overlay-text-center h4{
+    font-size:14px;
+  }
 }
 
 /* ------------------------------ */
@@ -704,6 +700,17 @@ padding: 0 40px 20px;
 /* ------------------------------ */
 /* Selected Results */
 /* ------------------------------ */
+#selected-results-left-column{
+  background-color: var(--grey-light);
+  color: var(--grey-dark);
+  padding: 25px;
+}
+
+#selected-results-right-column{
+  color: var(--grey-dark);
+  padding: 25px;
+}
+
 #selected-results-table {
   width: 100%;
   vertical-align: middle;
@@ -721,6 +728,16 @@ padding: 0 40px 20px;
 /* ------------------------------ */
 /* Edit Policies (Advanced Users) */
 /* ------------------------------ */
+#edit-policies-left-column{
+  color: var(--grey-dark);
+  padding: 15px;
+}
+
+#edit-policies-right-column{
+  background-color: var(--grey-light);
+  color: var(--grey-dark);
+  padding: 15px;
+}
 
 /* Table attributes for Steps */
 #edit-policies-table { 
@@ -749,7 +766,7 @@ padding: 0 40px 20px;
 /* Blue circular number container */
 .step-number {
   color: #ffffff; 
-  background-color: #3c8dbc; 
+  background-color: var(--accent-color); 
   width:35px; 
   height:35px; 
   line-height: 35px;
@@ -810,13 +827,6 @@ padding: 0 40px 20px;
 #edit-policies-tab-panel{
   border-top: 1px solid #f2f2f2;
   border-bottom: 1px solid #f2f2f2;
-}
-
-#edit-policies-right-column{
-  background-color: #f2f2f2;
-  color: #000000;
-  bottom: 0;
-  height: 100%;
 }
 
 hr.white-narrow{

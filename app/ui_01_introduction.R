@@ -44,10 +44,10 @@ Introduction = function()
                                                 
                                                 tags$td(id = "introduction-table-cell-r",
                                                         
-                                                        tags$h4("An ambitious agreement on fisheries subsidies reform could result in increases of up to:"),
-                                                        tags$h3("+ 14% in global fish biomass"),
-                                                        tags$h3("+ 5% in global fish catch"),
-                                                        tags$p("More fish in the water and more catch opportunities")
+                                                        tags$h4("An ambitious agreement on fisheries subsidies reform could result in increases of up to"),
+                                                        tags$h3(paste0("+ ", biomass_end_percent, "% in global fish biomass")),
+                                                        tags$h3(paste0("+ ", catch_end_percent, "% in global fish catch")),
+                                                        tags$h4(paste0("Resulting in ", biomass_end_value, " million more tons of fish in the water, and ", catch_end_value, " million more tons of fish being caught."))
                                                 )
                                         )
                              )

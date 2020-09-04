@@ -335,6 +335,7 @@ remove_all_bad_results_full <- remove_all_bad_results %>%
                           TRUE ~ 0),
          BAU_global = sum(BAU, na.rm = T),
          Reform_global = sum(Reform, na.rm = T),
+         Diff_value_global = (Reform_global - BAU_global),
          Diff_global = case_when(BAU_global != 0 ~ (Reform_global - BAU_global)/abs(BAU_global),
                                  TRUE ~ 0)) %>%
   ungroup() %>%
@@ -347,9 +348,19 @@ remove_all_bad_results_full <- remove_all_bad_results %>%
 remove_all_bad_results_last <- remove_all_bad_results_full %>%
   dplyr::filter(Year == end_year) %>%
   group_by(Year, Variable, Id, Name, Type, Description) %>%
-  summarize(Value = unique(Diff_global)*100) %>%
-  ungroup() %>%
-  spread(Variable, Value) %>%
+  summarize(Percent = unique(Diff_global)*100,
+            Value = unique(Diff_value_global)) %>%
+  ungroup() 
+
+
+biomass_end_percent <- round(remove_all_bad_results_last$Percent[remove_all_bad_results_last$Variable == "biomass"])
+biomass_end_value <- round(remove_all_bad_results_last$Value[remove_all_bad_results_last$Variable == "biomass"]/1e6)
+catch_end_percent <- round(remove_all_bad_results_last$Percent[remove_all_bad_results_last$Variable == "catches_total"])
+catch_end_value <- round(remove_all_bad_results_last$Value[remove_all_bad_results_last$Variable == "catches_total"]/1e6)
+
+
+remove_all_bad_results_last <- remove_all_bad_results_last%>%
+  spread(Variable, Percent) %>%
   rename(Biomass = biomass,
          Catches = catches_total,
          Revenue = revenue_total)

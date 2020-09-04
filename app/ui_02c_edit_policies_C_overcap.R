@@ -359,7 +359,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                     inline = FALSE),
                        
                        # Conditional Panel - Cap is turned on
-                       conditionalPanel("input.w_cap_on_off == 'Yes'",
+                       conditionalPanel("input.w_cap_on_off == 'YES'",
                                         
                                         # Input - subsidy types to include in cap
                                         checkboxGroupInput("w_cap_subsidy_types",
@@ -374,7 +374,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                   ),
                 
                   # Conditional Panel - Cap is turned on and at least one subsidy type selected
-                  conditionalPanel("input.w_cap_on_off == 'Yes' && input.w_cap_subsidy_types.length > 0",
+                  conditionalPanel("input.w_cap_on_off == 'YES' && input.w_cap_subsidy_types.length > 0",
                                  
                                  ### Step 1 - Tier structure -------------------
                                  column(12, style = "padding: 5px;",

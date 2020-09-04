@@ -89,8 +89,25 @@ included_proposals <- proposal_settings %>%
 proposal_choices <- included_proposals$proposal
 names(proposal_choices) <- included_proposals$display_name
 ```
+
 ```{r}
-# Combined fishery stats dat
+# Cap/Tier Data
+cap_tier_dat <- read_csv(here::here("app", "data", "USA_cap_tier_tidy.csv")) %>%
+  arrange(iso3)
+
+# Data
+# 1) Subsidy estimates (Sumaila et al. 2019) ---
+subsidy_dat_sumaila_raw <- read_csv("./data/sumaila_et_al_2019_subsidies_tidy.csv") %>%
+  arrange(iso3)
+
+# Organize subsidy types as defined by Sumaila et al. (2019) for consistent plotting throughout
+subsidy_classification_sumaila <- subsidy_dat_sumaila_raw %>%
+  distinct(category, category_name, type, type_name) %>%
+  arrange(type)
+
+subsidy_types_sorted_sumaila <- subsidy_classification_sumaila$type
+names(subsidy_types_sorted_sumaila) <- subsidy_classification_sumaila$type_name
+
 
 ```
 

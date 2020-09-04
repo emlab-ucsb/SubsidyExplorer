@@ -58,6 +58,7 @@
 02b,edit-policies,w_oa_scope,Overfished discipline(s) apply to: ,ALL,All Members,TRUE,,,,
 02b,edit-policies,w_oa_scope,Overfished discipline(s) apply to: ,SELECT,Only some Members and/or type(s) of fishing activity,FALSE,,,,
 02b,edit-policies,w_oa_scope_select,Select all conditions that must apply : ,SUB,flagged to the 10 Members that provide the most capacity-enhancing fisheries subsidies,FALSE,,,,
+02b,edit-policies,w_oa_scope_select,Select all conditions that must apply : ,CAPTURE,flagged to Members responsible for more than 1% of global capture production,FALSE,,,,
 02b,edit-policies,w_oa_scope_select,Select all conditions that must apply : ,MANUAL,flagged to certain Members,FALSE,,,,
 02b,edit-policies,w_oa_scope_select,Select all conditions that must apply : ,EX_TER,fishing outside their territorial waters,FALSE,,,,
 02b,edit-policies,w_oa_scope_select,Select all conditions that must apply : ,HS,fishing in ABNJ,FALSE,,,,
@@ -105,6 +106,7 @@
 02b,edit-policies,w_overcap_scope,OCOF discipline(s) apply to: ,ALL,All Members,TRUE,,,,
 02b,edit-policies,w_overcap_scope,OCOF discipline(s) apply to: ,SELECT,Only some Members and/or type(s) of fishing activity,FALSE,,,,
 02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,SUB,flagged to the 10 Members that provide the most capacity-enhancing fisheries subsidies,FALSE,,,,
+02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,CAPTURE,flagged to Members responsible for more than 1% of global capture production,FALSE,,,,
 02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,MANUAL,flagged to certain Members,FALSE,,,,
 02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,EX_TER,fishing outside their territorial waters,FALSE,,,,
 02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,HS,fishing in ABNJ,FALSE,,,,
@@ -155,7 +157,6 @@
 02b,edit-policies,w_cap_tier_number,Members should be sorted into how many tiers?,TWO,Two,TRUE,,,,
 02b,edit-policies,w_cap_tier_number,Members should be sorted into how many tiers?,THREE,Three,FALSE,,,,
 02b,edit-policies,w_tier_system,How should Members be grouped into tiers?,CAPTURE,% of global marine capture production,TRUE,,,,
-02b,edit-policies,w_tier_system,How should Members be grouped into tiers?,EXPORTS,% of global seafood exports,FALSE,,,,
 02b,edit-policies,w_tier_system,How should Members be grouped into tiers?,SUBS,% of global fisheries subsidies,FALSE,,,,
 02b,edit-policies,w_tier_system,How should Members be grouped into tiers?,DEVELOPMENT,development status,FALSE,,,,
 02b,edit-policies,w_two_tier_cutoff,Threshold for top tier (%),,,TRUE,0.01,2,0.7,0.001

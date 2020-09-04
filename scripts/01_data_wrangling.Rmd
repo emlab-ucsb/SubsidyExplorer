@@ -324,61 +324,60 @@ write_csv(schuhbauer_subsidies_ssf_dat_edit, paste0(app_data_dir, "schuhbauer_ss
 ## Demographic statistics by state from the World Bank's World Development Indicators Database (2000 - 2018)
 
 ```{r}
-# Load data using WDI package'
-# wb_demo_dat <- WDI(country = "all",
-#                    indicator = c("gdp" = "NY.GDP.MKTP.CD",
-#                                  "gdp_ffa" = "NV.AGR.TOTL.CD",
-#                                  "population" = "SP.POP.TOTL"),
-#                                   start = 2000,
-#                                   end = 2018,
-#                                   extra = TRUE) %>%
-#   dplyr::filter(region != "Aggregates") %>%
-#   dplyr::select(iso3 = iso3c,
-#                 year,
-#                 gdp,
-#                 gdp_ffa,
-#                 population) %>%
-#   mutate(iso3 = as.character(iso3)) %>%
-#   arrange(iso3, year) %>%
-#   gather(variable, value, c("gdp", "gdp_ffa", "population")) %>%
-#   dplyr::filter(!is.na(value)) %>%
-#   mutate(units = case_when(variable == "population" ~ "individuals",
-#                            TRUE ~ paste0(year, " US$")),
-#          source = "World Bank WDI database")
-# 
-# # Deal with the EU + territories
-# wb_dat_eu <- wb_demo_dat %>%
-#   dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
-#   mutate(entity = "EU") %>%
-#   group_by(entity, year, variable, units, source) %>%
-#   summarize(value = sum(value, na.rm = T)) %>%
-#   rename(iso3 = entity) %>%
-#   arrange(iso3, year, variable)
-# 
-# # Test to make sure there isn't data for any other dependencies - will need to add this once I can figure out why the WDI API isn't working
-# wb_dat_overseas_territory <- wb_demo_dat %>%
-#   dplyr::filter(iso3 %in% territories$iso3 & !(iso3 %in% eu_territories))
-# # Deal with the US + territories
-# wb_dat_us <- wb_demo_dat %>%
-#   dplyr::filter(iso3 %in% c(us_territories, "USA")) %>%
-#   mutate(entity = "USA") %>%
-#   group_by(entity, year, variable, units, source) %>%
-#   summarize(value = sum(value, na.rm = T)) %>%
-#   rename(iso3 = entity) %>%
-#   arrange(iso3, year, variable)
-# 
-# # Add back in
-# wb_dat_edit <- wb_demo_dat %>%
-#   dplyr::filter(iso3 != "USA") %>%
-#   bind_rows(wb_dat_eu) %>%
-#   bind_rows(wb_dat_us)
-# 
-# # Export clean
-# write_csv(wb_dat_edit, paste0(data_dir, "world_bank_2020_wdi_tidy.csv"))
-# write_csv(wb_dat_edit, paste0(app_data_dir, "world_bank_2020_wdi_tidy.csv"))
+#Load data using WDI package
+wb_demo_dat <- WDI(country = "all",
+                   indicator = c("gdp" = "NY.GDP.MKTP.CD", # GDP (current US$)
+                                 "gdp_ffa" = "NV.AGR.TOTL.CD", # Added value coming from fisheries, forestry, and agriculture (current US$)
+                                 "population" = "SP.POP.TOTL", # Total population
+                                 "gni_per_capita" = "NY.GNP.PCAP.KD"), # GNI per capita (constant 2010 US$)
+                                  start = 2000,
+                                  end = 2018,
+                                  extra = TRUE) %>%
+  dplyr::filter(region != "Aggregates") %>%
+  dplyr::select(iso3 = iso3c,
+                year,
+                gdp,
+                gdp_ffa,
+                population,
+                gni_per_capita) %>%
+  mutate(iso3 = as.character(iso3)) %>%
+  arrange(iso3, year) %>%
+  gather(variable, value, c("gdp", "gdp_ffa", "population", "gni_per_capita")) %>%
+  dplyr::filter(!is.na(value)) %>%
+  mutate(units = case_when(variable == "population" ~ "individuals",
+                           variable == "gni_per_capita" ~ "constant 2010 US$",
+                           TRUE ~ paste0(year, " US$")),
+         source = "World Bank WDI database")
 
-# Load in
-wb_dat_edit <- read_csv(paste0(data_dir, "world_bank_2020_wdi_tidy.csv"))
+# # Deal with the EU + territories
+wb_dat_eu <- wb_demo_dat %>%
+  dplyr::filter(iso3 %in% c(eu_countries, eu_territories)) %>%
+  mutate(entity = "EU") %>%
+  group_by(entity, year, variable, units, source) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity) %>%
+  arrange(iso3, year, variable)
+
+# Deal with data for other dependencies
+wb_dat_overseas_territories <- wb_demo_dat %>%
+  dplyr::filter(iso3 %in% territories$iso3 | iso3 %in% territories$sovereign_iso3) %>%
+  left_join(territories, by = c("iso3")) %>%
+  mutate(sovereign_iso3 = case_when(is.na(sovereign_iso3) ~ iso3,
+                                    TRUE ~ sovereign_iso3)) %>%
+  mutate(entity = paste0(sovereign_iso3, "-T")) %>%
+  group_by(entity, year, variable, units, source) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  rename(iso3 = entity) %>%
+  arrange(iso3, year, variable)
+
+# Add back in
+wb_dat_edit <- wb_demo_dat %>%
+  bind_rows(wb_dat_eu) %>%
+  bind_rows(wb_dat_overseas_territories)
+
+# Export clean
+write_csv(wb_dat_edit, paste0(data_dir, "world_bank_2020_wdi_tidy.csv"))
+write_csv(wb_dat_edit, paste0(app_data_dir, "world_bank_2020_wdi_tidy.csv"))
 ```
 
 ## Total number of fishers by state from the FAO Yearbook of Fishery and Aquaculture Statistics (misc. years between 1995 and 2016)
@@ -915,9 +914,65 @@ landed_value_lookup <- landed_value_dat_groups %>%
                             iso3 == "EU" ~ TRUE,
                             TRUE ~ FALSE))
 
+# Subsidy lookup 
+subsidy_totals <- sumaila_2019_dat_edit %>%
+  group_by(iso3, year) %>%
+  summarize(good_subs = sum(value[type %in% c("A1", "A2", "A3")], na.rm = T),
+            bad_subs = sum(value[type %in% c("B1", "B2", "B3", "B4", "B5", "B6", "B7")], na.rm = T),
+            ugly_subs = sum(value[type %in% c("C1", "C2", "C3")], na.rm = T)) %>%
+  ungroup() %>%
+  mutate(all_subs = rowSums(select(., one_of(c("good_subs", "bad_subs", "ugly_subs")))),
+         bad_ugly_subs = rowSums(select(., one_of(c("bad_subs", "ugly_subs"))))) %>%
+  gather(variable, value, -c("iso3", "year")) %>%
+  spread(year, value) %>%
+  left_join(country_dependencies %>% dplyr::select(iso3, is_WTO), by = "iso3") %>%
+  mutate(is_WTO = case_when(!is.na(is_WTO) ~ is_WTO,
+                            iso3 %in% unique(paste0(territories$sovereign_iso3, "-T")) ~ TRUE,
+                            iso3 == "EU" ~ TRUE,
+                            TRUE ~ FALSE))
+
+subsidy_lookup <- sumaila_2019_dat_edit %>%
+  dplyr::select(iso3, year, type, value) %>%
+  mutate(variable = paste0(type, "_subs")) %>%
+  dplyr::select(-type) %>%
+  group_by(iso3, year, variable) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  spread(year, value) %>%
+  left_join(country_dependencies %>% dplyr::select(iso3, is_WTO), by = "iso3") %>%
+  mutate(is_WTO = case_when(!is.na(is_WTO) ~ is_WTO,
+                            iso3 %in% unique(paste0(territories$sovereign_iso3, "-T")) ~ TRUE,
+                            iso3 == "EU" ~ TRUE,
+                            TRUE ~ FALSE)) %>%
+  bind_rows(subsidy_totals)
+
+
+# Demographic lookup 
+demographic_lookup <- wb_dat_edit %>%
+  dplyr::select(-units, -source) %>%
+  spread(year, value) %>%
+  left_join(country_dependencies %>% dplyr::select(iso3, is_WTO), by = "iso3") %>%
+  mutate(is_WTO = case_when(!is.na(is_WTO) ~ is_WTO,
+                            iso3 %in% unique(paste0(territories$sovereign_iso3, "-T")) ~ TRUE,
+                            iso3 == "EU" ~ TRUE,
+                            TRUE ~ FALSE))
+
+# Fishers lookup
+fishers_lookup <- fao_fishers_dat_edit %>%
+  dplyr::select(-units, -source) %>%
+  spread(year, value) %>%
+  dplyr::select(-`1995`) %>%
+  left_join(country_dependencies %>% dplyr::select(iso3, is_WTO), by = "iso3") %>%
+  mutate(is_WTO = case_when(!is.na(is_WTO) ~ is_WTO,
+                            iso3 %in% unique(paste0(territories$sovereign_iso3, "-T")) ~ TRUE,
+                            iso3 == "EU" ~ TRUE,
+                            TRUE ~ FALSE))
+
 # Combine 
 cap_tier_lookup <- capture_production_lookup %>%
-  bind_rows(landed_value_lookup)
+  bind_rows(landed_value_lookup) %>%
+  bind_rows(subsidy_lookup) %>%
+  bind_rows(demographic_lookup) %>%
+  bind_rows(fishers_lookup)
 
 write_csv(cap_tier_lookup, paste0(data_dir, "cap_tier_lookup_table.csv"))
 write_csv(cap_tier_lookup, paste0(app_data_dir, "cap_tier_lookup_table.csv"))

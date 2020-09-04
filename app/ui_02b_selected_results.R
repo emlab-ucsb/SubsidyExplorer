@@ -167,7 +167,7 @@ SelectedResults = function(proposal_choices)
              ### Selected Policy Description ---
              column(12, id = "tb-spaced-div",
                     
-                    uiOutput("selected_policy_description")
+                    uiOutput("selected_results_selected_policy_description")
                     
              )
              

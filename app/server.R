@@ -43,6 +43,10 @@ shinyServer(function(input, output, session) {
     
   )
   
+  # Reactive object that keeps track of what policy we're on ----
+  rv_policy_id <- reactiveValues(id = character())
+  
+  
   # Add most ambitious results to our reactive results data frame
   observeEvent(input$ab_introduction_to_selected_results, {
     
@@ -64,6 +68,9 @@ shinyServer(function(input, output, session) {
     
     # Add to results reactive object
     isolate(rv_results$run <- rbind(rv_results$run, best_result))
+    
+    # Start our policy id tracker
+    rv_policy_id$id <- best_result$id
     
   })
   
@@ -171,7 +178,7 @@ shinyServer(function(input, output, session) {
     }else{
       
       # Create run id 
-      last_run_id <- which(LETTERS == rv_results$run$id[nrow(rv_results$run)])
+      last_run_id <- which(LETTERS == rv_policy_id$id)
       new_run_id <- LETTERS[last_run_id + 1]
       
       # Update selection tracker so new run is selected
@@ -285,12 +292,10 @@ shinyServer(function(input, output, session) {
         oa = oa,
         overcap = overcap,
         cap_tier = cap_tier,
-        cap_tier_dat = cap_tier_dat,
-        profile_dat = combined_fishery_stats_dat,
         managed_threshold = managed_cutoff,
-        wto_members_and_observers = wto_members_and_observers,
         subsidy_types_all = subsidy_types_sorted_sumaila,
-        flag_summary_dat = flag_summary)
+        cap_tier_lookup = cap_tier_lookup_table,
+        country_lookup = country_lookup)
     
       # Create list by region
       fleet_list <- fleet$summary %>%
@@ -352,6 +357,9 @@ shinyServer(function(input, output, session) {
     # Add to results reactive object
     isolate(rv_results$run <- rbind(rv_results$run, new_result))
     
+    # Update reactive policy id tracker
+    rv_policy_id$id <- new_run_id
+    
     # Update progress tracker
     incProgress(0.95)
     
@@ -362,7 +370,7 @@ shinyServer(function(input, output, session) {
   })
   
   ### Reactive text: Get description for selected proposal --------
-  output$selected_policy_description <- renderUI({
+  output$selected_results_selected_policy_description <- renderUI({
     
     # Make sure something is selected
     req(rv_selected_result$id != "0")
@@ -423,7 +431,7 @@ shinyServer(function(input, output, session) {
     out_plot_dat <- plot_dat %>%
       dplyr::filter(Variable == plot_variable[[1]])
     
-    if(rv_selected_result$id == "0"){
+    if(rv_policy_id$id == "A"){
 
       plot <-  ggplot()+
         aes(x = Year, y = Diff*100)+
@@ -548,10 +556,6 @@ shinyServer(function(input, output, session) {
   ### Navigation buttons ---------------------
   
   ### Tabs
-  # Navigation button from tab 0 to tab 1
-  observeEvent(input$ab_edit_policies_tabs_instructions_to_iuu, {
-    updateTabsetPanel(session, "policy_tabs", "iuu") 
-  })
   
   # Navigation button from tab 1 to tab 0
   observeEvent(input$ab_edit_policies_tabs_iuu_to_instructions, {
@@ -742,7 +746,7 @@ shinyServer(function(input, output, session) {
     req(input$w_run_name != "")
     
     # Create run id
-    last_run_id <- which(LETTERS == rv_results$run$id[nrow(rv_results$run)])
+    last_run_id <- which(LETTERS == rv_policy_id$id)
     new_run_id <- LETTERS[last_run_id + 1]
     
     # Get run name
@@ -777,12 +781,10 @@ shinyServer(function(input, output, session) {
         oa = oa,
         overcap = overcap,
         cap_tier = cap_tier,
-        cap_tier_dat = cap_tier_dat,
-        profile_dat = combined_fishery_stats_dat,
         managed_threshold = managed_cutoff,
-        wto_members_and_observers = wto_members_and_observers,
         subsidy_types_all = subsidy_types_sorted_sumaila,
-        flag_summary_dat = flag_summary)
+        cap_tier_lookup = cap_tier_lookup_table,
+        country_lookup = country_lookup)
       
       # Make list
       fleet_list <- fleet$summary %>%
@@ -800,6 +802,7 @@ shinyServer(function(input, output, session) {
                      BioEconModel,
                      end_year = 2100,
                      return = "all")
+      
 
       # Store time series results both globally and regionally
       out_all <- out %>%
@@ -850,6 +853,9 @@ shinyServer(function(input, output, session) {
       # Add to results reactive object
       isolate(rv_results$run <- rbind(rv_results$run, new_result))
 
+      # Update policy id tracker 
+      rv_policy_id$id <- new_run_id
+      
       # Advance progress marker
       incProgress(0.95)
 

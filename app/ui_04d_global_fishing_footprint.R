@@ -11,21 +11,6 @@ GlobalFishingFootprint = function()
     # Page style
     style = "background-color: #262626; color: #ffffff;",
     
-    ### Top navigation button
-    column(12,
-           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
-                    
-                    # Return to main menu
-                    column(3,
-                           tags$button(id = "ab_global_fishing_footprint_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("undo"), text$item_label[text$item_id == "ab_global_fishing_footprint_to_introduction"]
-                           )
-                    )
-                    
-           )
-    ),
-    
     ### Title and introductory text 
     column(12, style = "padding: 25px 25px;",
            
@@ -53,21 +38,6 @@ GlobalFishingFootprint = function()
     column(12, style = "padding: 25px 25px; color: #ffffff;",
            
            tags$i(text$item_label[text$item_id == "map_disclaimer"])
-    ),
-    
-    ### Bottom navigation buttons
-    column(12,
-           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
-                    
-                    # Back to compare fishery stats
-                    column(3,
-                           tags$button(id = "ab_global_fishing_footprint_to_compare_fishery_stats",
-                                       class = "btn action-button nav-button-l",
-                                       icon("chevron-left"), text$item_label[text$item_id == "ab_global_fishing_footprint_to_compare_fishery_stats"]
-                           )
-                    )
-                    
-           )
     )
             
   ) # /fluidPage

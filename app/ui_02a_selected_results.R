@@ -25,9 +25,14 @@ SelectedResults = function(proposal_choices)
       #### Left section - model a selected scenario
       #### --------------------------------------------
       column(4, style = "padding: 15px;",
-
-             tags$h3("Select a Proposal"),
              
+             column(12, id = "section-title-div-underline-black",
+                    
+                    # Section Title
+                    tags$h3("Select a Proposal")
+                    
+             ),
+
              column(12, id = "spaced-div",
                     
                     # Select proposal category
@@ -74,65 +79,91 @@ SelectedResults = function(proposal_choices)
       
       column(8, style = "padding: 15px;",
              
-             tags$h3("Proposal Results"),
+             ### Section Title ---
+             column(12, id = "section-title-div-underline-black",
+                    
+                    tags$h3("Select a Proposal")
+                    
+             ),
            
-             ### Widgets
+             ### Widgets ---
              fluidRow(
                
-               column(6, align = "center",
+               ### Timeseries plot variable 
+               column(6, id = "spaced-div", align = "center",
                     
-                    # Input - timeseries plot variable
-                    selectizeInput("w_selected_results_timeseries_plot_variable", 
-                                   label = tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_variable"]),
-                                   choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_variable"]),
-                                   selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_variable"]))
-                    
-                    
+                    tags$table(id = "selected-results-table",
+                               
+                               tags$tr(id = "selected-results-table-table-row",
+                                       
+                                       tags$td(id = "selected-results-table-cell-l",
+                                               
+                                               tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_variable"])
+                                               
+                                       ),
+                                       
+                                       tags$td(
+                                         
+                                         # Input - timeseries plot variable
+                                         selectizeInput("w_selected_results_timeseries_plot_variable", 
+                                                        label = NULL,
+                                                        choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_variable"]),
+                                                        selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_variable"]),
+                                                        width = "100%")
+                                       )
+                               )
+                    )
                ),
                
-               column(6, align = "center",
-                    
-                      # Input - timeseries plot resolution
-                      radioButtons("w_selected_results_timeseries_plot_resolution", 
-                                   label = tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_resolution"]),
-                                   choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
-                                   selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
-                                   inline = T)
-                    
-                    
+               column(6, id = "spaced-div", align = "center",
+                      
+                      tags$table(id = "selected-results-table",
+                                 
+                                 tags$tr(id = "selected-results-table-table-row",
+                                         
+                                         tags$td(id = "selected-results-table-cell-l",
+                                                 
+                                                 tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_resolution"])
+                                                 
+                                         ),
+                                         
+                                         tags$td(
+                                           
+                                           # Input - timeseries plot resolution
+                                           radioButtons("w_selected_results_timeseries_plot_resolution", 
+                                                        label = NULL,
+                                                        choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
+                                                        selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
+                                                        inline = T)
+                                         )
+                                 )
+                      )
                )
              ),
            
-             # Plot
-             plotlyOutput("model_results_timeseries_plot")
+             ### Plot ---
+             plotlyOutput("model_results_timeseries_plot"),
              
+             
+             ### ------------------------------------------------
+             
+             ### Section Title ---
+             column(12, id = "section-title-div-underline-black",
+                    
+                    tags$h3(text$item_label[text$item_id == "selected_scenario"])
+                    
+             ),
+             
+             ### Selected Policy Description ---
+             column(12,
+                    
+                    uiOutput("selected_policy_description")
+                    
+             )
+      
       )
       
     ) # /fluidRow
-      
-      
-           
-# 
-#              
-#            ### Right column
-#            column(3,
-#                   style = "position: absolute;
-#                   background-color: rgba(40, 97, 130, 0.8);
-#                   color: #ffffff;
-#                   padding: 10px; 10px;
-#                   top:0;
-#                   bottom:0;
-#                   right:0;
-#                   overflow: hidden;", 
-#                   
-#                   # Title
-#                   tags$h4(text$item_label[text$item_id == "selected_scenario"]),
-#                     
-#                   # Selected policy description
-#                   uiOutput("selected_policy_description")
-#                   
-#            )
-#     ),
         
   ) # /fluidPage
   

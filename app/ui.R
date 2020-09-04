@@ -124,12 +124,17 @@ shinyUI(
                 menuItem("Explore the Results",
                          icon = NULL,
                          
-                         # Explore results - Item #1 - Selected results
+                         # Explore results - Item # 1 - Explore the Results
+                         menuSubItem(text$item_label[text$item_id == "explore-results"],
+                                     tabName = 'explore-results',
+                                     icon = NULL),
+                         
+                         # Explore results - Item #2 - Proposal Results
                          menuSubItem(text$item_label[text$item_id == "selected-results"],
                                      tabName = 'selected-results',
                                      icon = NULL),
                                   
-                         # Explore results - Item #2 - Edit policies and view those results
+                         # Explore results - Item #3 - Custom Policy
                          menuSubItem(text$item_label[text$item_id == "edit-policies"],
                                      tabName = 'edit-policies',
                                      icon = NULL)
@@ -194,12 +199,17 @@ shinyUI(
                 ),
                 
                 ### Explore results ---
-                # Explore results - Item #1 - Selected results
+                # Explore results - Item #1 - Explore results
+                tabItem(tabName = "explore-results",
+                        ExploreResults(proposal_choices)
+                ),
+                
+                # Explore results - Item #2 - Selected results
                 tabItem(tabName = "selected-results",
                         SelectedResults(proposal_choices)
                 ),
                 
-                # Explore results - Item #2 - Edit policies and view those results
+                # Explore results - Item #3 - Edit policies and view those results
                 tabItem(tabName = "edit-policies",
                         EditPolicies(wto_members_and_observers, subsidy_types_sorted_sumaila)
                 ),

@@ -12,10 +12,22 @@
     --grey-light: #f7f8f9;
 }
 
-/*@font-face {  
-  src: url(Kirnberg.ttf);
-  font-family: "Kirnberg";
-}*/
+@font-face {
+    font-family: AvenirNext;
+    src: url(AvenirNextLTPro-Regular.otf) format("opentype");
+}
+
+@font-face {
+    font-family: AvenirNext;
+    font-weight: italic;
+    src: url(AvenirNextLTPro-It.otf) format("opentype");
+}
+
+@font-face {
+    font-family: AvenirNext;
+    font-weight: bold;
+    src: url(AvenirNextLTPro-Bold.otf) format("opentype");
+}
 
 /*--------------------*/  
 /*--------------------*/
@@ -590,7 +602,6 @@ padding: 0 40px 20px;
   padding: 10px; 
   width: 100%; 
   font-size: 10pt; 
-  margin: 3px; 
 }
 
 /* Wide plain rounded button */
@@ -608,19 +619,103 @@ padding: 0 40px 20px;
 /* --------- */
 /* Universal */
 /* --------- */
+/* Page title container with grey background and blue underline */
 #page-title-div-underline-blue {
   padding: 15px 25px 15px 25px;
-  border-bottom: solid 2px #243e54;
-  background-color: #f7f8f9;
+  border-bottom: solid 2px var(--accent-color);
+  background-color: var(--grey-light);
 }
 
 #page-title-div-underline-blue h3 {
+  color: var(--grey-dark);
+  text-align: left;
+  font-weight: bold;
+}
+
+/* General section title container */
+#section-title {
+  padding: 10px 0px 10px 0px;
+}
+
+#section-title h4 {
  text-align: left;
  font-weight: bold;
 }
 
+/* Section title container with grey underline */
+#section-title-div-underline {
+  padding: 10px 0px 10px 0px;
+  border-bottom: 1px solid var(--grey-dark);
+}
+
+#section-title-div-underline h3 {
+  color: var(--grey-dark);
+  text-align: left;
+  font-weight: bold;
+}
+
+/* General container with grey underline */
+#div-underline {
+  padding: 10px 0px 20px 0px;
+  border-bottom: 1px solid var(--grey-dark);
+}
+
+/* General spaced divider */
 #spaced-div {
   padding: 15px 25px 7.5px 25px;
+}
+
+/* ------------------------------ */
+/* Explore Results */
+/* ------------------------------ */
+#explore-results-left-column{
+  background-color: var(--grey-light);
+  color: var(--grey-dark);
+  padding: 25px;
+}
+
+#explore-results-right-column{
+  color: var(--grey-dark);
+  padding: 25px;
+}
+
+#explore-results-table {
+  width: 100%;
+  vertical-align: middle;
+  table-layout: fixed;
+}
+
+#explore-results-table-row{
+  width: 100%;
+}
+
+#explore-results-table-cell-l1{
+  width: 8%;
+}
+
+#explore-results-table-cell-l2{
+  width: 17%;
+}
+
+#explore-results-table-cell-r{
+  width: 37.5%;
+}
+
+/* ------------------------------ */
+/* Selected Results */
+/* ------------------------------ */
+#selected-results-table {
+  width: 100%;
+  vertical-align: middle;
+  table-layout: fixed;
+}
+
+#selected-results-table-row{
+  width: 100%;
+}
+
+#selected-results-table-cell-l{
+  width: 50px;
 }
 
 /* ------------------------------ */
@@ -726,6 +821,12 @@ padding: 0 40px 20px;
 
 hr.white-narrow{
   border-top-color: #ffffff;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+hr.grey-narrow{
+  border-top-color: var(--grey-dark);
   margin-top: 10px;
   margin-bottom: 10px;
 }

@@ -1,17 +1,16 @@
 ﻿tab_num,tab_id,item_type,item_id,item_label,item_description
 header,,link,sfg_logo,The Sustainable Fisheries Group,text if logo doesn't work
 header,,link,emlab_logo,The Environmental Market Solutions Lab,text if logo doesn't work
-footer,,text,map_disclaimer,"The use of the map above is not meant to imply the expression of any opinion whatsoever on the part of the Pew Charitable Trust or the Sustainable Fisheries Group at the University of California, concerning the status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontier or boundaries. ",map disclaimer
+many,,text,map_disclaimer,"The use of the map above is not meant to imply the expression of any opinion whatsoever on the part of the Pew Charitable Trust or the Sustainable Fisheries Group at the University of California, concerning the status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontier or boundaries. ",map disclaimer
 1,introduction,tab,introduction,Main Menu,page name
 1,introduction,nav-button,ab_introduction_to_selected_results,Explore the Results     ,left button
 1,introduction,nav-button,ab_introduction_to_methods_process,Learn About the Methods and Process     ,center button
 1,introduction,nav-button,ab_introduction_to_global_subsidies,More About Fisheries Subsidies     ,right button
-1,introduction,link,al_introduction_to_need_help,Need Help?,bottom link
 02a,explore-results,page,explore-results,Explore the Results,page name
-02a,explore-results,section,explore-proposals,Explore Proposals,section name
+02a,explore-results,section,explore-proposals,Select a Proposal,section name
 02a,explore-results,action-button,ab_explore_proposals,Explore Proposals,button to selected proposal page
 02a,explore-results,section,design-custom-proposal,Design a Custom Proposal,section name
-02a,explore-results,action-button,ab_design_custom_proposal,Design a Custom Proposal,button to custom policy page
+02a,explore-results,action-button,ab_design_custom_proposal,Explore Proposal Design Options,button to custom policy page
 02a/02b,explore-results,section,proposal-results,Proposal Results,section name
 02a,explore-results,widget,w_explore_results_timeseries_plot_variable,Plot,select variable to plot widget
 02a,explore-results,widget,w_explore_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)

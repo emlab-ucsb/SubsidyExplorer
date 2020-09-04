@@ -17,6 +17,10 @@
 rm(list = ls())
 set.seed(123)
 
+dir.create('~/.fonts')
+file.copy("www/Avenir-Book.ttf", "~/.fonts")
+system('fc-cache -f ~/.fonts')
+
 # Load packages
 # General
 library(shiny) # shiny app widgets

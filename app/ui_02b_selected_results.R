@@ -27,14 +27,14 @@ SelectedResults = function(proposal_choices)
       column(4, id = "selected-results-left-column",
              
              ### Section Title ---
-             column(12, id = "section-title-div-underline",
+             column(12, id = "section-title",
                     
-                    tags$h3(text$item_label[text$item_id == "select-proposal"])
+                    tags$h4(text$item_label[text$item_id == "select-proposal"])
                     
              ),
              
              ### Section 1 ---
-             column(12, id = "t-spaced-div",
+             column(12,
                     
                     # Select proposal category
                     checkboxGroupInput("w_selected_results_proposal_category",
@@ -72,8 +72,23 @@ SelectedResults = function(proposal_choices)
                     
              ),
              
+             ### Third section - Design custom proposal ---
+             
+             column(12, id = "section-title",
+                    
+                    # Section Title
+                    tags$h4(text$item_label[text$item_id == "design-custom-proposal"])
+                    
+             ),
+             
+             column(12,
+                    
+                    tags$p("Advanced users can design their own subsidy reform proposal and plot how it affects Biomass, Fish Catch, and Revenue over time.")
+                    
+             ),
+             
              ### Section 2 ---
-             column(12, align = "center", id = "t-spaced-div",
+             column(12, align = "center", id = "tb-spaced-div",
                     
                     # IUU definitions info button
                     tags$button(id = "ab_selected_results_to_edit_policies",
@@ -88,12 +103,12 @@ SelectedResults = function(proposal_choices)
       #### Right section - model a selected scenario
       #### --------------------------------------------
       
-      column(8, id = "explore-results-right-column",
+      column(8, id = "selected-results-right-column",
              
              ### Section Title ---
-             column(12, id = "section-title-div-underline",
+             column(12, id = "section-title",
                     
-                    tags$h3(text$item_label[text$item_id == "proposal-results"])
+                    tags$h4(text$item_label[text$item_id == "proposal-results"])
                     
              ),
              
@@ -101,19 +116,19 @@ SelectedResults = function(proposal_choices)
              fluidRow(
                
                ### Timeseries plot variable 
-               column(12, id = "t-spaced-div", align = "center",
+               column(12, align = "center",
                       
-                      tags$table(id = "explore-results-table",
+                      tags$table(id = "selected-results-table",
                                  
-                                 tags$tr(id = "explore-results-table-table-row",
+                                 tags$tr(id = "selected-results-table-table-row",
                                          
-                                         tags$td(id = "explore-results-table-cell-l1",
+                                         tags$td(id = "selected-results-table-cell-l1",
                                                  
                                                  tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_variable"])
                                                  
                                          ),
                                          
-                                         tags$td(id = "explore-results-table-cell-r",
+                                         tags$td(id = "selected-results-table-cell-r",
                                                  
                                                  # Input - timeseries plot variable
                                                  selectizeInput("w_selected_results_timeseries_plot_variable", 
@@ -123,13 +138,13 @@ SelectedResults = function(proposal_choices)
                                                                 width = "80%")
                                          ),
                                          
-                                         tags$td(id = "explore-results-table-cell-l2",
+                                         tags$td(id = "selected-results-table-cell-l2",
                                                  
                                                  tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_resolution"])
                                                  
                                          ),
                                          
-                                         tags$td(id = "explore-results-table-cell-r",
+                                         tags$td(id = "selected-results-table-cell-r",
                                                  
                                                  # Input - timeseries plot resolution
                                                  radioButtons("w_selected_results_timeseries_plot_resolution", 
@@ -146,7 +161,7 @@ SelectedResults = function(proposal_choices)
              ),
              
              ### Plot ---
-             column(12, id = "t-spaced-div",
+             column(12, id = "div-underline",
                     
                     plotlyOutput("model_results_timeseries_plot", height = "50vh")
                     
@@ -155,14 +170,14 @@ SelectedResults = function(proposal_choices)
              ### ------------------------------------------------
              
              ### Section Title ---
-             column(12, id = "section-title-div-underline",
+             column(12, id = "section-title",
                     
-                    tags$h3(text$item_label[text$item_id == "selected-scenario"])
+                    tags$h4(text$item_label[text$item_id == "selected-scenario"])
                     
              ),
              
              ### Selected Policy Description ---
-             column(12, id = "t-spaced-div",
+             column(12,
                     
                     uiOutput("selected_results_policy_description")
                     

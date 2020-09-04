@@ -43,7 +43,7 @@ ExploreResults = function(proposal_choices)
                     
              ),
              
-             column(12, id = "t-spaced-div",
+             column(12,
                     
                     tags$p("In addition to the Most Ambitious Scenario displayed here, the SubsidyExplorer contains many more pre-populated proposals to explore.")
                     
@@ -54,7 +54,7 @@ ExploreResults = function(proposal_choices)
                     # Button
                     tags$button(id = "ab_explore_proposals",
                                 class = "btn action-button rounded-button",
-                                tags$b(text$item_label[text$item_id == "ab_explore_proposals"]))
+                                tags$b(text$item_label[text$item_id == "ab_explore_proposals"], icon("caret-right")))
                     
                     
              ),
@@ -69,7 +69,7 @@ ExploreResults = function(proposal_choices)
                     
              ),
              
-             column(12, id = "t-spaced-div",
+             column(12,
                     
                     tags$p("Advanced users can design their own subsidy reform proposal and plot how it affects Biomass, Fish Catch, and Revenue over time.")
                     
@@ -80,7 +80,7 @@ ExploreResults = function(proposal_choices)
                     # Button
                     tags$button(id = "ab_design_custom_proposal",
                                 class = "btn action-button rounded-button",
-                                tags$b(text$item_label[text$item_id == "ab_design_custom_proposal"]))
+                                tags$b(text$item_label[text$item_id == "ab_design_custom_proposal"], icon("caret-right")))
                     
              )
       ),
@@ -94,7 +94,7 @@ ExploreResults = function(proposal_choices)
              ### Section Title ---
              column(12, id = "section-title-div-underline",
                     
-                    tags$h3(text$item_label[text$item_id == "proposal-results"])
+                    tags$h4(text$item_label[text$item_id == "proposal-results"])
                     
              ),
            
@@ -155,7 +155,7 @@ ExploreResults = function(proposal_choices)
              ### Section Title ---
              column(12, id = "section-title-div-underline",
                     
-                    tags$h3(text$item_label[text$item_id == "selected-scenario"])
+                    tags$h4(text$item_label[text$item_id == "selected-scenario"])
                     
              ),
              

@@ -28,7 +28,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
            #### Left column - tabBox with manual policy selection
            #### ----------------------------------------------------
            
-           column(9, id = "edit-policies-left-column",
+           column(8, id = "edit-policies-left-column",
                   
                   ### Step 1
                   column(12, id = "div-underline",
@@ -196,7 +196,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
            ####-----------------------------------------------------------------------------------------
            #### Right column - Menu of selected policies
            #### ----------------------------------------------------------------------------------------
-           column(3, id = "edit-policies-right-column",
+           column(4, id = "edit-policies-right-column",
 
                   column(12, id = "t-spaced-div",
                          
@@ -267,7 +267,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
 
                   )
 
-           ) # /column 3 - Right column
+           ) # /column 4 - Right column
            
            ) # /fluidRow
  

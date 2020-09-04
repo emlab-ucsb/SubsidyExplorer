@@ -19,6 +19,9 @@ SelectedResults = function(proposal_choices)
            
     ),
     
+    ## Main content
+    column(12,
+    
     fluidRow(
       
       ####---------------------------------------------
@@ -27,14 +30,14 @@ SelectedResults = function(proposal_choices)
       column(4, id = "selected-results-left-column",
              
              ### Section Title ---
-             column(12, id = "section-title",
+             column(12, id = "section-title-div-underline",
                     
                     tags$h4(text$item_label[text$item_id == "select-proposal"])
                     
              ),
              
              ### Section 1 ---
-             column(12,
+             column(12, id = "t-spaced-div",
                     
                     # Select proposal category
                     checkboxGroupInput("w_selected_results_proposal_category",
@@ -72,21 +75,6 @@ SelectedResults = function(proposal_choices)
                     
              ),
              
-             ### Third section - Design custom proposal ---
-             
-             column(12, id = "section-title",
-                    
-                    # Section Title
-                    tags$h4(text$item_label[text$item_id == "design-custom-proposal"])
-                    
-             ),
-             
-             column(12,
-                    
-                    tags$p("Advanced users can design their own subsidy reform proposal and plot how it affects Biomass, Fish Catch, and Revenue over time.")
-                    
-             ),
-             
              ### Section 2 ---
              column(12, align = "center", id = "tb-spaced-div",
                     
@@ -103,10 +91,10 @@ SelectedResults = function(proposal_choices)
       #### Right section - model a selected scenario
       #### --------------------------------------------
       
-      column(8, id = "selected-results-right-column",
+      column(8, offset = 4, id = "selected-results-right-column",
              
              ### Section Title ---
-             column(12, id = "section-title",
+             column(12, id = "section-title-div-underline",
                     
                     tags$h4(text$item_label[text$item_id == "proposal-results"])
                     
@@ -116,7 +104,7 @@ SelectedResults = function(proposal_choices)
              fluidRow(
                
                ### Timeseries plot variable 
-               column(12, align = "center",
+               column(12, align = "center", id = "t-spaced-div",
                       
                       tags$table(id = "selected-results-table",
                                  
@@ -161,31 +149,33 @@ SelectedResults = function(proposal_choices)
              ),
              
              ### Plot ---
-             column(12, id = "div-underline",
+             column(12, id = "t-spaced-div",
                     
-                    plotlyOutput("model_results_timeseries_plot", height = "50vh")
+                    plotlyOutput("model_results_timeseries_plot", height = "40vh")
                     
              ),
              
              ### ------------------------------------------------
              
              ### Section Title ---
-             column(12, id = "section-title",
+             column(12, id = "section-title-div-underline",
                     
                     tags$h4(text$item_label[text$item_id == "selected-scenario"])
                     
              ),
              
              ### Selected Policy Description ---
-             column(12,
+             column(12, id = "tb-spaced-div",
                     
-                    uiOutput("selected_results_policy_description")
+                    uiOutput("selected_policy_description")
                     
              )
              
       )
       
     ) # /fluidRow
+    
+    ) #/column 12 - main
         
   ) # /fluidPage
   

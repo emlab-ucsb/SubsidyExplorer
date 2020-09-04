@@ -62,6 +62,21 @@ small.gray {
   margin: 0 10px 0 10px;
 }
 
+h3 {
+  font-size: 18pt;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+h5 {
+  font-size: 12pt;
+  font-weight: bold;
+}
+
 /*----------------------------*/  
 /*----------------------------*/
 /* Shiny Dashboard containers */
@@ -331,14 +346,9 @@ header.main-header {
 /* Page title container with grey background and blue underline */
 #page-title-div-underline-blue {
   padding: 10px 25px 10px 25px;
-  border-bottom: solid 2px var(--accent-color);
   background-color: var(--grey-light);
-}
-
-#page-title-div-underline-blue h3 {
-  color: var(--grey-dark);
-  text-align: left;
-  font-weight: bold;
+  border-bottom: 4px solid var(--main-color);
+  color: var(--main-color);
 }
 
 /* General section title container */
@@ -346,27 +356,17 @@ header.main-header {
   padding: 15px 0px 5px 0px;
 }
 
-#section-title h4 {
- text-align: left;
- font-weight: bold;
-}
-
 /* Section title container with grey underline */
 #section-title-div-underline {
   padding: 10px 0px 10px 0px;
-  border-bottom: 1px solid var(--grey-dark);
-}
-
-#section-title-div-underline h3,h4 {
+  border-bottom: 2px solid var(--grey-dark);
   color: var(--grey-dark);
-  text-align: left;
-  font-weight: bold;
 }
 
 /* General container with grey underline */
 #div-underline {
   padding: 15px 0px 15px 0px;
-  border-bottom: 1px solid var(--grey-dark);
+  border-bottom: 1px dashed var(--grey-dark);
 }
 
 /* General spaced divider */
@@ -450,9 +450,6 @@ header.main-header {
   color: white;
   padding: 25px;
   border-radius: 0;
-}
-
-#ab_introduction_to_selected_results h3{
   text-align: center;
 }
 
@@ -492,12 +489,17 @@ header.main-header {
 /* Explore Results */
 /* ------------------------------ */
 #explore-results-left-column{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
   background-color: var(--grey-light);
   color: var(--grey-dark);
   padding: 0 25px 0 25px;
 }
 
 #explore-results-right-column{
+  min-height: 90vh;
   color: var(--grey-dark);
   padding: 0 25px 0 25px;
 }
@@ -528,6 +530,10 @@ header.main-header {
 /* Selected Results */
 /* ------------------------------ */
 #selected-results-left-column{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
   background-color: var(--grey-light);
   color: var(--grey-dark);
   padding: 0 25px 0 25px;
@@ -561,6 +567,10 @@ header.main-header {
 }
 
 #edit-policies-right-column{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
   background-color: var(--grey-light);
   color: var(--grey-dark);
   padding: 15px;

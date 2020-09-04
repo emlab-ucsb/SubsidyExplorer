@@ -19,12 +19,22 @@ ExploreResults = function(proposal_choices)
            
     ),
     
+    ### Main content
+    column(12,
+    
     fluidRow(
       
       ####---------------------------------------------
       #### Left section - model a selected scenario
       #### --------------------------------------------
       column(4, id = "explore-results-left-column",
+             
+             ### Section Title ---
+             column(12, id = "section-title-div-underline",
+                    
+                    tags$h4("Instructions")
+                    
+             ),
              
              ### First section - text ---
              
@@ -39,7 +49,7 @@ ExploreResults = function(proposal_choices)
              column(12, id = "section-title",
                     
                     # Section Title
-                    tags$h4(text$item_label[text$item_id == "explore-proposals"])
+                    tags$h5(text$item_label[text$item_id == "explore-proposals"])
                     
              ),
              
@@ -65,7 +75,7 @@ ExploreResults = function(proposal_choices)
              column(12, id = "section-title",
                     
                     # Section Title
-                    tags$h4(text$item_label[text$item_id == "design-custom-proposal"])
+                    tags$h5(text$item_label[text$item_id == "design-custom-proposal"])
                     
              ),
              
@@ -89,7 +99,7 @@ ExploreResults = function(proposal_choices)
       #### Right section - model a selected scenario
       #### --------------------------------------------
       
-      column(8, id = "explore-results-right-column",
+      column(8, offset = 4, id = "explore-results-right-column",
              
              ### Section Title ---
              column(12, id = "section-title-div-underline",
@@ -160,15 +170,18 @@ ExploreResults = function(proposal_choices)
              ),
              
              ### Selected Policy Description ---
-             column(12, id = "t-spaced-div",
+             column(12, id = "tb-spaced-div",
                     
-                    uiOutput("selected_policy_description")
+                    "policy description"
+                    #uiOutput("selected_policy_description")
                     
              )
       
       )
       
     ) # /fluidRow
+    
+    ) #/column 12 - main
         
   ) # /fluidPage
   

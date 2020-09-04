@@ -6,7 +6,7 @@
     --main-color: #2b4860;
     --secondary-color: #243e54;
     --accent-color: #0d5ba2;
-    --accent-color-2: green;
+    --accent-color-2: #23A085;
     --grey-dark: #6f6f6f;
     --grey-text: #404040;
     --grey-light: #f7f8f9;
@@ -493,12 +493,12 @@ height: auto;
 
 .intro-div{
   position: absolute;
-  height: 95vh;
+  height: 90vh;
 }
 
 .intro-picture-div{
   display: block;
-  height: 95vh;
+  height: 90vh;
   width: auto;
   overflow: hidden;
 }
@@ -506,7 +506,7 @@ height: auto;
 .intro-picture-div img{
   object-fit: cover;
   min-width: 100vw;
-  min-height: 95vh;
+  min-height: 90vh;
   max-width: 200%;
   max-height: 200%;
 }
@@ -532,7 +532,7 @@ height: auto;
 
 #introduction-table-row{
   width: 100%;
-  padding: 25px;
+  padding: 0px;
 }
 
 #introduction-table-cell-l{
@@ -552,6 +552,7 @@ height: auto;
   border: 1px solid var(--main-color);
   color: white;
   padding: 25px;
+  border-radius: 0;
 }
 
 #ab_introduction_to_selected_results h3{
@@ -563,10 +564,11 @@ height: auto;
 }
 
 #ab_introduction_to_global_subsidies{
-  width: 80%;
+  width: 100%;
   background-color: transparent;
   border: transparent;
   padding: 25px;
+  border-radius: 0;
 }
 
 #ab_introduction_to_global_subsidies:hover{
@@ -574,10 +576,11 @@ height: auto;
 }
 
 #ab_introduction_to_methods_process{
-  width: 80%;
+  width: 100%;
   background-color: transparent;
   border: transparent;
   padding: 25px;
+  border-radius: 0;
 }
 
 #ab_introduction_to_methods_process:hover{

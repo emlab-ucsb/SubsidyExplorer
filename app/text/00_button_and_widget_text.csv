@@ -3,9 +3,9 @@ header,,link,sfg_logo,The Sustainable Fisheries Group,text if logo doesn't work
 header,,link,emlab_logo,The Environmental Market Solutions Lab,text if logo doesn't work
 footer,,text,map_disclaimer,"The use of the map above is not meant to imply the expression of any opinion whatsoever on the part of the Pew Charitable Trust or the Sustainable Fisheries Group at the University of California, concerning the status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontier or boundaries. ",map disclaimer
 1,introduction,tab,introduction,Main Menu,page name
-1,introduction,nav-button,ab_introduction_to_selected_results,Explore the Results,left button
-1,introduction,nav-button,ab_introduction_to_methods_process,Learn About the Methods and Process,center button
-1,introduction,nav-button,ab_introduction_to_global_subsidies,More About Fisheries Subsidies,right button
+1,introduction,nav-button,ab_introduction_to_selected_results,Explore the Results     ,left button
+1,introduction,nav-button,ab_introduction_to_methods_process,Learn About the Methods and Process     ,center button
+1,introduction,nav-button,ab_introduction_to_global_subsidies,More About Fisheries Subsidies     ,right button
 1,introduction,link,al_introduction_to_need_help,Need Help?,bottom link
 02a,explore-results,page,explore-results,Explore the Results,page name
 02a,explore-results,section,explore-proposals,Explore Proposals,section name

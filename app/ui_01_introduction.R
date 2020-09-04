@@ -57,7 +57,7 @@ Introduction = function()
                       column(12, id = "tb-spaced-div",
                              
                              actionButton("ab_introduction_to_selected_results",
-                                          tags$h3(text$item_label[text$item_id == "ab_introduction_to_selected_results"]))
+                                          tags$h3(text$item_label[text$item_id == "ab_introduction_to_selected_results"], icon("caret-right")))
                       ),
                       
                       ### Buttons 2-3
@@ -70,13 +70,13 @@ Introduction = function()
                                                 tags$td(id = "introduction-table-cell-l",
                                                         
                                                         actionButton("ab_introduction_to_global_subsidies",
-                                                                     tags$h4(text$item_label[text$item_id == "ab_introduction_to_global_subsidies"]))
+                                                                     tags$h4(text$item_label[text$item_id == "ab_introduction_to_global_subsidies"], icon("caret-right")))
                                                 ),
                                                 
                                                 tags$td(id = "introduction-table-cell-r",
                                                         
                                                         actionButton("ab_introduction_to_methods_process",
-                                                                     tags$h4(text$item_label[text$item_id == "ab_introduction_to_methods_process"]))
+                                                                     tags$h4(text$item_label[text$item_id == "ab_introduction_to_methods_process"], "   ", icon("caret-right")))
                                                 )
                                         )
                              )

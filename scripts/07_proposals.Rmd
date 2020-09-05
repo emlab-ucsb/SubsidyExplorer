@@ -140,11 +140,13 @@ cap_tier_lookup_table <- read_csv(here::here("app","data","cap_tier_lookup_table
 
 ```{r}
 proposal_results <- NULL
-i <- 2
+
 for(i in 2:length(proposal_choices)){
   
   # Choose proposal
   proposal_name <- proposal_choices[i]
+  
+  print(proposal_name)
   
   # Get all data for that proposal
   selected_proposal <- proposal_settings %>%
@@ -249,7 +251,7 @@ for(i in 2:length(proposal_choices)){
       cap_tier = cap_tier,
       managed_threshold = managed_cutoff,
       subsidy_types_all = subsidy_types_sorted_sumaila,
-      cap_tier_lookup = cap_tier_lookup,
+      cap_tier_lookup = cap_tier_lookup_table,
       country_lookup = country_dependencies)
     
     # Make list
@@ -274,7 +276,8 @@ for(i in 2:length(proposal_choices)){
       TRUE ~ 0)) %>%
       ungroup() %>%
       mutate(run_id = proposal_name,
-             run_name = names(proposal_name))
+             run_name = names(proposal_name),
+             run_group = unique(proposal_settings$category[proposal_settings$proposal == proposal_name]))
     
       write_csv(results_all, paste0(results_dir, "results_", str_replace_all(proposal_name, "/", "_"), ".csv"))
     
@@ -285,5 +288,77 @@ for(i in 2:length(proposal_choices)){
 }
 ```
 
+```{r}
+most_ambitious_results <- read_csv(paste0(here::here("results", "06-run-model/"), "rel_subs_all_B_ts.csv")) %>%
+  mutate(run_group = "Ambitious Reform")
+
+most_ambitious_results_global <- most_ambitious_results %>%
+  group_by(Year, Variable, Fleet, run_id, run_name, run_group) %>%
+    summarize(BAU_tot = sum(BAU, na.rm = T),
+              Reform_tot = sum(Reform, na.rm = T),
+              Diff_tot = case_when(BAU_tot != 0 ~ (Reform_tot - BAU_tot)/abs(BAU_tot),
+                            TRUE ~ 0)) %>%
+    ungroup() %>%
+    mutate(Region = "Global") %>%
+    mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
+                                Variable == "catches_total" ~ "Catches",
+                                Variable == "revenue_total" ~ "Revenue")) %>%
+  dplyr::filter(Fleet == "Total") %>%
+  dplyr::filter(Variable %in% c("Biomass", "Catches", "Revenue"))
+
+plot_results <- proposal_results %>%
+  dplyr::filter(run_id != "RD/TN/RL/103") %>%
+  bind_rows(most_ambitious_results)
+
+# Make plots
+if(make_plots){
+  
+  # 1) global (aggregated) timeseries plot
+  compare_ts_plot <- BioEconomicModelPlots(dat = plot_results,
+                                           spatial_res = "global",
+                                           temporal_res = "all",
+                                           start_year = 2018,
+                                           end_year = 2100,
+                                           plot_name = "all_proposals_ts_plot",
+                                           plot_width = 8,
+                                           plot_height = 6.5,
+                                           results_dir = results_dir,
+                                           compare = TRUE)
+  
+  # 2) global (aggregated) "kobe" final year plot
+  compare_end_plot <- BioEconomicModelPlots(dat = plot_results,
+                                            spatial_res = "global",
+                                            temporal_res = "last",
+                                            end_year = 2100,
+                                            plot_name = "all_proposals_end_plot",
+                                            plot_width = 8,
+                                            plot_height = 6.5,
+                                            results_dir = results_dir,
+                                            compare = TRUE)
+  
+  # 3) regional timeseries plot
+  regional_compare_ts_plot <- BioEconomicModelPlots(dat = plot_results,
+                                                    spatial_res = "regional",
+                                                    temporal_res = "all",
+                                                    start_year = 2018,
+                                                    end_year = 2100,
+                                                    plot_name = "regional_all_proposals_ts_plot",
+                                                    plot_width = 8,
+                                                    plot_height = 6.5,
+                                                    results_dir = results_dir,
+                                                    compare = TRUE)
+  
+  # 4) regional "kobe" final year plot
+  regional_compare_end_plot <- BioEconomicModelPlots(dat = plot_results,
+                                                     spatial_res = "regional",
+                                                     temporal_res = "last",
+                                                     end_year = 2100,
+                                                     plot_name = "regional_all_proposals_end_plot",
+                                                     plot_width = 8,
+                                                     plot_height = 6.5,
+                                                     results_dir = results_dir,
+                                                     compare = TRUE)
+}
+```
 
 

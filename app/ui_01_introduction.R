@@ -22,7 +22,11 @@ Introduction = function()
              # Child element 1: background image
              tags$div(class = "picture-wrapper",
                       
-                      tags$img(src = "intro-background.jpg")
+                      # tags$iframe(src = "https://www.youtube.com/embed/xYl4m0xFcCU?controls=0&amp;start=2",
+                      #             frameborder="0", 
+                      #             allow="autoplay; encrypted-media; gyroscope; picture-in-picture", allowfullscreen=NA)
+                      
+                      #tags$img(src = "intro-background.jpg")
              ),
                       
              # Child element 2: overlay

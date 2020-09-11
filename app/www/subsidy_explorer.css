@@ -221,11 +221,13 @@ header.main-header {
 .landing-wrapper{
   position: absolute;
   height: 95vh;
+  width: 100vw;
 }
 
 .landing-wrapper .picture-wrapper{
   display: block;
   height: 95vh;
+  width: 100vw;
   width: auto;
   overflow: hidden;
 }
@@ -236,6 +238,11 @@ header.main-header {
   min-height: 95vh;
   max-width: 200%;
   max-height: 200%;
+}
+
+.landing-wrapper .picture-wrapper iframe{
+  min-width: 100vw;
+  min-height: 95vh;
 }
 
 .landing-wrapper .picture-overlay-black{

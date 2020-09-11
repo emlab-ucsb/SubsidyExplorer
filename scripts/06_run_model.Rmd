@@ -8,6 +8,9 @@ date: "`r format(Sys.time(), '%B %d, %Y')`"
 fontsize: 11pt
 bibliography: "../pew-subsidies.bib"
 ---
+# Introduction 
+
+This script generates alternative global and regional results. 
 
 ```{r setup, include=FALSE}
 # Load packages
@@ -28,38 +31,24 @@ results_dir <- here::here("results", "06-run-model/")
 if (dir.exists(results_dir) == F) {
   dir.create(results_dir, recursive = T)
 }
+
+bad_subsidy_types <- c("B1", "B2", "B3", "B4", "B5", "B6", "B7")
+ugly_subsidy_types <- c("C1", "C2", "C3")
 ```
-
-# Introduction 
-
-This script generates the most ambitious global and regional results obtained by removing all capacity enhancing subsidies from all WTO Members and Observers.
 
 ```{r}
 # Source model script
 source(here::here("app", "scripts", "BioEconModel.R"))
+
+# Source plotting script
+source(here::here("scripts", "functions", "BioEconomicModelPlots.R"))
 ```
 
 ```{r}
 # Load vessel list
-pro_rate_subsidies <- F
-
 vessel_dat <- read.csv(here::here("app", "data", "vessel_list_2018_final.csv"), stringsAsFactors = F)
 
-### Not applicable currently - old experimentation with pro-rating the dollar value of different subsidies
-# if(pro_rate_subsidies == T){
-# 
-#   vessel_dat <- vessel_dat %>%
-#     mutate(B1_subs = B1_subs * 0.54, # boat construction/renovation - matched to payments based on vessels
-#            B2_subs = B2_subs * 1, # fishery development projects/support services - matched to payments based on variable use
-#            B3_subs = B3_subs * 0.87, # port construction and renovation - matched to payments based on vessels
-#            B4_subs = B4_subs * 0.87, # price/marketing support, processing infrastructure - matched to payments based on output
-#            B5_subs = B5_subs * 0.76, # non-fuel tax exemptions - matched to payments based on fishers income
-#            B6_subs = B6_subs * 0.56, # foreign access agreements - matched to payments based on fishers own capital
-#            B7_subs = B7_subs * 0.84, # fuel - matched to payments based on fuel use
-#            bad_subs = (B1_subs + B2_subs + B3_subs + B4_subs + B5_subs + B6_subs + B7_subs))
-# 
-# }
-
+# Create high seas code
 vessel_dat <- vessel_dat %>%
   mutate(eez_hs_code = case_when(eez_id == 0 ~ paste0("HS-", fao_region),
                                  TRUE ~ as.character(eez_id)))
@@ -84,75 +73,59 @@ bio_dat_regional_list <- bio_dat_regional %>%
 managed_cutoff <- 0.66
 ```
 
-## Create global fleet
-
 ```{r pressure, echo=FALSE}
 # Assign fleets to vessels
-global_fleet_vessels <- vessel_dat %>%
+fleet_vessels <- vessel_dat %>%
   left_join(country_dependencies %>% dplyr::select(iso3, is_WTO), by = c("flag_iso3" = "iso3")) %>%
   mutate(fleet = case_when(is_WTO & fmi_best >= managed_cutoff & bad_subs > 0 ~ "affected_managed",
                            is_WTO & fmi_best < managed_cutoff & bad_subs > 0 ~ "affected_oa",
                            (!is_WTO & fmi_best >= managed_cutoff) ~ "unaffected_managed",
                            (!is_WTO & fmi_best < managed_cutoff) ~ "unaffected_oa",
-                           TRUE ~ "unaffected_oa"))
+                           TRUE ~ "unaffected_oa")) %>%
+    mutate(bad_ugly_subs = rowSums(select(., one_of(paste0(c(bad_subsidy_types, ugly_subsidy_types), "_subs")))))
 ```
 
-## Run Model (Remove all bad subsidies)
+# Section 1: Absolute subsidy values
+
+This first section presents results obtained by using absolute subsidy values. 
+
+## Scenario 1: Remove all bad + ugly
 
 ```{r}
 # Create model input for removing all bad subsidies
-global_all_bad_summary <- global_fleet_vessels %>%
+abs_all_BC_fleet_summary <- fleet_vessels %>%
   group_by(region, fleet) %>%
   summarize(catch = sum(catch, na.rm = T),
-            bad_subs = sum(bad_subs, na.rm = T),
+            bad_subs = sum(bad_ugly_subs, na.rm = T),
             fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
-            removed_subs = sum(bad_subs, na.rm = T)) %>%
+            removed_subs = sum(bad_ugly_subs, na.rm = T)) %>%
   ungroup()
 
 # Turn into a list
-global_all_bad_list <- global_all_bad_summary %>%
+abs_all_BC_list <- abs_all_BC_fleet_summary %>%
   group_by(region) %>%
   group_split()
-names(global_all_bad_list) <- colnames(bio_dat_regional)[-c(1:2)]
+names(abs_all_BC_list) <- colnames(bio_dat_regional)[-c(1:2)]
 
 # Run model
-global_all_bad_results <- pmap_df(list(fleet = global_all_bad_list, 
-                                       region = names(global_all_bad_list),
+abs_all_BC_results <- pmap_df(list(fleet = abs_all_BC_list, 
+                                       region = names(abs_all_BC_list),
                                        bio_param = bio_dat_regional_list),
                                   BioEconModel,
                                   end_year = 2100,
                                   return = "all")
 
 # Extract results timeseries
-global_all_bad_results_full <- global_all_bad_results %>%
+abs_all_BC_results_all <- abs_all_BC_results %>%
   dplyr::filter(Year > 2018) %>%
-  dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total")) %>%
   group_by(Year, Variable, Fleet) %>%
   mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
-                          TRUE ~ 0),
-         BAU_global = sum(BAU, na.rm = T),
-         Reform_global = sum(Reform, na.rm = T),
-         Diff_global = case_when(BAU_global != 0 ~ (Reform_global - BAU_global)/abs(BAU_global),
-                                 TRUE ~ 0)) %>%
+                          TRUE ~ 0)) %>%
   ungroup() %>%
-  mutate(run_number = "A",
-         run_name = "Most ambitious scenario",
-         id = "A",
-         Description = "Complete removal of all capacity-enhancing subsidies (for comparison)")
+  mutate(run_id = "Absolute",
+         run_name = "All subsidies")
 
-# Extract ending results (difference only)
-global_all_bad_results_last <- global_all_bad_results_full %>%
-  dplyr::filter(Year == 2100) %>%
-  group_by(Year, Variable) %>%
-  summarize(Value = unique(Diff_global)*100) %>%
-  ungroup() %>%
-  spread(Variable, Value) %>%
-  rename(Biomass = biomass,
-         Catches = catches_total,
-         Revenue = revenue_total) %>%
-  mutate(run_number = "A",
-         run_name = "Most ambitious scenario")
-
+write_csv(abs_all_BC_results_all, paste0(results_dir, "abs_subs_all_BC_ts.csv"))
 ```
 
 ```{r}
@@ -160,50 +133,581 @@ global_all_bad_results_last <- global_all_bad_results_full %>%
 if(make_plots){
   
   # 1) global (aggregated) timeseries plot
-  global_all_bad_plot <- global_all_bad_results_full %>%
-        group_by(run_number, run_name, id, Year, Variable, Fleet) %>%
-        summarize(BAU = unique(BAU_global),
-                  Reform = unique(Reform_global),
-                  Diff = unique(Diff_global)) %>%
-        ungroup() %>%
-        mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
-                                    Variable == "catches_total" ~ "Catches",
-                                    Variable == "revenue_total" ~ "Revenue")) %>%
-        mutate(Region = "Global") %>%
-        ggplot()+
-        aes(x = Year, y = Diff*100, color = Variable)+
-        geom_line(size = 1)+
-        theme_bw()+
-        geom_hline(yintercept = 0)+
-        scale_x_continuous(expand = c(0,0))+
-        labs(x = "Year", y = "Change relative to BAU (%)")+
-        theme(legend.position = "none")+
-        facet_wrap(~Variable, ncol = 1, scales = "free_y")
+  abs_all_BC_ts_plot <- BioEconomicModelPlots(dat = abs_all_BC_results_all,
+                                              spatial_res = "global",
+                                              temporal_res = "all",
+                                              start_year = 2018,
+                                              end_year = 2100,
+                                              plot_name = "abs_all_BC_ts_plot",
+                                              plot_width = 8,
+                                              plot_height = 6.5,
+                                              results_dir = results_dir)
   
-  ggsave(paste0(results_dir, "global_all_bad_timeseries_plot.png"), global_all_bad_plot, width = 7.5, height = 6, units = "in")
+  # 2) global (aggregated) "kobe" final year plot
+  abs_all_BC_end_plot <- BioEconomicModelPlots(dat = abs_all_BC_results_all,
+                                                      spatial_res = "global",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "abs_all_BC_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
   
-  # 2) regional timeseries plot
-  regional_all_bad_plot <- global_all_bad_results_full %>%
-        dplyr::select(run_number, run_name, id, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
-        mutate(Region = case_when(Region == "atlantic" ~ "Atlantic Ocean",
-                                  Region == "indian" ~ "Indian Ocean",
-                                  Region == "pacific" ~ "Pacific Ocean")) %>%
-        mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
-                                    Variable == "catches_total" ~ "Catches",
-                                    Variable == "revenue_total" ~ "Revenue")) %>%
-        ggplot()+
-        aes(x = Year, y = Diff*100, color = Variable)+
-        geom_line(size = 1)+
-        theme_bw()+
-        geom_hline(yintercept = 0)+
-        scale_x_continuous(expand = c(0,0))+
-        labs(x = "Year", y = "Change relative to BAU (%)")+
-        theme(legend.position = "none")+
-        facet_wrap(Variable ~ Region, ncol = 3, scales = "free_y")
+  # 3) regional timeseries plot
+  regional_abs_all_BC_ts_plot <- BioEconomicModelPlots(dat = abs_all_BC_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "all",
+                                                      start_year = 2018,
+                                                      end_year = 2100,
+                                                      plot_name = "regional_abs_all_BC_ts_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
   
-  ggsave(paste0(results_dir, "regional_all_bad_timeseries_plot.png"), regional_all_bad_plot, width = 7.5, height = 6, units = "in")
-  
-  
+  # 4) regional "kobe" final year plot
+  regional_abs_all_BC_end_plot <- BioEconomicModelPlots(dat = abs_all_BC_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "regional_abs_all_BC_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
 }
 ```
+
+## Scenario 2: Remove all bad
+
+```{r}
+# Create model input for removing all bad subsidies
+abs_all_B_fleet_summary <- fleet_vessels %>%
+  group_by(region, fleet) %>%
+  summarize(catch = sum(catch, na.rm = T),
+            bad_subs = sum(bad_ugly_subs, na.rm = T),
+            fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
+            removed_subs = sum(bad_subs, na.rm = T)) %>%
+  ungroup()
+
+# Turn into a list
+abs_all_B_list <- abs_all_B_fleet_summary %>%
+  group_by(region) %>%
+  group_split()
+names(abs_all_B_list) <- colnames(bio_dat_regional)[-c(1:2)]
+
+# Run model
+abs_all_B_results <- pmap_df(list(fleet = abs_all_B_list, 
+                                       region = names(abs_all_B_list),
+                                       bio_param = bio_dat_regional_list),
+                                  BioEconModel,
+                                  end_year = 2100,
+                                  return = "all")
+
+# Extract results timeseries
+abs_all_B_results_all <- abs_all_B_results %>%
+  dplyr::filter(Year > 2018) %>%
+  group_by(Year, Variable, Fleet) %>%
+  mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
+                          TRUE ~ 0)) %>%
+  ungroup() %>%
+  mutate(run_id = "Absolute",
+         run_name = "Capacity-enhancing subsidies")
+
+write_csv(abs_all_B_results_all, paste0(results_dir, "abs_subs_all_B_ts.csv"))
+```
+
+```{r}
+# Make plots
+if(make_plots){
+  
+  # 1) global (aggregated) timeseries plot
+  abs_all_B_ts_plot <- BioEconomicModelPlots(dat = abs_all_B_results_all,
+                                              spatial_res = "global",
+                                              temporal_res = "all",
+                                              start_year = 2018,
+                                              end_year = 2100,
+                                              plot_name = "abs_all_B_ts_plot",
+                                              plot_width = 8,
+                                              plot_height = 6.5,
+                                              results_dir = results_dir)
+  
+  # 2) global (aggregated) "kobe" final year plot
+  abs_all_B_end_plot <- BioEconomicModelPlots(dat = abs_all_B_results_all,
+                                                      spatial_res = "global",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "abs_all_B_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 3) regional timeseries plot
+  regional_abs_all_B_ts_plot <- BioEconomicModelPlots(dat = abs_all_B_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "all",
+                                                      start_year = 2018,
+                                                      end_year = 2100,
+                                                      plot_name = "regional_abs_all_B_ts_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 4) regional "kobe" final year plot
+  regional_abs_all_B_end_plot <- BioEconomicModelPlots(dat = abs_all_B_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "regional_abs_all_B_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+}
+```
+
+## Scenario 3: Remove fuel subsidies
+
+```{r}
+# Create model input for removing all bad subsidies
+abs_fuel_fleet_summary <- fleet_vessels %>%
+  group_by(region, fleet) %>%
+  summarize(catch = sum(catch, na.rm = T),
+            bad_subs = sum(bad_ugly_subs, na.rm = T),
+            fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
+            removed_subs = sum(B7_subs, na.rm = T)) %>%
+  ungroup()
+
+# Turn into a list
+abs_fuel_list <- abs_fuel_fleet_summary %>%
+  group_by(region) %>%
+  group_split()
+names(abs_fuel_list) <- colnames(bio_dat_regional)[-c(1:2)]
+
+# Run model
+abs_fuel_results <- pmap_df(list(fleet = abs_fuel_list, 
+                                       region = names(abs_fuel_list),
+                                       bio_param = bio_dat_regional_list),
+                                  BioEconModel,
+                                  end_year = 2100,
+                                  return = "all")
+
+# Extract results timeseries
+abs_fuel_results_all <- abs_fuel_results %>%
+  dplyr::filter(Year > 2018) %>%
+  group_by(Year, Variable, Fleet) %>%
+  mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
+                          TRUE ~ 0)) %>%
+  ungroup() %>%
+  mutate(run_id = "Absolute",
+         run_name = "Fuel subsidies")
+
+write_csv(abs_fuel_results_all, paste0(results_dir, "abs_subs_fuel_ts.csv"))
+```
+
+```{r}
+# Make plots
+if(make_plots){
+  
+  # 1) global (aggregated) timeseries plot
+  abs_fuel_ts_plot <- BioEconomicModelPlots(dat = abs_fuel_results_all,
+                                              spatial_res = "global",
+                                              temporal_res = "all",
+                                              start_year = 2018,
+                                              end_year = 2100,
+                                              plot_name = "abs_fuel_ts_plot",
+                                              plot_width = 8,
+                                              plot_height = 6.5,
+                                              results_dir = results_dir)
+  
+  # 2) global (aggregated) "kobe" final year plot
+  abs_fuel_end_plot <- BioEconomicModelPlots(dat = abs_fuel_results_all,
+                                                      spatial_res = "global",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "abs_fuel_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 3) regional timeseries plot
+  regional_abs_fuel_ts_plot <- BioEconomicModelPlots(dat = abs_fuel_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "all",
+                                                      start_year = 2018,
+                                                      end_year = 2100,
+                                                      plot_name = "regional_abs_fuel_ts_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 4) regional "kobe" final year plot
+  regional_abs_fuel_end_plot <- BioEconomicModelPlots(dat = abs_fuel_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "regional_abs_fuel_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+}
+```
+## Combine absolute subsidy results 
+
+```{r}
+abs_results_all <- abs_all_BC_results_all %>%
+  bind_rows(abs_all_B_results_all) %>%
+  bind_rows(abs_fuel_results_all)
+```
+
+# Section 2: Effective subsidies
+
+This second section presents results obtained by using effective subsidy values - based on suggestions from Roger Martini at the OECD.
+
+```{r}
+rel <- read_csv(here::here("data", "lookup-tables", "oecd_relative_effects_lookup_table.csv"))
+
+rel_fleet_vessels <- fleet_vessels %>%
+   mutate(B1_subs = B1_subs * rel$rel_effect_effort[rel$type == "B1"], 
+           B2_subs = B2_subs * rel$rel_effect_effort[rel$type == "B2"],
+           B3_subs = B3_subs * rel$rel_effect_effort[rel$type == "B3"],
+           B4_subs = B4_subs * rel$rel_effect_effort[rel$type == "B4"],
+           B5_subs = B5_subs * rel$rel_effect_effort[rel$type == "B5"], 
+           B6_subs = B6_subs * rel$rel_effect_effort[rel$type == "B6"],
+           B7_subs = B7_subs * rel$rel_effect_effort[rel$type == "B7"], 
+           C1_subs = C1_subs * rel$rel_effect_effort[rel$type == "C1"], 
+           C2_subs = C2_subs * rel$rel_effect_effort[rel$type == "C2"],
+           C3_subs = C3_subs * rel$rel_effect_effort[rel$type == "C3"]) %>%
+  ungroup() %>%
+  mutate(bad_subs = rowSums(select(., one_of(paste0(bad_subsidy_types, "_subs")))),
+         ugly_subs = rowSums(select(., one_of(paste0(ugly_subsidy_types, "_subs")))),
+         bad_ugly_subs = rowSums(select(., one_of(paste0(c(bad_subsidy_types, ugly_subsidy_types), "_subs")))))
+```
+
+## Scenario 1: Remove all bad + ugly
+
+```{r}
+# Create model input for removing all bad subsidies
+rel_all_BC_fleet_summary <- rel_fleet_vessels %>%
+  group_by(region, fleet) %>%
+  summarize(catch = sum(catch, na.rm = T),
+            bad_subs = sum(bad_ugly_subs, na.rm = T),
+            fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
+            removed_subs = sum(bad_ugly_subs, na.rm = T)) %>%
+  ungroup()
+
+# Turn into a list
+rel_all_BC_list <- rel_all_BC_fleet_summary %>%
+  group_by(region) %>%
+  group_split()
+names(rel_all_BC_list) <- colnames(bio_dat_regional)[-c(1:2)]
+
+# Run model
+rel_all_BC_results <- pmap_df(list(fleet = rel_all_BC_list, 
+                                       region = names(rel_all_BC_list),
+                                       bio_param = bio_dat_regional_list),
+                                  BioEconModel,
+                                  end_year = 2100,
+                                  return = "all")
+
+# Extract results timeseries
+rel_all_BC_results_all <- rel_all_BC_results %>%
+  dplyr::filter(Year > 2018) %>%
+  group_by(Year, Variable, Fleet) %>%
+  mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
+                          TRUE ~ 0)) %>%
+  ungroup() %>%
+  mutate(run_id = "Effective",
+         run_name = "All subsidies")
+
+write_csv(rel_all_BC_results_all, paste0(results_dir, "rel_subs_all_BC_ts.csv"))
+```
+
+```{r}
+# Make plots
+if(make_plots){
+  
+  # 1) global (aggregated) timeseries plot
+  rel_all_BC_ts_plot <- BioEconomicModelPlots(dat = rel_all_BC_results_all,
+                                              spatial_res = "global",
+                                              temporal_res = "all",
+                                              start_year = 2018,
+                                              end_year = 2100,
+                                              plot_name = "rel_all_BC_ts_plot",
+                                              plot_width = 8,
+                                              plot_height = 6.5,
+                                              results_dir = results_dir)
+  
+  # 2) global (aggregated) "kobe" final year plot
+  rel_all_BC_end_plot <- BioEconomicModelPlots(dat = rel_all_BC_results_all,
+                                                      spatial_res = "global",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "rel_all_BC_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 3) regional timeseries plot
+  regional_rel_all_BC_ts_plot <- BioEconomicModelPlots(dat = rel_all_BC_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "all",
+                                                      start_year = 2018,
+                                                      end_year = 2100,
+                                                      plot_name = "regional_rel_all_BC_ts_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 4) regional "kobe" final year plot
+  regional_rel_all_BC_end_plot <- BioEconomicModelPlots(dat = rel_all_BC_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "regional_rel_all_BC_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+}
+```
+
+## Scenario 2: Remove all bad
+
+```{r}
+# Create model input for removing all bad subsidies
+rel_all_B_fleet_summary <- rel_fleet_vessels %>%
+  group_by(region, fleet) %>%
+  summarize(catch = sum(catch, na.rm = T),
+            bad_subs = sum(bad_ugly_subs, na.rm = T),
+            fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
+            removed_subs = sum(bad_subs, na.rm = T)) %>%
+  ungroup()
+
+# Turn into a list
+rel_all_B_list <- rel_all_B_fleet_summary %>%
+  group_by(region) %>%
+  group_split()
+names(rel_all_B_list) <- colnames(bio_dat_regional)[-c(1:2)]
+
+# Run model
+rel_all_B_results <- pmap_df(list(fleet = rel_all_B_list, 
+                                       region = names(rel_all_B_list),
+                                       bio_param = bio_dat_regional_list),
+                                  BioEconModel,
+                                  end_year = 2100,
+                                  return = "all")
+
+# Extract results timeseries
+rel_all_B_results_all <- rel_all_B_results %>%
+  dplyr::filter(Year > 2018) %>%
+  group_by(Year, Variable, Fleet) %>%
+  mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
+                          TRUE ~ 0)) %>%
+  ungroup() %>%
+  mutate(run_id = "Effective",
+         run_name = "Capacity-enhancing subsidies")
+
+write_csv(rel_all_B_results_all, paste0(results_dir, "rel_subs_all_B_ts.csv"))
+```
+
+```{r}
+# Make plots
+if(make_plots){
+  
+  # 1) global (aggregated) timeseries plot
+  rel_all_B_ts_plot <- BioEconomicModelPlots(dat = rel_all_B_results_all,
+                                              spatial_res = "global",
+                                              temporal_res = "all",
+                                              start_year = 2018,
+                                              end_year = 2100,
+                                              plot_name = "rel_all_B_ts_plot",
+                                              plot_width = 8,
+                                              plot_height = 6.5,
+                                              results_dir = results_dir)
+  
+  # 2) global (aggregated) "kobe" final year plot
+  rel_all_B_end_plot <- BioEconomicModelPlots(dat = rel_all_B_results_all,
+                                                      spatial_res = "global",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "rel_all_B_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 3) regional timeseries plot
+  regional_rel_all_B_ts_plot <- BioEconomicModelPlots(dat = rel_all_B_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "all",
+                                                      start_year = 2018,
+                                                      end_year = 2100,
+                                                      plot_name = "regional_rel_all_B_ts_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 4) regional "kobe" final year plot
+  regional_rel_all_B_end_plot <- BioEconomicModelPlots(dat = rel_all_B_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "regional_rel_all_B_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+}
+```
+
+## Scenario 3: Remove fuel subsidies
+
+```{r}
+# Create model input for removing all bad subsidies
+rel_fuel_fleet_summary <- rel_fleet_vessels %>%
+  group_by(region, fleet) %>%
+  summarize(catch = sum(catch, na.rm = T),
+            bad_subs = sum(bad_ugly_subs, na.rm = T),
+            fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T),
+            removed_subs = sum(B7_subs, na.rm = T)) %>%
+  ungroup()
+
+# Turn into a list
+rel_fuel_list <- rel_fuel_fleet_summary %>%
+  group_by(region) %>%
+  group_split()
+names(rel_fuel_list) <- colnames(bio_dat_regional)[-c(1:2)]
+
+# Run model
+rel_fuel_results <- pmap_df(list(fleet = rel_fuel_list, 
+                                       region = names(rel_fuel_list),
+                                       bio_param = bio_dat_regional_list),
+                                  BioEconModel,
+                                  end_year = 2100,
+                                  return = "all")
+
+# Extract results timeseries
+rel_fuel_results_all <- rel_fuel_results %>%
+  dplyr::filter(Year > 2018) %>%
+  group_by(Year, Variable, Fleet) %>%
+  mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
+                          TRUE ~ 0)) %>%
+  ungroup() %>%
+  mutate(run_id = "Effective",
+         run_name = "Fuel subsidies")
+
+write_csv(rel_fuel_results_all, paste0(results_dir, "rel_subs_fuel_ts.csv"))
+```
+
+```{r}
+# Make plots
+if(make_plots){
+  
+  # 1) global (aggregated) timeseries plot
+  rel_fuel_ts_plot <- BioEconomicModelPlots(dat = rel_fuel_results_all,
+                                              spatial_res = "global",
+                                              temporal_res = "all",
+                                              start_year = 2018,
+                                              end_year = 2100,
+                                              plot_name = "rel_fuel_ts_plot",
+                                              plot_width = 8,
+                                              plot_height = 6.5,
+                                              results_dir = results_dir)
+  
+  # 2) global (aggregated) "kobe" final year plot
+  rel_fuel_end_plot <- BioEconomicModelPlots(dat = rel_fuel_results_all,
+                                                      spatial_res = "global",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "rel_fuel_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 3) regional timeseries plot
+  regional_fuel_BC_ts_plot <- BioEconomicModelPlots(dat = rel_fuel_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "all",
+                                                      start_year = 2018,
+                                                      end_year = 2100,
+                                                      plot_name = "regional_rel_fuel_ts_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+  
+  # 4) regional "kobe" final year plot
+  regional_rel_fuel_end_plot <- BioEconomicModelPlots(dat = rel_fuel_results_all,
+                                                      spatial_res = "regional",
+                                                      temporal_res = "last",
+                                                      end_year = 2100,
+                                                      plot_name = "regional_rel_fuel_end_plot",
+                                                      plot_width = 8,
+                                                      plot_height = 6.5,
+                                                      results_dir = results_dir)
+}
+```
+
+## Combine absolute subsidy results 
+
+```{r}
+rel_results_all <- rel_all_BC_results_all %>%
+  bind_rows(rel_all_B_results_all) %>%
+  bind_rows(rel_fuel_results_all)
+```
+
+
+# Compare 
+
+```{r}
+results_all <- abs_results_all %>%
+  bind_rows(rel_results_all)
+
+# Make plots
+if(make_plots){
+  
+  # 1) global (aggregated) timeseries plot
+  compare_ts_plot <- BioEconomicModelPlots(dat = results_all,
+                                           spatial_res = "global",
+                                           temporal_res = "all",
+                                           start_year = 2018,
+                                           end_year = 2100,
+                                           plot_name = "compare_ts_plot",
+                                           plot_width = 8,
+                                           plot_height = 6.5,
+                                           results_dir = results_dir,
+                                           compare = TRUE)
+  
+  # 2) global (aggregated) "kobe" final year plot
+  compare_end_plot <- BioEconomicModelPlots(dat = results_all,
+                                            spatial_res = "global",
+                                            temporal_res = "last",
+                                            end_year = 2100,
+                                            plot_name = "compare_end_plot",
+                                            plot_width = 8,
+                                            plot_height = 6.5,
+                                            results_dir = results_dir,
+                                            compare = TRUE)
+  
+  # 3) regional timeseries plot
+  regional_compare_ts_plot <- BioEconomicModelPlots(dat = results_all,
+                                                    spatial_res = "regional",
+                                                    temporal_res = "all",
+                                                    start_year = 2018,
+                                                    end_year = 2100,
+                                                    plot_name = "regional_compare_ts_plot",
+                                                    plot_width = 8,
+                                                    plot_height = 6.5,
+                                                    results_dir = results_dir,
+                                                    compare = TRUE)
+  
+  # 4) regional "kobe" final year plot
+  regional_compare_end_plot <- BioEconomicModelPlots(dat = results_all,
+                                                     spatial_res = "regional",
+                                                     temporal_res = "last",
+                                                     end_year = 2100,
+                                                     plot_name = "regional_compare_end_plot",
+                                                     plot_width = 8,
+                                                     plot_height = 6.5,
+                                                     results_dir = results_dir,
+                                                     compare = TRUE)
+}
+```
+```
+
+
 

@@ -1835,6 +1835,20 @@ URY,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_gdp,0,2018 US$/2018 US$
 URY,C,Ambiguous,C1,Fisher assistance,subsidies_per_gdp,0,2018 US$/2018 US$,Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 URY,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_gdp,0,2018 US$/2018 US$,Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 URY,C,Ambiguous,C3,Rural fisher communities,subsidies_per_gdp,0,2018 US$/2018 US$,Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+USA,A,Beneficial,A1,Fisheries management,subsidies_per_gdp,9.530006793595092e-5,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
+USA,A,Beneficial,A2,Fishery research and development,subsidies_per_gdp,1.954682842771209e-6,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
+USA,A,Beneficial,A3,Marine protected areas,subsidies_per_gdp,9.282977568964747e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_gdp,1.295307387781937e-7,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_gdp,7.071944792241854e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B2,Fisheries development projects,subsidies_per_gdp,1.6392588133908664e-8,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B3,Fishing port development,subsidies_per_gdp,0,2018 US$/2018 US$,Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B4,Marketing and storage infrastructure,subsidies_per_gdp,1.1258681185583287e-5,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B5,Non-fuel tax exemption,subsidies_per_gdp,2.4624012534658106e-5,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B6,Fishing access agreements,subsidies_per_gdp,2.4559628958548054e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_gdp,9.790838425613624e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,C,Ambiguous,C1,Fisher assistance,subsidies_per_gdp,1.700030025899992e-8,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
+USA,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_gdp,5.1532910267897775e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,C,Ambiguous,C3,Rural fisher communities,subsidies_per_gdp,0,2018 US$/2018 US$,Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 VCT,A,Beneficial,A1,Fisheries management,subsidies_per_gdp,5.329977930481943e-4,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
 VCT,A,Beneficial,A2,Fishery research and development,subsidies_per_gdp,1.2488296240601503e-4,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
 VCT,A,Beneficial,A3,Marine protected areas,subsidies_per_gdp,0,2018 US$/2018 US$,Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
@@ -1939,20 +1953,6 @@ EU,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_gdp,4.218349330617675e-5
 EU,C,Ambiguous,C1,Fisher assistance,subsidies_per_gdp,4.613832950380525e-6,2018 US$/2018 US$,Aggregate,Sumaila et al. (2019); World Bank WDI database
 EU,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_gdp,8.03659103212723e-6,2018 US$/2018 US$,Aggregate,Sumaila et al. (2019); World Bank WDI database
 EU,C,Ambiguous,C3,Rural fisher communities,subsidies_per_gdp,3.4392967210960465e-7,2018 US$/2018 US$,Aggregate,Sumaila et al. (2019); World Bank WDI database
-USA,A,Beneficial,A1,Fisheries management,subsidies_per_gdp,9.456290957985913e-5,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
-USA,A,Beneficial,A2,Fishery research and development,subsidies_per_gdp,1.9395631180714695e-6,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
-USA,A,Beneficial,A3,Marine protected areas,subsidies_per_gdp,9.2111725363705e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_gdp,1.2852880175412714e-7,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_gdp,7.017242384254857e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B2,Fisheries development projects,subsidies_per_gdp,1.62657893437021e-8,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B3,Fishing port development,subsidies_per_gdp,0,2018 US$/2018 US$,Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B4,Marketing and storage infrastructure,subsidies_per_gdp,1.117159382988377e-5,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B5,Non-fuel tax exemption,subsidies_per_gdp,2.4433542611670942e-5,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B6,Fishing access agreements,subsidies_per_gdp,2.436965705085251e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_gdp,9.71510502358251e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,C,Ambiguous,C1,Fisher assistance,subsidies_per_gdp,1.6868800736875617e-8,2018 US$/2018 US$,Reported,Sumaila et al. (2019); World Bank WDI database
-USA,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_gdp,5.113429653927756e-6,2018 US$/2018 US$,Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,C,Ambiguous,C3,Rural fisher communities,subsidies_per_gdp,0,2018 US$/2018 US$,Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 AGO,A,Beneficial,A1,Fisheries management,subsidies_per_capita,0.24025928174972594,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
 AGO,A,Beneficial,A2,Fishery research and development,subsidies_per_capita,0.007014104344590523,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
 AGO,A,Beneficial,A3,Marine protected areas,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
@@ -2448,19 +2448,19 @@ EGY,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_capita,0,2018 US$/perso
 EGY,C,Ambiguous,C1,Fisher assistance,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 EGY,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 EGY,C,Ambiguous,C3,Rural fisher communities,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-ERI,A,Beneficial,A1,Fisheries management,subsidies_per_capita,3.501091845230761,2018 US$/person (2011),Reported,Sumaila et al. (2019); World Bank WDI database
-ERI,A,Beneficial,A2,Fishery research and development,subsidies_per_capita,0.023563282405696127,2018 US$/person (2011),Modeled,Sumaila et al. (2019); World Bank WDI database
-ERI,A,Beneficial,A3,Marine protected areas,subsidies_per_capita,0,2018 US$/person (2011),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-ERI,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_capita,0,2018 US$/person (2011),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-ERI,B,Capacity-enhancing,B2,Fisheries development projects,subsidies_per_capita,0.23470778619104338,2018 US$/person (2011),Reported,Sumaila et al. (2019); World Bank WDI database
-ERI,B,Capacity-enhancing,B3,Fishing port development,subsidies_per_capita,0,2018 US$/person (2011),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-ERI,B,Capacity-enhancing,B4,Marketing and storage infrastructure,subsidies_per_capita,3.067477765829945,2018 US$/person (2011),Reported,Sumaila et al. (2019); World Bank WDI database
-ERI,B,Capacity-enhancing,B5,Non-fuel tax exemption,subsidies_per_capita,0,2018 US$/person (2011),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-ERI,B,Capacity-enhancing,B6,Fishing access agreements,subsidies_per_capita,0,2018 US$/person (2011),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-ERI,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_capita,0,2018 US$/person (2011),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-ERI,C,Ambiguous,C1,Fisher assistance,subsidies_per_capita,0,2018 US$/person (2011),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-ERI,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_capita,0,2018 US$/person (2011),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-ERI,C,Ambiguous,C3,Rural fisher communities,subsidies_per_capita,0.01212280600453271,2018 US$/person (2011),Modeled,Sumaila et al. (2019); World Bank WDI database
+ERI,A,Beneficial,A1,Fisheries management,subsidies_per_capita,3.2589367426767835,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
+ERI,A,Beneficial,A2,Fishery research and development,subsidies_per_capita,0.021933513944970815,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
+ERI,A,Beneficial,A3,Marine protected areas,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+ERI,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+ERI,B,Capacity-enhancing,B2,Fisheries development projects,subsidies_per_capita,0.21847408237869362,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
+ERI,B,Capacity-enhancing,B3,Fishing port development,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+ERI,B,Capacity-enhancing,B4,Marketing and storage infrastructure,subsidies_per_capita,2.8553138393170037,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
+ERI,B,Capacity-enhancing,B5,Non-fuel tax exemption,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+ERI,B,Capacity-enhancing,B6,Fishing access agreements,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+ERI,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+ERI,C,Ambiguous,C1,Fisher assistance,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+ERI,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+ERI,C,Ambiguous,C3,Rural fisher communities,subsidies_per_capita,0.011284324907480511,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
 ESP,A,Beneficial,A1,Fisheries management,subsidies_per_capita,0.543048034100098,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
 ESP,A,Beneficial,A2,Fishery research and development,subsidies_per_capita,0.7717898386747364,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
 ESP,A,Beneficial,A3,Marine protected areas,subsidies_per_capita,1.8946518270940953,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
@@ -3815,6 +3815,20 @@ URY,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_capita,0,2018 US$/perso
 URY,C,Ambiguous,C1,Fisher assistance,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 URY,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 URY,C,Ambiguous,C3,Rural fisher communities,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+USA,A,Beneficial,A1,Fisheries management,subsidies_per_capita,5.988658197853734,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
+USA,A,Beneficial,A2,Fishery research and development,subsidies_per_capita,0.12283230940016895,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
+USA,A,Beneficial,A3,Marine protected areas,subsidies_per_capita,0.5833424983100287,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_capita,0.008139714246367816,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_capita,0.444401153872122,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B2,Fisheries development projects,subsidies_per_capita,0.0010301105701010583,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B3,Fishing port development,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B4,Marketing and storage infrastructure,subsidies_per_capita,0.7074957535641989,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B5,Non-fuel tax exemption,subsidies_per_capita,1.5473734460382675,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B6,Fishing access agreements,subsidies_per_capita,0.15433275808124658,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_capita,0.615256484820336,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,C,Ambiguous,C1,Fisher assistance,subsidies_per_capita,0.0010682992123411542,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
+USA,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_capita,0.3238329124198725,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
+USA,C,Ambiguous,C3,Rural fisher communities,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 VCT,A,Beneficial,A1,Fisheries management,subsidies_per_capita,3.923610466382361,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
 VCT,A,Beneficial,A2,Fishery research and development,subsidies_per_capita,0.9193135595680972,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
 VCT,A,Beneficial,A3,Marine protected areas,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
@@ -3906,33 +3920,19 @@ ZAF,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_capita,0.43940333444895
 ZAF,C,Ambiguous,C1,Fisher assistance,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 ZAF,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
 ZAF,C,Ambiguous,C3,Rural fisher communities,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-EU,A,Beneficial,A1,Fisheries management,subsidies_per_capita,0.5857895246705608,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,A,Beneficial,A2,Fishery research and development,subsidies_per_capita,0.26657616075347007,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,A,Beneficial,A3,Marine protected areas,subsidies_per_capita,2.1071302422938856,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_capita,0.20976224754580824,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,B,Capacity-enhancing,B2,Fisheries development projects,subsidies_per_capita,0.1280779582438689,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,B,Capacity-enhancing,B3,Fishing port development,subsidies_per_capita,0.19600147991112404,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,B,Capacity-enhancing,B4,Marketing and storage infrastructure,subsidies_per_capita,0.18201335304784147,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,B,Capacity-enhancing,B5,Non-fuel tax exemption,subsidies_per_capita,1.2362198966557343,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,B,Capacity-enhancing,B6,Fishing access agreements,subsidies_per_capita,0.46268043856908714,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_capita,1.541905043040612,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,C,Ambiguous,C1,Fisher assistance,subsidies_per_capita,0.16864635278788045,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_capita,0.29375614180055293,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-EU,C,Ambiguous,C3,Rural fisher communities,subsidies_per_capita,0.012571431484538832,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
-USA,A,Beneficial,A1,Fisheries management,subsidies_per_capita,5.923770824002028,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
-USA,A,Beneficial,A2,Fishery research and development,subsidies_per_capita,0.12150141594828123,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
-USA,A,Beneficial,A3,Marine protected areas,subsidies_per_capita,0.5770219567928994,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_capita,0.00805152008602328,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_capita,0.43958604790702205,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B2,Fisheries development projects,subsidies_per_capita,0.0010189492769595166,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B3,Fishing port development,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B4,Marketing and storage infrastructure,subsidies_per_capita,0.6998300060890019,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B5,Non-fuel tax exemption,subsidies_per_capita,1.5306075869820148,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B6,Fishing access agreements,subsidies_per_capita,0.15266055588831265,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_capita,0.6085901538616696,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,C,Ambiguous,C1,Fisher assistance,subsidies_per_capita,0.0010567241435884397,2018 US$/person (2018),Reported,Sumaila et al. (2019); World Bank WDI database
-USA,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_capita,0.32032416863128793,2018 US$/person (2018),Modeled,Sumaila et al. (2019); World Bank WDI database
-USA,C,Ambiguous,C3,Rural fisher communities,subsidies_per_capita,0,2018 US$/person (2018),Found no evidence of subsidy,Sumaila et al. (2019); World Bank WDI database
+EU,A,Beneficial,A1,Fisheries management,subsidies_per_capita,0.585693809279769,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,A,Beneficial,A2,Fishery research and development,subsidies_per_capita,0.2665326033999707,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,A,Beneficial,A3,Marine protected areas,subsidies_per_capita,2.1067859466277863,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,B,Capacity-enhancing,B1,Boat construction and renovation,subsidies_per_capita,0.20972797333185997,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,B,Capacity-enhancing,B2,Fisheries development projects,subsidies_per_capita,0.12805703087779483,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,B,Capacity-enhancing,B3,Fishing port development,subsidies_per_capita,0.1959694541451187,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,B,Capacity-enhancing,B4,Marketing and storage infrastructure,subsidies_per_capita,0.18198361287926113,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,B,Capacity-enhancing,B5,Non-fuel tax exemption,subsidies_per_capita,1.2360179038485402,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,B,Capacity-enhancing,B6,Fishing access agreements,subsidies_per_capita,0.4626048386528642,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,B,Capacity-enhancing,B7,Fuel subsidies,subsidies_per_capita,1.5416531026464209,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,C,Ambiguous,C1,Fisher assistance,subsidies_per_capita,0.16861879672741353,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,C,Ambiguous,C2,Vessel buyback programs,subsidies_per_capita,0.2937081433596014,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
+EU,C,Ambiguous,C3,Rural fisher communities,subsidies_per_capita,0.012569377368808388,2018 US$/person (2018),Aggregate,Sumaila et al. (2019); World Bank WDI database
 MRT,A,Beneficial,A1,Fisheries management,subsidies_per_fisher,94.95504661381514,2018 US$/fisher (2000),Reported,Sumaila et al. (2019); FAO Yearbook of Fishery and Aquaculture Statistics (2017)
 MRT,A,Beneficial,A2,Fishery research and development,subsidies_per_fisher,15.728619843903637,2018 US$/fisher (2000),Reported,Sumaila et al. (2019); FAO Yearbook of Fishery and Aquaculture Statistics (2017)
 MRT,A,Beneficial,A3,Marine protected areas,subsidies_per_fisher,25.16209732055064,2018 US$/fisher (2000),Modeled,Sumaila et al. (2019); FAO Yearbook of Fishery and Aquaculture Statistics (2017)

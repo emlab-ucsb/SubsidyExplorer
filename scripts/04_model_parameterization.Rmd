@@ -188,7 +188,10 @@ $$ X_{MSY} = \bigg(\frac{r}{\gamma\beta}\bigg)^{\frac{1}{\gamma-1}}$$
 
 We first parameterize our bio-economic model of fisheries subsidies reform globally. 
 
-We assume $\phi = 1.188$ based on literature for all (Thorson et al. 2012; World Bank 2017; Costello et al. 2016). 
+We assume $\phi = 0.188$ based on literature for all (Thorson et al. 2012; World Bank 2017; Costello et al. 2016). 
+
+> Thorson, J. T., Cope, J. M., Branch, T. A., & Jensen, O. P. (2012). Spawning biomass reference points for exploited marine fishes, incorporating taxonomic and body size information. Canadian Journal of Fisheries and Aquatic Sciences, 69(9), 1556–1568. https://doi.org/10.1139/f2012-077
+
 
 ```{r}
 # Phi

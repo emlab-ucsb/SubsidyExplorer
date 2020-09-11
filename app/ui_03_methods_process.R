@@ -11,21 +11,6 @@ MethodsProcess = function()
     # Page style
     style = "background-color: #262626; color: #ffffff;",
     
-    ### Top navigation button
-    column(12,
-           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
-                    
-                    # Return to main menu
-                    column(3,
-                           tags$button(id = "ab_methods_process_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("undo"), text$item_label[text$item_id == "ab_methods_process_to_introduction"]
-                           )
-                    )
-                    
-           )
-    ),
-    
     ### Title and introductory text 
     column(12, style = "padding: 25px 25px;",
            
@@ -44,16 +29,6 @@ MethodsProcess = function()
                   
            )
            
-    ),
-    
-    ### Bottom navigation buttons
-    column(12,
-           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
-                    
-                    # Empty
-                    column(12, style = "height: 30px;")
-                    
-           )
     )
     
   ) # /fluidPage

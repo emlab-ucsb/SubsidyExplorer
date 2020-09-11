@@ -11,21 +11,6 @@ CountryFisheryStats = function(wto_members_and_observers)
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     
-    ### Top Navigation button
-    column(12,
-           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
-                    
-                    # Return to main menu
-                    column(3,
-                           tags$button(id = "ab_country_fishery_stats_to_introduction",
-                                       class = "btn action-button nav-button-l",
-                                       icon("undo"), text$item_label[text$item_id == "ab_country_fishery_stats_to_introduction"]
-                           )
-                    )
-                    
-           )
-    ),
-    
     ### Title and introductory text                                                  
     column(12, style = "padding: 25px 25px 0px;",
            
@@ -107,29 +92,6 @@ CountryFisheryStats = function(wto_members_and_observers)
                     # GDP plot
                     plotlyOutput("country_fishery_stats_gdp_plot")
              )
-           )
-    ),
-    
-    ### Bottom navigation buttons
-    column(12,
-           fluidRow(style = "padding: 5px 5px; background-color: #3c8dbc;",
-                    
-                    # Back to global-subsidies
-                    column(3,
-                           tags$button(id = "ab_country_fishery_stats_to_global_subsidies",
-                                       class = "btn action-button nav-button-l",
-                                       icon("chevron-left"), text$item_label[text$item_id == "ab_country_fishery_stats_to_global_subsidies"]
-                           )
-                    ),
-                    
-                    # Next to compare-fishery-stats
-                    column(3, offset = 6,
-                           tags$button(id = "ab_country_fishery_stats_to_compare_fishery_stats",
-                                       class = "btn action-button nav-button-r",
-                                       text$item_label[text$item_id == "ab_country_fishery_stats_to_compare_fishery_stats"], icon("chevron-right")
-                           )
-                    )
-                    
            )
     )
     

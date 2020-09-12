@@ -188,10 +188,6 @@ bau_out <- list(biomass = biomass_bau,
                 profits_fleet = profits_fleet_bau,
                 profits_total = profits_total_bau)
 
-if(region == "southern"){
-  browser()
-}
-
 ### Subsidy Reform --------------------------------------------------------
 
 ## Set up storage bins to track important things for our subsidy removal run

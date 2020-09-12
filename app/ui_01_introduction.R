@@ -21,13 +21,18 @@ Introduction = function()
              
              # Child element 1: background image
              tags$div(class = "intro-picture-div",
-                      
+
                       # tags$iframe(src = "https://www.youtube.com/embed/xYl4m0xFcCU?controls=0&amp;start=2",
-                      #             frameborder="0", 
-                      #             allow="autoplay; encrypted-media; gyroscope; picture-in-picture", allowfullscreen=NA)
+                      #             frameborder="0",
+                      #             allow="autoplay; encrypted-media; gyroscope; picture-in-picture", allowfullscreen=NA,
+                      #             style='width:100vw;height:90vh;')
                       
-                      #tags$img(src = "intro-background.jpg")
-                      #tags$img(src = "fish-background.jpeg")
+                      tags$video(src = "fish_swimming.mp4",
+                                 type = "video/mp4",
+                                 autoplay = "autoplay",
+                                 style = "min-width: 100vw; min-height: 90vh; max-width: 200%; max-height: 200%;")
+
+                      # tags$img(src = "fish-background.jpeg")
 
              ),
                       
@@ -51,8 +56,8 @@ Introduction = function()
                                                 tags$td(id = "introduction-table-cell-r",
                                                         
                                                         tags$h4("An ambitious agreement on fisheries subsidies reform could result in increases of up to"),
-                                                        tags$h3(paste0("+ ", biomass_end_percent, "% in global fish biomass")),
-                                                        tags$h3(paste0("+ ", catch_end_percent, "% in global fish catch")),
+                                                        tags$h3(paste0("+ ", biomass_end_percent, "% in global fish biomass"), id = "color-text-top"),
+                                                        tags$h3(paste0("+ ", catch_end_percent, "% in global fish catch"), id = "color-text-bottom"),
                                                         tags$h4(paste0("Resulting in ", biomass_end_value, " million more tons of fish in the water, and ", catch_end_value, " million more tons of fish being caught."))
                                                 )
                                         )
@@ -62,8 +67,8 @@ Introduction = function()
                       ### Button 1
                       column(12, id = "tb-spaced-div",
                              
-                             actionButton("ab_introduction_to_selected_results",
-                                          tags$h3(text$item_label[text$item_id == "ab_introduction_to_selected_results"], icon("caret-right")))
+                             actionButton("ab_introduction_to_explore_results",
+                                          tags$h3(text$item_label[text$item_id == "ab_introduction_to_explore_results"], icon("caret-right")))
                       ),
                       
                       ### Buttons 2-3
@@ -73,13 +78,13 @@ Introduction = function()
                                         
                                         tags$tr(id = "introduction-table-table-row",
                                                 
-                                                tags$td(id = "introduction-table-cell-l",
+                                                tags$td(id = "introduction-table-cell-l", style = "padding: 0;",
                                                         
                                                         actionButton("ab_introduction_to_global_subsidies",
                                                                      tags$h4(text$item_label[text$item_id == "ab_introduction_to_global_subsidies"], icon("caret-right")))
                                                 ),
                                                 
-                                                tags$td(id = "introduction-table-cell-r",
+                                                tags$td(id = "introduction-table-cell-r", style = "padding: 0;",
                                                         
                                                         actionButton("ab_introduction_to_methods_process",
                                                                      tags$h4(text$item_label[text$item_id == "ab_introduction_to_methods_process"], "   ", icon("caret-right")))
@@ -88,18 +93,6 @@ Introduction = function()
                              )
 
                       )
-                      
-                      # # Footer
-                      # tags$div(class = "picture-overlay-footer-row",
-                      # 
-                      #          tags$div(class = "picture-overlay-footer-wrapper",
-                      # 
-                      #                   actionLink("al_introduction_to_need_help",
-                      #                              tags$h4(text$item_label[text$item_id == "al_introduction_to_need_help"]))
-                      # 
-                      #          )
-                      # 
-                      # ) # /div picture-overlay-row
                       
              ) # /div picture-overlay-black
              

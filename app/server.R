@@ -117,7 +117,7 @@ shinyServer(function(input, output, session) {
   ### Navigation buttons ---------------------
   
   # Navigation button from introduction to selected-results
-  observeEvent(input$ab_introduction_to_selected_results, {
+  observeEvent(input$ab_introduction_to_explore_results, {
     updateTabItems(session, "menu_items", "explore-results")
   })
   
@@ -129,11 +129,6 @@ shinyServer(function(input, output, session) {
   # Navigation button from introduction to global-subsidies
   observeEvent(input$ab_introduction_to_global_subsidies, {
     updateTabItems(session, "menu_items", "global-subsidies")
-  })
-  
-  # Navigation link from introduction to need-help 
-  observeEvent(input$al_introduction_to_need_help, {
-    updateTabItems(session, "menu_items", "need-help")
   })
   
   ### -------------------------
@@ -804,7 +799,6 @@ shinyServer(function(input, output, session) {
                      return = "all")
       
 
-      browser()
       # Store time series results both globally and regionally
       out_all <- out %>%
         dplyr::filter(Year > 2018) %>%

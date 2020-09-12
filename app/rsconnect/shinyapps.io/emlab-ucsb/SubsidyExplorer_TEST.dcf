@@ -1,0 +1,12 @@
+name: SubsidyExplorer_TEST
+title: SubsidyExplorer_TEST
+username:
+account: emlab-ucsb
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2793173
+bundleId: 3620215
+url: https://emlab-ucsb.shinyapps.io/SubsidyExplorer_TEST/
+when: 1599858475.69021
+asMultiple: FALSE
+asStatic: FALSE

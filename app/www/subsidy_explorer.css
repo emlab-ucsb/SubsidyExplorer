@@ -266,24 +266,6 @@ header.main-header {
 /*-------------------*/
 /*-------------------*/
 
-<<<<<<< HEAD
-/*--------------*/
-/* Introduction */
-/*--------------*/
-
-.landing-wrapper{
-  position: absolute;
-  height: 95vh;
-  width: 100vw;
-}
-
-.landing-wrapper .picture-wrapper{
-  display: block;
-  height: 95vh;
-  width: 100vw;
-  width: auto;
-  overflow: hidden;
-=======
 /*--------------------------*/
 /* Buttons */
 /*--------------------------*/
@@ -302,31 +284,12 @@ header.main-header {
 
 .nav-button-l i{
   margin: 0 10px;
->>>>>>> 1f427b5e0babb4db24646c97314bd87183ba0a6b
 }
 
 .nav-button-l:hover {
   background-color: var(--accent-color-2); 
 }
 
-<<<<<<< HEAD
-.landing-wrapper .picture-wrapper iframe{
-  min-width: 100vw;
-  min-height: 95vh;
-}
-
-.landing-wrapper .picture-overlay-black{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: block;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0,0,0,0.5);
-  border-bottom: 5px solid #3c8dbc;
-=======
 /* Right navigation button */
 .nav-button-r {
   color: #fff; 
@@ -337,7 +300,6 @@ header.main-header {
   font-size: 12pt;
   white-space: normal;
   text-align: right;
->>>>>>> 1f427b5e0babb4db24646c97314bd87183ba0a6b
 }
 
 .nav-button-r i{
@@ -426,26 +388,29 @@ header.main-header {
 /* Introduction */
 /*--------------*/
 
+/* Dividers */
 .intro-div{
   position: absolute;
-  height: 90vh;
+  height: 95vh;
+  width: 100vw;
 }
 
 .intro-picture-div{
   display: block;
-  height: 90vh;
-  width: auto;
+  height: 95vh;
+  width: 100vw;
   overflow: hidden;
 }
 
 .intro-picture-div img{
   object-fit: cover;
   min-width: 100vw;
-  min-height: 90vh;
+  min-height: 95vh;
   max-width: 200%;
   max-height: 200%;
 }
 
+/* Video overlay */
 .intro-overlay-div{
   position: absolute;
   top: 5%;
@@ -459,6 +424,7 @@ header.main-header {
   color: black;
 }
 
+/* Table structure for top header */
 #introduction-table {
   width: 100%;
   vertical-align: middle;
@@ -481,7 +447,22 @@ header.main-header {
   padding: 0px 25px 0px 25px;
 }
 
-#ab_introduction_to_selected_results{
+/* Color for stats */
+#color-text-top{
+  color: var(--accent-color-2);
+  margin-top: 15px;
+  margin-bottom: 5px;
+  margin-left: 2vw;
+}
+#color-text-bottom{
+  color: var(--accent-color-2);
+  margin-bottom: 15px;
+  margin-top: 5px;
+  margin-left: 2vw;
+}
+
+/* Explore the results button */
+#ab_introduction_to_explore_results{
   width: 100%;
   background-color: var(--main-color);
   border: 1px solid var(--main-color);
@@ -489,12 +470,15 @@ header.main-header {
   padding: 25px;
   border-radius: 0;
   text-align: center;
+  white-space: normal;
 }
 
-#ab_introduction_to_selected_results:hover{
+#ab_introduction_to_explore_results:hover{
   background-color: var(--accent-color-2);
+  border: 1px solid var(--accent-color-2);
 }
 
+/* More about fisheries subsidies button */
 #ab_introduction_to_global_subsidies{
   width: 100%;
   background-color: transparent;
@@ -502,6 +486,7 @@ header.main-header {
   padding: 25px;
   border-radius: 0;
   text-align: center;
+  white-space: normal;
 }
 
 #ab_introduction_to_global_subsidies:hover{
@@ -509,6 +494,7 @@ header.main-header {
   color: white;
 }
 
+/* Learn about methods and process button */
 #ab_introduction_to_methods_process{
   width: 100%;
   background-color: transparent;
@@ -516,6 +502,7 @@ header.main-header {
   padding: 25px;
   border-radius: 0;
   text-align: center;
+  white-space: normal;
 }
 
 #ab_introduction_to_methods_process:hover{

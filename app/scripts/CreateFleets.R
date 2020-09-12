@@ -1222,7 +1222,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   
   if(cap_tier$on_off == "YES"){
   
-  browser()
   # Subsidy types to include in cap. 
   # Other bad subsidies could have either been completely prohibited in the overcapacity section, or are allowed.
   # We need to figure that out in this section

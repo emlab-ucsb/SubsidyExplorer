@@ -1,11 +1,13 @@
 ﻿tab_num,tab_id,item_type,item_id,item_label,item_description
 header,,link,sfg_logo,The Sustainable Fisheries Group,text if logo doesn't work
 header,,link,emlab_logo,The Environmental Market Solutions Lab,text if logo doesn't work
-many,,text,map_disclaimer,"The use of the map above is not meant to imply the expression of any opinion whatsoever on the part of the Pew Charitable Trust or the Sustainable Fisheries Group at the University of California, concerning the status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontier or boundaries. ",map disclaimer
-1,introduction,tab,introduction,Main Menu,page name
+many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not meant to imply the expression of any opinion whatsoever on the part of the Pew Charitable Trust or the Environmental Market Solutions Lab at the University of California, concerning the status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontier or boundaries.</small>",map disclaimer
+,,,,,
+1,introduction,page,introduction,Main Menu,page name
 1,introduction,nav-button,ab_introduction_to_explore_results,Explore the Results     ,left button
 1,introduction,nav-button,ab_introduction_to_methods_process,Learn About the Methods and Process     ,center button
 1,introduction,nav-button,ab_introduction_to_global_subsidies,More About Fisheries Subsidies     ,right button
+,,,,,
 02a,explore-results,page,explore-results,Explore the Results,page name
 02a,explore-results,section,explore-proposals,Select a Proposal,section name
 02a,explore-results,action-button,ab_explore_proposals,Explore Proposals,button to selected proposal page
@@ -15,6 +17,7 @@ many,,text,map_disclaimer,"The use of the map above is not meant to imply the ex
 02a,explore-results,widget,w_explore_results_timeseries_plot_variable,Plot,select variable to plot widget
 02a,explore-results,widget,w_explore_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
 02a/02b,explore-results,section,selected-scenario,Selected Scenario,section name
+,,,,,
 02b,selected-results,page,selected-results,Explore Proposals,page name
 02b,selected-results,section,select-proposal,Select a Proposal,section name
 02b,selected-results,widget,w_selected_results_timeseries_plot_variable,Plot,select variable to plot widget
@@ -24,7 +27,8 @@ many,,text,map_disclaimer,"The use of the map above is not meant to imply the ex
 02b,selected-results,widget,w_selected_results_proposal_selection,Select a proposal…,policy selection
 02b,selected-results,widget,w_selected_results_proposal_category,Narrow proposals by category…,policy category selection
 02b,selected-results,action-button,ab_run_model_proposal,Model selected proposal,
-02c,edit-policies,tab,edit-policies,Create a Policy (Advanced Users),page name
+,,,,,
+02c,edit-policies,page,edit-policies,Create a Policy (Advanced Users),page name
 02c,edit-policies,nav-button,ab_edit_policies_to_introduction,Return to Main Menu,top left button
 02c,edit-policies,nav-button,ab_edit_policies_to_selected_results,Back: Selected Results,bottom left button
 02c,edit-policies,text,run-name,"<b class=""big"">Name your policy: </b>",text input to describe policy
@@ -117,31 +121,29 @@ many,,text,map_disclaimer,"The use of the map above is not meant to imply the ex
 02c,edit-policies,text,selected-policy,"<b class=""big"">Review policy selections</b></br><small class=""gray"">Ensure selections are correct</small>",Title of step 3
 02c,edit-policies,text,run-model,"<b class=""big"">Model your policy</b></br><small class=""gray"">Clicking the button will redirect you </small>",title of Step 4
 02c,edit-policies,action-button,ab_run_model_custom,Run model!,button to run custom policy
-3,methods-process,tab,methods-process,Learn About the Methods and Process,page name
-3,methods-process,nav-button,ab_methods_process_to_introduction,Return to Main Menu,top left button
-3,methods-process,download-button,db_download_methods,Download Methods (PDF),center download button
-04a,global-subsidies,tab,global-subsidies,Global Fisheries Subsidies,page name
-04a,global-subsidies,nav-button,ab_global_subsidies_to_introduction,Return to Main Menu,top left button
-04a,global-subsidies,nav-button,ab_global_subsidies_to_country_fishery_stats,Next: Fishery Statistics by State,bottom right button
-04a,global-subsidies,widget,w_global_subsidies_category,Show…,select subsidy category widget
-04a,global-subsidies,widget,w_global_subsidies_types,Subsidy type(s) to include…,select subsidy types widget
-04b,country-fishery-stats,tab,country-fishery-stats,Fishery Statistics by State,page name
-04b,country-fishery-stats,nav-button,ab_country_fishery_stats_to_introduction,Return to Main Menu,top left button
-04b,country-fishery-stats,nav-button,ab_country_fishery_stats_to_global_subsidies,Back: Global Fisheries Subsidies,bottom left button
-04b,country-fishery-stats,nav-button,ab_country_fishery_stats_to_compare_fishery_stats,Next: Compare Fishery Statistics,bottom right button
-04b,country-fishery-stats,widget,w_country_fishery_stats_selected_country,Select a WTO Member or Observer State:,select country widget
-04c,compare-fishery-stats,tab,compare-fishery-stats,Compare Fishery Statistics,page name
-04c,compare-fishery-stats,nav-button,ab_compare_fishery_stats_to_introduction,Return to Main Menu,top left button
-04c,compare-fishery-stats,nav-button,ab_compare_fishery_stats_to_country_fishery_stats,Back: Fishery Statistics by State,bottom left button
-04c,compare-fishery-stats,nav-button,ab_compare_fishery_stats_to_global_fishing_footprint,Next: Global Fishing Footprint,bottom right button
-04c,compare-fishery-stats,widget,w_compare_fishery_stats_selected_country,Select a WTO Member or Observer State:,select country widget
-04c,compare-fishery-stats,widget,w_compare_fishery_stats_plot_variable,View…,select variable to plot widget
-04c,compare-fishery-stats,widget,w_compare_fishery_stats_method,Compare Selected State To…,who to compare to
-04c,compare-fishery-stats,widget,w_compare_fishery_stats_select_manual,Select WTO Member or Observer States (max of 10): ,other countries to compare to
-04c,compare-fishery-stats,widget,w_compare_fishery_stats_subsidy_types,Subsidy type(s) to include…,which subsidy types to include on plot
-04d,global-fishing-footprint,tab,global-fishing-footprint,Global Fishing Footprint,page name
-04d,global-fishing-footprint,nav-button,ab_global_fishing_footprint_to_introduction,Return to Main Menu,top left button
-04d,global-fishing-footprint,nav-button,ab_global_fishing_footprint_to_compare_fishery_stats,Back: Compare Fishery Statistics,bottom left button
-5,need-help,tab,need-help,Need Help?,page name
-5,need-help,nav-button,ab_need_help_to_introduction,Return to Main Menu,top left button
-5,need-help,download-button,db_download_user_guide_english,Download User Guide - English (PDF),center download button
+,,,,,
+03a,global-subsidies,page,global-subsidies,Global Fisheries Subsidies,page name
+03a,global-subsidies,section,subsidy-types-to-include,Select subsidy types to include,header for left panel and title of cooresponding info button
+03a,global-subsidies,action-button,ab_global_subsidies_select_all,Select All,button to select all subsidy types
+03a,global-subsidies,action-button,ab_global_subsidies_clear_all,Clear Selection,button to clear selected subsidy types
+03a,global-subsidies,widget,w_global_subsidies_good_types,BENEFICIAL,select good subsidy types
+03a,global-subsidies,widget,w_global_subsidies_ugly_types,AMBIGUOUS,select ugly subsidy types
+03a,global-subsidies,widget,w_global_subsidies_bad_types,HARMFUL,select bad subsidy types
+,,,,,
+03b,country-fishery-stats,page,country-fishery-stats,Fishery Statistics by State,page name
+03b,country-fishery-stats,widget,w_country_fishery_stats_selected_country,Select a WTO Member or Observer State:,select country widget
+03b,country-fishery-stats,tab,fishery-subsidy-tab,Fishery Subsidies,fishery subsidy data tab
+03b,country-fishery-stats,tab,marine-capture-tab,Marine Capture Fisheries,marine fisheries data tab
+03b,country-fishery-stats,tab,demographic-tab,Demographics,demographic data tab
+,,,,,
+03c,compare-fishery-stats,page,compare-fishery-stats,Compare Fishery Statistics,page name
+03c,compare-fishery-stats,widget,w_compare_fishery_stats_selected_country,Select a WTO Member or Observer State:,select country widget
+03c,compare-fishery-stats,widget,w_compare_fishery_stats_plot_variable,View…,select variable to plot widget
+03c,compare-fishery-stats,widget,w_compare_fishery_stats_method,Compare Selected State To…,who to compare to
+03c,compare-fishery-stats,widget,w_compare_fishery_stats_select_manual,Select WTO Member or Observer States (max of 10): ,other countries to compare to
+03c,compare-fishery-stats,widget,w_compare_fishery_stats_subsidy_types,Subsidy type(s) to include…,which subsidy types to include on plot
+,,,,,
+03d,global-fishing-footprint,page,global-fishing-footprint,Global Fishing Footprint,page name
+,,,,,
+4,methods-process,page,methods-process,Learn About the Methods and Process,page name
+4,methods-process,download-button,db_download_methods,Download Methods (PDF),center download button

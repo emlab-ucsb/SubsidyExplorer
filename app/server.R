@@ -158,8 +158,6 @@ shinyServer(function(input, output, session) {
     updateTabItems(session, "subsidy-tabs", "global-fishing-footprint-tab")
   })
   
-  
-  
   ### -------------------------
   ### 02a. selected-results ---
   ### -------------------------
@@ -918,54 +916,62 @@ shinyServer(function(input, output, session) {
   
   ### Navigation buttons ---------------------
   
-  # Navigation button from global-subsidies to country-fishery-statistics
-  observeEvent(input$ab_global_subsidies_to_country_fishery_stats, {
-    updateTabItems(session, "menu_items", "country-fishery-stats")
-  })
-  
-  # Navigation button from global-subsidies to introduction
-  observeEvent(input$ab_global_subsidies_to_introduction, {
-    updateTabItems(session, "menu_items", "introduction")
-  })
-  
-  ### Update selectInput: Only allow for selection of subsidy types from selected category ---------------------
-  observe({
+  ### Update checkboxGroupInputs: Select all
+  observeEvent(input$ab_global_subsidies_select_all, {
     
-    # Only allow types from the selected category to be chosen
-    global_subsidies_allowable_types <- switch(input$w_global_subsidies_category,
-                                               "All" = list(subsidy_types_sorted_sumaila),
-                                               "Beneficial" = list(subsidy_types_sorted_sumaila[1:3]),
-                                               "Capacity-enhancing" = list(subsidy_types_sorted_sumaila[4:10]),
-                                               "Ambiguous" = list(subsidy_types_sorted_sumaila[11:13]))
-      
-    # Update input
-    updateCheckboxGroupInput(session, 
-                             "w_global_subsidies_types",
-                             choices = global_subsidies_allowable_types[[1]],
-                             selected = global_subsidies_allowable_types[[1]])
+    updateCheckboxGroupInput(session,
+                             "w_global_subsidies_good_types",
+                             selected = subsidy_types_sorted_sumaila[1:3])
+    
+    updateCheckboxGroupInput(session,
+                             "w_global_subsidies_ugly_types",
+                             selected = subsidy_types_sorted_sumaila[11:13])
+    
+    updateCheckboxGroupInput(session,
+                             "w_global_subsidies_bad_types",
+                             selected = subsidy_types_sorted_sumaila[4:10])
+    
   })
   
+  ### Update checkboxGroupInputs: Clear all
+  observeEvent(input$ab_global_subsidies_clear_all, {
+    
+    x <- character(0)
+    
+    updateCheckboxGroupInput(session,
+                             "w_global_subsidies_good_types",
+                             selected = x)
+    
+    updateCheckboxGroupInput(session,
+                             "w_global_subsidies_ugly_types",
+                             selected = x)
+    
+    updateCheckboxGroupInput(session,
+                             "w_global_subsidies_bad_types",
+                             selected = x)
+    
+  })
   
   ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
   output$global_subsidies_map <- renderLeaflet({
     
-    req(input$w_global_subsidies_category)
-    req(input$w_global_subsidies_types)
+    req(input$w_global_subsidies_good_types)
+    req(input$w_global_subsidies_ugly_types)
+    req(input$w_global_subsidies_bad_types)
     
-    # Color palette to use based off selected input
-    global_subsidies_map_switch <- switch(input$w_global_subsidies_category,
-                                         "All" = list("YlOrRd", 1, 10e9),
-                                         "Beneficial" = list("Blues", 1, 10e9),
-                                         "Capacity-enhancing" = list("Reds", 1, 10e9),
-                                         "Ambiguous" = list("Purples", 1, 10e9))
+    selected_subsidy_types <- c(input$w_global_subsidies_good_types, input$w_global_subsidies_ugly_types, input$w_global_subsidies_bad_types)
     
-    global_subsidies_map_pal <- colorNumeric(palette = global_subsidies_map_switch[[1]],
-                                             log10(c(global_subsidies_map_switch[[2]], global_subsidies_map_switch[[3]])))
+    req(length(selected_subsidy_types) > 0)
+    
+    # Define colors
+    global_subsidies_map_pal <- colorNumeric(palette = "YlOrRd",
+                                             log10(c(100, 10e9)))
+    
     
     # Filter data
     global_subsidies_map_dat <- subsidy_dat %>%
       dplyr::filter(variable == "subsidies_Sumaila") %>%
-      dplyr::filter(type %in% c(input$w_global_subsidies_types)) %>%
+      dplyr::filter(type %in% c(selected_subsidy_types)) %>%
       dplyr::filter(!is.na(value) & value > 0) %>%
       group_by(iso3, display_name, category, category_name, type, type_name) %>%
       summarize(value = sum(value, na.rm = T)) %>%
@@ -984,8 +990,6 @@ shinyServer(function(input, output, session) {
     # Hover text for world polygons
     global_subsidies_map_text_shp <- paste0(
       "<b>","State: ", "</b>",  global_subsidies_map_dat_shp$display_name,
-      "</br>", 
-      "<b>", "Subsidy category: ", "</b>", global_subsidies_map_dat_shp$category_name,
       "</br>",
       "<b>", "Est. fisheries subsidies (2018 US$):", "</b>", " $", format(round(global_subsidies_map_dat_shp$value, 0), big.mark = ","),
       "</br>",
@@ -1003,8 +1007,6 @@ shinyServer(function(input, output, session) {
     # Hover text for points
     global_subsidies_map_text_points <- paste0(
       "<b>","State: ", "</b>",  global_subsidies_map_dat_points$display_name,
-      "</br>", 
-      "<b>", "Subsidy category: ", "</b>", global_subsidies_map_dat_points$category_name,
       "</br>",
       "<b>", "Est. fisheries subsidies (2018 US$):", "</b>", " $", format(round(global_subsidies_map_dat_points$value, 0), big.mark = ","),
       "</br>",
@@ -1044,11 +1046,11 @@ shinyServer(function(input, output, session) {
                                                            padding = "3px 8px"),
                                               textsize = "13px",
                                               direction = "auto")) %>%
-      setView(0,20, zoom = 2) %>%
+      setView(0,20, zoom = 3) %>%
       addLegend("bottomright", 
                 pal = global_subsidies_map_pal,
-                values = log10(c(global_subsidies_map_switch[[2]], global_subsidies_map_switch[[3]])),
-                labels = round(log10(c(global_subsidies_map_switch[[2]], global_subsidies_map_switch[[3]])), 0),
+                values = log10(c(100, 10e9)),
+                labels = round(log10(c(100, 10e9)), 0),
                 title = "Est. fisheries subsidies<br>(2018 US$)",
                 opacity = 1,
                 labFormat = labelFormat(prefix = "$",
@@ -1061,23 +1063,6 @@ shinyServer(function(input, output, session) {
   ### ------------------------------
   ### 04b. country-fishery-stats ---
   ### ------------------------------
-  
-  ### Navigation buttons ---------------------
-  
-  # Navigation button from country-fishery-stats to global-subsidies
-  observeEvent(input$ab_country_fishery_stats_to_global_subsidies, {
-    updateTabItems(session, "menu_items", "global-subsidies")
-  })
-  
-  # Navigation button from country-fishery-stats to compare-fishery-statistics
-  observeEvent(input$ab_country_fishery_stats_to_compare_fishery_stats, {
-    updateTabItems(session, "menu_items", "compare-fishery-stats")
-  })
-  
-  # Navigation button from country-fishery-stats to introduction
-  observeEvent(input$ab_country_fishery_stats_to_introduction, {
-    updateTabItems(session, "menu_items", "introduction")
-  })
   
   ### Plotly figure: Fisheries subsidies by type ---------------------
   output$country_fishery_stats_subsidies_plot <- renderPlotly({

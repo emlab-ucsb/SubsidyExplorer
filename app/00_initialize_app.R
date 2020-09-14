@@ -14,7 +14,8 @@
 ### --------------
 
 # This file contains all of the button, widget label, tab, and header text
-text <- read_csv("./text/00_button_and_widget_text.csv")
+text <- read_csv("./text/00_button_and_widget_text.csv") %>%
+  dplyr::filter(!is.na(tab_num))
 
 # This file contains the values and display names for the widgets
 wid <- read_csv("./text/00_widget_values.csv") %>%

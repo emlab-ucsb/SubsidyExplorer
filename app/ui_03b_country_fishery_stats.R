@@ -11,13 +11,13 @@ CountryFisheryStats = function(wto_members_and_observers)
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     
-    ### Page Header
-    column(12, id = "page-title-div-underline-blue",
-           
-           # Title
-           tags$h3(text$item_label[text$item_id == "country-fishery-stats"])
-           
-    ),
+    # ### Page Header
+    # column(12, id = "page-title-div-underline-blue",
+    #        
+    #        # Title
+    #        tags$h3(text$item_label[text$item_id == "country-fishery-stats"])
+    #        
+    # ),
     
     ### Main content
     column(12,
@@ -27,13 +27,10 @@ CountryFisheryStats = function(wto_members_and_observers)
              ####---------------------------------------------
              #### Left section - select a country
              #### --------------------------------------------
-             column(3, id = "explore-results-left-column",
+             column(4, id = "country-fishery-stats-left-column",
                   
-                    ### Widgets
+                    ### Widget
                     column(12, id = "spaced-div",
-                           
-                           # # Text
-                           # includeHTML("./text/04b_country_fishery_stats_intro.html"),
                            
                            # Select state
                            selectizeInput("w_country_fishery_stats_selected_country",
@@ -46,22 +43,35 @@ CountryFisheryStats = function(wto_members_and_observers)
                                                           )
                                           ), 
                                           choices = wto_members_and_observers,
-                                          selected = "",
-                                          width = "50%",
+                                          selected = "USA",
+                                          width = "100%",
                                           options = list(placeholder = 'Select...'))
                            
+                    ),
+                    
+                    ### Download button
+                    column(12, id = "spaced-div",
+                           
+                           # Button to save PDF of data for selected state
+                           downloadButton("db_country_fishery_stats_generate_report",
+                                          text$item_label[text$item_id == "db_country_fishery_stats_generate_report"])
+                           
+                           
                     )
+                    
+                    
              ),
              
              ####---------------------------------------------
              #### Right section - plots
              #### --------------------------------------------
-             column(9,
+             column(8, offset = 4, id = "country-fishery-stats-right-column",
                     
                     ### Section Title ---
-                    column(12,
+                    column(12, id = "tb-spaced-div",
                            
-                           tags$h3("Country Name")
+                           uiOutput("country_fishery_stats_selected_country_name")
+                           #tags$h3("Country Name")
                            
                     ),
                     
@@ -77,11 +87,20 @@ CountryFisheryStats = function(wto_members_and_observers)
                                     # Title
                                     tags$h4(text$item_label[text$item_id == "fishery-subsidy-tab"]),
                                     
-                                    # Header and text
-                                    includeHTML("./text/04b_country_fishery_stats_section1.html"),
-                                    
-                                    #Fishery subsidies bar plot
-                                    plotlyOutput("country_fishery_stats_subsidies_plot")
+                                    column(12, id = "lr-spaced-div",
+                                           
+                                           column(12, id = "tb-spaced-div",
+                                                  
+                                                  # Header and text
+                                                  includeHTML("./text/03-more-about-subsidies/fisheries_subsidies.html")),
+                                           
+                                           column(12, id = "tb-spaced-div",
+                                                  
+                                                  #Fishery subsidies bar plot
+                                                  plotlyOutput("country_fishery_stats_subsidies_plot")
+                                                  
+                                           )
+                                    )
                                             
                            ),
                            
@@ -94,14 +113,25 @@ CountryFisheryStats = function(wto_members_and_observers)
                                     # Title
                                     tags$h4(text$item_label[text$item_id == "marine-capture-tab"]),
                                     
-                                    # Header and text
-                                    includeHTML("./text/04b_country_fishery_stats_section2.html"),
+                                    column(12, id = "lr-spaced-div",
+                                           
+                                           column(12, id = "tb-spaced-div",
+                                                  
+                                                  # Header and text
+                                                  includeHTML("./text/03-more-about-subsidies/marine_capture.html")
+                                                  
+                                           ), 
                                     
-                                    # Capture fisheries production plot
-                                    plotlyOutput("country_fishery_stats_production_plot"),
-                                    
-                                    # Total landed value plot
-                                    plotlyOutput("country_fishery_stats_landed_value_plot")
+                                           column(12, id = "tb-spaced-div",
+                                                  
+                                                  # Capture fisheries production plot
+                                                  plotlyOutput("country_fishery_stats_production_plot"),
+                                                  
+                                                  # Total landed value plot
+                                                  plotlyOutput("country_fishery_stats_landed_value_plot")
+                                                  
+                                           )
+                                    )
                                     
                            ),
                            
@@ -114,33 +144,51 @@ CountryFisheryStats = function(wto_members_and_observers)
                                     # Title
                                     tags$h4(text$item_label[text$item_id == "demographic-tab"]),
                                     
-                                    # Header and text
-                                    includeHTML("./text/04b_country_fishery_stats_section3.html"),
+                                    column(12, id = "lr-spaced-div",
+                                           
+                                           column(12, id = "tb-spaced-div",
+                                                  
+                                                  # Header and text
+                                                  includeHTML("./text/03-more-about-subsidies/demographics.html")
+                                                  
+                                           ),
                                     
-                                    # Top row of demographic plots
-                                    fluidRow(
+                                           column(12, id = "tb-spaced-div",
+                                                  
+                                                  # Top row of demographic plots
+                                                  fluidRow(
                                       
-                                      column(6,
-                                             # Population plot
-                                             plotlyOutput("country_fishery_stats_pop_plot")
-                                      ),
-                                      
-                                      column(6,
-                                             # Fishers plot
-                                             plotlyOutput("country_fishery_stats_fisher_plot")
                                              
-                                      )
-                                    ),
-                                    
-                                    # Bottom row of demographic plots
-                                    fluidRow(
+                                                    column(6,
+                                                           # Population plot
+                                                           plotlyOutput("country_fishery_stats_pop_plot")
+                                                           
+                                                    ),
                                       
-                                      column(12,
-                                             # GDP plot
-                                             plotlyOutput("country_fishery_stats_gdp_plot")
-                                      )
-                                    )
+                                                    column(6,
+                                                           # Fishers plot
+                                                           plotlyOutput("country_fishery_stats_fisher_plot")
+                                                           
+                                                    )
+                                             
+                                                    
+                                                  ), # /fluidRow
                                     
+                                                  # Bottom row of demographic plots
+                                                  fluidRow(
+                                      
+                                                    column(12,
+                                                           # GDP plot
+                                                           plotlyOutput("country_fishery_stats_gdp_plot")
+                                             
+                                                           
+                                                    )
+                                      
+                                                  ) # /fluidRow
+                                    
+                                           ) #/column 12
+                                           
+                                    ) # /column 12
                            )
                     )
              )

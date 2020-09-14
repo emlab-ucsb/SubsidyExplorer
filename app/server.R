@@ -1064,6 +1064,16 @@ shinyServer(function(input, output, session) {
   ### 04b. country-fishery-stats ---
   ### ------------------------------
   
+  ### UI output: Name of selected country header ---------------------
+  output$country_fishery_stats_selected_country_name <- renderUI({
+    
+    req(input$w_country_fishery_stats_selected_country)
+
+    out <- names(wto_members_and_observers[wto_members_and_observers == input$w_country_fishery_stats_selected_country])
+    
+    tags$h3(out)
+  })
+  
   ### Plotly figure: Fisheries subsidies by type ---------------------
   output$country_fishery_stats_subsidies_plot <- renderPlotly({
     

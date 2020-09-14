@@ -761,7 +761,7 @@ height: auto;
 /* TabBox for subsidy data */
 
 .nav-tabs-custom #subsidy-tabs.nav-tabs{
-  border-bottom: 2px solid var(--accent-color);
+  border-bottom: 1px solid var(--accent-color);
 }
 
 .nav-tabs-custom #subsidy-tabs.nav-tabs{
@@ -836,6 +836,78 @@ height: auto;
 }
 
 /* ------------------------------ */
+/* Fishery stats by state */
+/* ------------------------------ */
+
+#country-fishery-stats-left-column{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--grey-light);
+  color: var(--grey-dark);
+  padding: 0 25px 0 25px;
+}
+
+#country-fishery-stats-right-column{
+  min-height: 90vh;
+  color: var(--grey-dark);
+  padding: 0 25px 0 25px;
+}
+
+/* TabBox for different types of country-level data */
+
+.nav-tabs-custom #country-tabs.nav-tabs{
+  border-bottom: 1px solid var(--grey-dark);
+}
+
+.nav-tabs-custom #country-tabs.nav-tabs{
+  background: #fff;
+  color: var(--grey-dark);
+}
+
+.nav-tabs-custom #country-tabs.nav-tabs li {
+  margin: 0;
+}
+      
+.nav-tabs-custom #country-tabs.nav-tabs li a{
+  color: var(--grey-dark);
+  padding: 15px 25px;
+}
+      
+.nav-tabs-custom #country-tabs.nav-tabs li:hover {
+  color: var(--accent-color-2)
+}
+      
+.nav-tabs-custom #country-tabs.nav-tabs li.active:hover a{
+  color: var(--accent-color);
+}
+      
+.nav-tabs-custom #country-tabs.nav-tabs li.active {
+  border-bottom: 3px solid var(--accent-color);
+  border-top: transparent;
+}
+      
+.nav-tabs-custom #country-tabs.nav-tabs li.active a {
+  color: var(--accent-color);
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+#db_country_fishery_stats_generate_report{
+  color: #fff;
+  background-color: var(--accent-color); 
+  border-width: 0; 
+  padding: 10px; 
+  width: 100%; 
+  font-size: 10pt; 
+}
+
+#db_country_fishery_stats_generate_report:hover{
+  background-color: var(--accent-color-2);
+}
+
+/* ------------------------------ */
 /* Methods and Process */
 /* ------------------------------ */
 
@@ -846,4 +918,8 @@ height: auto;
   padding: 10px; 
   width: 40%; 
   font-size: 10pt; 
+}
+
+#db_download_methods:hover{
+  background-color: var(--accent-color-2);
 }

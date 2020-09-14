@@ -349,6 +349,42 @@ header.main-header {
   padding: 0px 25px 0px 25px;
 }
 
+/* --------------- */
+/* Nav Panel */
+/* --------------- */
+
+#al_global_subsidies {
+  padding-top: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+#al_country_fishery_stats {
+  padding-top: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+#al_compare_fishery_stats{
+  padding-top: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+#al_global_fishing_footprint {
+  padding-top: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
 /*--------------*/
 /* Introduction */
 /*--------------*/
@@ -713,6 +749,7 @@ height: auto;
 .nav-tabs-custom #subsidy-tabs.nav-tabs li.active {
   border-bottom: 5px solid var(--accent-color);
   border-top: transparent;
+  background: var(--grey-light);
 }
       
 .nav-tabs-custom #subsidy-tabs.nav-tabs li.active a {
@@ -727,9 +764,35 @@ height: auto;
 }
 
 /* Global subsidies */
-#subsidy_types_control_panel {
-  background: rgba(255,255,255,0.8);
+#global_subsidies_map_control_panel {
+  background: rgba(255,255,255,0.9);
   padding: 25px;
+  left: 0;
+  top: 100px;
+  bottom: 100px;
+  width: 20vw;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+#global_subsidies_map_info_panel {
+  background: rgba(255,255,255,0.9);
+  padding: 25px;
+  right: 25px;
+  top: 25px;
+  width: 200px;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+#global_subsidies_map_disclaimer_panel {
+  background: rgba(255,255,255,0.9);
+  padding: 10px;
+  left: 25vw;
+  right: 25vw;
+  bottom: 0;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
 /* ------------------------------ */

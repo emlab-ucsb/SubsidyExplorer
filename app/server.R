@@ -110,11 +110,11 @@ shinyServer(function(input, output, session) {
   #                })
   
   
-  ### --------------------
-  ### 01. Introduction ---
-  ### --------------------
+  ### ----------------------------
+  ### 01. Introduction/Sidebar ---
+  ### ----------------------------
   
-  ### Navigation buttons ---------------------
+  ### Navigation buttons on the intro page ----
   
   # Navigation button from introduction to selected-results
   observeEvent(input$ab_introduction_to_explore_results, {
@@ -129,7 +129,36 @@ shinyServer(function(input, output, session) {
   # Navigation button from introduction to global-subsidies
   observeEvent(input$ab_introduction_to_global_subsidies, {
     updateTabItems(session, "menu_items", "global-subsidies")
+    updateTabItems(session, "subsidy-tabs", "global-subsidies-tab")
   })
+  
+  ### Navigation links in the left sidebar that we must specify manually for this to work ---
+  
+  # Navigation link to global-subsidies tab
+  observeEvent(input$al_global_subsidies, {
+    updateTabItems(session, "menu_items", "global-subsidies")
+    updateTabItems(session, "subsidy-tabs", "global-subsidies-tab")
+  })
+  
+  # Navigation link to country-fishery-stats-tab
+  observeEvent(input$al_country_fishery_stats, {
+    updateTabItems(session, "menu_items", "global-subsidies")
+    updateTabItems(session, "subsidy-tabs", "country-fishery-stats-tab")
+  })
+  
+  # Navigation link to compare-fishery-stats tab
+  observeEvent(input$al_compare_fishery_stats, {
+    updateTabItems(session, "menu_items", "global-subsidies")
+    updateTabItems(session, "subsidy-tabs", "compare-fishery-stats-tab")
+  })
+  
+  # Navigation link to global-fishing-footprint tab
+  observeEvent(input$al_global_fishing_footprint, {
+    updateTabItems(session, "menu_items", "global-subsidies")
+    updateTabItems(session, "subsidy-tabs", "global-fishing-footprint-tab")
+  })
+  
+  
   
   ### -------------------------
   ### 02a. selected-results ---

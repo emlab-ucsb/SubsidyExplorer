@@ -47,9 +47,8 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
            leafletOutput('global_subsidies_map', width = "100%", height = "90vh"),
            
            # Widgets
-           absolutePanel(id = "subsidy_types_control_panel",
-                         left = 0, top = 50, bottom = 0, width = "20vw",
-                         
+           absolutePanel(id = "global_subsidies_map_control_panel",
+
                          selectInput("w_global_subsidies_category",
                                      label = tags$b(text$item_label[text$item_id == "w_global_subsidies_category"]),
                                      choices = unlist(wid$choices[wid$item_id == "w_global_subsidies_category"]),
@@ -70,15 +69,13 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
            ),
            
            # Info button 
-           absolutePanel(id = "subsidy_types_info_panel",
-                         top = 25, right = 25, width = "100px",
+           absolutePanel(id = "global_subsidies_map_info_panel",
                          
                          tags$button("button", 'test-button', class = "rounded-button")
            ),
            
            # Map disclaimer
-           absolutePanel(id = "map_disclaimer+panel",
-                         bottom = 25, left = "30vw", right = "30vw",
+           absolutePanel(id = "global_subsidies_map_disclaimer_panel",
                          
                          tags$small(text$item_label[text$item_id == "map_disclaimer"])
                          

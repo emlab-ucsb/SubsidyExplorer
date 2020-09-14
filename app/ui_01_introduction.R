@@ -27,7 +27,7 @@ Introduction = function()
                       #             allow="autoplay; encrypted-media; gyroscope; picture-in-picture", allowfullscreen=NA,
                       #             style='width:100vw;height:90vh;')
                       
-                      tags$video(src = "fish_swimming.mp4",
+                      tags$video(src = "fishschool.mp4",
                                  type = "video/mp4",
                                  autoplay = "autoplay",
                                  style = "min-width: 100vw; min-height: 90vh; max-width: 200%; max-height: 200%;")

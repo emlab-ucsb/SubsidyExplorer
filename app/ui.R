@@ -157,24 +157,24 @@ shinyUI(
                          icon = NULL,
                          
                          # About fisheries subsidies - Item #1 - Global subsidy map
-                         menuItem(text$item_label[text$item_id == "global-subsidies"],
-                                     tabName = 'global-subsidies',
-                                     icon = NULL),
+                         menuItem(actionLink("al_global_subsidies", text$item_label[text$item_id == "global-subsidies"]),
+                                  tabName = 'global-subsidies',
+                                  icon = NULL),
                          
                          # About fisheries subsidies - Item #2 - Fishery statistics by state
-                         menuItem(text$item_label[text$item_id == "country-fishery-stats"],
-                                     tabName = 'country-fishery-stats',
-                                     icon = NULL),
+                         menuItem(actionLink("al_country_fishery_stats", text$item_label[text$item_id == "country-fishery-stats"]),
+                                  tabName = 'country-fishery-stats',
+                                  icon = NULL),
                          
                          # About fisheries subsidies - Item #3 - Compare fishery statistics
-                         menuItem(text$item_label[text$item_id == "compare-fishery-stats"],
-                                     tabName = 'compare-fishery-stats',
-                                     icon = NULL),
+                         menuItem(actionLink("al_compare_fishery_stats", text$item_label[text$item_id == "compare-fishery-stats"]),
+                                  tabName = 'compare-fishery-stats',
+                                  icon = NULL),
                          
                          # About fisheries subsidies - Item #4 - Global effort map
-                         menuItem(text$item_label[text$item_id == "global-fishing-footprint"],
-                                     tabName = 'global-fishing-footprint',
-                                     icon = NULL)
+                         menuItem(actionLink("al_global_fishing_footprint", text$item_label[text$item_id == "global-fishing-footprint"]),
+                                  tabName = 'global-fishing-footprint',
+                                  icon = NULL)
                          
                 )
         
@@ -219,7 +219,6 @@ shinyUI(
                 tabItem(tabName = "global-subsidies",
                         
                         MoreAboutSubsidies(subsidy_types_sorted_sumaila, wto_members_and_observers)
-                        # GlobalSubsidies(subsidy_types_sorted_sumaila)
                 ),
                 
                 # # About fisheries subsidies - Item #2 - Fishery statistics by state

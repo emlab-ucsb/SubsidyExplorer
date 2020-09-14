@@ -213,26 +213,29 @@ shinyUI(
                 ),
               
                 
-                ### About fisheries subsidies ---
+                ### More about fisheries subsidies ---
+                
                 # About fisheries subsidies - Item #1 - Global subsidy map
                 tabItem(tabName = "global-subsidies",
-                        GlobalSubsidies(subsidy_types_sorted_sumaila)
+                        
+                        MoreAboutSubsidies(subsidy_types_sorted_sumaila, wto_members_and_observers)
+                        # GlobalSubsidies(subsidy_types_sorted_sumaila)
                 ),
                 
-                # About fisheries subsidies - Item #2 - Fishery statistics by state
-                tabItem(tabName = "country-fishery-stats",
-                        CountryFisheryStats(wto_members_and_observers)
-                ),
+                # # About fisheries subsidies - Item #2 - Fishery statistics by state
+                # tabItem(tabName = "country-fishery-stats",
+                #         CountryFisheryStats(wto_members_and_observers)
+                # ),
                 
                 # About fisheries subsidies - Item #3 - Compare fishery statistics
-                tabItem(tabName = "compare-fishery-stats",
-                        CompareFisheryStats(wto_members_and_observers, subsidy_types_sorted_sumaila)
-                ),
+                # tabItem(tabName = "compare-fishery-stats",
+                #         #CompareFisheryStats(wto_members_and_observers, subsidy_types_sorted_sumaila)
+                # ),
                 
                 # About fisheries subsidies - Item #4 - Global effort map
-                tabItem(tabName = "global-fishing-footprint",
-                        GlobalFishingFootprint()
-                ),
+                # tabItem(tabName = "global-fishing-footprint",
+                #         GlobalFishingFootprint()
+                # ),
                 
                 ### About methods and process ---
                 tabItem(tabName = "methods-process",

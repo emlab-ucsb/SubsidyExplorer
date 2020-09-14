@@ -64,7 +64,7 @@ Introduction = function()
                       column(12, id = "tb-spaced-div",
                              
                              actionButton("ab_introduction_to_explore_results",
-                                          tags$h3(text$item_label[text$item_id == "ab_introduction_to_explore_results"], icon("caret-right")))
+                                          tags$h3(text$item_label[text$item_id == "ab_introduction_to_explore_results"], icon("caret-right"), style = "color: white;"))
                       ),
                       
                       ### Buttons 2-3
@@ -77,13 +77,13 @@ Introduction = function()
                                                 tags$td(id = "introduction-table-cell-l", style = "padding: 0;",
                                                         
                                                         actionButton("ab_introduction_to_global_subsidies",
-                                                                     tags$h4(text$item_label[text$item_id == "ab_introduction_to_global_subsidies"], icon("caret-right")))
+                                                                     tags$h4(text$item_label[text$item_id == "ab_introduction_to_global_subsidies"], icon("caret-right"), style = "color: black; font-weight: bold;"))
                                                 ),
                                                 
                                                 tags$td(id = "introduction-table-cell-r", style = "padding: 0;",
                                                         
                                                         actionButton("ab_introduction_to_methods_process",
-                                                                     tags$h4(text$item_label[text$item_id == "ab_introduction_to_methods_process"], "   ", icon("caret-right")))
+                                                                     tags$h4(text$item_label[text$item_id == "ab_introduction_to_methods_process"], icon("caret-right"), style = "color: black; font-weight: bold;"))
                                                 )
                                         )
                              )

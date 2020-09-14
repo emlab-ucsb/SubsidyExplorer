@@ -910,10 +910,10 @@ shinyServer(function(input, output, session) {
                                                "Ambiguous" = list(subsidy_types_sorted_sumaila[11:13]))
       
     # Update input
-    updateSelectizeInput(session, 
-                         "w_global_subsidies_types",
-                         choices = global_subsidies_allowable_types[[1]],
-                         selected = global_subsidies_allowable_types[[1]])
+    updateCheckboxGroupInput(session, 
+                             "w_global_subsidies_types",
+                             choices = global_subsidies_allowable_types[[1]],
+                             selected = global_subsidies_allowable_types[[1]])
   })
   
   
@@ -984,8 +984,8 @@ shinyServer(function(input, output, session) {
       lapply(htmltools::HTML)
     
     # Map
-    leaflet('global_subsidies_map', options = leafletOptions(minZoom = 2)) %>% 
-      addProviderTiles("CartoDB.DarkMatterNoLabels") %>% 
+    leaflet('global_subsidies_map', options = leafletOptions(minZoom = 3)) %>% 
+      addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
       addCircles(data = global_subsidies_map_dat_points,
                  color = ~global_subsidies_map_pal(log10(value)),
                  fillOpacity = 0.5,

@@ -176,14 +176,8 @@ shinyUI(
                                      tabName = 'global-fishing-footprint',
                                      icon = NULL)
                          
-                ),
-                
-                ### Help and Contact ---
-                menuItem(text$item_label[text$item_id == "need-help"], 
-                         icon = NULL,
-                         tabName = "need-help"
-                         
                 )
+        
                                      
             ) # /sidebarMenu
         ), #/dashboardSidebar
@@ -217,11 +211,7 @@ shinyUI(
                 tabItem(tabName = "edit-policies",
                         EditPolicies(wto_members_and_observers, subsidy_types_sorted_sumaila)
                 ),
-                
-                ### About methods and process ---
-                tabItem(tabName = "methods-process",
-                        MethodsProcess()
-                ),
+              
                 
                 ### About fisheries subsidies ---
                 # About fisheries subsidies - Item #1 - Global subsidy map
@@ -244,11 +234,11 @@ shinyUI(
                         GlobalFishingFootprint()
                 ),
                 
-                ### Help and Contact ---
-                tabItem(tabName = "need-help",
-                        NeedHelp()
+                ### About methods and process ---
+                tabItem(tabName = "methods-process",
+                        MethodsProcess()
                 )
-                
+
             ) # /tabItems
             
         ) # /dashboardBody

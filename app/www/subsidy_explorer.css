@@ -65,16 +65,19 @@ small.gray {
 h3 {
   font-size: 18pt;
   font-weight: bold;
+  color: inherit;
 }
 
 h4 {
   font-size: 14pt;
   font-weight: bold;
+  color: inherit;
 }
 
 h5 {
   font-size: 12pt;
   font-weight: bold;
+  color: inherit;
 }
 
 /*----------------------------*/  
@@ -447,20 +450,6 @@ header.main-header {
   padding: 0px 25px 0px 25px;
 }
 
-/* Color for stats */
-#color-text-top{
-  color: var(--accent-color-2);
-  margin-top: 15px;
-  margin-bottom: 5px;
-  margin-left: 2vw;
-}
-#color-text-bottom{
-  color: var(--accent-color-2);
-  margin-bottom: 15px;
-  margin-top: 5px;
-  margin-left: 2vw;
-}
-
 /* Explore the results button */
 #ab_introduction_to_explore_results{
   width: 100%;
@@ -476,6 +465,14 @@ header.main-header {
 #ab_introduction_to_explore_results:hover{
   background-color: var(--accent-color-2);
   border: 1px solid var(--accent-color-2);
+}
+
+#ab_introduction_to_explore_results i{
+  color: var(--accent-color-2);
+}
+
+#ab_introduction_to_explore_results i:hover{
+  color: var(--accent-color);
 }
 
 /* More about fisheries subsidies button */
@@ -494,6 +491,14 @@ header.main-header {
   color: white;
 }
 
+#ab_introduction_to_global_subsidies i{
+  color: var(--accent-color-2);
+}
+
+#ab_introduction_to_global_subsidies i:hover{
+  color: var(--accent-color);
+}
+
 /* Learn about methods and process button */
 #ab_introduction_to_methods_process{
   width: 100%;
@@ -508,6 +513,14 @@ header.main-header {
 #ab_introduction_to_methods_process:hover{
   background-color: var(--accent-color-2);
   color: white;
+}
+
+#ab_introduction_to_methods_process i{
+  color: var(--accent-color-2);
+}
+
+#ab_introduction_to_methods_process i:hover{
+  color: var(--accent-color);
 }
 
 /* ------------------------------ */
@@ -711,4 +724,17 @@ height: auto;
 div#model_results_plot {
 min-height: 60vh;
 height: auto;
+}
+
+/* ------------------------------ */
+/* Methods and Process */
+/* ------------------------------ */
+
+#db_download_methods{
+  color: #fff;
+  background-color: var(--accent-color); 
+  border-width: 0; 
+  padding: 10px; 
+  width: 40%; 
+  font-size: 10pt; 
 }

@@ -48,17 +48,13 @@ Introduction = function()
                                                 
                                                 tags$td(id = "introduction-table-cell-l",
                                                         
-                                                        tags$h3("Subsidy reform represents one of the most beneficial actions we can take to restore our world's oceans"),
-                                                        tags$p("SubsidyExplorer is an interactive toolkit that allows users to learn more about fisheries subsidies and to explore potential biological and economic tradeoffs associated with subsidy reform. This tool supports the negotiations currently underway at the World Trade Organization (WTO).")
+                                                        includeHTML("./text/01-introduction/intro_left.html")
                                                         
                                                 ),
                                                 
                                                 tags$td(id = "introduction-table-cell-r",
                                                         
-                                                        tags$h4("An ambitious agreement on fisheries subsidies reform could result in increases of up to"),
-                                                        tags$h3(paste0("+ ", biomass_end_percent, "% in global fish biomass"), id = "color-text-top"),
-                                                        tags$h3(paste0("+ ", catch_end_percent, "% in global fish catch"), id = "color-text-bottom"),
-                                                        tags$h4(paste0("Resulting in ", biomass_end_value, " million more tons of fish in the water, and ", catch_end_value, " million more tons of fish being caught."))
+                                                        includeHTML("./text/01-introduction/intro_right.html")
                                                 )
                                         )
                              )

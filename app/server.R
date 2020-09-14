@@ -914,8 +914,6 @@ shinyServer(function(input, output, session) {
   ### 04a. global-subsidies ---
   ### -------------------------
   
-  ### Navigation buttons ---------------------
-  
   ### Update checkboxGroupInputs: Select all
   observeEvent(input$ab_global_subsidies_select_all, {
     
@@ -1443,28 +1441,57 @@ shinyServer(function(input, output, session) {
   ### 04c. compare-fishery-stats ---
   ### ------------------------------
   
-  ### Navigation buttons ---------------------
-  
-  # Navigation button from compare-fishery-stats to country-fishery-stats
-  observeEvent(input$ab_compare_fishery_stats_to_country_fishery_stats, {
-    updateTabItems(session, "menu_items", "country-fishery-stats")
+  ### Update checkboxGroupInputs: Select all
+  observeEvent(input$ab_compare_fishery_stats_select_all, {
+    
+    updateCheckboxGroupInput(session,
+                             "w_compare_fishery_stats_good_types",
+                             selected = subsidy_types_sorted_sumaila[1:3])
+    
+    updateCheckboxGroupInput(session,
+                             "w_compare_fishery_stats_ugly_types",
+                             selected = subsidy_types_sorted_sumaila[11:13])
+    
+    updateCheckboxGroupInput(session,
+                             "w_compare_fishery_stats_bad_types",
+                             selected = subsidy_types_sorted_sumaila[4:10])
+    
   })
   
-  # Navigation button from compare-fishery-stats to global-fishing-footprint
-  observeEvent(input$ab_compare_fishery_stats_to_global_fishing_footprint, {
-    updateTabItems(session, "menu_items", "global-fishing-footprint")
+  ### Update checkboxGroupInputs: Clear all
+  observeEvent(input$ab_compare_fishery_stats_clear_all, {
+    
+    x <- character(0)
+    
+    updateCheckboxGroupInput(session,
+                             "w_compare_fishery_stats_good_types",
+                             selected = x)
+    
+    updateCheckboxGroupInput(session,
+                             "w_compare_fishery_stats_ugly_types",
+                             selected = x)
+    
+    updateCheckboxGroupInput(session,
+                             "w_compare_fishery_stats_bad_types",
+                             selected = x)
+    
   })
   
-  # Navigation button from compare-fishery-stats to introduction
-  observeEvent(input$ab_compare_fishery_stats_to_introduction, {
-    updateTabItems(session, "menu_items", "introduction")
+  ### UI output: Name of selected country header ---------------------
+  output$compare_fishery_stats_selected_country_name <- renderUI({
+    
+    req(input$w_compare_fishery_stats_selected_country)
+    
+    out <- names(wto_members_and_observers[wto_members_and_observers == input$w_compare_fishery_stats_selected_country])
+    
+    tags$h3(out)
   })
   
   ### Update input: Remove selected state from list of comparison states --------------------------
   observe({
     
     # Removed selected country from the list of choices
-    new_choices <- wto_members_and_observers[wto_members_and_observers != input$w_compare_fishery_stats_selected_country]
+    new_choices <- wto_members_and_observers[wto_members_and_observers == input$w_compare_fishery_stats_selected_country]
     
     # Update input
     updateSelectizeInput(session, 
@@ -1478,14 +1505,22 @@ shinyServer(function(input, output, session) {
     req(input$w_compare_fishery_stats_selected_country)
     req(input$w_compare_fishery_stats_plot_variable)
     req(input$w_compare_fishery_stats_method)
-    req(input$w_compare_fishery_stats_subsidy_types)
+    
+    if(!(input$w_compare_fishery_stats_plot_variable %in% c("landings", "revenue"))){
+      
+      selected_subsidy_types <- c(input$w_compare_fishery_stats_good_types, 
+                                  input$w_compare_fishery_stats_ugly_types,
+                                  input$w_compare_fishery_stats_bad_types)
+      req(length(selected_subsidy_types) > 0)
+      
+    }
     
     # Plot arguments: 1 = variable name, 2 = hover/x-axis caption, 3 = rounding digits, 4 = units prefix.
     compare_fishery_stats_bar_plot_args <- switch(
       input$w_compare_fishery_stats_plot_variable,
       "subsidies" = list("subsidies_Sumaila", "Est. fisheries subsidies (2018 US$)", 0, "$"),
-      "landings" = list("capture_production", "Capture production (mt, 2017)", 0, ""),
-      "revenue" = list("landed_value", "Est. landed value (2017 US$)", 0, "$"),
+      "landings" = list("capture_production", "Capture production (mt, 2018)", 0, ""),
+      "revenue" = list("landed_value", "Est. landed value (2018 US$)", 0, "$"),
       "subsidies_per_landing" = list("subsidies_per_production", "Fisheries subsidies per tonne of capture production (2018 US$/tonne)", 2, "$"),
       "subsidies_per_revenue" = list("subsidies_per_landed_value", "Ratio of fisheries subsidies to landed value", 2, ""), 
       "subsidies_per_capita" = list("subsidies_per_capita", "Fisheries subsidies per capita (2018 US$/person)", 2, "$"),
@@ -1495,7 +1530,7 @@ shinyServer(function(input, output, session) {
     # Filter data by selected variable and by selected subsidy type(s) [if applicable]
     compare_fishery_stats_bar_plot_dat <- combined_fishery_stats_dat %>%
       dplyr::filter(variable == compare_fishery_stats_bar_plot_args[[1]]) %>%
-      dplyr::filter(if(input$w_compare_fishery_stats_plot_variable %in% c("capture_production", "landed_value")) is.na(type) else type %in% c(input$w_compare_fishery_stats_subsidy_types)) %>%
+      dplyr::filter(if(input$w_compare_fishery_stats_plot_variable %in% c("landings", "revenue")) is.na(type) else type %in% c(selected_subsidy_types)) %>%
       group_by(iso3, display_name, variable) %>%
       mutate(tot_value = sum(value, na.rm = T)) %>%
       ungroup() %>%
@@ -1524,26 +1559,49 @@ shinyServer(function(input, output, session) {
     # Require at least one matching entry
     req(nrow(compare_fishery_stats_bar_plot_dat) > 0)
     
-
-    # Make plot
-    compare_fishery_stats_bar_plot <- ggplot()+
-      geom_col(data = compare_fishery_stats_bar_plot_dat, aes(x = display_name, y = value, fill = type_name,
-                                                text = paste0("<b>","State: ","</b>", display_name,
-                                                              "<br>",
-                                                              "<b>","Subsidy Type: ","</b>", type_name,
-                                                              "<br>",
-                                                              "<b>", compare_fishery_stats_bar_plot_args[[2]],": ","</b>",
-                                                              compare_fishery_stats_bar_plot_args[[4]], format(round(value, compare_fishery_stats_bar_plot_args[[3]]), big.mark = ","))))+
-      #geom_col(data = totals, aes(x = country, y = value, colour = color), size = 1, fill = NA)+
-      scale_fill_manual(values = myColors[names(myColors) %in% compare_fishery_stats_bar_plot_dat$type_name])+
-      scale_y_continuous(expand = c(0,0), name = compare_fishery_stats_bar_plot_args[[2]],
-                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
-      coord_flip()+
-      theme_bw()+
-      labs(x = "")+
-      theme(legend.title = element_blank(),
-            legend.position = "none")
-
+    
+    ## Make plots
+    if(!(input$w_compare_fishery_stats_plot_variable %in% c("landings", "revenue"))){
+      
+      compare_fishery_stats_bar_plot <- ggplot()+
+        geom_col(data = compare_fishery_stats_bar_plot_dat, aes(x = display_name, y = value, fill = type_name,
+                                                                text = paste0("<b>","State: ","</b>", display_name,
+                                                                              "<br>",
+                                                                              "<b>","Subsidy Type: ","</b>", type_name,
+                                                                              "<br>",
+                                                                              "<b>", compare_fishery_stats_bar_plot_args[[2]],": ","</b>",
+                                                                              compare_fishery_stats_bar_plot_args[[4]], format(round(value, compare_fishery_stats_bar_plot_args[[3]]), big.mark = ","))))+
+        scale_fill_manual(values = myColors[names(myColors) %in% compare_fishery_stats_bar_plot_dat$type_name])+
+        scale_y_continuous(expand = c(0,0), name = compare_fishery_stats_bar_plot_args[[2]],
+                           labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+        coord_flip()+
+        theme_bw()+
+        labs(x = "")+
+        theme(legend.title = element_blank(),
+              legend.position = "none")
+      
+      
+    }else{
+      
+      compare_fishery_stats_bar_plot <- ggplot()+
+        geom_col(data = compare_fishery_stats_bar_plot_dat, aes(x = display_name, y = value, 
+                                                                text = paste0("<b>","State: ","</b>", display_name,
+                                                                              "<br>",
+                                                                              "<b>","Subsidy Type: ","</b>", type_name,
+                                                                              "<br>",
+                                                                              "<b>", compare_fishery_stats_bar_plot_args[[2]],": ","</b>",
+                                                                              compare_fishery_stats_bar_plot_args[[4]], format(round(value, compare_fishery_stats_bar_plot_args[[3]]), big.mark = ","))),
+                 fill = "#0d5ba2")+
+        scale_y_continuous(expand = c(0,0), name = compare_fishery_stats_bar_plot_args[[2]],
+                           labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+        coord_flip()+
+        theme_bw()+
+        labs(x = "")+
+        theme(legend.title = element_blank(),
+              legend.position = "none")
+      
+    }
+    
     # Convert to plotly
     gg <- ggplotly(compare_fishery_stats_bar_plot, tooltip="text")
 

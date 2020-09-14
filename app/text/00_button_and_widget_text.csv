@@ -123,7 +123,7 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02c,edit-policies,action-button,ab_run_model_custom,Run model!,button to run custom policy
 ,,,,,
 03a,global-subsidies,page,global-subsidies,Global Fisheries Subsidies,page name
-03a,global-subsidies,section,subsidy-types-to-include,Select subsidy types to include,header for left panel and title of cooresponding info button
+03a/03c,global-subsidies,section,subsidy-types-to-include,Select subsidy types to include,header for left panel and title of cooresponding info button
 03a,global-subsidies,action-button,ab_global_subsidies_select_all,Select All,button to select all subsidy types
 03a,global-subsidies,action-button,ab_global_subsidies_clear_all,Clear Selection,button to clear selected subsidy types
 03a,global-subsidies,widget,w_global_subsidies_good_types,BENEFICIAL,select good subsidy types
@@ -143,6 +143,11 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 03c,compare-fishery-stats,widget,w_compare_fishery_stats_method,Compare Selected State To…,who to compare to
 03c,compare-fishery-stats,widget,w_compare_fishery_stats_select_manual,Select WTO Member or Observer States (max of 10): ,other countries to compare to
 03c,compare-fishery-stats,widget,w_compare_fishery_stats_subsidy_types,Subsidy type(s) to include…,which subsidy types to include on plot
+03c,compare-fishery-stats,action-button,ab_compare_fishery_stats_select_all,Select All,button to select all subsidy types
+03c,compare-fishery-stats,action-button,ab_compare_fishery_stats_clear_all,Clear Selection,button to clear selected subsidy types
+03c,compare-fishery-stats,widget,w_compare_fishery_stats_good_types,BENEFICIAL,select good subsidy types
+03c,compare-fishery-stats,widget,w_compare_fishery_stats_ugly_types,AMBIGUOUS,select ugly subsidy types
+03c,compare-fishery-stats,widget,w_compare_fishery_stats_bad_types,HARMFUL,select bad subsidy types
 ,,,,,
 03d,global-fishing-footprint,page,global-fishing-footprint,Global Fishing Footprint,page name
 ,,,,,

@@ -48,6 +48,12 @@ country_lookup <- read_csv("./data/country_dependencies.csv") %>%
                                   TRUE ~ countrycode(iso3, "iso3c", "country.name"))) %>%
   arrange(sovereign_iso3) 
 
+# Need to add an entry for the "EU" as an aggregate 
+eu_entry <- tibble(iso3 = "EU", sovereign_iso3 = "EU", WTO_name = "European Union", WTO_status = "Member", is_EU = T, is_overseas_territory = F, is_permanently_inhabited = T, development_status = "Developed", is_WTO = T, display_name = "European Union")
+
+country_lookup <- country_lookup %>%
+  bind_rows(eu_entry)
+
 # Vector of all WTO Members and Observers for use in the app [does not include the overseas territories associated with them]
 wto_members_and_observers <- country_lookup$iso3[country_lookup$is_WTO & !country_lookup$is_overseas_territory]
 names(wto_members_and_observers) <- country_lookup$display_name[country_lookup$iso3 %in% wto_members_and_observers]

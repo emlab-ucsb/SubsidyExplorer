@@ -11,14 +11,6 @@ CountryFisheryStats = function(wto_members_and_observers)
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     
-    # ### Page Header
-    # column(12, id = "page-title-div-underline-blue",
-    #        
-    #        # Title
-    #        tags$h3(text$item_label[text$item_id == "country-fishery-stats"])
-    #        
-    # ),
-    
     ### Main content
     column(12,
            

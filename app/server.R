@@ -893,13 +893,6 @@ shinyServer(function(input, output, session) {
   ### 03. methods-process ---
   ### -----------------------
   
-  ### Navigation buttons ---------------------
-  
-  # Navigation button from methods-process to introduction
-  observeEvent(input$ab_methods_process_to_introduction, {
-    updateTabItems(session, "menu_items", "introduction")
-  })
-  
   ### Downlaod buttons ---------------------
   
   # Download methods PDF
@@ -914,7 +907,45 @@ shinyServer(function(input, output, session) {
   ### 04a. global-subsidies ---
   ### -------------------------
   
-  ### Update checkboxGroupInputs: Select all
+  ### Info button: Subsidy types --------------
+  observeEvent(input$info_global_subsidies_subsidy_types, {
+                   
+                   shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
+                              text = "Text goes here",
+                              size = "l",
+                              closeOnEsc = TRUE,
+                              closeOnClickOutside = TRUE,
+                              html = TRUE,
+                              type = "",
+                              showConfirmButton = TRUE,
+                              showCancelButton = FALSE,
+                              confirmButtonText = "OK",
+                              confirmButtonCol = "#0d5ba2",
+                              timer = 0,
+                              animation = TRUE)
+                   
+                 })
+  
+  ### Info button: Global subsidy map --------------
+  observeEvent(input$info_global_subsidies_map, {
+                    
+                    shinyalert(title = text$item_label[text$item_id == "global-subsidies"],
+                               text = "Text goes here",
+                               size = "l",
+                               closeOnEsc = TRUE,
+                               closeOnClickOutside = TRUE,
+                               html = TRUE,
+                               type = "",
+                               showConfirmButton = TRUE,
+                               showCancelButton = FALSE,
+                               confirmButtonText = "OK",
+                               confirmButtonCol = "#0d5ba2",
+                               timer = 0,
+                               animation = TRUE)
+                    
+                  })
+  
+  ### Update checkboxGroupInputs: Select all --------------------
   observeEvent(input$ab_global_subsidies_select_all, {
     
     updateCheckboxGroupInput(session,
@@ -1017,7 +1048,7 @@ shinyServer(function(input, output, session) {
       addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
       addCircles(data = global_subsidies_map_dat_points,
                  color = ~global_subsidies_map_pal(log10(value)),
-                 fillOpacity = 0.5,
+                 fillOpacity = 0.8,
                  stroke = "white",
                  weight = 2,
                  radius = 200000,
@@ -1059,8 +1090,27 @@ shinyServer(function(input, output, session) {
   })
   
   ### ------------------------------
-  ### 04b. country-fishery-stats ---
+  ### 03b. country-fishery-stats ---
   ### ------------------------------
+  
+  ### Info button: Countries and territories --------------
+  observeEvent(input$info_country_fishery_stats_territories, {
+                    
+                    shinyalert(title = "WTO Members and Observers",
+                               text = "Text goes here",
+                               size = "l",
+                               closeOnEsc = TRUE,
+                               closeOnClickOutside = TRUE,
+                               html = TRUE,
+                               type = "",
+                               showConfirmButton = TRUE,
+                               showCancelButton = FALSE,
+                               confirmButtonText = "OK",
+                               confirmButtonCol = "#0d5ba2",
+                               timer = 0,
+                               animation = TRUE)
+                    
+                  })
   
   ### UI output: Name of selected country header ---------------------
   output$country_fishery_stats_selected_country_name <- renderUI({
@@ -1438,8 +1488,46 @@ shinyServer(function(input, output, session) {
   })
   
   ### ------------------------------
-  ### 04c. compare-fishery-stats ---
+  ### 03c. compare-fishery-stats ---
   ### ------------------------------
+  
+  ### Info button: Subsidy types --------------
+  observeEvent(input$info_compare_fishery_stats_subsidy_types, {
+                   
+                   shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
+                              text = "Text goes here",
+                              size = "l",
+                              closeOnEsc = TRUE,
+                              closeOnClickOutside = TRUE,
+                              html = TRUE,
+                              type = "",
+                              showConfirmButton = TRUE,
+                              showCancelButton = FALSE,
+                              confirmButtonText = "OK",
+                              confirmButtonCol = "#0d5ba2",
+                              timer = 0,
+                              animation = TRUE)
+                   
+                 })
+  
+  ### Info button: Countries and territories --------------
+  observeEvent(input$info_compare_fishery_stats_territories, {
+                   
+                   shinyalert(title = "WTO Members and Observers",
+                              text = "Text goes here",
+                              size = "l",
+                              closeOnEsc = TRUE,
+                              closeOnClickOutside = TRUE,
+                              html = TRUE,
+                              type = "",
+                              showConfirmButton = TRUE,
+                              showCancelButton = FALSE,
+                              confirmButtonText = "OK",
+                              confirmButtonCol = "#0d5ba2",
+                              timer = 0,
+                              animation = TRUE)
+                   
+                 })
   
   ### Update checkboxGroupInputs: Select all
   observeEvent(input$ab_compare_fishery_stats_select_all, {
@@ -1614,16 +1702,24 @@ shinyServer(function(input, output, session) {
   ### 04d. global-fishing-footprint ---
   ### ---------------------------------
   
-  ### Navigation buttons ---------------------
-  
-  # Navigation button from global-fishing-footprint to compare-fishery-stats
-  observeEvent(input$ab_global_fishing_footprint_to_compare_fishery_stats, {
-    updateTabItems(session, "menu_items", "compare-fishery-stats")
-  })
-  
-  # Navigation button from global-fishing-footprint to introduction
-  observeEvent(input$ab_global_fishing_footprint_to_introduction, {
-    updateTabItems(session, "menu_items", "introduction")
+  ### Info button: Global map of fishing effort --------------
+  observeEvent(input$info_global_fishing_footprint_map, {
+    
+    shinyalert(title = text$item_label[text$item_id == "global-fishing-footprint"],
+               text = "Text goes here",
+               size = "l",
+               closeOnEsc = TRUE,
+               closeOnClickOutside = TRUE,
+               html = TRUE,
+               type = "",
+               showConfirmButton = TRUE,
+               showCancelButton = FALSE,
+               confirmButtonText = "OK",
+               confirmButtonCol = "#0d5ba2",
+               timer = 0,
+               animation = TRUE
+    )
+    
   })
   
   ### Leaflet map: Global map of fishing effort with hover boxes ---------------------
@@ -1660,15 +1756,15 @@ shinyServer(function(input, output, session) {
       lapply(htmltools::HTML)
     
     # Chloropleth color palette for global effort map
-    global_fishing_footprint_map_pal <- colorNumeric(palette = "Reds",
+    global_fishing_footprint_map_pal <- colorNumeric(palette = "YlOrRd",
                                           log10(global_fishing_footprint_map_dat_shp$fishing_KWh))
     
     # Map
-    leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 2)) %>%
-      addProviderTiles("CartoDB.DarkMatterNoLabels") %>%
+    leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 3)) %>%
+      addProviderTiles("CartoDB.VoyagerNoLabels") %>%
       addPolygons(data = global_fishing_footprint_map_dat_shp,
                   fillColor = ~global_fishing_footprint_map_pal(log10(fishing_KWh)),
-                  fillOpacity = 0.6,
+                  fillOpacity = 1,
                   color= "white",
                   weight = 0.3,
                   highlight = highlightOptions(weight = 5,
@@ -1680,7 +1776,7 @@ shinyServer(function(input, output, session) {
                                                            padding = "3px 8px"),
                                               textsize = "13px",
                                               direction = "auto")) %>%
-      setView(0,20, zoom = 2) %>%
+      setView(0,20, zoom = 3) %>%
       addLegend("bottomright", 
                 pal = global_fishing_footprint_map_pal, 
                 values = log10(global_fishing_footprint_map_dat_shp$fishing_KWh),
@@ -1690,27 +1786,6 @@ shinyServer(function(input, output, session) {
                   transform = function(x) 10^(x)))
     
   })
-
-  ### -----------------
-  ### 05. need-help ---
-  ### -----------------
-  
-  ### Navigation buttons ---------------------
-  
-  # Navigation button from methods-process to introduction
-  observeEvent(input$ab_need_help_to_introduction, {
-    updateTabItems(session, "menu_items", "introduction")
-  })
-  
-  ### Download buttons ---------------------
-  
-  # Download user guide (english) PDF
-  output$db_download_user_guide_english <- downloadHandler(
-    filename = "SubsidyExplorer_user_guide_english.pdf",
-    content = function(file) {
-      file.copy("www/SubsidyExplorer_user_guide_english.pdf", file)
-    }
-  )
   
 
 })

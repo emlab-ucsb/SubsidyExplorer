@@ -9,35 +9,39 @@ GlobalFishingFootprint = function()
   fluidPage(
     
     # Page style
-    style = "background-color: #262626; color: #ffffff;",
+    style = "background-color: #ffffff; color: #000000;",
     
-    ### Title and introductory text 
-    column(12, style = "padding: 25px 25px;",
-           
-           # Title
-           tags$h3(style = "text-align: left; padding: 0; margin: 0 0 10px; color: #ffffff;", text$item_label[text$item_id == "global-fishing-footprint"], tags$button(id = "info_global_fishing_footprint",
-                                                                                                                                 class = "btn action-button info-button",
-                                                                                                                                 icon("info"))),
-           
-           # Text
-           includeHTML("./text/04d_global_fishing_footprint_intro.html")
-           
-    ),
-    
-    ### Global fishing effort map
-    column(12, style = "padding: 10px 0;",
-           
+    ### Global subsidies map
+    column(12,
            
            # Leaflet map
-           leafletOutput('global_fishing_footprint_map', width = "auto", height = "70vh")
+           leafletOutput('global_fishing_footprint_map', width = "auto", height = "89vh"),
            
+           # Info button 
+           absolutePanel(id = "global_fishing_footprint_map_info_panel", 
+                         
+                         column(12, id = "tb-spaced-div", align = "center",
+                                
+                                
+                                tagList(tags$b(text$item_label[text$item_id == "global-fishing-footprint"]),
+                                        # Info button
+                                        tags$button(id = "info_global_fishing_footprint_map",
+                                                    class = "btn action-button info-button",
+                                                    icon("info")))
+                         )
+           ),
            
-    ),
-    
-    ### Map disclaimer
-    column(12, style = "padding: 25px 25px; color: #ffffff;",
+           # Map disclaimer
+           absolutePanel(id = "global_fishing_footprint_map_disclaimer_panel",
+                         
+                         column(12, id = "tb-spaced-div", align = "center",
+                                
+                                text$item_label[text$item_id == "map_disclaimer"] %>% lapply(htmltools::HTML)
+                                
+                         )
+                         
+           )
            
-           tags$i(text$item_label[text$item_id == "map_disclaimer"])
     )
             
   ) # /fluidPage

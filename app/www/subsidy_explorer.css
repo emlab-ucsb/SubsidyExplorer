@@ -744,11 +744,6 @@ hr.grey-narrow{
   margin-bottom: 10px;
 }
 
-div#country_profile_bar_chart {
-min-height: 60vh;
-height: auto;
-}
-
 div#model_results_plot {
 min-height: 60vh;
 height: auto;
@@ -797,11 +792,6 @@ height: auto;
   color: var(--accent-color);
   border-left-color: transparent;
   border-right-color: transparent;
-}
-
-#more-about-subsidies-tab-panel{
-  border-top: 1px solid #f2f2f2;
-  border-bottom: 1px solid #f2f2f2;
 }
 
 /* Global subsidies */
@@ -905,6 +895,31 @@ height: auto;
 
 #db_country_fishery_stats_generate_report:hover{
   background-color: var(--accent-color-2);
+}
+
+/* ------------------------------ */
+/* Fishery stats by state */
+/* ------------------------------ */
+
+#global_fishing_footprint_map_info_panel {
+  background: rgba(255,255,255,0.9);
+  right: 50px;
+  top: 25px;
+  width: 250px;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  z-index: 1000 !important;
+}
+
+#global_fishing_footprint_map_disclaimer_panel {
+  background: rgba(255,255,255,0.9);
+  padding: 10px;
+  left: 25vw;
+  right: 25vw;
+  bottom: 0;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  z-index: 1001 !important; 
 }
 
 /* ------------------------------ */

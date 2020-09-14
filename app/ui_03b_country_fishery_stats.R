@@ -29,7 +29,7 @@ CountryFisheryStats = function(wto_members_and_observers)
                                           label = tagList(tags$b(text$item_label[text$item_id == "w_country_fishery_stats_selected_country"]),
                                                           
                                                           # Info button: subsidy types
-                                                          tags$button(id = "territory_info",
+                                                          tags$button(id = "info_country_fishery_stats_territories",
                                                                       class = "btn action-button info-button",
                                                                       icon("info")
                                                           )

@@ -29,8 +29,7 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
                                   # Select state
                                   selectizeInput("w_compare_fishery_stats_selected_country",
                                                  label = tagList(tags$b(text$item_label[text$item_id == "w_compare_fishery_stats_selected_country"]),
-                                                                 # Info button: subsidy types
-                                                                 tags$button(id = "territory_info",
+                                                                 tags$button(id = "info_compare_fishery_stats_territories",
                                                                              class = "btn action-button info-button",
                                                                              icon("info")
                                                                  )
@@ -79,7 +78,7 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
                                                                    # Title 
                                                                    tagList(tags$b(text$item_label[text$item_id == "subsidy-types-to-include"]),
                                                                            # Info button
-                                                                           tags$button(id = "info_button_global_subsidies_subsidy_types",
+                                                                           tags$button(id = "info_compare_fishery_stats_subsidy_types",
                                                                                        class = "btn action-button info-button",
                                                                                        icon("info"))),
                                                                            

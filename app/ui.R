@@ -26,6 +26,7 @@ system('fc-cache -f ~/.fonts')
 library(shiny) # shiny app widgets
 library(shinyjs) # javascript functionality for shiny
 library(shinydashboard) # dashboard theme for shiny
+library(shinyalert) # popups
 library(shinyBS) # tooltips and hover
 library(rsconnect) # needed to deploy app to shinyapps.io
 require(stats) # statistical functions
@@ -187,6 +188,9 @@ shinyUI(
             
             # Custom stylesheet
             tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "subsidy_explorer.css")),
+            
+            # Allow for popups
+            useShinyalert(),
             
             # Tabs
             tabItems(

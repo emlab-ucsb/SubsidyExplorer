@@ -9,7 +9,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
   fluidPage(
     
     # Page style
-    style = "background-color: #ffffff;",
+    style = "background-color: #ffffff; color: #000000;",
     
     ### Global subsidies map
     column(12,
@@ -26,7 +26,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                                 tagList(
                                   tags$b(text$item_label[text$item_id == "subsidy-types-to-include"]),
                                   # Info button
-                                  tags$button(id = "info_button_global_subsidies_subsidy_types",
+                                  tags$button(id = "info_global_subsidies_subsidy_types",
                                               class = "btn action-button info-button",
                                               icon("info"))),
                                 
@@ -92,7 +92,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                                 
                                 tagList(tags$b(text$item_label[text$item_id == "global-subsidies"]),
                                         # Info button
-                                        tags$button(id = "info_button_global_subsidies_page",
+                                        tags$button(id = "info_global_subsidies_map",
                                                     class = "btn action-button info-button",
                                                     icon("info")))
                          )

@@ -911,7 +911,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$info_global_subsidies_subsidy_types, {
                    
                    shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
-                              text = "Text goes here",
+                              text = includeHTML("./text/info-buttons/subsidy_types.html"),
                               size = "l",
                               closeOnEsc = TRUE,
                               closeOnClickOutside = TRUE,
@@ -930,7 +930,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$info_global_subsidies_map, {
                     
                     shinyalert(title = text$item_label[text$item_id == "global-subsidies"],
-                               text = "Text goes here",
+                               text = includeHTML("./text/info-buttons/global_subsidies_map.html"),
                                size = "l",
                                closeOnEsc = TRUE,
                                closeOnClickOutside = TRUE,
@@ -1097,7 +1097,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$info_country_fishery_stats_territories, {
                     
                     shinyalert(title = "WTO Members and Observers",
-                               text = "Text goes here",
+                               text = includeHTML("./text/info-buttons/territories.html"),
                                size = "l",
                                closeOnEsc = TRUE,
                                closeOnClickOutside = TRUE,
@@ -1495,7 +1495,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$info_compare_fishery_stats_subsidy_types, {
                    
                    shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
-                              text = "Text goes here",
+                              text = includeHTML("./text/info-buttons/subsidy_types.html"),
                               size = "l",
                               closeOnEsc = TRUE,
                               closeOnClickOutside = TRUE,
@@ -1514,7 +1514,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$info_compare_fishery_stats_territories, {
                    
                    shinyalert(title = "WTO Members and Observers",
-                              text = "Text goes here",
+                              text = includeHTML("./text/info-buttons/territories.html"),
                               size = "l",
                               closeOnEsc = TRUE,
                               closeOnClickOutside = TRUE,
@@ -1706,7 +1706,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$info_global_fishing_footprint_map, {
     
     shinyalert(title = text$item_label[text$item_id == "global-fishing-footprint"],
-               text = "Text goes here",
+               text = includeHTML("./text/info-buttons/global_fishing_footprint_map.html"),
                size = "l",
                closeOnEsc = TRUE,
                closeOnClickOutside = TRUE,

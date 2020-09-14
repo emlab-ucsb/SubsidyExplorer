@@ -84,7 +84,7 @@ CountryFisheryStats = function(wto_members_and_observers)
                                            column(12, id = "tb-spaced-div",
                                                   
                                                   # Header and text
-                                                  includeHTML("./text/03-more-about-subsidies/fisheries_subsidies.html")),
+                                                  includeHTML("./text/03-more-about-subsidies/country-fishery-stats/fisheries_subsidies.html")),
                                            
                                            column(12, id = "tb-spaced-div",
                                                   
@@ -110,7 +110,7 @@ CountryFisheryStats = function(wto_members_and_observers)
                                            column(12, id = "tb-spaced-div",
                                                   
                                                   # Header and text
-                                                  includeHTML("./text/03-more-about-subsidies/marine_capture.html")
+                                                  includeHTML("./text/03-more-about-subsidies/country-fishery-stats/marine_capture.html")
                                                   
                                            ), 
                                     
@@ -141,7 +141,7 @@ CountryFisheryStats = function(wto_members_and_observers)
                                            column(12, id = "tb-spaced-div",
                                                   
                                                   # Header and text
-                                                  includeHTML("./text/03-more-about-subsidies/demographics.html")
+                                                  includeHTML("./text/03-more-about-subsidies/country-fishery-stats/demographics.html")
                                                   
                                            ),
                                     

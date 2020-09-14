@@ -29,69 +29,74 @@ ExploreResults = function(proposal_choices)
       #### --------------------------------------------
       column(4, id = "explore-results-left-column",
              
-             ### Section Title ---
-             column(12, id = "section-title-div-underline",
+             column(12, id = "lr-spaced-div", 
                     
-                    tags$h4("Instructions")
+                    ### Section Title ---
+                    column(12, id = "section-title-div-underline",
                     
-             ),
+                           
+                           tags$h4("Instructions")
+                    
+                           
+                    ),
              
-             ### First section - text ---
+                    ### First section - text ---
+                    column(12, id = "div-underline",
+                    
+                           includeHTML("./text/02-results/explore-results/left_panel_intro.html")
+                    
+                    ),
              
-             column(12, id = "div-underline",
+                    ### Second section - Explore proposals ---
                     
-                    tags$p("The", tags$b("Proposal Results"), "graph on this page shows the Most Ambitious Scenario in terms of subsidy reform: a complete removal of capacity-enhancing subsidies. By following the chart line, you can see how the scenario affects Biomass, Fish Catch, and Revenue over time.")
+                    column(12, id = "section-title",
                     
-             ),
+                           # Section Title
+                           tags$h5(text$item_label[text$item_id == "explore-proposals"])
+                    
+                    ),
              
-             ### Second section - Explore proposals ---
-        
-             column(12, id = "section-title",
-                    
-                    # Section Title
-                    tags$h5(text$item_label[text$item_id == "explore-proposals"])
-                    
-             ),
+                    column(12,
+                           
+                           includeHTML("./text/02-results/explore-results/left_panel_explore_proposals.html")
+
+                    ),
              
-             column(12,
-                    
-                    tags$p("In addition to the Most Ambitious Scenario displayed here, the SubsidyExplorer contains many more pre-populated proposals to explore.")
-                    
-             ),
-             
-             column(12, id = "div-underline",
-                    
-                    # Button
-                    tags$button(id = "ab_explore_proposals",
-                                class = "btn action-button rounded-button",
-                                tags$b(text$item_label[text$item_id == "ab_explore_proposals"], icon("caret-right")))
+                    column(12, id = "div-underline",
+                           
+                           # Button
+                           tags$button(id = "ab_explore_proposals",
+                                       class = "btn action-button rounded-button",
+                                       tags$b(text$item_label[text$item_id == "ab_explore_proposals"], icon("caret-right")))
                     
                     
-             ),
+                           
+                    ),
              
 
-             ### Third section - Design custom proposal ---
+                    ### Third section - Design custom proposal ---
+                    column(12, id = "section-title",
+                    
+                           # Section Title
+                           tags$h5(text$item_label[text$item_id == "design-custom-proposal"])
+                    
+                    ),
              
-             column(12, id = "section-title",
-                    
-                    # Section Title
-                    tags$h5(text$item_label[text$item_id == "design-custom-proposal"])
-                    
-             ),
+                    column(12,
+                           
+                           includeHTML("./text/02-results/explore-results/left_panel_design_proposal.html")
+
+                           
+                    ),
              
-             column(12,
+                    column(12, id = "tb-spaced-div",
+                           
+                           # Button
+                           tags$button(id = "ab_design_custom_proposal",
+                                       class = "btn action-button rounded-button",
+                                       tags$b(text$item_label[text$item_id == "ab_design_custom_proposal"], icon("caret-right")))
                     
-                    tags$p("Advanced users can design their own subsidy reform proposal and plot how it affects Biomass, Fish Catch, and Revenue over time.")
-                    
-             ),
-             
-             column(12, id = "tb-spaced-div",
-                    
-                    # Button
-                    tags$button(id = "ab_design_custom_proposal",
-                                class = "btn action-button rounded-button",
-                                tags$b(text$item_label[text$item_id == "ab_design_custom_proposal"], icon("caret-right")))
-                    
+                    )
              )
       ),
     
@@ -173,8 +178,7 @@ ExploreResults = function(proposal_choices)
              column(12, id = "tb-spaced-div",
                     
                     "policy description"
-                    #uiOutput("selected_policy_description")
-                    
+
              )
       
       )

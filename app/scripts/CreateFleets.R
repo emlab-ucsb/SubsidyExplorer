@@ -1575,7 +1575,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      
    } # close tiering system
     
-    browser()
    ### DETERMINE CAPS ----------
 
    ### Tier 1 - ALWAYS  
@@ -1618,18 +1617,30 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        
      }else if(cap_tier$tier1_cap_rule == "FISHERS"){
        
-       # global_average_subs_per_fisher 
-       # global_average_fishers 
-       money_per_fisher <- cap_tier$tier1_cap_fishers
-       
-       # Get number of fishers from most recent year
-       flag_fishers <- cap_tier_lookup %>%
+       global_fishers <- cap_tier_lookup %>%
          dplyr::filter(variable == "fishers") %>%
          gather(year, value, -c("iso3", "variable", "is_WTO")) %>%
          group_by(iso3, variable, is_WTO) %>%
          dplyr::filter(year == max(year[!is.na(value)])) %>%
          ungroup() %>%
-         mutate(cap_value = value*money_per_fisher) %>%
+         dplyr::select(iso3, fishers = value)
+       
+       global_average_fishers <- mean(global_fishers$fishers, na.rm = T)
+       
+       global_subs_per_fisher <- cap_df %>%
+         dplyr::filter(type %in% str_replace(subsidies_to_cap, "_subs", "")) %>%
+         group_by(flag_iso3) %>%
+         summarize(tot_subs = sum(subs, na.rm = T)) %>%
+         left_join(global_fishers, by = c("flag_iso3" = "iso3")) %>%
+         mutate(subs_per_fisher = tot_subs/fishers)
+         
+       global_average_subs_per_fisher <- mean(global_subs_per_fisher$subs_per_fisher, na.rm = T)
+         
+       percent_cap <- cap_tier$tier1_cap_percent/100
+       
+       # Get number of fishers from most recent year
+       flag_fishers <- global_fishers %>%
+         mutate(cap_value = global_average_subs_per_fisher*fishers*percent_cap) %>%
          dplyr::select(iso3, cap_value)
          
        flag_caps_tier1 <- cap_df %>%
@@ -1641,7 +1652,80 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        
      }else if(cap_tier$tier1_cap_rule == "BEST"){
        
-       browser()
+       ### Do percent subs calculations
+       percent_subs_cap <- cap_tier$tier1_cap_best_percent_subs/100
+       
+       flag_caps_subs_tier1 <- cap_df %>%
+         dplyr::filter(flag_iso3 %in% tier_1_flags_out) %>%
+         mutate(subs_cap = subs_for_cap*percent_subs_cap) %>%
+         dplyr::select(flag_iso3, type, subs_cap)
+       
+       ### Do percent landed value calculation
+       percent_landed_value_cap <- cap_tier$tier1_cap_best_percent_landed_value/100
+       
+       # Country revenue 
+       revenue_years <- paste0("", seq(2016, 2018, by = 1), "")
+       
+       flag_revenue <- cap_tier_lookup %>%
+         dplyr::filter(variable == "landed_value") %>%
+         mutate(revenue = rowSums(select(., one_of(c(revenue_years))))) %>%
+         dplyr::select(iso3, revenue) %>%
+         mutate(cap_value = revenue*percent_landed_value_cap) %>%
+         dplyr::select(iso3, cap_value)
+       
+       flag_caps_landed_value_tier1 <- cap_df %>%
+         dplyr::filter(flag_iso3 %in% tier_1_flags_out) %>%
+         left_join(flag_revenue, by = c("flag_iso3" = "iso3")) %>%
+         mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
+         mutate(landed_value_cap = new_cap_value*subs_for_cap_percent_tot) %>%
+         dplyr::select(flag_iso3, type, landed_value_cap)
+       
+       ### Do fishers calculation
+       global_fishers <- cap_tier_lookup %>%
+         dplyr::filter(variable == "fishers") %>%
+         gather(year, value, -c("iso3", "variable", "is_WTO")) %>%
+         group_by(iso3, variable, is_WTO) %>%
+         dplyr::filter(year == max(year[!is.na(value)])) %>%
+         ungroup() %>%
+         dplyr::select(iso3, fishers = value)
+       
+       global_average_fishers <- mean(global_fishers$fishers, na.rm = T)
+       
+       global_subs_per_fisher <- cap_df %>%
+         dplyr::filter(type %in% str_replace(subsidies_to_cap, "_subs", "")) %>%
+         group_by(flag_iso3) %>%
+         summarize(tot_subs = sum(subs, na.rm = T)) %>%
+         left_join(global_fishers, by = c("flag_iso3" = "iso3")) %>%
+         mutate(subs_per_fisher = tot_subs/fishers)
+       
+       global_average_subs_per_fisher <- mean(global_subs_per_fisher$subs_per_fisher, na.rm = T)
+       
+       percent_fishers_cap <- cap_tier$tier1_cap_best_percent_fishers/100
+       
+       # Get number of fishers from most recent year
+       flag_fishers <- global_fishers %>%
+         mutate(cap_value = global_average_subs_per_fisher*fishers*percent_fishers_cap) %>%
+         dplyr::select(iso3, cap_value)
+       
+       flag_caps_fishers_tier1 <- cap_df %>%
+         dplyr::filter(flag_iso3 %in% tier_1_flags_out) %>%
+         left_join(flag_fishers, by = c("flag_iso3" = "iso3")) %>%
+         mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
+         mutate(fishers_cap = new_cap_value*subs_for_cap_percent_tot) %>%
+         dplyr::select(flag_iso3, type, fishers_cap)
+       
+       ### Combine
+       flag_caps_best_tier1 <- flag_caps_subs_tier1 %>%
+         left_join(flag_caps_landed_value_tier1, by = c("flag_iso3", "type")) %>%
+         left_join(flag_caps_fishers_tier1, by = c("flag_iso3", "type")) %>%
+         group_by(flag_iso3, type) %>%
+         mutate(cap = max(subs_cap, landed_value_cap, fishers_cap, na.rm = T)) %>%
+         ungroup() %>%
+         dplyr::select(flag_iso3, type, cap)
+       
+       flag_caps_tier1 <- cap_df %>%
+         dplyr::filter(flag_iso3 %in% tier_1_flags_out) %>%
+         left_join(flag_caps_best_tier1, by = c("flag_iso3", "type"))
      }
     
     # Out
@@ -1689,16 +1773,30 @@ overcap_vessels_out <- overcap_vessels_scope %>%
         
       }else if(cap_tier$tier2_cap_rule == "FISHERS"){
         
-        money_per_fisher <- cap_tier$tier2_cap_fishers
-        
-        # Get number of fishers from most recent year
-        flag_fishers <- cap_tier_lookup %>%
+        global_fishers <- cap_tier_lookup %>%
           dplyr::filter(variable == "fishers") %>%
           gather(year, value, -c("iso3", "variable", "is_WTO")) %>%
           group_by(iso3, variable, is_WTO) %>%
           dplyr::filter(year == max(year[!is.na(value)])) %>%
           ungroup() %>%
-          mutate(cap_value = value*money_per_fisher) %>%
+          dplyr::select(iso3, fishers = value)
+        
+        global_average_fishers <- mean(global_fishers$fishers, na.rm = T)
+        
+        global_subs_per_fisher <- cap_df %>%
+          dplyr::filter(type %in% str_replace(subsidies_to_cap, "_subs", "")) %>%
+          group_by(flag_iso3) %>%
+          summarize(tot_subs = sum(subs, na.rm = T)) %>%
+          left_join(global_fishers, by = c("flag_iso3" = "iso3")) %>%
+          mutate(subs_per_fisher = tot_subs/fishers)
+        
+        global_average_subs_per_fisher <- mean(global_subs_per_fisher$subs_per_fisher, na.rm = T)
+        
+        percent_cap <- cap_tier$tier1_cap_percent/100
+        
+        # Get number of fishers from most recent year
+        flag_fishers <- global_fishers %>%
+          mutate(cap_value = global_average_subs_per_fisher*fishers*percent_cap) %>%
           dplyr::select(iso3, cap_value)
         
         flag_caps_tier2 <- cap_df %>%
@@ -1707,6 +1805,83 @@ overcap_vessels_out <- overcap_vessels_scope %>%
           mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
           mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
           dplyr::select(-cap_value, -new_cap_value)
+        
+      }else if(cap_tier$tier2_cap_rule == "BEST"){
+        
+        ### Do percent subs calculations
+        percent_subs_cap <- cap_tier$tier2_cap_best_percent_subs/100
+        
+        flag_caps_subs_tier2 <- cap_df %>%
+          dplyr::filter(flag_iso3 %in% tier_2_flags_out) %>%
+          mutate(subs_cap = subs_for_cap*percent_subs_cap) %>%
+          dplyr::select(flag_iso3, type, subs_cap)
+        
+        ### Do percent landed value calculation
+        percent_landed_value_cap <- cap_tier$tier2_cap_best_percent_landed_value/100
+        
+        # Country revenue 
+        revenue_years <- paste0("", seq(2016, 2018, by = 1), "")
+        
+        flag_revenue <- cap_tier_lookup %>%
+          dplyr::filter(variable == "landed_value") %>%
+          mutate(revenue = rowSums(select(., one_of(c(revenue_years))))) %>%
+          dplyr::select(iso3, revenue) %>%
+          mutate(cap_value = revenue*percent_landed_value_cap) %>%
+          dplyr::select(iso3, cap_value)
+        
+        flag_caps_landed_value_tier2 <- cap_df %>%
+          dplyr::filter(flag_iso3 %in% tier_2_flags_out) %>%
+          left_join(flag_revenue, by = c("flag_iso3" = "iso3")) %>%
+          mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
+          mutate(landed_value_cap = new_cap_value*subs_for_cap_percent_tot) %>%
+          dplyr::select(flag_iso3, type, landed_value_cap)
+        
+        ### Do fishers calculation
+        global_fishers <- cap_tier_lookup %>%
+          dplyr::filter(variable == "fishers") %>%
+          gather(year, value, -c("iso3", "variable", "is_WTO")) %>%
+          group_by(iso3, variable, is_WTO) %>%
+          dplyr::filter(year == max(year[!is.na(value)])) %>%
+          ungroup() %>%
+          dplyr::select(iso3, fishers = value)
+        
+        global_average_fishers <- mean(global_fishers$fishers, na.rm = T)
+        
+        global_subs_per_fisher <- cap_df %>%
+          dplyr::filter(type %in% str_replace(subsidies_to_cap, "_subs", "")) %>%
+          group_by(flag_iso3) %>%
+          summarize(tot_subs = sum(subs, na.rm = T)) %>%
+          left_join(global_fishers, by = c("flag_iso3" = "iso3")) %>%
+          mutate(subs_per_fisher = tot_subs/fishers)
+        
+        global_average_subs_per_fisher <- mean(global_subs_per_fisher$subs_per_fisher, na.rm = T)
+        
+        percent_fishers_cap <- cap_tier$tier2_cap_best_percent_fishers/100
+        
+        # Get number of fishers from most recent year
+        flag_fishers <- global_fishers %>%
+          mutate(cap_value = global_average_subs_per_fisher*fishers*percent_fishers_cap) %>%
+          dplyr::select(iso3, cap_value)
+        
+        flag_caps_fishers_tier2 <- cap_df %>%
+          dplyr::filter(flag_iso3 %in% tier_2_flags_out) %>%
+          left_join(flag_fishers, by = c("flag_iso3" = "iso3")) %>%
+          mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
+          mutate(fishers_cap = new_cap_value*subs_for_cap_percent_tot) %>%
+          dplyr::select(flag_iso3, type, fishers_cap)
+        
+        ### Combine
+        flag_caps_best_tier2 <- flag_caps_subs_tier2 %>%
+          left_join(flag_caps_landed_value_tier2, by = c("flag_iso3", "type")) %>%
+          left_join(flag_caps_fishers_tier2, by = c("flag_iso3", "type")) %>%
+          group_by(flag_iso3, type) %>%
+          mutate(cap = max(subs_cap, landed_value_cap, fishers_cap, na.rm = T)) %>%
+          ungroup() %>%
+          dplyr::select(flag_iso3, type, cap)
+        
+        flag_caps_tier2 <- cap_df %>%
+          dplyr::filter(flag_iso3 %in% tier_2_flags_out) %>%
+          left_join(flag_caps_best_tier2, by = c("flag_iso3", "type"))
         
       }else if(cap_tier$tier2_cap_rule == "NONE"){
         
@@ -1762,26 +1937,117 @@ overcap_vessels_out <- overcap_vessels_scope %>%
           mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
           dplyr::select(-cap_value, -new_cap_value)
         
-      }else if(cap_tier$tier2_cap_rule == "FISHERS"){
+      }else if(cap_tier$tier3_cap_rule == "FISHERS"){
         
-        money_per_fisher <- cap_tier$tier3_cap_fishers
-        
-        # Get number of fishers from most recent year
-        flag_fishers <- cap_tier_lookup %>%
+        global_fishers <- cap_tier_lookup %>%
           dplyr::filter(variable == "fishers") %>%
           gather(year, value, -c("iso3", "variable", "is_WTO")) %>%
           group_by(iso3, variable, is_WTO) %>%
           dplyr::filter(year == max(year[!is.na(value)])) %>%
           ungroup() %>%
-          mutate(cap_value = value*money_per_fisher) %>%
+          dplyr::select(iso3, fishers = value)
+        
+        global_average_fishers <- mean(global_fishers$fishers, na.rm = T)
+        
+        global_subs_per_fisher <- cap_df %>%
+          dplyr::filter(type %in% str_replace(subsidies_to_cap, "_subs", "")) %>%
+          group_by(flag_iso3) %>%
+          summarize(tot_subs = sum(subs, na.rm = T)) %>%
+          left_join(global_fishers, by = c("flag_iso3" = "iso3")) %>%
+          mutate(subs_per_fisher = tot_subs/fishers)
+        
+        global_average_subs_per_fisher <- mean(global_subs_per_fisher$subs_per_fisher, na.rm = T)
+        
+        percent_cap <- cap_tier$tier1_cap_percent/100
+        
+        # Get number of fishers from most recent year
+        flag_fishers <- global_fishers %>%
+          mutate(cap_value = global_average_subs_per_fisher*fishers*percent_cap) %>%
           dplyr::select(iso3, cap_value)
-
+        
         flag_caps_tier3 <- cap_df %>%
           dplyr::filter(flag_iso3 %in% tier_3_flags_out) %>%
           left_join(flag_fishers, by = c("flag_iso3" = "iso3")) %>%
           mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
           mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
           dplyr::select(-cap_value, -new_cap_value)
+        
+      }else if(cap_tier$tier3_cap_rule == "BEST"){
+        
+        ### Do percent subs calculations
+        percent_subs_cap <- cap_tier$tier3_cap_best_percent_subs/100
+        
+        flag_caps_subs_tier3 <- cap_df %>%
+          dplyr::filter(flag_iso3 %in% tier_3_flags_out) %>%
+          mutate(subs_cap = subs_for_cap*percent_subs_cap) %>%
+          dplyr::select(flag_iso3, type, subs_cap)
+        
+        ### Do percent landed value calculation
+        percent_landed_value_cap <- cap_tier$tier3_cap_best_percent_landed_value/100
+        
+        # Country revenue 
+        revenue_years <- paste0("", seq(2016, 2018, by = 1), "")
+        
+        flag_revenue <- cap_tier_lookup %>%
+          dplyr::filter(variable == "landed_value") %>%
+          mutate(revenue = rowSums(select(., one_of(c(revenue_years))))) %>%
+          dplyr::select(iso3, revenue) %>%
+          mutate(cap_value = revenue*percent_landed_value_cap) %>%
+          dplyr::select(iso3, cap_value)
+        
+        flag_caps_landed_value_tier3 <- cap_df %>%
+          dplyr::filter(flag_iso3 %in% tier_3_flags_out) %>%
+          left_join(flag_revenue, by = c("flag_iso3" = "iso3")) %>%
+          mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
+          mutate(landed_value_cap = new_cap_value*subs_for_cap_percent_tot) %>%
+          dplyr::select(flag_iso3, type, landed_value_cap)
+        
+        ### Do fishers calculation
+        global_fishers <- cap_tier_lookup %>%
+          dplyr::filter(variable == "fishers") %>%
+          gather(year, value, -c("iso3", "variable", "is_WTO")) %>%
+          group_by(iso3, variable, is_WTO) %>%
+          dplyr::filter(year == max(year[!is.na(value)])) %>%
+          ungroup() %>%
+          dplyr::select(iso3, fishers = value)
+        
+        global_average_fishers <- mean(global_fishers$fishers, na.rm = T)
+        
+        global_subs_per_fisher <- cap_df %>%
+          dplyr::filter(type %in% str_replace(subsidies_to_cap, "_subs", "")) %>%
+          group_by(flag_iso3) %>%
+          summarize(tot_subs = sum(subs, na.rm = T)) %>%
+          left_join(global_fishers, by = c("flag_iso3" = "iso3")) %>%
+          mutate(subs_per_fisher = tot_subs/fishers)
+        
+        global_average_subs_per_fisher <- mean(global_subs_per_fisher$subs_per_fisher, na.rm = T)
+        
+        percent_fishers_cap <- cap_tier$tier1_cap_best_percent_fishers/100
+        
+        # Get number of fishers from most recent year
+        flag_fishers <- global_fishers %>%
+          mutate(cap_value = global_average_subs_per_fisher*fishers*percent_fishers_cap) %>%
+          dplyr::select(iso3, cap_value)
+        
+        flag_caps_fishers_tier3 <- cap_df %>%
+          dplyr::filter(flag_iso3 %in% tier_3_flags_out) %>%
+          left_join(flag_fishers, by = c("flag_iso3" = "iso3")) %>%
+          mutate(new_cap_value = ifelse(subs_for_cap == 0, 0, cap_value)) %>%
+          mutate(fishers_cap = new_cap_value*subs_for_cap_percent_tot) %>%
+          dplyr::select(flag_iso3, type, fishers_cap)
+        
+        ### Combine
+        flag_caps_best_tier3 <- flag_caps_subs_tier3 %>%
+          left_join(flag_caps_landed_value_tier3, by = c("flag_iso3", "type")) %>%
+          left_join(flag_caps_fishers_tier3, by = c("flag_iso3", "type")) %>%
+          group_by(flag_iso3, type) %>%
+          mutate(cap = max(subs_cap, landed_value_cap, fishers_cap, na.rm = T)) %>%
+          ungroup() %>%
+          dplyr::select(flag_iso3, type, cap)
+        
+        flag_caps_tier3 <- cap_df %>%
+          dplyr::filter(flag_iso3 %in% tier_3_flags_out) %>%
+          left_join(flag_caps_best_tier3, by = c("flag_iso3", "type"))
         
       }else if(cap_tier$tier3_cap_rule == "NONE"){
         
@@ -1796,6 +2062,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
       
     } # close tier 3
     
+    browser()
     ### Calculate remainders, apply to vessel list and be done --------
       
     # After caps are set, calculate remaining subs, accounting for already removed subs

@@ -299,14 +299,20 @@ shinyServer(function(input, output, session) {
            "tier2_cap_rule" = selected_proposal$tier2_cap_rule,
            "tier3_cap_rule" = selected_proposal$tier3_cap_rule,
            "tier1_cap_value" = selected_proposal$tier1_cap_value,
-           "tier1_cap_fishers" = selected_proposal$tier1_cap_fishers,
            "tier1_cap_percent" = selected_proposal$tier1_cap_percent,
+           "tier1_cap_best_percent_subs" = selected_proposal$tier1_cap_best_percent_subs,
+           "tier1_cap_best_percent_landed_value" = selected_proposal$tier1_cap_best_percent_landed_value,
+           "tier1_cap_best_percent_fishers" = selected_proposal$tier1_cap_best_percent_fishers,
            "tier2_cap_value" = selected_proposal$tier2_cap_value,
-           "tier2_cap_fishers" = selected_proposal$tier1_cap_fishers,
            "tier2_cap_percent" = selected_proposal$tier2_cap_percent,
+           "tier2_cap_best_percent_subs" = selected_proposal$tier2_cap_best_percent_subs,
+           "tier2_cap_best_percent_landed_value" = selected_proposal$tier2_cap_best_percent_landed_value,
+           "tier2_cap_best_percent_fishers" = selected_proposal$tier2_cap_best_percent_fishers,
            "tier3_cap_value" = selected_proposal$tier3_cap_value,
-           "tier3_cap_fishers" = selected_proposal$tier3_cap_fishers,
-           "tier3_cap_percent" = selected_proposal$tier3_cap_percent)
+           "tier3_cap_percent" = selected_proposal$tier3_cap_percent,
+           "tier3_cap_best_percent_subs" = selected_proposal$tier3_cap_best_percent_subs,
+           "tier3_cap_best_percent_landed_value" = selected_proposal$tier3_cap_best_percent_landed_value,
+           "tier3_cap_best_percent_fishers" = selected_proposal$tier3_cap_best_percent_fishers)
       
       # Policy summary
       policy_summary <- paste0(
@@ -705,14 +711,20 @@ shinyServer(function(input, output, session) {
                                       "tier2_cap_rule" = input$w_tier2_cap_rule,
                                       "tier3_cap_rule" = input$w_tier3_cap_rule,
                                       "tier1_cap_value" = input$w_tier1_cap_value,
-                                      "tier1_cap_fishers" = input$w_tier1_cap_fishers,
                                       "tier1_cap_percent" = input$w_tier1_cap_percent,
+                                      "tier1_cap_best_percent_subs" = input$w_tier1_cap_best_percent_subs,
+                                      "tier1_cap_best_percent_landed_value" = input$w_tier1_cap_best_percent_landed_value,
+                                      "tier1_cap_best_percent_fishers" = input$w_tier1_cap_best_percent_fishers,
                                       "tier2_cap_value" = input$w_tier2_cap_value,
-                                      "tier2_cap_fishers" = input$w_tier1_cap_fishers,
                                       "tier2_cap_percent" = input$w_tier2_cap_percent,
+                                      "tier2_cap_best_percent_subs" = input$w_tier2_cap_best_percent_subs,
+                                      "tier2_cap_best_percent_landed_value" = input$w_tier2_cap_best_percent_landed_value,
+                                      "tier2_cap_best_percent_fishers" = input$w_tier2_cap_best_percent_fishers,
                                       "tier3_cap_value" = input$w_tier3_cap_value,
-                                      "tier3_cap_fishers" = input$w_tier3_cap_fishers,
-                                      "tier3_cap_percent" = input$w_tier3_cap_percent)
+                                      "tier3_cap_percent" = input$w_tier3_cap_percent,
+                                      "tier3_cap_best_percent_subs" = input$w_tier3_cap_best_percent_subs,
+                                      "tier3_cap_best_percent_landed_value" = input$w_tier3_cap_best_percent_landed_value,
+                                      "tier3_cap_best_percent_fishers" = input$w_tier3_cap_best_percent_fishers)
     
   })
   

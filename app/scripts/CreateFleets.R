@@ -21,7 +21,7 @@ CreateFleets <- function(vessel_list,
   ### SETUP ---------------------------
   ### ---------------------------------
   
-  ### Since we don't have this as a selectable option - we define domestic vessels are those that spend less than 1% of their time fishing outside of their own EEZ
+  ### Since we don't have this as a selectable option - domestic vessels are defined as those that spend less than 1% of their time fishing outside of their own EEZ
   domestic_vessel_cutoff <- 0.01
   
   # All subsidy types
@@ -73,8 +73,11 @@ CreateFleets <- function(vessel_list,
 
   ### Remove vessels with no bad subsidies or that do not below to a WTO Member or Observer state (they can't be affected) 
   vessel_subset <- vessel_list %>%
-    dplyr::filter((bad_subs > 0 | ugly_subs > 0) & is_WTO)
+    dplyr::filter((bad_subs > 0 | ugly_subs > 0) & is_WTO) %>%
+    mutate(id = case_when(is_territorial ~ paste0(ssvid, "_", region, "_", fao_region, "_", eez_hs_code, "_", flag_iso3, "_", "territorial"),
+                          !is_territorial ~ paste0(ssvid, "_", region, "_", fao_region, "_", eez_hs_code, "_", flag_iso3, "_", "non-territorial")))
   
+  browser()
   ### Create empty container to track existing/removed subsidies by subtype by affected vessel and region
   vessel_tracking_df <- tibble(ssvid = numeric(0),
                                region = character(0),

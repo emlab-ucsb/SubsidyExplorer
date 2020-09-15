@@ -23,7 +23,11 @@ library(tidyverse)
 
 # Package to normalize vessel names in the same way GFW normalizes vessel names
 #devtools::install_github("jcvdav/startR")
-library(startR)
+#library(startR)
+# This used to live in the startR package, but now lives locally - the package developer is currently having some difficulties related to the update to R version 4.0
+source(here::here("scripts", "functions", "normalize.R"))
+devtools::install_github("rich-iannone/UnidecodeR")
+library(UnidecodeR)
 
 # Path to global vessel list
 vessel_list_path <- here::here("results", "04-model-parameterization", "vessel_list_2018_regions.csv")
@@ -173,7 +177,7 @@ distant_water_fishing <- distant_water_fishing %>%
                                  TRUE ~ F)) %>%
   dplyr::filter(!is_intra_EU) %>%
   mutate(distant_water = T) %>%
-  dplyr::select(eez_id, ssvid, fao_region, distant_water)
+  dplyr::select(eez_id, ssvid, fao_region, is_territorial, distant_water)
 ```
 
 #### A Note on Sovereignity
@@ -188,9 +192,8 @@ Though not foreign, we consider sovereign fishing to still be distant water fish
 
 ```{r}
 temp_vessel_list <- temp_vessel_list %>%
-  left_join(distant_water_fishing, by = c("eez_id", "ssvid", "fao_region"))
+  left_join(distant_water_fishing, by = c("eez_id", "ssvid", "fao_region", "is_territorial"))
 temp_vessel_list$distant_water[is.na(temp_vessel_list$distant_water)] <- F
-
 ```
 
 ## IUU

@@ -41,7 +41,7 @@ Introduction = function()
                                                 
                                                 tags$td(id = "introduction-table-cell-l",
                                                         
-                                                        tags$h3(text$item_label[text$item_id == "left-top"]),
+                                                        tags$h2(text$item_label[text$item_id == "left-top"]),
                                                         tags$p(text$item_label[text$item_id == "left-bottom"])
 
                                                 ),
@@ -49,8 +49,8 @@ Introduction = function()
                                                 tags$td(id = "introduction-table-cell-r",
                                                         
                                                         tags$h4(text$item_label[text$item_id == "right-top"], style = "font-weight: italic; color: var(--accent-color);"),
-                                                        tags$h3("+ 13", tags$sup("%"), " in global fish biomass", style = "color: var(--accent-color-2);"),
-                                                        tags$h3("+ 3", tags$sup("%"), " in global fish catch per year", style = "color: var(--accent-color-2);"),
+                                                        tags$h2("+ 13", tags$sup("%"), " in global fish biomass", style = "color: var(--accent-color-2);"),
+                                                        tags$h2("+ 3", tags$sup("%"), " in global fish catch per year", style = "color: var(--accent-color-2);"),
                                                         tags$h4(text$item_label[text$item_id == "right-bottom"], style = "color: var(--accent-color);")
                                                 )
                                         )

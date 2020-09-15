@@ -68,17 +68,17 @@ small.gray {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Avenir-Book', sans-serif;
+    font-family: 'Avenir-Book', "Helvetica", sans-serif;
     font-weight: bold;
 }
 
 h2 {
-  font-size: 20pt;
+  font-size: 18pt;
   margin-bottom: 20px;
 }
 
 h3 {
-  font-size: 18pt;
+  font-size: 16pt;
   margin-bottom: 20px;
 }
 
@@ -88,6 +88,15 @@ h4 {
 
 h5 {
   font-size: 12pt;
+}
+
+p {
+  font-family: 'Avenir-Book', "Helvetica", sans-serif;
+  font-size: 10pt;
+}
+
+text {
+   font-family: 'Avenir-Book', "Helvetica", sans-serif;
 }
 
 /*----------------------------*/  
@@ -232,6 +241,7 @@ header.main-header {
 /* Content wrapper - includes both sidebar and content */
 .skin-blue .wrapper {
   background-color: #ffffff;
+  font-family: 'Avenir-Book', "Helvetica", sans-serif;
 }
 
 /* Content wrapper - includes only content */
@@ -403,35 +413,23 @@ header.main-header {
 /* --------------- */
 
 #al_global_subsidies {
-  padding-top: 0;
-  margin-top: 0;
-  padding-bottom: 0;
+  padding: 0 0 10pt 10pt;
   margin-bottom: 0;
-  vertical-align: middle;
 }
 
 #al_country_fishery_stats {
-  padding-top: 0;
-  margin-top: 0;
-  padding-bottom: 0;
+  padding: 0 0 10pt 10pt;
   margin-bottom: 0;
-  vertical-align: middle;
 }
 
 #al_compare_fishery_stats{
-  padding-top: 0;
-  margin-top: 0;
-  padding-bottom: 0;
+  padding: 0 0 10pt 10pt;
   margin-bottom: 0;
-  vertical-align: middle;
 }
 
 #al_global_fishing_footprint {
-  padding-top: 0;
-  margin-top: 0;
-  padding-bottom: 0;
+  padding: 0 0 10pt 10pt;
   margin-bottom: 0;
-  vertical-align: middle;
 }
 
 /*--------------*/
@@ -779,7 +777,8 @@ height: auto;
       
 .nav-tabs-custom #subsidy-tabs.nav-tabs li a{
   color: var(--grey-dark);
-  padding: 15px 25px;
+  padding: 0 25px;
+  text-align: center;
 }
       
 .nav-tabs-custom #subsidy-tabs.nav-tabs li:hover {

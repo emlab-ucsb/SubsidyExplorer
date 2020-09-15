@@ -20,7 +20,7 @@ MethodsProcess = function()
     ),
     
     ### Intro and purpose
-    column(12, id = "spaced-div",
+    column(12, id = "lr-spaced-div",
            
            # Text
            includeHTML("./text/04-methods-process/intro_and_purpose.html")

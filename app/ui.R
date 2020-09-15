@@ -105,7 +105,7 @@ shinyUI(
         dashboardSidebar(
             
             # Width of sidebar menu
-            width = "250px",
+            width = "300px",
             
             # Want it collapsed by default
             collapsed = T,

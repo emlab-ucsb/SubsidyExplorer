@@ -41,8 +41,11 @@ CreateFleets <- function(vessel_list,
   wto_members_and_observers <- country_lookup$iso3[country_lookup$is_WTO & !country_lookup$is_overseas_territory]
   names(wto_members_and_observers) <- country_lookup$display_name[country_lookup$iso3 %in% wto_members_and_observers] 
   
+  # WTO territories 
+  wto_territories <- country_lookup$iso3[(country_lookup$sovereign_iso3 != country_lookup$iso3) & (country_lookup$sovereign_iso3 %in% wto_members_and_observers)]
+  
   # EU states
-  eu_countries <- country_lookup$iso3[country_lookup$is_EU]
+  eu_countries <- country_lookup$iso3[country_lookup$is_EU & country_lookup$iso3 != "EU"]
   names(eu_countries) <- country_lookup$display_name[country_lookup$iso3 %in% eu_countries]
   
   # List of all EU overseas territories - vessels flagged here should be considered WTO Members
@@ -54,6 +57,8 @@ CreateFleets <- function(vessel_list,
     dplyr::filter(is_overseas_territory & is_WTO) %>%
     distinct(iso3, sovereign_iso3)
   
+  all_territories <- unique(c(wto_territories, eu_territories))
+  
   # SVE countries
   sves <- c("ATG", "BRB", "BLZ", "BOL", "CUB", "DMA", "DOM", "SLV", "ECU", "FJI", "GRD", "GTM", "HND", "JAM", "MRT", "NIC", "PAN", "PNG", "KNA", "LCA", "VCT", "WSM", "SYC", "LKA", "TON", "TTO", "BHS")
   
@@ -62,8 +67,9 @@ CreateFleets <- function(vessel_list,
   
   # Exclusion of certain states for various rankings (because state is included in total for another entity)
   subs_ranking_exclude <- c(eu_countries) # Exclude individual EU states in "top subsidizer ranking" 
-  capture_ranking_exclude <- c(eu_countries, eu_states_t, "AUS", "MAR", "NOR", "NZL", "USA")
-  development_ranking_exclude <- c("AUS-T", eu_countries, eu_states_t, "NZL-T", "NOR-T", "MAR-T", "USA-T")
+  capture_ranking_exclude <- c(eu_countries, eu_states_t, "AUS", "MAR", "NOR", "NZL", "USA", all_territories)
+  development_ranking_exclude <- c("AUS-T", eu_countries, eu_states_t, "NZL-T", "NOR-T", "MAR-T", "USA-T", all_territories)
+  cap_exclude <- c(eu_countries)
   
   ### ---------------------------------
   ### ---------------------------------
@@ -73,11 +79,8 @@ CreateFleets <- function(vessel_list,
 
   ### Remove vessels with no bad subsidies or that do not below to a WTO Member or Observer state (they can't be affected) 
   vessel_subset <- vessel_list %>%
-    dplyr::filter((bad_subs > 0 | ugly_subs > 0) & is_WTO) %>%
-    mutate(id = case_when(is_territorial ~ paste0(ssvid, "_", region, "_", fao_region, "_", eez_hs_code, "_", flag_iso3, "_", "territorial"),
-                          !is_territorial ~ paste0(ssvid, "_", region, "_", fao_region, "_", eez_hs_code, "_", flag_iso3, "_", "non-territorial")))
+    dplyr::filter((bad_subs > 0 | ugly_subs > 0) & is_WTO) 
   
-  browser()
   ### Create empty container to track existing/removed subsidies by subtype by affected vessel and region
   vessel_tracking_df <- tibble(ssvid = numeric(0),
                                region = character(0),
@@ -471,7 +474,7 @@ CreateFleets <- function(vessel_list,
   # There must be at least one affected vessel in order to define scope
   if(nrow(oa_vessels) >= 1){
     
-    ### Vessel list for scope (need additional characteristics) - WHY DOES THIS GIVE ME MORE ENTRIES THAN I STARTED WITH - DUPLICATING SOMEWHERE
+    ### Vessel list for scope (need additional characteristics)
     oa_vessels_scope <- oa_vessels %>%
       left_join(vessel_subset, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial"))
     
@@ -634,7 +637,7 @@ CreateFleets <- function(vessel_list,
   
   if(nrow(oa_vessels_scope) >= 1 & oa$allow_sdt == "YES"){
     
-    ### Vessel list for S&DT - ALSO DUPLICATING SOMETHING
+    ### Vessel list for S&DT
     oa_vessels_sdt <- vessel_subset %>%
       right_join(oa_vessels_scope, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial"))
     
@@ -859,7 +862,7 @@ CreateFleets <- function(vessel_list,
   # There must be at least one affected vessel in order to define scope
   if(nrow(overcap_vessels) >= 1){
     
-    ### Vessel list for scope (need additional characteristics) - WHY DOES THIS GIVE ME MORE ENTRIES THAN I STARTED WITH - DUPLICATING SOMEWHERE
+    ### Vessel list for scope (need additional characteristics)
     overcap_vessels_scope <- overcap_vessels %>%
       left_join(vessel_subset, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial"))
     
@@ -1225,7 +1228,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   
   if(cap_tier$on_off == "YES"){
   
-    browser()
   # Subsidy types to include in cap. 
   # Other bad subsidies could have either been completely prohibited in the overcapacity section, or are allowed.
   # We need to figure that out in this section
@@ -1239,6 +1241,12 @@ overcap_vessels_out <- overcap_vessels_scope %>%
     
   }else{
     
+    ### Do some wrangling to make sure that we will have caps for all members
+    member_caps_df <- tibble(iso3 = wto_members_and_observers,
+                             cap = numeric(length(wto_members_and_observers))) %>%
+      dplyr::filter(!(iso3 %in% cap_exclude)) %>%
+      arrange(iso3)
+
     ### Create tidy data frame to track caps, already removed subsidies, and allowed subsidies
     # Get total subsidy amount by flag and subtype
     subs_total <- cap_tier_lookup %>%
@@ -1277,13 +1285,31 @@ overcap_vessels_out <- overcap_vessels_scope %>%
       left_join(subs_removed, by = c("flag_iso3", "type"))
     cap_df[is.na(cap_df)] <- 0
     
+    # Remove individual EU countries - will allocate their individual caps later
+    cap_df <- cap_df %>%
+      dplyr::filter(flag_iso3 %in% member_caps_df$iso3)
     
-   ### DETERMINE TIERING -----------
+    # Make blank entries for countries for which we don't have subsidy information
+    cap_missing_countries <- member_caps_df$iso3[!(member_caps_df$iso3 %in% cap_df$flag_iso3)]
+    
+    cap_df_blank <- tibble(flag_iso3 = rep(cap_missing_countries, each = length(subsidy_types_all)),
+                           type = rep(subsidy_types_all, times = length(cap_missing_countries))) %>%
+      mutate(subs = 0,
+             subs_for_cap = 0,
+             subs_for_cap_percent_tot = 0,
+             subs_removed = 0)
+    
+    # Add back together
+    cap_df <- cap_df %>%
+      bind_rows(cap_df_blank) %>%
+      arrange(flag_iso3)
+    
+   ### DETERMINE TIERING ----------
     
    ### One Tier
    if(cap_tier$tier_number == "ONE"){
      
-     tier_1_flags_out <- wto_members_and_observers 
+     tier_1_flags_out <- member_caps_df$iso3
 
    ### Two Tiers     
    }else if(cap_tier$tier_number == "TWO"){
@@ -1297,7 +1323,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        
        # Country ranking capture 
        cap_tier_dat_sorted <- cap_tier_lookup %>%
-         dplyr::filter(iso3 %in% wto_members_and_observers) %>%
          dplyr::filter(variable == "capture_production") %>%
          dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
          mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
@@ -1305,9 +1330,19 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          arrange(percent_prod) %>%
          mutate(new_tier = case_when(percent_prod >= percent_cutoff ~ 1,
                                      percent_prod < percent_cutoff ~ 2,
-                                     TRUE ~ 2))
+                                     TRUE ~ 2)) %>%
+         mutate(iso3 = str_replace(iso3, "-T", "")) %>%
+         arrange(iso3)
        
-     }else if(cap_tier$tier_system == "EXPORTS"){
+       # See if we're missing any countries using this method
+       missing_countries <- member_caps_df$iso3[!(member_caps_df$iso3 %in% cap_tier_dat_sorted$iso3)]
+       missing_countries_df <- tibble(iso3 = missing_countries, new_tier = rep(2, length(missing_countries)))
+       
+       # Assign tiers to those
+       cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
+         bind_rows(missing_countries_df)
+       
+     #}else if(cap_tier$tier_system == "EXPORTS"){
        
        # percent_cutoff <- cap_tier$two_tier_cutoff/100
        # 
@@ -1322,7 +1357,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        
        # Country ranking subsidies 
        cap_tier_dat_sorted <- cap_tier_lookup %>%
-         dplyr::filter(iso3 %in% wto_members_and_observers) %>%
          dplyr::filter(variable == "bad_ugly_subs") %>%
          dplyr::filter(!(iso3 %in% subs_ranking_exclude)) %>%
          group_by(iso3) %>%
@@ -1331,13 +1365,20 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          arrange(percent_subs) %>%
          mutate(new_tier = case_when(percent_subs >= percent_cutoff ~ 1,
                                      percent_subs < percent_cutoff ~ 2,
-                                     TRUE ~ 2))
+                                     TRUE ~ 2)) %>%
+         arrange(iso3)
+         
+         # See if we're missing any countries using this method
+         missing_countries <- member_caps_df$iso3[!(member_caps_df$iso3 %in% cap_tier_dat_sorted$iso3)]
+         missing_countries_df <- tibble(iso3 = missing_countries, new_tier = rep(2, length(missing_countries)))
        
+        # Assign tiers to those
+        cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
+           bind_rows(missing_countries_df)
        
      }else if(cap_tier$tier_system == "DEVELOPMENT"){
        
        cap_tier_dat_sorted <- cap_tier_lookup %>%
-         dplyr::filter(iso3 %in% wto_members_and_observers) %>%
          distinct(iso3) %>%
          dplyr::filter(!(iso3 %in% development_ranking_exclude)) %>%
          left_join(country_lookup %>% dplyr::select(iso3, sovereign_iso3, development_status), by = c("iso3")) %>%
@@ -1347,9 +1388,19 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          mutate(new_tier = case_when(development_status == "Developed" ~ 1, 
                                      development_status == "Developing" ~ 2,
                                      development_status == "LDC" ~ 2,
-                                     TRUE ~ 2))
+                                     TRUE ~ 2)) %>%
+         arrange(iso3)
+       
+       # See if we're missing any countries using this method
+       missing_countries <- member_caps_df$iso3[!(member_caps_df$iso3 %in% cap_tier_dat_sorted$iso3)]
+       missing_countries_df <- tibble(iso3 = missing_countries, new_tier = rep(2, length(missing_countries)))
+       
+       # Assign tiers to those
+       cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
+         bind_rows(missing_countries_df)
+       
      }
-     
+       
      ### Get flag states in Tier 1
      tier_1_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 1])
      
@@ -1360,7 +1411,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      }
      
      if(any(tier_1_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% sov_flags_out))$iso3
+       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_1_flags))$iso3
      }else{
        ter_flags_out <- NULL
      }  
@@ -1377,7 +1428,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      }
      
      if(any(tier_2_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% sov_flags_out))$iso3
+       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_2_flags))$iso3
      }else{
        ter_flags_out <- NULL
      }  
@@ -1397,7 +1448,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        
        # Country ranking capture 
        cap_tier_dat_sorted <- cap_tier_lookup %>%
-         dplyr::filter(iso3 %in% wto_members_and_observers) %>%
          dplyr::filter(variable == "capture_production") %>%
          dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
          mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
@@ -1406,7 +1456,17 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          mutate(new_tier = case_when(percent_prod >= percent_cutoff_top ~ 1,
                                      (percent_prod < percent_cutoff_top & percent_prod >= percent_cutoff_bottom) ~ 2,
                                      percent_prod < percent_cutoff_bottom ~ 3,
-                                     TRUE ~ 3))
+                                     TRUE ~ 3))%>%
+         mutate(iso3 = str_replace(iso3, "-T", "")) %>%
+         arrange(iso3)
+       
+       # See if we're missing any countries using this method
+       missing_countries <- member_caps_df$iso3[!(member_caps_df$iso3 %in% cap_tier_dat_sorted$iso3)]
+       missing_countries_df <- tibble(iso3 = missing_countries, new_tier = rep(3, length(missing_countries)))
+       
+       # Assign tiers to those
+       cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
+         bind_rows(missing_countries_df)
        
      }else if(cap_tier$tier_system == "SUBS"){
        
@@ -1425,7 +1485,16 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          mutate(new_tier = case_when(percent_subs >= percent_cutoff_top ~ 1,
                                      (percent_subs < percent_cutoff_top & percent_subs >= percent_cutoff_bottom) ~ 2,
                                      percent_subs < percent_cutoff_bottom ~ 3,
-                                     TRUE ~ 3))
+                                     TRUE ~ 3)) %>%
+         arrange(iso3)
+       
+       # See if we're missing any countries using this method
+       missing_countries <- member_caps_df$iso3[!(member_caps_df$iso3 %in% cap_tier_dat_sorted$iso3)]
+       missing_countries_df <- tibble(iso3 = missing_countries, new_tier = rep(3, length(missing_countries)))
+       
+       # Assign tiers to those
+       cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
+         bind_rows(missing_countries_df)
        
        
      }else if(cap_tier$tier_system == "DEVELOPMENT"){
@@ -1441,7 +1510,16 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          mutate(new_tier = case_when(development_status == "Developed" ~ 1, 
                                      development_status == "Developing" ~ 2,
                                      development_status == "LDC" ~ 3,
-                                     TRUE ~ 3))
+                                     TRUE ~ 3)) %>%
+         arrange(iso3)
+       
+       # See if we're missing any countries using this method
+       missing_countries <- member_caps_df$iso3[!(member_caps_df$iso3 %in% cap_tier_dat_sorted$iso3)]
+       missing_countries_df <- tibble(iso3 = missing_countries, new_tier = rep(2, length(missing_countries)))
+       
+       # Assign tiers to those
+       cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
+         bind_rows(missing_countries_df)
      }
      
      ### Get flag states in Tier 1
@@ -1454,7 +1532,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      }
      
      if(any(tier_1_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% sov_flags_out))$iso3
+       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_1_flags))$iso3
      }else{
        ter_flags_out <- NULL
      }  
@@ -1471,7 +1549,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      }
      
      if(any(tier_2_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% sov_flags_out))$iso3
+       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_2_flags))$iso3
      }else{
        ter_flags_out <- NULL
      }  
@@ -1488,7 +1566,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      }
      
      if(any(tier_3_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% sov_flags_out))$iso3
+       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_3_flags))$iso3
      }else{
        ter_flags_out <- NULL
      }  
@@ -1497,6 +1575,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      
    } # close tiering system
     
+    browser()
    ### DETERMINE CAPS ----------
 
    ### Tier 1 - ALWAYS  
@@ -1539,6 +1618,8 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        
      }else if(cap_tier$tier1_cap_rule == "FISHERS"){
        
+       # global_average_subs_per_fisher 
+       # global_average_fishers 
        money_per_fisher <- cap_tier$tier1_cap_fishers
        
        # Get number of fishers from most recent year
@@ -1558,6 +1639,9 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          mutate(cap = new_cap_value*subs_for_cap_percent_tot) %>%
          dplyr::select(-cap_value, -new_cap_value)
        
+     }else if(cap_tier$tier1_cap_rule == "BEST"){
+       
+       browser()
      }
     
     # Out

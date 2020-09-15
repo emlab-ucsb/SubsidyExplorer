@@ -115,14 +115,23 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02c,edit-policies,widget,w_tier1_cap_value,"Tier 1: Subsidy cap ($USD, millions)",Absolute value for top tier cap
 02c,edit-policies,widget,w_tier1_cap_fishers,Tier 1: Subsidies per fisher (US$),Subsidy per value for top tier cap
 02c,edit-policies,widget,w_tier1_cap_percent,Tier 1: Percent for cap rule,Percentage for top tier cap
+02c,edit-policies,widget,w_tier1_cap_best_percent_subs,Tier 1: Percent for cap rule (existing subsidies),
+02c,edit-policies,widget,w_tier1_cap_best_percent_landed_value,Tier 1: Percent for cap rule (landed value),
+02c,edit-policies,widget,w_tier1_cap_best_percent_fishers,Tier 1: Percent for cap rule (avg. subs per fisher * fishers),
 02c,edit-policies,widget,w_tier2_cap_rule,Tier 2: How should the cap be set?,Methods for setting tier 2 cap
 02c,edit-policies,widget,w_tier2_cap_value,"Tier 2: Subsidy cap ($USD, millions)",Absolute value for top tier cap
 02c,edit-policies,widget,w_tier2_cap_fishers,Tier 2: Subsidies per fisher (US$),Subsidy per value for tier 2 cap
 02c,edit-policies,widget,w_tier2_cap_percent,Tier 2: Percent for cap rule,Percentage for tier 2 cap
+02c,edit-policies,widget,w_tier2_cap_best_percent_subs,Tier 2: Percent for cap rule (existing subsidies),
+02c,edit-policies,widget,w_tier2_cap_best_percent_landed_value,Tier 2: Percent for cap rule (landed value),
+02c,edit-policies,widget,w_tier2_cap_best_percent_fishers,Tier 2: Percent for cap rule (avg. subs per fisher * fishers),
 02c,edit-policies,widget,w_tier3_cap_rule,Tier 3: How should the cap be set?,Methods for setting tier 3 cap
 02c,edit-policies,widget,w_tier3_cap_value,"Tier 3: Subsidy cap ($USD, millions)",Absolute value for tier 3 cap
 02c,edit-policies,widget,w_tier3_cap_fishers,Tier 3: Subsidies per fisher (US$),Subsidy per value for tier 3 cap
 02c,edit-policies,widget,w_tier3_cap_percent,Tier 3: Percent for cap rule,Percentage for tier 3 cap
+02c,edit-policies,widget,w_tier3_cap_best_percent_subs,Tier 3: Percent for cap rule (existing subsidies),
+02c,edit-policies,widget,w_tier3_cap_best_percent_landed_value,Tier 3: Percent for cap rule (landed value),
+02c,edit-policies,widget,w_tier3_cap_best_percent_fishers,Tier 3: Percent for cap rule (avg. subs per fisher * fishers),
 02c,edit-policies,nav-button,ab_edit_policies_tabs_overcap_to_oa,Back,within TabBox - overcap disciplines to OA disciplines
 02c,edit-policies,text,selected-policy,"<b class=""big"">Review policy selections</b></br><small class=""gray"">Ensure selections are correct</small>",Title of step 3
 02c,edit-policies,text,run-model,"<b class=""big"">Model your policy</b></br><small class=""gray"">Clicking the button will redirect you </small>",title of Step 4

@@ -390,6 +390,12 @@ header.main-header {
   border-bottom: 1px dashed var(--grey-dark);
 }
 
+/* General container with grey underline on top */
+#div-topline {
+  padding: 15px 0px 15px 0px;
+  border-top: 1px dashed var(--grey-dark);
+}
+
 /* General spaced divider */
 #spaced-div {
   padding: 15px 25px 7.5px 25px;

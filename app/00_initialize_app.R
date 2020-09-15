@@ -375,6 +375,7 @@ remove_all_bad_results_last <- remove_all_bad_results_last%>%
 # Create data frame entry
 best_result <- tibble(id = "A",
                       name = "Most ambitious scenario",
+                      type = "Reference",
                       iuu = list("NA"),
                       oa = list("NA"),
                       overcap = list("NA"),

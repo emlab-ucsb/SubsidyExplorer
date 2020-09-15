@@ -22,7 +22,10 @@ shinyServer(function(input, output, session) {
                  
                  # Display name
                  name = character(),
-                    
+                 
+                 # type
+                 type = character(),
+                 
                  # # Policy triggers
                  iuu = list(),
                  oa = list(),
@@ -71,38 +74,6 @@ shinyServer(function(input, output, session) {
   
   # Reactive object that keeps track of the currently selected policy -------
   rv_selected_result <- reactiveValues(id = "A")
-
-  # Reactive object tracker for plotly click
-  rv_plot_click <- reactiveValues(id = character(0))
-  
-  # observe({
-  #   
-  #   browser()
-  #   click <- event_data("model_results_timeseries_plot", event = "plotly_click")
-  #   
-  # })
-  # Allow you to change the selected run based on plot clicks -----
-  # observeEvent(c(event_data("plotly_selected", source = "model_results_timeseries_plot"),
-  #                event_data("plotly_deselect", source = "model_results_timeseries_plot"),
-  #                event_data("plotly_click", source = "model_results_timeseries_plot")), {
-  # 
-  #                  browser()
-  #                  if(length(event_data("plotly_selected", source = "model_results_timeseries_plot")) > 0){
-  # 
-  #                    if(event_data("plotly_selected", source = "model_results_timeseries_plot")$key[[1]] != rv_selected_result$id){
-  # 
-  #                      isolate(rv_selected_result$id <- event_data("plotly_selected", source = "model_results_timeseries_plot")$key[[1]])
-  # 
-  #                    }
-  # 
-  #                  }else if(length(event_data("plotly_selected", source = "model_results_timeseries_plot")) == 0){
-  # 
-  #                    isolate(rv_selected_result$id <- "0")
-  # 
-  #                  }
-  # 
-  # })
-  
   
   ### ----------------------------
   ### 01. Introduction/Sidebar ---
@@ -459,6 +430,7 @@ shinyServer(function(input, output, session) {
     # Fill in new tibble row 
     new_result <- tibble(id = new_run_id,
                          name = run_name,
+                         type = "Proposal",
                          iuu = list(iuu),
                          oa = list(oa),
                          overcap = list(overcap),
@@ -503,15 +475,31 @@ shinyServer(function(input, output, session) {
   observe({
     
     # Only allow proposals from the selected category to be chosen
-    proposals_run <- unique(rv_results$run$name[rv_results$run$name != "Most ambitious scenario"])
+    policy_proposals_run <- unique(rv_results$run$name[rv_results$run$type == "Proposal"])
     
     # Update input
     updatePrettyCheckboxGroup(session, 
                               "w_selected_results_show_policies",
-                              choices = proposals_run,
-                              selected = proposals_run,
+                              choices = policy_proposals_run,
+                              selected = policy_proposals_run,
                               inline = TRUE,
                               prettyOptions = list(status = "danger",
+                                                   fill = TRUE))
+  })
+  
+  ### Update checkboxGroupInput: Add new choices for each proposal that's run ----
+  observe({
+    
+    # Only allow proposals from the selected category to be chosen
+    custom_proposals_run <- unique(rv_results$run$name[rv_results$run$type == "Custom"])
+    
+    # Update input
+    updatePrettyCheckboxGroup(session, 
+                              "w_selected_results_show_custom",
+                              choices = custom_proposals_run,
+                              selected = custom_proposals_run,
+                              inline = TRUE,
+                              prettyOptions = list(status = "warning",
                                                    fill = TRUE))
   })
   
@@ -525,7 +513,7 @@ shinyServer(function(input, output, session) {
     req(input$w_selected_results_timeseries_plot_variable)
 
     entries_to_keep <- rv_results$run %>%
-      dplyr::filter(name %in% c(input$w_selected_results_show_ambitious, input$w_selected_results_show_policies))
+      dplyr::filter(name %in% c(input$w_selected_results_show_ambitious, input$w_selected_results_show_policies, input$w_selected_results_show_custom))
     
     # Collect data 
     dat <- bind_rows(entries_to_keep$results_timeseries)
@@ -566,93 +554,33 @@ shinyServer(function(input, output, session) {
     out_plot_dat <- plot_dat %>%
       dplyr::filter(Variable == plot_variable[[1]])
     
-    policy_names <- unique(out_plot_dat$Name)
-    
-    if(length(policy_names) == 1 & "Most ambitious scenario" %in% policy_names){
-      
-      plot <-  ggplot()+
-        aes(x = Year, y = Diff*100, group = Id)+
-        geom_line(data = out_plot_dat, size = 2, color = "#0d5ba2",
-                  aes(key = Id,
-                      text = paste0("<b>","Year: ","</b>", Year,
-                                    "<br>",
-                                    "<b>","Policy Name: ","</b>", Name,
-                                    "<br>",
-                                    "<b>","Description: ","</b>", Description,
-                                    "<br>",
-                                    "<b>","Policy Type: ","</b>", Type,
-                                    "<br>",
-                                    "<b>","Region: ", "</b>", Region,
-                                    "<br>",
-                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
-        theme_bw()+
-        geom_hline(yintercept = 0)+
-        scale_x_continuous(expand = c(0,0))+
-        labs(x = "Year", y = plot_variable[[2]])+
-        theme(legend.position = "none")+
-        facet_wrap(~Region)
-      
-    }else if(length(policy_names) >= 1 & "Most ambitious scenario" %in% policy_names){
-      
-      plot <-  ggplot()+
-        aes(x = Year, y = Diff*100, group = Id)+
-        geom_line(data = out_plot_dat %>% dplyr::filter(Id == "A"), size = 2, color = "#0d5ba2",
-                  aes(key = Id,
-                      text = paste0("<b>","Year: ","</b>", Year,
-                                    "<br>",
-                                    "<b>","Policy Name: ","</b>", Name,
-                                    "<br>",
-                                    "<b>","Description: ","</b>", Description,
-                                    "<br>",
-                                    "<b>","Policy Type: ","</b>", Type,
-                                    "<br>",
-                                    "<b>","Region: ", "</b>", Region,
-                                    "<br>",
-                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
-        theme_bw()+
-        geom_line(data = out_plot_dat %>% dplyr::filter(Id != "A"), size = 2, color = "red",
-                  aes(text = paste0("<b>","Year: ","</b>", Year,
-                                    "<br>",
-                                    "<b>","Policy Name: ","</b>", Name,
-                                    "<br>",
-                                    "<b>","Description: ","</b>", Description,
-                                    "<br>",
-                                    "<b>","Policy Type: ","</b>", Type,
-                                    "<br>",
-                                    "<b>","Region: ", "</b>", Region,
-                                    "<br>",
-                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
-        geom_hline(yintercept = 0)+
-        scale_x_continuous(expand = c(0,0))+
-        labs(x = "Year", y = plot_variable[[2]])+
-        theme(legend.position = "none")+
-        facet_wrap(~Region)
-      
-    }else if(!("Most ambitious scenario" %in% policy_names)){
-      
-      plot <-  ggplot()+
-        aes(x = Year, y = Diff*100, group = Id)+
-        theme_bw()+
-        geom_line(data = out_plot_dat, size = 2, color = "red",
-                  aes(text = paste0("<b>","Year: ","</b>", Year,
-                                    "<br>",
-                                    "<b>","Policy Name: ","</b>", Name,
-                                    "<br>",
-                                    "<b>","Description: ","</b>", Description,
-                                    "<br>",
-                                    "<b>","Policy Type: ","</b>", Type,
-                                    "<br>",
-                                    "<b>","Region: ", "</b>", Region,
-                                    "<br>",
-                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
-        geom_hline(yintercept = 0)+
-        scale_x_continuous(expand = c(0,0))+
-        labs(x = "Year", y = plot_variable[[2]])+
-        theme(legend.position = "none")+
-        facet_wrap(~Region)
-      
-    }
+    # Make color palette
+    color_palette <- c("blue", "red", "orange")
+    names(color_palette) <- c("Reference", "Proposal", "Custom")
 
+      plot <-  ggplot()+
+        aes(x = Year, y = Diff*100, group = Id, color = Type)+
+        geom_line(data = out_plot_dat, size = 2,
+                  aes(key = Id,
+                      text = paste0("<b>","Year: ","</b>", Year,
+                                    "<br>",
+                                    "<b>","Policy Name: ","</b>", Name,
+                                    "<br>",
+                                    "<b>","Description: ","</b>", Description,
+                                    "<br>",
+                                    "<b>","Policy Type: ","</b>", Type,
+                                    "<br>",
+                                    "<b>","Region: ", "</b>", Region,
+                                    "<br>",
+                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
+        theme_bw()+
+        scale_color_manual(values = color_palette[names(color_palette) %in% unique(out_plot_dat$Type)])+
+        geom_hline(yintercept = 0)+
+        scale_x_continuous(expand = c(0,0))+
+        labs(x = "Year", y = plot_variable[[2]])+
+        theme(legend.position = "none")+
+        facet_wrap(~Region)
+      
     # Convert to plotly
     gg2 <- ggplotly(plot, tooltip = "text") %>%
       hide_legend() 
@@ -1003,6 +931,7 @@ shinyServer(function(input, output, session) {
       # Fill in new tibble row
       new_result <- tibble(id = new_run_id,
                            name = run_name,
+                           type = "Custom",
                            iuu = list(iuu),
                            oa = list(oa),
                            overcap = list(overcap),

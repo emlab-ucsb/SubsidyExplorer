@@ -349,7 +349,7 @@ OA = function(wto_members_and_observers)
            column(3, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_oa_to_iuu",
-                              class = "btn action-button nav-button-c",
+                              class = "btn action-button rounded-button-grey",
                               text$item_label[text$item_id == "ab_edit_policies_tabs_oa_to_iuu"]
                   )
                   
@@ -359,7 +359,7 @@ OA = function(wto_members_and_observers)
            column(3, offset = 6, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_oa_to_overcap",
-                              class = "btn action-button nav-button-c",
+                              class = "btn action-button rounded-button-grey",
                               text$item_label[text$item_id == "ab_edit_policies_tabs_oa_to_overcap"] 
                   )
                   

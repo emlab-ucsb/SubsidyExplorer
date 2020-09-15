@@ -212,6 +212,25 @@ SelectedResults = function(proposal_choices)
                                                              fill = TRUE)
 
                                        )
+                               ),
+                               tags$tr(id = "explore-results-table-table-row",
+                                      
+                                      tags$td(style = "width: 100px;",
+                                              
+                                              
+                                      ),
+                                      
+                                      tags$td(
+                                        
+                                        prettyCheckboxGroup("w_selected_results_show_custom",
+                                                            label = NULL,
+                                                            choices = "",
+                                                            selected = "",
+                                                            inline = TRUE,
+                                                            status = "warning",
+                                                            fill = TRUE)
+                                        
+                                      )
                                )
                     )
                     

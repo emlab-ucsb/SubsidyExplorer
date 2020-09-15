@@ -284,7 +284,7 @@ IUU = function(wto_members_and_observers)
            column(3, offset = 9, id = "spaced-div",
                   
                   tags$button(id = "ab_edit_policies_tabs_iuu_to_oa",
-                              class = "btn action-button nav-button-c",
+                              class = "btn action-button rounded-button-grey",
                               text$item_label[text$item_id == "ab_edit_policies_tabs_iuu_to_oa"]
                   )
                   

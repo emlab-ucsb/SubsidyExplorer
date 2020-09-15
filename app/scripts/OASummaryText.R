@@ -15,7 +15,7 @@ OASummaryText <- function(oa,
     
     oa_pro <- "None selected."
     oa_disciplines <- paste0("<small class = 'gray'>", "DISCIPLINES:  ", "</small>",
-                              "<small>", oa_pro, "</small>")
+                              "<small>", oa_pro, "</small>", "<br>")
     
     oa_scope <- ""
     

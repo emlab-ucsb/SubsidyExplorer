@@ -15,7 +15,7 @@ IUUSummaryText <- function(iuu,
     
     iuu_pro <- "None selected."
     iuu_disciplines <- paste0("<small class = 'gray'>", "DISCIPLINES:  ", "</small>",
-                              "<small>", iuu_pro, "</small>")
+                              "<small>", iuu_pro, "</small>", "</br>")
     
     iuu_scope <- ""
     
@@ -102,7 +102,7 @@ IUUSummaryText <- function(iuu,
       
       iuu_sdt <- "None."
       iuu_sdt <- paste0("<small class = 'gray'>", "S&DT: ", "</small>",
-                        "<small>", iuu_sdt, "</br></small>")
+                        "<small>", iuu_sdt, "</small>", "</br>")
       
     }else if(iuu$allow_sdt == "YES"){
       

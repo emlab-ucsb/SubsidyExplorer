@@ -16,7 +16,7 @@ OvercapSummaryText <- function(overcap,
     
     overcap_pro <- "None selected."
     overcap_disciplines <- paste0("<small class = 'gray'>", "DISCIPLINES:  ", "</small>",
-                              "<small>", overcap_pro, "</small>")
+                              "<small>", overcap_pro, "</small>", "<br>")
     
     overcap_scope <- ""
     

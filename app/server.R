@@ -640,35 +640,24 @@ shinyServer(function(input, output, session) {
   ### Navigation buttons ---------------------
   
   ### Tabs
-  
-  # Navigation button from tab 1 to tab 0
-  observeEvent(input$ab_edit_policies_tabs_iuu_to_instructions, {
-    updateTabsetPanel(session, "policy_tabs", "instructions") 
-  })
-  
   # Navigation button from tab 1 to tab 2
   observeEvent(input$ab_edit_policies_tabs_iuu_to_oa, {
-    updateTabsetPanel(session, "policy_tabs", "oa") 
+    updateTabsetPanel(session, "policy-tabs", "oa") 
   })
   
   # Navigation button from tab 2 to tab 1
   observeEvent(input$ab_edit_policies_tabs_oa_to_iuu, {
-    updateTabsetPanel(session, "policy_tabs", "iuu") 
+    updateTabsetPanel(session, "policy-tabs", "iuu") 
   })
   
   # Navigation button from tab 2 to tab 3
   observeEvent(input$ab_edit_policies_tabs_oa_to_overcap, {
-    updateTabsetPanel(session, "policy_tabs", "overcap") 
+    updateTabsetPanel(session, "policy-tabs", "overcap") 
   })
   
   # Navigation button from tab 3 to tab 2
   observeEvent(input$ab_edit_policies_tabs_overcap_to_oa, {
-    updateTabsetPanel(session, "policy_tabs", "overcap") 
-  })
-  
-  # Navigation button from tab 3 to tab 4
-  observeEvent(input$ab_edit_policies_tabs_overcap_to_other, {
-    updateTabsetPanel(session, "policy_tabs", "other") 
+    updateTabsetPanel(session, "policy-tabs", "oa") 
   })
   
   ### Text Output: IUU data warning -------------------
@@ -788,20 +777,20 @@ shinyServer(function(input, output, session) {
       IUUSummaryText(iuu = rv_custom_policy$iuu,
                      text = text,
                      wid = wid,
-                     country_choices = wto_members_and_observers), "</br>")
+                     country_choices = wto_members_and_observers))
     
     rv_custom_policy_description$oa_summary <- paste0(
       OASummaryText(oa = rv_custom_policy$oa,
                     text = text,
                     wid = wid,
-                    country_choices = wto_members_and_observers), "</br>")
+                    country_choices = wto_members_and_observers))
     
     rv_custom_policy_description$overcap_summary <- paste0(
       OvercapSummaryText(overcap = rv_custom_policy$overcap,
                          cap_tier = rv_custom_policy$cap_tier,
                          text = text,
                          wid = wid,
-                         country_choices = wto_members_and_observers), "</br>")
+                         country_choices = wto_members_and_observers))
     
     # Generate output 
     output$custom_policy <- renderUI({

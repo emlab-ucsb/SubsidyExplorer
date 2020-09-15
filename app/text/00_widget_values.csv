@@ -159,6 +159,7 @@
 02b,edit-policies,w_tier_system,How should Members be grouped into tiers?,CAPTURE,% of global marine capture production,TRUE,,,,
 02b,edit-policies,w_tier_system,How should Members be grouped into tiers?,SUBS,% of global fisheries subsidies,FALSE,,,,
 02b,edit-policies,w_tier_system,How should Members be grouped into tiers?,DEVELOPMENT,development status,FALSE,,,,
+02b,edit-policies,w_tier_system,How should Members be grouped into tiers?,TOP10,top 10 marine capture fisheries producers and then development status,FALSE,,,,
 02b,edit-policies,w_two_tier_cutoff,Threshold for top tier (%),,,TRUE,0.01,2,0.7,0.001
 02b,edit-policies,w_three_tier_cutoff,Thresholds for bottom (left) and top (right) tiers (%),,,TRUE,0.01,2,0.7,0.01
 02b,edit-policies,w_tier1_cap_rule,Tier 1: How should the cap be set?,VALUE,i) an absolute amount,FALSE,,,,

@@ -1399,15 +1399,49 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
          bind_rows(missing_countries_df)
        
+     }else if(cap_tier$tier_system == "TOP10"){
+       
+       ### Need to get top 10 global producers and development status
+       capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+       
+       # Country ranking capture 
+       cap_tier_dat_sorted <- cap_tier_lookup %>%
+         dplyr::filter(variable == "capture_production") %>%
+         dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
+         mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
+         mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
+         arrange(percent_prod) %>%
+         left_join(country_lookup %>% dplyr::select(iso3, development_status), by = c("iso3")) %>%
+         mutate(development_status = case_when(!is.na(development_status) ~ development_status,
+                                               iso3 == "EU" ~ "Developed",
+                                               iso3 %in% c("USA-T", "NOR-T", "NZL-T", "AUS-T") ~ "Developed",
+                                               iso3 %in% c("MAR-T") ~ "Developing",
+                                               TRUE ~ "Developing")) %>%
+         mutate(production_rank = dense_rank(desc(percent_prod))) %>%
+         mutate(new_tier = case_when(production_rank <= 10 ~ 1,
+                                     development_status == "Developed" ~ 1,
+                                     development_status == "Developing" ~ 2,
+                                     development_status == "LDC" ~ 2,
+                                     TRUE ~ 2)) %>%
+         mutate(iso3 = str_replace(iso3, "-T", "")) %>%
+         arrange(iso3)
+       
+       # See if we're missing any countries using this method
+       missing_countries <- member_caps_df$iso3[!(member_caps_df$iso3 %in% cap_tier_dat_sorted$iso3)]
+       missing_countries_df <- tibble(iso3 = missing_countries, new_tier = rep(2, length(missing_countries)))
+       
+       # Assign tiers to those
+       cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
+         bind_rows(missing_countries_df)
      }
        
      ### Get flag states in Tier 1
      tier_1_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 1])
      
      if("EU" %in% tier_1_flags){
-       eu_flags_out <- c(eu_countries, eu_territories)
+       eu_flags_out1 <- c(eu_countries, eu_territories)
      }else{
-       eu_flags_out <- NULL
+       eu_flags_out1 <- NULL
      }
      
      if(any(tier_1_flags %in% territories$sovereign_iso3)){
@@ -1416,24 +1450,24 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        ter_flags_out <- NULL
      }  
      
-     tier_1_flags_out <- c(tier_1_flags, eu_flags_out, ter_flags_out)
+     tier_1_flags_out <- c(tier_1_flags, eu_flags_out1, ter_flags_out1)
      
      ### Get flag states in Tier 2
      tier_2_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 2])
      
      if("EU" %in% tier_2_flags){
-       eu_flags_out <- c(eu_countries, eu_territories)
+       eu_flags_out2 <- c(eu_countries, eu_territories)
      }else{
-       eu_flags_out <- NULL
+       eu_flags_out2 <- NULL
      }
      
      if(any(tier_2_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_2_flags))$iso3
+       ter_flags_out2 <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_2_flags))$iso3
      }else{
-       ter_flags_out <- NULL
+       ter_flags_out2 <- NULL
      }  
        
-     tier_2_flags_out <- c(tier_2_flags, eu_flags_out, ter_flags_out)
+     tier_2_flags_out <- c(tier_2_flags, eu_flags_out2, ter_flags_out2)
 
    ### Three tiers    
    }else if(cap_tier$tier_number == "THREE"){
@@ -1475,7 +1509,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        
        # Country ranking subsidies 
        cap_tier_dat_sorted <- cap_tier_lookup %>%
-         dplyr::filter(iso3 %in% wto_members_and_observers) %>%
          dplyr::filter(variable == "bad_ugly_subs") %>%
          dplyr::filter(!(iso3 %in% subs_ranking_exclude)) %>%
          group_by(iso3) %>%
@@ -1500,7 +1533,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      }else if(cap_tier$tier_system == "DEVELOPMENT"){
        
        cap_tier_dat_sorted <- cap_tier_lookup %>%
-         dplyr::filter(iso3 %in% wto_members_and_observers) %>%
          distinct(iso3) %>%
          dplyr::filter(!(iso3 %in% development_ranking_exclude)) %>%
          left_join(country_lookup %>% dplyr::select(iso3, sovereign_iso3, development_status), by = c("iso3")) %>%
@@ -1520,58 +1552,94 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        # Assign tiers to those
        cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
          bind_rows(missing_countries_df)
+       
+     }else if(cap_tier$tier_system == "TOP10"){
+       
+       ### Need to get top 10 global producers and development status
+       capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+       
+       # Country ranking capture 
+       cap_tier_dat_sorted <- cap_tier_lookup %>%
+         dplyr::filter(variable == "capture_production") %>%
+         dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
+         mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
+         mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
+         arrange(percent_prod) %>%
+         left_join(country_lookup %>% dplyr::select(iso3, development_status), by = c("iso3")) %>%
+         mutate(development_status = case_when(!is.na(development_status) ~ development_status,
+                                               iso3 == "EU" ~ "Developed",
+                                               iso3 %in% c("USA-T", "NOR-T", "NZL-T", "AUS-T") ~ "Developed",
+                                               iso3 %in% c("MAR-T") ~ "Developing",
+                                               TRUE ~ "Developing")) %>%
+         mutate(production_rank = dense_rank(desc(percent_prod))) %>%
+         mutate(new_tier = case_when(production_rank <= 10 ~ 1,
+                                     development_status == "Developed" ~ 1,
+                                     development_status == "Developing" ~ 2,
+                                     development_status == "LDC" ~ 3,
+                                     TRUE ~ 3)) %>%
+         mutate(iso3 = str_replace(iso3, "-T", "")) %>%
+         arrange(iso3)
+       
+       # See if we're missing any countries using this method
+       missing_countries <- member_caps_df$iso3[!(member_caps_df$iso3 %in% cap_tier_dat_sorted$iso3)]
+       missing_countries_df <- tibble(iso3 = missing_countries, new_tier = rep(2, length(missing_countries)))
+       
+       # Assign tiers to those
+       cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
+         bind_rows(missing_countries_df)
+       
      }
      
      ### Get flag states in Tier 1
      tier_1_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 1])
      
      if("EU" %in% tier_1_flags){
-       eu_flags_out <- c(eu_countries, eu_territories)
+       eu_flags_out1 <- c(eu_countries, eu_territories)
      }else{
-       eu_flags_out <- NULL
+       eu_flags_out1 <- NULL
      }
      
      if(any(tier_1_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_1_flags))$iso3
+       ter_flags_out1 <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_1_flags))$iso3
      }else{
-       ter_flags_out <- NULL
+       ter_flags_out1 <- NULL
      }  
      
-     tier_1_flags_out <- c(tier_1_flags, eu_flags_out, ter_flags_out)
+     tier_1_flags_out <- c(tier_1_flags, eu_flags_out1, ter_flags_out1)
      
      ### Get flag states in Tier 2
      tier_2_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 2])
      
      if("EU" %in% tier_2_flags){
-       eu_flags_out <- c(eu_countries, eu_territories)
+       eu_flags_out2 <- c(eu_countries, eu_territories)
      }else{
-       eu_flags_out <- NULL
+       eu_flags_out2 <- NULL
      }
      
      if(any(tier_2_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_2_flags))$iso3
+       ter_flags_out2 <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_2_flags))$iso3
      }else{
-       ter_flags_out <- NULL
+       ter_flags_out2 <- NULL
      }  
      
-     tier_2_flags_out <- c(tier_2_flags, eu_flags_out, ter_flags_out)
+     tier_2_flags_out <- c(tier_2_flags, eu_flags_out2, ter_flags_out2)
      
      ### Get flag states in Tier 3
      tier_3_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 3])
      
      if("EU" %in% tier_3_flags){
-       eu_flags_out <- c(eu_countries, eu_territories)
+       eu_flags_out3 <- c(eu_countries, eu_territories)
      }else{
-       eu_flags_out <- NULL
+       eu_flags_out3 <- NULL
      }
      
      if(any(tier_3_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_3_flags))$iso3
+       ter_flags_out3 <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_3_flags))$iso3
      }else{
-       ter_flags_out <- NULL
+       ter_flags_out3 <- NULL
      }  
      
-     tier_3_flags_out <- c(tier_2_flags, eu_flags_out, ter_flags_out)
+     tier_3_flags_out <- c(tier_3_flags, eu_flags_out3, ter_flags_out3)
      
    } # close tiering system
     
@@ -1594,7 +1662,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          dplyr::filter(flag_iso3 %in% tier_1_flags_out) %>%
          mutate(cap = absolute_cap*subs_for_cap_percent_tot)
        
-    }else if(cap_tier$tier1_cap_rule == "PERCENT_REVENUE"){
+    }else if(cap_tier$tier1_cap_rule == "PERCENT_REV"){
        
        percent_cap <- cap_tier$tier1_cap_percent/100
        
@@ -1750,7 +1818,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
           dplyr::filter(flag_iso3 %in% tier_2_flags_out) %>%
           mutate(cap = absolute_cap*subs_for_cap_percent_tot)
         
-      }else if(cap_tier$tier2_cap_rule == "PERCENT_REVENUE"){
+      }else if(cap_tier$tier2_cap_rule == "PERCENT_REV"){
         
         percent_cap <- cap_tier$tier2_cap_percent/100
         
@@ -1916,7 +1984,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
           dplyr::filter(flag_iso3 %in% tier_3_flags_out) %>%
           mutate(cap = absolute_cap*subs_for_cap_percent_tot)
         
-      }else if(cap_tier$tier3_cap_rule == "PERCENT_REVENUE"){
+      }else if(cap_tier$tier3_cap_rule == "PERCENT_REV"){
         
         percent_cap <- cap_tier$tier3_cap_percent/100
         
@@ -2062,7 +2130,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
       
     } # close tier 3
     
-    browser()
     ### Calculate remainders, apply to vessel list and be done --------
       
     # After caps are set, calculate remaining subs, accounting for already removed subs
@@ -2082,7 +2149,19 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        dplyr::select(flag_iso3, type, percent_allowed) %>%
        rename(allowed = type) %>%
        spread(allowed, percent_allowed, sep = "_")
-       
+     
+     # Create rows for EU states (and other relevant territories)
+     flag_reduction_percents_eu <- vessel_subset %>%
+       distinct(flag_iso3) %>%
+       dplyr::filter(flag_iso3 %in% wto_members_and_observers & !(flag_iso3 %in% flag_reduction_percents$flag_iso3)) %>%
+       mutate(iso3_for_matching = case_when(flag_iso3 %in% eu_countries ~ "EU")) %>%
+       left_join(flag_reduction_percents, by = c("iso3_for_matching" = "flag_iso3")) %>%
+       dplyr::select(-iso3_for_matching)
+     
+     # Combine
+     flag_reduction_percents <- flag_reduction_percents %>%
+       bind_rows(flag_reduction_percents_eu)
+     
      # Join to vessels and calculate removed subs and allowed subs  
      cap_return_vessels <-  vessel_subset %>%
        dplyr::select(ssvid, region, fao_region, eez_id, is_territorial, flag_iso3, catch, revenue, fishing_hours_eez_fao_ter, fishing_KWh_eez_fao_ter, contains("_subs")) %>%
@@ -2139,7 +2218,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   ### Combine affected -------------------------------------------
   ### ---------------------------------------------------
   
-  ### Getting more here too on right join... 
+  ### Combine affected vessels
   affected_vessels <- vessel_subset %>%
     right_join(return_vessels %>% dplyr::select(ssvid, region, fao_region, eez_id, is_territorial, contains("_subs_removed")),
                by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial")) %>%
@@ -2183,7 +2262,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
   
   out_vessels <- affected_vessels %>%
     bind_rows(unaffected_vessels)
-  
   
   out_summary <- out_vessels %>%
     group_by(region, fleet) %>%

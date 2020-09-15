@@ -220,6 +220,7 @@ header.main-header {
   .skin-blue .treeview-menu>li>a {
     color: #ffffff;
     text-decoration: none;
+    padding: 10pt 0 10pt 20pt;
   }
 
 /* Active subitem link within submenu */
@@ -233,6 +234,7 @@ header.main-header {
     background: var(--accent-color);
     border-left-color: var(--accent-color);
   }
+
 
 /*----------------------------------------------*/
 /* Shiny Dashboard Body - dashboardSidebar() */
@@ -413,23 +415,23 @@ header.main-header {
 /* --------------- */
 
 #al_global_subsidies {
-  padding: 0 0 10pt 10pt;
-  margin-bottom: 0;
+  margin: -10pt 0 0 0;
+  padding: 0 0 10pt 20pt;
 }
 
 #al_country_fishery_stats {
-  padding: 0 0 10pt 10pt;
-  margin-bottom: 0;
+  margin: -10pt 0 0 0;
+  padding: 0 0 10pt 20pt;
 }
 
 #al_compare_fishery_stats{
-  padding: 0 0 10pt 10pt;
-  margin-bottom: 0;
+  margin: -10pt 0 0 0;
+  padding: 0 0 10pt 20pt;
 }
 
 #al_global_fishing_footprint {
-  padding: 0 0 10pt 10pt;
-  margin-bottom: 0;
+  margin: -10pt 0 0 0;
+  padding: 0 0 10pt 20pt;
 }
 
 /*--------------*/

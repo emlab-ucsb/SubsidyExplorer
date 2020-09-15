@@ -44,27 +44,11 @@ shinyServer(function(input, output, session) {
   )
   
   # Reactive object that keeps track of what policy we're on ----
-  rv_policy_id <- reactiveValues(id = "A")
+  rv_policy_id <- reactiveValues(id = character(0))
   
   
   # Add most ambitious results to our reactive results data frame
-  observeEvent(input$ab_introduction_to_selected_results, {
-    
-    # Ambitious results
-    best_result <- tibble(id = "A",
-                          name = "Most ambitious scenario",
-                          iuu = list("NA"),
-                          oa = list("NA"),
-                          overcap = list("NA"),
-                          cap_tier = list("NA"),
-                          policy_description = list(
-                            paste0(
-                              "<b>", "Name: ", "</b>", "Most ambitious scenario", "</br>",
-                              "<b>", "Summary: ", "</b>", "Complete removal of capacity-enhancing subsidies", "</br>")
-                          ),
-                          fleet_summary = list(remove_all_bad_fleet_summary),
-                          results_timeseries = list(remove_all_bad_results_full),
-                          results_last = list(remove_all_bad_results_last))
+  observeEvent(input$ab_introduction_to_explore_results, {
     
     # Add to results reactive object
     isolate(rv_results$run <- rbind(rv_results$run, best_result))
@@ -72,7 +56,7 @@ shinyServer(function(input, output, session) {
     # Start our policy id tracker
     rv_policy_id$id <- best_result$id
     
-  })
+  }, ignoreInit = TRUE)
   
   ### Reactive object that keeps track of user custom input policy selections -----
   rv_custom_policy <- reactiveValues(
@@ -88,26 +72,36 @@ shinyServer(function(input, output, session) {
   # Reactive object that keeps track of the currently selected policy -------
   rv_selected_result <- reactiveValues(id = "A")
 
+  # Reactive object tracker for plotly click
+  rv_plot_click <- reactiveValues(id = character(0))
   
-  # observeEvent(c(event_data("plotly_selected", source = "kobe_plot"),
-  #                event_data("plotly_deselect", source = "kobe_plot"),
-  #                event_data("plotly_click", source = "kobe_plot")), {
-  #                  
-  #                  if(length(event_data("plotly_selected", source = "kobe_plot")) > 0){
-  #                    
-  #                    if(event_data("plotly_selected", source = "kobe_plot")$key[[1]] != rdf_selected_run$id){
-  #                      
-  #                      isolate(rdf_selected_run$id <- event_data("plotly_selected", source = "kobe_plot")$key[[1]])
-  #                      
+  # observe({
+  #   
+  #   browser()
+  #   click <- event_data("model_results_timeseries_plot", event = "plotly_click")
+  #   
+  # })
+  # Allow you to change the selected run based on plot clicks -----
+  # observeEvent(c(event_data("plotly_selected", source = "model_results_timeseries_plot"),
+  #                event_data("plotly_deselect", source = "model_results_timeseries_plot"),
+  #                event_data("plotly_click", source = "model_results_timeseries_plot")), {
+  # 
+  #                  browser()
+  #                  if(length(event_data("plotly_selected", source = "model_results_timeseries_plot")) > 0){
+  # 
+  #                    if(event_data("plotly_selected", source = "model_results_timeseries_plot")$key[[1]] != rv_selected_result$id){
+  # 
+  #                      isolate(rv_selected_result$id <- event_data("plotly_selected", source = "model_results_timeseries_plot")$key[[1]])
+  # 
   #                    }
-  #                    
-  #                  }else if(length(event_data("plotly_selected", source = "kobe_plot")) == 0){
-  #                    
-  #                    isolate(rdf_selected_run$id <- "0")
-  #                    
+  # 
+  #                  }else if(length(event_data("plotly_selected", source = "model_results_timeseries_plot")) == 0){
+  # 
+  #                    isolate(rv_selected_result$id <- "0")
+  # 
   #                  }
-  #                  
-  #                })
+  # 
+  # })
   
   
   ### ----------------------------
@@ -172,6 +166,89 @@ shinyServer(function(input, output, session) {
   # Navigation button from explore-results to edit-policies
   observeEvent(input$ab_explore_results_design_custom_proposal, {
     updateTabItems(session, "menu_items", "edit-policies")
+  })
+  
+  ### Plotly figure: Model results over time for most ambitious scenario ---------------------
+  
+  output$explore_results_timeseries_plot <- renderPlotly({
+    
+    req(input$w_explore_results_timeseries_plot_resolution)
+    req(input$w_explore_results_timeseries_plot_variable)
+    req(input$w_explore_results_show_ambitious)
+    
+    entries_to_keep <- best_result %>%
+      dplyr::filter(name %in% input$w_explore_results_show_ambitious)
+    
+    # Collect data 
+    dat <- bind_rows(entries_to_keep$results_timeseries)
+      
+    req(nrow(dat) > 0)
+    
+    # Global 
+    if(input$w_explore_results_timeseries_plot_resolution == "global"){
+      
+      plot_dat <- dat %>%
+        group_by(Id, Name, Type, Description, Year, Variable, Fleet) %>%
+        summarize(BAU = unique(BAU_global),
+                  Reform = unique(Reform_global),
+                  Diff = unique(Diff_global)) %>%
+        ungroup() %>%
+        mutate(Region = "Global")
+      
+      # Regional
+    }else if(input$w_explore_results_timeseries_plot_resolution == "regional"){
+      
+      plot_dat <- dat %>%
+        dplyr::select(Id, Name, Type, Description, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
+        mutate(Region = case_when(Region == "atlantic" ~ "Atlantic Ocean",
+                                  Region == "indian" ~ "Indian Ocean",
+                                  Region == "pacific" ~ "Pacific Ocean"))
+      
+    }
+    
+    # Determine variable for plotting
+    plot_variable <- switch(input$w_explore_results_timeseries_plot_variable,
+                            "biomass" = list("biomass", "Change in biomass (%)"),
+                            
+                            "catches_total" = list("catches_total", "Change in catch (%)"),
+                            
+                            "revenue_total" = list("revenue_total", "Change in revenue (%)"))
+    
+    # Make biomass plot
+    out_plot_dat <- plot_dat %>%
+      dplyr::filter(Variable == plot_variable[[1]])
+      
+    plot <-  ggplot()+
+        aes(x = Year, y = Diff*100, group = Id)+
+        geom_line(data = out_plot_dat, size = 2, color = "#0d5ba2",
+                  aes(text = paste0("<b>","Year: ","</b>", Year,
+                                    "<br>",
+                                    "<b>","Policy Name: ","</b>", Name,
+                                    "<br>",
+                                    "<b>","Description: ","</b>", Description,
+                                    "<br>",
+                                    "<b>","Policy Type: ","</b>", Type,
+                                    "<br>",
+                                    "<b>","Region: ", "</b>", Region,
+                                    "<br>",
+                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
+        theme_bw()+
+        geom_hline(yintercept = 0)+
+        #scale_color_manual(values = customDiscrete)+
+        scale_x_continuous(expand = c(0,0))+
+        labs(x = "Year", y = plot_variable[[2]])+
+        theme(legend.position = "none")+
+        facet_wrap(~Region)
+      
+    
+    # Convert to plotly
+    gg2 <- ggplotly(plot, tooltip = "text") %>%
+      hide_legend() 
+    
+    
+    # Return
+    gg2
+    
   })
   
   ### -------------------------
@@ -422,17 +499,38 @@ shinyServer(function(input, output, session) {
     
   })
   
+  ### Update checkboxGroupInput: Add new choices for each proposal that's run ----
+  observe({
+    
+    # Only allow proposals from the selected category to be chosen
+    proposals_run <- unique(rv_results$run$name[rv_results$run$name != "Most ambitious scenario"])
+    
+    # Update input
+    updatePrettyCheckboxGroup(session, 
+                              "w_selected_results_show_policies",
+                              choices = proposals_run,
+                              selected = proposals_run,
+                              inline = TRUE,
+                              prettyOptions = list(status = "danger",
+                                                   fill = TRUE))
+  })
+  
+  
   
   ### Plotly figure: Model results over time ---------------------
   
   output$model_results_timeseries_plot <- renderPlotly({
     
-    req(nrow(bind_rows(rv_results$run$results_timeseries)) > 0)
     req(input$w_selected_results_timeseries_plot_resolution)
     req(input$w_selected_results_timeseries_plot_variable)
+
+    entries_to_keep <- rv_results$run %>%
+      dplyr::filter(name %in% c(input$w_selected_results_show_ambitious, input$w_selected_results_show_policies))
     
     # Collect data 
-    dat <- bind_rows(rv_results$run$results_timeseries)
+    dat <- bind_rows(entries_to_keep$results_timeseries)
+    
+    req(nrow(dat) > 0)
     
     # Global 
     if(input$w_selected_results_timeseries_plot_resolution == "global"){
@@ -468,13 +566,14 @@ shinyServer(function(input, output, session) {
     out_plot_dat <- plot_dat %>%
       dplyr::filter(Variable == plot_variable[[1]])
     
-    if(rv_policy_id$id == "A"){
-
+    policy_names <- unique(out_plot_dat$Name)
+    
+    if(length(policy_names) == 1 & "Most ambitious scenario" %in% policy_names){
+      
       plot <-  ggplot()+
-        aes(x = Year, y = Diff*100)+
-        geom_line(data = out_plot_dat, size = 1, color = "grey",
+        aes(x = Year, y = Diff*100, group = Id)+
+        geom_line(data = out_plot_dat, size = 2, color = "#0d5ba2",
                   aes(key = Id,
-                      group = Id,
                       text = paste0("<b>","Year: ","</b>", Year,
                                     "<br>",
                                     "<b>","Policy Name: ","</b>", Name,
@@ -488,17 +587,16 @@ shinyServer(function(input, output, session) {
                                     "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
         theme_bw()+
         geom_hline(yintercept = 0)+
-        #scale_color_manual(values = customDiscrete)+
         scale_x_continuous(expand = c(0,0))+
         labs(x = "Year", y = plot_variable[[2]])+
         theme(legend.position = "none")+
         facet_wrap(~Region)
-
-    }else {
+      
+    }else if(length(policy_names) >= 1 & "Most ambitious scenario" %in% policy_names){
       
       plot <-  ggplot()+
         aes(x = Year, y = Diff*100, group = Id)+
-        geom_line(data = out_plot_dat, size = 1, color = "grey",
+        geom_line(data = out_plot_dat %>% dplyr::filter(Id == "A"), size = 2, color = "#0d5ba2",
                   aes(key = Id,
                       text = paste0("<b>","Year: ","</b>", Year,
                                     "<br>",
@@ -512,7 +610,7 @@ shinyServer(function(input, output, session) {
                                     "<br>",
                                     "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
         theme_bw()+
-        geom_line(data = out_plot_dat %>% dplyr::filter(Id == rv_selected_result$id), size = 2, color = "#3c8dbc",
+        geom_line(data = out_plot_dat %>% dplyr::filter(Id != "A"), size = 2, color = "red",
                   aes(text = paste0("<b>","Year: ","</b>", Year,
                                     "<br>",
                                     "<b>","Policy Name: ","</b>", Name,
@@ -525,19 +623,40 @@ shinyServer(function(input, output, session) {
                                     "<br>",
                                     "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
         geom_hline(yintercept = 0)+
-        #scale_color_manual(values = customDiscrete)+
+        scale_x_continuous(expand = c(0,0))+
+        labs(x = "Year", y = plot_variable[[2]])+
+        theme(legend.position = "none")+
+        facet_wrap(~Region)
+      
+    }else if(!("Most ambitious scenario" %in% policy_names)){
+      
+      plot <-  ggplot()+
+        aes(x = Year, y = Diff*100, group = Id)+
+        theme_bw()+
+        geom_line(data = out_plot_dat, size = 2, color = "red",
+                  aes(text = paste0("<b>","Year: ","</b>", Year,
+                                    "<br>",
+                                    "<b>","Policy Name: ","</b>", Name,
+                                    "<br>",
+                                    "<b>","Description: ","</b>", Description,
+                                    "<br>",
+                                    "<b>","Policy Type: ","</b>", Type,
+                                    "<br>",
+                                    "<b>","Region: ", "</b>", Region,
+                                    "<br>",
+                                    "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
+        geom_hline(yintercept = 0)+
         scale_x_continuous(expand = c(0,0))+
         labs(x = "Year", y = plot_variable[[2]])+
         theme(legend.position = "none")+
         facet_wrap(~Region)
       
     }
-    
+
     # Convert to plotly
     gg2 <- ggplotly(plot, tooltip = "text") %>%
       hide_legend() 
-    
-    
+
     # Return
     gg2
     

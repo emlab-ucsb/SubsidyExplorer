@@ -120,22 +120,19 @@ SelectedResults = function(proposal_choices)
              ),
              
              ### Widgets ---
-             fluidRow(
-               
-               ### Timeseries plot variable 
-               column(12, align = "center", id = "t-spaced-div",
+             column(12, id = "t-spaced-div",
                       
-                      tags$table(id = "selected-results-table",
+                      tags$table(id = "explore-results-table",
                                  
-                                 tags$tr(id = "selected-results-table-table-row",
+                                 tags$tr(id = "explore-results-table-table-row",
                                          
-                                         tags$td(id = "selected-results-table-cell-l1",
+                                         tags$td(id = "explore-results-table-cell-l1",
                                                  
                                                  tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_variable"])
                                                  
                                          ),
                                          
-                                         tags$td(id = "selected-results-table-cell-r",
+                                         tags$td(id = "explore-results-table-cell-r",
                                                  
                                                  # Input - timeseries plot variable
                                                  selectizeInput("w_selected_results_timeseries_plot_variable", 
@@ -145,13 +142,13 @@ SelectedResults = function(proposal_choices)
                                                                 width = "80%")
                                          ),
                                          
-                                         tags$td(id = "selected-results-table-cell-l2",
+                                         tags$td(id = "explore-results-table-cell-l2",
                                                  
                                                  tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_resolution"])
                                                  
                                          ),
                                          
-                                         tags$td(id = "selected-results-table-cell-r",
+                                         tags$td(id = "explore-results-table-cell-r",
                                                  
                                                  # Input - timeseries plot resolution
                                                  radioButtons("w_selected_results_timeseries_plot_resolution", 
@@ -163,14 +160,60 @@ SelectedResults = function(proposal_choices)
                                          )
                                  )
                       )
-               )
-               
-             ),
+              ),
              
              ### Plot ---
              column(12, id = "t-spaced-div",
                     
                     plotlyOutput("model_results_timeseries_plot", height = "40vh")
+                    
+             ),
+             
+             ### Checkbox group input for scenarios run
+             column(12, id = "tb-spaced-div",
+                    
+                    tags$table(id = "explore-results-table",
+                               
+                               tags$tr(id = "explore-results-table-table-row",
+                                       
+                                       tags$td(style = "width: 100px;",
+                                               
+                                               tags$b("Show on Plot: ")
+                                               
+                                       ),
+                                       
+                                       tags$td(
+                                         
+                                         prettyCheckboxGroup("w_selected_results_show_ambitious",
+                                                             label = NULL,
+                                                             choices = c("Most ambitious scenario"),
+                                                             selected = c("Most ambitious scenario"),
+                                                             inline = TRUE,
+                                                             status = "primary",
+                                                             fill = TRUE)
+                                         
+                                       )
+                               ),
+                               tags$tr(id = "explore-results-table-table-row",
+
+                                       tags$td(style = "width: 100px;",
+
+
+                                       ),
+
+                                       tags$td(
+                                         
+                                         prettyCheckboxGroup("w_selected_results_show_policies",
+                                                             label = NULL,
+                                                             choices = "",
+                                                             selected = "",
+                                                             inline = TRUE,
+                                                             status = "danger",
+                                                             fill = TRUE)
+
+                                       )
+                               )
+                    )
                     
              ),
              

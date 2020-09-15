@@ -162,8 +162,40 @@ ExploreResults = function(proposal_choices)
              ),
            
              ### Plot ---
-             #plotlyOutput("model_results_timeseries_plot", height = "50vh"),
+             column(12, id = "t-spaced-div",
+                    
+                    plotlyOutput("explore_results_timeseries_plot", height = "40vh")
+                    
+             ),
              
+             ### Checkbox group input for scenarios run
+             column(12, id = "tb-spaced-div",
+                    
+                    tags$table(id = "explore-results-table",
+                               
+                               tags$tr(id = "explore-results-table-table-row",
+                                       
+                                       tags$td(style = "width: 100px;",
+                                               
+                                               tags$b("Show on Plot: ")
+                                               
+                                       ),
+                                       
+                                       tags$td(
+                                         
+                                         prettyCheckboxGroup("w_explore_results_show_ambitious",
+                                                             label = NULL,
+                                                             choices = c("Most ambitious scenario"),
+                                                             selected = c("Most ambitious scenario"),
+                                                             inline = TRUE,
+                                                             status = "primary",
+                                                             fill = TRUE)
+
+                                       )
+                               )
+                    )
+                    
+             ),
              
              ### ------------------------------------------------
              

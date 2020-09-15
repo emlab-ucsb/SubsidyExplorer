@@ -276,7 +276,7 @@ names(proposal_choices) <- included_proposals$display_name
 proposal_categories <- unique(included_proposals$category)[unique(included_proposals$category) != "Default"]
 
 # 3) Management cutoff 
-managed_cutoff <- 0.66
+managed_cutoff <- 0.5
 
 # 4) Default end year 
 end_year <- 2060
@@ -372,77 +372,20 @@ remove_all_bad_results_last <- remove_all_bad_results_last%>%
          Catches = catches_total,
          Revenue = revenue_total)
 
-### Summaries by flag state for use in Cap/Tier--------------------------------------------------------------
+# Create data frame entry
+best_result <- tibble(id = "A",
+                      name = "Most ambitious scenario",
+                      iuu = list("NA"),
+                      oa = list("NA"),
+                      overcap = list("NA"),
+                      cap_tier = list("NA"),
+                      policy_description = list(
+                        paste0(
+                          "<b>", "Name: ", "</b>", "Most ambitious scenario", "</br>",
+                          "<b>", "Summary: ", "</b>", "Complete removal of capacity-enhancing subsidies", "</br>")
+                      ),
+                      fleet_summary = list(remove_all_bad_fleet_summary),
+                      results_timeseries = list(remove_all_bad_results_full),
+                      results_last = list(remove_all_bad_results_last))
 
-# flag_summary <- left_join(
-#   
-#   # Summarize general variables
-#   (vessel_dat %>%
-#      group_by(flag_iso3) %>%
-#      summarize(n_vessels = n_distinct(ssvid),
-#                n_vessel_class = n_distinct(vessel_class),
-#                avg_length_m = mean(length_m, na.rm = T),
-#                avg_tonnage_gt = mean(tonnage_gt, na.rm = T),
-#                avg_engine_power_kw = mean(engine_power_kw, na.rm = T),
-#                regions_fished = n_distinct(eez_hs_code),
-#                development_status = unique(development_status))),
-#   
-#   # Summarize variables that are summed
-#  (vessel_dat %>%
-#              rename(fishing_h = fishing_hours_eez_fao_ter,
-#                     fishing_KWh = fishing_KWh_eez_fao_ter) %>%
-#              group_by(flag_iso3) %>%
-#              summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T)),
-#  by = "flag_iso3"
-# ) %>%
-#   ungroup() %>%
-#   mutate(tot_bad_subs = sum(bad_subs),
-#          percent_bad_subs = bad_subs/tot_bad_subs)
-# 
-# ### Summary statistics for the EU ---
-# eu_summary <- left_join(
-#   
-#   # Summarize general variables
-#   (vessel_dat %>%
-#      dplyr::filter(is_EU) %>%
-#      mutate(flag_iso3 = "EU") %>%
-#      group_by(flag_iso3) %>%
-#      summarize(n_vessels = n_distinct(ssvid),
-#                n_vessel_class = n_distinct(vessel_class),
-#                avg_length_m = mean(length_m, na.rm = T),
-#                avg_tonnage_gt = mean(tonnage_gt, na.rm = T),
-#                avg_engine_power_kw = mean(engine_power_kw, na.rm = T),
-#                regions_fished = n_distinct(eez_hs_code),
-#                development_status = "Developed")),
-#   
-#   # Summarize variables that are summed
-#   (vessel_dat %>%
-#      dplyr::filter(is_EU) %>%
-#     
-#      rename(fishing_h = fishing_hours_eez_fao_ter,
-#             fishing_KWh = fishing_KWh_eez_fao_ter) %>%
-#      summarize_at(c("fishing_h", "fishing_KWh", "catch", "revenue", "good_subs", "bad_subs", "ugly_subs", paste0(subsidy_types_sorted_sumaila, "_subs")), sum, na.rm = T) %>%
-#      mutate(flag_iso3 = "EU")),
-#   by = "flag_iso3"
-# ) %>%
-#   ungroup() %>%
-#   mutate(tot_bad_subs = unique(flag_summary$tot_bad_subs),
-#          percent_bad_subs = bad_subs/tot_bad_subs)
-# 
-# ### All summary statistics by flag --- 
-# flag_summary <- flag_summary %>%
-#   bind_rows(eu_summary)
-# 
-# ### Get number of fishers by flag and add flag summary statistics ---
-# fisher_dat <- demographic_dat %>%
-#   dplyr::filter(variable == "fishers") %>%
-#   group_by(iso3) %>%
-#   mutate(max_year = max(year[!is.na(value)])) %>%
-#   ungroup() %>%
-#   dplyr::filter(year == max_year) %>%
-#   dplyr::select(flag_iso3 = iso3, fishers = value)
-# 
-# flag_summary <- flag_summary %>%
-#   left_join(fisher_dat, by = c("flag_iso3"))
-# flag_summary$fishers[is.na(flag_summary$fishers)] <- 0
 

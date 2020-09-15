@@ -585,7 +585,6 @@ header.main-header {
 }
 
 #explore-results-table {
-  width: 100%;
   vertical-align: middle;
   table-layout: fixed;
 }
@@ -595,15 +594,15 @@ header.main-header {
 }
 
 #explore-results-table-cell-l1{
-  width: 8%;
+  width: 40px;
 }
 
 #explore-results-table-cell-l2{
-  width: 17%;
+  width: 80px;
 }
 
 #explore-results-table-cell-r{
-  width: 37.5%;
+  width: 300px;
 }
 
 /* ------------------------------ */
@@ -623,20 +622,6 @@ header.main-header {
   min-height: 90vh;
   color: var(--grey-dark);
   padding: 0 25px 0 25px;
-}
-
-#selected-results-table {
-  width: 100%;
-  vertical-align: middle;
-  table-layout: fixed;
-}
-
-#selected-results-table-row{
-  width: 100%;
-}
-
-#selected-results-table-cell-l{
-  width: 50px;
 }
 
 /* ------------------------------ */

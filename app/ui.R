@@ -26,6 +26,7 @@ system('fc-cache -f ~/.fonts')
 library(shiny) # shiny app widgets
 library(shinyjs) # javascript functionality for shiny
 library(shinydashboard) # dashboard theme for shiny
+library(shinyWidgets) # fancy widgets
 library(shinyalert) # popups
 library(shinyBS) # tooltips and hover
 library(rsconnect) # needed to deploy app to shinyapps.io

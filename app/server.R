@@ -159,19 +159,28 @@ shinyServer(function(input, output, session) {
   })
   
   ### -------------------------
-  ### 02a. selected-results ---
+  ### 02a. explore-results ---
   ### -------------------------
   
   ### Navigation buttons ---------------------
   
-  # Navigation button from selected-results to edit-policies
-  observeEvent(input$ab_selected_results_to_edit_policies, {
+  # Navigation button from explore-results to selected-results
+  observeEvent(input$ab_explore_proposals, {
+    updateTabItems(session, "menu_items", "selected-results")
+  })
+  
+  # Navigation button from explore-results to edit-policies
+  observeEvent(input$ab_explore_results_design_custom_proposal, {
     updateTabItems(session, "menu_items", "edit-policies")
   })
   
-  # Navigation button from selected-results to introduction
-  observeEvent(input$ab_selected_results_to_introduction, {
-    updateTabItems(session, "menu_items", "introduction")
+  ### -------------------------
+  ### 02b. selected-results ---
+  ### -------------------------
+  
+  # Navigation button from selected-results to edit-policies
+  observeEvent(input$ab_selected_results_design_custom_proposal, {
+    updateTabItems(session, "menu_items", "edit-policies")
   })
   
   

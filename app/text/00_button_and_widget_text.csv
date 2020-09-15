@@ -16,8 +16,8 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02a,explore-results,page,explore-results,Explore the Results,page name
 02a,explore-results,section,explore-proposals,Select a Proposal,section name
 02a,explore-results,action-button,ab_explore_proposals,Explore Proposals,button to selected proposal page
-02a,explore-results,section,design-custom-proposal,Design a Custom Proposal,section name
-02a,explore-results,action-button,ab_design_custom_proposal,Explore Proposal Design Options,button to custom policy page
+02a/02b,explore-results,section,design-custom-proposal,Design a Custom Proposal,section name
+02a,explore-results,action-button,ab_explore_results_design_custom_proposal,Explore Proposal Design Options,button to custom policy page
 02a/02b,explore-results,section,proposal-results,Proposal Results,section name
 02a,explore-results,widget,w_explore_results_timeseries_plot_variable,Plot,select variable to plot widget
 02a,explore-results,widget,w_explore_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
@@ -31,7 +31,8 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02b,selected-results,tab,select_proposal,Model a Subsidy Reform Proposal,reform proposal
 02b,selected-results,widget,w_selected_results_proposal_selection,Select a proposal…,policy selection
 02b,selected-results,widget,w_selected_results_proposal_category,Narrow proposals by category…,policy category selection
-02b,selected-results,action-button,ab_run_model_proposal,Model selected proposal,
+02b,selected-results,action-button,ab_run_model_proposal,Model selected proposal,run model
+02b,selected-results,action-button,ab_selected_results_design_custom_proposal,Explore Proposal Design Options,go to edit-policies
 ,,,,,
 02c,edit-policies,page,edit-policies,Create a Policy (Advanced Users),page name
 02c,edit-policies,nav-button,ab_edit_policies_to_introduction,Return to Main Menu,top left button

@@ -614,6 +614,7 @@ header.main-header {
 }
 
 #selected-results-right-column{
+  min-height: 90vh;
   color: var(--grey-dark);
   padding: 0 25px 0 25px;
 }

@@ -79,14 +79,28 @@ SelectedResults = function(proposal_choices)
                     
                     ),
              
-                    ### Section 2 ---
-                    column(12, align = "center", id = "tb-spaced-div",
+                    ### Third section - Design custom proposal ---
+                    column(12, id = "section-title",
+                           
+                           # Section Title
+                           tags$h5(text$item_label[text$item_id == "design-custom-proposal"])
+                           
+                    ),
                     
-                           # IUU definitions info button
-                           tags$button(id = "ab_selected_results_to_edit_policies",
+                    column(12,
+                           
+                           includeHTML("./text/02-results/explore-results/left_panel_design_proposal.html")
+                           
+                           
+                    ),
+                    
+                    column(12, id = "tb-spaced-div",
+                           
+                           # Button
+                           tags$button(id = "ab_selected_results_design_custom_proposal",
                                        class = "btn action-button rounded-button",
-                                       tags$b("Text"))
-                    
+                                       tags$b(text$item_label[text$item_id == "ab_selected_results_design_custom_proposal"], icon("caret-right")))
+                           
                     )
              )
                   

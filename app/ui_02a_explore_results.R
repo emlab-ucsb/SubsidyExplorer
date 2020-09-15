@@ -92,9 +92,9 @@ ExploreResults = function(proposal_choices)
                     column(12, id = "tb-spaced-div",
                            
                            # Button
-                           tags$button(id = "ab_design_custom_proposal",
+                           tags$button(id = "ab_explore_results_design_custom_proposal",
                                        class = "btn action-button rounded-button",
-                                       tags$b(text$item_label[text$item_id == "ab_design_custom_proposal"], icon("caret-right")))
+                                       tags$b(text$item_label[text$item_id == "ab_explore_results_design_custom_proposal"], icon("caret-right")))
                     
                     )
              )

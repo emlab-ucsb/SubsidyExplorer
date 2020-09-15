@@ -910,40 +910,40 @@ shinyServer(function(input, output, session) {
   ### Info button: Subsidy types --------------
   observeEvent(input$info_global_subsidies_subsidy_types, {
                    
-                   shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
-                              text = includeHTML("./text/info-buttons/subsidy_types.html"),
-                              size = "l",
-                              closeOnEsc = TRUE,
-                              closeOnClickOutside = TRUE,
-                              html = TRUE,
-                              type = "",
-                              showConfirmButton = TRUE,
-                              showCancelButton = FALSE,
-                              confirmButtonText = "OK",
-                              confirmButtonCol = "#0d5ba2",
-                              timer = 0,
-                              animation = TRUE)
+    shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
+               text = includeHTML("./text/info-buttons/subsidy_types.html"),
+               size = "l",
+               closeOnEsc = TRUE,
+               closeOnClickOutside = TRUE,
+               html = TRUE,
+               type = "",
+               showConfirmButton = TRUE,
+               showCancelButton = FALSE,
+               confirmButtonText = "OK",
+               confirmButtonCol = "#0d5ba2",
+               timer = 0,
+               animation = TRUE)
                    
-                 })
+  })
   
   ### Info button: Global subsidy map --------------
   observeEvent(input$info_global_subsidies_map, {
                     
-                    shinyalert(title = text$item_label[text$item_id == "global-subsidies"],
-                               text = includeHTML("./text/info-buttons/global_subsidies_map.html"),
-                               size = "l",
-                               closeOnEsc = TRUE,
-                               closeOnClickOutside = TRUE,
-                               html = TRUE,
-                               type = "",
-                               showConfirmButton = TRUE,
-                               showCancelButton = FALSE,
-                               confirmButtonText = "OK",
-                               confirmButtonCol = "#0d5ba2",
-                               timer = 0,
-                               animation = TRUE)
+    shinyalert(title = text$item_label[text$item_id == "global-subsidies"],
+               text = includeHTML("./text/info-buttons/global_subsidies_map.html"),
+               size = "l",
+               closeOnEsc = TRUE,
+               closeOnClickOutside = TRUE,
+               html = TRUE,
+               type = "",
+               showConfirmButton = TRUE,
+               showCancelButton = FALSE,
+               confirmButtonText = "OK",
+               confirmButtonCol = "#0d5ba2",
+               timer = 0,
+               animation = TRUE)
                     
-                  })
+  })
   
   ### Update checkboxGroupInputs: Select all --------------------
   observeEvent(input$ab_global_subsidies_select_all, {
@@ -1096,21 +1096,21 @@ shinyServer(function(input, output, session) {
   ### Info button: Countries and territories --------------
   observeEvent(input$info_country_fishery_stats_territories, {
                     
-                    shinyalert(title = "WTO Members and Observers",
-                               text = includeHTML("./text/info-buttons/territories.html"),
-                               size = "l",
-                               closeOnEsc = TRUE,
-                               closeOnClickOutside = TRUE,
-                               html = TRUE,
-                               type = "",
-                               showConfirmButton = TRUE,
-                               showCancelButton = FALSE,
-                               confirmButtonText = "OK",
-                               confirmButtonCol = "#0d5ba2",
-                               timer = 0,
-                               animation = TRUE)
+    shinyalert(title = "WTO Members and Observers",
+               text = includeHTML("./text/info-buttons/territories.html"),
+               size = "l",
+               closeOnEsc = TRUE,
+               closeOnClickOutside = TRUE,
+               html = TRUE,
+               type = "",
+               showConfirmButton = TRUE,
+               showCancelButton = FALSE,
+               confirmButtonText = "OK",
+               confirmButtonCol = "#0d5ba2",
+               timer = 0,
+               animation = TRUE)
                     
-                  })
+  })
   
   ### UI output: Name of selected country header ---------------------
   output$country_fishery_stats_selected_country_name <- renderUI({
@@ -1493,41 +1493,41 @@ shinyServer(function(input, output, session) {
   
   ### Info button: Subsidy types --------------
   observeEvent(input$info_compare_fishery_stats_subsidy_types, {
+    
+    shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
+               text = includeHTML("./text/info-buttons/subsidy_types.html"),
+               size = "l",
+               closeOnEsc = TRUE,
+               closeOnClickOutside = TRUE,
+               html = TRUE,
+               type = "",
+               showConfirmButton = TRUE,
+               showCancelButton = FALSE,
+               confirmButtonText = "OK",
+               confirmButtonCol = "#0d5ba2",
+               timer = 0,
+               animation = TRUE)
                    
-                   shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
-                              text = includeHTML("./text/info-buttons/subsidy_types.html"),
-                              size = "l",
-                              closeOnEsc = TRUE,
-                              closeOnClickOutside = TRUE,
-                              html = TRUE,
-                              type = "",
-                              showConfirmButton = TRUE,
-                              showCancelButton = FALSE,
-                              confirmButtonText = "OK",
-                              confirmButtonCol = "#0d5ba2",
-                              timer = 0,
-                              animation = TRUE)
-                   
-                 })
+  })
   
   ### Info button: Countries and territories --------------
   observeEvent(input$info_compare_fishery_stats_territories, {
+              
+    shinyalert(title = "WTO Members and Observers",
+               text = includeHTML("./text/info-buttons/territories.html"),
+               size = "l",
+               closeOnEsc = TRUE,
+               closeOnClickOutside = TRUE,
+               html = TRUE,
+               type = "",
+               showConfirmButton = TRUE,
+               showCancelButton = FALSE,
+               confirmButtonText = "OK",
+               confirmButtonCol = "#0d5ba2",
+               timer = 0,
+               animation = TRUE)
                    
-                   shinyalert(title = "WTO Members and Observers",
-                              text = includeHTML("./text/info-buttons/territories.html"),
-                              size = "l",
-                              closeOnEsc = TRUE,
-                              closeOnClickOutside = TRUE,
-                              html = TRUE,
-                              type = "",
-                              showConfirmButton = TRUE,
-                              showCancelButton = FALSE,
-                              confirmButtonText = "OK",
-                              confirmButtonCol = "#0d5ba2",
-                              timer = 0,
-                              animation = TRUE)
-                   
-                 })
+  })
   
   ### Update checkboxGroupInputs: Select all
   observeEvent(input$ab_compare_fishery_stats_select_all, {

@@ -133,11 +133,24 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
  
                                                    ) # /conditionalPanel - statistic inlvoes subsidies
                                                                     
-                                  ) # /conditionalPanel - country selected
-                                                   
-                           ) 
+                                  ), # /conditionalPanel - country selected
                                   
-                    )
+                                  column(12,
+                                         
+                                         downloadButton("db_compare_fishery_stats_download_data",
+                                                        text$item_label[text$item_id == "db_compare_fishery_stats_download_data"])
+                                  ),
+                                  
+                                  column(12,
+                                  
+                                         downloadButton("db_compare_fishery_stats_download_figure",
+                                                        text$item_label[text$item_id == "db_compare_fishery_stats_download_figure"])
+                                  )
+                                  
+                                                   
+                           ) # /column 12 - lr-spaced-div 
+                                  
+                    ) # /column 12 - tb-spaced div
              ),
              
              ####---------------------------------------------

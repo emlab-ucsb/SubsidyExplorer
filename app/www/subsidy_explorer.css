@@ -735,11 +735,6 @@ header.main-header {
   border-right-color: transparent;
 }
 
-#edit-policies-tab-panel{
-  border-top: 1px solid #f2f2f2;
-  border-bottom: 1px solid #f2f2f2;
-}
-
 hr.white-narrow{
   border-top-color: #ffffff;
   margin-top: 10px;
@@ -907,7 +902,36 @@ height: auto;
 }
 
 /* ------------------------------ */
-/* Fishery stats by state */
+/* Compare fisheyr stats */
+/* ------------------------------ */
+
+#db_compare_fishery_stats_download_data{
+  color: #fff;
+  background-color: var(--accent-color); 
+  border-width: 0; 
+  padding: 10px; 
+  width: 100%; 
+  font-size: 10pt; 
+}
+
+#db_compare_fishery_stats_download_data:hover{
+  background-color: var(--accent-color-2);
+}
+
+#db_compare_fishery_stats_download_figure{
+  color: #fff;
+  background-color: var(--accent-color); 
+  border-width: 0; 
+  padding: 10px; 
+  width: 100%; 
+  font-size: 10pt; 
+}
+
+#db_compare_fishery_stats_download_figure:hover{
+  background-color: var(--accent-color-2);
+}
+/* ------------------------------ */
+/* Global fishing footprint */
 /* ------------------------------ */
 
 #global_fishing_footprint_map_info_panel {

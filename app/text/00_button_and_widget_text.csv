@@ -4,6 +4,11 @@ header,,link,emlab_logo,The Environmental Market Solutions Lab,text if logo does
 many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not meant to imply the expression of any opinion whatsoever on the part of the Pew Charitable Trust or the Environmental Market Solutions Lab at the University of California, concerning the status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontier or boundaries.</small>",map disclaimer
 ,,,,,
 1,introduction,page,introduction,Main Menu,page name
+1,introduction,text,left-top,Subsidy reform represents one of the most beneficial actions we can take to restore our world's oceans,left top text
+1,introduction,text,left-bottom,SubsidyExplorer is an interactive toolkit that allows users to learn more about fisheries subsidies and to explore potential biological and economic tradeoffs associated with subsidy reform. This tool supports the negotiations currently underway at the World Trade Organization (WTO).,left bottom text
+1,introduction,text,right-top,An ambitious agreement on fisheries subsidies reform could result in increases of up to: ,right top text
+1,introduction,text,right-bottom,This could mean 32 million more tons of fish in the water & 3 million more tons of fish being caught each year!,right bottom text
+,,,,,
 1,introduction,nav-button,ab_introduction_to_explore_results,Explore the Results     ,left button
 1,introduction,nav-button,ab_introduction_to_methods_process,Learn About the Methods and Process     ,center button
 1,introduction,nav-button,ab_introduction_to_global_subsidies,More About Fisheries Subsidies     ,right button

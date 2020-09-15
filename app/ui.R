@@ -146,13 +146,6 @@ shinyUI(
                          
                 ), 
                 
-                ### About methods and process ---
-                menuItem(text$item_label[text$item_id == "methods-process"], 
-                         icon = NULL,
-                         tabName = "methods-process"
-                         
-                ),
-                
                 ### About fisheries subsidies ---
                 menuItem("More About Fisheries Subsidies", 
                          icon = NULL,
@@ -176,6 +169,13 @@ shinyUI(
                          menuItem(actionLink("al_global_fishing_footprint", text$item_label[text$item_id == "global-fishing-footprint"]),
                                   tabName = 'global-fishing-footprint',
                                   icon = NULL)
+                         
+                ),
+                
+                ### About methods and process ---
+                menuItem(text$item_label[text$item_id == "methods-process"], 
+                         icon = NULL,
+                         tabName = "methods-process"
                          
                 )
         

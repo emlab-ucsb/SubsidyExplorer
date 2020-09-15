@@ -22,17 +22,10 @@ Introduction = function()
              # Child element 1: background image
              tags$div(class = "intro-picture-div",
 
-                      # tags$iframe(src = "https://www.youtube.com/embed/xYl4m0xFcCU?controls=0&amp;start=2",
-                      #             frameborder="0",
-                      #             allow="autoplay; encrypted-media; gyroscope; picture-in-picture", allowfullscreen=NA,
-                      #             style='width:100vw;height:90vh;')
-                      
                       tags$video(src = "fishschool.mp4",
                                  type = "video/mp4",
-                                 autoplay = "autoplay",
+                                 autoplay = NA,
                                  style = "min-width: 100vw; min-height: 90vh; max-width: 200%; max-height: 200%;")
-
-                      # tags$img(src = "fish-background.jpeg")
 
              ),
                       
@@ -48,13 +41,17 @@ Introduction = function()
                                                 
                                                 tags$td(id = "introduction-table-cell-l",
                                                         
-                                                        includeHTML("./text/01-introduction/intro_left.html")
-                                                        
+                                                        tags$h3(text$item_label[text$item_id == "left-top"]),
+                                                        tags$p(text$item_label[text$item_id == "left-bottom"])
+
                                                 ),
                                                 
                                                 tags$td(id = "introduction-table-cell-r",
                                                         
-                                                        includeHTML("./text/01-introduction/intro_right.html")
+                                                        tags$h4(text$item_label[text$item_id == "right-top"], style = "font-weight: italic; color: var(--accent-color);"),
+                                                        tags$h3("+ 13", tags$sup("%"), " in global fish biomass", style = "color: var(--accent-color-2);"),
+                                                        tags$h3("+ 3", tags$sup("%"), " in global fish catch per year", style = "color: var(--accent-color-2);"),
+                                                        tags$h4(text$item_label[text$item_id == "right-bottom"], style = "color: var(--accent-color);")
                                                 )
                                         )
                              )

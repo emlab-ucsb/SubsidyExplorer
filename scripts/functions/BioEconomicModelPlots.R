@@ -13,9 +13,9 @@ BioEconomicModelPlots <- function(dat,
                                   plot_height = 6.5,
                                   results_dir,
                                   group_var = "run_group",
-                                  color_var = "Variable",
+                                  color_var = "run_group",
                                   legend_pos_manual = "none",
-                                  legend_name = "Variable"){
+                                  legend_name = ""){
   
   ### General theme
   plot_theme <- theme_linedraw()+

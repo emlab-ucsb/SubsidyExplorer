@@ -47,7 +47,7 @@ SelectedResults = function(proposal_choices)
                     ),
              
                     ### Section 1 ---
-                    column(12, id = "t-spaced-div",
+                    column(12,
                     
                            # Select proposal category
                            checkboxGroupInput("w_selected_results_proposal_category",

@@ -327,6 +327,11 @@ header.main-header {
   line-height: 6pt;
 }
 
+/* Info button */
+.info-button i{
+  margin: 0 3px 0 0;
+}
+
 .info-button:hover {
   color: #fff; 
   background-color: var(--accent-color-2); 
@@ -769,41 +774,41 @@ height: auto;
 
 /* TabBox for subsidy data */
 
-.nav-tabs-custom #subsidy-tabs.nav-tabs{
+.nav-tabs-custom #subsidy-data-tabs.nav-tabs{
   border-bottom: 1px solid var(--accent-color);
 }
 
-.nav-tabs-custom #subsidy-tabs.nav-tabs{
+.nav-tabs-custom #subsidy-data-tabs.nav-tabs{
   background: var(--grey-light);
   color: var(--grey-dark);
 }
 
-.nav-tabs-custom #subsidy-tabs.nav-tabs li {
+.nav-tabs-custom #subsidy-data-tabs.nav-tabs li {
   width: 25%;
   margin: 0;
 }
       
-.nav-tabs-custom #subsidy-tabs.nav-tabs li a{
+.nav-tabs-custom #subsidy-data-tabs.nav-tabs li a{
   color: var(--grey-dark);
   padding: 0 25px;
   text-align: center;
 }
       
-.nav-tabs-custom #subsidy-tabs.nav-tabs li:hover {
+.nav-tabs-custom #subsidy-data-tabs.nav-tabs li:hover {
   color: var(--accent-color-2)
 }
       
-.nav-tabs-custom #subsidy-tabs.nav-tabs li.active:hover a{
+.nav-tabs-custom #subsidy-data-tabs.nav-tabs li.active:hover a{
   color: var(--accent-color);
 }
       
-.nav-tabs-custom #subsidy-tabs.nav-tabs li.active {
+.nav-tabs-custom #subsidy-data-tabs.nav-tabs li.active {
   border-bottom: 5px solid var(--accent-color);
   border-top: transparent;
   background: var(--grey-light);
 }
       
-.nav-tabs-custom #subsidy-tabs.nav-tabs li.active a {
+.nav-tabs-custom #subsidy-data-tabs.nav-tabs li.active a {
   color: var(--accent-color);
   border-left-color: transparent;
   border-right-color: transparent;
@@ -913,34 +918,42 @@ height: auto;
 }
 
 /* ------------------------------ */
-/* Compare fisheyr stats */
+/* Compare fishery stats */
 /* ------------------------------ */
 
-#db_compare_fishery_stats_download_data{
-  color: #fff;
-  background-color: var(--accent-color); 
-  border-width: 0; 
-  padding: 10px; 
-  width: 100%; 
-  font-size: 10pt; 
+#compare-fishery-stats-table {
+  vertical-align: middle;
+  table-layout: fixed;
 }
 
-#db_compare_fishery_stats_download_data:hover{
-  background-color: var(--accent-color-2);
+#compare-fishery-stats-table-table-row{
+  width: 100%;
 }
 
-#db_compare_fishery_stats_download_figure{
-  color: #fff;
-  background-color: var(--accent-color); 
-  border-width: 0; 
-  padding: 10px; 
-  width: 100%; 
-  font-size: 10pt; 
+#compare-fishery-stats-table-cell-1{
+  width: 80%;
 }
 
-#db_compare_fishery_stats_download_figure:hover{
-  background-color: var(--accent-color-2);
+#compare-fishery-stats-table-cell-2{
+  text-align: center;
+  padding-right: 10px;
+  justify-content: right;
 }
+
+#compare-fishery-stats-table-cell-3{
+  text-align: center;
+}
+
+#db_compare_fishery_stats_download_data {
+  padding-right: 20px;
+}
+
+#db_compare_fishery_stats_download_figure {
+  padding-right: 20px;
+}
+
+
+
 /* ------------------------------ */
 /* Global fishing footprint */
 /* ------------------------------ */

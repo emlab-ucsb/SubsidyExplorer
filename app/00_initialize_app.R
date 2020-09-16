@@ -113,7 +113,10 @@ subsidy_classification_sumaila <- subsidy_dat_sumaila_raw %>%
 subsidy_categories_sorted_sumaila <- unique(subsidy_classification_sumaila$category)
 names(subsidy_categories_sorted_sumaila) <- unique(subsidy_classification_sumaila$category_name)
 
+#subsidy_type_names_manual_sumaila <- c("Fisheries management", "Fishery research and development", "Marine protected areas", "Boat construction, renewal, and modernization", "Fishery development projects and services", "Fishing port construction and renovation", "Marketing, processing, storage, and infrastructure", "Non-fuel tax exemptions", "Fishing access agreements", "Fuel subsidies", "Fisher assistance", "Vessel buyback programs", "Rural fisher community development")
+
 subsidy_types_sorted_sumaila <- subsidy_classification_sumaila$type
+#names(subsidy_types_sorted_sumaila) <- subsidy_type_names_manual_sumaila
 names(subsidy_types_sorted_sumaila) <- subsidy_classification_sumaila$type_name
 
 # Organize subsidy types as defined by the OECD for consistent plotting throughout

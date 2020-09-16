@@ -14,8 +14,6 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
     ### Main content
     column(12,
            
-           fluidRow(
-             
              ####---------------------------------------------
              #### Left section - select a country
              #### --------------------------------------------
@@ -26,13 +24,16 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
                            
                            column(12, id = "lr-spaced-div",
                                   
+                                  # Intro text
+                                  text$item_label[text$item_id == "compare_fishery_stats_intro_text"] %>% lapply(htmltools::HTML),
+                                  
                                   # Select state
                                   selectizeInput("w_compare_fishery_stats_selected_country",
-                                                 label = tagList(tags$b(text$item_label[text$item_id == "w_compare_fishery_stats_selected_country"]),
-                                                                 tags$button(id = "info_compare_fishery_stats_territories",
-                                                                             class = "btn action-button info-button",
-                                                                             icon("info")
-                                                                 )
+                                                 label = tagList(tags$b(text$item_label[text$item_id == "w_compare_fishery_stats_selected_country"])
+                                                                 # tags$button(id = "info_compare_fishery_stats_territories",
+                                                                 #             class = "btn action-button info-button",
+                                                                 #             icon("info")
+                                                                 #)
                                                  ),
                                                  choices = wto_members_and_observers,
                                                  selected = "USA",
@@ -132,22 +133,8 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
                                                                                       width = "100%")
  
                                                    ) # /conditionalPanel - statistic inlvoes subsidies
-                                                                    
-                                  ), # /conditionalPanel - country selected
-                                  
-                                  column(12,
-                                         
-                                         downloadButton("db_compare_fishery_stats_download_data",
-                                                        text$item_label[text$item_id == "db_compare_fishery_stats_download_data"])
-                                  ),
-                                  
-                                  column(12,
-                                  
-                                         downloadButton("db_compare_fishery_stats_download_figure",
-                                                        text$item_label[text$item_id == "db_compare_fishery_stats_download_figure"])
-                                  )
-                                  
                                                    
+                                  )
                            ) # /column 12 - lr-spaced-div 
                                   
                     ) # /column 12 - tb-spaced div
@@ -161,9 +148,43 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
                     ### Section Title ---
                     column(12, id = "tb-spaced-div",
                            
-                           uiOutput("compare_fishery_stats_selected_country_name")
+                           # Reactive header with download buttons
+                           tags$table(id = "compare-fishery-stats-table",
+                                      
+                                      tags$tr(id = "compare-fishery-stats-table-row",
+                                              
+                                              tags$td(id = "compare-fishery-stats-table-cell-1",
+                                                      
+                                                      uiOutput("compare_fishery_stats_selected_country_name")
+                                                      
+                                              ),
+                                              
+                                              tags$td(id = "compare-fishery-stats-table-cell-2",
+                                                
+                                                      tags$button(id = "db_compare_fishery_stats_download_data",
+                                                                  class = "btn action-button rounded-button-grey",
+                                                                  tags$b(icon("external-link-alt"),
+                                                                         text$item_label[text$item_id == "db_compare_fishery_stats_download_data"]))
+                                              ),
+                                              
+                                              tags$td(id = "compare-fishery-stats-table-cell-3",
+                                                      
+                                                      tags$button(id = "db_compare_fishery_stats_download_figure",
+                                                                  class = "btn action-button rounded-button-grey",
+                                                                  tags$b(icon("download"),
+                                                                         text$item_label[text$item_id == "db_compare_fishery_stats_download_figure"]))
+                                                      
+                                              )
+                                      )
+                           )
                            #tags$h3("Country Name")
                            
+                    ),
+
+                    column(12,
+
+                           text$item_label[text$item_id == "compare_fishery_stats_plot_instructions"] %>% lapply(htmltools::HTML)
+
                     ),
                     
                     ### plot
@@ -175,8 +196,6 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
                     )
                     
              )
-           
-           )
     )
             
   ) # /fluidPage

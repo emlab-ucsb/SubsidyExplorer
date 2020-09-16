@@ -94,7 +94,7 @@ shinyServer(function(input, output, session) {
   # Navigation button from introduction to global-subsidies
   observeEvent(input$ab_introduction_to_global_subsidies, {
     updateTabItems(session, "menu_items", "global-subsidies")
-    updateTabItems(session, "subsidy-tabs", "global-subsidies-tab")
+    updateTabItems(session, "subsidy-data-tabs", "global-subsidies-tab")
   })
   
   ### Navigation links in the left sidebar that we must specify manually for this to work ---
@@ -102,25 +102,25 @@ shinyServer(function(input, output, session) {
   # Navigation link to global-subsidies tab
   observeEvent(input$al_global_subsidies, {
     updateTabItems(session, "menu_items", "global-subsidies")
-    updateTabItems(session, "subsidy-tabs", "global-subsidies-tab")
+    updateTabItems(session, "subsidy-data-tabs", "global-subsidies-tab")
   })
   
   # Navigation link to country-fishery-stats-tab
   observeEvent(input$al_country_fishery_stats, {
     updateTabItems(session, "menu_items", "global-subsidies")
-    updateTabItems(session, "subsidy-tabs", "country-fishery-stats-tab")
+    updateTabItems(session, "subsidy-data-tabs", "country-fishery-stats-tab")
   })
   
   # Navigation link to compare-fishery-stats tab
   observeEvent(input$al_compare_fishery_stats, {
     updateTabItems(session, "menu_items", "global-subsidies")
-    updateTabItems(session, "subsidy-tabs", "compare-fishery-stats-tab")
+    updateTabItems(session, "subsidy-data-tabs", "compare-fishery-stats-tab")
   })
   
   # Navigation link to global-fishing-footprint tab
   observeEvent(input$al_global_fishing_footprint, {
     updateTabItems(session, "menu_items", "global-subsidies")
-    updateTabItems(session, "subsidy-tabs", "global-fishing-footprint-tab")
+    updateTabItems(session, "subsidy-data-tabs", "global-fishing-footprint-tab")
   })
   
   ### -------------------------
@@ -1802,11 +1802,34 @@ shinyServer(function(input, output, session) {
   ### 04d. global-fishing-footprint ---
   ### ---------------------------------
   
-  ### Info button: Global map of fishing effort --------------
+  ### Info modal (auto) ----------------------------
+  observeEvent(input$`subsidy-data-tabs`, {
+    
+    if(input$`subsidy-data-tabs` == "global-fishing-footprint-tab"){
+      
+      shinyalert(title = text$item_label[text$item_id == "global-fishing-footprint"],
+                 text = text$item_label[text$item_id == "global_fishing_footprint_modal_text"] %>% lapply(htmltools::HTML),
+                 size = "l",
+                 closeOnEsc = TRUE,
+                 closeOnClickOutside = TRUE,
+                 html = TRUE,
+                 type = "",
+                 showConfirmButton = TRUE,
+                 showCancelButton = FALSE,
+                 confirmButtonText = text$item_label[text$item_id == "global_fishing_footprint_modal_button"],
+                 confirmButtonCol = "#0d5ba2",
+                 timer = 0,
+                 animation = TRUE
+      )
+      
+    }
+  })
+  
+  ### Info modal (on button click) ----------------------------
   observeEvent(input$info_global_fishing_footprint_map, {
     
     shinyalert(title = text$item_label[text$item_id == "global-fishing-footprint"],
-               text = includeHTML("./text/info-buttons/global_fishing_footprint_map.html"),
+               text = text$item_label[text$item_id == "global_fishing_footprint_modal_text"] %>% lapply(htmltools::HTML),
                size = "l",
                closeOnEsc = TRUE,
                closeOnClickOutside = TRUE,
@@ -1814,7 +1837,7 @@ shinyServer(function(input, output, session) {
                type = "",
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
-               confirmButtonText = "OK",
+               confirmButtonText = text$item_label[text$item_id == "global_fishing_footprint_modal_button"],
                confirmButtonCol = "#0d5ba2",
                timer = 0,
                animation = TRUE
@@ -1880,7 +1903,7 @@ shinyServer(function(input, output, session) {
       addLegend("bottomright", 
                 pal = global_fishing_footprint_map_pal, 
                 values = log10(global_fishing_footprint_map_dat_shp$fishing_KWh),
-                title = "Fishing effort<br>(kWh)",
+                title = text$item_label[text$item_id == "global_fishing_footprint_map_legend"],
                 opacity = 1,
                 labFormat = labelFormat(
                   transform = function(x) 10^(x)))

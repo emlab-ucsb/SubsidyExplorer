@@ -15,7 +15,7 @@ MoreAboutSubsidies = function(subsidy_types_sorted_sumaila, wto_members_and_obse
     column(12,
            
            # tabBox
-           tabBox(width = 12, id = "subsidy-tabs", 
+           tabBox(width = 12, id = "subsidy-data-tabs", 
                   
                   ### --------------------------
                   ### Tab # 1  - Global fisheries subsidies

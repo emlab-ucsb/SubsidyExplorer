@@ -82,6 +82,13 @@ shinyUI(
             # Title width - none for this application
             titleWidth = "0%",
             
+            # Title
+            tags$li(
+                id = "custom-title-container",
+                class = "dropdown",
+                tags$h3(text$item_label[text$item_id == "app-title"]) # /h3
+            ), # /tags$li
+            
             # SFG logo
             tags$li(
                 class = "dropdown",
@@ -106,7 +113,7 @@ shinyUI(
         dashboardSidebar(
             
             # Width of sidebar menu
-            width = "300px",
+            width = "320px",
             
             # Want it collapsed by default
             collapsed = T,

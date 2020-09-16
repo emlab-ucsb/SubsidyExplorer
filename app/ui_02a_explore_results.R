@@ -15,7 +15,9 @@ ExploreResults = function(proposal_choices)
     column(12, id = "page-title-div-underline-blue",
            
            # Title
-           tags$h3(text$item_label[text$item_id == "explore-results"])
+           tags$h3(text$item_label[text$item_id == "explore-results"], tags$button(id = "info_explore_results",
+                                                                                   class = "btn action-button info-button",
+                                                                                   icon("info")))
            
     ),
     
@@ -31,43 +33,36 @@ ExploreResults = function(proposal_choices)
              
              column(12, id = "lr-spaced-div", 
                     
-                    ### Section Title ---
-                    column(12, id = "section-title-div-underline",
-                    
-                           
-                           tags$h4("Instructions")
-                    
-                           
-                    ),
-             
                     ### First section - text ---
+                    column(12, id = "t-spaced-div",
                     column(12, id = "div-underline",
                     
-                           includeHTML("./text/02-results/explore-results/left_panel_intro.html")
-                    
-                    ),
+                           text$item_label[text$item_id == "explore_results_intro_text"] %>% lapply(htmltools::HTML)
+
+                    )),
              
                     ### Second section - Explore proposals ---
                     
                     column(12, id = "section-title",
                     
                            # Section Title
-                           tags$h5(text$item_label[text$item_id == "explore-proposals"])
+                           tags$h5(text$item_label[text$item_id == "explore_results_proposals_header"])
                     
                     ),
              
                     column(12,
                            
-                           includeHTML("./text/02-results/explore-results/left_panel_explore_proposals.html")
+                           # Section text
+                           text$item_label[text$item_id == "explore_results_proposals_text"] %>% lapply(htmltools::HTML)
 
                     ),
              
                     column(12, id = "div-underline",
                            
                            # Button
-                           tags$button(id = "ab_explore_proposals",
+                           tags$button(id = "ab_explore_results_proposals",
                                        class = "btn action-button rounded-button",
-                                       tags$b(text$item_label[text$item_id == "ab_explore_proposals"], icon("caret-right")))
+                                       tags$b(text$item_label[text$item_id == "ab_explore_results_proposals"], icon("caret-right")))
                     
                     
                            
@@ -78,13 +73,14 @@ ExploreResults = function(proposal_choices)
                     column(12, id = "section-title",
                     
                            # Section Title
-                           tags$h5(text$item_label[text$item_id == "design-custom-proposal"])
+                           tags$h5(text$item_label[text$item_id == "explore_results_custom_header"])
                     
                     ),
              
                     column(12,
                            
-                           includeHTML("./text/02-results/explore-results/left_panel_design_proposal.html")
+                           # Section text
+                           text$item_label[text$item_id == "explore_results_custom_text"] %>% lapply(htmltools::HTML)
 
                            
                     ),
@@ -92,9 +88,9 @@ ExploreResults = function(proposal_choices)
                     column(12, id = "tb-spaced-div",
                            
                            # Button
-                           tags$button(id = "ab_explore_results_design_custom_proposal",
+                           tags$button(id = "ab_explore_results_custom",
                                        class = "btn action-button rounded-button",
-                                       tags$b(text$item_label[text$item_id == "ab_explore_results_design_custom_proposal"], icon("caret-right")))
+                                       tags$b(text$item_label[text$item_id == "ab_explore_results_custom"], icon("caret-right")))
                     
                     )
              )
@@ -109,7 +105,7 @@ ExploreResults = function(proposal_choices)
              ### Section Title ---
              column(12, id = "section-title-div-underline",
                     
-                    tags$h4(text$item_label[text$item_id == "proposal-results"])
+                    tags$h4(text$item_label[text$item_id == "explore_results_plot_header"])
                     
              ),
            
@@ -188,7 +184,7 @@ ExploreResults = function(proposal_choices)
                                                              choices = c("Most ambitious scenario"),
                                                              selected = c("Most ambitious scenario"),
                                                              inline = TRUE,
-                                                             status = "primary",
+                                                             status = "danger",
                                                              fill = TRUE)
 
                                        )
@@ -202,14 +198,14 @@ ExploreResults = function(proposal_choices)
              ### Section Title ---
              column(12, id = "section-title-div-underline",
                     
-                    tags$h4(text$item_label[text$item_id == "selected-scenario"])
+                    tags$h4(text$item_label[text$item_id == "explore_results_selected_scenario_header"])
                     
              ),
              
              ### Selected Policy Description ---
              column(12, id = "tb-spaced-div",
                     
-                    "policy description"
+                    unlist(best_result$policy_description) %>% lapply(htmltools::HTML)
 
              )
       

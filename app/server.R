@@ -127,15 +127,57 @@ shinyServer(function(input, output, session) {
   ### 02a. explore-results ---
   ### -------------------------
   
+  ### Info modal (auto) ----------------------------
+  observeEvent(input$menu_items, {
+
+    if(input$menu_items == "explore-results"){
+      
+      shinyalert(title = text$item_label[text$item_id == "explore-results"],
+                 text = text$item_label[text$item_id == "explore_results_modal_text"] %>% lapply(htmltools::HTML),
+                 size = "l",
+                 closeOnEsc = TRUE,
+                 closeOnClickOutside = TRUE,
+                 html = TRUE,
+                 type = "",
+                 showConfirmButton = TRUE,
+                 showCancelButton = FALSE,
+                 confirmButtonText = "OK",
+                 confirmButtonCol = "#0d5ba2",
+                 timer = 0,
+                 animation = TRUE)
+      
+    }
+  })
+  
+  ### Info modal (on button click) ----------------------------
+  observeEvent(input$info_explore_results, {
+    
+    shinyalert(title = text$item_label[text$item_id == "explore-results"],
+                 text = text$item_label[text$item_id == "explore_results_modal_text"] %>% lapply(htmltools::HTML),
+                 size = "l",
+                 closeOnEsc = TRUE,
+                 closeOnClickOutside = TRUE,
+                 html = TRUE,
+                 type = "",
+                 showConfirmButton = TRUE,
+                 showCancelButton = FALSE,
+                 confirmButtonText = "OK",
+                 confirmButtonCol = "#0d5ba2",
+                 timer = 0,
+                 animation = TRUE)
+      
+  })
+  
+  #includeHTML("./text/02-results/explore-results/info_modal.html")
   ### Navigation buttons ---------------------
   
   # Navigation button from explore-results to selected-results
-  observeEvent(input$ab_explore_proposals, {
+  observeEvent(input$ab_explore_results_proposals, {
     updateTabItems(session, "menu_items", "selected-results")
   })
   
   # Navigation button from explore-results to edit-policies
-  observeEvent(input$ab_explore_results_design_custom_proposal, {
+  observeEvent(input$ab_explore_results_custom, {
     updateTabItems(session, "menu_items", "edit-policies")
   })
   
@@ -183,7 +225,8 @@ shinyServer(function(input, output, session) {
                             
                             "catches_total" = list("catches_total", "Change in catch (%)"),
                             
-                            "revenue_total" = list("revenue_total", "Change in revenue (%)"))
+                            "revenue_total" = list("revenue_total", "Change in revenue (%)"),
+                            "u_mort_total" = list("u_mort_total", "Change in fishing mortality (%)"))
     
     # Make biomass plot
     out_plot_dat <- plot_dat %>%
@@ -191,7 +234,7 @@ shinyServer(function(input, output, session) {
       
     plot <-  ggplot()+
         aes(x = Year, y = Diff*100, group = Id)+
-        geom_line(data = out_plot_dat, size = 2, color = "#0d5ba2",
+        geom_line(data = out_plot_dat, size = 2, color = "#EB4648",
                   aes(text = paste0("<b>","Year: ","</b>", Year,
                                     "<br>",
                                     "<b>","Policy Name: ","</b>", Name,
@@ -205,7 +248,7 @@ shinyServer(function(input, output, session) {
                                     "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
         theme_bw()+
         geom_hline(yintercept = 0)+
-        #scale_color_manual(values = customDiscrete)+
+        #scale_color_manual(values = proposal_color_pal[names(proposal_color_pal) %in% unique(out_plot_dat$Type)])+
         scale_x_continuous(expand = c(0,0))+
         labs(x = "Year", y = plot_variable[[2]])+
         theme(legend.position = "none")+
@@ -402,7 +445,7 @@ shinyServer(function(input, output, session) {
       # Store time series results both globally and regionally
       out_all <- out %>%
         dplyr::filter(Year > 2018) %>%
-        dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total")) %>%
+        dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total", "u_mort_total")) %>%
         mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
                                 TRUE ~ 0)) %>%
         group_by(Year, Variable, Fleet) %>%
@@ -425,7 +468,8 @@ shinyServer(function(input, output, session) {
       spread(Variable, Value) %>%
       rename(Biomass = biomass,
              Catches = catches_total,
-             Revenue = revenue_total)
+             Revenue = revenue_total,
+             Mortality = u_mort_total)
     
     # Fill in new tibble row 
     new_result <- tibble(id = new_run_id,
@@ -548,16 +592,13 @@ shinyServer(function(input, output, session) {
                             
                             "catches_total" = list("catches_total", "Change in catch (%)"),
                             
-                            "revenue_total" = list("revenue_total", "Change in revenue (%)"))
+                            "revenue_total" = list("revenue_total", "Change in revenue (%)"),
+                            "u_mort_total" = list("u_mort_total", "Change in fishing mortality (%)"))
     
     # Make biomass plot
     out_plot_dat <- plot_dat %>%
       dplyr::filter(Variable == plot_variable[[1]])
     
-    # Make color palette
-    color_palette <- c("blue", "red", "orange")
-    names(color_palette) <- c("Reference", "Proposal", "Custom")
-
       plot <-  ggplot()+
         aes(x = Year, y = Diff*100, group = Id, color = Type)+
         geom_line(data = out_plot_dat, size = 2,
@@ -574,7 +615,7 @@ shinyServer(function(input, output, session) {
                                     "<br>",
                                     "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
         theme_bw()+
-        scale_color_manual(values = color_palette[names(color_palette) %in% unique(out_plot_dat$Type)])+
+        scale_color_manual(values = proposal_color_pal[names(proposal_color_pal) %in% unique(out_plot_dat$Type)])+
         geom_hline(yintercept = 0)+
         scale_x_continuous(expand = c(0,0))+
         labs(x = "Year", y = plot_variable[[2]])+
@@ -886,7 +927,7 @@ shinyServer(function(input, output, session) {
       # Store time series results both globally and regionally
       out_all <- out %>%
         dplyr::filter(Year > 2018) %>%
-        dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total")) %>%
+        dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total", "u_mort_total")) %>%
         group_by(Year, Variable, Fleet) %>%
         mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
                                 TRUE ~ 0),
@@ -909,7 +950,8 @@ shinyServer(function(input, output, session) {
         spread(Variable, Value) %>%
         rename(Biomass = biomass,
                Catches = catches_total,
-               Revenue = revenue_total)
+               Revenue = revenue_total,
+               Mortality = u_mort_total)
 
       # Create description 
       policy_description <- paste0(rv_custom_policy_description$name,

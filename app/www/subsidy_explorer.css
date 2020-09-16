@@ -266,6 +266,14 @@ header.main-header {
   padding: 0;
 }
 
+#custom-title-container {
+  position: absolute;
+  left: 60px;
+  text-align: center;
+  line-height: 16pt;
+  color: #ffffff;
+}
+
 /*-----------------*/
 /* Leaflet legends */
 /*-----------------*/
@@ -311,13 +319,12 @@ header.main-header {
   color: #fff; 
   background-color: var(--accent-color); 
   border-width: 0; 
-  padding: 1px 0 0 0; 
   width:22px; 
   height:22px; 
   font-size: 6pt;
-  margin: 0 5px;
   border-radius: 50%;
   text-align: center;
+  line-height: 6pt;
 }
 
 .info-button:hover {
@@ -525,6 +532,10 @@ header.main-header {
   color: var(--accent-color-2);
 }
 
+#ab_introduction_to_explore_results:hover i{
+  color: var(--accent-color);
+}
+
 /* More about fisheries subsidies button */
 #ab_introduction_to_global_subsidies{
   width: 100%;
@@ -545,6 +556,10 @@ header.main-header {
   color: var(--accent-color-2);
 }
 
+#ab_introduction_to_global_subsidies:hover i{
+  color: var(--accent-color);
+}
+
 /* Learn about methods and process button */
 #ab_introduction_to_methods_process{
   width: 100%;
@@ -563,6 +578,10 @@ header.main-header {
 
 #ab_introduction_to_methods_process i{
   color: var(--accent-color-2);
+}
+
+#ab_introduction_to_methods_process:hover i{
+  color: var(--accent-color);
 }
 
 /* ------------------------------ */

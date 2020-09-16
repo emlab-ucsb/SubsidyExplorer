@@ -120,7 +120,7 @@ SelectedResults = function(proposal_choices)
              ),
              
              ### Widgets ---
-             column(12, id = "t-spaced-div",
+             column(12, id = "t-spaced-div", align = "center",
                       
                       tags$table(id = "explore-results-table",
                                  
@@ -189,7 +189,7 @@ SelectedResults = function(proposal_choices)
                                                              choices = c("Most ambitious scenario"),
                                                              selected = c("Most ambitious scenario"),
                                                              inline = TRUE,
-                                                             status = "primary",
+                                                             status = "danger",
                                                              fill = TRUE)
                                          
                                        )
@@ -208,7 +208,7 @@ SelectedResults = function(proposal_choices)
                                                              choices = "",
                                                              selected = "",
                                                              inline = TRUE,
-                                                             status = "danger",
+                                                             status = "primary",
                                                              fill = TRUE)
 
                                        )

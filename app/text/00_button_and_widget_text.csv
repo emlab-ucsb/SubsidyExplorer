@@ -1,27 +1,32 @@
 ﻿tab_num,tab_id,item_type,item_id,item_label,item_description
+header,,text,app-title,SubsidyExplorer,name of app
 header,,link,sfg_logo,The Sustainable Fisheries Group,text if logo doesn't work
 header,,link,emlab_logo,The Environmental Market Solutions Lab,text if logo doesn't work
 many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not meant to imply the expression of any opinion whatsoever on the part of the Pew Charitable Trust or the Environmental Market Solutions Lab at the University of California, concerning the status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontier or boundaries.</small>",map disclaimer
 ,,,,,
 1,introduction,page,introduction,Main Menu,page name
-1,introduction,text,left-top,Subsidy reform represents one of the most beneficial actions we can take to restore our world's oceans,left top text
-1,introduction,text,left-bottom,SubsidyExplorer is an interactive toolkit that allows users to learn more about fisheries subsidies and to explore potential biological and economic tradeoffs associated with subsidy reform. This tool supports the negotiations currently underway at the World Trade Organization (WTO).,left bottom text
-1,introduction,text,right-top,An ambitious agreement on fisheries subsidies reform could result in increases of up to: ,right top text
-1,introduction,text,right-bottom,This could mean 32 million more tons of fish in the water & 3 million more tons of fish being caught each year!,right bottom text
+1,introduction,text,left-top,Eliminating harmful fisheries subsidies represents the single greatest collective action governments can take to restore the health of fish populations around the world.,left top text
+1,introduction,text,left-bottom,SubsidyExplorer is a first-of-its-kind interactive toolkit that allows users to explore potential biological and economic impacts of fisheries subsidy reform scenarios. This tool supports the negotiations currently underway at the World Trade Organization (WTO).,left bottom text
+1,introduction,text,right-top,"If WTO members agree to eliminate all harmful subsidies, by 2060, it could result in increases of up to ",right top text
+1,introduction,text,right-bottom,More fish in the water and more fishing opportunities! ,right bottom text
 ,,,,,
-1,introduction,nav-button,ab_introduction_to_explore_results,Explore the Results     ,left button
-1,introduction,nav-button,ab_introduction_to_methods_process,Learn About the Methods and Process     ,center button
-1,introduction,nav-button,ab_introduction_to_global_subsidies,More About Fisheries Subsidies     ,right button
+1,introduction,nav-button,ab_introduction_to_explore_results,Learn How Subsidy Reform Could Help Fish    ,left button
+1,introduction,nav-button,ab_introduction_to_methods_process,Explore What Governments Provide in Fisheries Subsidies     ,center button
+1,introduction,nav-button,ab_introduction_to_global_subsidies,Discover How This Tool Was Made    ,right button
 ,,,,,
-02a,explore-results,page,explore-results,Explore the Results,page name
-02a,explore-results,section,explore-proposals,Select a Proposal,section name
-02a,explore-results,action-button,ab_explore_proposals,Explore Proposals,button to selected proposal page
-02a/02b,explore-results,section,design-custom-proposal,Design a Custom Proposal,section name
-02a,explore-results,action-button,ab_explore_results_design_custom_proposal,Explore Proposal Design Options,button to custom policy page
-02a/02b,explore-results,section,proposal-results,Proposal Results,section name
+02a,explore-results,page,explore-results,Learn How Subsidy Reform Could Help Fish,page name
+02a,explore-results,text,explore_results_modal_text,"<p style = ""text-align: left;"">This chart shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, and fishing mortality over time.<br><br> In addition to the scenario displayed here, SubsidyExplorer contains many pre-populated WTO Member proposals to explore. Select <b style = ""text-decoration: underline;"">Explore WTO Member Proposals</b> on the left to model their impacts.<br><br> You can also design your own subsidy reform policy, and plot how it affects biomass, fish catch, and fishing mortality over time by selecting <b style = ""text-decoration: underline;"">Design Your Own Policy</b>.</p>",modal text
+02a,explore-results,text,explore_results_intro_text,"<p>The <b style = ""text-decoration: underline;"">Policy Reform</b> graph on this page shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, and fishing mortality over time.</p>",intro text for top left section
+02a,explore-results,section,explore_results_proposals_header,Explore WTO Member Proposals,section name - pre-populated proposals
+02a,explore-results,text,explore_results_proposals_text,"<p>In addition to the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> displayed here, SubsidyExplorer contains many more pre-populated WTO Member proposals to model.</p>",text for proposal selection section
+02a,explore-results,action-button,ab_explore_results_proposals,Explore WTO Member Proposals,button to selected proposal page
+02a/02b,explore-results,section,explore_results_custom_header,Design Your Own Policy,section name - design your own
+02a,explore-results,text,explore_results_custom_text,"<p>You can also design your own subsidy reform policy and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",text for custom proposal section
+02a,explore-results,action-button,ab_explore_results_custom,Design Your Own Policy,button to custom policy page
+02a/02b,explore-results,section,explore_results_plot_header,Scenario Results,section name - plot
 02a,explore-results,widget,w_explore_results_timeseries_plot_variable,Plot,select variable to plot widget
 02a,explore-results,widget,w_explore_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
-02a/02b,explore-results,section,selected-scenario,Selected Scenario,section name
+02a/02b,explore-results,section,explore_results_selected_scenario_header,Selected Scenario,section name
 ,,,,,
 02b,selected-results,page,selected-results,Explore Proposals,page name
 02b,selected-results,section,select-proposal,Select a Proposal,section name

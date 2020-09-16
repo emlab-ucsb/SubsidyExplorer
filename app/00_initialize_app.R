@@ -281,6 +281,11 @@ managed_cutoff <- 0.5
 # 4) Default end year 
 end_year <- 2060
 
+# Proposal color scheme
+# Make color palette
+proposal_color_pal <- c("#EB4648", "blue", "orange")
+names(proposal_color_pal) <- c("Reference", "Proposal", "Custom")
+
 ### OTHER DATA -------------------------------------------------------------------------------------------
 
 # Relative subsidies data
@@ -336,7 +341,7 @@ remove_all_bad_results <- pmap_df(list(fleet = remove_all_bad_list,
 # Extract results timeseries
 remove_all_bad_results_full <- remove_all_bad_results %>%
   dplyr::filter(Year > 2018) %>%
-  dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total")) %>%
+  dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total", "u_mort_total")) %>%
   group_by(Year, Variable, Fleet) %>%
   mutate(Diff = case_when(BAU != 0 ~ (Reform - BAU)/abs(BAU),
                           TRUE ~ 0),
@@ -360,17 +365,18 @@ remove_all_bad_results_last <- remove_all_bad_results_full %>%
   ungroup() 
 
 
-biomass_end_percent <- round(remove_all_bad_results_last$Percent[remove_all_bad_results_last$Variable == "biomass"])
+biomass_end_percent <- round(remove_all_bad_results_last$Percent[remove_all_bad_results_last$Variable == "biomass"], 1)
 biomass_end_value <- round(remove_all_bad_results_last$Value[remove_all_bad_results_last$Variable == "biomass"]/1e6)
-catch_end_percent <- round(remove_all_bad_results_last$Percent[remove_all_bad_results_last$Variable == "catches_total"])
+catch_end_percent <- round(remove_all_bad_results_last$Percent[remove_all_bad_results_last$Variable == "catches_total"], 1)
 catch_end_value <- round(remove_all_bad_results_last$Value[remove_all_bad_results_last$Variable == "catches_total"]/1e6)
 
 
-remove_all_bad_results_last <- remove_all_bad_results_last%>%
+remove_all_bad_results_last <- remove_all_bad_results_last %>%
   spread(Variable, Percent) %>%
   rename(Biomass = biomass,
          Catches = catches_total,
-         Revenue = revenue_total)
+         Revenue = revenue_total,
+         Mortality = u_mort_total)
 
 # Create data frame entry
 best_result <- tibble(id = "A",

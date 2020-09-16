@@ -50,13 +50,16 @@ BioEconModel <- function(fleet,
   ### Step 1: BAU ----------------------------------------------------------------------
   ### ----------------------------------------------------------------------------------  
 
-  ## Set up storage bins to track important things for our BAU run
+  ### Set up storage bins to track important things for our BAU run
+  # Biomass
   biomass_bau <- matrix(0, nrow = stop_time, ncol = 1)
   rownames(biomass_bau) <- year_range
 
+  # Price
   price_bau <- matrix(0, nrow = stop_time, ncol = 1)
   rownames(price_bau) <- year_range
   
+  # Catches
   catches_fleet_bau <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
   rownames(catches_fleet_bau) <- year_range
   colnames(catches_fleet_bau) <- fleet_names
@@ -64,6 +67,7 @@ BioEconModel <- function(fleet,
   catches_total_bau <- matrix(0, nrow = stop_time, ncol = 1)
   rownames(catches_total_bau) <- year_range
   
+  # Effort
   effort_fleet_bau <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
   rownames(effort_fleet_bau) <- year_range
   colnames(effort_fleet_bau) <- fleet_names
@@ -71,6 +75,23 @@ BioEconModel <- function(fleet,
   effort_total_bau <- matrix(0, nrow = stop_time, ncol = 1)
   rownames(effort_total_bau) <- year_range
   
+  # Fishing mortality (continuous)
+  f_mort_fleet_bau <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
+  rownames(f_mort_fleet_bau) <- year_range
+  colnames(f_mort_fleet_bau) <- fleet_names
+  
+  f_mort_total_bau <- matrix(0, nrow = stop_time, ncol = 1)
+  rownames(f_mort_total_bau) <- year_range
+  
+  # Fishing mortality (discrete)
+  u_mort_fleet_bau <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
+  rownames(u_mort_fleet_bau) <- year_range
+  colnames(u_mort_fleet_bau) <- fleet_names
+  
+  u_mort_total_bau <- matrix(0, nrow = stop_time, ncol = 1)
+  rownames(u_mort_total_bau) <- year_range
+  
+  # Revenue
   revenue_fleet_bau <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
   rownames(revenue_fleet_bau) <- year_range
   colnames(revenue_fleet_bau) <- fleet_names
@@ -78,14 +99,17 @@ BioEconModel <- function(fleet,
   revenue_total_bau <- matrix(0, nrow = stop_time, ncol = 1)
   rownames(revenue_total_bau) <- year_range
   
+  # Cost
   costs_fleet_bau <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
   rownames(costs_fleet_bau) <- year_range
   colnames(costs_fleet_bau) <- fleet_names
   
+  # Subsidies
   subsidies_fleet_bau <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
   rownames(subsidies_fleet_bau) <- year_range
   colnames(subsidies_fleet_bau) <- fleet_names
   
+  # Profits
   profits_fleet_bau <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
   rownames(profits_fleet_bau) <- year_range
   colnames(profits_fleet_bau) <- fleet_names
@@ -117,6 +141,12 @@ BioEconModel <- function(fleet,
   ## Solve for catchability
   q <- catches_fleet_bau[1,]/(biomass_bau[1]*effort_fleet_bau[1,])
   q[is.nan(q)] <- 0
+  
+  ## Fill in initial fishing mortality
+  u_mort_fleet_bau[1, ] <- effort_fleet_bau[1, ]*q
+  u_mort_total_bau[1] <- catches_total_bau[1]/biomass_bau[1]
+  f_mort_fleet_bau[1, ] <- -log(1-u_mort_fleet_bau[1, ])
+  f_mort_total_bau[1] <- -log(1-u_mort_total_bau[1])
 
 # Solve for delta
 #delta <- catches_total_bau[1]/(price_bau[1]^epsilon)
@@ -147,15 +177,18 @@ while (t < stop_time) {
   effort_total_bau[t+1] <- sum(effort_fleet_bau[t+1,])
   
   # Catches
-  catches_fleet_bau[t+1,] <- pmax(0, (q*biomass_bau[t]*effort_fleet_bau[t+1,]))
+  catches_fleet_bau[t+1,] <- pmax(0, (q*biomass_bau[t+1]*effort_fleet_bau[t+1,]))
 
   catches_total_bau[t+1] <- sum(catches_fleet_bau[t+1,])
   
+  # Fishing mortality
+  u_mort_fleet_bau[t+1, ] <- effort_fleet_bau[t+1, ]*q
+  u_mort_total_bau[t+1] <- catches_total_bau[t+1]/biomass_bau[t+1]
+  f_mort_fleet_bau[t+1, ] <- -log(1-u_mort_fleet_bau[t+1, ])
+  f_mort_total_bau[t+1] <- -log(1-u_mort_total_bau[t+1])
+  
   # Price
   price_bau[t+1] = max(0, ((1/delta)^(1/epsilon))*(sum(catches_fleet_bau[t+1,])^(1/epsilon)))
-  
-  # price_bau[t+1,2] = max(0, ((1/delta)^(1/epsilon))*(sum(catches_fleet_bau[t+1,nf])^(1/epsilon)))
-  # price_bau[t+1,][is.infinite(price_bau[t+1,])] <- 0
   
   # Profits 
   revenue_fleet_bau[t+1,] <- price_bau[t+1]*catches_fleet_bau[t+1,]
@@ -181,6 +214,10 @@ bau_out <- list(biomass = biomass_bau,
                 catches_total = catches_total_bau,
                 effort_fleet = effort_fleet_bau,
                 effort_total = effort_total_bau,
+                f_mort_fleet = f_mort_fleet_bau,
+                f_mort_total = f_mort_total_bau,
+                u_mort_fleet = u_mort_fleet_bau,
+                u_mort_total = u_mort_total_bau,
                 revenue_fleet = revenue_fleet_bau,
                 revenue_total = revenue_total_bau,
                 costs_fleet = costs_fleet_bau,
@@ -190,13 +227,16 @@ bau_out <- list(biomass = biomass_bau,
 
 ### Subsidy Reform --------------------------------------------------------
 
-## Set up storage bins to track important things for our subsidy removal run
+### Set up storage bins to track important things for our subsidy removal run
+# Biomass
 biomass <- matrix(0, nrow = stop_time, ncol = 1)
 rownames(biomass) <- year_range
 
+# Price
 price <- matrix(0, nrow = stop_time, ncol = 1)
 rownames(price) <- year_range
 
+# Catches
 catches_fleet <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
 rownames(catches_fleet) <- year_range
 colnames(catches_fleet) <- fleet_names
@@ -204,6 +244,7 @@ colnames(catches_fleet) <- fleet_names
 catches_total <- matrix(0, nrow = stop_time, ncol = 1)
 rownames(catches_total) <- year_range
 
+# Effort
 effort_fleet <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
 rownames(effort_fleet) <- year_range
 colnames(effort_fleet) <- fleet_names
@@ -211,6 +252,23 @@ colnames(effort_fleet) <- fleet_names
 effort_total <- matrix(0, nrow = stop_time, ncol = 1)
 rownames(effort_total) <- year_range
 
+# Fishing mortality (continuous)
+f_mort_fleet <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
+rownames(f_mort_fleet) <- year_range
+colnames(f_mort_fleet) <- fleet_names
+
+f_mort_total <- matrix(0, nrow = stop_time, ncol = 1)
+rownames(f_mort_total) <- year_range
+
+# Fishing mortality (discrete)
+u_mort_fleet <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
+rownames(u_mort_fleet) <- year_range
+colnames(u_mort_fleet) <- fleet_names
+
+u_mort_total <- matrix(0, nrow = stop_time, ncol = 1)
+rownames(u_mort_total) <- year_range
+
+# Revenue
 revenue_fleet <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
 rownames(revenue_fleet) <- year_range
 colnames(revenue_fleet) <- fleet_names
@@ -218,14 +276,17 @@ colnames(revenue_fleet) <- fleet_names
 revenue_total <- matrix(0, nrow = stop_time, ncol = 1)
 rownames(revenue_total) <- year_range
 
+# Costs
 costs_fleet <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
 rownames(costs_fleet) <- year_range
 colnames(costs_fleet) <- fleet_names
 
+# Subsidies
 subsidies_fleet <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
 rownames(subsidies_fleet) <- year_range
 colnames(subsidies_fleet) <- fleet_names
 
+# Profits
 profits_fleet <- matrix(0, nrow = stop_time, ncol = length(fleet_names))
 rownames(profits_fleet) <- year_range
 colnames(profits_fleet) <- fleet_names
@@ -250,6 +311,12 @@ costs_fleet[1,] <- cost_coeff*effort_fleet[1,]^beta
 profits_fleet[1,] <- round(revenue_fleet[1,] - costs_fleet[1,] + (subsidies_fleet[1,]*effort_fleet[1,]), 0)
 profits_total[1] <- sum(profits_fleet[1,])
 
+## Fill in initial fishing mortality
+u_mort_fleet[1, ] <- effort_fleet[1, ]*q
+u_mort_total[1] <- catches_total[1]/biomass[1]
+f_mort_fleet[1, ] <- -log(1-u_mort_fleet[1, ])
+f_mort_total[1] <- -log(1-u_mort_total[1])
+
 ## Time loopy loopy loop
 
 t <- 1 # start off time loop
@@ -273,9 +340,15 @@ while (t < stop_time) {
   effort_total[t+1] <- sum(effort_fleet[t+1,])
   
   # Catches
-  catches_fleet[t+1,] <- pmax(0, (q*biomass[t]*effort_fleet[t+1,]))
+  catches_fleet[t+1,] <- pmax(0, (q*biomass[t+1]*effort_fleet[t+1,]))
 
   catches_total[t+1] <- sum(catches_fleet[t+1,])
+  
+  # Fishing mortality
+  u_mort_fleet[t+1, ] <- effort_fleet[t+1, ]*q
+  u_mort_total[t+1] <- catches_total[t+1]/biomass[t+1]
+  f_mort_fleet[t+1, ] <- -log(1-u_mort_fleet[t+1, ])
+  f_mort_total[t+1] <- -log(1-u_mort_total[t+1])
   
   # Price
   price[t+1] = max(0, ((1/delta)^(1/epsilon))*(sum(catches_fleet[t+1,])^(1/epsilon)))
@@ -314,6 +387,10 @@ reform_out <- list(biomass = biomass,
                    catches_total = catches_total,
                    effort_fleet = effort_fleet,
                    effort_total = effort_total,
+                   f_mort_fleet = f_mort_fleet,
+                   f_mort_total = f_mort_total,
+                   u_mort_fleet = u_mort_fleet,
+                   u_mort_total = u_mort_total,
                    revenue_fleet = revenue_fleet,
                    revenue_total = revenue_total,
                    costs_fleet = costs_fleet,
@@ -381,10 +458,3 @@ if(return == "last") {
 }
 
 } # Close function
-
-# diff_df <- bau_df %>%
-#   left_join(reform_df, by = c("Year", "Variable", "Fleet")) %>%
-#   mutate(Diff = (Reform - BAU)/abs(BAU)) %>%
-#   dplyr::select(Year, Variable, Fleet, BAU, Reform, Diff) %>%
-#   gather("Scenario", "Value", 4:6) %>%
-#   mutate(Region = region)

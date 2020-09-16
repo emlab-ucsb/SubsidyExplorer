@@ -1675,6 +1675,31 @@ shinyServer(function(input, output, session) {
     tags$h3(out)
   })
   
+  ### UI output: Name of selected country header ---------------------
+  output$compare_fishery_stats_selected_country_header <- renderUI({
+    
+    req(input$w_compare_fishery_stats_selected_country)
+    req(input$w_compare_fishery_stats_plot_variable)
+    
+    variable_name <- switch(input$w_compare_fishery_stats_plot_variable,
+                            "subsidies" = list("Fisheries Subsidies"),
+                            "landings" = list("Marine Capture Production"),
+                            "revenue" = list("Landed Value of Marine Capture Production"),
+                            "subsidies_per_landing" = list("Fisheries Subsidies per Tonne of Marine Capture Production"),
+                            "subsidies_per_revenue" = list("Fisheries Subsidies per Landed Value of Marine Capture Production"),
+                            "subsidies_per_capita" = list("Fisheries Subsidies per Capita"),
+                            "subsidies_per_gdp" = list("Fisheries Subsidies as a Fraction of GDP"),
+                            "subsidies_per_fte" = list("Fisheries Subsidies per Full-Time Employed Fisher"))
+     
+    country_name <- names(wto_members_and_observers[wto_members_and_observers == input$w_compare_fishery_stats_selected_country])
+    
+    header <- paste0(country_name, "'s ", variable_name[[1]], " Compared With Other States")
+    
+    tagList(tags$h4(header),
+            includeHTML(paste0("./text/03-more-about-subsidies/compare-fishery-stats/",input$w_compare_fishery_stats_plot_variable, ".html")))
+            
+  })
+  
   ### Update input: Remove selected state from list of comparison states --------------------------
   observe({
     

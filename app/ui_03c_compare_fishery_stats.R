@@ -183,7 +183,7 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
 
                     column(12,
 
-                           text$item_label[text$item_id == "compare_fishery_stats_plot_instructions"] %>% lapply(htmltools::HTML)
+                           uiOutput("compare_fishery_stats_selected_country_header"),
 
                     ),
                     

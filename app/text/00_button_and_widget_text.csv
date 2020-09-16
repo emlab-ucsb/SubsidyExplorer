@@ -174,7 +174,6 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 03c,compare-fishery-stats,widget,w_compare_fishery_stats_bad_types,HARMFUL,select bad subsidy types
 03c,compare-fishery-stats,action-button,db_compare_fishery_stats_download_data,Export (CSV),download data for selected plot
 03c,compare-fishery-stats,action-button,db_compare_fishery_stats_download_figure,Print (PDF),download image for plot
-03c,compare-fishery-stats,text,compare_fishery_stats_plot_instructions,"<p><small class=""gray"">Hover over each bar on the graph to learn more</small></p>",instructions for plot
 ,,,,,
 03d,global-fishing-footprint,page,global-fishing-footprint,Global Fishing Footprint,page name
 03d,global-fishing-footprint,text,global_fishing_footprint_modal_text,"<p style = ""text-align: left;"">This map shows global large-scale fishing effort in 2018, aggregated by Exclusive Economic Zone (EEZ) (or FAO statistical region for effort on the high seas). Fishing effort is quantified in kilowatt hours (kWh), which is calculated as the time spent fishing in hours weighted by the total engine capacity of the vessel in kW. Hover your mouse over each region on the map to learn more. Data are sourced from Global Fishing Watch (GFW). GFW is a novel dataset that uses machine learning models to produce satellite tracks of fishing vessels to detect fishing activity in near-real time.</p>",text for modal

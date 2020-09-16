@@ -141,7 +141,7 @@ shinyServer(function(input, output, session) {
                  type = "",
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
-                 confirmButtonText = "OK",
+                 confirmButtonText = text$item_label[text$item_id == "explore_results_modal_button"],
                  confirmButtonCol = "#0d5ba2",
                  timer = 0,
                  animation = TRUE)
@@ -161,7 +161,7 @@ shinyServer(function(input, output, session) {
                  type = "",
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
-                 confirmButtonText = "OK",
+                 confirmButtonText = text$item_label[text$item_id == "explore_results_modal_button"],
                  confirmButtonCol = "#0d5ba2",
                  timer = 0,
                  animation = TRUE)
@@ -527,7 +527,7 @@ shinyServer(function(input, output, session) {
                               choices = policy_proposals_run,
                               selected = policy_proposals_run,
                               inline = TRUE,
-                              prettyOptions = list(status = "danger",
+                              prettyOptions = list(status = "primary",
                                                    fill = TRUE))
   })
   

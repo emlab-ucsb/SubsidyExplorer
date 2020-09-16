@@ -173,7 +173,7 @@ ExploreResults = function(proposal_choices)
                                        
                                        tags$td(style = "width: 100px;",
                                                
-                                               tags$b("Show on Plot: ")
+                                               tags$b(text$item_label[text$item_id == "w_explore_results_show_ambitious"])
                                                
                                        ),
                                        

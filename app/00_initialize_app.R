@@ -283,7 +283,7 @@ end_year <- 2060
 
 # Proposal color scheme
 # Make color palette
-proposal_color_pal <- c("#EB4648", "blue", "orange")
+proposal_color_pal <- c("#EB4648", "#198CD0", "orange")
 names(proposal_color_pal) <- c("Reference", "Proposal", "Custom")
 
 ### OTHER DATA -------------------------------------------------------------------------------------------

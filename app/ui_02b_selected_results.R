@@ -35,8 +35,15 @@ SelectedResults = function(proposal_choices)
                     ### Section Title ---
                     column(12, id = "section-title-div-underline",
                     
-                           tags$h4(text$item_label[text$item_id == "select-proposal"])
+                           tags$h4(text$item_label[text$item_id == "selected_results_intro_header"])
                     
+                    ),
+                    
+                    ### Section instructions 
+                    column(12, id = "t-spaced-div",
+                           
+                           text$item_label[text$item_id == "selected_results_intro_text"] %>% lapply(htmltools::HTML)
+                           
                     ),
              
                     ### Section 1 ---
@@ -75,25 +82,12 @@ SelectedResults = function(proposal_choices)
                            # IUU definitions info button
                            tags$button(id = "ab_run_model_proposal",
                                        class = "btn action-button rounded-button",
-                                       tags$b(text$item_label[text$item_id == "ab_run_model_proposal"]))
+                                       tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")))
                     
                     ),
              
                     ### Third section - Design custom proposal ---
-                    column(12, id = "section-title",
-                           
-                           # Section Title
-                           tags$h5(text$item_label[text$item_id == "design-custom-proposal"])
-                           
-                    ),
-                    
-                    column(12,
-                           
-                           includeHTML("./text/02-results/explore-results/left_panel_design_proposal.html")
-                           
-                           
-                    ),
-                    
+         
                     column(12, id = "tb-spaced-div",
                            
                            # Button
@@ -115,7 +109,7 @@ SelectedResults = function(proposal_choices)
              ### Section Title ---
              column(12, id = "section-title-div-underline",
                     
-                    tags$h4(text$item_label[text$item_id == "proposal-results"])
+                    tags$h4(text$item_label[text$item_id == "selected_results_plot_header"])
                     
              ),
              
@@ -128,7 +122,7 @@ SelectedResults = function(proposal_choices)
                                          
                                          tags$td(id = "explore-results-table-cell-l1",
                                                  
-                                                 tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_variable"])
+                                                 tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_variable"])
                                                  
                                          ),
                                          
@@ -144,7 +138,7 @@ SelectedResults = function(proposal_choices)
                                          
                                          tags$td(id = "explore-results-table-cell-l2",
                                                  
-                                                 tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_resolution"])
+                                                 tags$b(text$item_label[text$item_id == "w_selected_results_timeseries_plot_resolution"])
                                                  
                                          ),
                                          
@@ -178,7 +172,7 @@ SelectedResults = function(proposal_choices)
                                        
                                        tags$td(style = "width: 100px;",
                                                
-                                               tags$b("Show on Plot: ")
+                                               tags$b(text$item_label[text$item_id == "w_selected_results_show_ambitious"])
                                                
                                        ),
                                        
@@ -241,7 +235,7 @@ SelectedResults = function(proposal_choices)
              ### Section Title ---
              column(12, id = "section-title-div-underline",
                     
-                    tags$h4(text$item_label[text$item_id == "selected-scenario"])
+                    tags$h4(text$item_label[text$item_id == "selected_results_selected_scenario_header"])
                     
              ),
              

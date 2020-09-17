@@ -660,7 +660,7 @@ header.main-header {
 /* ------------------------------ */
 #edit-policies-left-column{
   color: var(--grey-dark);
-  padding: 15px;
+  padding: 15px 25px 15px 25px;
 }
 
 #edit-policies-right-column{
@@ -670,7 +670,7 @@ header.main-header {
   right: 0;
   background-color: var(--grey-light);
   color: var(--grey-dark);
-  padding: 15px;
+  padding: 15px 25px 15px 25px;
 }
 
 /* Table attributes for Steps */

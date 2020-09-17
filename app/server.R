@@ -1751,7 +1751,7 @@ shinyServer(function(input, output, session) {
   observe({
     
     # Removed selected country from the list of choices
-    new_choices <- wto_members_and_observers[wto_members_and_observers == input$w_compare_fishery_stats_selected_country]
+    new_choices <- wto_members_and_observers[wto_members_and_observers != input$w_compare_fishery_stats_selected_country]
     
     # Update input
     updateSelectizeInput(session, 

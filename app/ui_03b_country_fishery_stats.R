@@ -21,34 +21,44 @@ CountryFisheryStats = function(wto_members_and_observers)
              #### --------------------------------------------
              column(4, id = "country-fishery-stats-left-column",
                   
-                    ### Widget
-                    column(12, id = "spaced-div",
+                    column(12, id = "lr-spaced-div",
                            
-                           # Select state
-                           selectizeInput("w_country_fishery_stats_selected_country",
-                                          label = tagList(tags$b(text$item_label[text$item_id == "w_country_fishery_stats_selected_country"]),
-                                                          
-                                                          # Info button: subsidy types
-                                                          tags$button(id = "info_country_fishery_stats_territories",
-                                                                      class = "btn action-button info-button",
-                                                                      icon("info")
-                                                          )
-                                          ), 
-                                          choices = wto_members_and_observers,
-                                          selected = "USA",
-                                          width = "100%",
-                                          options = list(placeholder = 'Select...'))
+                           ### Widget
+                           column(12, id = "tb-spaced-div",
                            
-                    ),
+                                  # Intro text
+                                  text$item_label[text$item_id == "country_fishery_stats_intro_text"] %>% lapply(htmltools::HTML),
+                                  
+                                  # Select state
+                                  selectizeInput("w_country_fishery_stats_selected_country",
+                                                 label = tagList(
+                                                   tags$b(text$item_label[text$item_id == "w_country_fishery_stats_selected_country"])
+                                                   
+                                                   # # Info button: subsidy types
+                                                   # tags$button(id = "info_country_fishery_stats_territories",
+                                                   #             class = "btn action-button info-button",
+                                                   #             icon("info"))
+                                                 ),
+                                                 choices = wto_members_and_observers,
+                                                 selected = "USA",
+                                                 width = "100%",
+                                                 options = list(placeholder = 'Select...'))
+                           
+                                  
+                           ),
                     
-                    ### Download button
-                    column(12, id = "spaced-div",
+                           ### Download button
+                           column(12, id = "div-topline",
                            
-                           # Button to save PDF of data for selected state
-                           downloadButton("db_country_fishery_stats_generate_report",
-                                          text$item_label[text$item_id == "db_country_fishery_stats_generate_report"])
+                                  # Button to save PDF of data for selected state
+                                  tags$button(id = "db_country_fishery_stats_generate_report",
+                                              class = "btn action-button rounded-button-grey",
+                                              tags$b(icon("download"),
+                                                     text$item_label[text$item_id == "db_country_fishery_stats_generate_report"]))
                            
                            
+                           )
+                    
                     )
                     
                     
@@ -60,7 +70,7 @@ CountryFisheryStats = function(wto_members_and_observers)
              column(8, offset = 4, id = "country-fishery-stats-right-column",
                     
                     ### Section Title ---
-                    column(12, id = "tb-spaced-div",
+                    column(12, id = "t-spaced-div",
                            
                            uiOutput("country_fishery_stats_selected_country_name")
                            #tags$h3("Country Name")

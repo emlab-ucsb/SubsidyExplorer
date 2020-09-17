@@ -154,7 +154,8 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 03a,global-subsidies,widget,w_global_subsidies_bad_types,HARMFUL,select bad subsidy types
 ,,,,,
 03b,country-fishery-stats,page,country-fishery-stats,Fishery Statistics by State,page name
-03b,country-fishery-stats,widget,w_country_fishery_stats_selected_country,Select a WTO Member or Observer State:,select country widget
+03b,country-fishery-stats,text,country_fishery_stats_intro_text,<p>Select a WTO Member or Observer to view more specific fisheries subsidies information. Fisheries subsidies estimates are delineated by subtype and compared against Organization for Economic Cooperation and Development (OECD) figures where possible. Explore the other subtabs for more information on marine capture fisheries production and demographic statistics.</p>,intro text
+03b,country-fishery-stats,widget,w_country_fishery_stats_selected_country,Select a WTO Member or Observer State,select country widget
 03b,country-fishery-stats,download-button,db_country_fishery_stats_generate_report,Generate Report for Selected State (PDF),Generate PDF for this country
 03b,country-fishery-stats,tab,fishery-subsidy-tab,Fishery Subsidies,fishery subsidy data tab
 03b,country-fishery-stats,tab,marine-capture-tab,Marine Capture Fisheries,marine fisheries data tab

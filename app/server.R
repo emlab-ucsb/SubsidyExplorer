@@ -1026,11 +1026,35 @@ shinyServer(function(input, output, session) {
                    
   })
   
-  ### Info button: Global subsidy map --------------
+  ### Info modal (auto) ----------------------------
+  observeEvent(c(input$`subsidy-data-tabs`,
+                 input$menu_items), {
+    
+    if(input$`subsidy-data-tabs` == "global-subsidies-tab" & input$menu_items == "global-subsidies"){
+      
+      shinyalert(title = text$item_label[text$item_id == "global-subsidies"],
+                 text = text$item_label[text$item_id == "global_subsidies_modal_text"] %>% lapply(htmltools::HTML),
+                 size = "l",
+                 closeOnEsc = TRUE,
+                 closeOnClickOutside = TRUE,
+                 html = TRUE,
+                 type = "",
+                 showConfirmButton = TRUE,
+                 showCancelButton = FALSE,
+                 confirmButtonText = text$item_label[text$item_id == "global_subsidies_modal_button"],
+                 confirmButtonCol = "#0d5ba2",
+                 timer = 0,
+                 animation = TRUE
+      )
+      
+    }
+  })
+  
+  ### Info modal (on button click) ----------------------------
   observeEvent(input$info_global_subsidies_map, {
-                    
+    
     shinyalert(title = text$item_label[text$item_id == "global-subsidies"],
-               text = includeHTML("./text/info-buttons/global_subsidies_map.html"),
+               text = text$item_label[text$item_id == "global_subsidies_modal_text"] %>% lapply(htmltools::HTML),
                size = "l",
                closeOnEsc = TRUE,
                closeOnClickOutside = TRUE,
@@ -1038,11 +1062,12 @@ shinyServer(function(input, output, session) {
                type = "",
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
-               confirmButtonText = "OK",
+               confirmButtonText = text$item_label[text$item_id == "global_subsidies_modal_button"],
                confirmButtonCol = "#0d5ba2",
                timer = 0,
-               animation = TRUE)
-                    
+               animation = TRUE
+    )
+    
   })
   
   ### Update checkboxGroupInputs: Select all --------------------
@@ -1120,7 +1145,7 @@ shinyServer(function(input, output, session) {
     global_subsidies_map_text_shp <- paste0(
       "<b>","State: ", "</b>",  global_subsidies_map_dat_shp$display_name,
       "</br>",
-      "<b>", "Est. fisheries subsidies (2018 US$):", "</b>", " $", format(round(global_subsidies_map_dat_shp$value, 0), big.mark = ","),
+      "<b>", "Estimated fisheries subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_shp$value, 0), big.mark = ","),
       "</br>",
       "<b>", "Matching subsidy type(s): ", "</b>", global_subsidies_map_dat_shp$included_types
     ) %>%
@@ -1137,7 +1162,7 @@ shinyServer(function(input, output, session) {
     global_subsidies_map_text_points <- paste0(
       "<b>","State: ", "</b>",  global_subsidies_map_dat_points$display_name,
       "</br>",
-      "<b>", "Est. fisheries subsidies (2018 US$):", "</b>", " $", format(round(global_subsidies_map_dat_points$value, 0), big.mark = ","),
+      "<b>", "Est. fisheries subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_points$value, 0), big.mark = ","),
       "</br>",
       "<b>", "Matching subsidy type(s): ", "</b>", global_subsidies_map_dat_points$included_types
     ) %>%
@@ -1180,7 +1205,7 @@ shinyServer(function(input, output, session) {
                 pal = global_subsidies_map_pal,
                 values = log10(c(100, 10e9)),
                 labels = round(log10(c(100, 10e9)), 0),
-                title = "Est. fisheries subsidies<br>(2018 US$)",
+                title = text$item_label[text$item_id == "global_subsidies_map_legend"],
                 opacity = 1,
                 labFormat = labelFormat(prefix = "$",
                                         transform = function(x) 10^(x)
@@ -1243,11 +1268,11 @@ shinyServer(function(input, output, session) {
                                                                       "<br>",
                                                                       "<b>","Data source: ","</b>", source,
                                                                       "<br>",
-                                                                      "<b>","Est. fisheries subsidies (US$):","</b>", format(round(value, 0), big.mark = ","),
+                                                                      "<b>","Est. fisheries subsidies ($USD):","</b>", format(round(value, 0), big.mark = ","),
                                                                       "<br>",
                                                                       "<b>", "Year: ", "</b>", year)))+
       scale_fill_manual(values = myColors[names(myColors) %in% country_fishery_stats_subsidies_plot_dat$type_name])+
-      scale_y_continuous(expand = c(0,0), name = "Est. fisheries subsidies (US$)", 
+      scale_y_continuous(expand = c(0,0), name = "Est. fisheries subsidies ($USD)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       geom_vline(xintercept = 0, size = 1)+
       coord_flip()+
@@ -1351,9 +1376,9 @@ shinyServer(function(input, output, session) {
       geom_area(fill = '#3c8dbc')+
       geom_area(aes(text = paste0("<b>","Year: ","</b>", year,
                                   "<br>",
-                                  "<b>", "Estimated landed value (US$): ", "</b>", "$", format(round(value, 0), big.mark = ","))))+
+                                  "<b>", "Estimated landed value ($USD): ", "</b>", "$", format(round(value, 0), big.mark = ","))))+
       scale_y_continuous(expand = c(0,0),
-                         name = "Estimated landed value (US$, millions)", 
+                         name = "Estimated landed value ($USD, millions)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
       theme_bw()+
@@ -1555,15 +1580,15 @@ shinyServer(function(input, output, session) {
       geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"),
                  aes(text = paste0("<b>","Year: ","</b>", year,
                                    "<br>",
-                                   "<b>", "GDP - Total (US$): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
+                                   "<b>", "GDP - Total ($USD): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
                  alpha = 0, color = '#3c8dbc')+
       geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"), fill = 'navy')+
       geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"),
                  aes(text = paste0("<b>","Year: ","</b>", year,
                                    "<br>",
-                                   "<b>", "GDP - Fisheries, Forestry, and Agriculture (US$): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
+                                   "<b>", "GDP - Fisheries, Forestry, and Agriculture ($USD): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
                  alpha = 0, color = 'navy')+
-      scale_y_continuous(name = "GDP (US$, billions)",
+      scale_y_continuous(name = "GDP ($USD, billions)",
                          labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
       theme_bw()+
@@ -1731,14 +1756,14 @@ shinyServer(function(input, output, session) {
     # Plot arguments: 1 = variable name, 2 = hover/x-axis caption, 3 = rounding digits, 4 = units prefix.
     compare_fishery_stats_bar_plot_args <- switch(
       input$w_compare_fishery_stats_plot_variable,
-      "subsidies" = list("subsidies_Sumaila", "Est. fisheries subsidies (2018 US$)", 0, "$"),
+      "subsidies" = list("subsidies_Sumaila", "Est. fisheries subsidies (2018 $USD)", 0, "$"),
       "landings" = list("capture_production", "Capture production (mt, 2018)", 0, ""),
-      "revenue" = list("landed_value", "Est. landed value (2018 US$)", 0, "$"),
-      "subsidies_per_landing" = list("subsidies_per_production", "Fisheries subsidies per tonne of capture production (2018 US$/tonne)", 2, "$"),
+      "revenue" = list("landed_value", "Est. landed value (2018 $USD)", 0, "$"),
+      "subsidies_per_landing" = list("subsidies_per_production", "Fisheries subsidies per tonne of capture production (2018 $USD/tonne)", 2, "$"),
       "subsidies_per_revenue" = list("subsidies_per_landed_value", "Ratio of fisheries subsidies to landed value", 2, ""), 
-      "subsidies_per_capita" = list("subsidies_per_capita", "Fisheries subsidies per capita (2018 US$/person)", 2, "$"),
+      "subsidies_per_capita" = list("subsidies_per_capita", "Fisheries subsidies per capita (2018 $USD/person)", 2, "$"),
       "subsidies_per_gdp" = list("subsidies_per_gdp", "Ratio of fisheries subsidies to GDP", 4, ""),
-      "subsidies_per_fte" = list("subsidies_per_fte", "Fisheries subsidies per full-time-equivalent fisheries jobs (2018 US$/FTE)", 2, "$"))
+      "subsidies_per_fte" = list("subsidies_per_fte", "Fisheries subsidies per full-time-equivalent fisheries jobs (2018 $USD/FTE)", 2, "$"))
     
     # Filter data by selected variable and by selected subsidy type(s) [if applicable]
     compare_fishery_stats_bar_plot_dat <- combined_fishery_stats_dat %>%

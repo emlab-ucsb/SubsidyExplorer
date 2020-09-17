@@ -632,7 +632,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                          ), # /conditionalPanel - Tier 2 cap is set by best option
                                                                          
                                                                          # Conditional Panel - Tier 2 cap is set by percentage
-                                                                         conditionalPanel(condition = "(input.w_tier2_cap_rule != 'VALUE') && (input.w_tier2_cap_rule != 'BEST') && (input.tier2_cap_rule !='NONE')",
+                                                                         conditionalPanel(condition = "(input.w_tier2_cap_rule != 'VALUE') && (input.w_tier2_cap_rule != 'BEST') && (input.w_tier2_cap_rule != 'NONE')",
                                                                                           
                                                                                           # Input - Set Tier 2 percentage
                                                                                           sliderInput("w_tier2_cap_percent",
@@ -733,7 +733,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                          ), # /conditionalPanel - Tier 3 cap is set by best option
                                                                          
                                                                          # Conditional Panel - Tier 3 cap is set by percentage
-                                                                         conditionalPanel(condition = "(input.w_tier3_cap_rule != 'VALUE') && (input.w_tier3_cap_rule != 'BEST') && (input.tier3_cap_rule !='NONE')",
+                                                                         conditionalPanel(condition = "(input.w_tier3_cap_rule != 'VALUE') && (input.w_tier3_cap_rule != 'BEST') && (input.w_tier3_cap_rule != 'NONE')",
                                                                                           
                                                                                           # Input - Set Tier 3 percentage
                                                                                           sliderInput("w_tier3_cap_percent",

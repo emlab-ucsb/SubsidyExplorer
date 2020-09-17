@@ -17,12 +17,28 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
            # Leaflet map
            leafletOutput('global_subsidies_map', width = "auto", height = "80vh"),
            
-           # Widgets
-           absolutePanel(id = "global_subsidies_map_control_panel",
+           # Button to hide left panel 
+           shinyjs::hidden(absolutePanel(id = "global_subsidies_map_hide_arrow_panel",
                          
-                         tags$button(id = "test_button",
+                         tags$button(id = "ab_global_subsidies_hide_panel",
                                      class = "btn action-button",
-                                     icon("caret-left")),
+                                     icon("caret-left"))
+           )),
+           
+           # Button to open left panel
+           absolutePanel(id = "global_subsidies_map_expand_arrow_panel",
+                         
+                         tags$button(id = "ab_global_subsidies_expand_panel",
+                                     class = "btn action-button",
+                                     icon("caret-right"))
+           ),
+
+           # Widgets
+           shinyjs::hidden(absolutePanel(id = "global_subsidies_map_control_panel",
+                         
+                         # tags$button(id = "test_button",
+                         #             class = "btn action-button",
+                         #             icon("caret-left")),
                          
                          column(12, id = "lr-spaced-div",
                                 
@@ -86,7 +102,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                                 
                          )
 
-           ),
+           )),
            
            # Info button 
            absolutePanel(id = "global_subsidies_map_info_panel", 

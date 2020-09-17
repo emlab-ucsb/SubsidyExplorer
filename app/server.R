@@ -11,9 +11,24 @@
 
 shinyServer(function(input, output, session) {
   
-  observeEvent(input$test_button, {
-    #shinyjs::showElement(id= "panelA")
+  # Show global subsidies map controls (and show "close" button)
+  observeEvent(input$ab_global_subsidies_expand_panel, {
+    
+    # show panel
+    shinyjs::showElement(id = "global_subsidies_map_control_panel")
+    shinyjs::showElement(id = "global_subsidies_map_hide_arrow_panel")
+    shinyjs::hideElement(id = "global_subsidies_map_expand_arrow_panel")
+    
+  })
+  
+  # Hide global subsidies map controls (and show "expand" button)
+  observeEvent(input$ab_global_subsidies_hide_panel, {
+    
+    # show panel
     shinyjs::hideElement(id = "global_subsidies_map_control_panel")
+    shinyjs::hideElement(id = "global_subsidies_map_hide_arrow_panel")
+    shinyjs::showElement(id = "global_subsidies_map_expand_arrow_panel")
+    
   })
   
   ### --------------------------
@@ -1174,7 +1189,7 @@ shinyServer(function(input, output, session) {
       lapply(htmltools::HTML)
     
     # Map
-    leaflet('global_subsidies_map', options = leafletOptions(minZoom = 3)) %>% 
+    leaflet('global_subsidies_map', options = leafletOptions(minZoom = 3, zoomControl = FALSE)) %>% 
       addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
       addCircles(data = global_subsidies_map_dat_points,
                  color = ~global_subsidies_map_pal(log10(value)),
@@ -1206,6 +1221,7 @@ shinyServer(function(input, output, session) {
                                               textsize = "13px",
                                               direction = "auto")) %>%
       setView(0,20, zoom = 3) %>%
+      #map.zoomControl.setPosition('topright')
       addLegend("bottomright", 
                 pal = global_subsidies_map_pal,
                 values = log10(c(100, 10e9)),

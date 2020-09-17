@@ -42,12 +42,10 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02b,selected-results,widget,w_selected_results_show_ambitious,Scenarios,select scenarios to show
 02b,selected-results,section,selected_results_selected_scenario_header,Selected Scenario,section name
 ,,,,,
-02c,edit-policies,page,edit-policies,Create a Policy (Advanced Users),page name
-02c,edit-policies,nav-button,ab_edit_policies_to_introduction,Return to Main Menu,top left button
-02c,edit-policies,nav-button,ab_edit_policies_to_selected_results,Back: Selected Results,bottom left button
-02c,edit-policies,text,run-name,"<b class=""big"">Name your policy: </b>",text input to describe policy
-02c,edit-policies,text,select-disciplines,"<b class=""big"">Select discipline(s) below</b></br><small class=""gray"">You do not need to select disciplines from every category</small>",
-02c,edit-policies,text,iuu,"<b class=""big"">Illegal, Unreported, & Unregulated</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
+02c,edit-policies,page,edit-policies,Design Your Own Policy Scenario,page name
+02c,edit-policies,text,run-name,"<b class=""big"">Name Your Policy: </b>",text input to describe policy
+02c,edit-policies,text,select-disciplines,"<b class=""big"">Select Discipline(s) Below</b></br><small class=""gray"">You do NOT need to select from every category</small>",
+02c,edit-policies,text,iuu,"<small class=""gray"">OPTIONAL</small><br><b class=""big"">Illegal, Unreported, and Unregulated</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02c,edit-policies,widget,w_iuu_definitions,Subsidies shall be prohibited to all Member-flagged vessels classified as IUU by a:,Checkbox to select specific IUU disciplines
 02c,edit-policies,widget,w_iuu_assumption,Would you like to make an assumption about IUU fishing worldwide instead?,Yes/No to make iuu assumption
 02c,edit-policies,widget,w_iuu_percent,% of global  fishing effort that is IUU:,Slider to set value of assumed IUU fishing
@@ -65,7 +63,7 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02c,edit-policies,widget,w_iuu_sdt_what_sve,S&DT for SVEs:,Set SVE S&DT
 02c,edit-policies,widget,w_iuu_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
 02c,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_oa,Next,within TabBox - iuu disciplines to OA disciplines
-02c,edit-policies,tab,oa,"<b class=""big"">Overfished</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
+02c,edit-policies,tab,oa,"<small class=""gray"">OPTIONAL</small><br><b class=""big"">Overfished Stocks</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02c,edit-policies,widget,w_oa_definitions,Subsidies for fishing shall be prohibited if the fish stock...,Checkbox to select specific OA disciplines
 02c,edit-policies,widget,w_oa_scope,Overfished discipline(s) apply to: ,Buttons to set OA scope
 02c,edit-policies,widget,w_oa_scope_select,Select all conditions that must apply : ,Set OA scope characteristics
@@ -89,7 +87,7 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02c,edit-policies,widget,w_oa_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
 02c,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_iuu,Back,within TabBox - OA disciplines to iuu disciplines
 02c,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_overcap,Next,within TabBox - OA disciplines to overcap disciplines
-02c,edit-policies,tab,overcap,"<b class=""big"">Overcapacity & Overfishing</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
+02c,edit-policies,tab,overcap,"<small class=""gray"">OPTIONAL</small><br><b class=""big"">Overcapacity and Overfishing</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02c,edit-policies,widget,w_overcap_definitions,The following types of subsidies are considered to contribute to overcapacity and overfishing and are prohibited...,Checkbox to select specific Overcapacity disciplines
 02c,edit-policies,widget,w_overcap_scope,OCOF discipline(s) apply to: ,Buttons to set OA scope
 02c,edit-policies,widget,w_overcap_scope_select,Select all conditions that must apply : ,Set OA scope characteristics
@@ -141,9 +139,9 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02c,edit-policies,widget,w_tier3_cap_best_percent_landed_value,Tier 3: Percent for cap rule (landed value),
 02c,edit-policies,widget,w_tier3_cap_best_percent_fishers,Tier 3: Percent for cap rule (avg. subs per fisher * fishers),
 02c,edit-policies,nav-button,ab_edit_policies_tabs_overcap_to_oa,Back,within TabBox - overcap disciplines to OA disciplines
-02c,edit-policies,text,selected-policy,"<b class=""big"">Review policy selections</b></br><small class=""gray"">Ensure selections are correct</small>",Title of step 3
-02c,edit-policies,text,run-model,"<b class=""big"">Model your policy</b></br><small class=""gray"">Clicking the button will redirect you </small>",title of Step 4
-02c,edit-policies,action-button,ab_run_model_custom,Run model!,button to run custom policy
+02c,edit-policies,text,selected-policy,"<b class=""big"">Review Policy Selections</b></br><small class=""gray"">Ensure selections are correct</small>",Title of step 3
+02c,edit-policies,text,run-model,"<b class=""big"">Model Your Policy</b></br><small class=""gray"">Clicking the button will redirect you </small>",title of Step 4
+02c,edit-policies,action-button,ab_run_model_custom,Run Model!,button to run custom policy
 ,,,,,
 03a,global-subsidies,page,global-subsidies,Global Fisheries Subsidies,page name
 03a,global-subsidies,text,global_subsidies_modal_text,"<p style = 'text-align: left;'>Explore estimates of global fisheries subsidies, as well as data about fish landings and revenue for each nation, by hovering your mouse over the world map. The color gradient reflects the total magnitude of subsides provided by each state (2018 $USD).<br><br><b>Select subsidy types to display via the panel on the left.</b><br><br><small class = 'grey'>Note: Not all states provide all types of subsidies. Subsidy estimates are sourced from Sumaila et al. (2019). Capture production data (2018, tonnes) are sourced from the Fisheries and Aquaculture Organization (FAO) Global Capture Production Database and landed values were calculated by applying ex-vessel price estimates from Melnychuck et al. (2017) to those reported landings.</small></p>",modal text

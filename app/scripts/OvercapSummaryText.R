@@ -9,7 +9,7 @@ OvercapSummaryText <- function(overcap,
                                country_choices){
   
   ### OCOF title
-  overcap_header <- paste0("<b class = 'big'>", "Overfished", "</b>", "</br>")
+  overcap_header <- paste0("<b class = 'big'>", "Overcapacity and Overfishing", "</b>", "</br>")
   
   ### Nothing selected ---
   if(length(overcap$definitions) == 0){

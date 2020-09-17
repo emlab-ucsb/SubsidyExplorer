@@ -719,7 +719,7 @@ header.main-header {
 
 .nav-tabs-custom #policy-tabs.nav-tabs{
   background: #ffffff;
-  color: #000000;
+  color: var(--grey-dark);
 }
 
 .nav-tabs-custom #policy-tabs.nav-tabs li {
@@ -728,25 +728,25 @@ header.main-header {
 }
       
 .nav-tabs-custom #policy-tabs.nav-tabs li a{
-  color: #000000;
+  color: var(--grey-dark);
   padding: 15px 25px;
 }
       
 .nav-tabs-custom #policy-tabs.nav-tabs li:hover {
-  color: #3c8dbc;
+  color: var(--accent-color);
 }
       
 .nav-tabs-custom #policy-tabs.nav-tabs li.active:hover a{
-  color: #3c8dbc;
+  color: var(--accent-color);
 }
       
 .nav-tabs-custom #policy-tabs.nav-tabs li.active {
-  border-bottom: 3px solid #3c8dbc;
+  border-bottom: 3px solid var(--accent-color);
   border-top: transparent;
 }
       
 .nav-tabs-custom #policy-tabs.nav-tabs li.active a {
-  color: #3c8dbc;
+  color: var(--accent-color);
   border-left-color: transparent;
   border-right-color: transparent;
 }
@@ -763,11 +763,6 @@ hr.grey-narrow{
   margin-bottom: 10px;
 }
 
-div#model_results_plot {
-min-height: 60vh;
-height: auto;
-}
-
 /* ------------------------------ */
 /* Learn more about subsidies */
 /* ------------------------------ */
@@ -775,12 +770,8 @@ height: auto;
 /* TabBox for subsidy data */
 
 .nav-tabs-custom #subsidy-data-tabs.nav-tabs{
-  border-bottom: 1px solid var(--accent-color);
-}
-
-.nav-tabs-custom #subsidy-data-tabs.nav-tabs{
-  background: var(--grey-light);
-  color: var(--grey-dark);
+  background-color: var(--grey-light);
+  border-bottom: 4px solid var(--main-color);
 }
 
 .nav-tabs-custom #subsidy-data-tabs.nav-tabs li {
@@ -789,7 +780,7 @@ height: auto;
 }
       
 .nav-tabs-custom #subsidy-data-tabs.nav-tabs li a{
-  color: var(--grey-dark);
+  color: var(--main-color);
   padding: 0 25px;
   text-align: center;
 }
@@ -810,6 +801,7 @@ height: auto;
       
 .nav-tabs-custom #subsidy-data-tabs.nav-tabs li.active a {
   color: var(--accent-color);
+  background: var(--grey-light);
   border-left-color: transparent;
   border-right-color: transparent;
 }

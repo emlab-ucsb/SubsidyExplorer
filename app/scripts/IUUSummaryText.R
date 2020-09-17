@@ -8,7 +8,7 @@ IUUSummaryText <- function(iuu,
                            country_choices){
   
   ### IUU title
-  iuu_header <- paste0("<b class = 'big'>", "Illegal, Unreported, & Unregulated", "</b>", "</br>")
+  iuu_header <- paste0("<b class = 'big'>", "Illegal, Unreported, and Unregulated", "</b>", "</br>")
   
   ### Nothing selected ---
   if(length(iuu$definitions) == 0){

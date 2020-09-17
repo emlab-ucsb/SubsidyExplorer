@@ -56,7 +56,8 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                      textInput("w_run_name",
                                                label = NULL,
                                                value = "",
-                                               width = "100%")
+                                               width = "100%",
+                                               placeholder = "Enter a policy name")
                                    )
                            )
                          )
@@ -82,13 +83,6 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                             )
                                     )
                          )
-                  ),
-                  
-                  ### Step 2 text
-                  column(12, id = "t-spaced-div",
-                        
-                         includeHTML("./text/02b_edit_policies_select_disciplines.html")
-                         
                   ),
     
                   ### tabBox container

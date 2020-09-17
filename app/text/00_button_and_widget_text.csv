@@ -3,6 +3,7 @@ header,,text,app-title,SubsidyExplorer,name of app
 header,,link,sfg_logo,The Sustainable Fisheries Group,text if logo doesn't work
 header,,link,emlab_logo,The Environmental Market Solutions Lab,text if logo doesn't work
 many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not meant to imply the expression of any opinion whatsoever on the part of The Pew Charitable Trusts or The Environmental Market Solutions Lab at the University of California Santa Barbara, concerning the status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontier or boundaries.</small>",map disclaimer
+many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is no universal definition of what constitutes a fishery subsidy, nor a complete record of all types of subsidies provided to the fishing industry worldwide. Global estimates of fisheries subsidies have ranged from US$14 - US$54 billion annually over the last two decades, with each study defining and classifying subsidies slightly differently depending on the purpose of the study. Fisheries subsidies in this figure are classified into thirteen categories defined by Sumaila et al. (2010). <br><br>They define fisheries subsidies as financial transfers, direct or indirect, from public entities to the fishing sector, which help the sector to be more profitable than it would be otherwise. Fisheries subsidies are divided into thirteen different sub-categories, depending on the (1) policy objective, (2) description, (3) scope, coverage and duration, (4) annual US$ amount, (5) source(s) of funding; (6) administering authority, (7) recipients, and (8) mechanisms of transfer associated with the subsidy program.</p>",modal text for subsidy types info
 ,,,,,
 1,introduction,page,introduction,Main Menu,page name
 1,introduction,text,left-top,Eliminating harmful fisheries subsidies represents the single greatest collective action governments can take to restore the health of fish populations around the world.,left top text
@@ -119,21 +120,21 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02c,edit-policies,header,caps,Set subsidy caps,header for cap section
 02c,edit-policies,widget,w_tier1_cap_rule,Tier 1: How should the cap be set?,Methods for setting top tier cap
 02c,edit-policies,widget,w_tier1_cap_value,"Tier 1: Subsidy cap ($USD, millions)",Absolute value for top tier cap
-02c,edit-policies,widget,w_tier1_cap_fishers,Tier 1: Subsidies per fisher (US$),Subsidy per value for top tier cap
+02c,edit-policies,widget,w_tier1_cap_fishers,Tier 1: Subsidies per fisher ($USD),Subsidy per value for top tier cap
 02c,edit-policies,widget,w_tier1_cap_percent,Tier 1: Percent for cap rule,Percentage for top tier cap
 02c,edit-policies,widget,w_tier1_cap_best_percent_subs,Tier 1: Percent for cap rule (existing subsidies),
 02c,edit-policies,widget,w_tier1_cap_best_percent_landed_value,Tier 1: Percent for cap rule (landed value),
 02c,edit-policies,widget,w_tier1_cap_best_percent_fishers,Tier 1: Percent for cap rule (avg. subs per fisher * fishers),
 02c,edit-policies,widget,w_tier2_cap_rule,Tier 2: How should the cap be set?,Methods for setting tier 2 cap
 02c,edit-policies,widget,w_tier2_cap_value,"Tier 2: Subsidy cap ($USD, millions)",Absolute value for top tier cap
-02c,edit-policies,widget,w_tier2_cap_fishers,Tier 2: Subsidies per fisher (US$),Subsidy per value for tier 2 cap
+02c,edit-policies,widget,w_tier2_cap_fishers,Tier 2: Subsidies per fisher ($USD),Subsidy per value for tier 2 cap
 02c,edit-policies,widget,w_tier2_cap_percent,Tier 2: Percent for cap rule,Percentage for tier 2 cap
 02c,edit-policies,widget,w_tier2_cap_best_percent_subs,Tier 2: Percent for cap rule (existing subsidies),
 02c,edit-policies,widget,w_tier2_cap_best_percent_landed_value,Tier 2: Percent for cap rule (landed value),
 02c,edit-policies,widget,w_tier2_cap_best_percent_fishers,Tier 2: Percent for cap rule (avg. subs per fisher * fishers),
 02c,edit-policies,widget,w_tier3_cap_rule,Tier 3: How should the cap be set?,Methods for setting tier 3 cap
 02c,edit-policies,widget,w_tier3_cap_value,"Tier 3: Subsidy cap ($USD, millions)",Absolute value for tier 3 cap
-02c,edit-policies,widget,w_tier3_cap_fishers,Tier 3: Subsidies per fisher (US$),Subsidy per value for tier 3 cap
+02c,edit-policies,widget,w_tier3_cap_fishers,Tier 3: Subsidies per fisher ($USD),Subsidy per value for tier 3 cap
 02c,edit-policies,widget,w_tier3_cap_percent,Tier 3: Percent for cap rule,Percentage for tier 3 cap
 02c,edit-policies,widget,w_tier3_cap_best_percent_subs,Tier 3: Percent for cap rule (existing subsidies),
 02c,edit-policies,widget,w_tier3_cap_best_percent_landed_value,Tier 3: Percent for cap rule (landed value),
@@ -182,5 +183,5 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 03d,global-fishing-footprint,text,global_fishing_footprint_modal_button,Explore Map,text for close modal button
 03d,global-fishing-footprint,legend-title,global_fishing_footprint_map_legend,Fishing Effort<br>(kWh),title for map legend
 ,,,,,
-4,methods-process,page,methods-process,Learn About the Methods and Process,page name
+4,methods-process,page,methods-process,Discover How This Tool Was Made,page name
 4,methods-process,download-button,db_download_methods,Download Methods (PDF),center download button

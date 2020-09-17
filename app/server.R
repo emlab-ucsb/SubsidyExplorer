@@ -162,7 +162,7 @@ shinyServer(function(input, output, session) {
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
                  confirmButtonText = text$item_label[text$item_id == "explore_results_modal_button"],
-                 confirmButtonCol = "#0d5ba2",
+                 confirmButtonCol = totColor,
                  timer = 0,
                  animation = TRUE)
       
@@ -182,7 +182,7 @@ shinyServer(function(input, output, session) {
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
                  confirmButtonText = text$item_label[text$item_id == "explore_results_modal_button"],
-                 confirmButtonCol = "#0d5ba2",
+                 confirmButtonCol = totColor,
                  timer = 0,
                  animation = TRUE)
       
@@ -241,12 +241,12 @@ shinyServer(function(input, output, session) {
     
     # Determine variable for plotting
     plot_variable <- switch(input$w_explore_results_timeseries_plot_variable,
-                            "biomass" = list("biomass", "Change in biomass (%)"),
+                            "biomass" = list("biomass", "Change in Biomass (%)"),
                             
-                            "catches_total" = list("catches_total", "Change in catch (%)"),
+                            "catches_total" = list("catches_total", "Change in Catch (%)"),
                             
-                            "revenue_total" = list("revenue_total", "Change in revenue (%)"),
-                            "u_mort_total" = list("u_mort_total", "Change in fishing mortality (%)"))
+                            "revenue_total" = list("revenue_total", "Change in Revenue (%)"),
+                            "u_mort_total" = list("u_mort_total", "Change in Fishing Mortality (%)"))
     
     # Make biomass plot
     out_plot_dat <- plot_dat %>%
@@ -327,7 +327,7 @@ shinyServer(function(input, output, session) {
       isolate(rv_selected_result$id <- new_run_id)
       
     # Progress bar
-    withProgress(message = 'Processing selection - please wait', value = 0.01, {
+    withProgress(message = 'Processing Selection - Please Wait', value = 0.01, {
       
       ### Step 1: Policy selections ---
     
@@ -608,12 +608,12 @@ shinyServer(function(input, output, session) {
     
     # Determine variable for plotting
     plot_variable <- switch(input$w_selected_results_timeseries_plot_variable,
-                            "biomass" = list("biomass", "Change in biomass (%)"),
+                            "biomass" = list("biomass", "Change in Biomass (%)"),
                             
-                            "catches_total" = list("catches_total", "Change in catch (%)"),
+                            "catches_total" = list("catches_total", "Change in Catch (%)"),
                             
-                            "revenue_total" = list("revenue_total", "Change in revenue (%)"),
-                            "u_mort_total" = list("u_mort_total", "Change in fishing mortality (%)"))
+                            "revenue_total" = list("revenue_total", "Change in Revenue (%)"),
+                            "u_mort_total" = list("u_mort_total", "Change in Fishing Mortality (%)"))
     
     # Make biomass plot
     out_plot_dat <- plot_dat %>%
@@ -687,7 +687,7 @@ shinyServer(function(input, output, session) {
 
       paste0("<b>", "Formal Title: ", "</b>", selected_policy$title, "</br>",
              "<b>", "Summary: ", "</b>", selected_policy$summary, "</br>",
-             "<b>", "Modeling assumptions: ", "</b>", selected_policy$model_details_assumptions) %>%
+             "<b>", "Modeling Assumptions: ", "</b>", selected_policy$model_details_assumptions) %>%
         lapply(htmltools::HTML)
 
     })
@@ -871,7 +871,7 @@ shinyServer(function(input, output, session) {
     
     if(input$w_run_name == ""){
       
-    paste0("<b style='color:red;'><i>", "Error: Please enter a name for your policy.", "</b></i></br>") %>% 
+    paste0("<b style='color:red;'><i>", "Error: Policy name is required!", "</b></i></br>") %>% 
         lapply(htmltools::HTML)
       
     }else{
@@ -896,7 +896,7 @@ shinyServer(function(input, output, session) {
     isolate(rv_selected_result$id <- new_run_id)
 
     # Progress bar
-    withProgress(message = 'Processing selection - please wait', value = 0.01, {
+    withProgress(message = 'Processing Selection - Please Wait', value = 0.01, {
 
       ### Step 1: Policy selections ---
 
@@ -1031,7 +1031,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$info_global_subsidies_subsidy_types, {
                    
     shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
-               text = includeHTML("./text/info-buttons/subsidy_types.html"),
+               text = text$item_label[text$item_id == "subsidy_types_modal_text"] %>% lapply(htmltools::HTML),
                size = "l",
                closeOnEsc = TRUE,
                closeOnClickOutside = TRUE,
@@ -1040,7 +1040,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = "OK",
-               confirmButtonCol = "#0d5ba2",
+               confirmButtonCol = totColor,
                timer = 0,
                animation = TRUE)
                    
@@ -1062,7 +1062,7 @@ shinyServer(function(input, output, session) {
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
                  confirmButtonText = text$item_label[text$item_id == "global_subsidies_modal_button"],
-                 confirmButtonCol = "#0d5ba2",
+                 confirmButtonCol = totColor,
                  timer = 0,
                  animation = TRUE
       )
@@ -1083,7 +1083,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = text$item_label[text$item_id == "global_subsidies_modal_button"],
-               confirmButtonCol = "#0d5ba2",
+               confirmButtonCol = totColor,
                timer = 0,
                animation = TRUE
     )
@@ -1165,9 +1165,9 @@ shinyServer(function(input, output, session) {
     global_subsidies_map_text_shp <- paste0(
       "<b>","State: ", "</b>",  global_subsidies_map_dat_shp$display_name,
       "</br>",
-      "<b>", "Estimated fisheries subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_shp$value, 0), big.mark = ","),
+      "<b>", "Estimated Fisheries Subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_shp$value, 0), big.mark = ","),
       "</br>",
-      "<b>", "Matching subsidy type(s): ", "</b>", global_subsidies_map_dat_shp$included_types
+      "<b>", "Matching Subsidy Type(s): ", "</b>", global_subsidies_map_dat_shp$included_types
     ) %>%
       lapply(htmltools::HTML)
     
@@ -1182,9 +1182,9 @@ shinyServer(function(input, output, session) {
     global_subsidies_map_text_points <- paste0(
       "<b>","State: ", "</b>",  global_subsidies_map_dat_points$display_name,
       "</br>",
-      "<b>", "Est. fisheries subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_points$value, 0), big.mark = ","),
+      "<b>", "Estimated Fisheries Subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_points$value, 0), big.mark = ","),
       "</br>",
-      "<b>", "Matching subsidy type(s): ", "</b>", global_subsidies_map_dat_points$included_types
+      "<b>", "Matching Subsidy Type(s): ", "</b>", global_subsidies_map_dat_points$included_types
     ) %>%
       lapply(htmltools::HTML)
     
@@ -1252,7 +1252,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = "OK",
-               confirmButtonCol = "#0d5ba2",
+               confirmButtonCol = totColor,
                timer = 0,
                animation = TRUE)
                     
@@ -1287,13 +1287,13 @@ shinyServer(function(input, output, session) {
                                                                       "<br>",
                                                                       "<b>","Type: ","</b>", type_name,
                                                                       "<br>",
-                                                                      "<b>","Data source: ","</b>", source,
+                                                                      "<b>","Data Source: ","</b>", source,
                                                                       "<br>",
-                                                                      "<b>","Est. fisheries subsidies ($USD):","</b>", format(round(value, 0), big.mark = ","),
+                                                                      "<b>","Estimated Fisheries Subsidies ($USD):","</b>", format(round(value, 0), big.mark = ","),
                                                                       "<br>",
                                                                       "<b>", "Year: ", "</b>", year)))+
       scale_fill_manual(values = myColors[names(myColors) %in% country_fishery_stats_subsidies_plot_dat$type_name])+
-      scale_y_continuous(expand = c(0,0), name = "Est. fisheries subsidies ($USD)", 
+      scale_y_continuous(expand = c(0,0), name = "Estimated Fisheries Subsidies ($USD)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       geom_vline(xintercept = 0, size = 1)+
       coord_flip()+
@@ -1339,13 +1339,13 @@ shinyServer(function(input, output, session) {
       geom_area()+
       geom_area(aes(text = paste0("<b>","Year: ","</b>", year,
                                   "<br>",
-                                  "<b>", "ISSCAAP group: ", "</b>", isscaap_group,
+                                  "<b>", "ISSCAAP Group: ", "</b>", isscaap_group,
                                   "<br>",
-                                  "<b>", "Capture production (tonnes): ", "</b>", format(round(value, 0), big.mark = ","),
+                                  "<b>", "Capture Production (mt): ", "</b>", format(round(value, 0), big.mark = ","),
                                   "<br>",
-                                  "<b>", "% of annual total: ", "</b>", round(prop_annual_total *100, 2))))+
+                                  "<b>", "% of Annual Total: ", "</b>", round(prop_annual_total *100, 2))))+
       scale_y_continuous(expand = c(0,0),
-                         name = "Capture production (tonnes, thousands)", 
+                         name = "Capture Production (thousand mt)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
       theme_bw()+
@@ -1394,12 +1394,12 @@ shinyServer(function(input, output, session) {
     country_fishery_stats_landed_value_plot <- country_fishery_stats_landed_value_plot_dat %>%
       ggplot()+
       aes(x = year, y = value/1e6)+
-      geom_area(fill = '#3c8dbc')+
+      geom_area(fill = totColor)+
       geom_area(aes(text = paste0("<b>","Year: ","</b>", year,
                                   "<br>",
-                                  "<b>", "Estimated landed value ($USD): ", "</b>", "$", format(round(value, 0), big.mark = ","))))+
+                                  "<b>", "Estimated Landed Value ($USD): ", "</b>", "$", format(round(value, 0), big.mark = ","))))+
       scale_y_continuous(expand = c(0,0),
-                         name = "Estimated landed value ($USD, millions)", 
+                         name = "Estimated Landed Value (million $USD)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
       theme_bw()+
@@ -1423,6 +1423,7 @@ shinyServer(function(input, output, session) {
         showspikes = TRUE,
         spikemode = "across",
         spikedash = "solid",
+        spikecolor = totColor,
         spikesnap = 'compare',
         spikethickness = 1,
         hovermode = 'compare'),
@@ -1449,12 +1450,12 @@ shinyServer(function(input, output, session) {
     # Make plot
     country_fishery_stats_pop_plot <- ggplot(country_fishery_stats_pop_plot_dat)+
       aes(x = year, y = value/1e6)+
-      geom_line(color = '#3c8dbc')+
+      geom_line(color = totColor)+
       geom_point(aes(text = paste0("<b>","Year: ","</b>", year,
                                           "<br>",
                                           "<b>", "Population: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
-                 alpha = 0, color = '#3c8dbc')+
-      scale_y_continuous(name = "Population (persons, millions)",
+                 alpha = 0, color = totColor)+
+      scale_y_continuous(name = "Population (million persons)",
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
       theme_bw()+
@@ -1473,7 +1474,7 @@ shinyServer(function(input, output, session) {
       layout(xaxis = list(
         showspikes = TRUE,
         spikemode = "across",
-        spikecolor = '#3c8dbc',
+        spikecolor = totColor,
         spikedash = "solid",
         spikethickness = 1))
 
@@ -1539,7 +1540,7 @@ shinyServer(function(input, output, session) {
       geom_point(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers_fte"),
                  aes(text = paste0("<b>","Year: ","</b>", year,
                                    "<br>",
-                                   "<b>", "Full-time-equivalent fisheries jobs: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
+                                   "<b>", "Full-Time Fisheries Jobs: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
                  alpha = 1, color = 'navy')+
       scale_y_continuous(name = "Fishers (persons)",
                          labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
@@ -1556,7 +1557,7 @@ shinyServer(function(input, output, session) {
       layout(xaxis = list(
         showspikes = TRUE,
         spikemode = "across",
-        spikecolor = '#3c8dbc',
+        spikecolor = totColor,
         spikedash = "solid",
         spikethickness = 1))
     
@@ -1597,19 +1598,19 @@ shinyServer(function(input, output, session) {
     # Make plot
     country_fishery_stats_gdp_plot <- ggplot()+
       aes(x = year, y = value/1e9)+
-      geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"), fill = '#3c8dbc')+
+      geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"), fill = totColor)+
       geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"),
                  aes(text = paste0("<b>","Year: ","</b>", year,
                                    "<br>",
                                    "<b>", "GDP - Total ($USD): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
-                 alpha = 0, color = '#3c8dbc')+
+                 alpha = 0, color = totColor)+
       geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"), fill = 'navy')+
       geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"),
                  aes(text = paste0("<b>","Year: ","</b>", year,
                                    "<br>",
                                    "<b>", "GDP - Fisheries, Forestry, and Agriculture ($USD): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
                  alpha = 0, color = 'navy')+
-      scale_y_continuous(name = "GDP ($USD, billions)",
+      scale_y_continuous(name = "GDP (billion $USD)",
                          labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
       theme_bw()+
@@ -1624,7 +1625,7 @@ shinyServer(function(input, output, session) {
       layout(xaxis = list(
         showspikes = TRUE,
         spikemode = "across",
-        spikecolor = '#3c8dbc',
+        spikecolor = totColor,
         spikedash = "solid",
         spikethickness = 1))
     
@@ -1641,7 +1642,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$info_compare_fishery_stats_subsidy_types, {
     
     shinyalert(title = text$item_label[text$item_id == "subsidy-types-to-include"],
-               text = includeHTML("./text/info-buttons/subsidy_types.html"),
+               text = text$item_label[text$item_id == "subsidy_types_modal_text"] %>% lapply(htmltools::HTML),
                size = "l",
                closeOnEsc = TRUE,
                closeOnClickOutside = TRUE,
@@ -1650,7 +1651,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = "OK",
-               confirmButtonCol = "#0d5ba2",
+               confirmButtonCol = totColor,
                timer = 0,
                animation = TRUE)
                    
@@ -1669,7 +1670,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = "OK",
-               confirmButtonCol = "#0d5ba2",
+               confirmButtonCol = totColor,
                timer = 0,
                animation = TRUE)
                    
@@ -1777,14 +1778,14 @@ shinyServer(function(input, output, session) {
     # Plot arguments: 1 = variable name, 2 = hover/x-axis caption, 3 = rounding digits, 4 = units prefix.
     compare_fishery_stats_bar_plot_args <- switch(
       input$w_compare_fishery_stats_plot_variable,
-      "subsidies" = list("subsidies_Sumaila", "Est. fisheries subsidies (2018 $USD)", 0, "$"),
-      "landings" = list("capture_production", "Capture production (mt, 2018)", 0, ""),
-      "revenue" = list("landed_value", "Est. landed value (2018 $USD)", 0, "$"),
-      "subsidies_per_landing" = list("subsidies_per_production", "Fisheries subsidies per tonne of capture production (2018 $USD/tonne)", 2, "$"),
-      "subsidies_per_revenue" = list("subsidies_per_landed_value", "Ratio of fisheries subsidies to landed value", 2, ""), 
-      "subsidies_per_capita" = list("subsidies_per_capita", "Fisheries subsidies per capita (2018 $USD/person)", 2, "$"),
-      "subsidies_per_gdp" = list("subsidies_per_gdp", "Ratio of fisheries subsidies to GDP", 4, ""),
-      "subsidies_per_fte" = list("subsidies_per_fte", "Fisheries subsidies per full-time-equivalent fisheries jobs (2018 $USD/FTE)", 2, "$"))
+      "subsidies" = list("subsidies_Sumaila", "Estimated Fisheries Subsidies (2018 $USD)", 0, "$"),
+      "landings" = list("capture_production", "Capture Production (mt, 2018)", 0, ""),
+      "revenue" = list("landed_value", "Estimated Landed Value (2018 $USD)", 0, "$"),
+      "subsidies_per_landing" = list("subsidies_per_production", "Fisheries Subsidies per mt of Capture Production (2018 $USD/mt)", 2, "$"),
+      "subsidies_per_revenue" = list("subsidies_per_landed_value", "Ratio of Fisheries Subsidies to Landed Value", 2, ""), 
+      "subsidies_per_capita" = list("subsidies_per_capita", "Fisheries Subsidies per Capita (2018 $USD/person)", 2, "$"),
+      "subsidies_per_gdp" = list("subsidies_per_gdp", "Ratio of Fisheries Subsidies to GDP", 4, ""),
+      "subsidies_per_fte" = list("subsidies_per_fte", "Fisheries Subsidies per Full-Time Employed Fisher (2018 $USD/FTE)", 2, "$"))
     
     # Filter data by selected variable and by selected subsidy type(s) [if applicable]
     compare_fishery_stats_bar_plot_dat <- combined_fishery_stats_dat %>%
@@ -1850,7 +1851,7 @@ shinyServer(function(input, output, session) {
                                                                               "<br>",
                                                                               "<b>", compare_fishery_stats_bar_plot_args[[2]],": ","</b>",
                                                                               compare_fishery_stats_bar_plot_args[[4]], format(round(value, compare_fishery_stats_bar_plot_args[[3]]), big.mark = ","))),
-                 fill = "#0d5ba2")+
+                 fill = totColor)+
         scale_y_continuous(expand = c(0,0), name = compare_fishery_stats_bar_plot_args[[2]],
                            labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
         coord_flip()+
@@ -1888,7 +1889,7 @@ shinyServer(function(input, output, session) {
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
                  confirmButtonText = text$item_label[text$item_id == "global_fishing_footprint_modal_button"],
-                 confirmButtonCol = "#0d5ba2",
+                 confirmButtonCol = totColor,
                  timer = 0,
                  animation = TRUE
       )
@@ -1909,7 +1910,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = text$item_label[text$item_id == "global_fishing_footprint_modal_button"],
-               confirmButtonCol = "#0d5ba2",
+               confirmButtonCol = totColor,
                timer = 0,
                animation = TRUE
     )
@@ -1934,19 +1935,19 @@ shinyServer(function(input, output, session) {
     global_fishing_footprint_map_text <- paste0(
       "<b>","Location: ","</b>", global_fishing_footprint_map_dat_shp$name,"</b>",
       "<br/>",
-      "<b>", "Area type: ","</b>",global_fishing_footprint_map_dat_shp$type, "</b>",
+      "<b>", "Area Type: ","</b>",global_fishing_footprint_map_dat_shp$type, "</b>",
       "</br>",
       "<b>", "State: ", "</b>", global_fishing_footprint_map_dat_shp$trrtry1, "</b>",
       "<br/>",
-      "<b>", "Sovereign state: ", "</b>", global_fishing_footprint_map_dat_shp$sovrgn1,
+      "<b>", "Sovereign State: ", "</b>", global_fishing_footprint_map_dat_shp$sovrgn1,
       "<br/>",
-      "<b>", "Active vessels: ", "</b>", global_fishing_footprint_map_dat_shp$vessels,
+      "<b>", "Active Vessels: ", "</b>", global_fishing_footprint_map_dat_shp$vessels,
       "<br/>",
-      "<b>", "Fishing effort (hours): ", "</b>", format(round(global_fishing_footprint_map_dat_shp$fishing_h, 0), big.mark = ","),
+      "<b>", "Fishing Effort (hours): ", "</b>", format(round(global_fishing_footprint_map_dat_shp$fishing_h, 0), big.mark = ","),
       "<br/>",
-      "<b>", "Fishing effort (kWh): ", "</b>", format(round(global_fishing_footprint_map_dat_shp$fishing_KWh, 0), big.mark = ","),
+      "<b>", "Fishing Effort (kWh): ", "</b>", format(round(global_fishing_footprint_map_dat_shp$fishing_KWh, 0), big.mark = ","),
       "<br/>",
-      "<b>", "Unique vessel flag states: ", "</b>", global_fishing_footprint_map_dat_shp$flag_states) %>%
+      "<b>", "Unique Vessel Flag States: ", "</b>", global_fishing_footprint_map_dat_shp$flag_states) %>%
       lapply(htmltools::HTML)
     
     # Chloropleth color palette for global effort map
@@ -1954,7 +1955,7 @@ shinyServer(function(input, output, session) {
                                           log10(global_fishing_footprint_map_dat_shp$fishing_KWh))
     
     # Map
-    leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 3)) %>%
+    leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 3, zoomControl = FALSE)) %>%
       addProviderTiles("CartoDB.VoyagerNoLabels") %>%
       addPolygons(data = global_fishing_footprint_map_dat_shp,
                   fillColor = ~global_fishing_footprint_map_pal(log10(fishing_KWh)),

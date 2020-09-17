@@ -35,11 +35,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
 
            # Widgets
            shinyjs::hidden(absolutePanel(id = "global_subsidies_map_control_panel",
-                         
-                         # tags$button(id = "test_button",
-                         #             class = "btn action-button",
-                         #             icon("caret-left")),
-                         
+                        
                          column(12, id = "lr-spaced-div",
                                 
                                 # Title 

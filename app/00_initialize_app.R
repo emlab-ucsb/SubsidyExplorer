@@ -153,7 +153,7 @@ oecdColors <- rev(colorRampPalette(c("white", "black"), interpolate = "linear")(
 oecdColors <- oecdColors[1:length(subsidy_types_sorted_oecd)]
 names(oecdColors) <- names(subsidy_types_sorted_oecd)
 
-totColor <- "#3c8dbc"
+totColor <- "#0d5ba2"
 names(totColor) <- "Total"
 
 myColors <- c(goodColors, badColors, ambigColors, totColor, oecdColors)

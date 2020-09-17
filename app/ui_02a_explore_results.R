@@ -15,7 +15,7 @@ ExploreResults = function(proposal_choices)
     column(12, id = "page-title-div-underline-blue",
            
            # Title
-           tags$h3(text$item_label[text$item_id == "explore-results"], tags$button(id = "info_explore_results",
+           tags$h4(text$item_label[text$item_id == "explore-results"], tags$button(id = "info_explore_results",
                                                                                    class = "btn action-button info-button",
                                                                                    icon("info")))
            

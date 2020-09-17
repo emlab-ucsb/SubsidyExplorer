@@ -15,7 +15,7 @@ SelectedResults = function(proposal_choices)
     column(12, id = "page-title-div-underline-blue",
            
            # Title
-           tags$h3(text$item_label[text$item_id == "selected-results"])
+           tags$h4(text$item_label[text$item_id == "selected-results"])
            
     ),
     

@@ -15,7 +15,7 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
     column(12, id = "page-title-div-underline-blue",
              
            # Title
-           tags$h3(text$item_label[text$item_id == "edit-policies"])
+           tags$h4(text$item_label[text$item_id == "edit-policies"])
 
     ),
     

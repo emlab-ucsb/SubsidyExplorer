@@ -24,7 +24,7 @@ MoreAboutSubsidies = function(subsidy_types_sorted_sumaila, wto_members_and_obse
                   tabPanel(value = "global-subsidies-tab",
                     
                            # Title
-                           tags$h3(text$item_label[text$item_id == "global-subsidies"]),
+                           tags$h4(text$item_label[text$item_id == "global-subsidies"]),
                            
                            # Content
                            GlobalSubsidies(subsidy_types_sorted_sumaila)
@@ -37,7 +37,7 @@ MoreAboutSubsidies = function(subsidy_types_sorted_sumaila, wto_members_and_obse
                   tabPanel(value = "country-fishery-stats-tab",
                            
                            # Title
-                           tags$h3(text$item_label[text$item_id == "country-fishery-stats"]),
+                           tags$h4(text$item_label[text$item_id == "country-fishery-stats"]),
                            
                            # Content
                            CountryFisheryStats(wto_members_and_observers)
@@ -50,7 +50,7 @@ MoreAboutSubsidies = function(subsidy_types_sorted_sumaila, wto_members_and_obse
                   tabPanel(value = "compare-fishery-stats-tab",
                            
                            # Title
-                           tags$h3(text$item_label[text$item_id == "compare-fishery-stats"]),
+                           tags$h4(text$item_label[text$item_id == "compare-fishery-stats"]),
                            
                            # Content
                            CompareFisheryStats(wto_members_and_observers, subsidy_types_sorted_sumaila)
@@ -63,7 +63,7 @@ MoreAboutSubsidies = function(subsidy_types_sorted_sumaila, wto_members_and_obse
                   tabPanel(value = "global-fishing-footprint-tab",
                            
                            # Title
-                           tags$h3(text$item_label[text$item_id == "global-fishing-footprint"]),
+                           tags$h4(text$item_label[text$item_id == "global-fishing-footprint"]),
                            
                            # Content
                            GlobalFishingFootprint()

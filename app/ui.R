@@ -199,6 +199,9 @@ shinyUI(
             # Allow for popups
             useShinyalert(),
             
+            # Allow js functionality
+            useShinyjs(),
+            
             # Tabs
             tabItems(
                 

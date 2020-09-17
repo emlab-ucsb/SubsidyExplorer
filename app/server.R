@@ -11,6 +11,11 @@
 
 shinyServer(function(input, output, session) {
   
+  observeEvent(input$test_button, {
+    #shinyjs::showElement(id= "panelA")
+    shinyjs::hideElement(id = "global_subsidies_map_control_panel")
+  })
+  
   ### --------------------------
   ### Containers and general ---
   ### --------------------------

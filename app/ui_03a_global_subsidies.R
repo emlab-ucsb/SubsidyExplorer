@@ -15,10 +15,14 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
     column(12,
            
            # Leaflet map
-           leafletOutput('global_subsidies_map', width = "auto", height = "89vh"),
+           leafletOutput('global_subsidies_map', width = "auto", height = "80vh"),
            
            # Widgets
            absolutePanel(id = "global_subsidies_map_control_panel",
+                         
+                         tags$button(id = "test_button",
+                                     class = "btn action-button",
+                                     icon("caret-left")),
                          
                          column(12, id = "lr-spaced-div",
                                 

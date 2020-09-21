@@ -14,34 +14,21 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 1,introduction,nav-button,ab_introduction_to_global_subsidies,Explore What Governments Provide in Fisheries Subsidies     ,right button
 1,introduction,nav-button,ab_introduction_to_methods_process,Discover How This Tool Was Made    ,center button
 ,,,,,
-02a,explore-results,page,explore-results,Learn How Subsidy Reform Could Help Fish,page name
 02a,explore-results,text,explore_results_modal_text,"<p style = ""text-align: left;"">This chart shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, and fishing mortality over time.<br><br> In addition to the scenario displayed here, SubsidyExplorer contains many pre-populated WTO Member proposals to explore. Select <b style = ""text-decoration: underline;"">Explore WTO Member Proposals</b> on the left to model their impacts.<br><br> You can also design your own subsidy reform policy, and plot how it affects biomass, fish catch, and fishing mortality over time by selecting <b style = ""text-decoration: underline;"">Design Your Own Policy</b>.</p>",modal text
 02a,explore-results,text,explore_results_modal_button,Start,modal button text
-02a,explore-results,text,explore_results_intro_text,"<p>The <b style = ""text-decoration: underline;"">Policy Reform</b> graph on this page shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, and fishing mortality over time.</p>",intro text for top left section
-02a,explore-results,section,explore_results_proposals_header,Explore WTO Member Proposals,section name - pre-populated proposals
-02a,explore-results,text,explore_results_proposals_text,"<p>In addition to the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> displayed here, SubsidyExplorer contains many more pre-populated WTO Member proposals to model.</p>",text for proposal selection section
-02a,explore-results,action-button,ab_explore_results_proposals,Explore WTO Member Proposals,button to selected proposal page
-02a,explore-results,section,explore_results_custom_header,Design Your Own Policy,section name - design your own
-02a,explore-results,text,explore_results_custom_text,"<p>You can also design your own subsidy reform policy and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",text for custom proposal section
-02a,explore-results,action-button,ab_explore_results_custom,Design Your Own Policy,button to custom policy page
+02a,explore-results,page,explore-results,Explore Results,page name
+02a,explore-results,section,explore_results_proposal_header,Explore WTO Member Proposals,section name - pre-populated proposals
+02a,explore-results,text,explore_results_proposal_text,"<p>Select a pre-populated WTO Member proposal from the menu below to model it and compare it against the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b>.</p>",intro text
+02a,explore-results,widget,w_explore_results_proposal_category,Narrow Proposals by Category,policy category selection
+02a,explore-results,widget,w_explore_results_proposal_selection,Select a Proposal,policy selection
+02a,explore-results,action-button,ab_run_model_proposal,Model Selected WTO Proposal,text for custom proposal section
+02a,explore-results,explore_results_custom_header,explore_results_custom_header,Design Your Own Policy,section name - design your own
+02a,explore-results,explore_results_custom_text,explore_results_custom_text,"<p>You can also design your own subsidy reform policy and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",
+02a,explore-results,action-button,ab_explore_results_custom,Design Your Own Policy,go to edit-policies
 02a,explore-results,section,explore_results_plot_header,Scenario Results,section name - plot
 02a,explore-results,widget,w_explore_results_timeseries_plot_variable,Plot,select variable to plot widget
 02a,explore-results,widget,w_explore_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
 02a,explore-results,widget,w_explore_results_show_ambitious,Scenarios,select scenarios to show
-02a,explore-results,section,explore_results_selected_scenario_header,Selected Scenario,section name
-,,,,,
-02b,selected-results,page,selected-results,Explore WTO Member Proposals,page name
-02b,selected-results,section,selected_results_intro_header,Select a Proposal,section name
-02b,selected-results,text,selected_results_intro_text,<p>Select a WTO Member proposal from the menu below to model it and compare it against the most ambitious scenario.</p>,intro text
-02b,selected-results,widget,w_selected_results_proposal_category,Narrow proposals by category,policy category selection
-02b,selected-results,widget,w_selected_results_proposal_selection,Select a proposal,policy selection
-02b,selected-results,action-button,ab_run_model_proposal,Model Selected WTO Proposal,run model
-02b,selected-results,action-button,ab_selected_results_design_custom_proposal,Design Your Own Policy,go to edit-policies
-02b,selected-results,section,selected_results_plot_header,Scenario Results,section name - plot
-02b,selected-results,widget,w_selected_results_timeseries_plot_variable,Plot,select variable to plot widget
-02b,selected-results,widget,w_selected_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
-02b,selected-results,widget,w_selected_results_show_ambitious,Scenarios,select scenarios to show
-02b,selected-results,section,selected_results_selected_scenario_header,Selected Scenario,section name
 ,,,,,
 02c,edit-policies,page,edit-policies,Design Your Own Policy Scenario,page name
 02c,edit-policies,text,run-name,"<b class=""big"">Name Your Policy: </b>",text input to describe policy

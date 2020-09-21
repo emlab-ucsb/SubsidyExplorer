@@ -127,13 +127,13 @@ shinyUI(
                 id = "menu_items",
                 
                 ### Introduction ---
-                menuItem(text$item_label[text$item_id == "introduction"], 
+                menuItem(text = text$item_label[text$item_id == "introduction"],
                          tabName = "introduction", 
                          icon = NULL,
                          selected = TRUE),
                 
                 ### Explore results ---
-                menuItem("Subsidy Reform Results",
+                menuItem(text = text$item_label[text$item_id == "ab_introduction_to_explore_results"],
                          icon = NULL,
                          
                          # Explore results - Item # 1 - Explore the Results
@@ -141,11 +141,6 @@ shinyUI(
                                      tabName = 'explore-results',
                                      icon = NULL),
                          
-                         # Explore results - Item #2 - Proposal Results
-                         menuSubItem(text$item_label[text$item_id == "selected-results"],
-                                     tabName = 'selected-results',
-                                     icon = NULL),
-                                  
                          # Explore results - Item #3 - Custom Policy
                          menuSubItem(text$item_label[text$item_id == "edit-policies"],
                                      tabName = 'edit-policies',
@@ -154,7 +149,7 @@ shinyUI(
                 ), 
                 
                 ### About fisheries subsidies ---
-                menuItem("More About Fisheries Subsidies", 
+                menuItem(text = text$item_label[text$item_id == "ab_introduction_to_global_subsidies"],
                          icon = NULL,
                          
                          # About fisheries subsidies - Item #1 - Global subsidy map
@@ -180,7 +175,7 @@ shinyUI(
                 ),
                 
                 ### About methods and process ---
-                menuItem(text$item_label[text$item_id == "methods-process"], 
+                menuItem(text$item_label[text$item_id == "methods-process"],
                          icon = NULL,
                          tabName = "methods-process"
                          
@@ -216,11 +211,6 @@ shinyUI(
                         ExploreResults(proposal_choices)
                 ),
                 
-                # Explore results - Item #2 - Selected results
-                tabItem(tabName = "selected-results",
-                        SelectedResults(proposal_choices)
-                ),
-                
                 # Explore results - Item #3 - Edit policies and view those results
                 tabItem(tabName = "edit-policies",
                         EditPolicies(wto_members_and_observers, subsidy_types_sorted_sumaila)
@@ -234,21 +224,6 @@ shinyUI(
                         
                         MoreAboutSubsidies(subsidy_types_sorted_sumaila, wto_members_and_observers)
                 ),
-                
-                # # About fisheries subsidies - Item #2 - Fishery statistics by state
-                # tabItem(tabName = "country-fishery-stats",
-                #         CountryFisheryStats(wto_members_and_observers)
-                # ),
-                
-                # About fisheries subsidies - Item #3 - Compare fishery statistics
-                # tabItem(tabName = "compare-fishery-stats",
-                #         #CompareFisheryStats(wto_members_and_observers, subsidy_types_sorted_sumaila)
-                # ),
-                
-                # About fisheries subsidies - Item #4 - Global effort map
-                # tabItem(tabName = "global-fishing-footprint",
-                #         GlobalFishingFootprint()
-                # ),
                 
                 ### About methods and process ---
                 tabItem(tabName = "methods-process",

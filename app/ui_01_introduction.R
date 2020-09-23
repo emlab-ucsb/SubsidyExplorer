@@ -49,9 +49,9 @@ Introduction = function()
                                                 tags$td(id = "introduction-table-cell-r",
                                                         
                                                         tags$h4(text$item_label[text$item_id == "right-top"], style = "font-weight: italic; color: var(--accent-color);"),
-                                                        tags$h2("+ 13", tags$sup("%"), " in global fish biomass", style = "color: var(--accent-color-2);"),
-                                                        tags$h2("+ 3", tags$sup("%"), " in global fish catch per year", style = "color: var(--accent-color-2);"),
-                                                        tags$h4(text$item_label[text$item_id == "right-bottom"], style = "color: var(--accent-color);")
+                                                        tags$h2(paste0("+ ", biomass_end_percent), tags$sup("%"), " in global fish biomass", style = "color: var(--accent-color-2); text-align: center;"),
+                                                        tags$h2(paste0("+ ", catch_end_percent), tags$sup("%"), " in global fish catch per year", style = "color: var(--accent-color-2); text-align: center;"),
+                                                        tags$h4(paste0("This would mean ", biomass_end_value, " million more tons of fish in the water, and ", catch_end_value, " million more tons of fish being caught every year!"), style = "color: var(--accent-color);")
                                                 )
                                         )
                              )

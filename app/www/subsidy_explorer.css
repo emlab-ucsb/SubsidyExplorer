@@ -1038,3 +1038,25 @@ hr.grey-narrow{
 #db_download_methods:hover{
   background-color: var(--accent-color-2);
 }
+
+#methods-process-table {
+  vertical-align: middle;
+  table-layout: fixed;
+  width: 100%;
+}
+
+#methods-process-table-row{
+  width: 100%;
+}
+
+#methods-process-table-cell-1{
+  width: 33%;
+}
+
+#methods-process-table-cell-2{
+  width: 33%;
+}
+
+#methods-process-table-cell-3{
+  width: 33%;
+}

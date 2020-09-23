@@ -36,10 +36,42 @@ MethodsProcess = function()
     ),
     
     ### Contact us
-    column(12, id = "spaced-div", style = "margin-bottom: 40px;",
+    column(12, id = "spaced-div",
            
            # More text
            includeHTML("./text/04-methods-process/contact_us.html")
+           
+    ),
+    
+    ### Logos
+    column(12, id = "spaced-div", align = "center", style = "padding-bottom: 40px;",
+           
+           tags$table(id = "methods-process-table",
+                      
+                      tags$tr(id = "methods-process-table-row",
+                              
+                              tags$td(id = "methods-process-table-cell-1",
+                                      
+                                      tags$image(src = "pew_logo.jpg",
+                                                 style = "height: 60px;")
+                                      
+                              ),
+                              
+                              tags$td(id = "methods-process-table-cell-2",
+                                      
+                                      tags$image(src = "ubc_logo.png",
+                                                 style = "height: 60px;")
+                                      
+                              ),
+                              
+                              tags$td(id = "methods-process-table-cell-3",
+                                      
+                                      tags$image(src = "gfw_logo.png",
+                                                 style = "height: 60px;")
+                                      
+                              )
+                      )
+           )
            
     )
     

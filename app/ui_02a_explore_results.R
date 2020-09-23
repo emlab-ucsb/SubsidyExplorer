@@ -50,7 +50,7 @@ ExploreResults = function(proposal_choices)
                     ),
 
                     # Widgets
-                    column(12,
+                    column(12, id = "t-spaced-div",
 
                            # Select proposal category
                            checkboxGroupInput("w_explore_results_proposal_category",
@@ -58,7 +58,10 @@ ExploreResults = function(proposal_choices)
                                               choices = proposal_categories,
                                               selected = proposal_categories,
                                               width = "100%",
-                                              inline = T),
+                                              inline = T)
+                    ),
+                    
+                    column(12, id = "t-spaced-div",
 
                            # Select proposal
                            selectizeInput("w_explore_results_proposal_selection",
@@ -122,8 +125,37 @@ ExploreResults = function(proposal_choices)
 
              ### Section Title ---
              column(12, id = "section-title-div-underline",
-
-                    tags$h4(text$item_label[text$item_id == "explore_results_plot_header"])
+                    
+                    # Reactive header with download buttons
+                    tags$table(id = "compare-fishery-stats-table",
+                                      
+                               tags$tr(id = "compare-fishery-stats-table-row",
+                                              
+                                       tags$td(id = "compare-fishery-stats-table-cell-1",
+                                                      
+                                               tags$h4(text$item_label[text$item_id == "explore_results_plot_header"])
+                                                      
+                                              ),
+                                              
+                                       tags$td(id = "compare-fishery-stats-table-cell-2",
+                                                      
+                                               tags$button(id = "db_explore_results_download_data",
+                                                           class = "btn action-button rounded-button-grey",
+                                                           tags$b(icon("external-link-alt"),
+                                                                  text$item_label[text$item_id == "db_explore_results_download_data"]))
+                                               
+                                       ),
+                                              
+                                       tags$td(id = "compare-fishery-stats-table-cell-3",
+                                                      
+                                               tags$button(id = "db_explore_results_download_figure",
+                                                           class = "btn action-button rounded-button-grey",
+                                                           tags$b(icon("download"),
+                                                                  text$item_label[text$item_id == "db_explore_results_download_figure"]))
+                                                      
+                                       )
+                               )
+                    )
 
              ),
 
@@ -173,7 +205,7 @@ ExploreResults = function(proposal_choices)
              ### Plot ---
              column(12, id = "t-spaced-div",
 
-                    plotlyOutput("explore_results_timeseries_plot", height = "70vh")
+                    plotlyOutput("explore_results_timeseries_plot", height = "60vh")
 
              ),
 

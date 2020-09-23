@@ -282,7 +282,8 @@ proposal_categories <- unique(included_proposals$category)[unique(included_propo
 managed_cutoff <- 0.5
 
 # 4) Default end year 
-end_year <- 2060
+show_year <- 2050
+end_year <- 2080
 
 # Proposal color scheme
 # Make color palette
@@ -338,7 +339,7 @@ remove_all_bad_results <- pmap_df(list(fleet = remove_all_bad_list,
                                        region = names(remove_all_bad_list),
                                        bio_param = bio_dat_list),
                                   BioEconModel,
-                                  end_year = 2100,
+                                  end_year = end_year,
                                   return = "all")
 
 # Extract results timeseries
@@ -361,12 +362,11 @@ remove_all_bad_results_full <- remove_all_bad_results %>%
 
 # Extract ending results (difference only)
 remove_all_bad_results_last <- remove_all_bad_results_full %>%
-  dplyr::filter(Year == end_year) %>%
+  dplyr::filter(Year == show_year) %>%
   group_by(Year, Variable, Id, Name, Type, Description) %>%
   summarize(Percent = unique(Diff_global)*100,
             Value = unique(Diff_value_global)) %>%
   ungroup() 
-
 
 biomass_end_percent <- round(remove_all_bad_results_last$Percent[remove_all_bad_results_last$Variable == "biomass"], 1)
 biomass_end_value <- round(remove_all_bad_results_last$Value[remove_all_bad_results_last$Variable == "biomass"]/1e6)

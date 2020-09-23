@@ -11,26 +11,6 @@
 
 shinyServer(function(input, output, session) {
   
-  # Show global subsidies map controls (and show "close" button)
-  observeEvent(input$ab_global_subsidies_expand_panel, {
-    
-    # show panel
-    shinyjs::showElement(id = "global_subsidies_map_control_panel")
-    shinyjs::showElement(id = "global_subsidies_map_hide_arrow_panel")
-    shinyjs::hideElement(id = "global_subsidies_map_expand_arrow_panel")
-    
-  })
-  
-  # Hide global subsidies map controls (and show "expand" button)
-  observeEvent(input$ab_global_subsidies_hide_panel, {
-    
-    # show panel
-    shinyjs::hideElement(id = "global_subsidies_map_control_panel")
-    shinyjs::hideElement(id = "global_subsidies_map_hide_arrow_panel")
-    shinyjs::showElement(id = "global_subsidies_map_expand_arrow_panel")
-    
-  })
-  
   ### --------------------------
   ### Containers and general ---
   ### --------------------------
@@ -162,7 +142,7 @@ shinyServer(function(input, output, session) {
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
                  confirmButtonText = text$item_label[text$item_id == "explore_results_modal_button"],
-                 confirmButtonCol = totColor,
+                 confirmButtonCol = "#0d5ba2",
                  timer = 0,
                  animation = TRUE)
 
@@ -182,7 +162,7 @@ shinyServer(function(input, output, session) {
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
                  confirmButtonText = text$item_label[text$item_id == "explore_results_modal_button"],
-                 confirmButtonCol = totColor,
+                 confirmButtonCol = "#0d5ba2",
                  timer = 0,
                  animation = TRUE)
 
@@ -399,7 +379,7 @@ shinyServer(function(input, output, session) {
                             region = names(fleet_list),
                             bio_param = bio_dat_list),
                        BioEconModel,
-                       end_year = 2100,
+                       end_year = end_year,
                        return = "all")
 
         # Store time series results both globally and regionally
@@ -421,7 +401,7 @@ shinyServer(function(input, output, session) {
 
         # Extract global difference in the last time step
         out_last <- out_all %>%
-          dplyr::filter(Year == 2060) %>%
+          dplyr::filter(Year == show_year) %>%
           group_by(Year, Variable, Id, Name, Type, Description) %>%
           summarize(Value = unique(Diff_global)*100) %>%
           ungroup() %>%
@@ -512,6 +492,8 @@ shinyServer(function(input, output, session) {
     out_plot_dat <- plot_dat %>%
       dplyr::filter(Variable == plot_variable[[1]])
 
+    req(nrow(out_plot_dat) > 0)
+    
     plot <-  ggplot()+
       aes(x = Year, y = Diff*100, group = Id, color = Type)+
       geom_line(data = out_plot_dat, size = 2,
@@ -575,90 +557,6 @@ shinyServer(function(input, output, session) {
                               prettyOptions = list(status = "warning",
                                                    fill = TRUE))
   })
-
-  ### Plotly figure: Model results over time for most ambitious scenario ---------------------
-  
-  # output$explore_results_timeseries_plot <- renderPlotly({
-  #   
-  #   req(input$w_explore_results_timeseries_plot_resolution)
-  #   req(input$w_explore_results_timeseries_plot_variable)
-  #   req(input$w_explore_results_show_ambitious)
-  #   
-  #   entries_to_keep <- best_result %>%
-  #     dplyr::filter(name %in% input$w_explore_results_show_ambitious)
-  #   
-  #   # Collect data 
-  #   dat <- bind_rows(entries_to_keep$results_timeseries)
-  #     
-  #   req(nrow(dat) > 0)
-  #   
-  #   # Global 
-  #   if(input$w_explore_results_timeseries_plot_resolution == "global"){
-  #     
-  #     plot_dat <- dat %>%
-  #       group_by(Id, Name, Type, Description, Year, Variable, Fleet) %>%
-  #       summarize(BAU = unique(BAU_global),
-  #                 Reform = unique(Reform_global),
-  #                 Diff = unique(Diff_global)) %>%
-  #       ungroup() %>%
-  #       mutate(Region = "Global")
-  #     
-  #     # Regional
-  #   }else if(input$w_explore_results_timeseries_plot_resolution == "regional"){
-  #     
-  #     plot_dat <- dat %>%
-  #       dplyr::select(Id, Name, Type, Description, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
-  #       mutate(Region = case_when(Region == "atlantic" ~ "Atlantic Ocean",
-  #                                 Region == "indian" ~ "Indian Ocean",
-  #                                 Region == "pacific" ~ "Pacific Ocean"))
-  #     
-  #   }
-  #   
-  #   # Determine variable for plotting
-  #   plot_variable <- switch(input$w_explore_results_timeseries_plot_variable,
-  #                           "biomass" = list("biomass", "Change in Biomass (%)"),
-  #                           
-  #                           "catches_total" = list("catches_total", "Change in Catch (%)"),
-  #                           
-  #                           "revenue_total" = list("revenue_total", "Change in Revenue (%)"),
-  #                           "u_mort_total" = list("u_mort_total", "Change in Fishing Mortality (%)"))
-  #   
-  #   # Make biomass plot
-  #   out_plot_dat <- plot_dat %>%
-  #     dplyr::filter(Variable == plot_variable[[1]])
-  #     
-  #   plot <-  ggplot()+
-  #       aes(x = Year, y = Diff*100, group = Id)+
-  #       geom_line(data = out_plot_dat, size = 2, color = "#EB4648",
-  #                 aes(text = paste0("<b>","Year: ","</b>", Year,
-  #                                   "<br>",
-  #                                   "<b>","Policy Name: ","</b>", Name,
-  #                                   "<br>",
-  #                                   "<b>","Description: ","</b>", Description,
-  #                                   "<br>",
-  #                                   "<b>","Policy Type: ","</b>", Type,
-  #                                   "<br>",
-  #                                   "<b>","Region: ", "</b>", Region,
-  #                                   "<br>",
-  #                                   "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
-  #       theme_bw()+
-  #       geom_hline(yintercept = 0)+
-  #       #scale_color_manual(values = proposal_color_pal[names(proposal_color_pal) %in% unique(out_plot_dat$Type)])+
-  #       scale_x_continuous(expand = c(0,0))+
-  #       labs(x = "Year", y = plot_variable[[2]])+
-  #       theme(legend.position = "none")+
-  #       facet_wrap(~Region)
-  #     
-  #   
-  #   # Convert to plotly
-  #   gg2 <- ggplotly(plot, tooltip = "text") %>%
-  #     hide_legend() 
-  #   
-  #   
-  #   # Return
-  #   gg2
-  #   
-  # })
 
   ### ----------------------
   ### 02b. edit-policies ---
@@ -906,7 +804,7 @@ shinyServer(function(input, output, session) {
                           region = names(fleet_list),
                           bio_param = bio_dat_list),
                      BioEconModel,
-                     end_year = 2100,
+                     end_year = end_year,
                      return = "all")
       
 
@@ -929,7 +827,7 @@ shinyServer(function(input, output, session) {
 
       # Just extract global difference in the last time step
       out_last <- out_all %>%
-        dplyr::filter(Year == end_year) %>%
+        dplyr::filter(Year == show_year) %>%
         group_by(Year, Variable, Id, Name, Type, Description) %>%
         summarize(Value = unique(Diff_global)*100) %>%
         ungroup() %>%
@@ -993,6 +891,26 @@ shinyServer(function(input, output, session) {
   ### 04a. global-subsidies ---
   ### -------------------------
   
+  ### Action button: Show global subsidies map controls (and show "close" button) ---------------
+  observeEvent(input$ab_global_subsidies_expand_panel, {
+    
+    # show panel
+    shinyjs::showElement(id = "global_subsidies_map_control_panel")
+    shinyjs::showElement(id = "global_subsidies_map_hide_arrow_panel")
+    shinyjs::hideElement(id = "global_subsidies_map_expand_arrow_panel")
+    
+  })
+  
+  ### Action button: Hide global subsidies map controls (and show "expand" button) -------------------
+  observeEvent(input$ab_global_subsidies_hide_panel, {
+    
+    # show panel
+    shinyjs::hideElement(id = "global_subsidies_map_control_panel")
+    shinyjs::hideElement(id = "global_subsidies_map_hide_arrow_panel")
+    shinyjs::showElement(id = "global_subsidies_map_expand_arrow_panel")
+    
+  })
+  
   ### Info button: Subsidy types --------------
   observeEvent(input$info_global_subsidies_subsidy_types, {
                    
@@ -1006,17 +924,16 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = "OK",
-               confirmButtonCol = totColor,
+               confirmButtonCol = "#0d5ba2",
                timer = 0,
                animation = TRUE)
                    
   })
   
   ### Info modal (auto) ----------------------------
-  observeEvent(c(input$`subsidy-data-tabs`,
-                 input$menu_items), {
+  observeEvent(input$ab_introduction_to_global_subsidies, {
     
-    if(input$`subsidy-data-tabs` == "global-subsidies-tab" & input$menu_items == "global-subsidies"){
+    #if(input$`subsidy-data-tabs` == "global-subsidies-tab" & input$menu_items == "global-subsidies"){
       
       shinyalert(title = text$item_label[text$item_id == "global-subsidies"],
                  text = text$item_label[text$item_id == "global_subsidies_modal_text"] %>% lapply(htmltools::HTML),
@@ -1028,12 +945,12 @@ shinyServer(function(input, output, session) {
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
                  confirmButtonText = text$item_label[text$item_id == "global_subsidies_modal_button"],
-                 confirmButtonCol = totColor,
+                 confirmButtonCol = "#0d5ba2",
                  timer = 0,
                  animation = TRUE
       )
       
-    }
+    #}
   })
   
   ### Info modal (on button click) ----------------------------
@@ -1049,7 +966,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = text$item_label[text$item_id == "global_subsidies_modal_button"],
-               confirmButtonCol = totColor,
+               confirmButtonCol = "#0d5ba2",
                timer = 0,
                animation = TRUE
     )
@@ -1218,7 +1135,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = "OK",
-               confirmButtonCol = totColor,
+               confirmButtonCol = "#0d5ba2",
                timer = 0,
                animation = TRUE)
                     
@@ -1617,7 +1534,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = "OK",
-               confirmButtonCol = totColor,
+               confirmButtonCol = "#0d5ba2",
                timer = 0,
                animation = TRUE)
                    
@@ -1636,7 +1553,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = "OK",
-               confirmButtonCol = totColor,
+               confirmButtonCol = "#0d5ba2",
                timer = 0,
                animation = TRUE)
                    
@@ -1855,7 +1772,7 @@ shinyServer(function(input, output, session) {
                  showConfirmButton = TRUE,
                  showCancelButton = FALSE,
                  confirmButtonText = text$item_label[text$item_id == "global_fishing_footprint_modal_button"],
-                 confirmButtonCol = totColor,
+                 confirmButtonCol = "#0d5ba2",
                  timer = 0,
                  animation = TRUE
       )
@@ -1876,7 +1793,7 @@ shinyServer(function(input, output, session) {
                showConfirmButton = TRUE,
                showCancelButton = FALSE,
                confirmButtonText = text$item_label[text$item_id == "global_fishing_footprint_modal_button"],
-               confirmButtonCol = totColor,
+               confirmButtonCol = "#0d5ba2",
                timer = 0,
                animation = TRUE
     )

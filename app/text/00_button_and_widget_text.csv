@@ -11,7 +11,7 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 1,introduction,text,right-top,"If WTO members agree to eliminate all harmful subsidies, by 2050, it could result in increases of up to ",right top text
 1,introduction,text,right-bottom,More fish in the water and more fishing opportunities! ,right bottom text
 1,introduction,nav-button,ab_introduction_to_explore_results,Learn How Subsidy Reform Could Help Fish    ,left button
-1,introduction,nav-button,ab_introduction_to_global_subsidies,Explore What Governments Provide in Fisheries Subsidies     ,right button
+1,introduction,nav-button,ab_introduction_to_global_subsidies,Explore More About Fisheries Subsidies     ,right button
 1,introduction,nav-button,ab_introduction_to_methods_process,Discover How This Tool Was Made    ,center button
 ,,,,,
 02a,explore-results,text,explore_results_modal_text,"<p style = ""text-align: left;"">This chart shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, and fishing mortality over time.<br><br> In addition to the scenario displayed here, SubsidyExplorer contains many pre-populated WTO Member proposals to explore. Select from pre-populated WTO Member Proposals on the left to model their impacts.<br><br> You can also design your own subsidy reform policy, and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",modal text
@@ -142,6 +142,8 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 03a,global-subsidies,widget,w_global_subsidies_good_types,BENEFICIAL,select good subsidy types
 03a,global-subsidies,widget,w_global_subsidies_ugly_types,AMBIGUOUS,select ugly subsidy types
 03a,global-subsidies,widget,w_global_subsidies_bad_types,HARMFUL,select bad subsidy types
+03a,global-subsidies,download-button,db_global_subsidies_download_figure,Export (CSV),button to save data
+03a,global-subsidies,download-button,db_global_subsidies_download_data,Print (PDF),button to save figure
 03a,global-subsidies,legend-title,global_subsidies_map_legend,Estimated Fisheries Subsidies<br>(2018 $USD),legend title
 ,,,,,
 03b,country-fishery-stats,page,country-fishery-stats,Fishery Statistics by State,page name
@@ -149,8 +151,12 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 03b,country-fishery-stats,widget,w_country_fishery_stats_selected_country,Select a WTO Member or Observer State,select country widget
 03b,country-fishery-stats,download-button,db_country_fishery_stats_generate_report,Generate Report for Selected State (PDF),Generate PDF for this country
 03b,country-fishery-stats,tab,fishery-subsidy-tab,Fishery Subsidies,fishery subsidy data tab
+03b,country-fishery-stats,download-button,db_country_fishery_stats_subsidy_download_data,Export (CSV),button to save data
+03b,country-fishery-stats,download-button,db_country_fishery_stats_subsidy_download_figure,Print (PDF),button to save figure
 03b,country-fishery-stats,tab,marine-capture-tab,Marine Capture Fisheries,marine fisheries data tab
+03b,country-fishery-stats,download-button,db_country_fishery_stats_capture_download_figure,Print (PDF),button to save figure
 03b,country-fishery-stats,tab,demographic-tab,Demographics,demographic data tab
+03b,country-fishery-stats,download-button,db_country_fishery_stats_demographic_download_figure,Print (PDF),button to save figure
 ,,,,,
 03c,compare-fishery-stats,page,compare-fishery-stats,Compare Fishery Statistics,page name
 03c,compare-fishery-stats,text,compare_fishery_stats_intro_text,"<p>Select a WTO member or observer to compare capture production, fishery subsidy, and demographic statistics for the selected state with other states. More information on the data presented is given in each section.</p>",intro text
@@ -170,6 +176,7 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 03d,global-fishing-footprint,page,global-fishing-footprint,Global Fishing Footprint,page name
 03d,global-fishing-footprint,text,global_fishing_footprint_modal_text,"<p style = ""text-align: left;"">This map shows global large-scale fishing effort in 2018, aggregated by Exclusive Economic Zone (EEZ) (or FAO statistical region for effort on the high seas). Fishing effort is quantified in kilowatt hours (kWh), which is calculated as the time spent fishing in hours weighted by the total engine capacity of the vessel in kW. Hover your mouse over each region on the map to learn more. Data are sourced from Global Fishing Watch (GFW). GFW is a novel dataset that uses machine learning models to produce satellite tracks of fishing vessels to detect fishing activity in near-real time.</p>",text for modal
 03d,global-fishing-footprint,text,global_fishing_footprint_modal_button,Explore Map,text for close modal button
+03d,global-fishing-footprint,download-button,db_global_fishing_footprint_download_figure,Print (PDF),button to save figure
 03d,global-fishing-footprint,legend-title,global_fishing_footprint_map_legend,Fishing Effort<br>(kWh),title for map legend
 ,,,,,
 4,methods-process,page,methods-process,Discover How This Tool Was Made,page name

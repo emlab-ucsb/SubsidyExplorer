@@ -103,7 +103,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
            # Info button 
            absolutePanel(id = "global_subsidies_map_info_panel", 
                          
-                         column(12, id = "tb-spaced-div", align = "center",
+                         column(12, id = "t-spaced-div", align = "center",
                          
                                 
                                 tagList(tags$b(text$item_label[text$item_id == "global-subsidies"]),
@@ -111,6 +111,29 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                                         tags$button(id = "info_global_subsidies_map",
                                                     class = "btn action-button info-button",
                                                     icon("info")))
+                         ),
+                         column(12, id = "tb-spaced-div", align = "center",
+                                
+                                tags$table(id = "global-subsidies-table",
+                                  
+                                  tags$tr(id = "global-subsidies-table-row",
+                                    
+                                    tags$td(id = "global-subsidies-table-cell-1",
+                                      tags$button(id = "db_global_subsidies_download_data",
+                                                  class = "btn action-button rounded-button-grey download-button",
+                                                  tags$b(icon("download"),
+                                                         text$item_label[text$item_id == "db_global_subsidies_download_data"]))
+                                    ),
+                                    
+                                    tags$td(id = "global-subsidies-table-cell-2",
+                                      tags$button(id = "db_global_subsidies_download_figure",
+                                                  class = "btn action-button rounded-button-grey download-button",
+                                                  tags$b(icon("download"),
+                                                         text$item_label[text$item_id == "db_global_subsidies_download_figure"]))
+                                      
+                                    )
+                                  )
+                                )
                          )
            ),
            

@@ -121,7 +121,7 @@ ExploreResults = function(proposal_choices)
       #### Right section - model a selected scenario
       #### --------------------------------------------
 
-      column(8, offset = 4, id = "selected-results-right-column",
+      column(8, offset = 4, id = "explore-results-right-column",
 
              ### Section Title ---
              column(12, id = "section-title-div-underline",
@@ -140,7 +140,7 @@ ExploreResults = function(proposal_choices)
                                        tags$td(id = "compare-fishery-stats-table-cell-2",
                                                       
                                                tags$button(id = "db_explore_results_download_data",
-                                                           class = "btn action-button rounded-button-grey",
+                                                           class = "btn action-button rounded-button-grey download-button",
                                                            tags$b(icon("external-link-alt"),
                                                                   text$item_label[text$item_id == "db_explore_results_download_data"]))
                                                
@@ -149,7 +149,7 @@ ExploreResults = function(proposal_choices)
                                        tags$td(id = "compare-fishery-stats-table-cell-3",
                                                       
                                                tags$button(id = "db_explore_results_download_figure",
-                                                           class = "btn action-button rounded-button-grey",
+                                                           class = "btn action-button rounded-button-grey download-button",
                                                            tags$b(icon("download"),
                                                                   text$item_label[text$item_id == "db_explore_results_download_figure"]))
                                                       

@@ -326,17 +326,19 @@ header.main-header {
   color: #fff; 
   background-color: var(--accent-color); 
   border-width: 0; 
-  width:22px; 
-  height:22px; 
+  width:25px; 
+  height:25px; 
   font-size: 6pt;
   border-radius: 50%;
   text-align: center;
   line-height: 6pt;
+  padding-right: 15px;
+  margin: 0 5px 0 5px;
 }
 
 /* Info button */
 .info-button i{
-  margin: 0 5px 0 0;
+  margin: 0;
 }
 
 .info-button:hover {
@@ -378,6 +380,9 @@ header.main-header {
   background-color: var(--accent-color-2); 
 }
 
+.download-button {
+  padding-right: 20px;
+}
 
 /* ------------- */
 /* General Items */
@@ -637,25 +642,6 @@ header.main-header {
 }
 
 /* ------------------------------ */
-/* Selected Results */
-/* ------------------------------ */
-#selected-results-left-column{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  background-color: var(--grey-light);
-  color: var(--grey-dark);
-  padding: 0 25px 0 25px;
-}
-
-#selected-results-right-column{
-  min-height: 90vh;
-  color: var(--grey-dark);
-  padding: 0 25px 0 25px;
-}
-
-/* ------------------------------ */
 /* Edit Policies (Advanced Users) */
 /* ------------------------------ */
 #edit-policies-left-column{
@@ -775,6 +761,9 @@ hr.grey-narrow{
 /* ------------------------------ */
 
 /* TabBox for subsidy data */
+.nav-tabs-custom{
+  margin-bottom: 0;
+}
 
 .nav-tabs-custom #subsidy-data-tabs.nav-tabs{
   background-color: var(--grey-light);
@@ -812,6 +801,10 @@ hr.grey-narrow{
   border-left-color: transparent;
   border-right-color: transparent;
 }
+
+/* ---------------- */
+/* Global Subsidies */
+/* ---------------- */
 
 /* Hide selection panel */
 #global_subsidies_map_hide_arrow_panel {
@@ -869,8 +862,7 @@ hr.grey-narrow{
   background: var(--accent-color-2);
 }
 
-
-/* Global subsidies */
+/* Control panel */
 #global_subsidies_map_control_panel {
   background: rgba(255,255,255,0.9);
   padding: 25px;
@@ -882,15 +874,36 @@ hr.grey-narrow{
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
+/* Info panel */
 #global_subsidies_map_info_panel {
   background: rgba(255,255,255,0.9);
   right: 50px;
   top: 25px;
-  width: 250px;
+  width: 300px;
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
+/* Table for buttons */
+#global-subsidies-table { 
+  vertical-align: middle;
+  table-layout: fixed;
+  text-align: center;
+  margin: 0 10px 0 10px;
+} 
+
+#global-subsidies-table-row{
+}
+
+#global-subsidies-table-cell-1{
+  padding-right: 10px;
+}
+
+#global-subsidies-table-cell-2{
+  padding-right: 10px;
+}
+
+/* Map disclaimer panel */
 #global_subsidies_map_disclaimer_panel {
   background: rgba(255,255,255,0.9);
   padding: 10px;
@@ -919,6 +932,37 @@ hr.grey-narrow{
   min-height: 90vh;
   color: var(--grey-dark);
   padding: 0 25px 0 25px;
+}
+
+/* Table for buttons */
+#country-fishery-stats-table { 
+  vertical-align: middle;
+  table-layout: fixed;
+  justify-content: right;
+  margin: 0 10px 0 10px;
+} 
+
+#country-fishery-stats-table-row{
+  width: 100%;
+}
+
+#country-fishery-stats-table-cell-1a{
+  width: 80%;
+}
+
+#country-fishery-stats-table-cell-1b{
+  width: 90%;
+}
+
+#country-fishery-stats-table-cell-2{
+  text-align: center;
+  padding-right: 10px;
+  justify-content: right;
+}
+
+#country-fishery-stats-table-cell-3{
+  text-align: center;
+  justify-content: right;
 }
 
 /* TabBox for different types of country-level data */
@@ -987,16 +1031,6 @@ hr.grey-narrow{
   text-align: center;
 }
 
-#db_compare_fishery_stats_download_data {
-  padding-right: 20px;
-}
-
-#db_compare_fishery_stats_download_figure {
-  padding-right: 20px;
-}
-
-
-
 /* ------------------------------ */
 /* Global fishing footprint */
 /* ------------------------------ */
@@ -1009,6 +1043,10 @@ hr.grey-narrow{
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   z-index: 1000 !important;
+}
+
+#db_global_fishing_footprint_download_figure {
+  width: 150px;
 }
 
 #global_fishing_footprint_map_disclaimer_panel {
@@ -1043,6 +1081,7 @@ hr.grey-narrow{
   vertical-align: middle;
   table-layout: fixed;
   width: 100%;
+  text-align: center;
 }
 
 #methods-process-table-row{

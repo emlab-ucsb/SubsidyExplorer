@@ -1129,7 +1129,7 @@ shinyServer(function(input, output, session) {
       addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
       addCircles(data = rv_global_subsidies$points,
                  color = ~global_subsidies_map_pal(log10(value)),
-                 fillOpacity = 0.8,
+                 fillOpacity = 1,
                  stroke = "white",
                  weight = 2,
                  radius = 200000,
@@ -1143,7 +1143,7 @@ shinyServer(function(input, output, session) {
                  ) %>%
       addPolygons(data = rv_global_subsidies$polygons, 
                   fillColor = ~global_subsidies_map_pal(log10(value)),
-                  fillOpacity = 0.8,
+                  fillOpacity = 1,
                   color= "white",
                   weight = 0.3,
                   highlight = highlightOptions(weight = 5,
@@ -1907,7 +1907,7 @@ shinyServer(function(input, output, session) {
                                           log10(global_fishing_footprint_map_dat_shp$fishing_KWh))
     
     # Map
-    leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 3, zoomControl = FALSE)) %>%
+    leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 3, zoomControl = TRUE)) %>%
       addProviderTiles("CartoDB.VoyagerNoLabels") %>%
       addPolygons(data = global_fishing_footprint_map_dat_shp,
                   fillColor = ~global_fishing_footprint_map_pal(log10(fishing_KWh)),

@@ -314,7 +314,7 @@ header.main-header {
 }
 
 .leaflet-bottom {
-  bottom: 5px;
+  bottom: 0;
 }
 /*-------------------*/  
 /*-------------------*/
@@ -883,7 +883,7 @@ hr.grey-narrow{
 #global_subsidies_map_info_panel {
   background: rgba(255,255,255,0.9);
   right: 70px;
-  top: 5px;
+  top: 15px;
   width: 300px;
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -1042,9 +1042,9 @@ hr.grey-narrow{
 
 #global_fishing_footprint_map_info_panel {
   background: rgba(255,255,255,0.9);
-  right: 75px;
-  top: 5px;
-  width: 250px;
+  right: 70px;
+  top: 15px;le
+  width: 200px;
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   z-index: 1000 !important;

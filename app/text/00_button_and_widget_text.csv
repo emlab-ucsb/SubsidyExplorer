@@ -142,8 +142,8 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 03a,global-subsidies,widget,w_global_subsidies_good_types,BENEFICIAL,select good subsidy types
 03a,global-subsidies,widget,w_global_subsidies_ugly_types,AMBIGUOUS,select ugly subsidy types
 03a,global-subsidies,widget,w_global_subsidies_bad_types,HARMFUL,select bad subsidy types
-03a,global-subsidies,download-button,db_global_subsidies_download_figure,Export (CSV),button to save data
-03a,global-subsidies,download-button,db_global_subsidies_download_data,Print (PDF),button to save figure
+03a,global-subsidies,download-button,db_global_subsidies_download_figure,Print (PDF),button to save data
+03a,global-subsidies,download-button,db_global_subsidies_download_data,Export (CSV),button to save figure
 03a,global-subsidies,legend-title,global_subsidies_map_legend,Estimated Fisheries Subsidies<br>(2018 $USD),legend title
 ,,,,,
 03b,country-fishery-stats,page,country-fishery-stats,Fishery Statistics by State,page name

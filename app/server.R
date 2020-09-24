@@ -11,8 +11,27 @@
 
 shinyServer(function(input, output, session) {
   
+  ### ----------------------------
+  ### Reactive data containers ---
+  ### ----------------------------
+  
+  rv_explore_results_data_save <- reactiveValues()
+  
+  ### ----------------------------
+  ### Reactive data/plot containers ---
+  ### ----------------------------
+  
+  rv_explore_results_plot_save <- reactiveValues()
+  
+  rv_global_subsidies <- reactiveValues(data = NULL,
+                                        polygons = NULL,
+                                        polygons_text = NULL,
+                                        points = NULL,
+                                        points_text = NULL)
+  
+  
   ### --------------------------
-  ### Containers and general ---
+  ### Other Reactive Containers ---
   ### --------------------------
   
   # Reactive object that keeps track of all policies run -----------
@@ -868,7 +887,7 @@ shinyServer(function(input, output, session) {
     }) # close progress
     
     # Switch back to the results plot
-    updateTabItems(session, "menu_items", "selected-results")
+    updateTabItems(session, "menu_items", "explore-results")
 
   })
   
@@ -1009,72 +1028,106 @@ shinyServer(function(input, output, session) {
     
   })
   
+  ### Reactive plot/data: Global map of fisheries subsidies -----------------------
+  observe({
+    
+    # Get all selected values from our three input widgets
+    selected_subsidy_types <- c(input$w_global_subsidies_good_types, input$w_global_subsidies_ugly_types, input$w_global_subsidies_bad_types)
+  
+    if(length(selected_subsidy_types) == 0){
+      
+      # Update reactive data container
+      rv_global_subsidies$data <- NULL
+      rv_global_subsidies$polygons <- NULL
+      rv_global_subsidies$polygons_text <- NULL
+      rv_global_subsidies$points <- NULL
+      rv_global_subsidies$points_text <- NULL
+      
+    }else{
+      
+      # Filter data
+      global_subsidies_map_dat <- subsidy_dat %>% 
+        dplyr::filter(variable == "subsidies_Sumaila") %>%
+        dplyr::filter(type %in% c(selected_subsidy_types)) %>%
+        dplyr::filter(!is.na(value) & value > 0) %>%
+        group_by(iso3, display_name, category, category_name, type, type_name, data_type) %>%
+        summarize(value = sum(value, na.rm = T)) %>%
+        group_by(iso3, display_name) %>%
+        mutate(included_types = paste0(type_name[type_name != "Total"], collapse = ";</br>"),
+               included_subsidy_types = paste0(type_name[type_name != "Total"], collapse = ", ")) %>%
+        ungroup() %>%
+        group_by(iso3, display_name, included_types, included_subsidy_types) %>%
+        summarize(value = sum(value, na.rm = T)) %>%
+        ungroup()
+      
+      # Update reactive data container
+      rv_global_subsidies$data <- global_subsidies_map_dat %>% dplyr::select(-included_types)
+  
+      # Join to world polygons
+      global_subsidies_map_dat_shp <- world_eu %>%
+        dplyr::filter(!admin_iso3 %in% eu_countries[eu_countries != "EU"]) %>%
+        left_join(global_subsidies_map_dat, by = c("admin_iso3" = "iso3")) %>%
+        na.omit()
+    
+      # Update reactive data container
+      rv_global_subsidies$polygons <- global_subsidies_map_dat_shp
+    
+      # Hover text for world polygons
+      global_subsidies_map_text_shp <- paste0(
+        "<b>", "State: ", "</b>",  global_subsidies_map_dat_shp$display_name,
+        "</br>",
+        "<b>", "Estimated Fisheries Subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_shp$value, 0), big.mark = ","),
+        "</br>",
+        "<b>", "Matching Subsidy Type(s): ", "</b>", global_subsidies_map_dat_shp$included_types
+      ) %>%
+        lapply(htmltools::HTML)
+    
+      # Update reactive data container
+      rv_global_subsidies$polygons_text <- global_subsidies_map_text_shp
+    
+      # Join to points for small island nations
+      global_subsidies_map_dat_points <- world_small_countries %>%
+        dplyr::select(sov_iso3, admin_iso3, area_km, center) %>%
+        left_join(global_subsidies_map_dat, by = c("admin_iso3" = "iso3")) %>%
+        na.omit()
+      st_geometry(global_subsidies_map_dat_points) <- global_subsidies_map_dat_points$center
+    
+      # Update reactive data container
+      rv_global_subsidies$points <- global_subsidies_map_dat_points
+    
+      # Hover text for points
+      global_subsidies_map_text_points <- paste0(
+        "<b>", "State: ", "</b>",  global_subsidies_map_dat_points$display_name,
+        "</br>",
+        "<b>", "Estimated Fisheries Subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_points$value, 0), big.mark = ","),
+        "</br>",
+        "<b>", "Matching Subsidy Type(s): ", "</b>", global_subsidies_map_dat_points$included_types
+      ) %>%
+        lapply(htmltools::HTML)
+  
+    # Update reactive data container
+    rv_global_subsidies$points_text <- global_subsidies_map_dat_points
+    
+    }
+    
+  })
+  
   ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
   output$global_subsidies_map <- renderLeaflet({
     
-    req(input$w_global_subsidies_good_types)
-    req(input$w_global_subsidies_ugly_types)
-    req(input$w_global_subsidies_bad_types)
-    
+    # Get selected subsidy types from our three widgets
     selected_subsidy_types <- c(input$w_global_subsidies_good_types, input$w_global_subsidies_ugly_types, input$w_global_subsidies_bad_types)
-    
+
     req(length(selected_subsidy_types) > 0)
-    
+     
     # Define colors
     global_subsidies_map_pal <- colorNumeric(palette = "YlOrRd",
                                              log10(c(100, 10e9)))
     
-    
-    # Filter data
-    global_subsidies_map_dat <- subsidy_dat %>%
-      dplyr::filter(variable == "subsidies_Sumaila") %>%
-      dplyr::filter(type %in% c(selected_subsidy_types)) %>%
-      dplyr::filter(!is.na(value) & value > 0) %>%
-      group_by(iso3, display_name, category, category_name, type, type_name) %>%
-      summarize(value = sum(value, na.rm = T)) %>%
-      group_by(iso3, display_name) %>%
-      mutate(included_types = paste0(type_name[type_name != "Total"], collapse = ";</br>")) %>%
-      ungroup() %>%
-      group_by(iso3, display_name, category, category_name, included_types) %>%
-      summarize(value = sum(value, na.rm = T))
-      
-    # Join to world polygons
-    global_subsidies_map_dat_shp <- world %>%
-      dplyr::filter(!admin_iso3 %in% eu_countries) %>%
-      left_join(global_subsidies_map_dat, by = c("admin_iso3" = "iso3")) %>%
-      na.omit()
-    
-    # Hover text for world polygons
-    global_subsidies_map_text_shp <- paste0(
-      "<b>","State: ", "</b>",  global_subsidies_map_dat_shp$display_name,
-      "</br>",
-      "<b>", "Estimated Fisheries Subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_shp$value, 0), big.mark = ","),
-      "</br>",
-      "<b>", "Matching Subsidy Type(s): ", "</b>", global_subsidies_map_dat_shp$included_types
-    ) %>%
-      lapply(htmltools::HTML)
-    
-    # Join to points for small island nations
-    global_subsidies_map_dat_points <- world_small_countries %>%
-      dplyr::select(sov_iso3, admin_iso3, area_km, center) %>%
-      left_join(global_subsidies_map_dat, by = c("admin_iso3" = "iso3")) %>%
-      na.omit()
-    st_geometry(global_subsidies_map_dat_points) <- global_subsidies_map_dat_points$center
-    
-    # Hover text for points
-    global_subsidies_map_text_points <- paste0(
-      "<b>","State: ", "</b>",  global_subsidies_map_dat_points$display_name,
-      "</br>",
-      "<b>", "Estimated Fisheries Subsidies (2018 $USD):", "</b>", " $", format(round(global_subsidies_map_dat_points$value, 0), big.mark = ","),
-      "</br>",
-      "<b>", "Matching Subsidy Type(s): ", "</b>", global_subsidies_map_dat_points$included_types
-    ) %>%
-      lapply(htmltools::HTML)
-    
     # Map
-    leaflet('global_subsidies_map', options = leafletOptions(minZoom = 3, zoomControl = FALSE)) %>% 
+    leaflet('global_subsidies_map', options = leafletOptions(minZoom = 3, zoomControl = TRUE)) %>% 
       addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
-      addCircles(data = global_subsidies_map_dat_points,
+      addCircles(data = rv_global_subsidies$points,
                  color = ~global_subsidies_map_pal(log10(value)),
                  fillOpacity = 0.8,
                  stroke = "white",
@@ -1083,13 +1136,12 @@ shinyServer(function(input, output, session) {
                  highlight = highlightOptions(weight = 5,
                                               color = "#666",
                                               fillOpacity = 1,
-                                              bringToFront = FALSE),
-                 label = global_subsidies_map_text_points,
-                 labelOptions = labelOptions(style = list("font-weight" = "normal",
-                                                          padding = "3px 8px"),
-                                             textsize = "13px",
-                                             direction = "auto")) %>%
-      addPolygons(data = global_subsidies_map_dat_shp, 
+                                              bringToFront = FALSE)
+                 #label = rv_global_subsidies$points_text,
+                 #labelOptions = labelOptions(style = list("font-weight" = "normal",
+                                                          #direction = "auto")
+                 ) %>%
+      addPolygons(data = rv_global_subsidies$polygons, 
                   fillColor = ~global_subsidies_map_pal(log10(value)),
                   fillOpacity = 0.8,
                   color= "white",
@@ -1098,13 +1150,12 @@ shinyServer(function(input, output, session) {
                                                color = "#666",
                                                fillOpacity = 1,
                                                bringToFront = FALSE),
-                  label = global_subsidies_map_text_shp,
+                  label = rv_global_subsidies$polygons_text,
                   labelOptions = labelOptions(style = list("font-weight" = "normal",
                                                            padding = "3px 8px"),
                                               textsize = "13px",
                                               direction = "auto")) %>%
       setView(0,20, zoom = 3) %>%
-      #map.zoomControl.setPosition('topright')
       addLegend("bottomright", 
                 pal = global_subsidies_map_pal,
                 values = log10(c(100, 10e9)),
@@ -1117,6 +1168,24 @@ shinyServer(function(input, output, session) {
       )
     
   })
+  
+  ### Download button: Global map of fisheries subsidies data -----------------------
+  output$db_global_subsidies_download_data <- downloadHandler(
+    
+    filename = "global_subsidies_data_Sumaila_et_al_2019_selected.csv",
+    content = function(file) {
+      write.csv(rv_global_subsidies$data, file, row.names = FALSE)
+    }
+  )
+  
+  # eventReactive(input$db_global_subsidies_download_data, {
+  #   
+  #   req(nrow(rv_global_subsidies$data) > 0)
+  #   
+  #   write_csv()
+  #   
+  # })
+  
   
   ### ------------------------------
   ### 03b. country-fishery-stats ---

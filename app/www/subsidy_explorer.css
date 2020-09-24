@@ -301,15 +301,20 @@ header.main-header {
 }
 
 .leaflet-right {
-  right: 50px;
+  right: 25px;
 }
 
 .leaflet-left {
-  left: 25px;
+  left: unset;
+  right: 25px;
 }
 
 .leaflet-top {
   top: 5px;
+}
+
+.leaflet-bottom {
+  bottom: 5px;
 }
 /*-------------------*/  
 /*-------------------*/
@@ -877,8 +882,8 @@ hr.grey-narrow{
 /* Info panel */
 #global_subsidies_map_info_panel {
   background: rgba(255,255,255,0.9);
-  right: 50px;
-  top: 25px;
+  right: 70px;
+  top: 5px;
   width: 300px;
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -1037,8 +1042,8 @@ hr.grey-narrow{
 
 #global_fishing_footprint_map_info_panel {
   background: rgba(255,255,255,0.9);
-  right: 50px;
-  top: 25px;
+  right: 75px;
+  top: 5px;
   width: 250px;
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);

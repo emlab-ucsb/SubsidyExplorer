@@ -31,7 +31,7 @@ OvercapSummaryText <- function(overcap,
   ### At least one definition selected ---
   }else if(length(overcap$definitions) >= 1){
     
-    overcap_pro_names <- unlist(wid$choices[wid$item_id == "w_overcap_definitions"])
+    overcap_pro_names <- subsidy_types_sorted_sumaila[4:13]
     overcap_pro_selected <- names(overcap_pro_names[overcap_pro_names %in% overcap$definitions])
     
     overcap_pro <- paste0("<small>",text$item_label[text$item_id == "w_overcap_definitions"], 

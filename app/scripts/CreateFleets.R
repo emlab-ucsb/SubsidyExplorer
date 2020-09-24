@@ -798,12 +798,7 @@ CreateFleets <- function(vessel_list,
   ### Subsidies contributing to overcapacity and overfishing -------------------
   ### --------------------------------------------------------------------------
 
-  if(length(overcap$definitions) == 0){
-    
-    # Shortcut output if no disciplines are selected from this category
-    overcap_vessel_subset <- vessel_tracking_df
-    
-  }else if(overcap$definitions == ""){
+  if(length(overcap$definitions) == 0 | overcap$definitions == ""){
     
     # Shortcut output if no disciplines are selected from this category
     overcap_vessel_subset <- vessel_tracking_df
@@ -819,7 +814,7 @@ CreateFleets <- function(vessel_list,
       ungroup() %>%
       mutate(subs_removed = removed) %>%
       dplyr::filter(subs_removed > 0)
-    colnames(oc_vessels)[5] <- paste0(overcap_subtypes_removed, "_subs_removed")
+    colnames(oc_vessels)[6] <- paste0(overcap_subtypes_removed, "_subs_removed")
     
     # Join to overcap subset
     overcap_vessel_subset <- vessel_tracking_df %>%

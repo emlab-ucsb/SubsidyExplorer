@@ -78,6 +78,18 @@ territories <- country_lookup %>%
 # 1) World map ---
 world <- read_sf("./data/shapefiles/ne_50m_admin_SubsidyExplorer", layer = "land_50m")
 
+eu_shp <- world %>%
+  dplyr::filter(admin_iso3 %in% eu_countries) %>%
+  mutate(sov_iso3 = "EU", 
+         admin_iso3 = "EU") %>%
+  group_by(sov_iso3, admin_iso3) %>%
+  summarize(area_km = sum(area_km)) %>%
+  ungroup()
+
+world_eu <- world %>%
+  dplyr::filter(!(admin_iso3 %in% eu_countries)) %>%
+  rbind(eu_shp)
+
 # Identify small countries for which we are going to add little dots on the map for easier viewing
 world_small_countries <- world  %>%
   dplyr::filter(area_km < 300) %>%

@@ -129,10 +129,13 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                                     ),
                                     
                                     tags$td(id = "global-subsidies-table-cell-2",
-                                      tags$button(id = "db_global_subsidies_download_figure",
-                                                  class = "btn action-button rounded-button-grey download-button",
-                                                  tags$b(icon("download"),
-                                                         text$item_label[text$item_id == "db_global_subsidies_download_figure"]))
+                                            
+                                            downloadButton("db_global_subsidies_download_figure",
+                                                           text$item_label[text$item_id == "db_global_subsidies_download_figure"])
+                                      # tags$button(id = "db_global_subsidies_download_figure",
+                                      #             class = "btn action-button rounded-button-grey download-button",
+                                      #             tags$b(icon("download"),
+                                      #                    text$item_label[text$item_id == "db_global_subsidies_download_figure"]))
                                       
                                     )
                                   )

@@ -12,23 +12,29 @@
 shinyServer(function(input, output, session) {
   
   ### ----------------------------
-  ### Reactive data containers ---
-  ### ----------------------------
-  
-  rv_explore_results_data_save <- reactiveValues()
-  
-  ### ----------------------------
   ### Reactive data/plot containers ---
   ### ----------------------------
   
-  rv_explore_results_plot_save <- reactiveValues()
+  rv_explore_results <- reactiveValues()
   
   rv_global_subsidies <- reactiveValues(data = NULL,
                                         polygons = NULL,
                                         polygons_text = NULL,
                                         points = NULL,
-                                        points_text = NULL)
+                                        points_text = NULL,
+                                        plot = NULL)
   
+  rv_country_fishery_stats <- reactiveValues(subsidy_data = NULL,
+                                             capture_data = NULL,
+                                             demographic_data = NULL)
+  
+  rv_compare_fishery_stats <- reactiveValues(data = NULL,
+                                             plot = NULL)
+  
+  rv_global_fishing_footprint <- reactiveValues(data = NULL,
+                                                polygons = NULL,
+                                                polygons_text = NULL,
+                                                plot = NULL)
   
   ### --------------------------
   ### Other Reactive Containers ---
@@ -1028,7 +1034,7 @@ shinyServer(function(input, output, session) {
     
   })
   
-  ### Reactive plot/data: Global map of fisheries subsidies -----------------------
+  ### Reactive data: Global map of fisheries subsidies -----------------------
   observe({
     
     # Get all selected values from our three input widgets
@@ -1042,6 +1048,7 @@ shinyServer(function(input, output, session) {
       rv_global_subsidies$polygons_text <- NULL
       rv_global_subsidies$points <- NULL
       rv_global_subsidies$points_text <- NULL
+      rv_global_subsidies$plot <- NULL
       
     }else{
       
@@ -1110,6 +1117,37 @@ shinyServer(function(input, output, session) {
     
     }
     
+    # Plot labels
+    labels <- c(1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10)
+    breaks <- log10(labels)
+    limits <- c(min(breaks), max(breaks))
+    
+    # Get world map
+    world <- ne_countries(scale = "small", returnclass = "sf")
+    world_mollweide <- st_transform(world, crs = "+proj=moll")
+    
+    # Reproject data
+    subsidy_data_mollweide <- st_transform(global_subsidies_map_dat_shp, crs = "+proj=moll")
+    
+    # Make static plot
+    global_subsidies_map_static <- ggplot()+
+      geom_sf(data = world_mollweide, fill = "white", color = "grey", size = 0.25)+
+      #geom_point(data = global_subsidies_map_dat_points, aes(x = fill = log10(value)))
+      #geom_sf(data = global_subsidies_map_dat_points, , lwd = 0)+
+      geom_sf(data = subsidy_data_mollweide, aes(fill = log10(value)))+
+      theme_bw()+
+      scale_fill_gradientn(colors = brewer.pal(9, "YlOrRd"),
+                           limits = limits,
+                           breaks = breaks,
+                           labels = labels)+
+      labs(fill = str_replace(text$item_label[text$item_id == "global_subsidies_map_legend"], "<br>", "\n"))+
+      theme(legend.position = "right",
+            panel.border = element_blank())+
+      guides(fill = guide_colorbar(title.position = "top", barheight = 25, title.hjust = 0.5))
+    
+    # Update reactive data container
+    rv_global_subsidies$plot <- global_subsidies_map_static
+    
   })
   
   ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
@@ -1169,23 +1207,25 @@ shinyServer(function(input, output, session) {
     
   })
   
-  ### Download button: Global map of fisheries subsidies data -----------------------
+  ### Download button: Global map of fisheries subsidies data (CSV) -----------------------
   output$db_global_subsidies_download_data <- downloadHandler(
     
-    filename = "global_subsidies_data_Sumaila_et_al_2019_selected.csv",
+    filename = "SubsidyExplorer_global_subsidies_map_data_selected.csv",
     content = function(file) {
       write.csv(rv_global_subsidies$data, file, row.names = FALSE)
     }
   )
   
-  # eventReactive(input$db_global_subsidies_download_data, {
-  #   
-  #   req(nrow(rv_global_subsidies$data) > 0)
-  #   
-  #   write_csv()
-  #   
-  # })
-  
+  ### Download button: Global map of fisheries subsidies figure (PDF) -----------------------
+  output$db_global_subsidies_download_figure <- downloadHandler(
+    
+    filename = "SubsidyExplorer_global_subsidies_map_selected.pdf",
+    content = function(file) {
+      pdf(file, width = 11, height = 8.5)
+      print(rv_global_subsidies$plot)
+      dev.off()
+    }
+  )
   
   ### ------------------------------
   ### 03b. country-fishery-stats ---
@@ -1869,8 +1909,8 @@ shinyServer(function(input, output, session) {
     
   })
   
-  ### Leaflet map: Global map of fishing effort with hover boxes ---------------------
-  output$global_fishing_footprint_map <- renderLeaflet({
+  ### Reactive data: Global map of fishing effort -----------------------
+  observe({
     
     # Summarize data
     global_fishing_footprint_map_dat <- vessel_dat %>%
@@ -1880,10 +1920,18 @@ shinyServer(function(input, output, session) {
                 fishing_h = sum(fishing_hours_eez_fao_ter, na.rm = T),
                 fishing_KWh = sum(fishing_KWh_eez_fao_ter, na.rm = T))
     
+    # Update reactive data container
+    rv_global_fishing_footprint$data <- global_fishing_footprint_map_dat
+    
+    # Attach to polygons
     global_fishing_footprint_map_dat_shp <- eez_fao %>%
       left_join(global_fishing_footprint_map_dat, by = c("eez_hs_code" = "eez_hs_code")) %>%
       dplyr::filter(!is.na(fishing_KWh) & fishing_KWh > 0)
     
+    # Update reactive data container
+    rv_global_fishing_footprint$polygons <- global_fishing_footprint_map_dat_shp
+    
+    # Create hover text
     global_fishing_footprint_map_text <- paste0(
       "<b>","Location: ","</b>", global_fishing_footprint_map_dat_shp$name,"</b>",
       "<br/>",
@@ -1902,14 +1950,51 @@ shinyServer(function(input, output, session) {
       "<b>", "Unique Vessel Flag States: ", "</b>", global_fishing_footprint_map_dat_shp$flag_states) %>%
       lapply(htmltools::HTML)
     
+    # Update reactive data container
+    rv_global_fishing_footprint$polygons_text <- global_fishing_footprint_map_text
+    
+    # Plot labels
+    labels <- c(1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10)
+    breaks <- log10(labels)
+    limits <- c(min(breaks), max(breaks))
+    
+    # Get world map
+    world <- ne_countries(scale = "small", returnclass = "sf")
+    world_mollweide <- st_transform(world, crs = "+proj=moll")
+    
+    # Reproject data
+    footprint_data_mollweide <- st_transform(global_fishing_footprint_map_dat_shp, crs = "+proj=moll")
+    
+    # Make static plot
+    global_fishing_footprint_map_static <- ggplot()+
+      geom_sf(data = world_mollweide, fill = "white", color = "grey", size = 0.25)+
+      geom_sf(data = footprint_data_mollweide, aes(fill = log10(fishing_KWh)))+
+      theme_bw()+
+      scale_fill_gradientn(colors = brewer.pal(9, "YlOrRd"),
+                           limits = limits,
+                           breaks = breaks,
+                           labels = labels)+
+      labs(fill = str_replace(text$item_label[text$item_id == "global_fishing_footprint_map_legend"], "<br>", "\n"))+
+      theme(legend.position = "right",
+            panel.border = element_blank())+
+      guides(fill = guide_colorbar(title.position = "top", barheight = 20, title.hjust = 0.5))
+    
+    # Update reactive data container
+    rv_global_fishing_footprint$plot <- global_fishing_footprint_map_static
+    
+  })
+  
+  ### Leaflet map: Global map of fishing effort with hover boxes ---------------------
+  output$global_fishing_footprint_map <- renderLeaflet({
+    
     # Chloropleth color palette for global effort map
     global_fishing_footprint_map_pal <- colorNumeric(palette = "YlOrRd",
-                                          log10(global_fishing_footprint_map_dat_shp$fishing_KWh))
+                                          log10(rv_global_fishing_footprint$polygons$fishing_KWh))
     
     # Map
     leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 3, zoomControl = TRUE)) %>%
       addProviderTiles("CartoDB.VoyagerNoLabels") %>%
-      addPolygons(data = global_fishing_footprint_map_dat_shp,
+      addPolygons(data = rv_global_fishing_footprint$polygons,
                   fillColor = ~global_fishing_footprint_map_pal(log10(fishing_KWh)),
                   fillOpacity = 1,
                   color= "white",
@@ -1918,7 +2003,7 @@ shinyServer(function(input, output, session) {
                                                color = "#666",
                                                fillOpacity = 1,
                                                bringToFront = TRUE),
-                  label = global_fishing_footprint_map_text,
+                  label = rv_global_fishing_footprint$polygons_text,
                   labelOptions = labelOptions(style = list("font-weight" = "normal",
                                                            padding = "3px 8px"),
                                               textsize = "13px",
@@ -1926,7 +2011,7 @@ shinyServer(function(input, output, session) {
       setView(0,20, zoom = 3) %>%
       addLegend("bottomright", 
                 pal = global_fishing_footprint_map_pal, 
-                values = log10(global_fishing_footprint_map_dat_shp$fishing_KWh),
+                values = log10(rv_global_fishing_footprint$polygons$fishing_KWh),
                 title = text$item_label[text$item_id == "global_fishing_footprint_map_legend"],
                 opacity = 1,
                 labFormat = labelFormat(
@@ -1934,5 +2019,15 @@ shinyServer(function(input, output, session) {
     
   })
   
+  ### Download button: Global map of fishing effort (PDF) -----------------------
+  output$db_global_fishing_footprint_download_figure <- downloadHandler(
+    
+    filename = "SubsidyExplorer_global_fishing_footprint_map.pdf",
+    content = function(file) {
+      pdf(file, width = 11, height = 8.5)
+      print(rv_global_fishing_footprint$plot)
+      dev.off()
+    }
+  )
 
 })

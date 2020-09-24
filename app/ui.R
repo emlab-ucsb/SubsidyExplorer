@@ -39,6 +39,8 @@ library(tidyverse) # workhorse data manipulation
 # Plotting
 library(leaflet) # interactive maps 
 library(plotly) # interactive charts
+library(rnaturalearth)
+library(rnaturalearthdata)
 library(RColorBrewer) # other color scales
 
 # Silence new dplyr grouping messages

@@ -33,11 +33,6 @@ CountryFisheryStats = function(wto_members_and_observers)
                                   selectizeInput("w_country_fishery_stats_selected_country",
                                                  label = tagList(
                                                    tags$b(text$item_label[text$item_id == "w_country_fishery_stats_selected_country"])
-                                                   
-                                                   # # Info button: subsidy types
-                                                   # tags$button(id = "info_country_fishery_stats_territories",
-                                                   #             class = "btn action-button info-button",
-                                                   #             icon("info"))
                                                  ),
                                                  choices = wto_members_and_observers,
                                                  selected = "USA",
@@ -46,18 +41,6 @@ CountryFisheryStats = function(wto_members_and_observers)
                            
                                   
                            )
-                    
-                           # ### Download button
-                           # column(12, id = "div-topline",
-                           # 
-                           #        # Button to save PDF of data for selected state
-                           #        tags$button(id = "db_country_fishery_stats_generate_report",
-                           #                    class = "btn action-button rounded-button-grey",
-                           #                    tags$b(icon("download"),
-                           #                           text$item_label[text$item_id == "db_country_fishery_stats_generate_report"]))
-                           # 
-                           # 
-                           # )
                     
                     )
                     
@@ -102,17 +85,23 @@ CountryFisheryStats = function(wto_members_and_observers)
                                                                      ),
                                                                      
                                                                      tags$td(id = "country-fishery-stats-table-cell-2",
-                                                                             tags$button(id = "db_country_fishery_stats_subsidy_download_data",
-                                                                                         class = "btn action-button rounded-button-grey download-button",
-                                                                                         tags$b(icon("download"),
-                                                                                                text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_data"]))
+                                                                             
+                                                                             downloadButton("db_country_fishery_stats_subsidy_download_data",
+                                                                                            text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_data"])
+                                                                             # tags$button(id = "db_country_fishery_stats_subsidy_download_data",
+                                                                             #             class = "btn action-button rounded-button-grey download-button",
+                                                                             #             tags$b(icon("download"),
+                                                                             #                    text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_data"]))
                                                                      ),
                                                                      
                                                                      tags$td(id = "country-fishery-stats-table-cell-3",
-                                                                             tags$button(id = "db_country_fishery_stats_subsidy_download_figure",
-                                                                                         class = "btn action-button rounded-button-grey download-button",
-                                                                                         tags$b(icon("download"),
-                                                                                                text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_figure"]))
+                                                                             
+                                                                             downloadButton("db_country_fishery_stats_subsidy_download_figure",
+                                                                                            text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_figure"])
+                                                                             # tags$button(id = "db_country_fishery_stats_subsidy_download_figure",
+                                                                             #             class = "btn action-button rounded-button-grey download-button",
+                                                                             #             tags$b(icon("download"),
+                                                                             #                    text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_figure"]))
                                                                              
                                                                      )
                                                              )
@@ -160,10 +149,14 @@ CountryFisheryStats = function(wto_members_and_observers)
                                                                      ),
                                                                      
                                                                      tags$td(id = "country-fishery-stats-table-cell-3",
-                                                                             tags$button(id = "db_country_fishery_stats_capture_download_figure",
-                                                                                         class = "btn action-button rounded-button-grey download-button",
-                                                                                         tags$b(icon("download"),
-                                                                                                text$item_label[text$item_id == "db_country_fishery_stats_capture_download_figure"]))
+                                                                             
+                                                                             downloadButton("db_country_fishery_stats_capture_download_figure",
+                                                                                            text$item_label[text$item_id == "db_country_fishery_stats_capture_download_figure"])
+                                                                             
+                                                                             # tags$button(id = "db_country_fishery_stats_capture_download_figure",
+                                                                             #             class = "btn action-button rounded-button-grey download-button",
+                                                                             #             tags$b(icon("download"),
+                                                                             #                    text$item_label[text$item_id == "db_country_fishery_stats_capture_download_figure"]))
                                                                              
                                                                      )
                                                              )

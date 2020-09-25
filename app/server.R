@@ -25,7 +25,12 @@ shinyServer(function(input, output, session) {
                                         plot = NULL)
   
   rv_country_fishery_stats <- reactiveValues(subsidy_data = NULL,
-                                             capture_data = NULL,
+                                             subsidy_plot = NULL,
+                                             landings_data = NULL,
+                                             landings_plot = NULL,
+                                             landed_value_data = NULL,
+                                             landed_value_plot = NULL,
+                                             marine_capture_plot = NULL,
                                              demographic_data = NULL)
   
   rv_compare_fishery_stats <- reactiveValues(data = NULL,
@@ -1260,71 +1265,56 @@ shinyServer(function(input, output, session) {
     tags$h3(out)
   })
   
-  ### Plotly figure: Fisheries subsidies by type ---------------------
-  output$country_fishery_stats_subsidies_plot <- renderPlotly({
+  ### Reactive data/plot: Country fishery stats -----------------------
+  observeEvent(c(input$w_country_fishery_stats_selected_country), {
     
-    req(input$w_country_fishery_stats_selected_country)
+    ### Subsidy tab -----
     
     # Filter OECD data and add Sumaila data
     country_fishery_stats_subsidies_plot_dat <- subsidy_dat %>%
       dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country)
     country_fishery_stats_subsidies_plot_dat$value[is.na(country_fishery_stats_subsidies_plot_dat$value)] <- 0
     
-    req(nrow(country_fishery_stats_subsidies_plot_dat) > 0)
+    # Update reactive container
+    rv_country_fishery_stats$subsidy_data <- country_fishery_stats_subsidies_plot_dat
     
-    # Make plot  
+    # Make subsidy plot
     country_fishery_stats_subsidies_plot <- ggplot()+
       geom_col(data = country_fishery_stats_subsidies_plot_dat, aes(x = source, y = value, fill = type_name, 
-                                                        text = paste0("<b>","State: ","</b>", display_name,
-                                                                      "<br>",
-                                                                      "<b>","Type: ","</b>", type_name,
-                                                                      "<br>",
-                                                                      "<b>","Data Source: ","</b>", source,
-                                                                      "<br>",
-                                                                      "<b>","Estimated Fisheries Subsidies ($USD):","</b>", format(round(value, 0), big.mark = ","),
-                                                                      "<br>",
-                                                                      "<b>", "Year: ", "</b>", year)))+
+                                                                    text = paste0("<b>","State: ","</b>", display_name,
+                                                                                  "<br>",
+                                                                                  "<b>","Type: ","</b>", type_name,
+                                                                                  "<br>",
+                                                                                  "<b>","Data Source: ","</b>", source,
+                                                                                  "<br>",
+                                                                                  "<b>","Estimated Fisheries Subsidies ($USD):","</b>", format(round(value, 0), big.mark = ","),
+                                                                                  "<br>",
+                                                                                  "<b>", "Year: ", "</b>", year)))+
       scale_fill_manual(values = myColors[names(myColors) %in% country_fishery_stats_subsidies_plot_dat$type_name])+
       scale_y_continuous(expand = c(0,0), name = "Estimated Fisheries Subsidies ($USD)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       geom_vline(xintercept = 0, size = 1)+
       coord_flip()+
       theme_bw()+
-      labs(x = "")+
-      theme(legend.title = element_blank(),
-            legend.position = "none",
-            axis.text.y = element_text(face = "bold", angle = 90))
+      labs(x = "",
+           fill = "Type")+
+      theme(legend.position = "right")+
+      guides(fill = guide_legend(title.position = "top", 
+                                 direction = "vertical"))
     
-    # Convert to plotly
-    gg <- ggplotly(country_fishery_stats_subsidies_plot, tooltip="text")
+    # Update reactive container
+    rv_country_fishery_stats$subsidy_plot <- country_fishery_stats_subsidies_plot
     
-    # Create legend
-    leg <- list(font = list(size = 10, color = "#000"),
-                x = 100,
-                y = 0.9,
-                yanchor = "top")
+    ### Marine capture tab -----
     
-    # Add plotly legend
-    gg <- gg %>%
-      layout(legend = leg)
-    
-    # Return plot
-    gg
-    
-  })
-  
-  ### Plotly figure: FAO Marine Capture Production ---------------------
-  output$country_fishery_stats_production_plot <- renderPlotly({
-    
-    req(input$w_country_fishery_stats_selected_country)
-    
-    # Filter data
+    # Filter capture production data
     country_fishery_stats_production_plot_dat <- capture_production_dat_fao %>%
       dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country)
     
-    req(nrow(country_fishery_stats_production_plot_dat) > 0)
+    # Update reactive container
+    rv_country_fishery_stats$landings_data <- country_fishery_stats_production_plot_dat
     
-    # Make plot
+    # Make capture production plot
     country_fishery_stats_production_plot <- country_fishery_stats_production_plot_dat %>%
       ggplot()+
       aes(x = year, y = value/1000, fill = isscaap_group)+
@@ -1341,12 +1331,113 @@ shinyServer(function(input, output, session) {
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
       theme_bw()+
-      labs(x = "Year")+
+      labs(x = "Year",
+           fill = "ISSCAAP Group")
+      # theme(legend.title = element_blank(),
+      #       legend.position = "none")
+    
+    # Update reactive container
+    rv_country_fishery_stats$landings_plot <- country_fishery_stats_production_plot
+    
+    # Filter landed value data
+    country_fishery_stats_landed_value_plot_dat <- landed_value_dat_tot %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country)
+    
+    # Update reactive container
+    rv_country_fishery_stats$landed_value_data <- country_fishery_stats_landed_value_plot_dat
+
+    # Make plot
+    country_fishery_stats_landed_value_plot <- country_fishery_stats_landed_value_plot_dat %>%
+      ggplot()+
+      aes(x = year, y = value/1e6)+
+      geom_area(fill = totColor)+
+      geom_area(aes(text = paste0("<b>","Year: ","</b>", year,
+                                  "<br>",
+                                  "<b>", "Estimated Landed Value ($USD): ", "</b>", "$", format(round(value, 0), big.mark = ","))))+
+      scale_y_continuous(expand = c(0,0),
+                         name = "Estimated Landed Value (million $USD)", 
+                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+      scale_x_continuous(expand = c(0,0))+
+      theme_bw()+
+      labs(x = "Year")
+      # theme(legend.title = element_blank(),
+      #       legend.position = "none")
+    
+    # Update reactive container
+    rv_country_fishery_stats$landed_value_plot <- country_fishery_stats_landed_value_plot
+    
+    # Combine marine capture plots into output
+    marine_capture_out_plot <- cowplot::plot_grid(country_fishery_stats_production_plot,
+                                                  country_fishery_stats_landed_value_plot,
+                                                  align = "h",
+                                                  ncol = 1)
+    
+    # Update reactive container
+    rv_country_fishery_stats$marine_capture_plot <- marine_capture_out_plot
+    
+  })
+  
+  ### Plotly figure: Fisheries subsidies by type ---------------------
+  output$country_fishery_stats_subsidies_plot <- renderPlotly({
+    
+    req(nrow(rv_country_fishery_stats$subsidy_data) > 0)
+    
+    # Remove legend
+    plot <- rv_country_fishery_stats$subsidy_plot +
+      theme(legend.title = element_blank(),
+            legend.position = "none",
+            axis.text.y = element_text(face = "bold", angle = 90))
+      
+    # Convert to plotly
+    gg <- ggplotly(plot, tooltip="text")
+    
+    # Create legend
+    leg <- list(font = list(size = 10, color = "#000"),
+                x = 100,
+                y = 0.9,
+                yanchor = "top")
+    
+    # Add plotly legend
+    gg <- gg %>%
+      layout(legend = leg)
+    
+    # Return plot
+    gg
+    
+  })
+  
+  ### Download button: Country fishery stats subsidy data (CSV) -----------------------
+  output$db_country_fishery_stats_subsidy_download_data <- downloadHandler(
+    
+    filename = function(){paste0("SubsidyExplorer_country_fishery_stats_subsidy_data_", input$w_country_fishery_stats_selected_country, ".csv")},
+    content = function(file) {
+      write.csv(rv_country_fishery_stats$subsidy_data, file, row.names = FALSE)
+    }
+  )
+  
+  ### Download button: Country fishery stats subsidy figure (PDF) -----------------------
+  output$db_country_fishery_stats_subsidy_download_figure <- downloadHandler(
+    
+    filename = function(){paste0("SubsidyExplorer_country_fishery_stats_subsidy_plot_", input$w_country_fishery_stats_selected_country, ".pdf")},
+    content = function(file) {
+      pdf(file, width = 13, height = 7.5)
+      print(rv_country_fishery_stats$subsidy_plot)
+      dev.off()
+    }
+  )
+  
+  ### Plotly figure: FAO Marine Capture Production ---------------------
+  output$country_fishery_stats_production_plot <- renderPlotly({
+    
+    req(nrow(rv_country_fishery_stats$landings_data) > 0)
+    
+    # Remove legend
+    plot <- rv_country_fishery_stats$landings_plot +
       theme(legend.title = element_blank(),
             legend.position = "none")
     
     # Convert to plotly
-    gg <- ggplotly(country_fishery_stats_production_plot, tooltip = "text") %>%
+    gg <- ggplotly(plot, tooltip = "text") %>%
       style(hoveron = "points")
     
     # Create Legend
@@ -1374,33 +1465,15 @@ shinyServer(function(input, output, session) {
   ### Plotly figure: Estimated landed value ---------------------
   output$country_fishery_stats_landed_value_plot <- renderPlotly({
     
-    req(input$w_country_fishery_stats_selected_country)
+    req(nrow(rv_country_fishery_stats$landed_value_data) > 0)
     
-    # Filter data
-    country_fishery_stats_landed_value_plot_dat <- landed_value_dat_tot %>%
-      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country)
-    
-    req(nrow(country_fishery_stats_landed_value_plot_dat) > 0)
-    
-    # Make plot
-    country_fishery_stats_landed_value_plot <- country_fishery_stats_landed_value_plot_dat %>%
-      ggplot()+
-      aes(x = year, y = value/1e6)+
-      geom_area(fill = totColor)+
-      geom_area(aes(text = paste0("<b>","Year: ","</b>", year,
-                                  "<br>",
-                                  "<b>", "Estimated Landed Value ($USD): ", "</b>", "$", format(round(value, 0), big.mark = ","))))+
-      scale_y_continuous(expand = c(0,0),
-                         name = "Estimated Landed Value (million $USD)", 
-                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
-      scale_x_continuous(expand = c(0,0))+
-      theme_bw()+
-      labs(x = "Year")+
+    # Remove legend
+    plot <- rv_country_fishery_stats$landed_value_plot +
       theme(legend.title = element_blank(),
             legend.position = "none")
     
     # Convert to plotly
-    gg <- ggplotly(country_fishery_stats_landed_value_plot, tooltip = "text") %>%
+    gg <- ggplotly(plot, tooltip = "text") %>%
       style(hoveron = "points")
     
     # Create Legend
@@ -1425,6 +1498,17 @@ shinyServer(function(input, output, session) {
     gg
     
   })
+  
+  ### Download button: Country fishery stats marine capture figure (PDF) -----------------------
+  output$db_country_fishery_stats_capture_download_figure <- downloadHandler(
+    
+    filename = function(){paste0("SubsidyExplorer_country_fishery_stats_marine_capture_plot_", input$w_country_fishery_stats_selected_country, ".pdf")},
+    content = function(file) {
+      pdf(file, width = 8.5, height = 11)
+      print(rv_country_fishery_stats$marine_capture_plot)
+      dev.off()
+    }
+  )
   
   ### Plotly figure: World Bank Population ---------------------
   output$country_fishery_stats_pop_plot <- renderPlotly({

@@ -15,7 +15,8 @@ shinyServer(function(input, output, session) {
   ### Reactive data/plot containers ---
   ### ----------------------------
   
-  rv_explore_results <- reactiveValues()
+  rv_explore_results <- reactiveValues(data = best_result$results_timeseries,
+                                       plot = NULL)
   
   rv_global_subsidies <- reactiveValues(data = NULL,
                                         polygons = NULL,
@@ -55,49 +56,50 @@ shinyServer(function(input, output, session) {
   # Reactive object that keeps track of all policies run -----------
   rv_results <- reactiveValues(
     
-    run = tibble(id = character(),
-                 
-                 # Display name
-                 name = character(),
-                 
-                 # type
-                 type = character(),
-                 
-                 # # Policy triggers
-                 iuu = list(),
-                 oa = list(),
-                 overcap = list(),
-                 cap_tier = list(),
-                 
-                 # Policy description (words)
-                 policy_description = list(),
-                 
-                 # Fleet summary
-                 fleet_summary = list(),
-                 
-                 # Timeseries results
-                 results_timeseries = list(),
-                 
-                 # Ending results
-                 results_last = list())
+    # run = tibble(id = character(),
+    #              
+    #              # Display name
+    #              name = character(),
+    #              
+    #              # type
+    #              type = character(),
+    #              
+    #              # # Policy triggers
+    #              iuu = list(),
+    #              oa = list(),
+    #              overcap = list(),
+    #              cap_tier = list(),
+    #              
+    #              # Policy description (words)
+    #              policy_description = list(),
+    #              
+    #              # Fleet summary
+    #              fleet_summary = list(),
+    #              
+    #              # Timeseries results
+    #              results_timeseries = list(),
+    #              
+    #              # Ending results
+    #              results_last = list())
+    run = best_result
     
   )
   
   # Reactive object that keeps track of what policy we're on ----
-  rv_policy_id <- reactiveValues(id = character(0))
+  rv_policy_id <- reactiveValues(id = best_result$id)
   
   
-  # Add most ambitious results to our reactive results data frame
-  observeEvent(input$ab_introduction_to_explore_results, {
-    
-    # Add to results reactive object
-    isolate(rv_results$run <- rbind(rv_results$run, best_result))
-    
-    # Start our policy id tracker
-    rv_policy_id$id <- best_result$id
-    
-  }, ignoreInit = TRUE)
-  
+  # # Add most ambitious results to our reactive results data frame
+  # observeEvent(input$ab_introduction_to_explore_results, {
+  #   
+  #   # Add to results reactive object
+  #   isolate(rv_results$run <- rbind(rv_results$run, best_result))
+  #   
+  #   # Start our policy id tracker
+  #   rv_policy_id$id <- best_result$id
+  #   
+  # }, ignoreInit = TRUE)
+  # 
   ### Reactive object that keeps track of user custom input policy selections -----
   rv_custom_policy <- reactiveValues(
     
@@ -463,6 +465,7 @@ shinyServer(function(input, output, session) {
 
         # Add to results reactive object
         isolate(rv_results$run <- rbind(rv_results$run, new_result))
+        isolate(rv_explore_results$data <- rbind(rv_explore_results$data, new_result$results_timeseries))
 
         # Update reactive policy id tracker
         rv_policy_id$id <- new_run_id
@@ -475,6 +478,19 @@ shinyServer(function(input, output, session) {
     } # close result
 
   })
+  
+  # ### Reactive data/plot: Model results over time -----------------------
+  # observeEvent(c(input$w_explore_results_show_ambitious,
+  #                input$w_explore_results_show_policies,
+  #                input$w_explore_results_show_custom,
+  #                input$ab_run_model_proposal,
+  #                input$ab_run_model_custom), {
+  #                  
+  #                  
+  #                  
+  #                  
+  #                })
+  
 
   ### Plotly figure: Model results over time ---------------------
 

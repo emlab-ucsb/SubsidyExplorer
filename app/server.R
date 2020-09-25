@@ -1751,12 +1751,16 @@ shinyServer(function(input, output, session) {
                          choices = new_choices)
   })
   
-  ### Plotly figure: Compare fishery stats ---------------------
-  output$compare_fishery_stats_bar_plot <- renderPlotly({
-    
-    req(input$w_compare_fishery_stats_selected_country)
-    req(input$w_compare_fishery_stats_plot_variable)
-    req(input$w_compare_fishery_stats_method)
+  ### Reactive data/plot: Compare fishery stats -----------------------
+  observeEvent(c(input$w_compare_fishery_stats_selected_country,
+                 input$w_compare_fishery_stats_plot_variable,
+                 input$w_compare_fishery_stats_method,
+                 input$w_compare_fishery_stats_select_manual,
+                 input$w_compare_fishery_stats_good_types, 
+                 input$w_compare_fishery_stats_ugly_types,
+                 input$w_compare_fishery_stats_bad_types,
+                 input$ab_compare_fishery_stats_select_all,
+                 input$ab_compare_fishery_stats_clear_all), {
     
     if(!(input$w_compare_fishery_stats_plot_variable %in% c("landings", "revenue"))){
       
@@ -1789,15 +1793,15 @@ shinyServer(function(input, output, session) {
       mutate(rank = dense_rank(desc(tot_value)),
              display_name = fct_rev(fct_reorder(display_name, tot_value)),
              iso3 = fct_rev(fct_reorder(iso3, tot_value)))
-
+    
     # Filter for the top 10 countries
     if(input$w_compare_fishery_stats_method == "top10"){
-
+      
       compare_fishery_stats_bar_plot_dat <- compare_fishery_stats_bar_plot_dat %>%
         dplyr::filter(rank <= 10 | iso3 == input$w_compare_fishery_stats_selected_country) %>%
         mutate(color = ifelse(iso3 == input$w_compare_fishery_stats_selected_country, "red", NA))
       compare_fishery_stats_bar_plot_dat$value[is.na(compare_fishery_stats_bar_plot_dat$value)] <- 0
-
+      
       # Filter for manually selected states
     }else if(input$w_compare_fishery_stats_method == "select"){
       
@@ -1805,12 +1809,14 @@ shinyServer(function(input, output, session) {
         dplyr::filter(iso3 %in% input$w_compare_fishery_stats_select_manual | iso3 == input$w_compare_fishery_stats_selected_country) %>%
         mutate(color = ifelse(iso3 == input$w_compare_fishery_stats_selected_country, "red", NA))
       compare_fishery_stats_bar_plot_dat$value[is.na(compare_fishery_stats_bar_plot_dat$value)] <- 0
-
+      
     }
-
+    
+    # Update reactive container
+    rv_compare_fishery_stats$data <- compare_fishery_stats_bar_plot_dat
+    
     # Require at least one matching entry
     req(nrow(compare_fishery_stats_bar_plot_dat) > 0)
-    
     
     ## Make plots
     if(!(input$w_compare_fishery_stats_plot_variable %in% c("landings", "revenue"))){
@@ -1828,9 +1834,10 @@ shinyServer(function(input, output, session) {
                            labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
         coord_flip()+
         theme_bw()+
-        labs(x = "")+
-        theme(legend.title = element_blank(),
-              legend.position = "none")
+        labs(x = "",
+             fill = "Type")
+        # theme(legend.title = element_blank(),
+        #       legend.position = "none")
       
       
     }else{
@@ -1848,19 +1855,53 @@ shinyServer(function(input, output, session) {
                            labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
         coord_flip()+
         theme_bw()+
-        labs(x = "")+
-        theme(legend.title = element_blank(),
-              legend.position = "none")
+        labs(x = "")
+        # theme(legend.title = element_blank(),
+        #       legend.position = "none")
       
     }
     
+    # Update reactive container
+    rv_compare_fishery_stats$plot <- compare_fishery_stats_bar_plot
+    
+  })
+  
+  ### Plotly figure: Compare fishery stats ---------------------
+  output$compare_fishery_stats_bar_plot <- renderPlotly({
+    
+    req(nrow(rv_compare_fishery_stats$data) > 0)
+    
+    plot <- rv_compare_fishery_stats$plot + 
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+    
     # Convert to plotly
-    gg <- ggplotly(compare_fishery_stats_bar_plot, tooltip="text")
+    gg <- ggplotly(plot, tooltip="text")
 
     # Return plot
     gg
     
   })
+  
+  ### Download button: Compare fishery stats data (CSV) -----------------------
+  output$db_compare_fishery_stats_download_data <- downloadHandler(
+    
+    filename = "SubsidyExplorer_compare_fishery_stats_data_selected.csv",
+    content = function(file) {
+      write.csv(rv_compare_fishery_stats$data, file, row.names = FALSE)
+    }
+  )
+  
+  ### Download button: Global map of fisheries subsidies figure (PDF) -----------------------
+  output$db_compare_fishery_stats_download_figure <- downloadHandler(
+    
+    filename = "SubsidyExplorer_compare_fishery_stats_plot_selected.pdf",
+    content = function(file) {
+      pdf(file, width = 11, height = 6.5)
+      print(rv_compare_fishery_stats$plot)
+      dev.off()
+    }
+  )
   
   ### ---------------------------------
   ### 04d. global-fishing-footprint ---
@@ -1909,7 +1950,7 @@ shinyServer(function(input, output, session) {
     
   })
   
-  ### Reactive data: Global map of fishing effort -----------------------
+  ### Reactive data/plot: Global map of fishing effort -----------------------
   observe({
     
     # Summarize data

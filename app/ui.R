@@ -218,7 +218,6 @@ shinyUI(
                         EditPolicies(wto_members_and_observers, subsidy_types_sorted_sumaila)
                 ),
               
-                
                 ### More about fisheries subsidies ---
                 
                 # About fisheries subsidies - Item #1 - Global subsidy map

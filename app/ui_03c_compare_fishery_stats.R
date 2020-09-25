@@ -161,18 +161,22 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
                                               
                                               tags$td(id = "compare-fishery-stats-table-cell-2",
                                                 
-                                                      tags$button(id = "db_compare_fishery_stats_download_data",
-                                                                  class = "btn action-button rounded-button-grey download-button",
-                                                                  tags$b(icon("external-link-alt"),
-                                                                         text$item_label[text$item_id == "db_compare_fishery_stats_download_data"]))
+                                                      downloadButton("db_compare_fishery_stats_download_data",
+                                                                     text$item_label[text$item_id == "db_compare_fishery_stats_download_data"])
+                                                      # tags$button(id = "db_compare_fishery_stats_download_data",
+                                                      #             class = "btn action-button rounded-button-grey download-button",
+                                                      #             tags$b(icon("external-link-alt"),
+                                                      #                    text$item_label[text$item_id == "db_compare_fishery_stats_download_data"]))
                                               ),
                                               
                                               tags$td(id = "compare-fishery-stats-table-cell-3",
                                                       
-                                                      tags$button(id = "db_compare_fishery_stats_download_figure",
-                                                                  class = "btn action-button rounded-button-grey download-button",
-                                                                  tags$b(icon("download"),
-                                                                         text$item_label[text$item_id == "db_compare_fishery_stats_download_figure"]))
+                                                      downloadButton("db_compare_fishery_stats_download_figure",
+                                                                     text$item_label[text$item_id == "db_compare_fishery_stats_download_figure"])
+                                                      # tags$button(id = "db_compare_fishery_stats_download_figure",
+                                                      #             class = "btn action-button rounded-button-grey download-button",
+                                                      #             tags$b(icon("download"),
+                                                      #                    text$item_label[text$item_id == "db_compare_fishery_stats_download_figure"]))
                                                       
                                               )
                                       )

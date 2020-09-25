@@ -209,10 +209,13 @@ CountryFisheryStats = function(wto_members_and_observers)
                                                                      ),
                                                                      
                                                                      tags$td(id = "country-fishery-stats-table-cell-3",
-                                                                             tags$button(id = "db_country_fishery_stats_demographic_download_figure",
-                                                                                         class = "btn action-button rounded-button-grey download-button",
-                                                                                         tags$b(icon("download"),
-                                                                                                text$item_label[text$item_id == "db_country_fishery_stats_demographic_download_figure"]))
+                                                                             
+                                                                             downloadButton("db_country_fishery_stats_demographic_download_figure",
+                                                                                            text$item_label[text$item_id == "db_country_fishery_stats_demographic_download_figure"])
+                                                                             # tags$button(id = "db_country_fishery_stats_demographic_download_figure",
+                                                                             #             class = "btn action-button rounded-button-grey download-button",
+                                                                             #             tags$b(icon("download"),
+                                                                             #                    text$item_label[text$item_id == "db_country_fishery_stats_demographic_download_figure"]))
                                                                              
                                                                      )
                                                              )

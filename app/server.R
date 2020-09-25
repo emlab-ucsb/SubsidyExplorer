@@ -31,7 +31,14 @@ shinyServer(function(input, output, session) {
                                              landed_value_data = NULL,
                                              landed_value_plot = NULL,
                                              marine_capture_plot = NULL,
-                                             demographic_data = NULL)
+                                             demographic_data = NULL,
+                                             pop_data = NULL,
+                                             pop_plot = NULL,
+                                             fisher_data = NULL,
+                                             fisher_plot = NULL,
+                                             gdp_data = NULL,
+                                             gdp_plot = NULL,
+                                             demographics_plot = NULL)
   
   rv_compare_fishery_stats <- reactiveValues(data = NULL,
                                              plot = NULL)
@@ -1375,6 +1382,163 @@ shinyServer(function(input, output, session) {
     # Update reactive container
     rv_country_fishery_stats$marine_capture_plot <- marine_capture_out_plot
     
+    
+    ### Demographics -------------
+    # Filter population data
+    country_fishery_stats_pop_plot_dat <- demographic_dat %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country) %>%
+      dplyr::filter(variable %in% c("population"))
+    
+    # Update reactive container
+    rv_country_fishery_stats$pop_data <- country_fishery_stats_pop_plot_dat
+    
+    # Make population plot
+    country_fishery_stats_pop_plot <- ggplot(country_fishery_stats_pop_plot_dat)+
+      aes(x = year, y = value/1e6)+
+      geom_line(color = totColor)+
+      geom_point(aes(text = paste0("<b>","Year: ","</b>", year,
+                                   "<br>",
+                                   "<b>", "Population: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 0, color = totColor)+
+      scale_y_continuous(name = "Population (million persons)",
+                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+      scale_x_continuous(expand = c(0,0))+
+      theme_bw()+
+      labs(x = "Year")+
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+    
+    # Update reactive container
+    rv_country_fishery_stats$pop_plot <- country_fishery_stats_pop_plot
+    
+    # Filter fisher data
+    country_fishery_stats_fisher_plot_dat <- demographic_dat %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country) %>%
+      dplyr::filter(variable %in% c("fishers", "fishers_fte"))
+    
+    # Make dummy values for missing fishers data
+    if(nrow(country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers")) == 0){
+      
+      country_fishery_stats_fisher_plot_dat <- country_fishery_stats_fisher_plot_dat %>%
+        bind_rows(
+          tibble(
+            iso3 = input$w_country_fishery_stats_selected_country,
+            year = seq(2000, 2018, by = 1),
+            variable = "fishers",
+            value = NA,
+            units = NA,
+            source = NA
+          )
+        )
+    }
+    
+    # Make dummy values for missing full-time-equivalent data
+    if(nrow(country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers_fte")) == 0){
+      
+      country_fishery_stats_fisher_plot_dat <- country_fishery_stats_fisher_plot_dat %>%
+        bind_rows(
+          tibble(
+            iso3 = input$w_country_fishery_stats_selected_country,
+            year = 2003,
+            variable = "fishers_fte",
+            value = NA,
+            units = NA,
+            source = NA
+          )
+        )
+    }
+    
+    # Update reactive container
+    rv_country_fishery_stats$fisher_data <- country_fishery_stats_fisher_plot_dat
+    
+    # Make fisher plot
+    country_fishery_stats_fisher_plot <- ggplot()+
+      aes(x = year, y = value)+
+      geom_line(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers"), color = 'navy')+
+      geom_point(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers"),
+                 aes(text = paste0("<b>","Year: ","</b>", year,
+                                   "<br>",
+                                   "<b>", "Fishers: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 0, color = 'navy')+
+      geom_point(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers_fte"),
+                 aes(text = paste0("<b>","Year: ","</b>", year,
+                                   "<br>",
+                                   "<b>", "Full-Time Fisheries Jobs: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 1, color = 'navy')+
+      scale_y_continuous(name = "Fishers (persons)",
+                         labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
+      scale_x_continuous(expand = c(0,0))+
+      theme_bw()+
+      labs(x = "Year")+
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+    
+    # Update reactive container
+    rv_country_fishery_stats$fisher_plot<- country_fishery_stats_fisher_plot
+    
+    # Filter gdp data
+    country_fishery_stats_gdp_plot_dat <- demographic_dat %>%
+      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country) %>%
+      dplyr::filter(variable %in% c("gdp", "gdp_ffa"))
+    
+    # Make dummy values for missing data? 
+    if(nrow(country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa")) == 0){
+      
+      country_fishery_stats_gdp_plot_dat <- country_fishery_stats_gdp_plot_dat %>%
+        bind_rows(
+          tibble(
+            iso3 = input$w_country_fishery_stats_selected_country,
+            year = seq(2000, 2018, by = 1),
+            variable = "gdp_ffa",
+            value = NA,
+            units = NA,
+            source = NA
+          )
+        )
+    }
+    
+    # Update reactive container
+    rv_country_fishery_stats$gdp_data<- country_fishery_stats_gdp_plot_dat
+    
+    # Make GDP plot
+    country_fishery_stats_gdp_plot <- ggplot()+
+      aes(x = year, y = value/1e9)+
+      geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"), fill = totColor)+
+      geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"),
+                 aes(text = paste0("<b>","Year: ","</b>", year,
+                                   "<br>",
+                                   "<b>", "GDP - Total ($USD): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 0, color = totColor)+
+      geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"), fill = 'navy')+
+      geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"),
+                 aes(text = paste0("<b>","Year: ","</b>", year,
+                                   "<br>",
+                                   "<b>", "GDP - Fisheries, Forestry, and Agriculture ($USD): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
+                 alpha = 0, color = 'navy')+
+      scale_y_continuous(name = "GDP (billion $USD)",
+                         labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
+      scale_x_continuous(expand = c(0,0))+
+      theme_bw()+
+      labs(x = "Year")+
+      theme(legend.title = element_blank(),
+            legend.position = "none")
+    
+    # Update reactive container
+    rv_country_fishery_stats$gdp_plot<- country_fishery_stats_gdp_plot
+    
+    # Make combined plot
+    demographics_out_plot <- cowplot::plot_grid(
+      
+      cowplot::plot_grid(country_fishery_stats_pop_plot,
+                                                country_fishery_stats_fisher_plot,
+                                                ncol = 2),
+      country_fishery_stats_gdp_plot,
+      ncol = 1
+    )
+    
+    # Update reactive container
+    rv_country_fishery_stats$demographics_plot <- demographics_out_plot
+    
   })
   
   ### Plotly figure: Fisheries subsidies by type ---------------------
@@ -1513,34 +1677,11 @@ shinyServer(function(input, output, session) {
   ### Plotly figure: World Bank Population ---------------------
   output$country_fishery_stats_pop_plot <- renderPlotly({
 
-    req(input$w_country_fishery_stats_selected_country)
-
-    # Filter data
-    country_fishery_stats_pop_plot_dat <- demographic_dat %>%
-      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country) %>%
-      dplyr::filter(variable %in% c("population"))
+    req(nrow(rv_country_fishery_stats$pop_data) > 0)
+    req(all(is.na(rv_country_fishery_stats$pop_data$value)) == F)
     
-    req(nrow(country_fishery_stats_pop_plot_dat) > 0)
-    req(all(is.na(country_fishery_stats_pop_plot_dat$value)) == F)
-
-    # Make plot
-    country_fishery_stats_pop_plot <- ggplot(country_fishery_stats_pop_plot_dat)+
-      aes(x = year, y = value/1e6)+
-      geom_line(color = totColor)+
-      geom_point(aes(text = paste0("<b>","Year: ","</b>", year,
-                                          "<br>",
-                                          "<b>", "Population: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
-                 alpha = 0, color = totColor)+
-      scale_y_continuous(name = "Population (million persons)",
-                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
-      scale_x_continuous(expand = c(0,0))+
-      theme_bw()+
-      labs(x = "Year")+
-      theme(legend.title = element_blank(),
-            legend.position = "none")
-
     # Convert to plotly
-    gg <- ggplotly(country_fishery_stats_pop_plot, tooltip="text") %>%
+    gg <- ggplotly(rv_country_fishery_stats$pop_plot, tooltip="text") %>%
       style(
         traces = 2,
         hoverlabel = list(bgcolor = "white")
@@ -1562,72 +1703,11 @@ shinyServer(function(input, output, session) {
   ### Plotly figure: Fishers and fisheries employment ---------------------
   output$country_fishery_stats_fisher_plot <- renderPlotly({
     
-    req(input$w_country_fishery_stats_selected_country)
-    
-    # Filter data
-    country_fishery_stats_fisher_plot_dat <- demographic_dat %>%
-      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country) %>%
-      dplyr::filter(variable %in% c("fishers", "fishers_fte"))
-    
-    req(nrow(country_fishery_stats_fisher_plot_dat) > 0)
-    req(all(is.na(country_fishery_stats_fisher_plot_dat$value)) == F)
-    
-    # Make dummy values for missing fishers data
-    if(nrow(country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers")) == 0){
-      
-      country_fishery_stats_fisher_plot_dat <- country_fishery_stats_fisher_plot_dat %>%
-        bind_rows(
-          tibble(
-            iso3 = input$w_country_fishery_stats_selected_country,
-            year = seq(2000, 2018, by = 1),
-            variable = "fishers",
-            value = NA,
-            units = NA,
-            source = NA
-          )
-        )
-    }
-    
-    # Make dummy values for missing full-time-equivalent data
-    if(nrow(country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers_fte")) == 0){
-      
-      country_fishery_stats_fisher_plot_dat <- country_fishery_stats_fisher_plot_dat %>%
-        bind_rows(
-          tibble(
-            iso3 = input$w_country_fishery_stats_selected_country,
-            year = 2003,
-            variable = "fishers_fte",
-            value = NA,
-            units = NA,
-            source = NA
-          )
-        )
-    }
-    
-    # Make plot
-    country_fishery_stats_fisher_plot <- ggplot()+
-      aes(x = year, y = value)+
-      geom_line(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers"), color = 'navy')+
-      geom_point(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers"),
-                 aes(text = paste0("<b>","Year: ","</b>", year,
-                                   "<br>",
-                                   "<b>", "Fishers: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
-                 alpha = 0, color = 'navy')+
-      geom_point(data = country_fishery_stats_fisher_plot_dat %>% dplyr::filter(variable == "fishers_fte"),
-                 aes(text = paste0("<b>","Year: ","</b>", year,
-                                   "<br>",
-                                   "<b>", "Full-Time Fisheries Jobs: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
-                 alpha = 1, color = 'navy')+
-      scale_y_continuous(name = "Fishers (persons)",
-                         labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
-      scale_x_continuous(expand = c(0,0))+
-      theme_bw()+
-      labs(x = "Year")+
-      theme(legend.title = element_blank(),
-            legend.position = "none")
+    req(nrow(rv_country_fishery_stats$fisher_data) > 0)
+    req(all(is.na(rv_country_fishery_stats$fisher_data$value)) == F)
     
     # Convert to plotly
-    gg <- ggplotly(country_fishery_stats_fisher_plot, tooltip="text")
+    gg <- ggplotly(rv_country_fishery_stats$fisher_plot, tooltip="text")
     
     gg <- gg %>%
       layout(xaxis = list(
@@ -1645,57 +1725,11 @@ shinyServer(function(input, output, session) {
   ### Plotly figure: GDP ---------------------
   output$country_fishery_stats_gdp_plot <- renderPlotly({
     
-    req(input$w_country_fishery_stats_selected_country)
-    
-    # Filter data
-    country_fishery_stats_gdp_plot_dat <- demographic_dat %>%
-      dplyr::filter(iso3 == input$w_country_fishery_stats_selected_country) %>%
-      dplyr::filter(variable %in% c("gdp", "gdp_ffa"))
-    
-    req(nrow(country_fishery_stats_gdp_plot_dat) > 0)
-    req(all(is.na(country_fishery_stats_gdp_plot_dat$value)) == F)
-    
-    # Make dummy values for missing data? 
-    if(nrow(country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa")) == 0){
-      
-      country_fishery_stats_gdp_plot_dat <- country_fishery_stats_gdp_plot_dat %>%
-        bind_rows(
-          tibble(
-            iso3 = input$w_country_fishery_stats_selected_country,
-            year = seq(2000, 2018, by = 1),
-            variable = "gdp_ffa",
-            value = NA,
-            units = NA,
-            source = NA
-          )
-        )
-    }
-    
-    # Make plot
-    country_fishery_stats_gdp_plot <- ggplot()+
-      aes(x = year, y = value/1e9)+
-      geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"), fill = totColor)+
-      geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp"),
-                 aes(text = paste0("<b>","Year: ","</b>", year,
-                                   "<br>",
-                                   "<b>", "GDP - Total ($USD): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
-                 alpha = 0, color = totColor)+
-      geom_area(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"), fill = 'navy')+
-      geom_point(data = country_fishery_stats_gdp_plot_dat %>% dplyr::filter(variable == "gdp_ffa"),
-                 aes(text = paste0("<b>","Year: ","</b>", year,
-                                   "<br>",
-                                   "<b>", "GDP - Fisheries, Forestry, and Agriculture ($USD): ", "</b>", "$", format(round(value,0), big.mark = ",", scientific = F))),
-                 alpha = 0, color = 'navy')+
-      scale_y_continuous(name = "GDP (billion $USD)",
-                         labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
-      scale_x_continuous(expand = c(0,0))+
-      theme_bw()+
-      labs(x = "Year")+
-      theme(legend.title = element_blank(),
-            legend.position = "none")
+    req(nrow(rv_country_fishery_stats$gdp_data) > 0)
+    req(all(is.na(rv_country_fishery_stats$gdp_data$value)) == F)
     
     # Convert to plotly
-    gg <- ggplotly(country_fishery_stats_gdp_plot, tooltip="text")
+    gg <- ggplotly(rv_country_fishery_stats$gdp_plot, tooltip="text")
     
     gg <- gg %>%
       layout(xaxis = list(
@@ -1709,6 +1743,17 @@ shinyServer(function(input, output, session) {
     gg
     
   })
+  
+  ### Download button: Country fishery stats demographics figure (PDF) -----------------------
+  output$db_country_fishery_stats_demographic_download_figure <- downloadHandler(
+    
+    filename = function(){paste0("SubsidyExplorer_country_fishery_stats_demographics_plot_", input$w_country_fishery_stats_selected_country, ".pdf")},
+    content = function(file) {
+      pdf(file, width = 8.5, height = 11)
+      print(rv_country_fishery_stats$demographics_plot)
+      dev.off()
+    }
+  )
   
   ### ------------------------------
   ### 03c. compare-fishery-stats ---

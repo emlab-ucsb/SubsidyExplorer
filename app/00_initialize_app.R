@@ -410,4 +410,39 @@ best_result <- tibble(id = "A",
                       results_timeseries = list(remove_all_bad_results_full),
                       results_last = list(remove_all_bad_results_last))
 
+### PDF plotting ----------------
 
+logo_black <- rasterGrob(readPNG("./www/emlab_logo_horizontal_w.png"), interpolate=TRUE, vjust = 0.8, hjust = 0.6)
+header_text <- textGrob("SubsidyExplorer", gp = gpar(fontsize=16, fontface="bold", lineheight=1, col = "black", fontfamily = "Helvetica"), hjust = 0.55, vjust = 1)
+
+# Layout for horizontal PDFs (1: SubsidyExplorer, 2: emlab logo, 3: caption, 4: plot)
+pdf_layout_horizontal <- rbind(c(1, 2),
+                               c(3, 3),
+                               c(4, 4))
+
+pdf_widths_horizontal <- unit(c(8,3), "in")
+pdf_heights_horizontal <- unit(c(1,2,5.5), "in")
+
+WrapText  <- function(vector_of_strings, width){
+  as.character(sapply(vector_of_strings, FUN=function(x){paste(strwrap(x, width=width), collapse="\n")}))
+}
+
+pretty_static_map_theme <- theme_bw()+
+  theme(panel.border = element_blank(),
+        plot.title = element_text(face = "bold", size = 20),
+        plot.subtitle = element_text(size = 10),
+        plot.caption = element_text(size = 8, color = "grey", face = "italic", hjust = 0),
+        plot.margin = unit(c(0, 0.25, 0, 0.25), "in"))
+
+pretty_static_plot_theme <- theme_bw()+
+  theme(panel.border = element_blank(),
+        plot.title = element_text(face = "bold", size = 20),
+        plot.subtitle = element_text(size = 10),
+        plot.caption = element_text(size = 10, hjust = 0),
+        plot.margin = unit(c(1, 0.25, 1, 0.25), "in"))
+
+leaflet_plot_theme <- theme(legend.position = "none",
+                            plot.title = element_blank(),
+                            plot.subtitle = element_blank(),
+                            plot.caption = element_blank(),
+                            plot.margin = unit(c(0,0,0,0), "in"))

@@ -1963,6 +1963,17 @@ shinyServer(function(input, output, session) {
     # Require at least one matching entry
     req(nrow(compare_fishery_stats_bar_plot_dat) > 0)
     
+    # Get title, subtitle, caption
+    title <- text$item_label[text$item_id == "compare-fishery-stats"]
+    subtitle <- paste0(text$item_label[text$item_id == "w_compare_fishery_stats_selected_country"], ": ", names(wto_members_and_observers[wto_members_and_observers == input$w_compare_fishery_stats_selected_country]),
+                       "\n",
+                       text$item_label[text$item_id == "w_compare_fishery_stats_plot_variable"], ": ", names(unlist(wid$choices[wid$item_id == "w_compare_fishery_stats_plot_variable"])[unlist(wid$choices[wid$item_id == "w_compare_fishery_stats_plot_variable"]) == input$w_compare_fishery_stats_plot_variable]),
+                       "\n",
+                       text$item_label[text$item_id == "w_compare_fishery_stats_method"], ": ", names(unlist(wid$choices[wid$item_id == "w_compare_fishery_stats_method"])[unlist(wid$choices[wid$item_id == "w_compare_fishery_stats_method"]) == input$w_compare_fishery_stats_method]),
+                       "\n \n",
+                       "plot text here")
+    #caption <- "plot text here"
+                      
     ## Make plots
     if(!(input$w_compare_fishery_stats_plot_variable %in% c("landings", "revenue"))){
       
@@ -1978,12 +1989,12 @@ shinyServer(function(input, output, session) {
         scale_y_continuous(expand = c(0,0), name = compare_fishery_stats_bar_plot_args[[2]],
                            labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
         coord_flip()+
-        theme_bw()+
         labs(x = "",
-             fill = "Type")
-        # theme(legend.title = element_blank(),
-        #       legend.position = "none")
-      
+             fill = "Type",
+             title = title,
+             subtitle = subtitle)+
+        pretty_static_plot_theme+
+        theme(legend.position = "right")
       
     }else{
       
@@ -1999,10 +2010,12 @@ shinyServer(function(input, output, session) {
         scale_y_continuous(expand = c(0,0), name = compare_fishery_stats_bar_plot_args[[2]],
                            labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
         coord_flip()+
-        theme_bw()+
-        labs(x = "")
-        # theme(legend.title = element_blank(),
-        #       legend.position = "none")
+        labs(x = "",
+             title = title,
+             subtitle = subtitle,
+             caption = caption) +
+        pretty_static_plot_theme+
+        theme(legend.position = "right")
       
     }
     
@@ -2017,8 +2030,9 @@ shinyServer(function(input, output, session) {
     req(nrow(rv_compare_fishery_stats$data) > 0)
     
     plot <- rv_compare_fishery_stats$plot + 
-      theme(legend.title = element_blank(),
-            legend.position = "none")
+      labs(title = "",
+           subtitle = "") +
+      leaflet_plot_theme
     
     # Convert to plotly
     gg <- ggplotly(plot, tooltip="text")
@@ -2042,7 +2056,7 @@ shinyServer(function(input, output, session) {
     
     filename = "SubsidyExplorer_compare_fishery_stats_plot_selected.pdf",
     content = function(file) {
-      pdf(file, width = 11, height = 6.5)
+      pdf(file, width = 11, height = 8.5)
       print(rv_compare_fishery_stats$plot)
       dev.off()
     }
@@ -2139,35 +2153,6 @@ shinyServer(function(input, output, session) {
     # Update reactive data container
     rv_global_fishing_footprint$polygons_text <- global_fishing_footprint_map_text
     
-    # Plot labels
-    labels <- c(1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10)
-    breaks <- log10(labels)
-    limits <- c(min(breaks), max(breaks))
-    
-    # Get world map
-    world <- ne_countries(scale = "small", returnclass = "sf")
-    world_mollweide <- st_transform(world, crs = "+proj=moll")
-    
-    # Reproject data
-    footprint_data_mollweide <- st_transform(global_fishing_footprint_map_dat_shp, crs = "+proj=moll")
-    
-    # Make static plot
-    global_fishing_footprint_map_static <- ggplot()+
-      geom_sf(data = world_mollweide, fill = "white", color = "grey", size = 0.25)+
-      geom_sf(data = footprint_data_mollweide, aes(fill = log10(fishing_KWh)))+
-      theme_bw()+
-      scale_fill_gradientn(colors = brewer.pal(9, "YlOrRd"),
-                           limits = limits,
-                           breaks = breaks,
-                           labels = labels)+
-      labs(fill = str_replace(text$item_label[text$item_id == "global_fishing_footprint_map_legend"], "<br>", "\n"))+
-      theme(legend.position = "right",
-            panel.border = element_blank())+
-      guides(fill = guide_colorbar(title.position = "top", barheight = 20, title.hjust = 0.5))
-    
-    # Update reactive data container
-    rv_global_fishing_footprint$plot <- global_fishing_footprint_map_static
-    
   })
   
   ### Leaflet map: Global map of fishing effort with hover boxes ---------------------
@@ -2210,10 +2195,44 @@ shinyServer(function(input, output, session) {
     
     filename = "SubsidyExplorer_global_fishing_footprint_map.pdf",
     content = function(file) {
+      
+      # Plot labels
+      labels <- c(1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10)
+      breaks <- log10(labels)
+      limits <- c(min(breaks), max(breaks))
+      
+      # Get world map
+      world <- ne_countries(scale = "small", returnclass = "sf")
+      world_mollweide <- st_transform(world, crs = "+proj=moll")
+      
+      # Reproject data
+      footprint_data_mollweide <- st_transform(rv_global_fishing_footprint$polygons, crs = "+proj=moll")
+      
+      # Get title, subtitle, and caption
+      title <- paste0(text$item_label[text$item_id == "global-fishing-footprint"])
+      subtitle <- "This map shows global large-scale fishing effort in 2018, aggregated by Exclusive Economic Zone (EEZ) (or FAO statistical region for effort on the high seas). Fishing effort is quantified in kilowatt hours (kWh), which is calculated as the time spent fishing in hours weighted by the total engine capacity of the vessel in kW. Data are sourced from Global Fishing Watch (GFW). GFW is a novel dataset that uses machine learning models to produce satellite tracks of fishing vessels to detect fishing activity in near-real time."
+      caption <- str_replace(str_replace(text$item_label[text$item_id == "map_disclaimer"], '<small class="gray">', ""), "</small>", "")
+      
+      # Make static plot
+      global_fishing_footprint_map_static <- ggplot()+
+        geom_sf(data = world_mollweide, fill = "white", color = "grey", size = 0.25)+
+        geom_sf(data = footprint_data_mollweide, aes(fill = log10(fishing_KWh)), lwd = 0.3)+
+        scale_fill_gradientn(colors = brewer.pal(9, "YlOrRd"),
+                             limits = limits,
+                             breaks = breaks,
+                             labels = scales::comma(labels))+
+        labs(fill = str_replace(text$item_label[text$item_id == "global_fishing_footprint_map_legend"], "<br>", "\n"))+
+        guides(fill = guide_colorbar(title.position = "top", barheight = 15, title.hjust = 0.5, title.vjust = 3))+
+        pretty_static_map_theme+
+        theme(legend.position = "right")+
+        labs(title = title, subtitle = WrapText(subtitle, 165), caption = WrapText(caption, 200))
+      
+      # Output
       pdf(file, width = 11, height = 8.5)
-      print(rv_global_fishing_footprint$plot)
+      print(global_fishing_footprint_map_static)
       dev.off()
+      
     }
   )
-
+  
 })

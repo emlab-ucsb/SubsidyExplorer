@@ -41,6 +41,10 @@ library(leaflet) # interactive maps
 library(plotly) # interactive charts
 library(rnaturalearth)
 library(rnaturalearthdata)
+library(png)
+library(ggpubr) # plot arranging
+library(gridExtra)
+library(grid)
 library(RColorBrewer) # other color scales
 
 # Silence new dplyr grouping messages
@@ -191,7 +195,13 @@ shinyUI(
         dashboardBody(
             
             # Custom stylesheet
-            tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "subsidy_explorer.css")),
+            tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "subsidy_explorer.css"),
+                      tags$script(HTML('
+                           Shiny.addCustomMessageHandler("jsCode",
+                           function(message) {
+                           eval(message.value);
+                           });'
+                      ))),
             
             # Allow for popups
             useShinyalert(),

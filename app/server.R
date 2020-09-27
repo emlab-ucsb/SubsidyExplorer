@@ -15,39 +15,19 @@ shinyServer(function(input, output, session) {
   ### Reactive data/plot containers ---
   ### ----------------------------
   
-  rv_explore_results <- reactiveValues(data = best_result$results_timeseries,
-                                       plot = NULL)
+  rv_explore_results <- reactiveValues(data_all = best_result$results_timeseries,
+                                       data_global = NULL,
+                                       data_regional = NULL,
+                                       plot_global = NULL,
+                                       plot_regional = NULL)
   
-  rv_global_subsidies <- reactiveValues(data = NULL,
-                                        polygons = NULL,
-                                        polygons_text = NULL,
-                                        points = NULL,
-                                        points_text = NULL,
-                                        plot = NULL)
+  rv_global_subsidies <- reactiveValues()
   
-  rv_country_fishery_stats <- reactiveValues(subsidy_data = NULL,
-                                             subsidy_plot = NULL,
-                                             landings_data = NULL,
-                                             landings_plot = NULL,
-                                             landed_value_data = NULL,
-                                             landed_value_plot = NULL,
-                                             marine_capture_plot = NULL,
-                                             demographic_data = NULL,
-                                             pop_data = NULL,
-                                             pop_plot = NULL,
-                                             fisher_data = NULL,
-                                             fisher_plot = NULL,
-                                             gdp_data = NULL,
-                                             gdp_plot = NULL,
-                                             demographics_plot = NULL)
+  rv_country_fishery_stats <- reactiveValues()
   
-  rv_compare_fishery_stats <- reactiveValues(data = NULL,
-                                             plot = NULL)
+  rv_compare_fishery_stats <- reactiveValues()
   
-  rv_global_fishing_footprint <- reactiveValues(data = NULL,
-                                                polygons = NULL,
-                                                polygons_text = NULL,
-                                                plot = NULL)
+  rv_global_fishing_footprint <- reactiveValues()
   
   ### --------------------------
   ### Other Reactive Containers ---
@@ -56,31 +36,6 @@ shinyServer(function(input, output, session) {
   # Reactive object that keeps track of all policies run -----------
   rv_results <- reactiveValues(
     
-    # run = tibble(id = character(),
-    #              
-    #              # Display name
-    #              name = character(),
-    #              
-    #              # type
-    #              type = character(),
-    #              
-    #              # # Policy triggers
-    #              iuu = list(),
-    #              oa = list(),
-    #              overcap = list(),
-    #              cap_tier = list(),
-    #              
-    #              # Policy description (words)
-    #              policy_description = list(),
-    #              
-    #              # Fleet summary
-    #              fleet_summary = list(),
-    #              
-    #              # Timeseries results
-    #              results_timeseries = list(),
-    #              
-    #              # Ending results
-    #              results_last = list())
     run = best_result
     
   )
@@ -89,17 +44,6 @@ shinyServer(function(input, output, session) {
   rv_policy_id <- reactiveValues(id = best_result$id)
   
   
-  # # Add most ambitious results to our reactive results data frame
-  # observeEvent(input$ab_introduction_to_explore_results, {
-  #   
-  #   # Add to results reactive object
-  #   isolate(rv_results$run <- rbind(rv_results$run, best_result))
-  #   
-  #   # Start our policy id tracker
-  #   rv_policy_id$id <- best_result$id
-  #   
-  # }, ignoreInit = TRUE)
-  # 
   ### Reactive object that keeps track of user custom input policy selections -----
   rv_custom_policy <- reactiveValues(
     
@@ -245,9 +189,9 @@ shinyServer(function(input, output, session) {
 
       req(input$w_explore_results_proposal_selection != "Default")
 
-      paste0("<b>", "Formal Title: ", "</b>", selected_policy$title, "</br>",
-             "<b>", "Summary: ", "</b>", selected_policy$summary, "</br>",
-             "<b>", "Modeling Assumptions: ", "</b>", selected_policy$model_details_assumptions) %>%
+      paste0("<b class = 'big'>", "Formal Title: ", "</b>", selected_policy$title, "</br>",
+             "<b class = 'big'>", "Summary: ", "</b>", selected_policy$summary, "</br>",
+             "<b class = 'big'>", "Modeling Assumptions: ", "</b>", selected_policy$model_details_assumptions) %>%
         lapply(htmltools::HTML)
 
     })
@@ -465,7 +409,7 @@ shinyServer(function(input, output, session) {
 
         # Add to results reactive object
         isolate(rv_results$run <- rbind(rv_results$run, new_result))
-        isolate(rv_explore_results$data <- rbind(rv_explore_results$data, new_result$results_timeseries))
+        #isolate(rv_explore_results$data <- rbind(rv_explore_results$data, new_result$results_timeseries))
 
         # Update reactive policy id tracker
         rv_policy_id$id <- new_run_id
@@ -480,16 +424,110 @@ shinyServer(function(input, output, session) {
   })
   
   # ### Reactive data/plot: Model results over time -----------------------
-  # observeEvent(c(input$w_explore_results_show_ambitious,
-  #                input$w_explore_results_show_policies,
-  #                input$w_explore_results_show_custom,
-  #                input$ab_run_model_proposal,
-  #                input$ab_run_model_custom), {
-  #                  
-  #                  
-  #                  
-  #                  
-  #                })
+  observe({
+                   
+                   # Filter results using widget checkboxes
+                   entries_to_keep <- rv_results$run %>%
+                     dplyr::filter(name %in% c(input$w_explore_results_show_ambitious,
+                                               input$w_explore_results_show_policies,
+                                               input$w_explore_results_show_custom))
+                   
+                   # Collect data
+                   dat <- bind_rows(entries_to_keep$results_timeseries)
+                   
+                   # Add to reactive object 
+                   rv_explore_results$data_all <- dat
+                   
+                   if(nrow(dat) == 0){
+                     
+                     # Add to reactive object 
+                     rv_explore_results$data_global <- dat  
+                     rv_explore_results$data_regional <- dat
+                     
+                   }else{
+                   
+                   # Get global data
+                   global_dat <- dat %>%
+                     group_by(Id, Name, Type, Description, Year, Variable, Fleet) %>%
+                     summarize(BAU = unique(BAU_global),
+                               Reform = unique(Reform_global),
+                               Diff = unique(Diff_global)) %>%
+                     ungroup() %>%
+                     mutate(Region = "Global") %>%
+                     mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
+                                                 Variable == "catches_total" ~ "Catch",
+                                                 Variable == "revenue_total" ~ "Revenue",
+                                                 Variable == "u_mort_total" ~ "Fishing Mortality"))
+                   
+                   # Add to reactive object 
+                   rv_explore_results$data_global <- global_dat
+                   
+                   # Make global plots
+                   
+                   global_title <- paste0(text$item_label[text$item_id == "explore-results"], " - ", "Global")
+                   global_subtitle <- paste0(WrapText("This plot shows changes in global fish biomass, catch, fishing mortality, and revenue under each of the selected subsidy reform policies relative to a Business as Usual (BAU) scenario in which subsidy provisioning continues unchanged.", 100), "\n")
+                   
+                   global_plot <-  ggplot()+
+                     aes(x = Year, y = Diff*100, group = Id, color = Type, linetype = Name)+
+                     geom_line(data = global_dat, size = 1)+
+                     pretty_static_plot_theme+
+                     scale_color_manual(values = proposal_color_pal[names(proposal_color_pal) %in% unique(global_dat$Type)])+
+                     geom_hline(yintercept = 0)+
+                     scale_x_continuous(expand = c(0,0))+
+                     labs(x = "Year", y = "Difference Relative to BAU (%)")+
+                     facet_grid(Variable~Region, scales = "free")+
+                     labs(linetype = "Proposal",
+                          color = "Policy Type",
+                          title = global_title,
+                          subtitle = global_subtitle)+
+                     theme(legend.direction = "vertical", 
+                           legend.position = "bottom",
+                           legend.box = "horizontal")
+                  
+                   # Add to reactive object 
+                   rv_explore_results$plot_global <- global_plot
+                   
+                   # Get regional data
+                   regional_dat <- dat %>%
+                     dplyr::select(Id, Name, Type, Description, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
+                     mutate(Region = case_when(Region == "atlantic" ~ "Atlantic Ocean",
+                                               Region == "indian" ~ "Indian Ocean",
+                                               Region == "pacific" ~ "Pacific Ocean")) %>%
+                     mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
+                                                 Variable == "catches_total" ~ "Catch",
+                                                 Variable == "revenue_total" ~ "Revenue",
+                                                 Variable == "u_mort_total" ~ "Fishing Mortality"))
+                   
+                   # Add to reactive object 
+                   rv_explore_results$data_regional <- regional_dat
+                   
+                   # Regional Plot
+                   regional_title <- paste0(text$item_label[text$item_id == "explore-results"], " - ", "Regional")
+                   regional_subtitle <- paste0(WrapText("This plot shows changes in regional fish biomass, catch, fishing mortality, and revenue under each of the selected subsidy reform policies relative to a Business as Usual (BAU) scenario in which subsidy provisioning continues unchanged.", 100), "\n")
+                   
+                   regional_plot <-  ggplot()+
+                     aes(x = Year, y = Diff*100, group = Id, color = Type, linetype = Name)+
+                     geom_line(data = regional_dat, size = 1)+
+                     pretty_static_plot_theme+
+                     scale_color_manual(values = proposal_color_pal[names(proposal_color_pal) %in% unique(regional_dat$Type)])+
+                     geom_hline(yintercept = 0)+
+                     scale_x_continuous(expand = c(0,0))+
+                     labs(x = "Year", y = "Difference Relative to BAU (%)")+
+                     facet_grid(Variable~Region, scales = "free")+
+                     labs(linetype = "Proposal",
+                          color = "Policy Type",
+                          title = regional_title,
+                          subtitle = regional_subtitle)+
+                     theme(legend.direction = "vertical", 
+                           legend.position = "bottom",
+                           legend.box = "horizontal")
+                   
+                   # Add to reactive object 
+                   rv_explore_results$plot_regional <- regional_plot
+                   
+                   }
+                   
+  })
   
 
   ### Plotly figure: Model results over time ---------------------
@@ -498,48 +536,28 @@ shinyServer(function(input, output, session) {
 
     req(input$w_explore_results_timeseries_plot_resolution)
     req(input$w_explore_results_timeseries_plot_variable)
-
-    # Filter results using widget checkboxes
-    entries_to_keep <- rv_results$run %>%
-      dplyr::filter(name %in% c(input$w_explore_results_show_ambitious,
-                                input$w_explore_results_show_policies,
-                                input$w_explore_results_show_custom))
-
-    # Collect data
-    dat <- bind_rows(entries_to_keep$results_timeseries)
-
-    req(nrow(dat) > 0)
+    req(nrow(rv_explore_results$data_all) > 0)
 
     # Global
     if(input$w_explore_results_timeseries_plot_resolution == "global"){
 
-      plot_dat <- dat %>%
-        group_by(Id, Name, Type, Description, Year, Variable, Fleet) %>%
-        summarize(BAU = unique(BAU_global),
-                  Reform = unique(Reform_global),
-                  Diff = unique(Diff_global)) %>%
-        ungroup() %>%
-        mutate(Region = "Global")
+      plot_dat <- rv_explore_results$data_global
 
       # Regional
     }else if(input$w_explore_results_timeseries_plot_resolution == "regional"){
 
-      plot_dat <- dat %>%
-        dplyr::select(Id, Name, Type, Description, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
-        mutate(Region = case_when(Region == "atlantic" ~ "Atlantic Ocean",
-                                  Region == "indian" ~ "Indian Ocean",
-                                  Region == "pacific" ~ "Pacific Ocean"))
+      plot_dat <- rv_explore_results$data_regional
 
     }
 
     # Determine variable for plotting
     plot_variable <- switch(input$w_explore_results_timeseries_plot_variable,
-                            "biomass" = list("biomass", "Change in Biomass (%)"),
+                            "biomass" = list("Biomass", "Change in Biomass (%)"),
 
-                            "catches_total" = list("catches_total", "Change in Catch (%)"),
+                            "catches_total" = list("Catch", "Change in Catch (%)"),
 
-                            "revenue_total" = list("revenue_total", "Change in Revenue (%)"),
-                            "u_mort_total" = list("u_mort_total", "Change in Fishing Mortality (%)"))
+                            "revenue_total" = list("Revenue", "Change in Revenue (%)"),
+                            "u_mort_total" = list("Fishing Mortality", "Change in Fishing Mortality (%)"))
 
     # Make biomass plot
     out_plot_dat <- plot_dat %>%
@@ -579,6 +597,66 @@ shinyServer(function(input, output, session) {
 
   })
   
+  ### Download CSV - Global ------------------------------------
+  output$db_explore_results_download_data_global <- downloadHandler(
+    filename = function(){paste0("SubsidyExplorer_explore_results_data_global.csv")},
+    content = function(file) {
+      write.csv(rv_explore_results$data_global, file, row.names = FALSE)
+    }
+  )
+  ### Download CSV - Regional ------------------------------------
+  output$db_explore_results_download_data_regional <- downloadHandler(
+    filename = function(){paste0("SubsidyExplorer_explore_results_data_regional.csv")},
+    content = function(file) {
+      write.csv(rv_explore_results$data_regional, file, row.names = FALSE)
+    }
+  )
+  ### Download PDF - Global --------------------------------------
+  output$db_explore_results_download_figure_global <- downloadHandler(
+    filename = function(){paste0("SubsidyExplorer_explore_results_plot_global.pdf")},
+    content = function(file) {
+      
+      # Get Legend
+      plot_legend <- cowplot::get_legend(rv_explore_results$plot_global)
+      
+      out_plot <- cowplot::plot_grid(rv_explore_results$plot_global + theme(legend.position = "none",
+                                                                              plot.margin = unit(c(1, 0.25, 0, 0.25), "in")),
+                                     plot_legend,
+                                     ncol = 1,
+                                     rel_heights = c(3,1))
+      
+      ### ADD TABLE TOO
+      
+      pdf(file, width = 8.5, height = 11)
+      print(out_plot)
+      #print(marine_landed_value_out_plot)
+      dev.off()
+      
+    }
+  )
+  ### Download PDF - Regonal -------------------------------------
+  output$db_explore_results_download_figure_regional <- downloadHandler(
+    filename = function(){paste0("SubsidyExplorer_explore_results_plot_regional.pdf")},
+    content = function(file) {
+      
+      # Get Legend
+      plot_legend <- cowplot::get_legend(rv_explore_results$plot_regional)
+      
+      out_plot <- cowplot::plot_grid(rv_explore_results$plot_regional + theme(legend.position = "none",
+                                                                              plot.margin = unit(c(1, 0.25, 0, 0.25), "in")),
+                                     plot_legend,
+                                     ncol = 1,
+                                     rel_heights = c(3,1))
+      
+      ### ADD TABLE TOO
+      
+      pdf(file, width = 8.5, height = 11)
+      print(out_plot)
+      #print(marine_landed_value_out_plot)
+      dev.off()
+    }
+  )
+  
   ### Update checkboxGroupInput: Add new choices for each proposal that's run --------
   observe({
 
@@ -610,6 +688,8 @@ shinyServer(function(input, output, session) {
                               prettyOptions = list(status = "warning",
                                                    fill = TRUE))
   })
+  
+  
 
   ### ----------------------
   ### 02b. edit-policies ---
@@ -1310,7 +1390,7 @@ shinyServer(function(input, output, session) {
     
     # Make subsidy plot
     country_fishery_stats_subsidies_plot <- ggplot()+
-      geom_col(data = country_fishery_stats_subsidies_plot_dat, aes(x = source, y = value, fill = type_name, 
+      geom_col(data = country_fishery_stats_subsidies_plot_dat, aes(x = source, y = value/1e6, fill = type_name, 
                                                                     text = paste0("<b>","State: ","</b>", display_name,
                                                                                   "<br>",
                                                                                   "<b>","Type: ","</b>", type_name,
@@ -1321,7 +1401,7 @@ shinyServer(function(input, output, session) {
                                                                                   "<br>",
                                                                                   "<b>", "Year: ", "</b>", year)))+
       scale_fill_manual(values = myColors[names(myColors) %in% country_fishery_stats_subsidies_plot_dat$type_name])+
-      scale_y_continuous(expand = c(0,0), name = "Estimated Fisheries Subsidies ($USD)", 
+      scale_y_continuous(expand = c(0,0), name = "Estimated Fisheries Subsidies (million $USD)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       geom_vline(xintercept = 0, size = 1)+
       #coord_flip()+

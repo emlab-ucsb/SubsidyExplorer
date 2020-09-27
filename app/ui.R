@@ -195,13 +195,7 @@ shinyUI(
         dashboardBody(
             
             # Custom stylesheet
-            tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "subsidy_explorer.css"),
-                      tags$script(HTML('
-                           Shiny.addCustomMessageHandler("jsCode",
-                           function(message) {
-                           eval(message.value);
-                           });'
-                      ))),
+            tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "subsidy_explorer.css")),
             
             # Allow for popups
             useShinyalert(),

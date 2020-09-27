@@ -433,7 +433,7 @@ pretty_static_map_theme <- theme_bw()+
         legend.text = element_text(size = 8),
         legend.title = element_text(size = 8))
 
-pretty_static_plot_theme <- theme_bw()+
+pretty_static_plot_theme <- theme_classic()+
   theme(panel.border = element_blank(),
         plot.title = element_text(face = "bold", size = 20),
         plot.subtitle = element_text(size = 10),

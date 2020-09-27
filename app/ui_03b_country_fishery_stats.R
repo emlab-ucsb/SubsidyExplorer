@@ -116,7 +116,7 @@ CountryFisheryStats = function(wto_members_and_observers)
                                            column(12, id = "tb-spaced-div",
                                                   
                                                   #Fishery subsidies bar plot
-                                                  plotlyOutput("country_fishery_stats_subsidies_plot")
+                                                  plotlyOutput("country_fishery_stats_subsidies_plot", height = "60vh")
                                                   
                                            )
                                     )

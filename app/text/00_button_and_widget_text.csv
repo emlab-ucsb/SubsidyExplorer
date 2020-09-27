@@ -26,8 +26,10 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 02a,explore-results,explore_results_custom_text,explore_results_custom_text,"<p>You can also design your own subsidy reform policy and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",
 02a,explore-results,action-button,ab_explore_results_custom,Design Your Own Policy,go to edit-policies
 02a,explore-results,section,explore_results_plot_header,Scenario Results,section name - plot
-02a,explore-results,download-button,db_explore_results_download_data,Export (CSV),button to save csv
-02a,explore-results,download-button,db_explore_results_download_figure,Print (PDF),button to save pdf
+02a,explore-results,download-button,db_explore_results_download_data_global,"Export (CSV)<br><small class=""gray"">GLOBAL</small>",button to save csv
+02a,explore-results,download-button,db_explore_results_download_data_regional,"Export (CSV)<br><small class=""gray"">REGIONAL</small>",
+02a,explore-results,download-button,db_explore_results_download_figure_global,"Print (PDF)<br><small class=""gray"">GLOBAL</small>",button to save pdf
+02a,explore-results,download-button,db_explore_results_download_figure_regional,"Print (PDF)<br><small class=""gray"">REGIONAL</small>",
 02a,explore-results,widget,w_explore_results_timeseries_plot_variable,Plot,select variable to plot widget
 02a,explore-results,widget,w_explore_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
 02a,explore-results,widget,w_explore_results_show_ambitious,Scenarios,select scenarios to show

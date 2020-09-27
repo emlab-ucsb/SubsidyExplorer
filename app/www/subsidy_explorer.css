@@ -385,8 +385,22 @@ header.main-header {
   background-color: var(--accent-color-2); 
 }
 
-.download-button {
-  padding-right: 20px;
+.btn {
+}
+
+.btn-default{
+  padding: 10px; 
+  width: 100%; 
+  font-size: 10pt; 
+  border-radius: 5px;
+  color: var(--grey-dark);
+  background-color: #fff; 
+  border: 1px solid var(--grey-dark);
+}
+
+.btn-default:hover {
+  color: #fff;
+  background-color: var(--accent-color-2); 
 }
 
 /* ------------- */

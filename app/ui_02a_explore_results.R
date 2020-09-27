@@ -138,20 +138,25 @@ ExploreResults = function(proposal_choices)
                                               ),
                                               
                                        tags$td(id = "compare-fishery-stats-table-cell-2",
-                                                      
-                                               tags$button(id = "db_explore_results_download_data",
-                                                           class = "btn action-button rounded-button-grey download-button",
-                                                           tags$b(icon("external-link-alt"),
-                                                                  text$item_label[text$item_id == "db_explore_results_download_data"]))
+                                               
+                                               downloadButton("db_explore_results_download_data",
+                                                              text$item_label[text$item_id == "db_explore_results_download_data"])
+                                               
+                                               # tags$button(id = "db_explore_results_download_data",
+                                               #             class = "btn action-button rounded-button-grey download-button",
+                                               #             tags$b(icon("external-link-alt"),
+                                               #                    text$item_label[text$item_id == "db_explore_results_download_data"]))
                                                
                                        ),
                                               
                                        tags$td(id = "compare-fishery-stats-table-cell-3",
                                                       
-                                               tags$button(id = "db_explore_results_download_figure",
-                                                           class = "btn action-button rounded-button-grey download-button",
-                                                           tags$b(icon("download"),
-                                                                  text$item_label[text$item_id == "db_explore_results_download_figure"]))
+                                               downloadButton("db_explore_results_download_figure",
+                                                              text$item_label[text$item_id == "db_explore_results_download_figure"])
+                                               # tags$button(id = "db_explore_results_download_figure",
+                                               #             class = "btn action-button rounded-button-grey download-button",
+                                               #             tags$b(icon("download"),
+                                               #                    text$item_label[text$item_id == "db_explore_results_download_figure"]))
                                                       
                                        )
                                )

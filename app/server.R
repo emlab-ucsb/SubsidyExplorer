@@ -1145,37 +1145,6 @@ shinyServer(function(input, output, session) {
     
     }
     
-    # Plot labels
-    labels <- c(1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10)
-    breaks <- log10(labels)
-    limits <- c(min(breaks), max(breaks))
-    
-    # Get world map
-    world <- ne_countries(scale = "small", returnclass = "sf")
-    world_mollweide <- st_transform(world, crs = "+proj=moll")
-    
-    # Reproject data
-    subsidy_data_mollweide <- st_transform(global_subsidies_map_dat_shp, crs = "+proj=moll")
-    
-    # Make static plot
-    global_subsidies_map_static <- ggplot()+
-      geom_sf(data = world_mollweide, fill = "white", color = "grey", size = 0.25)+
-      #geom_point(data = global_subsidies_map_dat_points, aes(x = fill = log10(value)))
-      #geom_sf(data = global_subsidies_map_dat_points, , lwd = 0)+
-      geom_sf(data = subsidy_data_mollweide, aes(fill = log10(value)))+
-      theme_bw()+
-      scale_fill_gradientn(colors = brewer.pal(9, "YlOrRd"),
-                           limits = limits,
-                           breaks = breaks,
-                           labels = labels)+
-      labs(fill = str_replace(text$item_label[text$item_id == "global_subsidies_map_legend"], "<br>", "\n"))+
-      theme(legend.position = "right",
-            panel.border = element_blank())+
-      guides(fill = guide_colorbar(title.position = "top", barheight = 25, title.hjust = 0.5))
-    
-    # Update reactive data container
-    rv_global_subsidies$plot <- global_subsidies_map_static
-    
   })
   
   ### Leaflet map: Global map of fisheries subsidies with hover boxes ---------------------
@@ -1249,10 +1218,43 @@ shinyServer(function(input, output, session) {
     
     filename = "SubsidyExplorer_global_subsidies_map_selected.pdf",
     content = function(file) {
-      pdf(file, width = 11, height = 8.5)
-      print(rv_global_subsidies$plot)
-      dev.off()
-    }
+      
+      # Plot labels
+      labels <- c(1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10)
+      breaks <- log10(labels)
+      limits <- c(min(breaks), max(breaks))
+      
+      # Reproject data
+      subsidy_data_mollweide <- st_transform(rv_global_subsidies$polygons, crs = "+proj=moll")
+      
+      # Get title, subtitle, and caption
+      title <- paste0(text$item_label[text$item_id == "global-subsidies"])
+      subtitle <- "This map shows estimates of global fisheries subsidies. The color gradient reflects the total magnitude of subsides provided by each state (2018 $USD). Note: Not all states provide all types of subsidies. Subsidy estimates are sourced from Sumaila et al. (2019)."
+      caption <- str_replace(str_replace(text$item_label[text$item_id == "map_disclaimer"], '<small class="gray">', ""), "</small>", "")
+      
+      # Make static plot
+      global_subsidies_map_static <- ggplot()+
+        geom_sf(data = world_mollweide, fill = "white", color = "grey", size = 0.25)+
+        #geom_point(data = global_subsidies_map_dat_points, aes(x = fill = log10(value)))
+        #geom_sf(data = global_subsidies_map_dat_points, , lwd = 0)+
+        geom_sf(data = subsidy_data_mollweide, aes(fill = log10(value)), lwd = 0.3)+
+        scale_fill_gradientn(colors = brewer.pal(9, "YlOrRd"),
+                             limits = limits,
+                             breaks = breaks,
+                             labels = scales::comma(labels))+
+        labs(fill = str_replace(text$item_label[text$item_id == "global_subsidies_map_legend"], "<br>", "\n"))+
+        guides(fill = guide_colorbar(title.position = "top", barheight = 15, title.hjust = 0.5, title.vjust = 3))+
+        pretty_static_map_theme +
+        theme(legend.position = "right")+
+        labs(title = title, subtitle = WrapText(subtitle, 165), caption = WrapText(caption, 200))
+
+        # Output
+        pdf(file, width = 11, height = 8.5)
+        print(global_subsidies_map_static)
+        dev.off()
+        
+      }
+  
   )
   
   ### ------------------------------
@@ -1301,6 +1303,11 @@ shinyServer(function(input, output, session) {
     # Update reactive container
     rv_country_fishery_stats$subsidy_data <- country_fishery_stats_subsidies_plot_dat
     
+    # Get title, subtitle, caption
+    subsidy_title <- paste0(text$item_label[text$item_id == "country-fishery-stats"], " - ", text$item_label[text$item_id == "fishery-subsidy-tab"])
+    subsidy_subtitle <- paste0(text$item_label[text$item_id == "w_country_fishery_stats_selected_country"], ": ", names(wto_members_and_observers[wto_members_and_observers == input$w_country_fishery_stats_selected_country]), "\n \n",
+                              WrapText("This figure shows estimates of fisheries subsidies for the selected state, where different colors represent the 13 subtypes of subsidies across the following categories: beneficial, ambiguous, and harmful. Subsidy estimates for all states are sourced from Sumaila et al. (2019). For OECD members (and selected non-members), estimates from the OECD Fisheries Support Estimate (FSE) Database are also shown (grey-scale). Negative values indicate cost recovery charges, which are generally charges levied on fishers, with the government or fisheries agency being the recipient of the transfer.", 100), "\n")
+    
     # Make subsidy plot
     country_fishery_stats_subsidies_plot <- ggplot()+
       geom_col(data = country_fishery_stats_subsidies_plot_dat, aes(x = source, y = value, fill = type_name, 
@@ -1317,13 +1324,13 @@ shinyServer(function(input, output, session) {
       scale_y_continuous(expand = c(0,0), name = "Estimated Fisheries Subsidies ($USD)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       geom_vline(xintercept = 0, size = 1)+
-      coord_flip()+
-      theme_bw()+
+      #coord_flip()+
       labs(x = "",
-           fill = "Type")+
-      theme(legend.position = "right")+
-      guides(fill = guide_legend(title.position = "top", 
-                                 direction = "vertical"))
+           fill = "Type",
+           title = subsidy_title,
+           subtitle = subsidy_subtitle)+
+      pretty_static_plot_theme+
+      theme(legend.position = "right")
     
     # Update reactive container
     rv_country_fishery_stats$subsidy_plot <- country_fishery_stats_subsidies_plot
@@ -1336,6 +1343,11 @@ shinyServer(function(input, output, session) {
     
     # Update reactive container
     rv_country_fishery_stats$landings_data <- country_fishery_stats_production_plot_dat
+    
+    # Subtitle
+    capture_title <- paste0(text$item_label[text$item_id == "country-fishery-stats"], " - ", text$item_label[text$item_id == "marine-capture-tab"])
+    capture_subtitle <- paste0(text$item_label[text$item_id == "w_country_fishery_stats_selected_country"], ": ", names(wto_members_and_observers[wto_members_and_observers == input$w_country_fishery_stats_selected_country]), "\n \n",
+                               WrapText("These figures show annual marine capture fisheries production (tonnes) by International Standard Statistical Classification of Aquatic Animals and Plants (ISSCAAP) species group and total estimated landed value of marine capture fisheries production for the selected state. See the legend on the second page for ISSCAAP species groups. For each state, data are shown for all available years between 2000 and 2018. Only marine capture production is included; freshwater capture production and all production from aquaculture (freshwater, brackish, and marine) are not. Capture production data are sourced from the FAO Global Capture Production Database and landed value was calculated by applying estimates of ex-vessel price from Melnychuk et al. (2017) to the capture production data from the FAO Global Capture Production Database.", 100), "\n")
     
     # Make capture production plot
     country_fishery_stats_production_plot <- country_fishery_stats_production_plot_dat %>%
@@ -1353,11 +1365,11 @@ shinyServer(function(input, output, session) {
                          name = "Capture Production (thousand mt)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
-      theme_bw()+
+      pretty_static_plot_theme+
       labs(x = "Year",
-           fill = "ISSCAAP Group")
-      # theme(legend.title = element_blank(),
-      #       legend.position = "none")
+           fill = "ISSCAAP Group",
+           title = capture_title,
+           subtitle = capture_subtitle)
     
     # Update reactive container
     rv_country_fishery_stats$landings_plot <- country_fishery_stats_production_plot
@@ -1381,23 +1393,11 @@ shinyServer(function(input, output, session) {
                          name = "Estimated Landed Value (million $USD)", 
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
-      theme_bw()+
+      pretty_static_plot_theme+
       labs(x = "Year")
-      # theme(legend.title = element_blank(),
-      #       legend.position = "none")
     
     # Update reactive container
     rv_country_fishery_stats$landed_value_plot <- country_fishery_stats_landed_value_plot
-    
-    # Combine marine capture plots into output
-    marine_capture_out_plot <- cowplot::plot_grid(country_fishery_stats_production_plot,
-                                                  country_fishery_stats_landed_value_plot,
-                                                  align = "h",
-                                                  ncol = 1)
-    
-    # Update reactive container
-    rv_country_fishery_stats$marine_capture_plot <- marine_capture_out_plot
-    
     
     ### Demographics -------------
     # Filter population data
@@ -1419,7 +1419,7 @@ shinyServer(function(input, output, session) {
       scale_y_continuous(name = "Population (million persons)",
                          labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
-      theme_bw()+
+      pretty_static_plot_theme+
       labs(x = "Year")+
       theme(legend.title = element_blank(),
             legend.position = "none")
@@ -1484,7 +1484,7 @@ shinyServer(function(input, output, session) {
       scale_y_continuous(name = "Fishers (persons)",
                          labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
-      theme_bw()+
+      pretty_static_plot_theme+
       labs(x = "Year")+
       theme(legend.title = element_blank(),
             legend.position = "none")
@@ -1516,6 +1516,11 @@ shinyServer(function(input, output, session) {
     # Update reactive container
     rv_country_fishery_stats$gdp_data<- country_fishery_stats_gdp_plot_dat
     
+    # Title and subtitle
+    demographic_title <- paste0(text$item_label[text$item_id == "country-fishery-stats"], " - ", text$item_label[text$item_id == "demographic-tab"])
+    demographic_subtitle <- paste0(text$item_label[text$item_id == "w_country_fishery_stats_selected_country"], ": ", names(wto_members_and_observers[wto_members_and_observers == input$w_country_fishery_stats_selected_country]), "\n \n",
+                               WrapText("These figures show the total population, the number of fishers (as well as the estimated number of full-time equivalent jobs in marine capture fisheries), the total GDP, and the proportion of the total GDP from fisheries, forestry and agriculture for the selected state. For each state, data are shown for all available years between 2000 and 2018. Population and GDP data are sourced from the World Bank's World Development Indicators (WDI) Database, data on the number of fishers are from the FAO Yearbook of Fishery and Aquaculture Statistics 2017, and fisheries employment estimates are sourced from Teh and Sumaila (2011).", 100), "\n")
+    
     # Make GDP plot
     country_fishery_stats_gdp_plot <- ggplot()+
       aes(x = year, y = value/1e9)+
@@ -1534,26 +1539,15 @@ shinyServer(function(input, output, session) {
       scale_y_continuous(name = "GDP (billion $USD)",
                          labels = function(x) format(x, big.mark = ",", scientific = FALSE))+
       scale_x_continuous(expand = c(0,0))+
-      theme_bw()+
-      labs(x = "Year")+
+      pretty_static_plot_theme+
+      labs(x = "Year",
+           title = demographic_title,
+           subtitle = demographic_subtitle)+
       theme(legend.title = element_blank(),
             legend.position = "none")
     
     # Update reactive container
     rv_country_fishery_stats$gdp_plot<- country_fishery_stats_gdp_plot
-    
-    # Make combined plot
-    demographics_out_plot <- cowplot::plot_grid(
-      
-      cowplot::plot_grid(country_fishery_stats_pop_plot,
-                                                country_fishery_stats_fisher_plot,
-                                                ncol = 2),
-      country_fishery_stats_gdp_plot,
-      ncol = 1
-    )
-    
-    # Update reactive container
-    rv_country_fishery_stats$demographics_plot <- demographics_out_plot
     
   })
   
@@ -1564,9 +1558,11 @@ shinyServer(function(input, output, session) {
     
     # Remove legend
     plot <- rv_country_fishery_stats$subsidy_plot +
-      theme(legend.title = element_blank(),
-            legend.position = "none",
-            axis.text.y = element_text(face = "bold", angle = 90))
+      coord_flip()+
+      plotly_plot_theme+
+      labs(title = "",
+           subtitle = "")+
+      theme(axis.text.y = element_text(face = "bold", angle = 90))
       
     # Convert to plotly
     gg <- ggplotly(plot, tooltip="text")
@@ -1600,7 +1596,7 @@ shinyServer(function(input, output, session) {
     
     filename = function(){paste0("SubsidyExplorer_country_fishery_stats_subsidy_plot_", input$w_country_fishery_stats_selected_country, ".pdf")},
     content = function(file) {
-      pdf(file, width = 13, height = 7.5)
+      pdf(file, width = 8.5, height = 11)
       print(rv_country_fishery_stats$subsidy_plot)
       dev.off()
     }
@@ -1613,8 +1609,9 @@ shinyServer(function(input, output, session) {
     
     # Remove legend
     plot <- rv_country_fishery_stats$landings_plot +
-      theme(legend.title = element_blank(),
-            legend.position = "none")
+      plotly_plot_theme +
+      labs(title = "",
+           subtitle = "")
     
     # Convert to plotly
     gg <- ggplotly(plot, tooltip = "text") %>%
@@ -1648,10 +1645,9 @@ shinyServer(function(input, output, session) {
     req(nrow(rv_country_fishery_stats$landed_value_data) > 0)
     
     # Remove legend
-    plot <- rv_country_fishery_stats$landed_value_plot +
-      theme(legend.title = element_blank(),
-            legend.position = "none")
-    
+    plot <- rv_country_fishery_stats$landed_value_plot+
+      plotly_plot_theme
+  
     # Convert to plotly
     gg <- ggplotly(plot, tooltip = "text") %>%
       style(hoveron = "points")
@@ -1684,8 +1680,21 @@ shinyServer(function(input, output, session) {
     
     filename = function(){paste0("SubsidyExplorer_country_fishery_stats_marine_capture_plot_", input$w_country_fishery_stats_selected_country, ".pdf")},
     content = function(file) {
+      
+      # Get ISSCAAP Legend
+      marine_capture_legend <- cowplot::get_legend(rv_country_fishery_stats$landings_plot)
+      
+      marine_capture_out_plot <- cowplot::plot_grid(rv_country_fishery_stats$landings_plot + theme(legend.position = "none",
+                                                                                                   plot.margin = unit(c(1, 0.25, 0, 0.25), "in")),
+                                                    marine_capture_legend,
+                                                    ncol = 1,
+                                                    rel_heights = c(1.5,1))
+      
+      marine_landed_value_out_plot <- rv_country_fishery_stats$landed_value_plot + theme(plot.margin = unit(c(3.5, 0.25, 3.5, 0.25), "in"))
+      
       pdf(file, width = 8.5, height = 11)
-      print(rv_country_fishery_stats$marine_capture_plot)
+      print(marine_capture_out_plot)
+      print(marine_landed_value_out_plot)
       dev.off()
     }
   )
@@ -1696,14 +1705,18 @@ shinyServer(function(input, output, session) {
     req(nrow(rv_country_fishery_stats$pop_data) > 0)
     req(all(is.na(rv_country_fishery_stats$pop_data$value)) == F)
     
+    plot <- rv_country_fishery_stats$pop_plot +
+      plotly_plot_theme
+    
     # Convert to plotly
-    gg <- ggplotly(rv_country_fishery_stats$pop_plot, tooltip="text") %>%
+    gg <- ggplotly(plot, tooltip="text")
+      
+
+    gg <- gg %>%
       style(
         traces = 2,
         hoverlabel = list(bgcolor = "white")
-      )
-
-    gg <- gg %>%
+      ) %>%
       layout(xaxis = list(
         showspikes = TRUE,
         spikemode = "across",
@@ -1722,8 +1735,11 @@ shinyServer(function(input, output, session) {
     req(nrow(rv_country_fishery_stats$fisher_data) > 0)
     req(all(is.na(rv_country_fishery_stats$fisher_data$value)) == F)
     
+    plot <- rv_country_fishery_stats$fisher_plot +
+      plotly_plot_theme
+    
     # Convert to plotly
-    gg <- ggplotly(rv_country_fishery_stats$fisher_plot, tooltip="text")
+    gg <- ggplotly(plot, tooltip="text")
     
     gg <- gg %>%
       layout(xaxis = list(
@@ -1744,8 +1760,13 @@ shinyServer(function(input, output, session) {
     req(nrow(rv_country_fishery_stats$gdp_data) > 0)
     req(all(is.na(rv_country_fishery_stats$gdp_data$value)) == F)
     
+    plot <- rv_country_fishery_stats$gdp_plot +
+      plotly_plot_theme +
+      labs(title = "",
+           subtitle = "")
+    
     # Convert to plotly
-    gg <- ggplotly(rv_country_fishery_stats$gdp_plot, tooltip="text")
+    gg <- ggplotly(plot, tooltip="text")
     
     gg <- gg %>%
       layout(xaxis = list(
@@ -1765,8 +1786,20 @@ shinyServer(function(input, output, session) {
     
     filename = function(){paste0("SubsidyExplorer_country_fishery_stats_demographics_plot_", input$w_country_fishery_stats_selected_country, ".pdf")},
     content = function(file) {
+      
+      # Make combined plot
+      demographics_out_plot <- cowplot::plot_grid(
+        rv_country_fishery_stats$gdp_plot + theme(plot.margin = unit(c(1, 0.25, 0.25, 0.25), "in")),
+        
+        cowplot::plot_grid(rv_country_fishery_stats$pop_plot + theme(plot.margin = unit(c(0.25, 0.25, 1, 0.25), "in")),
+                           rv_country_fishery_stats$fisher_plot + theme(plot.margin = unit(c(0.25, 0.25, 1, 0.25), "in")),
+                           ncol = 2),
+        ncol = 1,
+        rel_heights = c(2,1)
+      )
+      
       pdf(file, width = 8.5, height = 11)
-      print(rv_country_fishery_stats$demographics_plot)
+      print(demographics_out_plot)
       dev.off()
     }
   )
@@ -1970,10 +2003,9 @@ shinyServer(function(input, output, session) {
                        text$item_label[text$item_id == "w_compare_fishery_stats_plot_variable"], ": ", names(unlist(wid$choices[wid$item_id == "w_compare_fishery_stats_plot_variable"])[unlist(wid$choices[wid$item_id == "w_compare_fishery_stats_plot_variable"]) == input$w_compare_fishery_stats_plot_variable]),
                        "\n",
                        text$item_label[text$item_id == "w_compare_fishery_stats_method"], ": ", names(unlist(wid$choices[wid$item_id == "w_compare_fishery_stats_method"])[unlist(wid$choices[wid$item_id == "w_compare_fishery_stats_method"]) == input$w_compare_fishery_stats_method]),
-                       "\n \n",
-                       "plot text here")
-    #caption <- "plot text here"
-                      
+                       "\n \n")
+    ### ADD REACTIVE TEXT HERE
+    
     ## Make plots
     if(!(input$w_compare_fishery_stats_plot_variable %in% c("landings", "revenue"))){
       
@@ -2012,8 +2044,7 @@ shinyServer(function(input, output, session) {
         coord_flip()+
         labs(x = "",
              title = title,
-             subtitle = subtitle,
-             caption = caption) +
+             subtitle = subtitle) +
         pretty_static_plot_theme+
         theme(legend.position = "right")
       

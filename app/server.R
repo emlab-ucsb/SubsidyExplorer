@@ -260,11 +260,8 @@ shinyServer(function(input, output, session) {
       dplyr::filter(proposal == rv_selected_proposal$proposal)
     
     # Make sure it's an allowable proposal to model
-    req(selected_proposal$include == "Yes")
+    req(selected_proposal$include != "No")
 
-    # Deal with multiple overfished and cap options here! 
-    ########
-    
     # Create run name
     run_name <- selected_proposal$proposal
 
@@ -622,7 +619,7 @@ shinyServer(function(input, output, session) {
     req(nrow(out_plot_dat) > 0)
     
     plot <-  ggplot()+
-      aes(x = Year, y = Diff*100, group = Id, color = Type)+
+      aes(x = Year, y = Diff*100, group = Id, color = Type, linetype = Name)+
       geom_line(data = out_plot_dat, size = 2,
                 aes(key = Id,
                     text = paste0("<b>","Year: ","</b>", Year,

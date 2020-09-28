@@ -15,6 +15,8 @@ shinyServer(function(input, output, session) {
   ### Reactive data/plot containers ---
   ### ----------------------------
   
+  rv_selected_proposal <- reactiveValues()
+  
   rv_explore_results <- reactiveValues(data_all = best_result$results_timeseries,
                                        data_global = NULL,
                                        data_regional = NULL,
@@ -172,7 +174,6 @@ shinyServer(function(input, output, session) {
                          choices = updated_proposal_choices,
                          selected = "Default")
   })
-
   
   ### Reactive text: Get description for selected proposal --------
   observe({
@@ -180,20 +181,69 @@ shinyServer(function(input, output, session) {
     # Want to observe proposal selection
     req(input$w_explore_results_proposal_selection)
 
-    # Get selected entry
-    selected_policy <- proposal_settings %>%
-      dplyr::filter(proposal == input$w_explore_results_proposal_selection)
+    # Deal with facilitator's text
+    if(input$w_explore_results_proposal_selection == 'RD/TN/RL/119'){
+      
+      # Get selected overfished discipline
+      entry_to_use <- switch(input$w_explore_results_overfished_multiple_options,
+                             "RD/TN/RL/79/Rev.1" = list("RD/TN/RL/119 & RD/TN/RL/79/Rev.1"),
+                             "RD/TN/RL/77/Rev.2" = list("RD/TN/RL/119 & RD/TN/RL/77/Rev.2"))
+      
+      selected_policy <- proposal_settings %>%
+        dplyr::filter(proposal == entry_to_use[[1]])
+      
+      # Update reactive object 
+      rv_selected_proposal$proposal <- entry_to_use[[1]]
+      
+    # Deal with Chair's text
+    }else if(input$w_explore_results_proposal_selection == "RD/TN/RL/126"){
+      
+      # Get selected overfished discipline
+      entry_to_use <- switch(input$w_explore_results_cap_multiple_options,
+                             "Default" = list("RD/TN/RL/126"),
+                             "TN/RL/GEN/199" = list("RD/TN/RL/126 & TN/RL/GEN/199"),
+                             "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126 & TN/RL/GEN/197/Rev.2"),
+                             "RD/TN/RL/81" = list("RD/TN/RL/126 & RD/TN/RL/81"),
+                             "RD/TN/RL/124" = list("RD/TN/RL/126 & RD/TN/RL/124"))
+      
+      selected_policy <- proposal_settings %>%
+        dplyr::filter(proposal == entry_to_use[[1]])
+      
+      # Update reactive object 
+      rv_selected_proposal$proposal <- entry_to_use[[1]]
+    
+    }else{
+      
+      # Get selected entry
+      selected_policy <- proposal_settings %>%
+        dplyr::filter(proposal == input$w_explore_results_proposal_selection)
+      
+      # Update reactive object 
+      rv_selected_proposal$proposal <- input$w_explore_results_proposal_selection
 
+    }
+    
+    # Make warning for non-modeled proposals
+    output$can_not_model_warning <- renderText({
+      
+      if(selected_policy$include == "No"){
+        "This text can not be modeled and is included for reference only."
+      }else{
+        ""
+      }
+      
+    })
+    
     # Create reactive text
     output$explore_results_proposal_selection_text <- renderUI({
-
-      req(input$w_explore_results_proposal_selection != "Default")
-
+      
+      req(rv_selected_proposal$proposal != "Default")
+      
       paste0("<b class = 'big'>", "Formal Title: ", "</b>", selected_policy$title, "</br>",
              "<b class = 'big'>", "Summary: ", "</b>", selected_policy$summary, "</br>",
              "<b class = 'big'>", "Modeling Assumptions: ", "</b>", selected_policy$model_details_assumptions) %>%
         lapply(htmltools::HTML)
-
+      
     })
 
   })
@@ -207,8 +257,14 @@ shinyServer(function(input, output, session) {
 
     # Get data for selected proposal
     selected_proposal <- proposal_settings %>%
-      dplyr::filter(proposal == input$w_explore_results_proposal_selection)
+      dplyr::filter(proposal == rv_selected_proposal$proposal)
+    
+    # Make sure it's an allowable proposal to model
+    req(selected_proposal$include == "Yes")
 
+    # Deal with multiple overfished and cap options here! 
+    ########
+    
     # Create run name
     run_name <- selected_proposal$proposal
 

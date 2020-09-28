@@ -173,7 +173,7 @@ header.main-header {
 /* menu item text */
 .skin-blue .sidebar-menu>li>a {
   color: #ffffff;
-    text-decoration: none!important;
+  text-decoration: none!important;
 }
 
 .skin-blue .sidebar-menu>li>a:link {
@@ -631,6 +631,11 @@ header.main-header {
   background-color: var(--grey-light);
   color: var(--grey-dark);
   padding: 0 25px 0 25px;
+}
+
+#explore-results-real-left-column{
+  color: var(--grey-dark);
+  padding: 0 25px 40px 25px;
 }
 
 #explore-results-right-column{

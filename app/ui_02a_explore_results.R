@@ -29,7 +29,13 @@ ExploreResults = function(proposal_choices)
       ####---------------------------------------------
       #### Left section - model a selected scenario
       #### --------------------------------------------
+      #### Fixed absolute panel to provide shading in background 
       column(4, id = "explore-results-left-column",
+             
+      ),
+      
+      #### Actual left column that will scroll appropriately
+      column(4, id = "explore-results-real-left-column",
 
              column(12, id = "lr-spaced-div",
 
@@ -71,14 +77,54 @@ ExploreResults = function(proposal_choices)
                                           width = "100%")
 
                     ),
+                    
+                    fluidRow(
+                      # Conditional panel for overfished definition selection
+                      conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126' || input.w_explore_results_proposal_selection == 'RD/TN/RL/119'",
+                                     
+                                       column(6, id = "t-spaced-div",
+                                            
+                                            # Select overfished definition
+                                            radioButtons("w_explore_results_overfished_multiple_options",
+                                                         label = tags$b(text$item_label[text$item_id == "w_explore_results_overfished_multiple_options"]),
+                                                         choices = c("New Zealand/Iceland" = "RD/TN/RL/79/Rev.1",
+                                                                     "Australia" = "RD/TN/RL/77/Rev.2"),
+                                                         selected = "RD/TN/RL/79/Rev.1",
+                                                         width = "100%")
+                                            
+                                     )
+                    ),
 
+                    # Conditional panel for cap selection
+                    conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126'",
+                                     
+                                     column(6, id = "t-spaced-div",
+                                            
+                                            # Select overfished definition
+                                            radioButtons("w_explore_results_cap_multiple_options",
+                                                         label = tags$b(text$item_label[text$item_id == "w_explore_results_cap_multiple_options"]),
+                                                         choices = c("None" = "Default",
+                                                                     "Philippines" = "RD/TN/RL/81",
+                                                                     "US and others" = "TN/RL/GEN/197/Rev.2",
+                                                                     "China" = "TN/RL/GEN/199",
+                                                                     "Brazil" = "RD/TN/RL/124"),
+                                                         selected = "Default",
+                                                         width = "100%")
+                                            
+                                     )
+                    )
+                    ),
+                                     
                     # Selected proposal info
                     column(12, id = "t-spaced-div",
 
-                           htmlOutput("explore_results_proposal_selection_text")
+                           htmlOutput("explore_results_proposal_selection_text"),
+                           
+                           # Can not model wraning
+                           tags$i(textOutput("can_not_model_warning"), style = "color: red;")
 
                     ),
-
+                    
                     # Button
                     column(12, align = "center", id = "div-underline",
 
@@ -121,7 +167,7 @@ ExploreResults = function(proposal_choices)
       #### Right section - model a selected scenario
       #### --------------------------------------------
 
-      column(8, offset = 4, id = "explore-results-right-column",
+      column(8, id = "explore-results-right-column",
 
              ### Section Title ---
              column(12, id = "section-title-div-underline",

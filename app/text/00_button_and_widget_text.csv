@@ -21,6 +21,8 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 02a,explore-results,text,explore_results_proposal_text,"<p>Select a pre-populated WTO Member proposal from the menu below to model it and compare it against the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b>.</p>",intro text
 02a,explore-results,widget,w_explore_results_proposal_category,Narrow Proposals by Category,policy category selection
 02a,explore-results,widget,w_explore_results_proposal_selection,Select a Proposal,policy selection
+02a,explore-results,widget,w_explore_results_overfished_multiple_options,Which Overfished Disciplines to Use? ,select which overfished disciplines to use? 
+02a,explore-results,widget,w_explore_results_cap_multiple_options,Which Cap Approach to Use? ,select which cap approach to use? 
 02a,explore-results,action-button,ab_run_model_proposal,Model Selected WTO Proposal,text for custom proposal section
 02a,explore-results,explore_results_custom_header,explore_results_custom_header,Design Your Own Policy,section name - design your own
 02a,explore-results,explore_results_custom_text,explore_results_custom_text,"<p>You can also design your own subsidy reform policy and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",

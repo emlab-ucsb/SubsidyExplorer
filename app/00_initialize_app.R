@@ -279,7 +279,7 @@ proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFacto
 
 # Proposal names
 included_proposals <- proposal_settings %>%
-  dplyr::filter(include == "Yes") %>%
+  dplyr::filter(include != "Alternate") %>%
   mutate(display_name = case_when(proposal == "Default" ~ "None",
                                   TRUE ~ paste0(title_tool, " (", proposal, ")"))) %>%
   dplyr::select(category, proposal, display_name) %>%

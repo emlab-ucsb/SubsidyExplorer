@@ -33,11 +33,6 @@ CountryFisheryStats = function(wto_members_and_observers)
                                   selectizeInput("w_country_fishery_stats_selected_country",
                                                  label = tagList(
                                                    tags$b(text$item_label[text$item_id == "w_country_fishery_stats_selected_country"])
-                                                   
-                                                   # # Info button: subsidy types
-                                                   # tags$button(id = "info_country_fishery_stats_territories",
-                                                   #             class = "btn action-button info-button",
-                                                   #             icon("info"))
                                                  ),
                                                  choices = wto_members_and_observers,
                                                  selected = "USA",
@@ -45,18 +40,6 @@ CountryFisheryStats = function(wto_members_and_observers)
                                                  options = list(placeholder = 'Select...'))
                            
                                   
-                           ),
-                    
-                           ### Download button
-                           column(12, id = "div-topline",
-                           
-                                  # Button to save PDF of data for selected state
-                                  tags$button(id = "db_country_fishery_stats_generate_report",
-                                              class = "btn action-button rounded-button-grey",
-                                              tags$b(icon("download"),
-                                                     text$item_label[text$item_id == "db_country_fishery_stats_generate_report"]))
-                           
-                           
                            )
                     
                     )
@@ -91,7 +74,41 @@ CountryFisheryStats = function(wto_members_and_observers)
                                     
                                     column(12, id = "lr-spaced-div",
                                            
-                                           column(12, id = "tb-spaced-div",
+                                           column(12, id = "t-spaced-div",
+                                                  
+                                                  tags$table(id = "country-fishery-stats-table",
+                                                             
+                                                             tags$tr(id = "country-fishery-stats-table-row",
+                                                                     
+                                                                     tags$td(id = "country-fishery-stats-table-cell-1a",
+                                                                             ""
+                                                                     ),
+                                                                     
+                                                                     tags$td(id = "country-fishery-stats-table-cell-2",
+                                                                             
+                                                                             downloadButton("db_country_fishery_stats_subsidy_download_data",
+                                                                                            text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_data"])
+                                                                             # tags$button(id = "db_country_fishery_stats_subsidy_download_data",
+                                                                             #             class = "btn action-button rounded-button-grey download-button",
+                                                                             #             tags$b(icon("download"),
+                                                                             #                    text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_data"]))
+                                                                     ),
+                                                                     
+                                                                     tags$td(id = "country-fishery-stats-table-cell-3",
+                                                                             
+                                                                             downloadButton("db_country_fishery_stats_subsidy_download_figure",
+                                                                                            text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_figure"])
+                                                                             # tags$button(id = "db_country_fishery_stats_subsidy_download_figure",
+                                                                             #             class = "btn action-button rounded-button-grey download-button",
+                                                                             #             tags$b(icon("download"),
+                                                                             #                    text$item_label[text$item_id == "db_country_fishery_stats_subsidy_download_figure"]))
+                                                                             
+                                                                     )
+                                                             )
+                                                  )
+                                           ),
+                                           
+                                           column(12, id = "t-spaced-div",
                                                   
                                                   # Header and text
                                                   includeHTML("./text/03-more-about-subsidies/country-fishery-stats/fisheries_subsidies.html")),
@@ -99,7 +116,7 @@ CountryFisheryStats = function(wto_members_and_observers)
                                            column(12, id = "tb-spaced-div",
                                                   
                                                   #Fishery subsidies bar plot
-                                                  plotlyOutput("country_fishery_stats_subsidies_plot")
+                                                  plotlyOutput("country_fishery_stats_subsidies_plot", height = "60vh")
                                                   
                                            )
                                     )
@@ -117,7 +134,36 @@ CountryFisheryStats = function(wto_members_and_observers)
                                     
                                     column(12, id = "lr-spaced-div",
                                            
-                                           column(12, id = "tb-spaced-div",
+                                           column(12, id = "t-spaced-div",
+                                                  
+                                                  tags$table(id = "country-fishery-stats-table",
+                                                             
+                                                             tags$tr(id = "country-fishery-stats-table-row",
+                                                                     
+                                                                     tags$td(id = "country-fishery-stats-table-cell-1b",
+                                                                             ""
+                                                                     ),
+                                                                     
+                                                                     tags$td(id = "country-fishery-stats-table-cell-2",
+                                                                             ""
+                                                                     ),
+                                                                     
+                                                                     tags$td(id = "country-fishery-stats-table-cell-3",
+                                                                             
+                                                                             downloadButton("db_country_fishery_stats_capture_download_figure",
+                                                                                            text$item_label[text$item_id == "db_country_fishery_stats_capture_download_figure"])
+                                                                             
+                                                                             # tags$button(id = "db_country_fishery_stats_capture_download_figure",
+                                                                             #             class = "btn action-button rounded-button-grey download-button",
+                                                                             #             tags$b(icon("download"),
+                                                                             #                    text$item_label[text$item_id == "db_country_fishery_stats_capture_download_figure"]))
+                                                                             
+                                                                     )
+                                                             )
+                                                  )
+                                           ),
+                                           
+                                           column(12, id = "t-spaced-div",
                                                   
                                                   # Header and text
                                                   includeHTML("./text/03-more-about-subsidies/country-fishery-stats/marine_capture.html")
@@ -148,7 +194,35 @@ CountryFisheryStats = function(wto_members_and_observers)
                                     
                                     column(12, id = "lr-spaced-div",
                                            
-                                           column(12, id = "tb-spaced-div",
+                                           column(12, id = "t-spaced-div",
+                                                  
+                                                  tags$table(id = "country-fishery-stats-table",
+                                                             
+                                                             tags$tr(id = "country-fishery-stats-table-row",
+                                                                     
+                                                                     tags$td(id = "country-fishery-stats-table-cell-1b",
+                                                                             ""
+                                                                     ),
+                                                                     
+                                                                     tags$td(id = "country-fishery-stats-table-cell-2",
+                                                                             ""
+                                                                     ),
+                                                                     
+                                                                     tags$td(id = "country-fishery-stats-table-cell-3",
+                                                                             
+                                                                             downloadButton("db_country_fishery_stats_demographic_download_figure",
+                                                                                            text$item_label[text$item_id == "db_country_fishery_stats_demographic_download_figure"])
+                                                                             # tags$button(id = "db_country_fishery_stats_demographic_download_figure",
+                                                                             #             class = "btn action-button rounded-button-grey download-button",
+                                                                             #             tags$b(icon("download"),
+                                                                             #                    text$item_label[text$item_id == "db_country_fishery_stats_demographic_download_figure"]))
+                                                                             
+                                                                     )
+                                                             )
+                                                  )
+                                           ),
+                                           
+                                           column(12, id = "t-spaced-div",
                                                   
                                                   # Header and text
                                                   includeHTML("./text/03-more-about-subsidies/country-fishery-stats/demographics.html")

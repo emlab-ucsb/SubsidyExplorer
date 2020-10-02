@@ -20,7 +20,7 @@ GlobalFishingFootprint = function()
            # Info button 
            absolutePanel(id = "global_fishing_footprint_map_info_panel", 
                          
-                         column(12, id = "tb-spaced-div", align = "center",
+                         column(12, id = "t-spaced-div", align = "center",
                                 
                                 
                                 tagList(tags$b(text$item_label[text$item_id == "global-fishing-footprint"]),
@@ -28,6 +28,17 @@ GlobalFishingFootprint = function()
                                         tags$button(id = "info_global_fishing_footprint_map",
                                                     class = "btn action-button info-button",
                                                     icon("info")))
+                         ),
+                         column(12, id = "tb-spaced-div", align = "center",
+                                
+                                downloadButton("db_global_fishing_footprint_download_figure",
+                                               text$item_label[text$item_id == "db_global_fishing_footprint_download_figure"]),
+                                
+                                # tags$button(id = "db_global_fishing_footprint_download_figure",
+                                #             class = "btn action-button rounded-button-grey download-button",
+                                #             tags$b(icon("download"),
+                                #                    text$item_label[text$item_id == "db_global_fishing_footprint_download_figure"]))
+                                
                          )
            ),
            

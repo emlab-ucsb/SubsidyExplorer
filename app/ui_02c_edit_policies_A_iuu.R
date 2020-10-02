@@ -26,11 +26,11 @@ IUU = function(wto_members_and_observers)
                          checkboxGroupInput("w_iuu_definitions", 
                                             
                                             label = tagList(
-                                              tags$b(text$item_label[text$item_id == "w_iuu_definitions"]),
-                                              # IUU definitions info button
-                                              tags$button(id = "info_iuu",
-                                                          class = "btn action-button info-button",
-                                                          icon("info"))
+                                              tags$b(text$item_label[text$item_id == "w_iuu_definitions"])
+                                              # # IUU definitions info button
+                                              # tags$button(id = "info_iuu",
+                                              #             class = "btn action-button info-button",
+                                              #             icon("info"))
                                             ), 
                                             choices = unlist(wid$choices[wid$item_id == "w_iuu_definitions"]),
                                             selected = unlist(wid$selected[wid$item_id == "w_iuu_definitions"]),
@@ -49,11 +49,11 @@ IUU = function(wto_members_and_observers)
                                           # Input - Make IUU assumption
                                           radioButtons("w_iuu_assumption",
                                                        label = tagList(
-                                                         tags$b(text$item_label[text$item_id == "w_iuu_assumption"]),
-                                                         # IUU assumption info button
-                                                         tags$button(id = "info_iuu_assumption",
-                                                                     class = "btn action-button info-button",
-                                                                     icon("info"))
+                                                         tags$b(text$item_label[text$item_id == "w_iuu_assumption"])
+                                                         # # IUU assumption info button
+                                                         # tags$button(id = "info_iuu_assumption",
+                                                         #             class = "btn action-button info-button",
+                                                         #             icon("info"))
                                                        ), 
                                                        choices = unlist(wid$choices[wid$item_id == "w_iuu_assumption"]),
                                                        selected = unlist(wid$selected[wid$item_id == "w_iuu_assumption"]),
@@ -149,11 +149,11 @@ IUU = function(wto_members_and_observers)
                                           # Input: Allow S&DT
                                           radioButtons("w_iuu_allow_sdt",
                                                        label = tagList(
-                                                         tags$b(text$item_label[text$item_id == "w_iuu_allow_sdt"]),
-                                                         # Info button
-                                                         tags$button(id = "info_iuu_sdt",
-                                                                     class = "btn action-button info-button",
-                                                                     icon("info"))
+                                                         tags$b(text$item_label[text$item_id == "w_iuu_allow_sdt"])
+                                                         # # Info button
+                                                         # tags$button(id = "info_iuu_sdt",
+                                                         #             class = "btn action-button info-button",
+                                                         #             icon("info"))
                                                        ),
                                                        choices = unlist(wid$choices[wid$item_id == "w_iuu_allow_sdt"]),
                                                        selected = unlist(wid$selected[wid$item_id == "w_iuu_allow_sdt"]),

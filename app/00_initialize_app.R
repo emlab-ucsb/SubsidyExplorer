@@ -78,6 +78,18 @@ territories <- country_lookup %>%
 # 1) World map ---
 world <- read_sf("./data/shapefiles/ne_50m_admin_SubsidyExplorer", layer = "land_50m")
 
+eu_shp <- world %>%
+  dplyr::filter(admin_iso3 %in% eu_countries) %>%
+  mutate(sov_iso3 = "EU", 
+         admin_iso3 = "EU") %>%
+  group_by(sov_iso3, admin_iso3) %>%
+  summarize(area_km = sum(area_km)) %>%
+  ungroup()
+
+world_eu <- world %>%
+  dplyr::filter(!(admin_iso3 %in% eu_countries)) %>%
+  rbind(eu_shp)
+
 # Identify small countries for which we are going to add little dots on the map for easier viewing
 world_small_countries <- world  %>%
   dplyr::filter(area_km < 300) %>%
@@ -153,7 +165,7 @@ oecdColors <- rev(colorRampPalette(c("white", "black"), interpolate = "linear")(
 oecdColors <- oecdColors[1:length(subsidy_types_sorted_oecd)]
 names(oecdColors) <- names(subsidy_types_sorted_oecd)
 
-totColor <- "#3c8dbc"
+totColor <- "#0d5ba2"
 names(totColor) <- "Total"
 
 myColors <- c(goodColors, badColors, ambigColors, totColor, oecdColors)
@@ -267,7 +279,7 @@ proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFacto
 
 # Proposal names
 included_proposals <- proposal_settings %>%
-  dplyr::filter(include == "Yes") %>%
+  dplyr::filter(include != "Alternate") %>%
   mutate(display_name = case_when(proposal == "Default" ~ "None",
                                   TRUE ~ paste0(title_tool, " (", proposal, ")"))) %>%
   dplyr::select(category, proposal, display_name) %>%
@@ -282,7 +294,8 @@ proposal_categories <- unique(included_proposals$category)[unique(included_propo
 managed_cutoff <- 0.5
 
 # 4) Default end year 
-end_year <- 2060
+show_year <- 2050
+end_year <- 2080
 
 # Proposal color scheme
 # Make color palette
@@ -338,7 +351,7 @@ remove_all_bad_results <- pmap_df(list(fleet = remove_all_bad_list,
                                        region = names(remove_all_bad_list),
                                        bio_param = bio_dat_list),
                                   BioEconModel,
-                                  end_year = 2100,
+                                  end_year = end_year,
                                   return = "all")
 
 # Extract results timeseries
@@ -361,12 +374,11 @@ remove_all_bad_results_full <- remove_all_bad_results %>%
 
 # Extract ending results (difference only)
 remove_all_bad_results_last <- remove_all_bad_results_full %>%
-  dplyr::filter(Year == end_year) %>%
+  dplyr::filter(Year == show_year) %>%
   group_by(Year, Variable, Id, Name, Type, Description) %>%
   summarize(Percent = unique(Diff_global)*100,
             Value = unique(Diff_value_global)) %>%
   ungroup() 
-
 
 biomass_end_percent <- round(remove_all_bad_results_last$Percent[remove_all_bad_results_last$Variable == "biomass"], 1)
 biomass_end_value <- round(remove_all_bad_results_last$Value[remove_all_bad_results_last$Variable == "biomass"]/1e6)
@@ -398,4 +410,46 @@ best_result <- tibble(id = "A",
                       results_timeseries = list(remove_all_bad_results_full),
                       results_last = list(remove_all_bad_results_last))
 
+### PDF plotting ----------------
 
+# logo_black <- rasterGrob(readPNG("./www/emlab_logo_horizontal_w.png"), interpolate=TRUE, vjust = 0.8, hjust = 0.6)
+# header_text <- textGrob("SubsidyExplorer", gp = gpar(fontsize=16, fontface="bold", lineheight=1, col = "black", fontfamily = "Helvetica"), hjust = 0.55, vjust = 1)
+
+# World map
+world <- ne_countries(scale = "small", returnclass = "sf")
+world_mollweide <- st_transform(world, crs = "+proj=moll")
+
+# Function to wrap text on pdfs
+WrapText  <- function(vector_of_strings, width){
+  as.character(sapply(vector_of_strings, FUN=function(x){paste(strwrap(x, width=width), collapse="\n")}))
+}
+
+pretty_static_map_theme <- theme_bw()+
+  theme(panel.border = element_blank(),
+        plot.title = element_text(face = "bold", size = 20),
+        plot.subtitle = element_text(size = 10),
+        plot.caption = element_text(size = 8, color = "grey", face = "italic", hjust = 0),
+        plot.margin = unit(c(0, 0.25, 0, 0.25), "in"),
+        legend.text = element_text(size = 8),
+        legend.title = element_text(size = 8))
+
+pretty_static_plot_theme <- theme_classic()+
+  theme(panel.border = element_blank(),
+        plot.title = element_text(face = "bold", size = 20),
+        plot.subtitle = element_text(size = 10),
+        plot.caption = element_text(size = 10, hjust = 0),
+        plot.margin = unit(c(1, 0.25, 1, 0.25), "in"),
+        legend.text = element_text(size = 8),
+        legend.title = element_text(size = 8))
+
+leaflet_plot_theme <- theme(legend.position = "none",
+                            plot.title = element_blank(),
+                            plot.subtitle = element_blank(),
+                            plot.caption = element_blank(),
+                            plot.margin = unit(c(0,0,0,0), "in"))
+
+plotly_plot_theme <- theme(legend.position = "none",
+                           plot.title = element_blank(),
+                           plot.subtitle = element_blank(),
+                           plot.caption = element_blank(),
+                           plot.margin = unit(c(0,0,0,0), "in"))

@@ -13,172 +13,291 @@ ExploreResults = function(proposal_choices)
     
     ### Page Header
     column(12, id = "page-title-div-underline-blue",
-           
+
            # Title
-           tags$h3(text$item_label[text$item_id == "explore-results"], tags$button(id = "info_explore_results",
+           tags$h4(text$item_label[text$item_id == "explore-results"], tags$button(id = "info_explore_results",
                                                                                    class = "btn action-button info-button",
                                                                                    icon("info")))
-           
+
     ),
-    
-    ### Main content
+
+    ## Main content
     column(12,
-    
+
     fluidRow(
-      
+
       ####---------------------------------------------
       #### Left section - model a selected scenario
       #### --------------------------------------------
+      #### Fixed absolute panel to provide shading in background 
       column(4, id = "explore-results-left-column",
              
-             column(12, id = "lr-spaced-div", 
-                    
-                    ### First section - text ---
+      ),
+      
+      #### Actual left column that will scroll appropriately
+      column(4, id = "explore-results-real-left-column",
+
+             column(12, id = "lr-spaced-div",
+
+                    ### Section 1: Pre-populated proposals ---
+                    # Proposal selection header
+                    column(12, id = "section-title",
+
+                           # Section Title
+                           tags$h5(text$item_label[text$item_id == "explore_results_proposal_header"])
+
+                    ),
+
+                    # Proposal selection text
+                    column(12,
+
+                           text$item_label[text$item_id == "explore_results_proposal_text"] %>% lapply(htmltools::HTML)
+
+                    ),
+
+                    # Widgets
                     column(12, id = "t-spaced-div",
-                    column(12, id = "div-underline",
-                    
-                           text$item_label[text$item_id == "explore_results_intro_text"] %>% lapply(htmltools::HTML)
 
-                    )),
-             
-                    ### Second section - Explore proposals ---
-                    
-                    column(12, id = "section-title",
-                    
-                           # Section Title
-                           tags$h5(text$item_label[text$item_id == "explore_results_proposals_header"])
-                    
+                           # Select proposal category
+                           checkboxGroupInput("w_explore_results_proposal_category",
+                                              label = tags$b(text$item_label[text$item_id == "w_explore_results_proposal_category"]),
+                                              choices = proposal_categories,
+                                              selected = proposal_categories,
+                                              width = "100%",
+                                              inline = T)
                     ),
-             
-                    column(12,
-                           
-                           # Section text
-                           text$item_label[text$item_id == "explore_results_proposals_text"] %>% lapply(htmltools::HTML)
+                    
+                    column(12, id = "t-spaced-div",
+
+                           # Select proposal
+                           selectizeInput("w_explore_results_proposal_selection",
+                                          label = tags$b(text$item_label[text$item_id == "w_explore_results_proposal_selection"]),
+                                          choices = proposal_choices,
+                                          selected = "Default",
+                                          width = "100%")
 
                     ),
-             
-                    column(12, id = "div-underline",
+                    
+                    fluidRow(
+                      # Conditional panel for overfished definition selection
+                      conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126' || input.w_explore_results_proposal_selection == 'RD/TN/RL/119'",
+                                     
+                                       column(6, id = "t-spaced-div",
+                                            
+                                            # Select overfished definition
+                                            radioButtons("w_explore_results_overfished_multiple_options",
+                                                         label = tags$b(text$item_label[text$item_id == "w_explore_results_overfished_multiple_options"]),
+                                                         choices = c("New Zealand/Iceland" = "RD/TN/RL/79/Rev.1",
+                                                                     "Australia" = "RD/TN/RL/77/Rev.2"),
+                                                         selected = "RD/TN/RL/79/Rev.1",
+                                                         width = "100%")
+                                            
+                                     )
+                    ),
+
+                    # Conditional panel for cap selection
+                    conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126'",
+                                     
+                                     column(6, id = "t-spaced-div",
+                                            
+                                            # Select overfished definition
+                                            radioButtons("w_explore_results_cap_multiple_options",
+                                                         label = tags$b(text$item_label[text$item_id == "w_explore_results_cap_multiple_options"]),
+                                                         choices = c("None" = "Default",
+                                                                     "Philippines" = "RD/TN/RL/81",
+                                                                     "US and others" = "TN/RL/GEN/197/Rev.2",
+                                                                     "China" = "TN/RL/GEN/199",
+                                                                     "Brazil" = "RD/TN/RL/124"),
+                                                         selected = "Default",
+                                                         width = "100%")
+                                            
+                                     )
+                    )
+                    ),
+                                     
+                    # Selected proposal info
+                    column(12, id = "t-spaced-div",
+
+                           htmlOutput("explore_results_proposal_selection_text"),
                            
-                           # Button
-                           tags$button(id = "ab_explore_results_proposals",
+                           # Can not model wraning
+                           tags$i(textOutput("can_not_model_warning"), style = "color: red;")
+
+                    ),
+                    
+                    # Button
+                    column(12, align = "center", id = "div-underline",
+
+                           # Run model button (pre-populated proposal)
+                           tags$button(id = "ab_run_model_proposal",
                                        class = "btn action-button rounded-button",
-                                       tags$b(text$item_label[text$item_id == "ab_explore_results_proposals"], icon("caret-right")))
-                    
-                    
-                           
-                    ),
-             
+                                       tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")))
 
-                    ### Third section - Design custom proposal ---
-                    column(12, id = "section-title",
-                    
-                           # Section Title
-                           tags$h5(text$item_label[text$item_id == "explore_results_custom_header"])
-                    
                     ),
-             
+
+                    ### Section #2: Design custom proposal ---
+                    # Custom policy header
+                    column(12, id = "section-title",
+
+                           tags$h5(text$item_label[text$item_id == "explore_results_custom_header"])
+
+                    ),
+
+                    # Custom policy intro text
                     column(12,
-                           
-                           # Section text
+
                            text$item_label[text$item_id == "explore_results_custom_text"] %>% lapply(htmltools::HTML)
 
-                           
                     ),
-             
+
+                    # Button
                     column(12, id = "tb-spaced-div",
-                           
+
                            # Button
                            tags$button(id = "ab_explore_results_custom",
                                        class = "btn action-button rounded-button",
                                        tags$b(text$item_label[text$item_id == "ab_explore_results_custom"], icon("caret-right")))
-                    
+
                     )
              )
+
       ),
-    
+
       ####---------------------------------------------
       #### Right section - model a selected scenario
       #### --------------------------------------------
-      
-      column(8, offset = 4, id = "explore-results-right-column",
-             
+
+      column(8, id = "explore-results-right-column",
+
              ### Section Title ---
              column(12, id = "section-title-div-underline",
                     
-                    tags$h4(text$item_label[text$item_id == "explore_results_plot_header"])
-                    
-             ),
-           
-             ### Widgets ---
-             fluidRow(
-               
-               ### Timeseries plot variable 
-               column(12, id = "t-spaced-div", align = "center",
-                    
-                    tags$table(id = "explore-results-table",
-                               
-                               tags$tr(id = "explore-results-table-table-row",
-                                       
-                                       tags$td(id = "explore-results-table-cell-l1",
+                    # Reactive header with download buttons
+                    tags$table(id = "compare-fishery-stats-table",
+                                      
+                               tags$tr(id = "compare-fishery-stats-table-row",
+                                              
+                                       tags$td(id = "compare-fishery-stats-table-cell-1",
+                                                      
+                                               tags$h4(text$item_label[text$item_id == "explore_results_plot_header"])
+                                                      
+                                              ),
+                                              
+                                       tags$td(id = "compare-fishery-stats-table-cell-2",
                                                
-                                               tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_variable"])
+                                               downloadButton("db_explore_results_download_data_global",
+                                                              text$item_label[text$item_id == "db_explore_results_download_data_global"] %>% lapply(htmltools::HTML))
                                                
-                                       ),
-                                       
-                                       tags$td(id = "explore-results-table-cell-r",
-                                         
-                                         # Input - timeseries plot variable
-                                         selectizeInput("w_explore_results_timeseries_plot_variable", 
-                                                        label = NULL,
-                                                        choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_variable"]),
-                                                        selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_variable"]),
-                                                        width = "80%")
-                                       ),
-                                       
-                                       tags$td(id = "explore-results-table-cell-l2",
-                                               
-                                               tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_resolution"])
+                                               # tags$button(id = "db_explore_results_download_data",
+                                               #             class = "btn action-button rounded-button-grey download-button",
+                                               #             tags$b(icon("external-link-alt"),
+                                               #                    text$item_label[text$item_id == "db_explore_results_download_data"]))
                                                
                                        ),
                                        
-                                       tags$td(id = "explore-results-table-cell-r",
+                                       tags$td(id = "compare-fishery-stats-table-cell-2",
                                                
-                                               # Input - timeseries plot resolution
-                                               radioButtons("w_explore_results_timeseries_plot_resolution", 
-                                                            label = NULL,
-                                                            choices = unlist(wid$choices[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
-                                                            selected = unlist(wid$selected[wid$item_id == "w_selected_results_timeseries_plot_resolution"]),
-                                                            inline = T,
-                                                            width = "80%")
+                                               downloadButton("db_explore_results_download_data_regional",
+                                                              text$item_label[text$item_id == "db_explore_results_download_data_regional"] %>% lapply(htmltools::HTML))
+                                               
+                                               # tags$button(id = "db_explore_results_download_data",
+                                               #             class = "btn action-button rounded-button-grey download-button",
+                                               #             tags$b(icon("external-link-alt"),
+                                               #                    text$item_label[text$item_id == "db_explore_results_download_data"]))
+                                               
+                                       ),
+                                              
+                                       tags$td(id = "compare-fishery-stats-table-cell-2",
+                                                      
+                                               downloadButton("db_explore_results_download_figure_global",
+                                                              text$item_label[text$item_id == "db_explore_results_download_figure_global"] %>% lapply(htmltools::HTML))
+                                               # tags$button(id = "db_explore_results_download_figure",
+                                               #             class = "btn action-button rounded-button-grey download-button",
+                                               #             tags$b(icon("download"),
+                                               #                    text$item_label[text$item_id == "db_explore_results_download_figure"]))
+                                                      
+                                       ),
+                                       
+                                       tags$td(id = "compare-fishery-stats-table-cell-3",
+                                               
+                                               downloadButton("db_explore_results_download_figure_regional",
+                                                              text$item_label[text$item_id == "db_explore_results_download_figure_regional"] %>% lapply(htmltools::HTML))
+                                               # tags$button(id = "db_explore_results_download_figure",
+                                               #             class = "btn action-button rounded-button-grey download-button",
+                                               #             tags$b(icon("download"),
+                                               #                    text$item_label[text$item_id == "db_explore_results_download_figure"]))
+                                               
                                        )
                                )
                     )
-               )
-              
+
              ),
-           
+
+             ### Widgets ---
+             column(12, id = "t-spaced-div", align = "center",
+
+                      tags$table(id = "explore-results-table",
+
+                                 tags$tr(id = "explore-results-table-table-row",
+
+                                         tags$td(id = "explore-results-table-cell-l1",
+
+                                                 tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_variable"])
+
+                                         ),
+
+                                         tags$td(id = "explore-results-table-cell-r",
+
+                                                 # Input - timeseries plot variable
+                                                 selectizeInput("w_explore_results_timeseries_plot_variable",
+                                                                label = NULL,
+                                                                choices = unlist(wid$choices[wid$item_id == "w_explore_results_timeseries_plot_variable"]),
+                                                                selected = unlist(wid$selected[wid$item_id == "w_explore_results_timeseries_plot_variable"]),
+                                                                width = "80%")
+                                         ),
+
+                                         tags$td(id = "explore-results-table-cell-l2",
+
+                                                 tags$b(text$item_label[text$item_id == "w_explore_results_timeseries_plot_resolution"])
+
+                                         ),
+
+                                         tags$td(id = "explore-results-table-cell-r",
+
+                                                 # Input - timeseries plot resolution
+                                                 radioButtons("w_explore_results_timeseries_plot_resolution",
+                                                              label = NULL,
+                                                              choices = unlist(wid$choices[wid$item_id == "w_explore_results_timeseries_plot_resolution"]),
+                                                              selected = unlist(wid$selected[wid$item_id == "w_explore_results_timeseries_plot_resolution"]),
+                                                              inline = T,
+                                                              width = "80%")
+                                         )
+                                 )
+                      )
+              ),
+
              ### Plot ---
              column(12, id = "t-spaced-div",
-                    
-                    plotlyOutput("explore_results_timeseries_plot", height = "40vh")
-                    
+
+                    plotlyOutput("explore_results_timeseries_plot", height = "60vh")
+
              ),
-             
+
              ### Checkbox group input for scenarios run
              column(12, id = "tb-spaced-div",
-                    
+
                     tags$table(id = "explore-results-table",
-                               
+
                                tags$tr(id = "explore-results-table-table-row",
-                                       
+
                                        tags$td(style = "width: 100px;",
-                                               
+
                                                tags$b(text$item_label[text$item_id == "w_explore_results_show_ambitious"])
-                                               
+
                                        ),
-                                       
+
                                        tags$td(
-                                         
+
                                          prettyCheckboxGroup("w_explore_results_show_ambitious",
                                                              label = NULL,
                                                              choices = c("Most ambitious scenario"),
@@ -188,31 +307,69 @@ ExploreResults = function(proposal_choices)
                                                              fill = TRUE)
 
                                        )
+                               ),
+                               tags$tr(id = "explore-results-table-table-row",
+
+                                       tags$td(style = "width: 100px;",
+
+
+                                       ),
+
+                                       tags$td(
+
+                                         prettyCheckboxGroup("w_explore_results_show_policies",
+                                                             label = NULL,
+                                                             choices = "",
+                                                             selected = "",
+                                                             inline = TRUE,
+                                                             status = "primary",
+                                                             fill = TRUE)
+
+                                       )
+                               ),
+                               tags$tr(id = "explore-results-table-table-row",
+
+                                      tags$td(style = "width: 100px;",
+
+
+                                      ),
+
+                                      tags$td(
+
+                                        prettyCheckboxGroup("w_explore_results_show_custom",
+                                                            label = NULL,
+                                                            choices = "",
+                                                            selected = "",
+                                                            inline = TRUE,
+                                                            status = "warning",
+                                                            fill = TRUE)
+
+                                      )
                                )
                     )
-                    
-             ),
-             
-             ### ------------------------------------------------
-             
-             ### Section Title ---
-             column(12, id = "section-title-div-underline",
-                    
-                    tags$h4(text$item_label[text$item_id == "explore_results_selected_scenario_header"])
-                    
-             ),
-             
-             ### Selected Policy Description ---
-             column(12, id = "tb-spaced-div",
-                    
-                    unlist(best_result$policy_description) %>% lapply(htmltools::HTML)
 
              )
-      
+
+             ### ------------------------------------------------
+
+             # ### Section Title ---
+             # column(12, id = "section-title-div-underline",
+             #
+             #        tags$h4(text$item_label[text$item_id == "selected_results_selected_scenario_header"])
+             #
+             # ),
+             #
+             # ### Selected Policy Description ---
+             # column(12, id = "tb-spaced-div",
+             #
+             #        uiOutput("selected_results_selected_policy_description")
+             #
+             # )
+
       )
-      
+
     ) # /fluidRow
-    
+
     ) #/column 12 - main
         
   ) # /fluidPage

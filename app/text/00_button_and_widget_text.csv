@@ -3,44 +3,38 @@ header,,text,app-title,SubsidyExplorer,name of app
 header,,link,sfg_logo,The Sustainable Fisheries Group,text if logo doesn't work
 header,,link,emlab_logo,The Environmental Market Solutions Lab,text if logo doesn't work
 many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not meant to imply the expression of any opinion whatsoever on the part of The Pew Charitable Trusts or The Environmental Market Solutions Lab at the University of California Santa Barbara, concerning the status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontier or boundaries.</small>",map disclaimer
+many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is no universal definition of what constitutes a fishery subsidy, nor a complete record of all types of subsidies provided to the fishing industry worldwide. Global estimates of fisheries subsidies have ranged from US$14 - US$54 billion annually over the last two decades, with each study defining and classifying subsidies slightly differently depending on the purpose of the study. Fisheries subsidies in this figure are classified into thirteen categories defined by Sumaila et al. (2010). <br><br>They define fisheries subsidies as financial transfers, direct or indirect, from public entities to the fishing sector, which help the sector to be more profitable than it would be otherwise. Fisheries subsidies are divided into thirteen different sub-categories, depending on the (1) policy objective, (2) description, (3) scope, coverage and duration, (4) annual US$ amount, (5) source(s) of funding; (6) administering authority, (7) recipients, and (8) mechanisms of transfer associated with the subsidy program.</p>",modal text for subsidy types info
 ,,,,,
 1,introduction,page,introduction,Main Menu,page name
 1,introduction,text,left-top,Eliminating harmful fisheries subsidies represents the single greatest collective action governments can take to restore the health of fish populations around the world.,left top text
 1,introduction,text,left-bottom,SubsidyExplorer is a first-of-its-kind interactive toolkit that allows users to explore potential biological and economic impacts of fisheries subsidy reform scenarios. This tool supports the negotiations currently underway at the World Trade Organization (WTO).,left bottom text
-1,introduction,text,right-top,"If WTO members agree to eliminate all harmful subsidies, by 2060, it could result in increases of up to ",right top text
+1,introduction,text,right-top,"If WTO members agree to eliminate all harmful subsidies, by 2050, it could result in increases of up to ",right top text
 1,introduction,text,right-bottom,More fish in the water and more fishing opportunities! ,right bottom text
 1,introduction,nav-button,ab_introduction_to_explore_results,Learn How Subsidy Reform Could Help Fish    ,left button
-1,introduction,nav-button,ab_introduction_to_global_subsidies,Explore What Governments Provide in Fisheries Subsidies     ,right button
+1,introduction,nav-button,ab_introduction_to_global_subsidies,Explore More About Fisheries Subsidies     ,right button
 1,introduction,nav-button,ab_introduction_to_methods_process,Discover How This Tool Was Made    ,center button
 ,,,,,
-02a,explore-results,page,explore-results,Learn How Subsidy Reform Could Help Fish,page name
-02a,explore-results,text,explore_results_modal_text,"<p style = ""text-align: left;"">This chart shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, and fishing mortality over time.<br><br> In addition to the scenario displayed here, SubsidyExplorer contains many pre-populated WTO Member proposals to explore. Select <b style = ""text-decoration: underline;"">Explore WTO Member Proposals</b> on the left to model their impacts.<br><br> You can also design your own subsidy reform policy, and plot how it affects biomass, fish catch, and fishing mortality over time by selecting <b style = ""text-decoration: underline;"">Design Your Own Policy</b>.</p>",modal text
+02a,explore-results,text,explore_results_modal_text,"<p style = ""text-align: left;"">This chart shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, and fishing mortality over time.<br><br> In addition to the scenario displayed here, SubsidyExplorer contains many pre-populated WTO Member proposals to explore. Select from pre-populated WTO Member Proposals on the left to model their impacts.<br><br> You can also design your own subsidy reform policy, and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",modal text
 02a,explore-results,text,explore_results_modal_button,Start,modal button text
-02a,explore-results,text,explore_results_intro_text,"<p>The <b style = ""text-decoration: underline;"">Policy Reform</b> graph on this page shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, and fishing mortality over time.</p>",intro text for top left section
-02a,explore-results,section,explore_results_proposals_header,Explore WTO Member Proposals,section name - pre-populated proposals
-02a,explore-results,text,explore_results_proposals_text,"<p>In addition to the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> displayed here, SubsidyExplorer contains many more pre-populated WTO Member proposals to model.</p>",text for proposal selection section
-02a,explore-results,action-button,ab_explore_results_proposals,Explore WTO Member Proposals,button to selected proposal page
-02a,explore-results,section,explore_results_custom_header,Design Your Own Policy,section name - design your own
-02a,explore-results,text,explore_results_custom_text,"<p>You can also design your own subsidy reform policy and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",text for custom proposal section
-02a,explore-results,action-button,ab_explore_results_custom,Design Your Own Policy,button to custom policy page
+02a,explore-results,page,explore-results,Explore Results,page name
+02a,explore-results,section,explore_results_proposal_header,Explore WTO Member Proposals,section name - pre-populated proposals
+02a,explore-results,text,explore_results_proposal_text,"<p>Select a pre-populated WTO Member proposal from the menu below to model it and compare it against the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b>.</p>",intro text
+02a,explore-results,widget,w_explore_results_proposal_category,Narrow Proposals by Category,policy category selection
+02a,explore-results,widget,w_explore_results_proposal_selection,Select a Proposal,policy selection
+02a,explore-results,widget,w_explore_results_overfished_multiple_options,Which Overfished Disciplines to Use? ,select which overfished disciplines to use? 
+02a,explore-results,widget,w_explore_results_cap_multiple_options,Which Cap Approach to Use? ,select which cap approach to use? 
+02a,explore-results,action-button,ab_run_model_proposal,Model Selected WTO Proposal,text for custom proposal section
+02a,explore-results,explore_results_custom_header,explore_results_custom_header,Design Your Own Policy,section name - design your own
+02a,explore-results,explore_results_custom_text,explore_results_custom_text,"<p>You can also design your own subsidy reform policy and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",
+02a,explore-results,action-button,ab_explore_results_custom,Design Your Own Policy,go to edit-policies
 02a,explore-results,section,explore_results_plot_header,Scenario Results,section name - plot
+02a,explore-results,download-button,db_explore_results_download_data_global,"Export (CSV)<br><small class=""gray"">GLOBAL</small>",button to save csv
+02a,explore-results,download-button,db_explore_results_download_data_regional,"Export (CSV)<br><small class=""gray"">REGIONAL</small>",
+02a,explore-results,download-button,db_explore_results_download_figure_global,"Print (PDF)<br><small class=""gray"">GLOBAL</small>",button to save pdf
+02a,explore-results,download-button,db_explore_results_download_figure_regional,"Print (PDF)<br><small class=""gray"">REGIONAL</small>",
 02a,explore-results,widget,w_explore_results_timeseries_plot_variable,Plot,select variable to plot widget
 02a,explore-results,widget,w_explore_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
 02a,explore-results,widget,w_explore_results_show_ambitious,Scenarios,select scenarios to show
-02a,explore-results,section,explore_results_selected_scenario_header,Selected Scenario,section name
-,,,,,
-02b,selected-results,page,selected-results,Explore WTO Member Proposals,page name
-02b,selected-results,section,selected_results_intro_header,Select a Proposal,section name
-02b,selected-results,text,selected_results_intro_text,<p>Select a WTO Member proposal from the menu below to model it and compare it against the most ambitious scenario.</p>,intro text
-02b,selected-results,widget,w_selected_results_proposal_category,Narrow proposals by category,policy category selection
-02b,selected-results,widget,w_selected_results_proposal_selection,Select a proposal,policy selection
-02b,selected-results,action-button,ab_run_model_proposal,Model Selected WTO Proposal,run model
-02b,selected-results,action-button,ab_selected_results_design_custom_proposal,Design Your Own Policy,go to edit-policies
-02b,selected-results,section,selected_results_plot_header,Scenario Results,section name - plot
-02b,selected-results,widget,w_selected_results_timeseries_plot_variable,Plot,select variable to plot widget
-02b,selected-results,widget,w_selected_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
-02b,selected-results,widget,w_selected_results_show_ambitious,Scenarios,select scenarios to show
-02b,selected-results,section,selected_results_selected_scenario_header,Selected Scenario,section name
 ,,,,,
 02c,edit-policies,page,edit-policies,Design Your Own Policy Scenario,page name
 02c,edit-policies,text,run-name,"<b class=""big"">Name Your Policy: </b>",text input to describe policy
@@ -119,21 +113,21 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 02c,edit-policies,header,caps,Set subsidy caps,header for cap section
 02c,edit-policies,widget,w_tier1_cap_rule,Tier 1: How should the cap be set?,Methods for setting top tier cap
 02c,edit-policies,widget,w_tier1_cap_value,"Tier 1: Subsidy cap ($USD, millions)",Absolute value for top tier cap
-02c,edit-policies,widget,w_tier1_cap_fishers,Tier 1: Subsidies per fisher (US$),Subsidy per value for top tier cap
+02c,edit-policies,widget,w_tier1_cap_fishers,Tier 1: Subsidies per fisher ($USD),Subsidy per value for top tier cap
 02c,edit-policies,widget,w_tier1_cap_percent,Tier 1: Percent for cap rule,Percentage for top tier cap
 02c,edit-policies,widget,w_tier1_cap_best_percent_subs,Tier 1: Percent for cap rule (existing subsidies),
 02c,edit-policies,widget,w_tier1_cap_best_percent_landed_value,Tier 1: Percent for cap rule (landed value),
 02c,edit-policies,widget,w_tier1_cap_best_percent_fishers,Tier 1: Percent for cap rule (avg. subs per fisher * fishers),
 02c,edit-policies,widget,w_tier2_cap_rule,Tier 2: How should the cap be set?,Methods for setting tier 2 cap
 02c,edit-policies,widget,w_tier2_cap_value,"Tier 2: Subsidy cap ($USD, millions)",Absolute value for top tier cap
-02c,edit-policies,widget,w_tier2_cap_fishers,Tier 2: Subsidies per fisher (US$),Subsidy per value for tier 2 cap
+02c,edit-policies,widget,w_tier2_cap_fishers,Tier 2: Subsidies per fisher ($USD),Subsidy per value for tier 2 cap
 02c,edit-policies,widget,w_tier2_cap_percent,Tier 2: Percent for cap rule,Percentage for tier 2 cap
 02c,edit-policies,widget,w_tier2_cap_best_percent_subs,Tier 2: Percent for cap rule (existing subsidies),
 02c,edit-policies,widget,w_tier2_cap_best_percent_landed_value,Tier 2: Percent for cap rule (landed value),
 02c,edit-policies,widget,w_tier2_cap_best_percent_fishers,Tier 2: Percent for cap rule (avg. subs per fisher * fishers),
 02c,edit-policies,widget,w_tier3_cap_rule,Tier 3: How should the cap be set?,Methods for setting tier 3 cap
 02c,edit-policies,widget,w_tier3_cap_value,"Tier 3: Subsidy cap ($USD, millions)",Absolute value for tier 3 cap
-02c,edit-policies,widget,w_tier3_cap_fishers,Tier 3: Subsidies per fisher (US$),Subsidy per value for tier 3 cap
+02c,edit-policies,widget,w_tier3_cap_fishers,Tier 3: Subsidies per fisher ($USD),Subsidy per value for tier 3 cap
 02c,edit-policies,widget,w_tier3_cap_percent,Tier 3: Percent for cap rule,Percentage for tier 3 cap
 02c,edit-policies,widget,w_tier3_cap_best_percent_subs,Tier 3: Percent for cap rule (existing subsidies),
 02c,edit-policies,widget,w_tier3_cap_best_percent_landed_value,Tier 3: Percent for cap rule (landed value),
@@ -152,6 +146,8 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 03a,global-subsidies,widget,w_global_subsidies_good_types,BENEFICIAL,select good subsidy types
 03a,global-subsidies,widget,w_global_subsidies_ugly_types,AMBIGUOUS,select ugly subsidy types
 03a,global-subsidies,widget,w_global_subsidies_bad_types,HARMFUL,select bad subsidy types
+03a,global-subsidies,download-button,db_global_subsidies_download_figure,Print (PDF),button to save data
+03a,global-subsidies,download-button,db_global_subsidies_download_data,Export (CSV),button to save figure
 03a,global-subsidies,legend-title,global_subsidies_map_legend,Estimated Fisheries Subsidies<br>(2018 $USD),legend title
 ,,,,,
 03b,country-fishery-stats,page,country-fishery-stats,Fishery Statistics by State,page name
@@ -159,8 +155,12 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 03b,country-fishery-stats,widget,w_country_fishery_stats_selected_country,Select a WTO Member or Observer State,select country widget
 03b,country-fishery-stats,download-button,db_country_fishery_stats_generate_report,Generate Report for Selected State (PDF),Generate PDF for this country
 03b,country-fishery-stats,tab,fishery-subsidy-tab,Fishery Subsidies,fishery subsidy data tab
+03b,country-fishery-stats,download-button,db_country_fishery_stats_subsidy_download_data,Export (CSV),button to save data
+03b,country-fishery-stats,download-button,db_country_fishery_stats_subsidy_download_figure,Print (PDF),button to save figure
 03b,country-fishery-stats,tab,marine-capture-tab,Marine Capture Fisheries,marine fisheries data tab
+03b,country-fishery-stats,download-button,db_country_fishery_stats_capture_download_figure,Print (PDF),button to save figure
 03b,country-fishery-stats,tab,demographic-tab,Demographics,demographic data tab
+03b,country-fishery-stats,download-button,db_country_fishery_stats_demographic_download_figure,Print (PDF),button to save figure
 ,,,,,
 03c,compare-fishery-stats,page,compare-fishery-stats,Compare Fishery Statistics,page name
 03c,compare-fishery-stats,text,compare_fishery_stats_intro_text,"<p>Select a WTO member or observer to compare capture production, fishery subsidy, and demographic statistics for the selected state with other states. More information on the data presented is given in each section.</p>",intro text
@@ -180,7 +180,8 @@ many,,text,map_disclaimer,"<small class=""gray"">The use of the map above is not
 03d,global-fishing-footprint,page,global-fishing-footprint,Global Fishing Footprint,page name
 03d,global-fishing-footprint,text,global_fishing_footprint_modal_text,"<p style = ""text-align: left;"">This map shows global large-scale fishing effort in 2018, aggregated by Exclusive Economic Zone (EEZ) (or FAO statistical region for effort on the high seas). Fishing effort is quantified in kilowatt hours (kWh), which is calculated as the time spent fishing in hours weighted by the total engine capacity of the vessel in kW. Hover your mouse over each region on the map to learn more. Data are sourced from Global Fishing Watch (GFW). GFW is a novel dataset that uses machine learning models to produce satellite tracks of fishing vessels to detect fishing activity in near-real time.</p>",text for modal
 03d,global-fishing-footprint,text,global_fishing_footprint_modal_button,Explore Map,text for close modal button
+03d,global-fishing-footprint,download-button,db_global_fishing_footprint_download_figure,Print (PDF),button to save figure
 03d,global-fishing-footprint,legend-title,global_fishing_footprint_map_legend,Fishing Effort<br>(kWh),title for map legend
 ,,,,,
-4,methods-process,page,methods-process,Learn About the Methods and Process,page name
+4,methods-process,page,methods-process,Discover How This Tool Was Made,page name
 4,methods-process,download-button,db_download_methods,Download Methods (PDF),center download button

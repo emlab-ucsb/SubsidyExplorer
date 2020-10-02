@@ -173,7 +173,7 @@ header.main-header {
 /* menu item text */
 .skin-blue .sidebar-menu>li>a {
   color: #ffffff;
-    text-decoration: none!important;
+  text-decoration: none!important;
 }
 
 .skin-blue .sidebar-menu>li>a:link {
@@ -274,6 +274,13 @@ header.main-header {
   color: #ffffff;
 }
 
+.container-fluid {
+    padding-right: 7px;
+    padding-left: 7px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 /*-----------------*/
 /* Leaflet legends */
 /*-----------------*/
@@ -294,15 +301,20 @@ header.main-header {
 }
 
 .leaflet-right {
-  right: 50px;
+  right: 25px;
 }
 
 .leaflet-left {
-  left: 25px;
+  left: unset;
+  right: 25px;
 }
 
 .leaflet-top {
   top: 5px;
+}
+
+.leaflet-bottom {
+  bottom: 0;
 }
 /*-------------------*/  
 /*-------------------*/
@@ -319,17 +331,19 @@ header.main-header {
   color: #fff; 
   background-color: var(--accent-color); 
   border-width: 0; 
-  width:22px; 
-  height:22px; 
+  width:25px; 
+  height:25px; 
   font-size: 6pt;
   border-radius: 50%;
   text-align: center;
   line-height: 6pt;
+  padding-right: 15px;
+  margin: 0 5px 0 5px;
 }
 
 /* Info button */
 .info-button i{
-  margin: 0 5px 0 0;
+  margin: 0;
 }
 
 .info-button:hover {
@@ -371,6 +385,23 @@ header.main-header {
   background-color: var(--accent-color-2); 
 }
 
+.btn {
+}
+
+.btn-default{
+  padding: 10px; 
+  width: 100%; 
+  font-size: 10pt; 
+  border-radius: 5px;
+  color: var(--grey-dark);
+  background-color: #fff; 
+  border: 1px solid var(--grey-dark);
+}
+
+.btn-default:hover {
+  color: #fff;
+  background-color: var(--accent-color-2); 
+}
 
 /* ------------- */
 /* General Items */
@@ -602,6 +633,11 @@ header.main-header {
   padding: 0 25px 0 25px;
 }
 
+#explore-results-real-left-column{
+  color: var(--grey-dark);
+  padding: 0 25px 40px 25px;
+}
+
 #explore-results-right-column{
   min-height: 90vh;
   color: var(--grey-dark);
@@ -630,30 +666,11 @@ header.main-header {
 }
 
 /* ------------------------------ */
-/* Selected Results */
-/* ------------------------------ */
-#selected-results-left-column{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  background-color: var(--grey-light);
-  color: var(--grey-dark);
-  padding: 0 25px 0 25px;
-}
-
-#selected-results-right-column{
-  min-height: 90vh;
-  color: var(--grey-dark);
-  padding: 0 25px 0 25px;
-}
-
-/* ------------------------------ */
 /* Edit Policies (Advanced Users) */
 /* ------------------------------ */
 #edit-policies-left-column{
   color: var(--grey-dark);
-  padding: 15px;
+  padding: 15px 25px 15px 25px;
 }
 
 #edit-policies-right-column{
@@ -663,7 +680,7 @@ header.main-header {
   right: 0;
   background-color: var(--grey-light);
   color: var(--grey-dark);
-  padding: 15px;
+  padding: 15px 25px 15px 25px;
 }
 
 /* Table attributes for Steps */
@@ -768,6 +785,9 @@ hr.grey-narrow{
 /* ------------------------------ */
 
 /* TabBox for subsidy data */
+.nav-tabs-custom{
+  margin-bottom: 0;
+}
 
 .nav-tabs-custom #subsidy-data-tabs.nav-tabs{
   background-color: var(--grey-light);
@@ -806,27 +826,108 @@ hr.grey-narrow{
   border-right-color: transparent;
 }
 
-/* Global subsidies */
+/* ---------------- */
+/* Global Subsidies */
+/* ---------------- */
+
+/* Hide selection panel */
+#global_subsidies_map_hide_arrow_panel {
+  background: rgba(255,255,255,0.9);
+  padding: 0;
+  left: 350px;
+  top: 50px;
+  width: 30px;
+  height: 100px;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+/* Hide selection button */
+#ab_global_subsidies_hide_panel {
+  background: rgba(255,255,255,0.9);
+  padding: 0;
+  height: 100px;
+  width: 30px;
+  border-radius: 0 5px 5px 0;
+  color: var(--accent-color);
+  line-height: 100px;
+  text-align: center;
+}
+
+#ab_global_subsidies_hide_panel:hover {
+  background: var(--accent-color-2);
+}
+
+/* Show selection panel */
+#global_subsidies_map_expand_arrow_panel {
+  background: rgba(255,255,255,0.9);
+  padding: 0;
+  left: 0;
+  top: 50px;
+  width: 30px;
+  height: 100px;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+/* Show selection panel button */
+#ab_global_subsidies_expand_panel {
+  background: rgba(255,255,255,0.9);
+  padding: 0;
+  height: 100px;
+  width: 30px;
+  border-radius: 0 5px 5px 0;
+  color: var(--accent-color);
+  line-height: 100px;
+  text-align: center;
+}
+
+#ab_global_subsidies_expand_panel:hover {
+  background: var(--accent-color-2);
+}
+
+/* Control panel */
 #global_subsidies_map_control_panel {
   background: rgba(255,255,255,0.9);
   padding: 25px;
   left: 0;
-  top: 100px;
-  bottom: 100px;
+  top: 0;
+  bottom: 0;
   width: 350px;
   border-radius: 0 5px 5px 0;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
+/* Info panel */
 #global_subsidies_map_info_panel {
   background: rgba(255,255,255,0.9);
-  right: 50px;
-  top: 25px;
-  width: 250px;
+  right: 70px;
+  top: 15px;
+  width: 300px;
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
+/* Table for buttons */
+#global-subsidies-table { 
+  vertical-align: middle;
+  table-layout: fixed;
+  text-align: center;
+  margin: 0 10px 0 10px;
+} 
+
+#global-subsidies-table-row{
+}
+
+#global-subsidies-table-cell-1{
+  padding-right: 10px;
+}
+
+#global-subsidies-table-cell-2{
+  padding-right: 10px;
+}
+
+/* Map disclaimer panel */
 #global_subsidies_map_disclaimer_panel {
   background: rgba(255,255,255,0.9);
   padding: 10px;
@@ -855,6 +956,37 @@ hr.grey-narrow{
   min-height: 90vh;
   color: var(--grey-dark);
   padding: 0 25px 0 25px;
+}
+
+/* Table for buttons */
+#country-fishery-stats-table { 
+  vertical-align: middle;
+  table-layout: fixed;
+  justify-content: right;
+  margin: 0 10px 0 10px;
+} 
+
+#country-fishery-stats-table-row{
+  width: 100%;
+}
+
+#country-fishery-stats-table-cell-1a{
+  width: 80%;
+}
+
+#country-fishery-stats-table-cell-1b{
+  width: 90%;
+}
+
+#country-fishery-stats-table-cell-2{
+  text-align: center;
+  padding-right: 10px;
+  justify-content: right;
+}
+
+#country-fishery-stats-table-cell-3{
+  text-align: center;
+  justify-content: right;
 }
 
 /* TabBox for different types of country-level data */
@@ -923,28 +1055,22 @@ hr.grey-narrow{
   text-align: center;
 }
 
-#db_compare_fishery_stats_download_data {
-  padding-right: 20px;
-}
-
-#db_compare_fishery_stats_download_figure {
-  padding-right: 20px;
-}
-
-
-
 /* ------------------------------ */
 /* Global fishing footprint */
 /* ------------------------------ */
 
 #global_fishing_footprint_map_info_panel {
   background: rgba(255,255,255,0.9);
-  right: 50px;
-  top: 25px;
-  width: 250px;
+  right: 70px;
+  top: 15px;le
+  width: 200px;
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   z-index: 1000 !important;
+}
+
+#db_global_fishing_footprint_download_figure {
+  width: 150px;
 }
 
 #global_fishing_footprint_map_disclaimer_panel {
@@ -973,4 +1099,27 @@ hr.grey-narrow{
 
 #db_download_methods:hover{
   background-color: var(--accent-color-2);
+}
+
+#methods-process-table {
+  vertical-align: middle;
+  table-layout: fixed;
+  width: 100%;
+  text-align: center;
+}
+
+#methods-process-table-row{
+  width: 100%;
+}
+
+#methods-process-table-cell-1{
+  width: 33%;
+}
+
+#methods-process-table-cell-2{
+  width: 33%;
+}
+
+#methods-process-table-cell-3{
+  width: 33%;
 }

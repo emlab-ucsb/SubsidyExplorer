@@ -26,11 +26,11 @@ OA = function(wto_members_and_observers)
                          checkboxGroupInput("w_oa_definitions", 
                                             
                                             label = tagList(
-                                              tags$b(text$item_label[text$item_id == "w_oa_definitions"]),
-                                              # OA definitions info button
-                                              tags$button(id = "info_oa",
-                                                          class = "btn action-button info-button",
-                                                          icon("info"))
+                                              tags$b(text$item_label[text$item_id == "w_oa_definitions"])
+                                              # # OA definitions info button
+                                              # tags$button(id = "info_oa",
+                                              #             class = "btn action-button info-button",
+                                              #             icon("info"))
                                             ), 
                                             choices = unlist(wid$choices[wid$item_id == "w_oa_definitions"]),
                                             selected = unlist(wid$selected[wid$item_id == "w_oa_definitions"]),
@@ -99,11 +99,11 @@ OA = function(wto_members_and_observers)
                                                                             # Input: High seas cutoff
                                                                             sliderInput("w_oa_hs_cutoff",
                                                                                         label = tagList(
-                                                                                          tags$b(text$item_label[text$item_id == "w_oa_hs_cutoff"]),
-                                                                                          # Info button
-                                                                                          tags$button(id = "info_oa_hs",
-                                                                                                      class = "btn action-button info-button",
-                                                                                                      icon("info"))
+                                                                                          tags$b(text$item_label[text$item_id == "w_oa_hs_cutoff"])
+                                                                                          # # Info button
+                                                                                          # tags$button(id = "info_oa_hs",
+                                                                                          #             class = "btn action-button info-button",
+                                                                                          #             icon("info"))
                                                                                         ),
                                                                                         min = wid$min[wid$item_id == "w_oa_hs_cutoff"],
                                                                                         max = wid$max[wid$item_id == "w_oa_hs_cutoff"],
@@ -176,11 +176,11 @@ OA = function(wto_members_and_observers)
                                           # Input: Allow S&DT
                                           radioButtons("w_oa_allow_sdt",
                                                        label = tagList(
-                                                         tags$b(text$item_label[text$item_id == "w_oa_allow_sdt"]),
-                                                         # Info button
-                                                         tags$button(id = "info_oa_sdt",
-                                                                     class = "btn action-button info-button",
-                                                                     icon("info"))
+                                                         tags$b(text$item_label[text$item_id == "w_oa_allow_sdt"])
+                                                         # # Info button
+                                                         # tags$button(id = "info_oa_sdt",
+                                                         #             class = "btn action-button info-button",
+                                                         #             icon("info"))
                                                        ),
                                                        choices = unlist(wid$choices[wid$item_id == "w_oa_allow_sdt"]),
                                                        selected = unlist(wid$selected[wid$item_id == "w_oa_allow_sdt"]),

@@ -1641,7 +1641,29 @@ overcap_vessels_out <- overcap_vessels_scope %>%
    ### DETERMINE CAPS ----------
 
    ### Tier 1 - ALWAYS  
-   if(cap_tier$tier1_cap_rule == "PERCENT_SUBS"){
+    if(cap_tier$tier1_cap_rule == "BRAZIL"){
+      
+      tot_subs <- cap_df %>%
+        group_by(flag_iso3) %>%
+        summarize(tot_subs = sum(subs_for_cap, na.rm = T)) %>%
+        mutate(percent_reduction = case_when(tot_subs < 15000000 ~ 0,
+                                             tot_subs >= 15000000 & tot_subs < 30000000 ~ 0.15,
+                                             tot_subs >= 30000000 & tot_subs < 75000000 ~ 0.2,
+                                             tot_subs >= 75000000 & tot_subs < 150000000 ~ 0.25,
+                                             tot_subs >= 150000000 & tot_subs < 300000000 ~ 0.3,
+                                             tot_subs >= 300000000 & tot_subs < 600000000 ~ 0.35,
+                                             tot_subs >= 600000000 & tot_subs < 1200000000 ~ 0.4,
+                                             tot_subs >= 1200000000 ~ 0.45,
+                                             TRUE ~ 0)) %>%
+        dplyr::select(flag_iso3, percent_reduction)
+      
+      flag_caps_tier1 <- cap_df %>%
+        left_join(tot_subs, by = "flag_iso3") %>%
+        dplyr::filter(flag_iso3 %in% tier_1_flags_out) %>%
+        mutate(cap = subs_for_cap*percent_reduction) %>%
+        dplyr::select(-percent_reduction)
+      
+    }else if(cap_tier$tier1_cap_rule == "PERCENT_SUBS"){
        
        percent_cap <- cap_tier$tier1_cap_percent/100
        

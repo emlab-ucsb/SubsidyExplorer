@@ -186,8 +186,8 @@ shinyServer(function(input, output, session) {
       
       # Get selected overfished discipline
       entry_to_use <- switch(input$w_explore_results_overfished_multiple_options,
-                             "RD/TN/RL/79/Rev.1" = list("RD/TN/RL/119 & RD/TN/RL/79/Rev.1"),
-                             "RD/TN/RL/77/Rev.2" = list("RD/TN/RL/119 & RD/TN/RL/77/Rev.2"))
+                             "RD/TN/RL/79/Rev.1" = list("RD/TN/RL/119 | RD/TN/RL/79/Rev.1"),
+                             "RD/TN/RL/77/Rev.2" = list("RD/TN/RL/119 | RD/TN/RL/77/Rev.2"))
       
       selected_policy <- proposal_settings %>%
         dplyr::filter(proposal == entry_to_use[[1]])
@@ -198,19 +198,42 @@ shinyServer(function(input, output, session) {
     # Deal with Chair's text
     }else if(input$w_explore_results_proposal_selection == "RD/TN/RL/126"){
       
-      # Get selected overfished discipline
-      entry_to_use <- switch(input$w_explore_results_cap_multiple_options,
-                             "Default" = list("RD/TN/RL/126"),
-                             "TN/RL/GEN/199" = list("RD/TN/RL/126 & TN/RL/GEN/199"),
-                             "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126 & TN/RL/GEN/197/Rev.2"),
-                             "RD/TN/RL/81" = list("RD/TN/RL/126 & RD/TN/RL/81"),
-                             "RD/TN/RL/124" = list("RD/TN/RL/126 & RD/TN/RL/124"))
-      
-      selected_policy <- proposal_settings %>%
-        dplyr::filter(proposal == entry_to_use[[1]])
-      
-      # Update reactive object 
-      rv_selected_proposal$proposal <- entry_to_use[[1]]
+      # More ambitious overfished proposals
+      if(input$w_explore_results_overfished_multiple_options == "RD/TN/RL/79/Rev.1"){
+        
+        # Get selected overfished discipline
+        entry_to_use <- switch(input$w_explore_results_cap_multiple_options,
+                               "Default" = list("RD/TN/RL/126 | Objective Definition"),
+                               "TN/RL/GEN/199" = list("RD/TN/RL/126 | TN/RL/GEN/199 | Objective Definition"),
+                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Objective Definition"),
+                               "RD/TN/RL/81" = list("RD/TN/RL/126 | RD/TN/RL/81 | Objective Definition"),
+                               "RD/TN/RL/124" = list("RD/TN/RL/126 | RD/TN/RL/124 | Objective Definition"))
+        
+        selected_policy <- proposal_settings %>%
+          dplyr::filter(proposal == entry_to_use[[1]])
+        
+        # Update reactive object 
+        rv_selected_proposal$proposal <- entry_to_use[[1]]
+        
+        
+      # Less ambitious overfished proposals  
+      }else if(input$w_explore_results_overfished_multiple_options == "RD/TN/RL/77/Rev.2"){
+        
+        # Get selected overfished discipline
+        entry_to_use <- switch(input$w_explore_results_cap_multiple_options,
+                               "Default" = list("RD/TN/RL/126 | Relevant Authorities"),
+                               "TN/RL/GEN/199" = list("RD/TN/RL/126 | TN/RL/GEN/199 | Relevant Authorities"),
+                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Relevant Authorities"),
+                               "RD/TN/RL/81" = list("RD/TN/RL/126 | RD/TN/RL/81 | Relevant Authorities"),
+                               "RD/TN/RL/124" = list("RD/TN/RL/126 | RD/TN/RL/124 | Relevant Authorities"))
+        
+        selected_policy <- proposal_settings %>%
+          dplyr::filter(proposal == entry_to_use[[1]])
+        
+        # Update reactive object 
+        rv_selected_proposal$proposal <- entry_to_use[[1]]
+
+      }
     
     }else{
       
@@ -779,6 +802,25 @@ shinyServer(function(input, output, session) {
     }else{
       ""
     }
+  })
+  
+  ### Update cap method selection widget based upon tier selection ---------------------
+  observe({
+    
+    if(input$w_cap_tier_number == "ONE"){
+      
+      choices <- c(unlist(wid$choices[wid$item_id == "w_tier1_cap_rule"]), "vi) Brazil - Formula" = "BRAZIL")
+      
+    }else{
+      
+      choices <- c(unlist(wid$choices[wid$item_id == "w_tier1_cap_rule"]))
+      
+    }
+    
+    # Update input
+    updateRadioButtons(session,
+                       "w_tier1_cap_rule",
+                       choices = choices)
   })
   
   ### Update when any custom widget changes ----------

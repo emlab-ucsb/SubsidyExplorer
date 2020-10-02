@@ -87,8 +87,8 @@ ExploreResults = function(proposal_choices)
                                             # Select overfished definition
                                             radioButtons("w_explore_results_overfished_multiple_options",
                                                          label = tags$b(text$item_label[text$item_id == "w_explore_results_overfished_multiple_options"]),
-                                                         choices = c("New Zealand/Iceland" = "RD/TN/RL/79/Rev.1",
-                                                                     "Australia" = "RD/TN/RL/77/Rev.2"),
+                                                         choices = c("Objective Definition" = "RD/TN/RL/79/Rev.1", # New Zealand/Iceland
+                                                                     "Relevant Authorities" = "RD/TN/RL/77/Rev.2"), # Australia
                                                          selected = "RD/TN/RL/79/Rev.1",
                                                          width = "100%")
                                             

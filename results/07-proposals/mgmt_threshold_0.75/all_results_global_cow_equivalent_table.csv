@@ -1,45 +1,65 @@
 "","Id","Name","Category","Year","Biomass","Catches"
-"1","Ambitious Reform","All subsidies","Ambitious Reform",2060,23582022.5383772,1731375.5004775
+"1","Ambitious Reform","All subsidies","Ambitious Reform",2050,23572491.0510373,1730260.36052154
 "2","Ambitious Reform","All subsidies","Ambitious Reform",2080,23595652.5339911,1733061.69278046
-"3","RD/TN/RL/104","EU - IUU (RD/TN/RL/104)","IUU",2060,9055.57332649526,4.55342020192884
+"3","RD/TN/RL/104","EU - IUU (RD/TN/RL/104)","IUU",2050,9073.0792996092,3.56697250234846
 "4","RD/TN/RL/104","EU - IUU (RD/TN/RL/104)","IUU",2080,9071.35194156202,8.33453858883522
-"5","RD/TN/RL/112/Rev.1","EU and others -Overfishing and overcapacity (RD/TN/RL/112/Rev.1)","OFOC",2060,1151657.27115375,57164.1848461459
-"6","RD/TN/RL/112/Rev.1","EU and others -Overfishing and overcapacity (RD/TN/RL/112/Rev.1)","OFOC",2080,1183170.05779209,57533.3748243492
-"7","RD/TN/RL/113","Facilitator's text - IUU (RD/TN/RL/113)","IUU",2060,9055.57332649526,4.55342020192884
+"5","RD/TN/RL/112/Rev.1","EU and others - Overfishing and overcapacity (RD/TN/RL/112/Rev.1)","OFOC",2050,1119572.11839429,55475.1679897238
+"6","RD/TN/RL/112/Rev.1","EU and others - Overfishing and overcapacity (RD/TN/RL/112/Rev.1)","OFOC",2080,1183170.05779209,57533.3748243492
+"7","RD/TN/RL/113","Facilitator's text - IUU (RD/TN/RL/113)","IUU",2050,9073.0792996092,3.56697250234846
 "8","RD/TN/RL/113","Facilitator's text - IUU (RD/TN/RL/113)","IUU",2080,9071.35194156202,8.33453858883522
-"9","RD/TN/RL/119","Facilitator's text - Overfished (RD/TN/RL/119)","Overfished",2060,3076795.19495556,239867.703734634
-"10","RD/TN/RL/119","Facilitator's text - Overfished (RD/TN/RL/119)","Overfished",2080,3172933.2386705,248524.659691953
-"11","RD/TN/RL/121","Canada - Overfishing and overcapacity (RD/TN/RL/121)","OFOC",2060,7985996.97869783,107663.984045447
-"12","RD/TN/RL/121","Canada - Overfishing and overcapacity (RD/TN/RL/121)","OFOC",2080,8076917.84301322,113987.825758953
-"13","RD/TN/RL/125","LDC - Full text (RD/TN/RL/125)","Other",2060,3243498.15020407,53914.6954598051
-"14","RD/TN/RL/125","LDC - Full text (RD/TN/RL/125)","Other",2080,3338996.39578091,58481.4687636808
-"15","RD/TN/RL/126","Chair's text - Consolidated text (RD/TN/RL/126)","Other",2060,9703874.16840651,168593.145604901
-"16","RD/TN/RL/126","Chair's text - Consolidated text (RD/TN/RL/126)","Other",2080,9783166.46855436,174854.895325011
-"17","RD/TN/RL/126 & TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (w/ US and others -  Cap/Tier) (RD/TN/RL/126 & TN/RL/GEN/197/Rev.2)","Other",2060,13616593.9668777,971728.066826584
-"18","RD/TN/RL/126 & TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (w/ US and others -  Cap/Tier) (RD/TN/RL/126 & TN/RL/GEN/197/Rev.2)","Other",2080,13632753.3732682,974096.089470768
-"19","RD/TN/RL/126 & TN/RL/GEN/199","Chair's text - Consolidated text (w/ China - Cap) (RD/TN/RL/126 & TN/RL/GEN/199)","Other",2060,10657153.1092354,682988.979361146
-"20","RD/TN/RL/126 & TN/RL/GEN/199","Chair's text - Consolidated text (w/ China - Cap) (RD/TN/RL/126 & TN/RL/GEN/199)","Other",2080,10678699.2214957,686304.536823153
-"21","RD/TN/RL/77/Rev.2","Australia - Overfished (RD/TN/RL/77/Rev.2)","Overfished",2060,1017962.67796579,48905.276369312
-"22","RD/TN/RL/77/Rev.2","Australia - Overfished (RD/TN/RL/77/Rev.2)","Overfished",2080,1041220.72058297,48543.4567562761
-"23","RD/TN/RL/79/Rev.1","New Zealand/Iceland - Overfishing and overcapacity (RD/TN/RL/79/Rev.1)","OFOC",2060,3076795.19495556,239867.703734634
-"24","RD/TN/RL/79/Rev.1","New Zealand/Iceland - Overfishing and overcapacity (RD/TN/RL/79/Rev.1)","OFOC",2080,3172933.2386705,248524.659691953
-"25","RD/TN/RL/81","Philippines - De minimis (RD/TN/RL/81)","OFOC",2060,902809.143419595,71067.7374409197
-"26","RD/TN/RL/81","Philippines - De minimis (RD/TN/RL/81)","OFOC",2080,902815.279479993,71067.7488540512
-"27","RD/TN/RL/87","Latin 6 and others - IUU (RD/TN/RL/87)","IUU",2060,9055.57332649526,4.55342020192884
-"28","RD/TN/RL/87","Latin 6 and others - IUU (RD/TN/RL/87)","IUU",2080,9071.35194156202,8.33453858883522
-"29","RD/TN/RL/89/Rev.2","ACP - IUU (RD/TN/RL/89/Rev.2)","IUU",2060,46.7929602020927,6.92871997575105
-"30","RD/TN/RL/89/Rev.2","ACP - IUU (RD/TN/RL/89/Rev.2)","IUU",2080,69.183528455899,10.8071208987854
-"31","RD/TN/RL/91","US and others - ABNJ (RD/TN/RL/91)","OFOC",2060,9306044.01284823,109186.051556149
-"32","RD/TN/RL/91","US and others - ABNJ (RD/TN/RL/91)","OFOC",2080,9378875.90485018,116070.969796363
-"33","RD/TN/RL/95","ACP - Overfished (RD/TN/RL/95)","Overfished",2060,753687.473668543,29588.52167932
-"34","RD/TN/RL/95","ACP - Overfished (RD/TN/RL/95)","Overfished",2080,776652.013578045,29096.5217891145
-"35","RD/TN/RL/96","ACP - Overfishing and overcapacity (RD/TN/RL/96)","OFOC",2060,4887105.76819098,66208.5220125267
-"36","RD/TN/RL/96","ACP - Overfishing and overcapacity (RD/TN/RL/96)","OFOC",2080,4964317.35951389,70134.1987511201
-"37","RD/TN/RL/96 Rev.1","ACP - Overfishing and overcapacity (revised) (RD/TN/RL/96 Rev.1)","OFOC",2060,9407628.29016516,917156.400824668
-"38","RD/TN/RL/96 Rev.1","ACP - Overfishing and overcapacity (revised) (RD/TN/RL/96 Rev.1)","OFOC",2080,9418670.61495502,917691.714186851
-"39","TN/RL/GEN/199","China - Cap (TN/RL/GEN/199)","OFOC",2060,2988526.36200922,255247.038235325
-"40","TN/RL/GEN/199","China - Cap (TN/RL/GEN/199)","OFOC",2080,3004777.81362215,256905.273173725
-"41","TN/RL/GEN/200/Rev.1","India - S&DT (TN/RL/GEN/200/Rev.1)","Other",2060,5795146.06910382,187459.00672356
-"42","TN/RL/GEN/200/Rev.1","India - S&DT (TN/RL/GEN/200/Rev.1)","Other",2080,5909779.72433654,199021.757715096
-"43","TN/RL/GEN/202","Philippines - Disputed waters (TN/RL/GEN/202)","Other",2060,402325.841055032,-11105.3610269486
-"44","TN/RL/GEN/202","Philippines - Disputed waters (TN/RL/GEN/202)","Other",2080,404929.349736659,-10636.9655988167
+"9","RD/TN/RL/119 | RD/TN/RL/77/Rev.2","Facilitator's text - Overfished (RD/TN/RL/119 | RD/TN/RL/77/Rev.2)","Overfished",2050,997432.379274817,49155.071872345
+"10","RD/TN/RL/119 | RD/TN/RL/77/Rev.2","Facilitator's text - Overfished (RD/TN/RL/119 | RD/TN/RL/77/Rev.2)","Overfished",2080,1041220.72058297,48543.4567562761
+"11","RD/TN/RL/119 | RD/TN/RL/79/Rev.1","Facilitator's text - Overfished (RD/TN/RL/119 | RD/TN/RL/79/Rev.1)","Overfished",2050,2963774.54524786,225672.045042321
+"12","RD/TN/RL/119 | RD/TN/RL/79/Rev.1","Facilitator's text - Overfished (RD/TN/RL/119 | RD/TN/RL/79/Rev.1)","Overfished",2080,3172933.2386705,248524.659691953
+"13","RD/TN/RL/121","Canada - Overfishing and overcapacity (RD/TN/RL/121)","OFOC",2050,7860687.23428211,92417.2584251323
+"14","RD/TN/RL/121","Canada - Overfishing and overcapacity (RD/TN/RL/121)","OFOC",2080,8076917.84301322,113987.825758953
+"15","RD/TN/RL/124","Brazil - Formula (RD/TN/RL/124)","OFOC",2050,12735212.7058337,1188704.56840012
+"16","RD/TN/RL/124","Brazil - Formula (RD/TN/RL/124)","OFOC",2080,12747777.1864607,1190197.62819845
+"17","RD/TN/RL/125","LDC - Full text (RD/TN/RL/125)","Other",2050,3156346.69650125,50497.9256679497
+"18","RD/TN/RL/125","LDC - Full text (RD/TN/RL/125)","Other",2080,3338996.39578091,58481.4687636808
+"19","RD/TN/RL/126 | Objective Definition","Chair's text - Consolidated text (RD/TN/RL/126 | Objective Definition)","Other",2050,4556848.90798849,261735.328131473
+"20","RD/TN/RL/126 | Objective Definition","Chair's text - Consolidated text (RD/TN/RL/126 | Objective Definition)","Other",2080,4769321.13501185,282563.024530852
+"21","RD/TN/RL/126 | RD/TN/RL/124 | Objective Definition","Chair's text - Consolidated text (RD/TN/RL/126 | RD/TN/RL/124 | Objective Definition)","Other",2050,14823278.4829341,1054589.32090743
+"22","RD/TN/RL/126 | RD/TN/RL/124 | Objective Definition","Chair's text - Consolidated text (RD/TN/RL/126 | RD/TN/RL/124 | Objective Definition)","Other",2080,14850362.2455238,1058515.15544509
+"23","RD/TN/RL/126 | RD/TN/RL/124 | Relevant Authorities","Chair's text - Consolidated text (RD/TN/RL/126 | RD/TN/RL/124 | Relevant Authorities)","Other",2050,14823918.6298278,1054668.09654695
+"24","RD/TN/RL/126 | RD/TN/RL/124 | Relevant Authorities","Chair's text - Consolidated text (RD/TN/RL/126 | RD/TN/RL/124 | Relevant Authorities)","Other",2080,14851307.9295466,1058637.02113579
+"25","RD/TN/RL/126 | RD/TN/RL/81 | Objective Definition","Chair's text - Consolidated text (RD/TN/RL/126 | RD/TN/RL/81 | Objective Definition)","Other",2050,9994982.55891755,626665.457080728
+"26","RD/TN/RL/126 | RD/TN/RL/81 | Objective Definition","Chair's text - Consolidated text (RD/TN/RL/126 | RD/TN/RL/81 | Objective Definition)","Other",2080,10018541.5294768,630323.697105069
+"27","RD/TN/RL/126 | RD/TN/RL/81 | Relevant Authorities","Chair's text - Consolidated text (RD/TN/RL/126 | RD/TN/RL/81 | Relevant Authorities)","Other",2050,9992520.3465513,626372.653177471
+"28","RD/TN/RL/126 | RD/TN/RL/81 | Relevant Authorities","Chair's text - Consolidated text (RD/TN/RL/126 | RD/TN/RL/81 | Relevant Authorities)","Other",2080,10013765.4149334,629676.983469284
+"29","RD/TN/RL/126 | Relevant Authorities","Chair's text - Consolidated text (RD/TN/RL/126 | Relevant Authorities)","Other",2050,3166587.52121363,84535.7042795829
+"30","RD/TN/RL/126 | Relevant Authorities","Chair's text - Consolidated text (RD/TN/RL/126 | Relevant Authorities)","Other",2080,3277020.3976501,87832.3870373569
+"31","RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Objective Definition","Chair's text - Consolidated text  (RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Objective Definition)","Other",2050,13607663.7739908,970403.619650093
+"32","RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Objective Definition","Chair's text - Consolidated text  (RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Objective Definition)","Other",2080,13632753.3732682,974096.089470768
+"33","RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Relevant Authorities","Chair's text - Consolidated text  (RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Relevant Authorities)","Other",2050,13607866.5042481,970431.202911161
+"34","RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Relevant Authorities","Chair's text - Consolidated text  (RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Relevant Authorities)","Other",2080,13633110.8855194,974147.492642784
+"35","RD/TN/RL/126 | TN/RL/GEN/199 | Objective Definition","Chair's text - Consolidated text  (RD/TN/RL/126 | TN/RL/GEN/199 | Objective Definition)","Other",2050,8056769.4349769,522183.704045524
+"36","RD/TN/RL/126 | TN/RL/GEN/199 | Objective Definition","Chair's text - Consolidated text  (RD/TN/RL/126 | TN/RL/GEN/199 | Objective Definition)","Other",2080,8061557.87088501,523291.412323038
+"37","RD/TN/RL/126 | TN/RL/GEN/199 | Relevant Authorities","Chair's text - Consolidated text  (RD/TN/RL/126 | TN/RL/GEN/199 | Relevant Authorities)","Other",2050,8056769.4349769,522183.704045524
+"38","RD/TN/RL/126 | TN/RL/GEN/199 | Relevant Authorities","Chair's text - Consolidated text  (RD/TN/RL/126 | TN/RL/GEN/199 | Relevant Authorities)","Other",2080,8061557.87088501,523291.412323038
+"39","RD/TN/RL/77/Rev.2","Australia - Overfished (RD/TN/RL/77/Rev.2)","Overfished",2050,997432.379274817,49155.071872345
+"40","RD/TN/RL/77/Rev.2","Australia - Overfished (RD/TN/RL/77/Rev.2)","Overfished",2080,1041220.72058297,48543.4567562761
+"41","RD/TN/RL/79/Rev.1","New Zealand/Iceland - Overfishing and overcapacity (RD/TN/RL/79/Rev.1)","OFOC",2050,2963774.54524786,225672.045042321
+"42","RD/TN/RL/79/Rev.1","New Zealand/Iceland - Overfishing and overcapacity (RD/TN/RL/79/Rev.1)","OFOC",2080,3172933.2386705,248524.659691953
+"43","RD/TN/RL/81","Philippines - De minimis (RD/TN/RL/81)","OFOC",2050,902784.922282182,71060.2888851156
+"44","RD/TN/RL/81","Philippines - De minimis (RD/TN/RL/81)","OFOC",2080,902815.279479993,71067.7488540512
+"45","RD/TN/RL/87","Latin 6 and others - IUU (RD/TN/RL/87)","IUU",2050,9073.0792996092,3.56697250234846
+"46","RD/TN/RL/87","Latin 6 and others - IUU (RD/TN/RL/87)","IUU",2080,9071.35194156202,8.33453858883522
+"47","RD/TN/RL/89/Rev.2","ACP - IUU (RD/TN/RL/89/Rev.2)","IUU",2050,35.4292118651942,4.96019073587758
+"48","RD/TN/RL/89/Rev.2","ACP - IUU (RD/TN/RL/89/Rev.2)","IUU",2080,69.183528455899,10.8071208987854
+"49","RD/TN/RL/91","US and others - ABNJ (RD/TN/RL/91)","OFOC",2050,9211662.72691991,97860.1525117306
+"50","RD/TN/RL/91","US and others - ABNJ (RD/TN/RL/91)","OFOC",2080,9378875.90485018,116070.969796363
+"51","RD/TN/RL/95","ACP - Overfished (RD/TN/RL/95)","Overfished",2050,734220.425659435,29822.8844414723
+"52","RD/TN/RL/95","ACP - Overfished (RD/TN/RL/95)","Overfished",2080,776652.013578045,29096.5217891145
+"53","RD/TN/RL/96","ACP - Overfishing and overcapacity (RD/TN/RL/96)","OFOC",2050,4773123.02444241,57826.5519782801
+"54","RD/TN/RL/96","ACP - Overfishing and overcapacity (RD/TN/RL/96)","OFOC",2080,4964317.35951389,70134.1987511201
+"55","RD/TN/RL/96 Rev.1","ACP - Overfishing and overcapacity (revised) (RD/TN/RL/96 Rev.1)","OFOC",2050,9374790.87275308,915511.575926177
+"56","RD/TN/RL/96 Rev.1","ACP - Overfishing and overcapacity (revised) (RD/TN/RL/96 Rev.1)","OFOC",2080,9418670.61495502,917691.714186851
+"57","TN/RL/GEN/197/Rev.2","US and others -  Cap/Tier (TN/RL/GEN/197/Rev.2)","OFOC",2050,10687183.3163846,1062862.85659859
+"58","TN/RL/GEN/197/Rev.2","US and others -  Cap/Tier (TN/RL/GEN/197/Rev.2)","OFOC",2080,10692912.9555128,1063663.26817474
+"59","TN/RL/GEN/199","China - Cap (TN/RL/GEN/199)","OFOC",2050,2980143.75992069,254376.620357177
+"60","TN/RL/GEN/199","China - Cap (TN/RL/GEN/199)","OFOC",2080,3004777.81362215,256905.273173725
+"61","TN/RL/GEN/200/Rev.1","India - S&DT (TN/RL/GEN/200/Rev.1)","Other",2050,5647039.49624914,175059.311932395
+"62","TN/RL/GEN/200/Rev.1","India - S&DT (TN/RL/GEN/200/Rev.1)","Other",2080,5905849.96002564,202947.069271368
+"63","TN/RL/GEN/202","Philippines - Disputed waters (TN/RL/GEN/202)","Other",2050,400996.811434048,-11659.0870572067
+"64","TN/RL/GEN/202","Philippines - Disputed waters (TN/RL/GEN/202)","Other",2080,404929.349736659,-10636.9655988167

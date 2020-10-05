@@ -119,11 +119,12 @@ proposal_settings <- read.csv(here::here("app", "data", "wto_proposal_settings.c
 
 # Proposal names
 included_proposals <- proposal_settings %>%
-  dplyr::filter(include == "Yes") %>%
+  dplyr::filter(include %in% c("Yes", "Alternate")) %>%
   mutate(display_name = case_when(proposal == "Default" ~ "None",
                                   TRUE ~ paste0(title_tool, " (", proposal, ")"))) %>%
   dplyr::select(category, proposal, display_name) %>%
-  arrange(category)
+  arrange(category) %>%
+  dplyr::filter(!(proposal %in% c("RD/TN/RL/126", "RD/TN/RL/119"))) # remove blank entries for tool
 
 proposal_choices <- included_proposals$proposal
 names(proposal_choices) <- included_proposals$display_name
@@ -335,6 +336,20 @@ if(make_plots){
                                             legend_pos_manual = "bottom",
                                             legend_name = "Scenario Type")
   
+  # 2) global (aggregated) "kobe" final year plot
+  compare_2050_plot <- BioEconomicModelPlots(dat = plot_results,
+                                            spatial_res = "global",
+                                            temporal_res = "last",
+                                            end_year = 2050,
+                                            plot_name = "all_proposals_2050_plot",
+                                            plot_width = 8,
+                                            plot_height = 8,
+                                            results_dir = results_dir,
+                                            group_var = "run_id",
+                                            color_var = "run_group",
+                                            legend_pos_manual = "bottom",
+                                            legend_name = "Scenario Type")
+  
   # 3) regional timeseries plot
   regional_compare_ts_plot <- BioEconomicModelPlots(dat = plot_results,
                                                     spatial_res = "regional",
@@ -363,6 +378,20 @@ if(make_plots){
                                                      color_var = "run_group",
                                                      legend_pos_manual = "bottom",
                                                      legend_name = "Scenario Type")
+  
+  # 4) regional "kobe" final year plot
+  regional_compare_2050_plot <- BioEconomicModelPlots(dat = plot_results,
+                                                     spatial_res = "regional",
+                                                     temporal_res = "last",
+                                                     end_year = 2050,
+                                                     plot_name = "regional_all_proposals_2050_plot",
+                                                     plot_width = 12,
+                                                     plot_height = 8,
+                                                     results_dir = results_dir,
+                                                     group_var = "run_id",
+                                                     color_var = "run_group",
+                                                     legend_pos_manual = "bottom",
+                                                     legend_name = "Scenario Type")
 }
 ```
 
@@ -370,7 +399,7 @@ if(make_plots){
 
 ```{r}
 all_results_global_output_table <- plot_results %>%
-  dplyr::filter(Year %in% c(2060, end_year)) %>%
+  dplyr::filter(Year %in% c(2050, end_year)) %>%
   dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total", "u_mort_total")) %>%
   group_by(Year, Variable, Fleet, run_id, run_name, run_group) %>%
   summarize(BAU_tot = sum(BAU, na.rm = T),
@@ -393,15 +422,15 @@ all_results_global_output_table <- plot_results %>%
 write.csv(all_results_global_output_table, paste0(results_dir, "all_results_global_output_table.csv"))
 
 # Get rounded end values
-global_biomass_2060 <- round(all_results_global_output_table$Biomass[all_results_global_output_table$Year == 2060 & all_results_global_output_table$Id == "Ambitious Reform"]*100, 2)
+global_biomass_2050 <- round(all_results_global_output_table$Biomass[all_results_global_output_table$Year == 2050 & all_results_global_output_table$Id == "Ambitious Reform"]*100, 2)
 global_biomass_end <- round(all_results_global_output_table$Biomass[all_results_global_output_table$Year == end_year & all_results_global_output_table$Id == "Ambitious Reform"]*100, 2)
 
-global_catches_2060 <- round(all_results_global_output_table$Catches[all_results_global_output_table$Year == 2060 & all_results_global_output_table$Id == "Ambitious Reform"]*100, 2)
+global_catches_2050 <- round(all_results_global_output_table$Catches[all_results_global_output_table$Year == 2050 & all_results_global_output_table$Id == "Ambitious Reform"]*100, 2)
 global_catches_end <- round(all_results_global_output_table$Catches[all_results_global_output_table$Year == end_year & all_results_global_output_table$Id == "Ambitious Reform"]*100, 2)
 
 # Now do regional
 all_results_regional_output_table <- plot_results %>%
-  dplyr::filter(Year %in% c(2060, end_year)) %>%
+  dplyr::filter(Year %in% c(2050, end_year)) %>%
   dplyr::filter(Variable %in% c("biomass", "catches_total", "revenue_total", "u_mort_total")) %>%
   mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
                                 Variable == "catches_total" ~ "Catches",
@@ -422,11 +451,57 @@ write.csv(all_results_regional_output_table, paste0(results_dir, "all_results_re
 ## Do the same with aboslute values
 
 ```{r}
+all_results_global_absolute_table <- plot_results %>%
+  dplyr::filter(Year %in% c(2050, end_year)) %>%
+  dplyr::filter(Variable %in% c("biomass", "catches_total")) %>%
+  group_by(Year, Variable, Fleet, run_id, run_name, run_group) %>%
+  summarize(BAU_tot = sum(BAU, na.rm = T),
+            Reform_tot = sum(Reform, na.rm = T),
+            abs_Diff_tot = case_when(BAU_tot != 0 ~ Reform_tot-BAU_tot,
+                                     TRUE ~ 0),
+            cow_Diff = abs_Diff_tot*cow_weight) %>%
+  ungroup() %>%
+  mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
+                              Variable == "catches_total" ~ "Catches")) %>%
+  dplyr::select(Id = run_id,
+                Name = run_name,
+                Category = run_group, 
+                Year,
+                abs_Diff_tot,
+                Variable) %>%
+  spread(Variable, abs_Diff_tot)
+
+write.csv(all_results_global_absolute_table, paste0(results_dir, "all_results_global_absolute_table.csv"))
+
+all_results_regional_absolute_table <- plot_results %>%
+  dplyr::filter(Year %in% c(2050, end_year)) %>%
+  dplyr::filter(Variable %in% c("biomass", "catches_total")) %>%
+  mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
+                                Variable == "catches_total" ~ "Catches")) %>%
+  mutate(abs_Diff = case_when(BAU != 0 ~ Reform-BAU,
+                              TRUE ~ 0),
+         cow_Diff = abs_Diff*cow_weight) %>%
+  dplyr::select(Id = run_id,
+                Name = run_name,
+                Category = run_group, 
+                Year,
+                Region,
+                abs_Diff,
+                Variable) %>%
+  spread(Variable, abs_Diff)
+
+write.csv(all_results_regional_absolute_table, paste0(results_dir, "all_results_regional_absolute_table.csv"))
+```
+
+
+
+
+```{r}
 # Weight of a mature dairy cow in mt
 cow_weight <- 0.6803886
 
 all_results_global_cow_equivalent_table <- plot_results %>%
-  dplyr::filter(Year %in% c(2060, end_year)) %>%
+  dplyr::filter(Year %in% c(2050, end_year)) %>%
   dplyr::filter(Variable %in% c("biomass", "catches_total")) %>%
   group_by(Year, Variable, Fleet, run_id, run_name, run_group) %>%
   summarize(BAU_tot = sum(BAU, na.rm = T),
@@ -448,7 +523,7 @@ all_results_global_cow_equivalent_table <- plot_results %>%
 write.csv(all_results_global_cow_equivalent_table, paste0(results_dir, "all_results_global_cow_equivalent_table.csv"))
 
 all_results_regional_cow_equivalent_table <- plot_results %>%
-  dplyr::filter(Year %in% c(2060, end_year)) %>%
+  dplyr::filter(Year %in% c(2050, end_year)) %>%
   dplyr::filter(Variable %in% c("biomass", "catches_total")) %>%
   mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
                                 Variable == "catches_total" ~ "Catches")) %>%

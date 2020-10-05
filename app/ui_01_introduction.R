@@ -22,10 +22,12 @@ Introduction = function()
              # Child element 1: background image
              tags$div(class = "intro-picture-div",
 
-                      tags$video(src = "fishschool.mp4",
-                                 type = "video/mp4",
-                                 autoplay = NA,
-                                 style = "min-width: 100vw; min-height: 90vh; max-width: 200%; max-height: 200%;")
+                      # tags$video(src = "fishschool.mp4",
+                                 # type = "video/mp4",
+                                 # autoplay = NA,
+                                 # style = "min-width: 100vw; min-height: 90vh; max-width: 200%; max-height: 200%;")
+                      
+                      tags$image(src = "intro-background.jpg")
 
              ),
                       
@@ -51,7 +53,7 @@ Introduction = function()
                                                         tags$h4(text$item_label[text$item_id == "right-top"], style = "font-weight: italic; color: var(--accent-color);"),
                                                         tags$h2(paste0("+ ", biomass_end_percent), tags$sup("%"), " in global fish biomass", style = "color: var(--accent-color-2); text-align: center;"),
                                                         tags$h2(paste0("+ ", catch_end_percent), tags$sup("%"), " in global fish catch per year", style = "color: var(--accent-color-2); text-align: center;"),
-                                                        tags$h4(paste0("This would mean ", biomass_end_value, " million more tons of fish in the water, and ", catch_end_value, " million more tons of fish being caught every year!"), style = "color: var(--accent-color);")
+                                                        tags$h4(paste0("This would mean ", biomass_end_value, " million more tonnes of fish in the water, and ", catch_end_value, " million more tonnes of fish being caught every year!"), style = "color: var(--accent-color);")
                                                 )
                                         )
                              )

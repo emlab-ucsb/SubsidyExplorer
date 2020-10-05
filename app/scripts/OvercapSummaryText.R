@@ -211,4 +211,210 @@ OvercapSummaryText <- function(overcap,
     
   } # / length OCOF definitions > 0
   
+  ### CAP/TIER --------------------
+  
+  if(cap_tier$on_off == "NO"){
+    
+    cap_tier_out <- paste0("<small class = 'gray'>", "CAP/TIER:  ", "</small>",
+                       "<small>", "No.", "</small>", "<br>")
+    
+  }else if(cap_tier$on_off == "YES"){
+    
+    cap_tier_intro <- paste0("<small class = 'gray'>", "CAP/TIER:  ", "</small>",
+                             "<small>", "Yes - ")
+    
+    ### 1 Tier
+    if(cap_tier$tier_number == "ONE"){
+      
+      # Cap setting method
+      if(cap_tier$tier1_cap_rule == "VALUE"){
+        
+        cap <- paste0("All Members recieve a cap equal to $", cap_tier$tier1_cap_value, " million USD.")
+
+      }else if(cap_tier$tier1_cap_rule == "PERCENT_SUBS"){
+        
+        cap <- paste0("All Members recieve a cap equal to ", cap_tier$tier1_cap_percent, "% of total baseline subsidies.")
+
+      }else if(cap_tier$tier1_cap_rule == "PERCENT_REV"){
+        
+        cap <- paste0("All Members recieve a cap equal to ", cap_tier$tier1_cap_percent, "% of total landed value of marine fisheries.")
+        
+      }else if(cap_tier$tier1_cap_rule == "FISHERS"){
+        
+        cap <- paste0("All Members recieve a cap equal to ", cap_tier$tier1_cap_percent, "% of global average subsides per fisher multiplied by the number of fishers.")
+
+      }else if(cap_tier$tier1_cap_rule == "BEST"){
+        
+        cap <- paste0("All Members recieve a cap equal to whichever of the following three options yields the greatest value: 1) ", cap_tier$tier1_cap_best_percent_subs, "% of total baseline subsidies; 2) ", cap_tier$tier1_cap_best_percent_landed_value, "% of total landed value of marine fisheries; 3) ", cap_tier$tier1_cap_best_percent_fishers, "% of global average subsides per fisher multiplied by the number of fishers.") 
+        
+      }else if(cap_tier$tier1_cap_rule == "BRAZIL"){
+        
+        cap <- paste0("All Members recieve a cap based upon the formula presented in the Brazil - Formula proposal.") 
+        
+      }
+      
+      cap_tier_out <- paste0(cap_tier_intro, 
+                             cap, "</small><br>")
+      
+    
+    ### 2 Tiers
+    }else if(cap_tier$tier_number == "TWO"){
+      
+      ### Tier method
+      tier_choices <- unlist(wid$choices[wid$item_id == "w_tier_system"])
+      
+      tier <- paste0("Members are sorted into two tiers based upon ", names(tier_choices[tier_choices == cap_tier$tier_system]), ". ")
+      
+      ### Tier 1 caps
+      if(cap_tier$tier1_cap_rule == "VALUE"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to $", cap_tier$tier1_cap_value, " million USD. ")
+        
+      }else if(cap_tier$tier1_cap_rule == "PERCENT_SUBS"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to ", cap_tier$tier1_cap_percent, "% of total baseline subsidies. ")
+        
+      }else if(cap_tier$tier1_cap_rule == "PERCENT_REV"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to ", cap_tier$tier1_cap_percent, "% of total landed value of marine fisheries. ")
+        
+      }else if(cap_tier$tier1_cap_rule == "FISHERS"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to ", cap_tier$tier1_cap_percent, "% of global average subsides per fisher multiplied by the number of fishers. ")
+        
+      }else if(cap_tier$tier1_cap_rule == "BEST"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to whichever of the following three options yields the greatest value: 1) ", cap_tier$tier1_cap_best_percent_subs, "% of total baseline subsidies; 2) ", cap_tier$tier1_cap_best_percent_landed_value, "% of total landed value of marine fisheries; 3) ", cap_tier$tier1_cap_best_percent_fishers, "% of global average subsides per fisher multiplied by the number of fishers. ") 
+        
+      }
+      
+      ### Tier 2 caps
+      if(cap_tier$tier2_cap_rule == "VALUE"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to $", cap_tier$tier2_cap_value, " million USD.")
+        
+      }else if(cap_tier$tier2_cap_rule == "PERCENT_SUBS"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to ", cap_tier$tier2_cap_percent, "% of total baseline subsidies.")
+        
+      }else if(cap_tier$tier2_cap_rule == "PERCENT_REV"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to ", cap_tier$tier2_cap_percent, "% of total landed value of marine fisheries.")
+        
+      }else if(cap_tier$tier2_cap_rule == "FISHERS"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to ", cap_tier$tier2_cap_percent, "% of global average subsides per fisher multiplied by the number of fishers.")
+        
+      }else if(cap_tier$tier2_cap_rule == "BEST"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to whichever of the following three options yields the greatest value: 1) ", cap_tier$tier2_cap_best_percent_subs, "% of total baseline subsidies; 2) ", cap_tier$tier2_cap_best_percent_landed_value, "% of total landed value of marine fisheries; 3) ", cap_tier$tier2_cap_best_percent_fishers, "% of global average subsides per fisher multiplied by the number of fishers.") 
+        
+      }else if(cap_tier$tier2_cap_rule == "NONE"){
+        
+        tier_2_cap <- paste0("Tier 2 Members do not recieve a cap.")
+      }
+      
+      cap_tier_out <- paste0(cap_tier_intro, 
+                             tier,
+                             tier_1_cap,
+                             tier_2_cap,
+                             "</small><br>")
+      
+    ### 3 Tiers  
+    }else if(cap_tier$tier_number == "THREE"){
+      
+      ### Tier method
+      tier_choices <- unlist(wid$choices[wid$item_id == "w_tier_system"])
+      
+      tier <- paste0("Members are sorted into three tiers based upon ", names(tier_choices[tier_choices == cap_tier$tier_system]), ". ")
+      
+      ### Tier 1 caps
+      if(cap_tier$tier1_cap_rule == "VALUE"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to $", cap_tier$tier1_cap_value, " million USD.")
+        
+      }else if(cap_tier$tier1_cap_rule == "PERCENT_SUBS"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to ", cap_tier$tier1_cap_percent, "% of total baseline subsidies. ")
+        
+      }else if(cap_tier$tier1_cap_rule == "PERCENT_REV"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to ", cap_tier$tier1_cap_percent, "% of total landed value of marine fisheries. ")
+        
+      }else if(cap_tier$tier1_cap_rule == "FISHERS"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to ", cap_tier$tier1_cap_percent, "% of global average subsides per fisher multiplied by the number of fishers. ")
+        
+      }else if(cap_tier$tier1_cap_rule == "BEST"){
+        
+        tier_1_cap <- paste0("Tier 1 Members recieve a cap equal to whichever of the following three options yields the greatest value: 1) ", cap_tier$tier1_cap_best_percent_subs, "% of total baseline subsidies; 2) ", cap_tier$tier1_cap_best_percent_landed_value, "% of total landed value of marine fisheries; 3) ", cap_tier$tier1_cap_best_percent_fishers, "% of global average subsides per fisher multiplied by the number of fishers. ") 
+        
+      }
+      
+      ### Tier 2 caps
+      if(cap_tier$tier2_cap_rule == "VALUE"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to $", cap_tier$tier2_cap_value, " million USD. ")
+        
+      }else if(cap_tier$tier2_cap_rule == "PERCENT_SUBS"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to ", cap_tier$tier2_cap_percent, "% of total baseline subsidies. ")
+        
+      }else if(cap_tier$tier2_cap_rule == "PERCENT_REV"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to ", cap_tier$tier2_cap_percent, "% of total landed value of marine fisheries. ")
+        
+      }else if(cap_tier$tier2_cap_rule == "FISHERS"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to ", cap_tier$tier2_cap_percent, "% of global average subsides per fisher multiplied by the number of fishers. ")
+        
+      }else if(cap_tier$tier2_cap_rule == "BEST"){
+        
+        tier_2_cap <- paste0("Tier 2 Members recieve a cap equal to whichever of the following three options yields the greatest value: 1) ", cap_tier$tier2_cap_best_percent_subs, "% of total baseline subsidies; 2) ", cap_tier$tier2_cap_best_percent_landed_value, "% of total landed value of marine fisheries; 3) ", cap_tier$tier2_cap_best_percent_fishers, "% of global average subsides per fisher multiplied by the number of fishers. ") 
+        
+      }else if(cap_tier$tier2_cap_rule == "NONE"){
+        
+        tier_2_cap <- paste0("Tier 2 Members do not recieve a cap. ")
+      }
+      
+      ### Tier 3 caps
+      if(cap_tier$tier3_cap_rule == "VALUE"){
+        
+        tier_3_cap <- paste0("Tier 3 Members recieve a cap equal to $", cap_tier$tier3_cap_value, " million USD.")
+        
+      }else if(cap_tier$tier3_cap_rule == "PERCENT_SUBS"){
+        
+        tier_3_cap <- paste0("Tier 3 Members recieve a cap equal to ", cap_tier$tier3_cap_percent, "% of total baseline subsidies.")
+        
+      }else if(cap_tier$tier3_cap_rule == "PERCENT_REV"){
+        
+        tier_3_cap <- paste0("Tier 3 Members recieve a cap equal to ", cap_tier$tier3_cap_percent, "% of total landed value of marine fisheries.")
+        
+      }else if(cap_tier$tier3_cap_rule == "FISHERS"){
+        
+        tier_3_cap <- paste0("Tier 3 Members recieve a cap equal to ", cap_tier$tier3_cap_percent, "% of global average subsides per fisher multiplied by the number of fishers.")
+        
+      }else if(cap_tier$tier3_cap_rule == "BEST"){
+        
+        tier_3_cap <- paste0("Tier 2 Members recieve a cap equal to whichever of the following three options yields the greatest value: 1) ", cap_tier$tier3_cap_best_percent_subs, "% of total baseline subsidies; 2) ", cap_tier$tier3_cap_best_percent_landed_value, "% of total landed value of marine fisheries; 3) ", cap_tier$tier3_cap_best_percent_fishers, "% of global average subsides per fisher multiplied by the number of fishers.") 
+        
+      }else if(cap_tier$tier3_cap_rule == "NONE"){
+        
+        tier_3_cap <- paste0("Tier 3 Members do not recieve a cap.")
+      }
+      
+      cap_tier_out <- paste0(cap_tier_intro, 
+                             tier,
+                             tier_1_cap,
+                             tier_2_cap,
+                             tier_3_cap,
+                             "</small><br>")
+      
+    }
+    
+  } # /close Cap/Tier ON
+  
+  final_out <- paste0(overcap_out,
+                      cap_tier_out)
+  
 }

@@ -190,8 +190,14 @@ EditPolicies = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
            ####-----------------------------------------------------------------------------------------
            #### Right column - Menu of selected policies
            #### ----------------------------------------------------------------------------------------
+           ###Fixed right column to provide background shading
            column(4, id = "edit-policies-right-column",
-
+                  
+           ),
+           
+           #### Actual right column that will scroll appropriately
+           column(4, id = "edit-policies-real-right-column",
+           
                   column(12, id = "t-spaced-div",
                          
                          # Step 3

@@ -246,14 +246,38 @@ shinyServer(function(input, output, session) {
 
     }
     
-    # Make warning for non-modeled proposals
-    output$can_not_model_warning <- renderText({
+    # Change appearance of run model button
+    output$run_model_button <- renderUI({
       
       if(selected_policy$include == "No"){
-        "This text can not be modeled and is included for reference only."
+        
+        out <- tagList(
+          
+          tags$i("This text can not be modeled and is included for reference only.", style = "color: red;"),
+          
+          tags$br(),
+          tags$br(),
+        
+          # Run model button (pre-populated proposal)
+          tags$button(id = "ab_run_model_proposal",
+                      class = "btn action-button rounded-button-no-select",
+                      tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")),
+                      style = "width: 100%;")
+        )
+        
       }else{
-        ""
+        
+        out <- tagList(
+          
+          # Run model button (pre-populated proposal)
+          tags$button(id = "ab_run_model_proposal",
+                      class = "btn action-button rounded-button",
+                      tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")))
+        )
+        
       }
+      
+      out
       
     })
     
@@ -1332,10 +1356,16 @@ shinyServer(function(input, output, session) {
      
     # Define colors
     global_subsidies_map_pal <- colorNumeric(palette = "YlOrRd",
+                                             reverse = F,
                                              log10(c(100, 10e9)))
     
+    # Dummy palette for legend
+    global_subsidies_map_pal_rev <- colorNumeric(palette = "YlOrRd",
+                                                 reverse = T,
+                                                 log10(c(100, 10e9)))
+    
     # Map
-    leaflet('global_subsidies_map', options = leafletOptions(minZoom = 3, zoomControl = TRUE)) %>% 
+    leaflet('global_subsidies_map', options = leafletOptions(minZoom = 2, maxZoom = 4, zoomControl = TRUE)) %>% 
       addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
       addCircles(data = rv_global_subsidies$points,
                  color = ~global_subsidies_map_pal(log10(value)),
@@ -1365,15 +1395,15 @@ shinyServer(function(input, output, session) {
                                                            padding = "3px 8px"),
                                               textsize = "13px",
                                               direction = "auto")) %>%
-      setView(0,20, zoom = 3) %>%
+      setView(0,20, zoom = 2) %>%
       addLegend("bottomright", 
-                pal = global_subsidies_map_pal,
+                pal = global_subsidies_map_pal_rev,
                 values = log10(c(100, 10e9)),
                 labels = round(log10(c(100, 10e9)), 0),
                 title = text$item_label[text$item_id == "global_subsidies_map_legend"],
                 opacity = 1,
                 labFormat = labelFormat(prefix = "$",
-                                        transform = function(x) 10^(x)
+                                        transform = function(x) sort(10^(x), decreasing = T)
                 )
       )
     
@@ -2365,35 +2395,40 @@ shinyServer(function(input, output, session) {
   output$global_fishing_footprint_map <- renderLeaflet({
     
     # Chloropleth color palette for global effort map
-    global_fishing_footprint_map_pal <- colorNumeric(palette = "YlOrRd",
-                                          log10(rv_global_fishing_footprint$polygons$fishing_KWh))
+    global_fishing_footprint_map_pal <- colorNumeric(palette = "RdYlBu",
+                                                     reverse = T,
+                                                     log10(rv_global_fishing_footprint$polygons$fishing_KWh))
+    
+    # Dummy palette for to reverse legend 
+    global_fishing_footprint_map_pal_rev <- colorNumeric(palette = "RdYlBu",
+                                                     reverse = F,
+                                                     log10(rv_global_fishing_footprint$polygons$fishing_KWh))
     
     # Map
-    leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 3, zoomControl = TRUE)) %>%
+    leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 2, maxZoom = 4, zoomControl = TRUE)) %>%
       addProviderTiles("CartoDB.VoyagerNoLabels") %>%
       addPolygons(data = rv_global_fishing_footprint$polygons,
                   fillColor = ~global_fishing_footprint_map_pal(log10(fishing_KWh)),
-                  fillOpacity = 1,
+                  fillOpacity = 0.7,
                   color= "white",
                   weight = 0.3,
                   highlight = highlightOptions(weight = 5,
                                                color = "#666",
-                                               fillOpacity = 1,
+                                               fillOpacity = 0.7,
                                                bringToFront = TRUE),
                   label = rv_global_fishing_footprint$polygons_text,
                   labelOptions = labelOptions(style = list("font-weight" = "normal",
                                                            padding = "3px 8px"),
                                               textsize = "13px",
                                               direction = "auto")) %>%
-      setView(0,20, zoom = 3) %>%
+      setView(0,20, zoom = 2) %>%
       addLegend("bottomright", 
-                pal = global_fishing_footprint_map_pal, 
+                pal = global_fishing_footprint_map_pal_rev, 
                 values = log10(rv_global_fishing_footprint$polygons$fishing_KWh),
                 title = text$item_label[text$item_id == "global_fishing_footprint_map_legend"],
                 opacity = 1,
                 labFormat = labelFormat(
-                  transform = function(x) 10^(x)))
-    
+                  transform = function(x) sort(10^(x), decreasing = T)))
   })
   
   ### Download button: Global map of fishing effort (PDF) -----------------------

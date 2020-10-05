@@ -15,7 +15,7 @@ GlobalFishingFootprint = function()
     column(12,
            
            # Leaflet map
-           leafletOutput('global_fishing_footprint_map', width = "auto", height = "89vh"),
+           leafletOutput('global_fishing_footprint_map', width = "auto", height = "87vh"),
            
            # Info button 
            absolutePanel(id = "global_fishing_footprint_map_info_panel", 

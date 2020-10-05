@@ -368,6 +368,23 @@ header.main-header {
   background-color: var(--accent-color-2); 
 }
 
+/* Wide plain rounded button - CAN NOT SELECT */
+.rounded-button-no-select {
+  color: var(--grey-light);
+  background-color: var(--grey-dark); 
+  border-width: 0; 
+  padding: 10px; 
+  width: 100%; 
+  font-size: 10pt; 
+  border-radius: 5px;
+}
+
+/* Wide plain rounded button */
+.rounded-button-no-select:hover {
+  color: var(--grey-light);
+  background-color: var(--grey-dark); 
+}
+
 /* Wide plain rounded button */
 .rounded-button-grey {
   color: var(--grey-dark);
@@ -504,7 +521,7 @@ header.main-header {
 .intro-picture-div img{
   object-fit: cover;
   min-width: 100vw;
-  min-height: 95vh;
+  min-height: 90vh;
   max-width: 200%;
   max-height: 200%;
 }
@@ -682,6 +699,12 @@ header.main-header {
   color: var(--grey-dark);
   padding: 15px 25px 15px 25px;
 }
+
+#edit-policies-real-right-column {
+  color: var(--grey-dark);
+  padding: 15px 25px 15px 25px;
+}
+
 
 /* Table attributes for Steps */
 #edit-policies-table { 

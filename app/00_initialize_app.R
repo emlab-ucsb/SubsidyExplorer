@@ -46,7 +46,7 @@ country_lookup <- read_csv("./data/country_dependencies.csv") %>%
                                   iso3 == "CPT" ~ "Clipperton Island",
                                   iso3 == "TAA" ~ "Tristan da Cunha",
                                   TRUE ~ countrycode(iso3, "iso3c", "country.name"))) %>%
-  arrange(sovereign_iso3) 
+  arrange(display_name, sovereign_iso3) 
 
 # Need to add an entry for the "EU" as an aggregate 
 eu_entry <- tibble(iso3 = "EU", sovereign_iso3 = "EU", WTO_name = "European Union", WTO_status = "Member", is_EU = T, is_overseas_territory = F, is_permanently_inhabited = T, development_status = "Developed", is_WTO = T, display_name = "European Union")

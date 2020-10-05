@@ -3,10 +3,10 @@
 ### --------------------------------
 
 CapSummaryText <- function(overcap,
-                               cap_tier,
-                               wid,
-                               text,
-                               country_choices){
+                           cap_tier,
+                           wid,
+                           text,
+                           country_choices){
   
   ### OCOF title
   overcap_header <- paste0("<b class = 'big'>", "Overcapacity and Overfishing", "</b>", "</br>")

@@ -114,27 +114,31 @@ ExploreResults = function(proposal_choices)
                                      )
                     )
                     ),
+                    
+                    # Selected proposal info
+                    column(12, id = "t-spaced-div", align = "center",
+                           
+                           # # Can not model wraning
+                           # tags$i(textOutput("can_not_model_warning"), style = "color: red;"),
+                           
+                           # Reactive run model button
+                           uiOutput("run_model_button")
+                           
+                           # # Run model button (pre-populated proposal)
+                           # tags$button(id = "ab_run_model_proposal",
+                           #             class = "btn action-button rounded-button",
+                           #             tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")))
+
+                           
+                    ),
                                      
                     # Selected proposal info
-                    column(12, id = "t-spaced-div",
+                    column(12, id = "div-underline",
 
-                           htmlOutput("explore_results_proposal_selection_text"),
+                           htmlOutput("explore_results_proposal_selection_text")
                            
-                           # Can not model wraning
-                           tags$i(textOutput("can_not_model_warning"), style = "color: red;")
-
                     ),
                     
-                    # Button
-                    column(12, align = "center", id = "div-underline",
-
-                           # Run model button (pre-populated proposal)
-                           tags$button(id = "ab_run_model_proposal",
-                                       class = "btn action-button rounded-button",
-                                       tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")))
-
-                    ),
-
                     ### Section #2: Design custom proposal ---
                     # Custom policy header
                     column(12, id = "section-title",

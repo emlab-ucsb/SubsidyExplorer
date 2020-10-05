@@ -15,7 +15,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
     column(12,
            
            # Leaflet map
-           leafletOutput('global_subsidies_map', width = "auto", height = "80vh"),
+           leafletOutput('global_subsidies_map', width = "auto", height = "78vh"),
            
            # Button to hide left panel 
            shinyjs::hidden(absolutePanel(id = "global_subsidies_map_hide_arrow_panel",
@@ -122,20 +122,12 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                                             
                                             downloadButton("db_global_subsidies_download_data",
                                                            text$item_label[text$item_id == "db_global_subsidies_download_data"])
-                                      # tags$button(id = "db_global_subsidies_download_data",
-                                      #             class = "btn action-button rounded-button-grey download-button",
-                                      #             tags$b(icon("download"),
-                                      #                    text$item_label[text$item_id == "db_global_subsidies_download_data"]))
                                     ),
                                     
                                     tags$td(id = "global-subsidies-table-cell-2",
                                             
                                             downloadButton("db_global_subsidies_download_figure",
                                                            text$item_label[text$item_id == "db_global_subsidies_download_figure"])
-                                      # tags$button(id = "db_global_subsidies_download_figure",
-                                      #             class = "btn action-button rounded-button-grey download-button",
-                                      #             tags$b(icon("download"),
-                                      #                    text$item_label[text$item_id == "db_global_subsidies_download_figure"]))
                                       
                                     )
                                   )

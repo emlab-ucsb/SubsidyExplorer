@@ -41,8 +41,11 @@ library(leaflet) # interactive maps
 library(plotly) # interactive charts
 library(rnaturalearth)
 library(rnaturalearthdata)
-library(png)
-library(ggpubr) # plot arranging
+library(rgeos)
+library(cowplot)
+library(scales)
+#library(png)
+#library(ggpubr) # plot arranging
 library(gridExtra)
 library(grid)
 library(RColorBrewer) # other color scales

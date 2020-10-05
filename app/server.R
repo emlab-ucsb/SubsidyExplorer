@@ -497,6 +497,7 @@ shinyServer(function(input, output, session) {
         # Fill in new tibble row
         new_result <- tibble(id = new_run_id,
                              name = run_name,
+                             display_name = paste0(selected_proposal$title_tool, " (", run_name, ")"),
                              type = "Proposal",
                              iuu = list(iuu),
                              oa = list(oa),
@@ -761,7 +762,7 @@ shinyServer(function(input, output, session) {
   observe({
 
     # Only allow proposals from the selected category to be chosen
-    policy_proposals_run <- unique(rv_results$run$name[rv_results$run$type == "Proposal"])
+    policy_proposals_run <- unique(rv_results$run$display_name[rv_results$run$type == "Proposal"])
 
     # Update input
     updatePrettyCheckboxGroup(session,
@@ -777,7 +778,7 @@ shinyServer(function(input, output, session) {
   observe({
 
     # Only allow proposals from the selected category to be chosen
-    custom_proposals_run <- unique(rv_results$run$name[rv_results$run$type == "Custom"])
+    custom_proposals_run <- unique(rv_results$run$display_name[rv_results$run$type == "Custom"])
 
     # Update input
     updatePrettyCheckboxGroup(session,
@@ -1098,6 +1099,7 @@ shinyServer(function(input, output, session) {
       # Fill in new tibble row
       new_result <- tibble(id = new_run_id,
                            name = run_name,
+                           display_name = run_name,
                            type = "Custom",
                            iuu = list(iuu),
                            oa = list(oa),

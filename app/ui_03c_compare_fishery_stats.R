@@ -14,10 +14,12 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
     ### Main content
     column(12,
            
-             ####---------------------------------------------
-             #### Left section - select a country
-             #### --------------------------------------------
-             column(4, id = "country-fishery-stats-left-column",
+           ####---------------------------------------------
+           #### Left section - select a country
+           #### --------------------------------------------
+           column(4, id = "country-fishery-stats-left-column"), 
+           
+           column(4, id = "country-fishery-stats-real-left-column",
                     
                     ### Widgets
                     column(12, id = "tb-spaced-div",
@@ -143,7 +145,7 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
              ####---------------------------------------------
              #### Right section - plots
              #### --------------------------------------------
-             column(8, offset = 4, id = "country-fishery-stats-right-column",
+             column(8, id = "country-fishery-stats-right-column",
                     
                     ### Section Title ---
                     column(12, id = "tb-spaced-div",

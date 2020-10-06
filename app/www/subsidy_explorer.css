@@ -975,6 +975,11 @@ hr.grey-narrow{
   padding: 0 25px 0 25px;
 }
 
+#country-fishery-stats-real-left-column{
+  color: var(--grey-dark);
+  padding: 0 25px 0 25px;
+}
+
 #country-fishery-stats-right-column{
   min-height: 90vh;
   color: var(--grey-dark);

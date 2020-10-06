@@ -529,9 +529,9 @@ shinyServer(function(input, output, session) {
                    
                    # Filter results using widget checkboxes
                    entries_to_keep <- rv_results$run %>%
-                     dplyr::filter(name %in% c(input$w_explore_results_show_ambitious,
-                                               input$w_explore_results_show_policies,
-                                               input$w_explore_results_show_custom))
+                     dplyr::filter(display_name %in% c(input$w_explore_results_show_ambitious,
+                                                       input$w_explore_results_show_policies,
+                                                       input$w_explore_results_show_custom))
                    
                    # Collect data
                    dat <- bind_rows(entries_to_keep$results_timeseries)
@@ -726,11 +726,21 @@ shinyServer(function(input, output, session) {
                                      ncol = 1,
                                      rel_heights = c(3,1))
       
-      ### ADD TABLE TOO
+      # Now Add Table on the next page
+      global_df <- rv_explore_results$data_global %>%
+        dplyr::filter(Year == end_year) %>%
+        dplyr::filter(Variable != "Revenue") %>%
+        dplyr::select(Name, Variable, Diff) %>%
+        mutate(Diff = round(Diff*100, 2),
+               Variable = paste0(Variable, "\n", "(% Change)")) %>%
+        spread(Variable, Diff) %>%
+        rename(Policy = Name)
+
+      df <- tableGrob(global_df, rows = NULL, theme = ttheme_default(base_size = 10))
       
       pdf(file, width = 8.5, height = 11)
       print(out_plot)
-      #print(marine_landed_value_out_plot)
+      grid.arrange(df)
       dev.off()
       
     }
@@ -749,11 +759,22 @@ shinyServer(function(input, output, session) {
                                      ncol = 1,
                                      rel_heights = c(3,1))
       
-      ### ADD TABLE TOO
+      # Now Add Table on the next page
+      regional_df <- rv_explore_results$data_regional %>%
+        dplyr::filter(Year == end_year) %>%
+        dplyr::filter(Variable != "Revenue") %>%
+        dplyr::select(Name, Region, Variable, Diff) %>%
+        mutate(Diff = round(Diff*100, 2)) %>%
+        mutate(region_variable = paste0(Region, "\n", Variable, "\n(% Change)")) %>%
+        dplyr::select(-Variable, -Region) %>%
+        spread(region_variable, Diff) %>%
+        rename(Policy = Name)
+      
+      df <- tableGrob(regional_df, rows = NULL, theme = ttheme_default(base_size = 6))
       
       pdf(file, width = 8.5, height = 11)
       print(out_plot)
-      #print(marine_landed_value_out_plot)
+      grid.arrange(df)
       dev.off()
     }
   )

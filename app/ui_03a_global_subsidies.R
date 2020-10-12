@@ -15,7 +15,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
     column(12,
            
            # Leaflet map
-           leafletOutput('global_subsidies_map', width = "auto", height = "78vh"),
+           leafletOutput('global_subsidies_map', width = "auto", height = "80vh"),
            
            # Button to hide left panel 
            shinyjs::hidden(absolutePanel(id = "global_subsidies_map_hide_arrow_panel",
@@ -137,22 +137,22 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
            
            # Map disclaimer
            # Button to hide disclaimer 
-           absolutePanel(id = "global_subsidies_map_hide_arrow_disclaimer",
+           shinyjs::hidden(absolutePanel(id = "global_subsidies_map_hide_arrow_disclaimer",
                                          
                                          tags$button(id = "ab_global_subsidies_hide_disclaimer",
                                                      class = "btn action-button",
-                                                     icon("caret-left"))
-           ),
+                                                     icon("caret-down"))
+           )),
            
            # Button to open left panel
-           shinyjs::hidden(absolutePanel(id = "global_subsidies_map_expand_arrow_disclaimer",
+           absolutePanel(id = "global_subsidies_map_expand_arrow_disclaimer",
                          
                          tags$button(id = "ab_global_subsidies_expand_disclaimer",
                                      class = "btn action-button",
-                                     icon("caret-right"))
-           )),
+                                     icon("caret-up"))
+           ),
            
-           absolutePanel(id = "global_subsidies_map_disclaimer_panel",
+           shinyjs::hidden(absolutePanel(id = "global_subsidies_map_disclaimer_panel",
                          
                          column(12, id = "tb-spaced-div", align = "center",
                                 
@@ -160,7 +160,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                                 
                          )
                          
-           )
+           ))
 
     )
             

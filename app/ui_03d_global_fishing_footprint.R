@@ -15,7 +15,7 @@ GlobalFishingFootprint = function()
     column(12,
            
            # Leaflet map
-           leafletOutput('global_fishing_footprint_map', width = "auto", height = "87vh"),
+           leafletOutput('global_fishing_footprint_map', width = "auto", height = "80vh"),
            
            # Info button 
            absolutePanel(id = "global_fishing_footprint_map_info_panel", 
@@ -43,7 +43,23 @@ GlobalFishingFootprint = function()
            ),
            
            # Map disclaimer
-           absolutePanel(id = "global_fishing_footprint_map_disclaimer_panel",
+           # Button to hide disclaimer 
+           shinyjs::hidden(absolutePanel(id = "global_fishing_footprint_map_hide_arrow_disclaimer",
+                                         
+                                         tags$button(id = "ab_global_fishing_footprint_hide_disclaimer",
+                                                     class = "btn action-button",
+                                                     icon("caret-down"))
+           )),
+           
+           # Button to open left panel
+           absolutePanel(id = "global_fishing_footprint_map_expand_arrow_disclaimer",
+                         
+                         tags$button(id = "ab_global_fishing_footprint_expand_disclaimer",
+                                     class = "btn action-button",
+                                     icon("caret-up"))
+           ),
+           
+           shinyjs::hidden(absolutePanel(id = "global_fishing_footprint_map_disclaimer_panel",
                          
                          column(12, id = "tb-spaced-div", align = "center",
                                 
@@ -51,7 +67,7 @@ GlobalFishingFootprint = function()
                                 
                          )
                          
-           )
+           ))
            
     )
             

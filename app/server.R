@@ -1203,7 +1203,7 @@ shinyServer(function(input, output, session) {
     
   })
   
-  ### Action button: Hide global subsidies map controls (and show "expand" button) -------------------
+  ### Action button: Hide global subsidies map disclaimer (and show "expand" button) -------------------
   observeEvent(input$ab_global_subsidies_hide_disclaimer, {
     
     # show panel
@@ -2403,6 +2403,26 @@ shinyServer(function(input, output, session) {
                timer = 0,
                animation = TRUE
     )
+    
+  })
+  
+  ### Action button: Show global subsidies map disclaimer (and show "close" button) ---------------
+  observeEvent(input$ab_global_fishing_footprint_expand_disclaimer, {
+    
+    # show panel
+    shinyjs::showElement(id = "global_fishing_footprint_map_disclaimer_panel")
+    shinyjs::showElement(id = "global_fishing_footprint_map_hide_arrow_disclaimer")
+    shinyjs::hideElement(id = "global_fishing_footprint_map_expand_arrow_disclaimer")
+    
+  })
+  
+  ### Action button: Hide global subsidies map disclaimer (and show "expand" button) -------------------
+  observeEvent(input$ab_global_fishing_footprint_hide_disclaimer, {
+    
+    # show panel
+    shinyjs::hideElement(id = "global_fishing_footprint_map_disclaimer_panel")
+    shinyjs::hideElement(id = "global_fishing_footprint_map_hide_arrow_disclaimer")
+    shinyjs::showElement(id = "global_fishing_footprint_map_expand_arrow_disclaimer")
     
   })
   

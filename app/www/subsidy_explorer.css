@@ -950,15 +950,75 @@ hr.grey-narrow{
   padding-right: 10px;
 }
 
+/* Hide disclaimer panel */
+#global_subsidies_map_hide_arrow_disclaimer {
+  background: rgba(255,255,255,0.9);
+  padding: 0;
+  left: 50px;
+  bottom: 200px;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+/* Hide disclaimer button */
+#ab_global_subsidies_hide_disclaimer {
+  background: rgba(255,255,255,0.9);
+  padding: 0;
+  height: 30px;
+  width: 100px;
+  border-radius: 5px 5px 0 0;
+  color: var(--accent-color);
+  line-height: 30px;
+  text-align: center;
+}
+
+#ab_global_subsidies_hide_disclaimer:hover {
+  background: var(--accent-color-2);
+}
+
+/* Show disclaimer panel */
+#global_subsidies_map_expand_arrow_disclaimer {
+  background: rgba(255,255,255,0.9);
+  padding: 0;
+  left: 50px;
+  bottom: 0;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  z-index: 20;
+}
+
+/* Show disclaimer button */
+#ab_global_subsidies_expand_disclaimer {
+  background: rgba(255,255,255,0.9);
+  padding: 0;
+  height: 30px;
+  width: 100px;
+  border-radius: 5px 5px 0 0;
+  color: var(--accent-color);
+  line-height: 30px;
+  text-align: center;
+}
+
+#ab_global_subsidies_expand_disclaimer:hover {
+  background: var(--accent-color-2);
+}
+
 /* Map disclaimer panel */
 #global_subsidies_map_disclaimer_panel {
   background: rgba(255,255,255,0.9);
   padding: 10px;
-  left: 25vw;
-  right: 25vw;
+  left: 0;
+  right: 0;
   bottom: 0;
+  height: 200px;
   border-radius: 5px 5px 0 0;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  z-index: 15;
 }
 
 /* ------------------------------ */

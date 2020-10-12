@@ -14,7 +14,7 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 1,introduction,nav-button,ab_introduction_to_global_subsidies,Explore More About Fisheries Subsidies     ,right button
 1,introduction,nav-button,ab_introduction_to_methods_process,Discover How This Tool Was Made    ,center button
 ,,,,,
-02a,explore-results,text,explore_results_modal_text,"<p style = ""text-align: left;"">This chart shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, and fishing mortality over time.<br><br> In addition to the scenario displayed here, SubsidyExplorer contains many pre-populated WTO Member proposals to explore. Select from pre-populated WTO Member Proposals on the left to model their impacts.<br><br> You can also design your own subsidy reform policy, and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",modal text
+02a,explore-results,text,explore_results_modal_text,"<p style = ""text-align: left;"">This chart shows the <b style = ""color: #EB4648;"">Most Ambitious Scenario</b> of subsidy reform: a complete removal of harmful, or capacity-enhancing subsidies. By following the chart line, you can explore how the scenario affects biomass, fish catch, revenue, and fishing mortality over time.<br><br> In addition to the scenario displayed here, SubsidyExplorer contains many pre-populated WTO Member proposals to explore. Select from pre-populated WTO Member Proposals on the left to model their impacts.<br><br> You can also design your own subsidy reform policy, and plot how it affects biomass, fish catch, revenue, and fishing mortality over time.</p>",modal text
 02a,explore-results,text,explore_results_modal_button,Start,modal button text
 02a,explore-results,page,explore-results,Explore Results,page name
 02a,explore-results,section,explore_results_proposal_header,Explore WTO Member Proposals,section name - pre-populated proposals
@@ -25,7 +25,7 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 02a,explore-results,widget,w_explore_results_cap_multiple_options,Which Cap Approach to Use? ,select which cap approach to use? 
 02a,explore-results,action-button,ab_run_model_proposal,Model Selected WTO Proposal,text for custom proposal section
 02a,explore-results,explore_results_custom_header,explore_results_custom_header,Design Your Own Policy,section name - design your own
-02a,explore-results,explore_results_custom_text,explore_results_custom_text,"<p>You can also design your own subsidy reform policy and plot how it affects biomass, fish catch, and fishing mortality over time.</p>",
+02a,explore-results,explore_results_custom_text,explore_results_custom_text,"<p>You can also design your own subsidy reform policy and plot how it affects biomass, fish catch, revenue, and fishing mortality over time.</p>",
 02a,explore-results,action-button,ab_explore_results_custom,Design Your Own Policy,go to edit-policies
 02a,explore-results,section,explore_results_plot_header,Scenario Results,section name - plot
 02a,explore-results,download-button,db_explore_results_download_data_global,"Export (CSV)<br><small class=""gray"">GLOBAL</small>",button to save csv

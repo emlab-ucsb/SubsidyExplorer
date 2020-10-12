@@ -17,6 +17,10 @@ shinyServer(function(input, output, session) {
   
   rv_selected_proposal <- reactiveValues()
   
+  rv_modal_tracker <- reactiveValues(explore_results = FALSE,
+                                     global_subsidies = FALSE,
+                                     global_fishing_footprint = FALSE)
+  
   rv_explore_results <- reactiveValues(data_all = best_result$results_timeseries,
                                        data_global = NULL,
                                        data_regional = NULL,
@@ -112,11 +116,13 @@ shinyServer(function(input, output, session) {
   ### 02a. explore-results ---
   ### -------------------------
 
-  ### Info modal (auto) ----------------------------
-  observeEvent(input$ab_introduction_to_explore_results, {
+  ### Info modal (auto on first visit) ----------------------------
+  observeEvent(input$menu_items, {
 
-    #if(input$menu_items == "explore-results"){
+    if(input$menu_items == "explore-results" & rv_modal_tracker$explore_results == F){
 
+      rv_modal_tracker$explore_results <- TRUE
+      
       shinyalert(title = text$item_label[text$item_id == "explore-results"],
                  text = text$item_label[text$item_id == "explore_results_modal_text"] %>% lapply(htmltools::HTML),
                  size = "l",
@@ -131,7 +137,8 @@ shinyServer(function(input, output, session) {
                  timer = 0,
                  animation = TRUE)
 
-    #}
+    }
+    
   })
 
   ### Info modal (on button click) ----------------------------
@@ -186,8 +193,8 @@ shinyServer(function(input, output, session) {
       
       # Get selected overfished discipline
       entry_to_use <- switch(input$w_explore_results_overfished_multiple_options,
-                             "RD/TN/RL/79/Rev.1" = list("RD/TN/RL/119 | RD/TN/RL/79/Rev.1"),
-                             "RD/TN/RL/77/Rev.2" = list("RD/TN/RL/119 | RD/TN/RL/77/Rev.2"))
+                             "RD/TN/RL/79/Rev.1" = list("RD/TN/RL/119 | Objective Definition"),
+                             "RD/TN/RL/77/Rev.2" = list("RD/TN/RL/119 | Relevant Authorities"))
       
       selected_policy <- proposal_settings %>%
         dplyr::filter(proposal == entry_to_use[[1]])
@@ -1186,6 +1193,26 @@ shinyServer(function(input, output, session) {
     
   })
   
+  ### Action button: Show global subsidies map disclaimer (and show "close" button) ---------------
+  observeEvent(input$ab_global_subsidies_expand_disclaimer, {
+    
+    # show panel
+    shinyjs::showElement(id = "global_subsidies_map_disclaimer_panel")
+    shinyjs::showElement(id = "global_subsidies_map_hide_arrow_disclaimer")
+    shinyjs::hideElement(id = "global_subsidies_map_expand_arrow_disclaimer")
+    
+  })
+  
+  ### Action button: Hide global subsidies map controls (and show "expand" button) -------------------
+  observeEvent(input$ab_global_subsidies_hide_disclaimer, {
+    
+    # show panel
+    shinyjs::hideElement(id = "global_subsidies_map_disclaimer_panel")
+    shinyjs::hideElement(id = "global_subsidies_map_hide_arrow_disclaimer")
+    shinyjs::showElement(id = "global_subsidies_map_expand_arrow_disclaimer")
+    
+  })
+  
   ### Info button: Subsidy types --------------
   observeEvent(input$info_global_subsidies_subsidy_types, {
                    
@@ -1205,10 +1232,15 @@ shinyServer(function(input, output, session) {
                    
   })
   
-  ### Info modal (auto) ----------------------------
-  observeEvent(input$ab_introduction_to_global_subsidies, {
+  ### Info modal (auto on first visit) ----------------------------
+  observeEvent(c(input$`subsidy-data-tabs`,
+                 input$menu_items), {
     
-    #if(input$`subsidy-data-tabs` == "global-subsidies-tab" & input$menu_items == "global-subsidies"){
+    if(input$menu_items == "global-subsidies" & 
+       input$`subsidy-data-tabs` == "global-subsidies-tab" &
+       rv_modal_tracker$global_subsidies == F){
+      
+      rv_modal_tracker$global_subsidies <- TRUE
       
       shinyalert(title = text$item_label[text$item_id == "global-subsidies"],
                  text = text$item_label[text$item_id == "global_subsidies_modal_text"] %>% lapply(htmltools::HTML),
@@ -1225,7 +1257,8 @@ shinyServer(function(input, output, session) {
                  animation = TRUE
       )
       
-    #}
+    }
+    
   })
   
   ### Info modal (on button click) ----------------------------
@@ -1378,12 +1411,12 @@ shinyServer(function(input, output, session) {
     req(length(selected_subsidy_types) > 0)
      
     # Define colors
-    global_subsidies_map_pal <- colorNumeric(palette = "YlOrRd",
+    global_subsidies_map_pal <- colorNumeric(palette = "plasma",
                                              reverse = F,
                                              log10(c(100, 10e9)))
     
     # Dummy palette for legend
-    global_subsidies_map_pal_rev <- colorNumeric(palette = "YlOrRd",
+    global_subsidies_map_pal_rev <- colorNumeric(palette = "plasma",
                                                  reverse = T,
                                                  log10(c(100, 10e9)))
     
@@ -2325,10 +2358,15 @@ shinyServer(function(input, output, session) {
   ### 04d. global-fishing-footprint ---
   ### ---------------------------------
   
-  ### Info modal (auto) ----------------------------
-  observeEvent(input$`subsidy-data-tabs`, {
+  ### Info modal (auto on first visit) ----------------------------
+  observeEvent(c(input$`subsidy-data-tabs`,
+                 input$menu_items), {
     
-    if(input$`subsidy-data-tabs` == "global-fishing-footprint-tab"){
+    if(input$menu_items == "global-subsidies" & 
+       input$`subsidy-data-tabs` == "global-fishing-footprint-tab" &
+       rv_modal_tracker$global_fishing_footprint == F){
+      
+      rv_modal_tracker$global_fishing_footprint <- TRUE
       
       shinyalert(title = text$item_label[text$item_id == "global-fishing-footprint"],
                  text = text$item_label[text$item_id == "global_fishing_footprint_modal_text"] %>% lapply(htmltools::HTML),

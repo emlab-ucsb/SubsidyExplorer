@@ -136,6 +136,22 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
            ),
            
            # Map disclaimer
+           # Button to hide disclaimer 
+           absolutePanel(id = "global_subsidies_map_hide_arrow_disclaimer",
+                                         
+                                         tags$button(id = "ab_global_subsidies_hide_disclaimer",
+                                                     class = "btn action-button",
+                                                     icon("caret-left"))
+           ),
+           
+           # Button to open left panel
+           shinyjs::hidden(absolutePanel(id = "global_subsidies_map_expand_arrow_disclaimer",
+                         
+                         tags$button(id = "ab_global_subsidies_expand_disclaimer",
+                                     class = "btn action-button",
+                                     icon("caret-right"))
+           )),
+           
            absolutePanel(id = "global_subsidies_map_disclaimer_panel",
                          
                          column(12, id = "tb-spaced-div", align = "center",
@@ -145,8 +161,7 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                          )
                          
            )
-        
-           
+
     )
             
   ) # /fluidPage

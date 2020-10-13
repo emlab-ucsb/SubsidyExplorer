@@ -90,6 +90,11 @@ h5 {
   font-size: 12pt;
 }
 
+.box-title {
+  font-size: 10pt;
+  font-weight: bold;
+}
+
 p {
   font-family: 'Avenir-Book', "Helvetica", sans-serif;
   font-size: 10pt;

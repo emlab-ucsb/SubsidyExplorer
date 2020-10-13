@@ -29,12 +29,49 @@ MethodsProcess = function()
     
     ### Methods download button
     column(12, style = "text-align: center;", id = "tb-spaced-div",
-                  
+           
            downloadButton("db_download_methods", 
                           text$item_label[text$item_id == "db_download_methods"])
-                  
+           
     ),
     
+    ### FAQs
+    column(12, id = "spaced-div",
+           
+           # Text
+           includeHTML("./text/04-methods-process/faqs.html"),
+           
+           # one
+           box(title = "How does the model work?",
+               includeHTML("./text/04-methods-process/faq_three.html"),
+               collapsible = T,
+               collapsed = T,
+               width = 12),
+           
+           # two
+           box(title = "What are the main assumptions built into the model?",
+               includeHTML("./text/04-methods-process/faq_one.html"),
+               collapsible = T,
+               collapsed = T,
+               width = 12),
+           
+           # three
+           box(title = "Where did the data come from for the model?",
+               includeHTML("./text/04-methods-process/faq_two.html"),
+               collapsible = T,
+               collapsed = T,
+               width = 12)
+
+    ),
+    
+    ### Glossary
+    column(12, id = "spaced-div",
+           
+           # Text
+           includeHTML("./text/04-methods-process/glossary.html")
+           
+    ),
+
     ### Contact us
     column(12, id = "spaced-div",
            

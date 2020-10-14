@@ -1317,6 +1317,34 @@ shinyServer(function(input, output, session) {
     
   })
   
+  ### Update checkboxGroupInputs: Select all --------------------
+  observeEvent(input$ab_global_subsidies_select_all_good, {
+    
+    updateCheckboxGroupInput(session,
+                             "w_global_subsidies_good_types",
+                             selected = subsidy_types_sorted_sumaila[1:3])
+                   
+    
+  })
+  
+  observeEvent(input$ab_global_subsidies_select_all_ugly, {
+    
+    updateCheckboxGroupInput(session,
+                             "w_global_subsidies_ugly_types",
+                             selected = subsidy_types_sorted_sumaila[11:13])
+    
+    
+  })
+    
+  observeEvent(input$ab_global_subsidies_select_all_bad, {
+    
+    updateCheckboxGroupInput(session,
+                             "w_global_subsidies_bad_types",
+                             selected = subsidy_types_sorted_sumaila[4:10])
+    
+    
+  }) 
+  
   ### Reactive data: Global map of fisheries subsidies -----------------------
   observe({
     

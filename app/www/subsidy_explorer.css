@@ -926,6 +926,42 @@ hr.grey-narrow{
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
+/* Table structure for top header */
+#global-subsidies-control-table {
+  width: 100%;
+  vertical-align: middle;
+  table-layout: fixed;
+}
+
+#global-subsidies-control-table-row{
+  width: 100%;
+  padding: 0;
+}
+
+#global-subsidies-control-table-cell-l{
+  width: 70%;
+  padding-right: 25px;
+  justify-content: left;
+  text-align: left;
+}
+
+#global-subsidies-control-table-cell-r{
+  width: 30%;
+  padding-left: 25px;
+  justify-content: right;
+  text-align: right;
+}
+
+#ab_global_subsidies_select_all_good, #ab_global_subsidies_select_all_bad, #ab_global_subsidies_select_all_ugly {
+  background: transparent;
+  color: var(--grey-dark);
+}
+
+#ab_global_subsidies_select_all_good:hover, #ab_global_subsidies_select_all_bad:hover, #ab_global_subsidies_select_all_ugly:hover {
+  background: transparent;
+  color: var(--accent-color-2);
+}
+
 /* Info panel */
 #global_subsidies_map_info_panel {
   background: rgba(255,255,255,0.9);
@@ -959,7 +995,7 @@ hr.grey-narrow{
 #global_subsidies_map_hide_arrow_disclaimer, #global_fishing_footprint_map_hide_arrow_disclaimer {
   background: rgba(255,255,255,0.9);
   padding: 0;
-  left: 150px;
+  left: 400px;
   bottom: 100px;
   width: 100px;
   height: 30px;
@@ -988,7 +1024,7 @@ hr.grey-narrow{
 #global_subsidies_map_expand_arrow_disclaimer, #global_fishing_footprint_map_expand_arrow_disclaimer {
   background: rgba(255,255,255,0.9);
   padding: 0;
-  left: 150px;
+  left: 400px;
   bottom: 0;
   width: 100px;
   height: 30px;

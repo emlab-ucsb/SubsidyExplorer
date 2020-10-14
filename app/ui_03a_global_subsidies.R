@@ -74,24 +74,80 @@ GlobalSubsidies = function(subsidy_types_sorted_sumaila)
                                        )
                                 ),
                                 
-                                # Subsidy Type Widgets
+                                # Good Subsidy Types Header
+                                tags$table(id = "global-subsidies-control-table",
+                                  tags$tr(id = "global-subsidies-control-table-row",
+                                    # Title
+                                    tags$td(id = "global-subsidies-control-table-cell-l",
+                                      tags$b(text$item_label[text$item_id == "w_global_subsidies_good_types"], 
+                                             style = paste0("color:", goodColors[1], ";"))
+                                      
+                                    ),
+                                    tags$td(id = "global-subsidies-control-table-cell-r",
+                                            # Select all button
+                                            tags$button(id = "ab_global_subsidies_select_all_good",
+                                                        text$item_label[text$item_id == "ab_global_subsidies_select_all"],
+                                                        class = "btn action-button")
+                                    )
+                                  
+                                  )
+                                ),
+                                
+                                # Good Subsidy Types Widget
                                 checkboxGroupInput("w_global_subsidies_good_types",
-                                                   label =  tags$b(text$item_label[text$item_id == "w_global_subsidies_good_types"], 
-                                                                   style = paste0("color:", goodColors[1], ";")),
+                                                   label = NULL,
                                                    choices = subsidy_types_sorted_sumaila[1:3],
                                                    selected = subsidy_types_sorted_sumaila[1:3],
                                                    width = "100%"),
                                 
+                                # Ugly Subsidy Types Header
+                                tags$table(id = "global-subsidies-control-table",
+                                           tags$tr(id = "global-subsidies-control-table-row",
+                                                   # Title
+                                                   tags$td(id = "global-subsidies-control-table-cell-l",
+                                                           tags$b(text$item_label[text$item_id == "w_global_subsidies_ugly_types"], 
+                                                                  style = paste0("color:", ambigColors[1], ";"))
+                                                           
+                                                   ),
+                                                   tags$td(id = "global-subsidies-control-table-cell-r",
+                                                           # Select all button
+                                                           tags$button(id = "ab_global_subsidies_select_all_ugly",
+                                                                       text$item_label[text$item_id == "ab_global_subsidies_select_all"],
+                                                                       class = "btn action-button")
+                                                   )
+                                                   
+                                           )
+                                ),
+                                
+                                # Ugly Subsidy Types Widget
                                 checkboxGroupInput("w_global_subsidies_ugly_types",
-                                                   label =  tags$b(text$item_label[text$item_id == "w_global_subsidies_ugly_types"], 
-                                                                   style = paste0("color:", ambigColors[1], ";")),
+                                                   label =  NULL,
                                                    choices = subsidy_types_sorted_sumaila[11:13],
                                                    selected = subsidy_types_sorted_sumaila[11:13],
                                                    width = "100%"),
                                 
+                                # Ugly Subsidy Types Header
+                                tags$table(id = "global-subsidies-control-table",
+                                           tags$tr(id = "global-subsidies-control-table-row",
+                                                   # Title
+                                                   tags$td(id = "global-subsidies-control-table-cell-l",
+                                                           tags$b(text$item_label[text$item_id == "w_global_subsidies_bad_types"], 
+                                                                  style = paste0("color:", badColors[1], ";"))
+                                                           
+                                                   ),
+                                                   tags$td(id = "global-subsidies-control-table-cell-r",
+                                                           # Select all button
+                                                           tags$button(id = "ab_global_subsidies_select_all_bad",
+                                                                       text$item_label[text$item_id == "ab_global_subsidies_select_all"],
+                                                                       class = "btn action-button")
+                                                   )
+                                                   
+                                           )
+                                ),
+                                
+                                # Bad Subsidy Types Widget
                                 checkboxGroupInput("w_global_subsidies_bad_types",
-                                                   label =  tags$b(text$item_label[text$item_id == "w_global_subsidies_bad_types"], 
-                                                                   style = paste0("color:", badColors[1], ";")),
+                                                   label =  NULL,
                                                    choices = subsidy_types_sorted_sumaila[4:10],
                                                    selected = subsidy_types_sorted_sumaila[4:10],
                                                    width = "100%")

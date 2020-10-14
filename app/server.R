@@ -2476,6 +2476,14 @@ shinyServer(function(input, output, session) {
     # Update reactive data container
     rv_global_fishing_footprint$polygons <- global_fishing_footprint_map_dat_shp
     
+    # Make static version for the print map
+    global_fishing_footprint_map_dat_static_shp <- eez_fao %>%
+      left_join(global_fishing_footprint_map_dat, by = c("eez_hs_code" = "eez_hs_code")) %>%
+      dplyr::filter(!is.na(fishing_KWh) & fishing_KWh > 0)
+    
+    # Update reactive data container
+    rv_global_fishing_footprint$polygons_static <- global_fishing_footprint_map_dat_static_shp
+    
     # Create hover text
     global_fishing_footprint_map_text <- paste0(
       "<b>","Location: ","</b>", global_fishing_footprint_map_dat_shp$name,"</b>",
@@ -2556,7 +2564,7 @@ shinyServer(function(input, output, session) {
       world_mollweide <- st_transform(world, crs = "+proj=moll")
       
       # Reproject data
-      footprint_data_mollweide <- st_transform(rv_global_fishing_footprint$polygons, crs = "+proj=moll")
+      footprint_data_mollweide <- st_transform(rv_global_fishing_footprint$polygons_static, crs = "+proj=moll")
       
       # Get title, subtitle, and caption
       title <- paste0(text$item_label[text$item_id == "global-fishing-footprint"])
@@ -2567,7 +2575,7 @@ shinyServer(function(input, output, session) {
       global_fishing_footprint_map_static <- ggplot()+
         geom_sf(data = world_mollweide, fill = "white", color = "grey", size = 0.25)+
         geom_sf(data = footprint_data_mollweide, aes(fill = log10(fishing_KWh)), lwd = 0.3)+
-        scale_fill_gradientn(colors = brewer.pal(9, "YlOrRd"),
+        scale_fill_gradientn(colors = rev(brewer.pal(9, "RdYlBu")),
                              limits = limits,
                              breaks = breaks,
                              labels = scales::comma(labels))+

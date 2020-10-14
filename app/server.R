@@ -2469,7 +2469,7 @@ shinyServer(function(input, output, session) {
     rv_global_fishing_footprint$data <- global_fishing_footprint_map_dat
     
     # Attach to polygons
-    global_fishing_footprint_map_dat_shp <- eez_fao %>%
+    global_fishing_footprint_map_dat_shp <- eez_fao_triple %>%
       left_join(global_fishing_footprint_map_dat, by = c("eez_hs_code" = "eez_hs_code")) %>%
       dplyr::filter(!is.na(fishing_KWh) & fishing_KWh > 0)
     

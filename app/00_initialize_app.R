@@ -98,6 +98,10 @@ world_small_countries <- world  %>%
 # 2) EEZs/FAO regions ---
 eez_fao <- read_sf(dsn = "./data/shapefiles/eez-v10-fao-combined-simple", layer="eez_v10_fao_combined_simple") %>%
   mutate(eez_hs_code = ifelse(!is.na(zone), paste0("HS-",zone), as.character(mrgid)))
+
+eez_fao_triple <- read_sf(dsn = "./data/shapefiles/eez-fao-triplicate", layer="eez-fao-triplicate") %>%
+  rename(eez_hs_code = ez_hs_c) %>%
+  left_join(st_set_geometry(eez_fao, NULL), by = "eez_hs_code")
  
 # ### --------------------
 # ### Data ---------------

@@ -35,7 +35,7 @@ good_subsidy_types <- c("A1", "A2", "A3")
 subsidy_types_sorted_sumaila <- c(good_subsidy_types, bad_subsidy_types, ugly_subsidy_types)
 
 # Threshold to be considered managed (using FMI scores)
-managed_cutoff <- 0.75
+managed_cutoff <- 0.5
 
 end_year <- 2080
 
@@ -458,8 +458,7 @@ all_results_global_absolute_table <- plot_results %>%
   summarize(BAU_tot = sum(BAU, na.rm = T),
             Reform_tot = sum(Reform, na.rm = T),
             abs_Diff_tot = case_when(BAU_tot != 0 ~ Reform_tot-BAU_tot,
-                                     TRUE ~ 0),
-            cow_Diff = abs_Diff_tot*cow_weight) %>%
+                                     TRUE ~ 0)) %>%
   ungroup() %>%
   mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
                               Variable == "catches_total" ~ "Catches")) %>%
@@ -479,8 +478,7 @@ all_results_regional_absolute_table <- plot_results %>%
   mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
                                 Variable == "catches_total" ~ "Catches")) %>%
   mutate(abs_Diff = case_when(BAU != 0 ~ Reform-BAU,
-                              TRUE ~ 0),
-         cow_Diff = abs_Diff*cow_weight) %>%
+                              TRUE ~ 0)) %>%
   dplyr::select(Id = run_id,
                 Name = run_name,
                 Category = run_group, 

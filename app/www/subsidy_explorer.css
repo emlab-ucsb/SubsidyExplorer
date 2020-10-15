@@ -104,6 +104,33 @@ text {
    font-family: 'Avenir-Book', "Helvetica", sans-serif;
 }
 
+/* Font sizes (tablet) */
+@media (max-width: 767px){
+  
+h2 {
+  font-size: 16pt;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 14pt;
+  margin-bottom: 20px;
+}
+
+h4 {
+  font-size: 12pt;
+}
+
+h5 {
+  font-size: 10pt;
+}
+
+p {
+  font-size: 8pt;
+}
+
+}
+
 /*----------------------------*/  
 /*----------------------------*/
 /* Shiny Dashboard containers */
@@ -485,6 +512,18 @@ header.main-header {
 /* Nav Panel */
 /* --------------- */
 
+#ab_subsidy_explorer {
+  background-color:transparent;
+  color: white;
+  height: 60px;
+}
+
+
+#ab_subsidy_explorer:hover {
+  background-color:transparent;
+  color: var(--accent-color-2);
+}
+
 #al_global_subsidies {
   margin: -10pt 0 0 0;
   padding: 0 0 10pt 20pt;
@@ -511,24 +550,22 @@ header.main-header {
 
 /* Dividers */
 .intro-div{
-  position: absolute;
-  height: 95vh;
+  position: relative;
+  height: 100%;
   width: 100vw;
 }
 
 .intro-picture-div{
   display: block;
-  height: 95vh;
+  height: 100%;
   width: 100vw;
-  overflow: hidden;
 }
 
 .intro-picture-div img{
   object-fit: cover;
-  min-width: 100vw;
-  min-height: 90vh;
-  max-width: 200%;
-  max-height: 200%;
+  width: auto;
+  height: auto;
+  max-height: 200vh;
 }
 
 /* Video overlay */

@@ -511,6 +511,7 @@ fao_production_dat <- read.csv(paste0(fao_production_path, "TS_FI_CAPTURE.csv"))
   mutate(species = as.character(species)) %>%
   left_join(fao_country_lookup, by = "country") %>%
   inner_join(fao_area_lookup, by = c("fishing_area" = "area")) %>%
+  dplyr::filter(fishing_area > 10) %>% # remove inland fishing
   group_by(iso3, year, species, fishing_area) %>%
   summarize(value = sum(quantity, na.rm = T)) %>%
   ungroup() %>%

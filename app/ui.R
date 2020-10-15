@@ -94,7 +94,10 @@ shinyUI(
             tags$li(
                 id = "custom-title-container",
                 class = "dropdown",
-                tags$h3(text$item_label[text$item_id == "app-title"]) # /h3
+                tags$button(id = "ab_subsidy_explorer",
+                            tags$h3(text$item_label[text$item_id == "app-title"],
+                                    style = "margin: 0;"),
+                            class = "btn action-button") # /h3
             ), # /tags$li
             
             # SFG logo

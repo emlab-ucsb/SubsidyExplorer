@@ -68,6 +68,11 @@ shinyServer(function(input, output, session) {
   ### 01. Introduction/Sidebar ---
   ### ----------------------------
   
+  ### Navigation button on the top header
+  observeEvent(input$ab_subsidy_explorer, {
+    updateTabItems(session, "menu_items", "introduction")
+  })
+  
   ### Navigation buttons on the intro page ----
   
   # Navigation button from introduction to selected-results
@@ -293,9 +298,9 @@ shinyServer(function(input, output, session) {
       
       req(rv_selected_proposal$proposal != "Default")
       
-      paste0("<b class = 'big'>", "Formal Title: ", "</b>", selected_policy$title, "</br>",
-             "<b class = 'big'>", "Summary: ", "</b>", selected_policy$summary, "</br>",
-             "<b class = 'big'>", "Modeling Assumptions: ", "</b>", selected_policy$model_details_assumptions) %>%
+      paste0("<b class = 'big'>", "Formal Title ", "</b></br>", selected_policy$title, "</br></br>",
+             "<b class = 'big'>", "Summary ", "</b></br>", selected_policy$summary, "</br></br>",
+             "<b class = 'big'>", "Modeling Assumptions ", "</b></br>", selected_policy$model_details_assumptions) %>%
         lapply(htmltools::HTML)
       
     })
@@ -1697,6 +1702,8 @@ shinyServer(function(input, output, session) {
     # Update reactive container
     rv_country_fishery_stats$pop_data <- country_fishery_stats_pop_plot_dat
     
+    max_pop <- max(country_fishery_stats_pop_plot_dat$value)/1e6 + (max(country_fishery_stats_pop_plot_dat$value)*0.1)/1e6
+    
     # Make population plot
     country_fishery_stats_pop_plot <- ggplot(country_fishery_stats_pop_plot_dat)+
       aes(x = year, y = value/1e6)+
@@ -1706,7 +1713,8 @@ shinyServer(function(input, output, session) {
                                    "<b>", "Population: ", "</b>", format(round(value,0), big.mark = ",", scientific = F))),
                  alpha = 0, color = totColor)+
       scale_y_continuous(name = "Population (million persons)",
-                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE))+
+                         labels = function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE),
+                         limits = c(0,max_pop))+
       scale_x_continuous(expand = c(0,0))+
       pretty_static_plot_theme+
       labs(x = "Year")+

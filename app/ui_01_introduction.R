@@ -9,7 +9,7 @@ Introduction = function()
   fluidPage(
     
     # page style
-    style = "color: #ffffff; padding-bottom: 40px;",
+    style = "color: #ffffff; padding-bottom: 40px; background-color: var(--main-color);",
             
     # open links in new window
     tags$head(tags$base(target = "_blank")),

@@ -307,8 +307,9 @@ ExploreResults = function(proposal_choices)
                                                              choices = c("Most ambitious scenario"),
                                                              selected = c("Most ambitious scenario"),
                                                              inline = TRUE,
-                                                             status = "danger",
-                                                             fill = TRUE)
+                                                             status = "default",
+                                                             icon = icon("check"),
+                                                             fill = FALSE)
 
                                        )
                                ),
@@ -326,8 +327,9 @@ ExploreResults = function(proposal_choices)
                                                              choices = "",
                                                              selected = "",
                                                              inline = TRUE,
-                                                             status = "primary",
-                                                             fill = TRUE)
+                                                             status = "default",
+                                                             icon = icon("check"),
+                                                             fill = FALSE)
 
                                        )
                                ),
@@ -345,8 +347,9 @@ ExploreResults = function(proposal_choices)
                                                             choices = "",
                                                             selected = "",
                                                             inline = TRUE,
-                                                            status = "warning",
-                                                            fill = TRUE)
+                                                            status = "default",
+                                                            icon = icon("check"),
+                                                            fill = FALSE)
 
                                       )
                                )

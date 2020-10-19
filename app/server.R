@@ -49,6 +49,8 @@ shinyServer(function(input, output, session) {
   # Reactive object that keeps track of what policy we're on ----
   rv_policy_id <- reactiveValues(id = best_result$id)
   
+  # Reactive object that keeps track of the color palette for policy results ---
+  rv_results_color_pal <- reactiveValues()
   
   ### Reactive object that keeps track of user custom input policy selections -----
   rv_custom_policy <- reactiveValues(
@@ -490,9 +492,9 @@ shinyServer(function(input, output, session) {
                                          TRUE ~ 0)) %>%
           ungroup() %>%
           mutate(Id = new_run_id,
-                 Name = run_name,
+                 Name = paste0(selected_proposal$title_tool, " (", run_name, ")"),
                  Type = "Proposal",
-                 Description = selected_proposal$title_tool)
+                 Description = run_name)
 
         # Extract global difference in the last time step
         out_last <- out_all %>%
@@ -508,7 +510,7 @@ shinyServer(function(input, output, session) {
 
         # Fill in new tibble row
         new_result <- tibble(id = new_run_id,
-                             name = run_name,
+                             name = selected_proposal$title_tool,
                              display_name = paste0(selected_proposal$title_tool, " (", run_name, ")"),
                              type = "Proposal",
                              iuu = list(iuu),
@@ -538,97 +540,107 @@ shinyServer(function(input, output, session) {
   
   # ### Reactive data/plot: Model results over time -----------------------
   observe({
+    
+    # Create color palette for ALL results that have been run - keep colors consistent across runs regardless of which are checked
+    rv_results_color_pal$n_colors <- nrow(rv_results$run) - 1
+    
+    # Generate color palette for that number of policies
+    results_color_pal <- big_color_palette[0:rv_results_color_pal$n_colors]
+    names(results_color_pal) <- rv_results$run$display_name[rv_results$run$display_name != "Most ambitious scenario"]
+    
+    rv_results_color_pal$pal <- c(best_result_color, results_color_pal)
                    
-                   # Filter results using widget checkboxes
-                   entries_to_keep <- rv_results$run %>%
-                     dplyr::filter(display_name %in% c(input$w_explore_results_show_ambitious,
-                                                       input$w_explore_results_show_policies,
-                                                       input$w_explore_results_show_custom))
+    # Filter results using widget checkboxes
+    entries_to_keep <- rv_results$run %>%
+      dplyr::filter(display_name %in% c(input$w_explore_results_show_ambitious,
+                                        input$w_explore_results_show_policies,
+                                        input$w_explore_results_show_custom))
                    
-                   # Collect data
-                   dat <- bind_rows(entries_to_keep$results_timeseries)
+    # Collect data to plot
+    dat <- bind_rows(entries_to_keep$results_timeseries)
+    
+    # Add to reactive object
+    rv_explore_results$data_all <- dat
                    
-                   # Add to reactive object 
-                   rv_explore_results$data_all <- dat
+    if(nrow(dat) == 0) {
+      # Add to reactive object
+      rv_explore_results$data_global <- dat
+      rv_explore_results$data_regional <- dat
+      
+    }else{
                    
-                   if(nrow(dat) == 0){
-                     
-                     # Add to reactive object 
-                     rv_explore_results$data_global <- dat  
-                     rv_explore_results$data_regional <- dat
-                     
-                   }else{
+      # Get global data
+      global_dat <- dat %>%
+        group_by(Id, Name, Type, Description, Year, Variable, Fleet) %>%
+        summarize(BAU = unique(BAU_global),
+                  Reform = unique(Reform_global),
+                  Diff = unique(Diff_global)) %>%
+        ungroup() %>%
+        mutate(Region = "Global") %>%
+        mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
+                                    Variable == "catches_total" ~ "Catch",
+                                    Variable == "revenue_total" ~ "Revenue",
+                                    Variable == "u_mort_total" ~ "Fishing Mortality"))
                    
-                   # Get global data
-                   global_dat <- dat %>%
-                     group_by(Id, Name, Type, Description, Year, Variable, Fleet) %>%
-                     summarize(BAU = unique(BAU_global),
-                               Reform = unique(Reform_global),
-                               Diff = unique(Diff_global)) %>%
-                     ungroup() %>%
-                     mutate(Region = "Global") %>%
-                     mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
-                                                 Variable == "catches_total" ~ "Catch",
-                                                 Variable == "revenue_total" ~ "Revenue",
-                                                 Variable == "u_mort_total" ~ "Fishing Mortality"))
+      # Add to reactive object
+      rv_explore_results$data_global <- global_dat
                    
-                   # Add to reactive object 
-                   rv_explore_results$data_global <- global_dat
+      # Make global static plot
+      global_title <- paste0(text$item_label[text$item_id == "explore-results"], " - ", "Global")
+      global_subtitle <- paste0(WrapText("This plot shows changes in global fish biomass, catch, fishing mortality, and revenue under each of the selected subsidy reform policies relative to a Business as Usual (BAU) scenario in which subsidy provisioning continues unchanged.", 100), "\n")
                    
-                   # Make global plots
-                   
-                   global_title <- paste0(text$item_label[text$item_id == "explore-results"], " - ", "Global")
-                   global_subtitle <- paste0(WrapText("This plot shows changes in global fish biomass, catch, fishing mortality, and revenue under each of the selected subsidy reform policies relative to a Business as Usual (BAU) scenario in which subsidy provisioning continues unchanged.", 100), "\n")
-                   
-                   global_plot <-  ggplot()+
-                     aes(x = Year, y = Diff*100, group = Id, color = Type, linetype = Name)+
-                     geom_line(data = global_dat, size = 1)+
-                     pretty_static_plot_theme+
-                     scale_color_manual(values = proposal_color_pal[names(proposal_color_pal) %in% unique(global_dat$Type)])+
-                     geom_hline(yintercept = 0)+
-                     scale_x_continuous(expand = c(0,0))+
-                     labs(x = "Year", y = "Difference Relative to BAU (%)")+
-                     facet_grid(Variable~Region, scales = "free")+
-                     labs(linetype = "Proposal",
-                          color = "Policy Type",
-                          title = global_title,
-                          subtitle = global_subtitle)+
-                     theme(legend.direction = "vertical", 
-                           legend.position = "bottom",
-                           legend.box = "horizontal")
+      
+      global_plot <-  ggplot()+
+        aes(x = Year, y = Diff*100, group = Id, color = Name)+
+        geom_line(data = global_dat, size = 1) +
+        pretty_static_plot_theme +
+        scale_color_manual(values = rv_results_color_pal$pal[names(rv_results_color_pal$pal) %in% global_dat$Name])+
+                                          #proposal_color_pal[names(proposal_color_pal) %in% unique(global_dat$Type)])+
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(expand = c(0, 0)) +
+        labs(x = "Year", y = "Difference Relative to BAU (%)") +
+        facet_grid(Variable ~ Region, scales = "free") +
+        labs(#linetype = "Proposal",
+          color = "Proposal",
+          title = global_title,
+          subtitle = global_subtitle)+
+        theme(legend.direction = "vertical",
+              legend.position = "bottom",
+              legend.box = "horizontal")
                   
-                   # Add to reactive object 
-                   rv_explore_results$plot_global <- global_plot
+      # Add to reactive object
+      rv_explore_results$plot_global <- global_plot
                    
-                   # Get regional data
-                   regional_dat <- dat %>%
-                     dplyr::select(Id, Name, Type, Description, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
-                     mutate(Region = case_when(Region == "atlantic" ~ "Atlantic Ocean",
-                                               Region == "indian" ~ "Indian Ocean",
-                                               Region == "pacific" ~ "Pacific Ocean")) %>%
-                     mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
-                                                 Variable == "catches_total" ~ "Catch",
-                                                 Variable == "revenue_total" ~ "Revenue",
-                                                 Variable == "u_mort_total" ~ "Fishing Mortality"))
+      # Get regional data
+      regional_dat <- dat %>%
+        dplyr::select(Id, Name, Type, Description, Year, Variable, Fleet, Region, BAU, Reform, Diff) %>%
+        mutate(Region = case_when(Region == "atlantic" ~ "Atlantic Ocean",
+                                  Region == "indian" ~ "Indian Ocean",
+                                  Region == "pacific" ~ "Pacific Ocean")) %>%
+        mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
+                                    Variable == "catches_total" ~ "Catch",
+                                    Variable == "revenue_total" ~ "Revenue",
+                                    Variable == "u_mort_total" ~ "Fishing Mortality"))
                    
-                   # Add to reactive object 
-                   rv_explore_results$data_regional <- regional_dat
+      # Add to reactive object
+      rv_explore_results$data_regional <- regional_dat
                    
                    # Regional Plot
                    regional_title <- paste0(text$item_label[text$item_id == "explore-results"], " - ", "Regional")
                    regional_subtitle <- paste0(WrapText("This plot shows changes in regional fish biomass, catch, fishing mortality, and revenue under each of the selected subsidy reform policies relative to a Business as Usual (BAU) scenario in which subsidy provisioning continues unchanged.", 100), "\n")
                    
                    regional_plot <-  ggplot()+
-                     aes(x = Year, y = Diff*100, group = Id, color = Type, linetype = Name)+
+                     aes(x = Year, y = Diff*100, group = Id, color = Name)+
                      geom_line(data = regional_dat, size = 1)+
                      pretty_static_plot_theme+
-                     scale_color_manual(values = proposal_color_pal[names(proposal_color_pal) %in% unique(regional_dat$Type)])+
+                     scale_color_manual(values = rv_results_color_pal$pal[names(rv_results_color_pal$pal) %in% regional_dat$Name])+
+                                          #proposal_color_pal[names(proposal_color_pal) %in% unique(regional_dat$Type)])+
                      geom_hline(yintercept = 0)+
                      scale_x_continuous(expand = c(0,0))+
                      labs(x = "Year", y = "Difference Relative to BAU (%)")+
                      facet_grid(Variable~Region, scales = "free")+
-                     labs(linetype = "Proposal",
-                          color = "Policy Type",
+                     labs(#linetype = "Proposal",
+                          color = "Proposal",
                           title = regional_title,
                           subtitle = regional_subtitle)+
                      theme(legend.direction = "vertical", 
@@ -679,10 +691,9 @@ shinyServer(function(input, output, session) {
     req(nrow(out_plot_dat) > 0)
     
     plot <-  ggplot()+
-      aes(x = Year, y = Diff*100, group = Id, color = Type, linetype = Name)+
-      geom_line(data = out_plot_dat, size = 2,
-                aes(key = Id,
-                    text = paste0("<b>","Year: ","</b>", Year,
+      aes(x = Year, y = Diff*100, group = Id, color = Name)+
+      geom_line(data = out_plot_dat, size = 1,
+                aes(text = paste0("<b>","Year: ","</b>", Year,
                                   "<br>",
                                   "<b>","Policy Name: ","</b>", Name,
                                   "<br>",
@@ -694,8 +705,9 @@ shinyServer(function(input, output, session) {
                                   "<br>",
                                   "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
       theme_bw()+
-      scale_color_manual(values = proposal_color_pal[names(proposal_color_pal) %in% unique(out_plot_dat$Type)])+
-      geom_hline(yintercept = 0)+
+      scale_color_manual(values = rv_results_color_pal$pal[names(rv_results_color_pal$pal) %in% out_plot_dat$Name])+
+                           #proposal_color_pal[names(proposal_color_pal) %in% unique(out_plot_dat$Type)])+
+      #geom_hline(yintercept = 0)+
       scale_x_continuous(expand = c(0,0))+
       labs(x = "Year", y = plot_variable[[2]])+
       theme(legend.position = "none")+
@@ -803,8 +815,10 @@ shinyServer(function(input, output, session) {
                               choices = policy_proposals_run,
                               selected = policy_proposals_run,
                               inline = TRUE,
-                              prettyOptions = list(status = "primary",
-                                                   fill = TRUE))
+                              prettyOptions = list(icon = icon("check"),
+                                                   status = "default"))
+                                # status = "primary",
+                                #                    fill = TRUE))
   })
 
   ### Update checkboxGroupInput: Add new choices for each proposal that's run ----------
@@ -819,8 +833,10 @@ shinyServer(function(input, output, session) {
                               choices = custom_proposals_run,
                               selected = custom_proposals_run,
                               inline = TRUE,
-                              prettyOptions = list(status = "warning",
-                                                   fill = TRUE))
+                              prettyOptions = list(icon = icon("check"),
+                                                   status = "default"))
+                                # list(status = "warning",
+                                #                    fill = TRUE))
   })
   
   

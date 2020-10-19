@@ -797,8 +797,8 @@ CreateFleets <- function(vessel_list,
   ### Section #3 ---------------------------------------------------------------
   ### Subsidies contributing to overcapacity and overfishing -------------------
   ### --------------------------------------------------------------------------
-
-  if(length(overcap$definitions) == 0 | overcap$definitions == ""){
+  
+  if(length(overcap$definitions) == 0 | any(overcap$definitions == "") | any(is.null(overcap$definitions))){
     
     # Shortcut output if no disciplines are selected from this category
     overcap_vessel_subset <- vessel_tracking_df

@@ -303,8 +303,11 @@ end_year <- 2080
 
 # Proposal color scheme
 # Make color palette
-proposal_color_pal <- c("#EB4648", "#198CD0", "orange")
-names(proposal_color_pal) <- c("Reference", "Proposal", "Custom")
+best_result_color <- c("#EB4648")
+names(best_result_color) <- c("Most ambitious scenario")
+
+big_color_palette <- colorRampPalette(brewer.pal(8, "Dark2"))(25)
+#names(results_color_pal) <- rv_results$run$name[rv_results$run$name != "Most ambitious scenario"]
 
 ### OTHER DATA -------------------------------------------------------------------------------------------
 

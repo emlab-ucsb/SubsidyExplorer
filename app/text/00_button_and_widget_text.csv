@@ -34,7 +34,7 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 02a,explore-results,download-button,db_explore_results_download_figure_regional,"Print (PDF)<br><small class=""gray"">REGIONAL</small>",
 02a,explore-results,widget,w_explore_results_timeseries_plot_variable,Plot,select variable to plot widget
 02a,explore-results,widget,w_explore_results_timeseries_plot_resolution,Resolution,select resolution (global/regional)
-02a,explore-results,widget,w_explore_results_show_ambitious,Scenarios,select scenarios to show
+02a,explore-results,widget,w_explore_results_show_ambitious,<b>Results to</br>Show on Plot</b>,select scenarios to show
 ,,,,,
 02c,edit-policies,page,edit-policies,Design Your Own Policy Scenario,page name
 02c,edit-policies,text,run-name,"<b class=""big"">Name Your Policy: </b>",text input to describe policy

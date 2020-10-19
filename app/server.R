@@ -300,9 +300,18 @@ shinyServer(function(input, output, session) {
       
       req(rv_selected_proposal$proposal != "Default")
       
-      paste0("<b class = 'big'>", "Formal Title ", "</b></br>", selected_policy$title, "</br></br>",
-             "<b class = 'big'>", "Summary ", "</b></br>", selected_policy$summary, "</br></br>",
-             "<b class = 'big'>", "Modeling Assumptions ", "</b></br>", selected_policy$model_details_assumptions) %>%
+      paste0("<b class = 'big'>", "Formal Title ", "</b></br><small>", selected_policy$title, "</small></br>",
+             "<b class = 'big'>", "Summary ", "</b></br><small>", selected_policy$summary, "</small></br>",
+             "<b class = 'big'>", "Illegal, Unreported, and Unregulated", "</b></br>",
+             "<small class = 'gray'>", "ASSUMPTIONS:  ", "</small><small>", selected_policy$assumptions_iuu, "</small>",
+             "<small class = 'gray'>", "S&DT:  ", "</small><small>", selected_policy$sdt_iuu, "</small></br>",
+             "<b class = 'big'>", "Overfished", "</b></br>",
+             "<small class = 'gray'>", "ASSUMPTIONS:  ", "</small><small>", selected_policy$assumptions_overfished, "</small>",
+             "<small class = 'gray'>", "S&DT:  ", "</small><small>", selected_policy$sdt_overfished, "</small></br>",
+             "<b class = 'big'>", "Overcapacity and Overfishing", "</b></br>",
+             "<small class = 'gray'>", "ASSUMPTIONS:  ", "</small><small>", selected_policy$assumptions_ofoc, "</small>",
+             "<small class = 'gray'>", "S&DT:  ", "</small><small>", selected_policy$sdt_ofoc, "</small></br>",
+             "<small class = 'gray'>", "CAP/TIER:  ", "</small><small>", selected_policy$assumptions_cap_tier, "</small>") %>%
         lapply(htmltools::HTML)
       
     })

@@ -294,9 +294,9 @@ ExploreResults = function(proposal_choices)
 
                                tags$tr(id = "explore-results-table-table-row",
 
-                                       tags$td(style = "width: 100px;",
+                                       tags$td(style = "width: 100px; text-align: left;",
 
-                                               tags$b(text$item_label[text$item_id == "w_explore_results_show_ambitious"])
+                                               text$item_label[text$item_id == "w_explore_results_show_ambitious"] %>% lapply(htmltools::HTML)
 
                                        ),
 

@@ -580,7 +580,8 @@ shinyServer(function(input, output, session) {
         mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
                                     Variable == "catches_total" ~ "Catch",
                                     Variable == "revenue_total" ~ "Revenue",
-                                    Variable == "u_mort_total" ~ "Fishing Mortality"))
+                                    Variable == "u_mort_total" ~ "Fishing Mortality")) %>%
+        dplyr::filter(Variable != "Revenue")
                    
       # Add to reactive object
       rv_explore_results$data_global <- global_dat
@@ -589,21 +590,18 @@ shinyServer(function(input, output, session) {
       global_title <- paste0(text$item_label[text$item_id == "explore-results"], " - ", "Global")
       global_subtitle <- paste0(WrapText("This plot shows changes in global fish biomass, catch, fishing mortality, and revenue under each of the selected subsidy reform policies relative to a Business as Usual (BAU) scenario in which subsidy provisioning continues unchanged.", 100), "\n")
                    
-      
       global_plot <-  ggplot()+
         aes(x = Year, y = Diff*100, group = Id, color = Name)+
         geom_line(data = global_dat, size = 1) +
         pretty_static_plot_theme +
         scale_color_manual(values = rv_results_color_pal$pal[names(rv_results_color_pal$pal) %in% global_dat$Name])+
-                                          #proposal_color_pal[names(proposal_color_pal) %in% unique(global_dat$Type)])+
         geom_hline(yintercept = 0) +
         scale_x_continuous(expand = c(0, 0)) +
         labs(x = "Year", y = "Difference Relative to BAU (%)") +
         facet_grid(Variable ~ Region, scales = "free") +
-        labs(#linetype = "Proposal",
-          color = "Proposal",
-          title = global_title,
-          subtitle = global_subtitle)+
+        labs(color = "Proposal",
+             title = global_title,
+             subtitle = global_subtitle)+
         theme(legend.direction = "vertical",
               legend.position = "bottom",
               legend.box = "horizontal")
@@ -620,37 +618,36 @@ shinyServer(function(input, output, session) {
         mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
                                     Variable == "catches_total" ~ "Catch",
                                     Variable == "revenue_total" ~ "Revenue",
-                                    Variable == "u_mort_total" ~ "Fishing Mortality"))
+                                    Variable == "u_mort_total" ~ "Fishing Mortality")) %>%
+        dplyr::filter(Variable != "Revenue")
                    
       # Add to reactive object
       rv_explore_results$data_regional <- regional_dat
                    
-                   # Regional Plot
-                   regional_title <- paste0(text$item_label[text$item_id == "explore-results"], " - ", "Regional")
-                   regional_subtitle <- paste0(WrapText("This plot shows changes in regional fish biomass, catch, fishing mortality, and revenue under each of the selected subsidy reform policies relative to a Business as Usual (BAU) scenario in which subsidy provisioning continues unchanged.", 100), "\n")
+      # Regional Plot
+      regional_title <- paste0(text$item_label[text$item_id == "explore-results"], " - ", "Regional")
+      regional_subtitle <- paste0(WrapText("This plot shows changes in regional fish biomass, catch, fishing mortality, and revenue under each of the selected subsidy reform policies relative to a Business as Usual (BAU) scenario in which subsidy provisioning continues unchanged.", 100), "\n")
                    
-                   regional_plot <-  ggplot()+
-                     aes(x = Year, y = Diff*100, group = Id, color = Name)+
-                     geom_line(data = regional_dat, size = 1)+
-                     pretty_static_plot_theme+
-                     scale_color_manual(values = rv_results_color_pal$pal[names(rv_results_color_pal$pal) %in% regional_dat$Name])+
-                                          #proposal_color_pal[names(proposal_color_pal) %in% unique(regional_dat$Type)])+
-                     geom_hline(yintercept = 0)+
-                     scale_x_continuous(expand = c(0,0))+
-                     labs(x = "Year", y = "Difference Relative to BAU (%)")+
-                     facet_grid(Variable~Region, scales = "free")+
-                     labs(#linetype = "Proposal",
-                          color = "Proposal",
-                          title = regional_title,
-                          subtitle = regional_subtitle)+
-                     theme(legend.direction = "vertical", 
-                           legend.position = "bottom",
-                           legend.box = "horizontal")
+      regional_plot <-  ggplot() +
+        aes(x = Year, y = Diff*100, group = Id, color = Name)+
+        geom_line(data = regional_dat, size = 1) +
+        pretty_static_plot_theme +
+        scale_color_manual(values = rv_results_color_pal$pal[names(rv_results_color_pal$pal) %in% regional_dat$Name])+
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(expand = c(0, 0)) +
+        labs(x = "Year", y = "Difference Relative to BAU (%)") +
+        facet_grid(Variable ~ Region, scales = "free") +
+        labs(color = "Proposal",
+             title = regional_title,
+             subtitle = regional_subtitle)+
+        theme(legend.direction = "vertical", 
+              legend.position = "bottom",
+              legend.box = "horizontal")
                    
-                   # Add to reactive object 
-                   rv_explore_results$plot_regional <- regional_plot
-                   
-                   }
+      # Add to reactive object
+      rv_explore_results$plot_regional <- regional_plot
+      
+    }
                    
   })
   
@@ -742,13 +739,13 @@ shinyServer(function(input, output, session) {
     content = function(file) {
       
       # Get Legend
-      plot_legend <- cowplot::get_legend(rv_explore_results$plot_global)
+      plot_legend <- cowplot::plot_grid(cowplot::get_legend(rv_explore_results$plot_global))
       
       out_plot <- cowplot::plot_grid(rv_explore_results$plot_global + theme(legend.position = "none",
-                                                                              plot.margin = unit(c(1, 0.25, 0, 0.25), "in")),
-                                     plot_legend,
-                                     ncol = 1,
-                                     rel_heights = c(3,1))
+                                                                              plot.margin = unit(c(1, 0.25, 0.25, 0.25), "in")))
+                                     # plot_legend,
+                                     # ncol = 1,
+                                     # rel_heights = c(3,1))
       
       # Now Add Table on the next page
       global_df <- rv_explore_results$data_global %>%
@@ -760,10 +757,11 @@ shinyServer(function(input, output, session) {
         spread(Variable, Diff) %>%
         rename(Policy = Name)
 
-      df <- tableGrob(global_df, rows = NULL, theme = ttheme_default(base_size = 10))
+      df <- tableGrob(global_df, rows = NULL, theme = ttheme_default(base_size = 8))
       
       pdf(file, width = 8.5, height = 11)
       print(out_plot)
+      print(plot_legend)
       grid.arrange(df)
       dev.off()
       

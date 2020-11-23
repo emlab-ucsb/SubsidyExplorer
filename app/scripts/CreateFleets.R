@@ -1808,6 +1808,18 @@ overcap_vessels_out <- overcap_vessels_scope %>%
          ungroup() %>%
          dplyr::select(flag_iso3, type, cap)
        
+       # test <- flag_caps_best_tier1 %>%
+       #   mutate(which_is_best = case_when(cap == 0 ~ "N/A",
+       #                                    cap == subs_cap ~ "subsidies",
+       #                                    cap == landed_value_cap ~ "landed value",
+       #                                    cap == fishers_cap ~ "fishers")) %>%
+       #   mutate(which_is_best = ifelse(which_is_best != "N/A", which_is_best, NA)) %>%
+       #   dplyr::filter(!is.na(which_is_best)) %>%
+       #   group_by(flag_iso3) %>%
+       #   summarize(best_approach = unique(which_is_best))
+       # 
+       # write_csv(test, here::here("results", "china_cap_proposal_best_approaches.csv"))
+       
        flag_caps_tier1 <- cap_df %>%
          dplyr::filter(flag_iso3 %in% tier_1_flags_out) %>%
          left_join(flag_caps_best_tier1, by = c("flag_iso3", "type"))

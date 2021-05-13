@@ -4,7 +4,7 @@
 ### 
 ### Creator(s): Kat Millage and Vienna Saccomanno
 ### Release date (v1): July 2019
-### Release date (v2): 
+### Release date (final): October 2020 
 ### 
 ### This is the script outlining the user interface for the application
 ### User interface details for each page are specified in their own individual files

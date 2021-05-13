@@ -281,6 +281,24 @@ shinyServer(function(input, output, session) {
         
       }else{
         
+        if(selected_policy$proposal %in% c("TN/RL/W/276", "RD/TN/RL/136")){
+          
+          out <- tagList(
+            
+            tags$i("Coming soon! We're in the process of adding this text so it can be modeled. For now it is included for reference only.", style = "color: orange;"),
+            
+            tags$br(),
+            tags$br(),
+            
+            # Run model button (pre-populated proposal)
+            tags$button(id = "ab_run_model_proposal",
+                        class = "btn action-button rounded-button-no-select",
+                        tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")),
+                        style = "width: 100%;")
+          )
+          
+        }else{
+        
         out <- tagList(
           
           # Run model button (pre-populated proposal)
@@ -288,6 +306,8 @@ shinyServer(function(input, output, session) {
                       class = "btn action-button rounded-button",
                       tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")))
         )
+        
+        }
         
       }
       
@@ -330,7 +350,7 @@ shinyServer(function(input, output, session) {
       dplyr::filter(proposal == rv_selected_proposal$proposal)
     
     # Make sure it's an allowable proposal to model
-    req(selected_proposal$include != "No")
+    req(selected_proposal$include != "No" & !(selected_proposal$proposal %in% c("TN/RL/W/276", "RD/TN/RL/136")))
 
     # Create run name
     run_name <- selected_proposal$proposal

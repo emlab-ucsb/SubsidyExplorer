@@ -210,18 +210,18 @@ shinyServer(function(input, output, session) {
       rv_selected_proposal$proposal <- entry_to_use[[1]]
       
     # Deal with Chair's text
-    }else if(input$w_explore_results_proposal_selection == "RD/TN/RL/126"){
+    }else if(input$w_explore_results_proposal_selection == "RD/TN/RL/126/Rev.2"){
       
       # More ambitious overfished proposals
       if(input$w_explore_results_overfished_multiple_options == "RD/TN/RL/79/Rev.1"){
         
         # Get selected overfished discipline
         entry_to_use <- switch(input$w_explore_results_cap_multiple_options,
-                               "Default" = list("RD/TN/RL/126 | Objective Definition"),
-                               "TN/RL/GEN/199" = list("RD/TN/RL/126 | TN/RL/GEN/199 | Objective Definition"),
-                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Objective Definition"),
-                               "RD/TN/RL/81" = list("RD/TN/RL/126 | RD/TN/RL/81 | Objective Definition"),
-                               "RD/TN/RL/124" = list("RD/TN/RL/126 | RD/TN/RL/124 | Objective Definition"))
+                               "Default" = list("RD/TN/RL/126/Rev.2 | Objective Definition"),
+                               "TN/RL/GEN/199" = list("RD/TN/RL/126/Rev.2 | TN/RL/GEN/199 | Objective Definition"),
+                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126/Rev.2 | TN/RL/GEN/197/Rev.2 | Objective Definition"),
+                               "RD/TN/RL/81" = list("RD/TN/RL/126/Rev.2 | RD/TN/RL/81 | Objective Definition"),
+                               "RD/TN/RL/124" = list("RD/TN/RL/126/Rev.2 | RD/TN/RL/124 | Objective Definition"))
         
         selected_policy <- proposal_settings %>%
           dplyr::filter(proposal == entry_to_use[[1]])
@@ -235,11 +235,11 @@ shinyServer(function(input, output, session) {
         
         # Get selected overfished discipline
         entry_to_use <- switch(input$w_explore_results_cap_multiple_options,
-                               "Default" = list("RD/TN/RL/126 | Relevant Authorities"),
-                               "TN/RL/GEN/199" = list("RD/TN/RL/126 | TN/RL/GEN/199 | Relevant Authorities"),
-                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126 | TN/RL/GEN/197/Rev.2 | Relevant Authorities"),
-                               "RD/TN/RL/81" = list("RD/TN/RL/126 | RD/TN/RL/81 | Relevant Authorities"),
-                               "RD/TN/RL/124" = list("RD/TN/RL/126 | RD/TN/RL/124 | Relevant Authorities"))
+                               "Default" = list("RD/TN/RL/126/Rev.2 | Relevant Authorities"),
+                               "TN/RL/GEN/199" = list("RD/TN/RL/126/Rev.2 | TN/RL/GEN/199 | Relevant Authorities"),
+                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126/Rev.2 | TN/RL/GEN/197/Rev.2 | Relevant Authorities"),
+                               "RD/TN/RL/81" = list("RD/TN/RL/126/Rev.2 | RD/TN/RL/81 | Relevant Authorities"),
+                               "RD/TN/RL/124" = list("RD/TN/RL/126/Rev.2 | RD/TN/RL/124 | Relevant Authorities"))
         
         selected_policy <- proposal_settings %>%
           dplyr::filter(proposal == entry_to_use[[1]])
@@ -281,23 +281,23 @@ shinyServer(function(input, output, session) {
         
       }else{
         
-        if(selected_policy$proposal %in% c("TN/RL/W/276", "RD/TN/RL/136")){
-          
-          out <- tagList(
-            
-            tags$i("Coming soon! We're in the process of adding this text so it can be modeled. For now it is included for reference only.", style = "color: orange;"),
-            
-            tags$br(),
-            tags$br(),
-            
-            # Run model button (pre-populated proposal)
-            tags$button(id = "ab_run_model_proposal",
-                        class = "btn action-button rounded-button-no-select",
-                        tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")),
-                        style = "width: 100%;")
-          )
-          
-        }else{
+        # if(selected_policy$proposal %in% c("TN/RL/W/276", "RD/TN/RL/136")){
+        #   
+        #   out <- tagList(
+        #     
+        #     tags$i("Coming soon! We're in the process of adding this text so it can be modeled. For now it is included for reference only.", style = "color: orange;"),
+        #     
+        #     tags$br(),
+        #     tags$br(),
+        #     
+        #     # Run model button (pre-populated proposal)
+        #     tags$button(id = "ab_run_model_proposal",
+        #                 class = "btn action-button rounded-button-no-select",
+        #                 tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")),
+        #                 style = "width: 100%;")
+        #   )
+        #   
+        # }else{
         
         out <- tagList(
           
@@ -307,7 +307,7 @@ shinyServer(function(input, output, session) {
                       tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")))
         )
         
-        }
+        #}
         
       }
       
@@ -350,7 +350,9 @@ shinyServer(function(input, output, session) {
       dplyr::filter(proposal == rv_selected_proposal$proposal)
     
     # Make sure it's an allowable proposal to model
-    req(selected_proposal$include != "No" & !(selected_proposal$proposal %in% c("TN/RL/W/276", "RD/TN/RL/136")))
+    req(selected_proposal$include != "No" 
+        #& !(selected_proposal$proposal %in% c("TN/RL/W/276", "RD/TN/RL/136"))
+        )
 
     # Create run name
     run_name <- selected_proposal$proposal

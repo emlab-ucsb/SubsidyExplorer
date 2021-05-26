@@ -80,7 +80,7 @@ ExploreResults = function(proposal_choices)
                     
                     fluidRow(
                       # Conditional panel for overfished definition selection
-                      conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126' || input.w_explore_results_proposal_selection == 'RD/TN/RL/119'",
+                      conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126/Rev.2' || input.w_explore_results_proposal_selection == 'RD/TN/RL/119'",
                                      
                                        column(6, id = "t-spaced-div",
                                             
@@ -96,7 +96,7 @@ ExploreResults = function(proposal_choices)
                     ),
 
                     # Conditional panel for cap selection
-                    conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126'",
+                    conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126/Rev.2'",
                                      
                                      column(6, id = "t-spaced-div",
                                             

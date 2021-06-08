@@ -611,8 +611,8 @@ shinyServer(function(input, output, session) {
         mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
                                     Variable == "catches_total" ~ "Catch",
                                     Variable == "revenue_total" ~ "Revenue",
-                                    Variable == "u_mort_total" ~ "Fishing Mortality")) %>%
-        dplyr::filter(Variable != "Revenue")
+                                    Variable == "u_mort_total" ~ "Fishing Mortality")) #%>%
+        #dplyr::filter(Variable != "Revenue")
                    
       # Add to reactive object
       rv_explore_results$data_global <- global_dat
@@ -649,8 +649,9 @@ shinyServer(function(input, output, session) {
         mutate(Variable = case_when(Variable == "biomass" ~ "Biomass",
                                     Variable == "catches_total" ~ "Catch",
                                     Variable == "revenue_total" ~ "Revenue",
-                                    Variable == "u_mort_total" ~ "Fishing Mortality")) %>%
-        dplyr::filter(Variable != "Revenue")
+                                    Variable == "u_mort_total" ~ "Fishing Mortality")) 
+      #%>%
+        #dplyr::filter(Variable != "Revenue")
                    
       # Add to reactive object
       rv_explore_results$data_regional <- regional_dat
@@ -715,7 +716,7 @@ shinyServer(function(input, output, session) {
     # Make biomass plot
     out_plot_dat <- plot_dat %>%
       dplyr::filter(Variable == plot_variable[[1]])
-
+    
     req(nrow(out_plot_dat) > 0)
     
     plot <-  ggplot()+

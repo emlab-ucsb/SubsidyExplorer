@@ -192,10 +192,6 @@ ExploreResults = function(proposal_choices)
                                                downloadButton("db_explore_results_download_data_global",
                                                               text$item_label[text$item_id == "db_explore_results_download_data_global"] %>% lapply(htmltools::HTML))
                                                
-                                               # tags$button(id = "db_explore_results_download_data",
-                                               #             class = "btn action-button rounded-button-grey download-button",
-                                               #             tags$b(icon("external-link-alt"),
-                                               #                    text$item_label[text$item_id == "db_explore_results_download_data"]))
                                                
                                        ),
                                        
@@ -204,10 +200,6 @@ ExploreResults = function(proposal_choices)
                                                downloadButton("db_explore_results_download_data_regional",
                                                               text$item_label[text$item_id == "db_explore_results_download_data_regional"] %>% lapply(htmltools::HTML))
                                                
-                                               # tags$button(id = "db_explore_results_download_data",
-                                               #             class = "btn action-button rounded-button-grey download-button",
-                                               #             tags$b(icon("external-link-alt"),
-                                               #                    text$item_label[text$item_id == "db_explore_results_download_data"]))
                                                
                                        ),
                                               
@@ -215,10 +207,6 @@ ExploreResults = function(proposal_choices)
                                                       
                                                downloadButton("db_explore_results_download_figure_global",
                                                               text$item_label[text$item_id == "db_explore_results_download_figure_global"] %>% lapply(htmltools::HTML))
-                                               # tags$button(id = "db_explore_results_download_figure",
-                                               #             class = "btn action-button rounded-button-grey download-button",
-                                               #             tags$b(icon("download"),
-                                               #                    text$item_label[text$item_id == "db_explore_results_download_figure"]))
                                                       
                                        ),
                                        
@@ -226,10 +214,6 @@ ExploreResults = function(proposal_choices)
                                                
                                                downloadButton("db_explore_results_download_figure_regional",
                                                               text$item_label[text$item_id == "db_explore_results_download_figure_regional"] %>% lapply(htmltools::HTML))
-                                               # tags$button(id = "db_explore_results_download_figure",
-                                               #             class = "btn action-button rounded-button-grey download-button",
-                                               #             tags$b(icon("download"),
-                                               #                    text$item_label[text$item_id == "db_explore_results_download_figure"]))
                                                
                                        )
                                )

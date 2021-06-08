@@ -108,6 +108,8 @@
 02b,edit-policies,w_overcap_scope,OCOF discipline(s) apply to: ,SELECT,Only some Members and/or type(s) of fishing activity,FALSE,,,,
 02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,SUB,flagged to the 10 Members that provide the most capacity-enhancing fisheries subsidies,FALSE,,,,
 02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,CAPTURE,flagged to Members responsible for more than 1% of global capture production,FALSE,,,,
+02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,CAPTURE2,flagged to Members responsible for more than 2% of global capture production,FALSE,,,,
+02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,CAPTURE_EEZ,flagged to Members responsible for more than 2% of global capture production or those responsible for less than 2% of global capture production fishing outside their own EEZ,FALSE,,,,
 02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,MANUAL,flagged to certain Members,FALSE,,,,
 02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,EX_TER,fishing outside their territorial waters,FALSE,,,,
 02b,edit-policies,w_overcap_scope_select,Select all conditions that must apply : ,HS,fishing in ABNJ,FALSE,,,,

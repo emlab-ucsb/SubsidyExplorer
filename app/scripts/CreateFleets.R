@@ -924,7 +924,7 @@ CreateFleets <- function(vessel_list,
             dplyr::filter(flag_iso3 %in% top_countries_subs)
         }
         
-        # 4) Only those responsible for more than 1% of global capture production    
+        # 4a) Only those responsible for more than 1% of global capture production
       }else if("CAPTURE" %in% overcap$scope_select){
         
         capture_years <- paste0("", seq(2016, 2018, by = 1), "")
@@ -953,6 +953,84 @@ CreateFleets <- function(vessel_list,
             dplyr::filter(flag_iso3 %in% top_countries_capture)
         }
         
+      # 4b) Only those responsible for more than 2% of global capture production
+      }else if("CAPTURE2" %in% overcap$scope_select){
+        
+        capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+        
+        # Country ranking capture 
+        country_ranking_capture <- cap_tier_lookup %>%
+          dplyr::filter(variable == "capture_production") %>%
+          dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
+          mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
+          mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
+          arrange(percent_prod)
+        
+        # Find states responsible for greater than 1% of global capture production
+        top_countries_capture <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod >= 0.02], "-T", "")
+        
+        # Deal with EU
+        if("EU" %in% top_countries_capture){
+          
+          # Filter for top 10 subsidizing Member states
+          overcap_vessels_scope <- overcap_vessels_scope %>%
+            dplyr::filter(flag_iso3 %in% eu_countries | flag_iso3 %in% eu_territories | flag_iso3 %in% top_countries_capture)
+          
+        }else{
+          # Filter for top 10 subsidizing Member states
+          overcap_vessels_scope <- overcap_vessels_scope %>%
+            dplyr::filter(flag_iso3 %in% top_countries_capture)
+        }
+
+        # 4c) All vessels from Members accounting for more than 2% of global capture production, and only non-EEZ activity from Members accounting for less than 2% of global capture production  
+      }else if("CAPTURE_EEZ" %in% overcap$scope_select){
+        
+        capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+        
+        # Country ranking capture 
+        country_ranking_capture <- cap_tier_lookup %>%
+          dplyr::filter(variable == "capture_production") %>%
+          dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
+          mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
+          mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
+          arrange(percent_prod)
+        
+        # Find states responsible for greater than 2% of global capture production
+        top_countries_capture <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod >= 0.02], "-T", "")
+        
+        # Deal with EU and filter for states responsible for more than 2% of global capture production
+        if("EU" %in% top_countries_capture){
+
+          overcap_vessels_scope1 <- overcap_vessels_scope %>%
+            dplyr::filter(flag_iso3 %in% eu_countries | flag_iso3 %in% eu_territories | flag_iso3 %in% top_countries_capture)
+          
+        }else{
+
+          overcap_vessels_scope1 <- overcap_vessels_scope %>%
+            dplyr::filter(flag_iso3 %in% top_countries_capture)
+        }
+        
+        # Now Find states responsible for less than 2% of global capture production
+        bottom_countries_capture <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod < 0.02], "-T", "")
+        
+        # Deal with EU and filter for high seas and DW activity from states responsible for less than 2% of global capture production
+        if("EU" %in% bottom_countries_capture){
+
+          overcap_vessels_scope2 <- overcap_vessels_scope %>%
+            dplyr::filter(flag_iso3 %in% eu_countries | flag_iso3 %in% eu_territories | flag_iso3 %in% bottom_countries_capture) %>%
+            dplyr::filter(distant_water | prop_fishing_KWh_high_seas >= (overcap$hs_cutoff/100))
+          
+        }else{
+
+          overcap_vessels_scope2 <- overcap_vessels_scope %>%
+            dplyr::filter(flag_iso3 %in% bottom_countries_capture) %>%
+            dplyr::filter(distant_water | prop_fishing_KWh_high_seas >= (overcap$hs_cutoff/100))
+        }
+        
+        # Combine
+        overcap_vessels_scope <- overcap_vessels_scope1 %>%
+          bind_rows(overcap_vessels_scope2)
+
         # 5) Only those vessels fishing on the high seas    
       }else if("HS" %in% overcap$scope_select & !is.na(overcap$hs_cutoff)){
         
@@ -1381,7 +1459,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
                                                iso3 == "EU" ~ "Developed",
                                                TRUE ~ "Developing")) %>%
          mutate(new_tier = case_when(development_status == "Developed" ~ 1, 
-                                     development_status == "Developing" ~ 2,
+                                     development_status == "Developing" ~ 1,
                                      development_status == "LDC" ~ 2,
                                      TRUE ~ 2)) %>%
          arrange(iso3)
@@ -1429,7 +1507,7 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
          bind_rows(missing_countries_df)
      }
-       
+     
      ### Get flag states in Tier 1
      tier_1_flags <- unique(cap_tier_dat_sorted$iso3[cap_tier_dat_sorted$new_tier == 1])
      
@@ -1440,9 +1518,9 @@ overcap_vessels_out <- overcap_vessels_scope %>%
      }
      
      if(any(tier_1_flags %in% territories$sovereign_iso3)){
-       ter_flags_out <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_1_flags))$iso3
+       ter_flags_out1 <- (territories %>% dplyr::filter(sovereign_iso3 %in% tier_1_flags))$iso3
      }else{
-       ter_flags_out <- NULL
+       ter_flags_out1 <- NULL
      }  
      
      tier_1_flags_out <- c(tier_1_flags, eu_flags_out1, ter_flags_out1)

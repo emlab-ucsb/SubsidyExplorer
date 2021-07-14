@@ -54,7 +54,7 @@ if(make_plots){
   library(forcats)
 }
 
-# Temporary solution to bigrquery error (August 5, 2020) - see https://github.com/r-dbi/bigrquery/issues/395 for details
+# Solution to bigrquery error (August 5, 2020) - see https://github.com/r-dbi/bigrquery/issues/395 for details
 options(scipen = 20)
 ```
 

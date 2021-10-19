@@ -2,7 +2,7 @@
 output:
   html_document: default
 
-title: "SubsidyExplorer - Step 4: Apply proposal 'definitions' to vessel list"
+title: "SubsidyExplorer - Step 5: Apply proposal 'definitions' to vessel list"
 author: "Kat Millage, Vienna Saccomanno, Laura Lea Rubino, Christopher Costello"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 fontsize: 11pt

@@ -10,7 +10,7 @@ bibliography: "../pew-subsidies.bib"
 ---
 # Introduction 
 
-This script generates alternative global and regional results. 
+This script generates the most ambitious global and regional results obtained by removing all capacity enhancing subsidies from all WTO Members and Observers. This is effectively the reference case scenario for our model, which will be used later as a benchmark to which we can compare the results of specific proposals. 
 
 ```{r setup, include=FALSE}
 # Load packages

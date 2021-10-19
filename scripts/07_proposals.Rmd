@@ -2,7 +2,7 @@
 output:
   html_document: default
 
-title: "SubsidyExplorer - Step 6: Run Model"
+title: "SubsidyExplorer - Step 7: Pre-Populated Proposals"
 author: "Kat Millage, Vienna Saccomanno, Laura Lea Rubino, Christopher Costello"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 fontsize: 11pt

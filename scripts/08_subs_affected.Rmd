@@ -10,7 +10,7 @@ bibliography: "../pew-subsidies.bib"
 ---
 # Introduction 
 
-This script outputs the amounts of subsidies affected by each discipline type (and/or definition) in SubsidyExplorer. This was requested by Anthony to aid in his analyses. 
+This script outputs the amounts of subsidies affected by each discipline type (and/or definition) in SubsidyExplorer. This was requested by Anthony Rogers to aid in his analyses for Pew. 
 
 ```{r setup, include=FALSE}
 # Load packages
@@ -73,6 +73,28 @@ subs_affected_iuu_out <- subs_affected_iuu %>%
   bind_rows(subs_affected_disputed)
 
 write_csv(subs_affected_iuu_out, paste0(results_dir, "subs_affected_iuu_out.csv"))
+
+# Now do the same by country
+subs_affected_flag_iuu <- vessel_dat %>%
+  group_by(iuu1, flag_iso3) %>%
+  summarize(across(iuu_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "IUU - RFMO Lists") %>%
+  relocate(description) %>%
+  rename(affected = iuu1) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_disputed <- vessel_dat %>%
+  group_by(is_disputed, flag_iso3) %>%
+  summarize(across(iuu_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "IUU - Disputed Area") %>%
+  relocate(description) %>%
+  rename(affected = is_disputed) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_iuu_out <- subs_affected_flag_iuu %>%
+  bind_rows(subs_affected_flag_disputed)
+
+write_csv(subs_affected_flag_iuu_out, paste0(results_dir, "subs_affected_flag_iuu_out.csv"))
 ```
 
 # Overfished
@@ -148,5 +170,82 @@ subs_affected_oa_out <- subs_affected_oa1_median %>%
   bind_rows(subs_affected_oa4_w_mean)
 
 write_csv(subs_affected_oa_out, paste0(results_dir, "subs_affected_overfished_out.csv"))
+```
+
+```{r}
+subs_affected_flag_oa1_median <- vessel_dat %>%
+  group_by(oa1_median, flag_iso3) %>%
+  summarize(across(oa_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "Overfished - Median BvBmsy < 1 (RAM stocks only)") %>%
+  relocate(description) %>%
+  rename(affected = oa1_median) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_oa1_w_mean <- vessel_dat %>%
+  group_by(oa1_w_mean, flag_iso3) %>%
+  summarize(across(oa_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "Overfished - Weighted Mean BvBmsy < 1 (RAM stocks only)") %>%
+  relocate(description) %>%
+  rename(affected = oa1_w_mean) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_oa2_median <- vessel_dat %>%
+  group_by(oa2_median, flag_iso3) %>%
+  summarize(across(oa_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "Overfished - Median BvBmsy < 0.8 (RAM stocks only)") %>%
+  relocate(description) %>%
+  rename(affected = oa2_median) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_oa2_w_mean <- vessel_dat %>%
+  group_by(oa2_w_mean, flag_iso3) %>%
+  summarize(across(oa_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "Overfished - Weighted Mean BvBmsy < 0.8 (RAM stocks only)") %>%
+  relocate(description) %>%
+  rename(affected = oa2_w_mean) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_oa3_median <- vessel_dat %>%
+  group_by(oa3_median, flag_iso3) %>%
+  summarize(across(oa_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "Overfished - Median BvBmsy < 1 (All Costello et al. 2016 stocks)") %>%
+  relocate(description) %>%
+  rename(affected = oa3_median) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_oa3_w_mean <- vessel_dat %>%
+  group_by(oa3_w_mean, flag_iso3) %>%
+  summarize(across(oa_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "Overfished - Weighted Mean BvBmsy < 1 (All Costello et al. 2016 stocks)") %>%
+  relocate(description) %>%
+  rename(affected = oa3_w_mean) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_oa4_median <- vessel_dat %>%
+  group_by(oa4_median, flag_iso3) %>%
+  summarize(across(oa_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "Overfished - Median BvBmsy < 0.8 (All Costello et al. 2016 stocks)") %>%
+  relocate(description) %>%
+  rename(affected = oa4_median) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_oa4_w_mean <- vessel_dat %>%
+  group_by(oa4_w_mean, flag_iso3) %>%
+  summarize(across(oa_cols, ~ sum(.x, na.rm = T))) %>%
+  mutate(description = "Overfished - Weighted Mean BvBmsy < 0.8 (All Costello et al. 2016 stocks)") %>%
+  relocate(description) %>%
+  rename(affected = oa4_w_mean) %>%
+  arrange(flag_iso3)
+
+subs_affected_flag_oa_out <- subs_affected_flag_oa1_median %>%
+  bind_rows(subs_affected_flag_oa1_w_mean) %>%
+  bind_rows(subs_affected_flag_oa2_median) %>%
+  bind_rows(subs_affected_flag_oa2_w_mean) %>%
+  bind_rows(subs_affected_flag_oa3_median) %>%
+  bind_rows(subs_affected_flag_oa3_w_mean) %>%
+  bind_rows(subs_affected_flag_oa4_median) %>%
+  bind_rows(subs_affected_flag_oa4_w_mean)
+
+write_csv(subs_affected_flag_oa_out, paste0(results_dir, "subs_affected_flag_overfished_out.csv"))
 ```
 

@@ -720,8 +720,6 @@ shinyServer(function(input, output, session) {
                                   "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
       theme_bw()+
       scale_color_manual(values = rv_results_color_pal$pal[names(rv_results_color_pal$pal) %in% out_plot_dat$Name])+
-                           #proposal_color_pal[names(proposal_color_pal) %in% unique(out_plot_dat$Type)])+
-      #geom_hline(yintercept = 0)+
       scale_x_continuous(expand = c(0,0))+
       labs(x = "Year", y = plot_variable[[2]])+
       theme(legend.position = "none")+
@@ -760,9 +758,6 @@ shinyServer(function(input, output, session) {
       
       out_plot <- cowplot::plot_grid(rv_explore_results$plot_global + theme(legend.position = "none",
                                                                               plot.margin = unit(c(1, 0.25, 0.25, 0.25), "in")))
-                                     # plot_legend,
-                                     # ncol = 1,
-                                     # rel_heights = c(3,1))
       
       # Now Add Table on the next page
       global_df <- rv_explore_results$data_global %>%
@@ -832,8 +827,6 @@ shinyServer(function(input, output, session) {
                               inline = TRUE,
                               prettyOptions = list(icon = icon("check"),
                                                    status = "default"))
-                                # status = "primary",
-                                #                    fill = TRUE))
   })
 
   ### Update checkboxGroupInput: Add new choices for each proposal that's run ----------
@@ -850,8 +843,6 @@ shinyServer(function(input, output, session) {
                               inline = TRUE,
                               prettyOptions = list(icon = icon("check"),
                                                    status = "default"))
-                                # list(status = "warning",
-                                #                    fill = TRUE))
   })
   
   
@@ -1484,9 +1475,20 @@ shinyServer(function(input, output, session) {
                                                  reverse = T,
                                                  log10(c(100, 10e9)))
     
+    # Blank polygons to fix tile copyright issue
+    global_land_shp <- world_eu %>%
+      dplyr::filter(!admin_iso3 %in% eu_countries[eu_countries != "EU"]) %>%
+      na.omit()
+    
     # Map
     leaflet('global_subsidies_map', options = leafletOptions(minZoom = 2, maxZoom = 4, zoomControl = TRUE)) %>% 
-      addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
+      # addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
+      # Add blank, non-selectable polygons for countries
+      addPolygons(data = global_land_shp, 
+                  fillColor = "#FAF8F2",
+                  fillOpacity = 1,
+                  color= "#EDDCDD",
+                  weight = 0.5) %>%
       addCircles(data = rv_global_subsidies$points,
                  color = ~global_subsidies_map_pal(log10(value)),
                  fillOpacity = 1,
@@ -1497,9 +1499,6 @@ shinyServer(function(input, output, session) {
                                               color = "#666",
                                               fillOpacity = 1,
                                               bringToFront = FALSE)
-                 #label = rv_global_subsidies$points_text,
-                 #labelOptions = labelOptions(style = list("font-weight" = "normal",
-                                                          #direction = "auto")
                  ) %>%
       addPolygons(data = rv_global_subsidies$polygons, 
                   fillColor = ~global_subsidies_map_pal(log10(value)),
@@ -2560,9 +2559,20 @@ shinyServer(function(input, output, session) {
                                                      reverse = F,
                                                      log10(rv_global_fishing_footprint$polygons$fishing_KWh))
     
+    # Blank polygons to fix tile copyright issue
+    global_land_shp <- world_eu %>%
+      dplyr::filter(!admin_iso3 %in% eu_countries[eu_countries != "EU"]) %>%
+      na.omit()
+    
     # Map
     leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 2, maxZoom = 4, zoomControl = TRUE)) %>%
-      addProviderTiles("CartoDB.VoyagerNoLabels") %>%
+      #addProviderTiles("CartoDB.VoyagerNoLabels") %>%
+      # Add blank, non-selectable polygons for countries
+      addPolygons(data = global_land_shp, 
+                  fillColor = "#FAF8F2",
+                  fillOpacity = 1,
+                  color= "#EDDCDD",
+                  weight = 0.5) %>%
       addPolygons(data = rv_global_fishing_footprint$polygons,
                   fillColor = ~global_fishing_footprint_map_pal(log10(fishing_KWh)),
                   fillOpacity = 0.7,

@@ -8,6 +8,11 @@
 GlobalFishingFootprint = function() 
   fluidPage(
     
+    # Dealing with leaflet map background color here
+    tags$head(
+      tags$style(HTML(".leaflet-container { background: #D5E8EB; }"))
+    ),
+    
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     

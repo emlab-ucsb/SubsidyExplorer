@@ -456,6 +456,18 @@ all_results_global_output_table_2050_pretty <- all_results_global_output_table %
 
 write.csv(all_results_global_output_table_2050_pretty, paste0(results_dir, "all_results_global_output_table_2050_pretty.csv"))
 
+# Now make a min, max, and average for each proposal type
+summary_results_global_2050_pretty <- all_results_global_output_table_2050_pretty %>%
+  gather(Variable, Value, c("Biomass", "Catches", "Revenue", "Fishing Mortality")) %>%
+  group_by(Category, Year, Variable) %>%
+  summarize(Minimum = min(Value, na.rm = T),
+            Maximum = max(Value, na.rm = T),
+            Median = median(Value, na.rm = T),
+            Mean = mean(Value, na.rm = T)) %>%
+  arrange(Category)
+
+write.csv(summary_results_global_2050_pretty, paste0(results_dir, "summary_results_global_2050_pretty.csv"))
+
 # Get rounded end values
 global_biomass_2050 <- round(all_results_global_output_table$Biomass[all_results_global_output_table$Year == 2050 & all_results_global_output_table$Id == "Ambitious Reform"]*100, 2)
 global_biomass_end <- round(all_results_global_output_table$Biomass[all_results_global_output_table$Year == end_year & all_results_global_output_table$Id == "Ambitious Reform"]*100, 2)
@@ -493,6 +505,18 @@ all_results_regional_output_table_2050_pretty <- all_results_regional_output_tab
          `Fishing Mortality` = round(`Fishing Mortality`*100, 3))
 
 write.csv(all_results_regional_output_table_2050_pretty, paste0(results_dir, "all_results_regional_output_table_2050_pretty.csv"))
+
+# Now make a min, max, and average for each proposal type
+summary_results_regional_2050_pretty <- all_results_regional_output_table_2050_pretty %>%
+  gather(Variable, Value, c("Biomass", "Catches", "Revenue", "Fishing Mortality")) %>%
+  group_by(Region, Category, Year, Variable) %>%
+  summarize(Minimum = min(Value, na.rm = T),
+            Maximum = max(Value, na.rm = T),
+            Median = median(Value, na.rm = T),
+            Mean = mean(Value, na.rm = T)) %>%
+  arrange(Region, Category)
+
+write.csv(summary_results_regional_2050_pretty, paste0(results_dir, "summary_results_regional_2050_pretty.csv"))
 ```
 
 ## Do the same with aboslute values

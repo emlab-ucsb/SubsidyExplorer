@@ -332,22 +332,6 @@ ExploreResults = function(proposal_choices)
 
              )
 
-             ### ------------------------------------------------
-
-             # ### Section Title ---
-             # column(12, id = "section-title-div-underline",
-             #
-             #        tags$h4(text$item_label[text$item_id == "selected_results_selected_scenario_header"])
-             #
-             # ),
-             #
-             # ### Selected Policy Description ---
-             # column(12, id = "tb-spaced-div",
-             #
-             #        uiOutput("selected_results_selected_policy_description")
-             #
-             # )
-
       )
 
     ) # /fluidRow
@@ -355,5 +339,3 @@ ExploreResults = function(proposal_choices)
     ) #/column 12 - main
         
   ) # /fluidPage
-  
-  

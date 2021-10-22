@@ -2,7 +2,7 @@
 ### SubsidyExplorer
 ### An interactive toolkit to explore the tradeoffs across proposed fisheries subsidies disciplines
 ### 
-### This script contains the content for the "oa" box on the edit-policies" tab
+### This script contains the content for the "Overfished" box on the edit-policies" tab
 ### --------------------------------------------------------------------
 
 OA = function(wto_members_and_observers) 
@@ -27,10 +27,6 @@ OA = function(wto_members_and_observers)
                                             
                                             label = tagList(
                                               tags$b(text$item_label[text$item_id == "w_oa_definitions"])
-                                              # # OA definitions info button
-                                              # tags$button(id = "info_oa",
-                                              #             class = "btn action-button info-button",
-                                              #             icon("info"))
                                             ), 
                                             choices = unlist(wid$choices[wid$item_id == "w_oa_definitions"]),
                                             selected = unlist(wid$selected[wid$item_id == "w_oa_definitions"]),
@@ -100,10 +96,6 @@ OA = function(wto_members_and_observers)
                                                                             sliderInput("w_oa_hs_cutoff",
                                                                                         label = tagList(
                                                                                           tags$b(text$item_label[text$item_id == "w_oa_hs_cutoff"])
-                                                                                          # # Info button
-                                                                                          # tags$button(id = "info_oa_hs",
-                                                                                          #             class = "btn action-button info-button",
-                                                                                          #             icon("info"))
                                                                                         ),
                                                                                         min = wid$min[wid$item_id == "w_oa_hs_cutoff"],
                                                                                         max = wid$max[wid$item_id == "w_oa_hs_cutoff"],
@@ -177,10 +169,6 @@ OA = function(wto_members_and_observers)
                                           radioButtons("w_oa_allow_sdt",
                                                        label = tagList(
                                                          tags$b(text$item_label[text$item_id == "w_oa_allow_sdt"])
-                                                         # # Info button
-                                                         # tags$button(id = "info_oa_sdt",
-                                                         #             class = "btn action-button info-button",
-                                                         #             icon("info"))
                                                        ),
                                                        choices = unlist(wid$choices[wid$item_id == "w_oa_allow_sdt"]),
                                                        selected = unlist(wid$selected[wid$item_id == "w_oa_allow_sdt"]),

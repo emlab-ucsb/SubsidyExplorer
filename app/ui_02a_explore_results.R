@@ -80,7 +80,7 @@ ExploreResults = function(proposal_choices)
                     
                     fluidRow(
                       # Conditional panel for overfished definition selection
-                      conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126/Rev.2' || input.w_explore_results_proposal_selection == 'RD/TN/RL/119'",
+                      conditionalPanel("input.w_explore_results_proposal_selection == 'RD/TN/RL/126/Rev.2' || input.w_explore_results_proposal_selection == 'RD/TN/RL/119/Rev.1'",
                                      
                                        column(6, id = "t-spaced-div",
                                             
@@ -104,10 +104,10 @@ ExploreResults = function(proposal_choices)
                                             radioButtons("w_explore_results_cap_multiple_options",
                                                          label = tags$b(text$item_label[text$item_id == "w_explore_results_cap_multiple_options"]),
                                                          choices = c("None" = "Default",
-                                                                     "Philippines" = "RD/TN/RL/81",
-                                                                     "US and others" = "TN/RL/GEN/197/Rev.2",
-                                                                     "China" = "TN/RL/GEN/199",
-                                                                     "Brazil" = "RD/TN/RL/124"),
+                                                                     "De minimis" = "RD/TN/RL/81",
+                                                                     "Tiers" = "TN/RL/GEN/197/Rev.2",
+                                                                     "Optional criteria" = "TN/RL/GEN/199",
+                                                                     "Formula" = "RD/TN/RL/124"),
                                                          selected = "Default",
                                                          width = "100%")
                                             
@@ -118,17 +118,8 @@ ExploreResults = function(proposal_choices)
                     # Selected proposal info
                     column(12, id = "t-spaced-div", align = "center",
                            
-                           # # Can not model wraning
-                           # tags$i(textOutput("can_not_model_warning"), style = "color: red;"),
-                           
                            # Reactive run model button
                            uiOutput("run_model_button")
-                           
-                           # # Run model button (pre-populated proposal)
-                           # tags$button(id = "ab_run_model_proposal",
-                           #             class = "btn action-button rounded-button",
-                           #             tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")))
-
                            
                     ),
                                      

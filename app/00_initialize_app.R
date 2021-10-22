@@ -279,13 +279,16 @@ bio_dat_list <- bio_dat %>%
 cap_tier_lookup_table <- read_csv("./data/cap_tier_lookup_table.csv")
 
 # 2) Proposal settings
-proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
+#proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
+proposal_settings <- read.csv("./data/wto_proposal_settings_v2.csv", stringsAsFactors = F)
 
 # Proposal names
 included_proposals <- proposal_settings %>%
   dplyr::filter(include != "Alternate") %>%
   mutate(display_name = case_when(proposal == "Default" ~ "None",
-                                  TRUE ~ paste0(title_tool, " (", proposal, ")"))) %>%
+                                  TRUE ~ title_tool)) %>%
+  # mutate(display_name = case_when(proposal == "Default" ~ "None",
+  #                                 TRUE ~ paste0(title_tool, " (", proposal, ")"))) %>%
   dplyr::select(category, proposal, display_name) %>%
   arrange(category)
 
@@ -307,7 +310,6 @@ best_result_color <- c("#EB4648")
 names(best_result_color) <- c("Most ambitious scenario")
 
 big_color_palette <- colorRampPalette(brewer.pal(8, "Dark2"))(25)
-#names(results_color_pal) <- rv_results$run$name[rv_results$run$name != "Most ambitious scenario"]
 
 ### OTHER DATA -------------------------------------------------------------------------------------------
 

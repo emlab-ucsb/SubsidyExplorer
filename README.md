@@ -1,6 +1,6 @@
 # SubsidyExplorer
 
-This repository contains all data and code for the SubsidyExplorer tool (www.subsidyexplorer.com), and the findings of the paper titled "SubsidyExplorer: A decision-support tool to improve our understanding of the ecological and economic effects of reforming fisheries subsidies" currently under consideration by PLOS ONE.
+This repository contains all data and code for the SubsidyExplorer tool (www.subsidyexplorer.org), and the findings of the paper titled "SubsidyExplorer: A decision-support tool to improve our understanding of the ecological and economic effects of reforming fisheries subsidies" currently under consideration by PLOS ONE.
 
 <a href="https://doi.org/10.5281/zenodo.5593733"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5593733.svg" alt="DOI"></a>
 

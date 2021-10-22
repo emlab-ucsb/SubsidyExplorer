@@ -17,7 +17,8 @@ BioEconomicModelPlots <- function(dat,
                                   color_var = "run_group",
                                   size_var = "Mortality",
                                   legend_pos_manual = "none",
-                                  legend_name = ""){
+                                  legend_name = "",
+                                  plot_type = "point"){
   
   ### General theme
   plot_theme <- theme_linedraw()+
@@ -76,24 +77,23 @@ BioEconomicModelPlots <- function(dat,
       labs(x = "Year", y = "Change relative to BAU (%)", color = legend_name)+
       plot_theme +
       theme(legend.position = legend_pos_manual)+
-      facet_grid(Fleet+Variable~Region)
+      facet_grid(Variable~Region)
     
   }else if(temporal_res == "last"){
     
-    plot_dat <- plot_dat %>%
-      dplyr::filter(Year == end_year) %>%
-      group_by(Year, Variable, Fleet, Region, run_id, run_name, run_group) %>%
-      summarize(Value = unique(Diff_tot)) %>%
-      ungroup() %>%
-      spread(Variable, Value)
+    if(plot_type == "point"){
+      
+      plot_dat <- plot_dat %>%
+        dplyr::filter(Year == end_year) %>%
+        group_by(Year, Variable, Fleet, Region, run_id, run_name, run_group) %>%
+        summarize(Value = unique(Diff_tot)) %>%
+        ungroup() %>%
+        spread(Variable, Value)
     
     x_limits <- c(min(0,plyr::round_any(min(plot_dat$Biomass), 0.05, f = floor)), 
                   plyr::round_any(max(plot_dat$Biomass), 0.05, f = ceiling))
-    y_limits <- c(min(0,plyr::round_any(min(plot_dat$Catches), 0.05, f = floor)), 
+    y_limits <- c(min(0,plyr::round_any(min(plot_dat$Catches), 0.01, f = floor)), 
                   plyr::round_any(max(plot_dat$Catches), 0.05, f = ceiling))
-  
-    # size_limits <- c(min(0,plyr::round_any(min(plot_dat$`eRevenue`), 0.01, f = floor)), 
-    #                 plyr::round_any(max(plot_dat$Revenue), 0.01, f = ceiling))
     
     plot <- plot_dat %>%
       ggplot()+
@@ -115,7 +115,36 @@ BioEconomicModelPlots <- function(dat,
                  name = "Change in fishing mortality\nrelative to BAU (%)")+
       #guides(size = guide_legend(reverse = F))+
       theme(legend.position = legend_pos_manual)+
-      facet_grid(Fleet~Region)
+      facet_grid(~Region)
+    
+    }else if(plot_type == "box"){
+      
+      plot_dat_out <- plot_dat %>%
+        dplyr::filter(Year == end_year) %>%
+        group_by(Year, Variable, Fleet, Region, run_id, run_name, run_group) %>%
+        summarize(Value = unique(Diff_tot)) %>%
+        ungroup() 
+      
+      plot <- plot_dat_out %>%
+        #dplyr::filter(run_id != "Ambitious Reform") %>%
+        ggplot()+
+        aes(x = Value, y = run_group)+
+        aes_string(color = color_var, group = group_var)+
+        geom_boxplot()+
+        geom_vline(xintercept = 0, linetype = 2)+
+        scale_x_continuous(labels = percent)+
+        plot_theme+
+        labs(x = "Change relative to BAU (%)",
+             y = "",
+             color = legend_name)+
+        theme(legend.position = legend_pos_manual)+
+        facet_grid(Variable~Region, scales = "free_x") +
+        theme(axis.text.y = element_blank(),
+              axis.ticks.y = element_blank())
+        #coord_flip()
+      
+      
+    }
     
   }
   

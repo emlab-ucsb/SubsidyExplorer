@@ -115,16 +115,17 @@ bio_dat_regional_list <- bio_dat_regional %>%
 
 ```{r}
 # Proposal settings
-proposal_settings <- read.csv(here::here("app", "data", "wto_proposal_settings.csv"), stringsAsFactors = F)
+#proposal_settings <- read.csv(here::here("app", "data", "wto_proposal_settings.csv"), stringsAsFactors = F)
+proposal_settings <- read.csv(here::here("app", "data", "wto_proposal_settings_v2.csv"), stringsAsFactors = F)
 
 # Proposal names
 included_proposals <- proposal_settings %>%
   dplyr::filter(include %in% c("Yes", "Alternate")) %>%
   mutate(display_name = case_when(proposal == "Default" ~ "None",
-                                  TRUE ~ paste0(title_tool, " (", proposal, ")"))) %>%
+                                  TRUE ~ title_tool)) %>%
   dplyr::select(category, proposal, display_name) %>%
   arrange(category) %>%
-  dplyr::filter(!(proposal %in% c("RD/TN/RL/126", "RD/TN/RL/119"))) # remove blank entries for tool
+  dplyr::filter(!(proposal %in% c("RD/TN/RL/126/Rev.2", "RD/TN/RL/119/Rev.1"))) # remove blank entries for tool
 
 proposal_choices <- included_proposals$proposal
 names(proposal_choices) <- included_proposals$display_name
@@ -301,7 +302,7 @@ most_ambitious_results <- read_csv(paste0(here::here("results", "06-run-model/")
          run_group = "Ambitious Reform")
 
 plot_results <- proposal_results %>%
-  dplyr::filter(run_id != "RD/TN/RL/103") %>%
+  #dplyr::filter(run_id != "RD/TN/RL/103") %>%
   bind_rows(most_ambitious_results)
 
 # Make plots
@@ -329,7 +330,7 @@ if(make_plots){
                                             end_year = end_year,
                                             plot_name = "all_proposals_end_plot",
                                             plot_width = 8,
-                                            plot_height = 8,
+                                            plot_height = 6,
                                             results_dir = results_dir,
                                             group_var = "run_id",
                                             color_var = "run_group",
@@ -342,8 +343,8 @@ if(make_plots){
                                             temporal_res = "last",
                                             end_year = 2050,
                                             plot_name = "all_proposals_2050_plot",
-                                            plot_width = 8,
-                                            plot_height = 8,
+                                            plot_width = 7.5,
+                                            plot_height = 4,
                                             results_dir = results_dir,
                                             group_var = "run_id",
                                             color_var = "run_group",
@@ -395,7 +396,29 @@ if(make_plots){
 }
 ```
 
-## Extract 2060 and end year results for all proposals and save as nice tables
+```{r}
+  # A) global (aggregated) "kobe" final year plot
+  box_2050_plot <- BioEconomicModelPlots(dat = plot_results,
+                                            spatial_res = "global",
+                                            temporal_res = "last",
+                                            end_year = 2050,
+                                            plot_name = "box_scenario_type_2050_plot",
+                                            plot_width = 7.5,
+                                            plot_height = 6,
+                                            results_dir = results_dir,
+                                            group_var = "run_group",
+                                            color_var = "run_group",
+                                            legend_pos_manual = "bottom",
+                                            legend_name = "Scenario Type",
+                                            plot_type = "box")
+
+figure_5 <- cowplot::plot_grid(box_2050_plot, compare_2050_plot, ncol = 1, rel_heights = c(1,0.75), axis = "lr", align = "v", labels = c("(A)", "(B)"), hjust = -1)
+ggsave(paste0(results_dir, "Fig5.tiff"), figure_5, width = 7.5, height = 8)
+
+```
+
+
+## Extract 2050 and end year results for all proposals and save as nice tables
 
 ```{r}
 all_results_global_output_table <- plot_results %>%
@@ -420,6 +443,18 @@ all_results_global_output_table <- plot_results %>%
   spread(Variable, Diff_tot)
 
 write.csv(all_results_global_output_table, paste0(results_dir, "all_results_global_output_table.csv"))
+
+# Now make a pretty version for 2050 only
+all_results_global_output_table_2050_pretty <- all_results_global_output_table %>%
+  dplyr::filter(Year == 2050) %>%
+  ungroup() %>%
+  arrange(Category, desc(Biomass)) %>%
+  mutate(Biomass = round(Biomass*100, 3),
+         Catches = round(Catches*100, 3),
+         Revenue = round(Revenue*100, 3),
+         `Fishing Mortality` = round(`Fishing Mortality`*100, 3))
+
+write.csv(all_results_global_output_table_2050_pretty, paste0(results_dir, "all_results_global_output_table_2050_pretty.csv"))
 
 # Get rounded end values
 global_biomass_2050 <- round(all_results_global_output_table$Biomass[all_results_global_output_table$Year == 2050 & all_results_global_output_table$Id == "Ambitious Reform"]*100, 2)
@@ -446,6 +481,18 @@ all_results_regional_output_table <- plot_results %>%
   spread(Variable, Diff)
   
 write.csv(all_results_regional_output_table, paste0(results_dir, "all_results_regional_output_table.csv"))
+
+# Now make a pretty version for 2050 only
+all_results_regional_output_table_2050_pretty <- all_results_regional_output_table %>%
+  dplyr::filter(Year == 2050) %>%
+  ungroup() %>%
+  arrange(Region, Category, desc(Biomass)) %>%
+  mutate(Biomass = round(Biomass*100, 3),
+         Catches = round(Catches*100, 3),
+         Revenue = round(Revenue*100, 3),
+         `Fishing Mortality` = round(`Fishing Mortality`*100, 3))
+
+write.csv(all_results_regional_output_table_2050_pretty, paste0(results_dir, "all_results_regional_output_table_2050_pretty.csv"))
 ```
 
 ## Do the same with aboslute values

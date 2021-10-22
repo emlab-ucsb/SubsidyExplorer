@@ -4,7 +4,8 @@
 ### 
 ### Creator(s): Kat Millage and Vienna Saccomanno
 ### Release date (v1): July 2019
-### Release date (final): October 2020 
+### Release date (v2): October 2020 
+### Release date (v3): October 2021 - PLOS ONE paper
 ### 
 ### This is the script outlining the user interface for the application
 ### User interface details for each page are specified in their own individual files
@@ -44,8 +45,6 @@ library(rnaturalearthdata)
 library(rgeos)
 library(cowplot)
 library(scales)
-#library(png)
-#library(ggpubr) # plot arranging
 library(gridExtra)
 library(grid)
 library(RColorBrewer) # other color scales
@@ -100,19 +99,10 @@ shinyUI(
                             class = "btn action-button") # /h3
             ), # /tags$li
             
-            # SFG logo
-            tags$li(
-                class = "dropdown",
-                a(href = 'http://sfg.msi.ucsb.edu/',
-                  img(src = 'sfg-logo-white.png', title = text$item_label[text$item_id == "sfg_logo"], height = "40px"), 
-                  style = "padding-top:10px; padding-bottom:10px;"
-                  ) # /a
-            ), # /tags$li
-            
             # emLab logo
             tags$li(
                 class = "dropdown",
-                a(href = 'http://emlab.msi.ucsb.edu/',
+                a(href = 'https://emlab.ucsb.edu/',
                   img(src = 'emlab_logo_horizontal_w.png', title = text$item_label[text$item_id == "emlab_logo"], height = "40px"), 
                   style = "padding-top:10px; padding-bottom:10px;"
                 ) # /a

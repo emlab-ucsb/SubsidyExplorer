@@ -5,9 +5,9 @@ account: emlab-ucsb
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 974185
-bundleId: 5168431
+bundleId: 5372543
 url: https://emlab-ucsb.shinyapps.io/SubsidyExplorer/
-when: 1634942053.87571
-lastSyncTime: 1634942053.87572
+when: 1639507516.65766
+lastSyncTime: 1639507516.65767
 asMultiple: FALSE
 asStatic: FALSE

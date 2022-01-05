@@ -272,9 +272,11 @@ bio_dat_list <- bio_dat %>%
 # 1) Cap/tier lookup table
 cap_tier_lookup_table <- read_csv("./data/cap_tier_lookup_table.csv")
 
+sdt_lookup_table <- read_csv("./data/sdt_lookup_table.csv")
+
 # 2) Proposal settings
 #proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
-proposal_settings <- read.csv("./data/wto_proposal_settings_v2.csv", stringsAsFactors = F)
+proposal_settings <- read.csv("./data/wto_proposal_settings_v3.csv", stringsAsFactors = F)
 
 # Proposal names
 included_proposals <- proposal_settings %>%

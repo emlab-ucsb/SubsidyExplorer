@@ -474,7 +474,8 @@ shinyServer(function(input, output, session) {
           managed_threshold = managed_cutoff,
           subsidy_types_all = subsidy_types_sorted_sumaila,
           cap_tier_lookup = cap_tier_lookup_table,
-          country_lookup = country_lookup)
+          country_lookup = country_lookup,
+          sdt_lookup = sdt_lookup_table)
 
         # Create list by region
         fleet_list <- fleet$summary %>%
@@ -1096,7 +1097,8 @@ shinyServer(function(input, output, session) {
         managed_threshold = managed_cutoff,
         subsidy_types_all = subsidy_types_sorted_sumaila,
         cap_tier_lookup = cap_tier_lookup_table,
-        country_lookup = country_lookup)
+        country_lookup = country_lookup,
+        sdt_lookup = sdt_lookup_table)
       
       # Make list
       fleet_list <- fleet$summary %>%

@@ -1088,7 +1088,14 @@ CreateFleets <- function(vessel_list,
         overcap_vessels_scope <- overcap_vessels_scope %>%
           dplyr::filter(fmi_best < managed_threshold | distant_water | prop_fishing_KWh_high_seas >= (overcap$hs_cutoff/100))
         
-    }
+      # 12) All fishing by OA vessels  
+      }else if("OA" %in% overcap$scope_select){
+        
+        # Filter for unmananaged 
+        overcap_vessels_scope <- overcap_vessels_scope %>%
+          dplyr::filter(fmi_best < managed_threshold)
+        
+      }
       
     } # /SELECT
     
@@ -1178,9 +1185,9 @@ CreateFleets <- function(vessel_list,
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
         dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_developing/100))
       
-    }else if("TER/CRI3" %in% overcap$sdt_what_developing){
+    }else if("TER/CRI4" %in% overcap$sdt_what_developing){
       
-      # Exempt vessels fishing in territorial waters, and those fishing anywhere else whose flag state does not meet any of the three criteria: a) GNI per capita is greater than $5000 US$ (2016-2018), b) contribution to GDP from forestry, fisheries, and agriculture is greater than 10% (2016-2016), c) thye engage in distant water fishing (2018, GFW). 
+      # Exempt vessels fishing in territorial waters, and those fishing anywhere else whose flag state does not meet any of the three criteria: a) GNI per capita is greater than $5000 US$ (2016-2018), b) contribution to GDP from forestry, fisheries, and agriculture is greater than 10% (2016-2016), c) percentage of 2018 global marine capture production exceeds 2%, or d) they engage in distant water fishing (2018, GFW). 
       
       countries_to_exempt <- sdt_lookup$iso3[sdt_lookup$meets_any_criteria == F]
 
@@ -1189,7 +1196,7 @@ CreateFleets <- function(vessel_list,
       
     }else if("TER/CAP07" %in% overcap$sdt_what_developing){
       
-      # Exempt vessels fishing in territorial waters, and those fishing anywhere else whose flag state is not responsible for at least 07% of global capture production
+      # Exempt vessels fishing in territorial waters (except for Chinese vessels), and those fishing anywhere else whose flag state is not responsible for at least 07% of global capture production
       
       capture_years <- paste0("", seq(2016, 2018, by = 1), "")
       
@@ -1205,7 +1212,7 @@ CreateFleets <- function(vessel_list,
       countries_to_exempt <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod < 0.007], "-T", "")
       
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
-        dplyr::filter(is_territorial | flag_iso3 %in% countries_to_exempt)
+        dplyr::filter((is_territorial & flag_iso3 != "CHN") | flag_iso3 %in% countries_to_exempt)
       
     }
     

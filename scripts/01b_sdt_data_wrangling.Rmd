@@ -56,7 +56,11 @@ The following data sources are used:
 GDP from fisheries, forestry, and agriculture, and GNI per capita from the World Bank's World Development Indicators Database (2000 - 2018). These data were accessed through the `WDI` package. The code used to pull the data is below. 
 > World Bank. (2020). World Development Indicators. https://data.worldbank.org/
 
-We also use our vessel list and definition of distant water fishing (described in other scripts) to identify countries fulfiling that criteria. 
+**Fisheries Data**
+We use 2018 data from the FAO Global Marine Capture Database to determine each country's contribution to the global total. 
+
+**Other**
+We also use our vessel list and the definition of distant water fishing provided below to identify countries meeting this criteria. 
 
 ```{r}
 # Load country dependencies helper file
@@ -83,14 +87,18 @@ eu_territories <- country_dependencies$iso3[country_dependencies$is_overseas_ter
 
 Some proposals advocate for allowing developing countries to provide certain types of subsidies unless they meet certain criteria for three consecutive years: 
 - GNI per capita is greater than \$5000 (constant 2015 US\$);
+- percentage of FAO annual global marine capture production (2018) is greater than 2%; 
 - they engage in distant water fishing;
 - the contribution from Agriculture, Forestry and Fishing to their national GDP is greater than 10%.
+
+We can get at conditions 1, 2, and 4 using the World Bank WDI database (FAO data is shared here directly)
 
 ```{r}
 #Load data using WDI package
 wb_sdt_dat <- WDI(country = "all",
                    indicator = c("gdp_ffa_percent" = "NV.AGR.TOTL.ZS", # Added value coming from fisheries, forestry, and agriculture (%)
-                                 "gni_per_capita" = "NY.GNP.PCAP.KD"), # GNI per capita (constant 2015 US$)
+                                 "gni_per_capita" = "NY.GNP.PCAP.KD", # GNI per capita (constant 2015 US$)
+                                 "cap_production" = "ER.FSH.CAPT.MT"), # Capture fisheries production from FAO (mt)
                                   start = 2016,
                                   end = 2018,
                                   extra = TRUE) %>%
@@ -98,25 +106,37 @@ wb_sdt_dat <- WDI(country = "all",
   dplyr::select(iso3 = iso3c,
                 year,
                 gdp_ffa_percent,
-                gni_per_capita) %>%
+                gni_per_capita,
+                cap_production) %>%
   mutate(iso3 = as.character(iso3)) %>%
-  arrange(iso3, year) %>%
+  arrange(iso3, year) 
+
+wb_sdt_dat_working <- wb_sdt_dat %>%
+  group_by(year) %>%
+  mutate(tot_cap_production = sum(cap_production, na.rm = T)) %>%
+  ungroup() %>%
+  mutate(cap_production_percent = (cap_production/tot_cap_production)*100) %>%
   group_by(iso3) %>%
   mutate(n_exceeds_gdp_ffa = sum(gdp_ffa_percent > 10),
-         n_exceeds_gni_per_capita = sum(gni_per_capita > 5000)) %>%
+         n_exceeds_gni_per_capita = sum(gni_per_capita > 5000),
+         cap_prod_percent_2018 = cap_production_percent[year == 2018]) %>%
   ungroup() 
   
-wb_sdt_dat_out <- wb_sdt_dat %>%
-  distinct(iso3, n_exceeds_gdp_ffa, n_exceeds_gni_per_capita) %>%
+wb_sdt_dat_out <- wb_sdt_dat_working %>%
+  distinct(iso3, n_exceeds_gdp_ffa, n_exceeds_gni_per_capita, cap_prod_percent_2018) %>%
   mutate(exceeds_gdp_ffa = case_when(n_exceeds_gdp_ffa == 3 ~ T,
                                      is.na(n_exceeds_gdp_ffa) ~ F,
                                      TRUE ~ F),
          exceeds_gni_per_capita = case_when(n_exceeds_gni_per_capita == 3 ~ T,
                                             is.na(n_exceeds_gni_per_capita) ~ F,
-                                            TRUE ~ F)) %>%
-  dplyr::select(-n_exceeds_gdp_ffa, -n_exceeds_gni_per_capita)
+                                            TRUE ~ F),
+         exceeds_capture_production = case_when(cap_prod_percent_2018 > 2 ~ T,
+                                                TRUE ~ F)) %>%
+  dplyr::select(-n_exceeds_gdp_ffa, -n_exceeds_gni_per_capita, -cap_prod_percent_2018)
 
 ```
+
+For the second condition, the text stipulates that Members only fishing in areas beyond their national jurisdiction that are within the FAO Major Fishing Area(s) that is/are directly adjacent to their coastline shall not be considered to be engaging in distant water fishing. So we first need to get a list of FAO regions bordering each coastline/encompassing each EEZ. 
 
 ```{r}
 # Load vessel list
@@ -127,17 +147,38 @@ vessel_dat <- vessel_dat %>%
   mutate(eez_hs_code = case_when(eez_id == 0 ~ paste0("HS-", fao_region),
                                  TRUE ~ as.character(eez_id)))
 
-# Get flag states that participate in distant water fishing
-vessel_dat_dw <- vessel_dat %>%
-  distinct(flag_iso3, distant_water) %>%
-  dplyr::filter(distant_water == T)
+# Create eez/fao region lookup
+eez_fao_lookup <- vessel_dat %>%
+  dplyr::filter(eez_id != 0) %>%
+  distinct(eez_territory1_iso3, eez_territory2_iso3, eez_territory3_iso3, fao_region) %>%
+  gather(rank, eez_territory_iso3, 2:4) %>%
+  dplyr::filter(!is.na(eez_territory_iso3)) %>%
+  distinct(eez_territory_iso3, fao_region) %>%
+  arrange(eez_territory_iso3)
+
+# Now we need to filter our vessel list for entries where the flag state is fishing in a non-adjacent FAO area 
+# NOTE - This could include both high seas fishing, and fishing in EEZs where the flag state and administering state of the EEZ are not the same. 
+dw_states <- vessel_dat %>%
+  anti_join(eez_fao_lookup, by = c("flag_iso3" = "eez_territory_iso3", "fao_region")) %>%
+  distinct(flag_iso3) %>%
+  arrange(flag_iso3) %>%
+  mutate(distant_water = T)
+
+dw_states_hs_only <- vessel_dat %>%
+  dplyr::filter(eez_id == 0) %>%
+  anti_join(eez_fao_lookup, by = c("flag_iso3" = "eez_territory_iso3", "fao_region")) %>%
+  distinct(flag_iso3) %>%
+  arrange(flag_iso3) %>%
+  mutate(distant_water = T)
+
+# After looking at the results from both, I think we should just use the high seas definition because of the issues with flagging/ownership in the GFW data. 
 ```
 
 ```{r}
 sdt_dat_out <- wb_sdt_dat_out %>%
-  left_join(vessel_dat_dw, by = c("iso3" = "flag_iso3")) %>%
+  left_join(dw_states_hs_only, by = c("iso3" = "flag_iso3")) %>%
   mutate(distant_water = ifelse(is.na(distant_water), FALSE, distant_water)) %>%
-  mutate(meets_any_criteria = ifelse(exceeds_gdp_ffa | exceeds_gni_per_capita | distant_water, T, F))
+  mutate(meets_any_criteria = ifelse(exceeds_gdp_ffa | exceeds_gni_per_capita | exceeds_capture_production | distant_water, T, F))
 
 write_csv(sdt_dat_out, paste0(data_dir, "sdt_lookup_table.csv"))
 write_csv(sdt_dat_out, paste0(app_data_dir, "sdt_lookup_table.csv"))

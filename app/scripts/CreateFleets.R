@@ -1035,8 +1035,6 @@ CreateFleets <- function(vessel_list,
         overcap_vessels_scope <- overcap_vessels_scope %>%
           dplyr::filter(distant_water | prop_fishing_KWh_high_seas >= (overcap$hs_cutoff/100))
         
-        browser()
-        
         # 7) Disputed areas  
       }else if("DISPUTE" %in% overcap$scope_select){
         

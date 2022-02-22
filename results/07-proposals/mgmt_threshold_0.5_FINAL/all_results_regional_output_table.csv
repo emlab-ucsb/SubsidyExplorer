@@ -1,0 +1,265 @@
+"","Id","Name","Category","Year","Region","Biomass","Catches","Fishing Mortality","Revenue"
+"1","Ambitious Reform","All subsidies","Ambitious Reform",2050,"atlantic",0.0634333714303904,-0.023042997038569,-0.0813180879895116,-0.00303616027460459
+"2","Ambitious Reform","All subsidies","Ambitious Reform",2080,"atlantic",0.0649551969233576,-0.0234828863748109,-0.0830439473450761,-0.00309472361562397
+"3","RD/TN/RL/87","IUU (Option A)","IUU",2050,"atlantic",0.000125118492030534,-3.82832717760742e-05,-0.000163381321781964,-4.99355334950541e-06
+"4","RD/TN/RL/87","IUU (Option A)","IUU",2080,"atlantic",0.000124544118578889,-3.84777183689884e-05,-0.000163001536065232,-5.01891679520701e-06
+"5","RD/TN/RL/104","IUU (Option B)","IUU",2050,"atlantic",0.000125118492030534,-3.82832717760742e-05,-0.000163381321781964,-4.99355334950541e-06
+"6","RD/TN/RL/104","IUU (Option B)","IUU",2080,"atlantic",0.000124544118578889,-3.84777183689884e-05,-0.000163001536065232,-5.01891679520701e-06
+"7","RD/TN/RL/113","Facilitator's working text - IUU","IUU",2050,"atlantic",7.66769881640686e-05,-2.49074071682903e-05,-0.000101576606744169,-3.24882742209297e-06
+"8","RD/TN/RL/113","Facilitator's working text - IUU","IUU",2080,"atlantic",8.05034882230486e-05,-2.50747258403478e-05,-0.0001055697153331,-3.27065207102447e-06
+"9","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",2050,"atlantic",0.000125118492030534,-3.82832717760742e-05,-0.000163381321781964,-4.99355334950541e-06
+"10","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",2080,"atlantic",0.000124544118578889,-3.84777183689884e-05,-0.000163001536065232,-5.01891679520701e-06
+"11","RD/TN/RL/81","CAP - De minimis","OFOC",2050,"atlantic",0.00253584048160385,-0.000791997355056842,-0.00331942031624731,-0.0001033395927908
+"12","RD/TN/RL/81","CAP - De minimis","OFOC",2080,"atlantic",0.00253868228201388,-0.000789118913644048,-0.00331937435878597,-0.000102963885620596
+"13","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",2050,"atlantic",0.0211703949336709,-0.00770839092373723,-0.0282800852832047,-0.00100882828584172
+"14","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",2080,"atlantic",0.0238637009723546,-0.00798675378524849,-0.031108100352962,-0.00104538608294884
+"15","TN/RL/GEN/199","CAP - Optional criteria","OFOC",2050,"atlantic",0.00712218899999985,-0.00228109553006792,-0.00933678617428196,-0.000297829708411961
+"16","TN/RL/GEN/199","CAP - Optional criteria","OFOC",2080,"atlantic",0.00732901656705795,-0.00233463726222667,-0.00959334405179552,-0.00030482745809006
+"17","RD/TN/RL/91","OFOC - ABNJ","OFOC",2050,"atlantic",0.0341687027310655,-0.0124673669484185,-0.0450952243636129,-0.00163506225615328
+"18","RD/TN/RL/91","OFOC - ABNJ","OFOC",2080,"atlantic",0.0371988246586474,-0.0127460499266685,-0.0481536166431285,-0.00167181544437723
+"19","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",2050,"atlantic",0.0146095562217911,-0.0052837937432243,-0.0196069018303892,-0.000690778999937423
+"20","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",2080,"atlantic",0.0165138280561694,-0.00543574464193903,-0.0215929897777008,-0.000710691520580646
+"21","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",2050,"atlantic",0.0296304840411274,-0.00985744640751499,-0.0383515553013337,-0.00129129851545168
+"22","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",2080,"atlantic",0.0296673005291368,-0.00984228239101267,-0.0383712126235784,-0.00128930350174712
+"23","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",2050,"atlantic",0.0525454198585735,-0.0189162575839597,-0.0678941507836644,-0.00248787297825305
+"24","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",2080,"atlantic",0.0542341927187284,-0.0191661362096515,-0.06962431064685,-0.00252101528482451
+"25","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",2050,"atlantic",0.0211703949336709,-0.00770839092373723,-0.0282800852832047,-0.00100882828584172
+"26","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",2080,"atlantic",0.0238637009723546,-0.00798675378524849,-0.031108100352962,-0.00104538608294884
+"27","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",2050,"atlantic",0.0240978598863096,-0.00877873179229315,-0.0321029785984052,-0.00114944651462654
+"28","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",2080,"atlantic",0.0269549635835612,-0.00907386798613892,-0.0350831661049452,-0.00118824386104522
+"29","RD/TN/RL/124","CAP - Formula","OFOC",2050,"atlantic",0.0352428994327612,-0.0119233058397508,-0.0455605204327947,-0.0015633365289596
+"30","RD/TN/RL/124","CAP - Formula","OFOC",2080,"atlantic",0.0353839666136671,-0.0119046356029646,-0.0456725270445263,-0.00156087576735767
+"31","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC",2050,"atlantic",0.0340237162365146,-0.0114683745120505,-0.0439952102009231,-0.00150338749272123
+"32","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC",2080,"atlantic",0.0340946492569331,-0.0114278676774981,-0.0440216153977224,-0.00149805082681398
+"33","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",2050,"atlantic",0.00958093521405164,-0.00333189719483853,-0.0127902894740701,-0.000435226173545434
+"34","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",2080,"atlantic",0.0106317850829826,-0.00344645999021681,-0.0139301427888926,-0.00045021332545692
+"35","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",2050,"atlantic",0.00747792062271523,-0.00262147275993123,-0.010024431479753,-0.000342321590655009
+"36","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",2080,"atlantic",0.00846499634332007,-0.00274781955668653,-0.0111186961775214,-0.000358840176624113
+"37","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished",2050,"atlantic",0.0211703949336709,-0.00770839092373723,-0.0282800852832047,-0.00100882828584172
+"38","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished",2080,"atlantic",0.0238637009723546,-0.00798675378524849,-0.031108100352962,-0.00104538608294884
+"39","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished",2050,"atlantic",0.00958093521405164,-0.00333189719483853,-0.0127902894740701,-0.000435226173545434
+"40","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished",2080,"atlantic",0.0106317850829826,-0.00344645999021681,-0.0139301427888926,-0.00045021332545692
+"41","TN/RL/GEN/202","Disputed waters","Other & Multiple",2050,"atlantic",0.000370564137209765,-0.000167625593279687,-0.000537990370551924,-2.18658014642218e-05
+"42","TN/RL/GEN/202","Disputed waters","Other & Multiple",2080,"atlantic",0.000705123025121244,-0.000267416291618672,-0.000971854040079225,-3.48844420102427e-05
+"43","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",2050,"atlantic",0.0479970002566712,-0.0175742323870275,-0.0625681491718385,-0.00231000079121849
+"44","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",2080,"atlantic",0.0509125878807984,-0.0179505351035707,-0.0655269751057356,-0.00235985467345041
+"45","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",2050,"atlantic",0.0403064417404262,-0.0148170269969056,-0.0529877221995383,-0.00194522242392726
+"46","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",2080,"atlantic",0.0438782390842082,-0.0153163015658253,-0.0567063652001835,-0.00201121058975754
+"47","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple",2050,"atlantic",0.0310649355725778,-0.0113595787327903,-0.0411463069314918,-0.00148905437350618
+"48","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple",2080,"atlantic",0.034226964899186,-0.0116810026075023,-0.0443886777900471,-0.00153140378853005
+"49","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple",2050,"atlantic",0.0307611197396748,-0.0112277095604787,-0.0407357519565329,-0.00147168332706865
+"50","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple",2080,"atlantic",0.033783921753024,-0.0115009640962002,-0.0438049817726252,-0.00150768122033891
+"51","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple",2050,"atlantic",0.0461501348569832,-0.0160002276777372,-0.059408645531759,-0.00210165103790132
+"52","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple",2080,"atlantic",0.0462623816233206,-0.0159327037174586,-0.0594450172663963,-0.00209271942950135
+"53","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple",2050,"atlantic",0.0460590048734014,-0.015962997965426,-0.0592911131684523,-0.0020967264798533
+"54","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple",2080,"atlantic",0.0461673241007396,-0.0158966291076783,-0.0593250733211025,-0.00208794794485252
+"55","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple",2050,"atlantic",0.055019186624321,-0.0194558944491839,-0.0705912101104039,-0.00255945616339823
+"56","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple",2080,"atlantic",0.0551716690671111,-0.0193732000173067,-0.0706471480136723,-0.002548484470407
+"57","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple",2050,"atlantic",0.0550133102043594,-0.0194515907921499,-0.0705819540628214,-0.0025588851449645
+"58","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple",2080,"atlantic",0.0551626994880821,-0.0193696699227489,-0.0706359023560924,-0.00254801612408485
+"59","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple",2050,"atlantic",0.0461591852178548,-0.01599931644389,-0.0594159115936077,-0.00210153050256263
+"60","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple",2080,"atlantic",0.0462652749601519,-0.0159337909813174,-0.0594486574581558,-0.00209286324111923
+"61","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple",2050,"atlantic",0.0460638292361519,-0.0159622468328085,-0.0592947335864318,-0.00209662712549681
+"62","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple",2080,"atlantic",0.0461688280602016,-0.01589719459242,-0.0593269661529716,-0.00208802273871582
+"63","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple",2050,"atlantic",0.0569085616458087,-0.0201432372493056,-0.0729029943471457,-0.00265068225947311
+"64","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple",2080,"atlantic",0.0570060928171307,-0.0200967598073208,-0.0729445678207561,-0.00264451188700708
+"65","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple",2050,"atlantic",0.0568297201989752,-0.0201487967138811,-0.0728390917113526,-0.00265142035429395
+"66","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple",2080,"atlantic",0.0569987527936896,-0.020093535923115,-0.0729350801153234,-0.00264408389168716
+"67","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",2050,"atlantic",0.0307578985598736,-0.0112261466382412,-0.0407312379141339,-0.0014714774563461
+"68","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",2080,"atlantic",0.033778157356468,-0.0114985164202127,-0.0437972822839091,-0.00150735873100377
+"69","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple",2050,"atlantic",0.0204108207778984,-0.00736259267891274,-0.0272178743024681,-0.000963426520278793
+"70","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple",2080,"atlantic",0.0228277888130598,-0.00761612362374608,-0.0297644557273268,-0.000996712655749811
+"71","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple",2050,"atlantic",0.0307611197396748,-0.0112277095604787,-0.0407357519565329,-0.00147168332706865
+"72","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple",2080,"atlantic",0.033783921753024,-0.0115009640962002,-0.0438049817726252,-0.00150768122033891
+"73","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple",2050,"atlantic",0.0383297514567869,-0.0139242043833966,-0.0503250106884357,-0.00182729222741052
+"74","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple",2080,"atlantic",0.0409029756904541,-0.0140574094803044,-0.0528006802308371,-0.00184488098497604
+"75","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple",2050,"atlantic",0.0596515958643185,-0.0214741039854374,-0.0765588427048841,-0.00282747698179244
+"76","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple",2080,"atlantic",0.0609483697185882,-0.0218347090234492,-0.0780274338552358,-0.00287541640271428
+"77","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple",2050,"atlantic",0.00903019203055156,-0.00314713760168826,-0.0120683501132254,-0.000411059003488391
+"78","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple",2080,"atlantic",0.0100730501999077,-0.00326640305715227,-0.0132064242823031,-0.000426658876550701
+"79","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple",2050,"atlantic",0.0330288141890805,-0.0119820995561525,-0.0435717892153532,-0.00157108588174518
+"80","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple",2080,"atlantic",0.0355382558625017,-0.0120541328443026,-0.0459590830540244,-0.00158058083349047
+"81","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple",2050,"atlantic",0.0596515958643185,-0.0214741039854374,-0.0765588427048841,-0.00282747698179244
+"82","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple",2080,"atlantic",0.0609483697185882,-0.0218347090234492,-0.0780274338552358,-0.00287541640271428
+"83","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple",2050,"atlantic",0.0268677189607067,-0.00983273549935359,-0.0357401968943038,-0.0012880475038374
+"84","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple",2080,"atlantic",0.0299340831996852,-0.0101271673100367,-0.0388969072518348,-0.00132678807205494
+"85","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple",2050,"atlantic",0.0333683458260422,-0.012148189959979,-0.044046767998914,-0.00159297972681747
+"86","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple",2080,"atlantic",0.0361494500636411,-0.012316364103657,-0.0467749263046189,-0.00161515150973658
+"87","WT/MIN(21)/W/5 | Sustainability scenario + No expected IUU finding","Chair's text - Nov 2021 [Sustainability scenario + No expected IUU finding]","Other & Multiple",2050,"atlantic",0.0518662187410582,-0.0187414094184932,-0.0671260535812806,-0.00246468659798449
+"88","WT/MIN(21)/W/5 | Sustainability scenario + No expected IUU finding","Chair's text - Nov 2021 [Sustainability scenario + No expected IUU finding]","Other & Multiple",2080,"atlantic",0.0539823286422797,-0.0191174236385648,-0.0693557665003836,-0.00251455378411208
+"89","Ambitious Reform","All subsidies","Ambitious Reform",2050,"indian",0.06832214042991,0.0107690794888039,-0.0538723843333863,0.00139812941979551
+"90","Ambitious Reform","All subsidies","Ambitious Reform",2080,"indian",0.0686133288244668,0.0108071417112594,-0.0540945780423657,0.00140304794928308
+"91","RD/TN/RL/87","IUU (Option A)","IUU",2050,"indian",1.44766541024021e-05,2.74738544271168e-06,-1.1729098861698e-05,3.58354194800116e-07
+"92","RD/TN/RL/87","IUU (Option A)","IUU",2080,"indian",1.45527252650309e-05,2.76196578233395e-06,-1.17905878975592e-05,3.60255973841679e-07
+"93","RD/TN/RL/104","IUU (Option B)","IUU",2050,"indian",1.44766541024021e-05,2.74738544271168e-06,-1.1729098861698e-05,3.58354194800116e-07
+"94","RD/TN/RL/104","IUU (Option B)","IUU",2080,"indian",1.45527252650309e-05,2.76196578233395e-06,-1.17905878975592e-05,3.60255973841679e-07
+"95","RD/TN/RL/113","Facilitator's working text - IUU","IUU",2050,"indian",1.44766541024021e-05,2.74738544271168e-06,-1.1729098861698e-05,3.58354194800116e-07
+"96","RD/TN/RL/113","Facilitator's working text - IUU","IUU",2080,"indian",1.45527252650309e-05,2.76196578233395e-06,-1.17905878975592e-05,3.60255973841679e-07
+"97","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",2050,"indian",1.44766541024021e-05,2.74738544271168e-06,-1.1729098861698e-05,3.58354194800116e-07
+"98","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",2080,"indian",1.45527252650309e-05,2.76196578233395e-06,-1.17905878975592e-05,3.60255973841679e-07
+"99","RD/TN/RL/81","CAP - De minimis","OFOC",2050,"indian",0.000611239547393751,0.000114517742951361,-0.000496418373900261,1.49363532367427e-05
+"100","RD/TN/RL/81","CAP - De minimis","OFOC",2080,"indian",0.000627066744544184,0.000117568299181475,-0.000509179156046978,1.53342117292735e-05
+"101","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",2050,"indian",1.37438569133766e-05,1.21339771016569e-06,-1.25302869887794e-05,1.58269183038839e-07
+"102","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",2080,"indian",2.72756025791444e-05,3.83704591413683e-06,-2.34379173816544e-05,5.00483414779568e-07
+"103","TN/RL/GEN/199","CAP - Optional criteria","OFOC",2050,"indian",0.0104535705596234,0.00192982615916786,-0.00843556265107248,0.000251505505282535
+"104","TN/RL/GEN/199","CAP - Optional criteria","OFOC",2080,"indian",0.0105242752126953,0.00194281930427952,-0.00849208289094254,0.000253197414932355
+"105","RD/TN/RL/91","OFOC - ABNJ","OFOC",2050,"indian",0.0836905211618395,-0.0547286464749811,-0.12772942545296,-0.00731441150269621
+"106","RD/TN/RL/91","OFOC - ABNJ","OFOC",2080,"indian",0.0836968607912567,-0.0547130106027537,-0.12772009996684,-0.00731226975835367
+"107","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",2050,"indian",0.0194300785657801,-0.0291802912442529,-0.0476838684987814,-0.00385531049593858
+"108","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",2080,"indian",0.0194799719845954,-0.0292749815865362,-0.0478233559372643,-0.00386798413582308
+"109","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",2050,"indian",0.033567899435018,0.00584419911347377,-0.0268232985338447,0.000760356928416946
+"110","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",2080,"indian",0.0336398469393363,0.00585589631361016,-0.0268797209279383,0.000761874931037321
+"111","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",2050,"indian",0.0585206311911013,-0.0014660165476187,-0.0566702678919162,-0.000191341544213492
+"112","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",2080,"indian",0.0585138013492968,-0.00149099508317447,-0.056687778993512,-0.000194603808627346
+"113","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",2050,"indian",1.37438569133766e-05,1.21339771016569e-06,-1.25302869887794e-05,1.58269183038839e-07
+"114","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",2080,"indian",2.72756025791444e-05,3.83704591413683e-06,-2.34379173816544e-05,5.00483414779568e-07
+"115","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",2050,"indian",0.0830125030215655,-0.0545033050394952,-0.126975272840707,-0.00728354803738637
+"116","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",2080,"indian",0.0830186047324128,-0.0544880844501865,-0.12696613759149,-0.00728146360865395
+"117","RD/TN/RL/124","CAP - Formula","OFOC",2050,"indian",0.0451325836518078,0.00760269988294618,-0.0359092084161496,0.000988394010780482
+"118","RD/TN/RL/124","CAP - Formula","OFOC",2080,"indian",0.0453169584965941,0.00763066938682365,-0.0360524994868273,0.00099201821498458
+"119","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC",2050,"indian",0.0438715514311551,0.00741635318382946,-0.034923069028316,0.000964245532643125
+"120","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC",2080,"indian",0.0440499033912764,0.00744361490987854,-0.0350618187526224,0.000967778594382265
+"121","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",2050,"indian",0,0,0,0
+"122","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",2080,"indian",0,0,0,0
+"123","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",2050,"indian",0,0,0,0
+"124","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",2080,"indian",0,0,0,0
+"125","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished",2050,"indian",1.37438569133766e-05,1.21339771016569e-06,-1.25302869887794e-05,1.58269183038839e-07
+"126","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished",2080,"indian",2.72756025791444e-05,3.83704591413683e-06,-2.34379173816544e-05,5.00483414779568e-07
+"127","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished",2050,"indian",0,0,0,0
+"128","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished",2080,"indian",0,0,0,0
+"129","TN/RL/GEN/202","Disputed waters","Other & Multiple",2050,"indian",2.73457431267854e-07,2.4323878846385e-08,-2.49133484187706e-07,3.17267965767012e-09
+"130","TN/RL/GEN/202","Disputed waters","Other & Multiple",2080,"indian",5.39184682052681e-07,7.62163110890201e-08,-4.62968121254501e-07,9.94125735074781e-09
+"131","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",2050,"indian",0.0639735268795694,0.010182997309999,-0.0505562668719097,0.001322373552372
+"132","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",2080,"indian",0.0641342046427483,0.0102441715283528,-0.0506421397595122,0.00133028260160244
+"133","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",2050,"indian",0.0597138010044734,0.000707398639785788,-0.0556814512642538,9.22410215023861e-05
+"134","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",2080,"indian",0.0597819712198275,0.000720747050241005,-0.0557295988925023,9.39810381353914e-05
+"135","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple",2050,"indian",0.081547114940142,-0.0618954210719496,-0.132627172714552,-0.00829934841912464
+"136","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple",2080,"indian",0.0815817224819678,-0.0618455175890391,-0.132608786825536,-0.00829246754561386
+"137","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple",2050,"indian",0.081547115910424,-0.0618954194302733,-0.132627171974797,-0.00829934819275887
+"138","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple",2080,"indian",0.0815817224819692,-0.0618455175890393,-0.132608786825537,-0.0082924675456138
+"139","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple",2050,"indian",0.0371148632169974,0.00638257177723534,-0.0296324857831413,0.000830208269999693
+"140","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple",2080,"indian",0.0373582490807711,0.00642131858232744,-0.0298228028030409,0.000835234233671614
+"141","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple",2050,"indian",0.0371017289250454,0.0063818636875119,-0.0296208793995306,0.000830116420003848
+"142","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple",2080,"indian",0.0373323559009864,0.00641857554106364,-0.0298012302268083,0.000834878431140754
+"143","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple",2050,"indian",0.0498370326428621,0.00828432254059596,-0.0395801527382408,0.00107669172401294
+"144","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple",2080,"indian",0.0500492256678656,0.00831560223872042,-0.0397444447450558,0.00108074246476564
+"145","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple",2050,"indian",0.0498258014898336,0.00828385068883559,-0.0395703275172365,0.00107663061807405
+"146","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple",2080,"indian",0.050027063252779,0.00831351822521542,-0.0397261618175279,0.00108047258709236
+"147","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple",2050,"indian",0.0347417278370422,0.00601259772915001,-0.0277645419480141,0.00078220935665617
+"148","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple",2080,"indian",0.0349770053846006,0.00605056698543727,-0.0279488706016363,0.000787136038758487
+"149","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple",2050,"indian",0.0347285921028719,0.00601186101318863,-0.0277529115449709,0.000782113762841226
+"150","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple",2080,"indian",0.0349510996392571,0.00604776588798703,-0.0279272458006417,0.000786772589266026
+"151","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple",2050,"indian",0.0570829627194911,0.00929163205797482,-0.0452105769811732,0.00120708407822012
+"152","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple",2080,"indian",0.0573622757252066,0.00933098736808,-0.0454255740533052,0.00121217617484612
+"153","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple",2050,"indian",0.0570803041222515,0.00929153724066241,-0.0452082653467568,0.00120707180980899
+"154","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple",2080,"indian",0.0573570453356259,0.00933052927007246,-0.0454212853429363,0.00121211690355025
+"155","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",2050,"indian",0.081547115910424,-0.0618954194302733,-0.132627171974797,-0.00829934819275887
+"156","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",2080,"indian",0.0815817224819692,-0.0618455175890393,-0.132608786825537,-0.0082924675456138
+"157","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple",2050,"indian",0.0020193650954556,0.000373225079607037,-0.00164282255731845,4.86736343211167e-05
+"158","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple",2080,"indian",0.00210314485281533,0.000389962754017054,-0.00170958659055997,5.08560850792861e-05
+"159","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple",2050,"indian",0.081547115910424,-0.0618954194302733,-0.132627171974797,-0.00829934819275887
+"160","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple",2080,"indian",0.0815817224819692,-0.0618455175890393,-0.132608786825537,-0.0082924675456138
+"161","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple",2050,"indian",0.0597334800341129,0.000720746134833694,-0.0556863919193905,9.39809188090231e-05
+"162","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple",2080,"indian",0.0597967437713356,0.000720121193764622,-0.0557433516613233,9.38994557879597e-05
+"163","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple",2050,"indian",0.0540291348504614,0.00887296377187242,-0.0428414828258,0.0011529028227178
+"164","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple",2080,"indian",0.0542805131784395,0.00890907074801013,-0.0430354558044934,0.00115757631690669
+"165","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple",2050,"indian",1.44766541024021e-05,2.74738544271168e-06,-1.1729098861698e-05,3.58354194800116e-07
+"166","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple",2080,"indian",1.45527252650309e-05,2.76196578233395e-06,-1.17905878975592e-05,3.60255973841679e-07
+"167","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple",2050,"indian",0.0337918706568649,-0.0992632500755982,-0.128705907358239,-0.0135433959346058
+"168","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple",2080,"indian",0.0337343072247487,-0.099334176997655,-0.128726001732158,-0.0135535280354526
+"169","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple",2050,"indian",0.0540291348504614,0.00887296377187242,-0.0428414828258,0.0011529028227178
+"170","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple",2080,"indian",0.0542805131784395,0.00890907074801013,-0.0430354558044934,0.00115757631690669
+"171","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple",2050,"indian",0.0828794012625282,-0.0909118029730984,-0.160489897612794,-0.0123551917639886
+"172","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple",2080,"indian",0.0831174071666739,-0.0907034940693026,-0.160482049393588,-0.0123256760865882
+"173","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple",2050,"indian",0.0338454883924998,-0.0995763504408728,-0.129053945034695,-0.013588128390319
+"174","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple",2080,"indian",0.0338380668415609,-0.0999275870545055,-0.129387433280271,-0.0136383254484151
+"175","WT/MIN(21)/W/5 | Sustainability scenario + No expected IUU finding","Chair's text - Nov 2021 [Sustainability scenario + No expected IUU finding]","Other & Multiple",2050,"indian",0.0624900762942703,0.00131773840521787,-0.0575745028155067,0.000171780528663917
+"176","WT/MIN(21)/W/5 | Sustainability scenario + No expected IUU finding","Chair's text - Nov 2021 [Sustainability scenario + No expected IUU finding]","Other & Multiple",2080,"indian",0.0625168162522235,0.00131315278567352,-0.0576025362896668,0.000171183087709276
+"177","Ambitious Reform","All subsidies","Ambitious Reform",2050,"pacific",0.192633834020329,0.0664626424607847,-0.105792061201404,0.00842843793080252
+"178","Ambitious Reform","All subsidies","Ambitious Reform",2080,"pacific",0.192629673302975,0.0664581450710719,-0.105792712571433,0.00842788323590041
+"179","RD/TN/RL/87","IUU (Option A)","IUU",2050,"pacific",1.57928880528112e-05,6.1858324518903e-06,-9.60690388020401e-06,8.0684554097813e-07
+"180","RD/TN/RL/87","IUU (Option A)","IUU",2080,"pacific",1.80636920362064e-05,7.27379264272987e-06,-1.07897044914966e-05,9.48752561577377e-07
+"181","RD/TN/RL/104","IUU (Option B)","IUU",2050,"pacific",1.57928880528112e-05,6.1858324518903e-06,-9.60690388020401e-06,8.0684554097813e-07
+"182","RD/TN/RL/104","IUU (Option B)","IUU",2080,"pacific",1.80636920362064e-05,7.27379264272987e-06,-1.07897044914966e-05,9.48752561577377e-07
+"183","RD/TN/RL/113","Facilitator's working text - IUU","IUU",2050,"pacific",1.57928880528112e-05,6.1858324518903e-06,-9.60690388020401e-06,8.0684554097813e-07
+"184","RD/TN/RL/113","Facilitator's working text - IUU","IUU",2080,"pacific",1.80636920362064e-05,7.27379264272987e-06,-1.07897044914966e-05,9.48752561577377e-07
+"185","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",2050,"pacific",1.57928880528112e-05,6.1858324518903e-06,-9.60690388020401e-06,8.0684554097813e-07
+"186","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",2080,"pacific",1.80636920362064e-05,7.27379264272987e-06,-1.07897044914966e-05,9.48752561577377e-07
+"187","RD/TN/RL/81","CAP - De minimis","OFOC",2050,"pacific",0.00475528282106409,0.00193882296276143,-0.00280313018150534,0.000252677031120443
+"188","RD/TN/RL/81","CAP - De minimis","OFOC",2080,"pacific",0.00475514597443253,0.00193867234609372,-0.00280314426815636,0.000252657418528475
+"189","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",2050,"pacific",0.0189176524993017,0.00728385059469987,-0.011417803858894,0.000947072294657614
+"190","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",2080,"pacific",0.0211919064811918,0.00842798958658155,-0.0124990384408666,0.0010952957960583
+"191","TN/RL/GEN/199","CAP - Optional criteria","OFOC",2050,"pacific",0.0178537820547192,0.00715167944482522,-0.0105143811405699,0.000929940056323783
+"192","TN/RL/GEN/199","CAP - Optional criteria","OFOC",2080,"pacific",0.0184017738527681,0.00737376538080023,-0.0108287404392937,0.000958726077523077
+"193","RD/TN/RL/91","OFOC - ABNJ","OFOC",2050,"pacific",0.0502723289964672,0.0192907667640068,-0.0294985989605792,0.00249533322778126
+"194","RD/TN/RL/91","OFOC - ABNJ","OFOC",2080,"pacific",0.0527508063644025,0.0205242607867889,-0.0306117510267273,0.0026534894725896
+"195","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",2050,"pacific",0.08413520201802,0.0320150245693437,-0.0480753483067972,0.00411888010211562
+"196","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",2080,"pacific",0.084130801228924,0.0320116540375484,-0.0480745931508407,0.00411845235058043
+"197","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",2050,"pacific",0.0973095243628417,0.0365987766219079,-0.0553269122276012,0.00469947937277018
+"198","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",2080,"pacific",0.0973070495778743,0.0365960787858726,-0.0553272402791514,0.00469913830950399
+"199","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",2050,"pacific",0.112643195873758,0.0417313818912568,-0.0637327530024704,0.00534695541400458
+"200","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",2080,"pacific",0.113008492859151,0.0418906858040369,-0.063896913196433,0.0053670071144395
+"201","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",2050,"pacific",0.0189176627121393,0.00728385419288304,-0.0114178102362949,0.000947072761033385
+"202","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",2080,"pacific",0.021191922414707,0.00842799542687873,-0.0124990481296078,0.00109529655229719
+"203","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",2050,"pacific",0.0393332654700309,0.0150247432865826,-0.0233885732238687,0.0019470656605169
+"204","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",2080,"pacific",0.0425887099603934,0.0166889773912234,-0.0248417543003644,0.00216119027567278
+"205","RD/TN/RL/124","CAP - Formula","OFOC",2050,"pacific",0.110442562444453,0.0410560410995256,-0.0624854663281142,0.00526192014984854
+"206","RD/TN/RL/124","CAP - Formula","OFOC",2080,"pacific",0.110439815192045,0.0410530528136558,-0.0624858379797816,0.00526154377445322
+"207","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC",2050,"pacific",0.1040018869769,0.0388840567181437,-0.0589834410854756,0.00498811001341989
+"208","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC",2080,"pacific",0.103999289062772,0.0388812339995078,-0.0589837835118038,0.00498775384503698
+"209","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",2050,"pacific",0.000558065987777568,0.000187014083018249,-0.00037084494880673,2.43911580765353e-05
+"210","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",2080,"pacific",0.00105730066693999,0.000394414204584819,-0.000662186332304399,5.14365111269854e-05
+"211","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",2050,"pacific",0.000356497242198503,0.000119377561027928,-0.000237035178783019,1.55701780958606e-05
+"212","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",2080,"pacific",0.00067796157425424,0.000252796407628603,-0.00042487711626697,3.2969820883905e-05
+"213","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished",2050,"pacific",0.0189176524993017,0.00728385059469987,-0.011417803858894,0.000947072294657614
+"214","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished",2080,"pacific",0.0211919064811918,0.00842798958658155,-0.0124990384408666,0.0010952957960583
+"215","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished",2050,"pacific",0.000558065987777568,0.000187014083018249,-0.00037084494880673,2.43911580765353e-05
+"216","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished",2080,"pacific",0.00105730066693999,0.000394414204584819,-0.000662186332304399,5.14365111269854e-05
+"217","TN/RL/GEN/202","Disputed waters","Other & Multiple",2050,"pacific",2.86782149201503e-05,9.56155147115254e-06,-1.91161152329295e-05,1.24715370299761e-06
+"218","TN/RL/GEN/202","Disputed waters","Other & Multiple",2080,"pacific",5.56406863990485e-05,2.06674272139148e-05,-3.49713133571918e-05,2.69572715276867e-06
+"219","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",2050,"pacific",0.17774363834786,0.0621736459373636,-0.0981283096316427,0.00789851930387032
+"220","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",2080,"pacific",0.177744364303775,0.0621726470982418,-0.0981297136359925,0.00789839567769735
+"221","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",2050,"pacific",0.097458372227547,0.0364443626033511,-0.055595739363083,0.00467995694796662
+"222","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",2080,"pacific",0.0987684350248818,0.0370209176595091,-0.0561970251393093,0.00475283737907438
+"223","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple",2050,"pacific",0.0441536022608195,0.0168797099577417,-0.0261205748311589,0.00218571094471222
+"224","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple",2080,"pacific",0.0474074229250284,0.0184914404454368,-0.0276071964420872,0.00239275624434449
+"225","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple",2050,"pacific",0.0442890010835615,0.0169749480116469,-0.0261556456532372,0.0021979532969705
+"226","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple",2080,"pacific",0.0472866162095709,0.0184525021519315,-0.0275322090546695,0.00238775753265968
+"227","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple",2050,"pacific",0.0692972910521195,0.0267323619543301,-0.0398064499498622,0.00344696567219423
+"228","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple",2080,"pacific",0.069260298013114,0.0267004474771396,-0.0398030775247698,0.0034428972670425
+"229","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple",2050,"pacific",0.069070302955988,0.0266503245559304,-0.0396793160213748,0.00343650745735852
+"230","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple",2080,"pacific",0.0690365543311734,0.0266194180671857,-0.0396779100697125,0.00343256727683314
+"231","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple",2050,"pacific",0.10079892825819,0.0377938960174379,-0.0572357318156602,0.00485049176973384
+"232","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple",2080,"pacific",0.1007964425315,0.0377912060280904,-0.0572360466195879,0.00485015203902482
+"233","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple",2050,"pacific",0.100576970404952,0.037718101805634,-0.0571144684012323,0.00484091908870393
+"234","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple",2080,"pacific",0.100574494774759,0.0377154238316768,-0.0571147807272665,0.00484058085399289
+"235","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple",2050,"pacific",0.0635641951216662,0.0246279750029521,-0.0366091866361296,0.00317846614415212
+"236","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple",2080,"pacific",0.0635630526059041,0.0246267892209931,-0.0366092666433934,0.00317831471465933
+"237","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple",2050,"pacific",0.0633404301894611,0.0245463138492396,-0.0364832514957692,0.00316803730494302
+"238","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple",2080,"pacific",0.0633390024184213,0.0245447982867995,-0.0364833830447201,0.00316784374761271
+"239","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple",2050,"pacific",0.109470347154552,0.0407297529391181,-0.061958027442313,0.00522081851981562
+"240","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple",2080,"pacific",0.109467773752256,0.0407269852967201,-0.0619583462285277,0.00522046983952485
+"241","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple",2050,"pacific",0.109467680173719,0.0407288465178905,-0.0619565895286514,0.00522070432479823
+"242","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple",2080,"pacific",0.109465118982201,0.0407260939302861,-0.0619569050669879,0.00522035754091883
+"243","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",2050,"pacific",0.0441244005156596,0.0169240908581894,-0.0260508322993283,0.00219141600071186
+"244","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",2080,"pacific",0.0469859876090255,0.0183493669286998,-0.0273514841833963,0.00237451672343273
+"245","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple",2050,"pacific",0.0122994193507194,0.00491347705970725,-0.00729620322784475,0.000639523363613349
+"246","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple",2080,"pacific",0.0129903104557882,0.00520944755657779,-0.007681083243244,0.000677959100874781
+"247","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple",2050,"pacific",0.0442890010835615,0.0169749480116469,-0.0261556456532372,0.0021979532969705
+"248","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple",2080,"pacific",0.0472866162095709,0.0184525021519315,-0.0275322090546695,0.00238775753265968
+"249","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple",2050,"pacific",0.0973732366436502,0.0364330277835162,-0.0555328003501539,0.00467852379730074
+"250","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple",2080,"pacific",0.0986682190609196,0.0369829696649588,-0.0561454753362084,0.0047480415810694
+"251","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple",2050,"pacific",0.131550862953604,0.0479830111514041,-0.0738524926613272,0.00613185922246206
+"252","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple",2080,"pacific",0.131554239920429,0.0479862672514193,-0.0738523790736593,0.00613226696988732
+"253","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple",2050,"pacific",0.000572939774294584,0.000192881978030086,-0.000379840170722789,2.51564092901047e-05
+"254","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple",2080,"pacific",0.00107370830604037,0.000401050942173129,-0.000671935900709486,5.23018732698105e-05
+"255","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple",2050,"pacific",0.149429376323064,0.0536011517152876,-0.0833702588273176,0.00683376142818554
+"256","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple",2080,"pacific",0.149554635462016,0.0536661190506388,-0.0834136225050655,0.00684185906628809
+"257","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple",2050,"pacific",0.131550862953604,0.0479830111514041,-0.0738524926613272,0.00613185922246206
+"258","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple",2080,"pacific",0.131554239920429,0.0479862672514193,-0.0738523790736593,0.00613226696988732
+"259","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple",2050,"pacific",0.041274710753496,0.0158022791199025,-0.0244627391509017,0.0020471433755864
+"260","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple",2080,"pacific",0.0445154897970571,0.0173969530661601,-0.0259627903997536,0.00225218784020637
+"261","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple",2050,"pacific",0.15014882466246,0.0537789505976725,-0.083789047120115,0.00685592154861677
+"262","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple",2080,"pacific",0.150825303756027,0.0540176992701282,-0.0841201563520905,0.00688567308629419
+"263","WT/MIN(21)/W/5 | Sustainability scenario + No expected IUU finding","Chair's text - Nov 2021 [Sustainability scenario + No expected IUU finding]","Other & Multiple",2050,"pacific",0.10002956541229,0.0373342451910328,-0.0569942137852986,0.00479242930753497
+"264","WT/MIN(21)/W/5 | Sustainability scenario + No expected IUU finding","Chair's text - Nov 2021 [Sustainability scenario + No expected IUU finding]","Other & Multiple",2080,"pacific",0.101266235579667,0.0378795937538083,-0.0575579635314018,0.00486131451694654

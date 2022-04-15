@@ -4,9 +4,10 @@
 ### 
 ### Creator(s): Kat Millage and Vienna Saccomanno
 ### Release date (v1): July 2019
-### Release date (v2): 
+### Release date (v2): October 2020 
+### Release date (v3): October 2021 - PLOS ONE paper
 ### 
-### This script loads data needed for the app and performs some final data wrangling
+### This script loads data needed for the app and performs some final data wrangling steps.
 ### --------------------------------------------------------------------
 
 ### --------------
@@ -129,10 +130,7 @@ subsidy_classification_sumaila <- subsidy_dat_sumaila_raw %>%
 subsidy_categories_sorted_sumaila <- unique(subsidy_classification_sumaila$category)
 names(subsidy_categories_sorted_sumaila) <- unique(subsidy_classification_sumaila$category_name)
 
-#subsidy_type_names_manual_sumaila <- c("Fisheries management", "Fishery research and development", "Marine protected areas", "Boat construction, renewal, and modernization", "Fishery development projects and services", "Fishing port construction and renovation", "Marketing, processing, storage, and infrastructure", "Non-fuel tax exemptions", "Fishing access agreements", "Fuel subsidies", "Fisher assistance", "Vessel buyback programs", "Rural fisher community development")
-
 subsidy_types_sorted_sumaila <- subsidy_classification_sumaila$type
-#names(subsidy_types_sorted_sumaila) <- subsidy_type_names_manual_sumaila
 names(subsidy_types_sorted_sumaila) <- subsidy_classification_sumaila$type_name
 
 # Organize subsidy types as defined by the OECD for consistent plotting throughout
@@ -271,21 +269,22 @@ bio_dat_list <- bio_dat %>%
 
 ### POLICY DATA -----------------------------------------------------------------------------------
 
-# # 1) Cap/tier data (from US proposal) ---
-# cap_tier_dat <- read_csv("./data/USA_cap_tier_tidy.csv") %>%
-#   arrange(iso3)
-
 # 1) Cap/tier lookup table
 cap_tier_lookup_table <- read_csv("./data/cap_tier_lookup_table.csv")
 
+sdt_lookup_table <- read_csv("./data/sdt_lookup_table.csv")
+
 # 2) Proposal settings
-proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
+#proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
+#proposal_settings <- read.csv("./data/wto_proposal_settings_v3.csv", stringsAsFactors = F)
+proposal_settings <- read.csv("./data/wto_proposal_settings_FINAL.csv", stringsAsFactors = F) %>%
+  dplyr::filter(include != "Hide") # remove bad proposals
 
 # Proposal names
 included_proposals <- proposal_settings %>%
   dplyr::filter(include != "Alternate") %>%
   mutate(display_name = case_when(proposal == "Default" ~ "None",
-                                  TRUE ~ paste0(title_tool, " (", proposal, ")"))) %>%
+                                  TRUE ~ title_tool)) %>%
   dplyr::select(category, proposal, display_name) %>%
   arrange(category)
 
@@ -301,13 +300,13 @@ managed_cutoff <- 0.5
 show_year <- 2050
 end_year <- 2080
 
-# Proposal color scheme
-# Make color palette
+# Make color palette for proposal results
+# Most ambitious scenario
 best_result_color <- c("#EB4648")
 names(best_result_color) <- c("Most ambitious scenario")
 
+# All other proposals
 big_color_palette <- colorRampPalette(brewer.pal(8, "Dark2"))(25)
-#names(results_color_pal) <- rv_results$run$name[rv_results$run$name != "Most ambitious scenario"]
 
 ### OTHER DATA -------------------------------------------------------------------------------------------
 
@@ -419,9 +418,6 @@ best_result <- tibble(id = "A",
                       results_last = list(remove_all_bad_results_last))
 
 ### PDF plotting ----------------
-
-# logo_black <- rasterGrob(readPNG("./www/emlab_logo_horizontal_w.png"), interpolate=TRUE, vjust = 0.8, hjust = 0.6)
-# header_text <- textGrob("SubsidyExplorer", gp = gpar(fontsize=16, fontface="bold", lineheight=1, col = "black", fontfamily = "Helvetica"), hjust = 0.55, vjust = 1)
 
 # World map
 world <- ne_countries(scale = "small", returnclass = "sf")

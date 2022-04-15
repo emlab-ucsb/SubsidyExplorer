@@ -8,6 +8,11 @@
 GlobalFishingFootprint = function() 
   fluidPage(
     
+    # Dealing with leaflet map background color here
+    tags$head(
+      tags$style(HTML(".leaflet-container { background: #D5E8EB; }"))
+    ),
+    
     # Page style
     style = "background-color: #ffffff; color: #000000;",
     
@@ -33,12 +38,6 @@ GlobalFishingFootprint = function()
                                 
                                 downloadButton("db_global_fishing_footprint_download_figure",
                                                text$item_label[text$item_id == "db_global_fishing_footprint_download_figure"]),
-                                
-                                # tags$button(id = "db_global_fishing_footprint_download_figure",
-                                #             class = "btn action-button rounded-button-grey download-button",
-                                #             tags$b(icon("download"),
-                                #                    text$item_label[text$item_id == "db_global_fishing_footprint_download_figure"]))
-                                
                          )
            ),
            
@@ -68,7 +67,6 @@ GlobalFishingFootprint = function()
                          )
                          
            ))
-           
     )
             
   ) # /fluidPage

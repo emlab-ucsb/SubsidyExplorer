@@ -2,7 +2,7 @@
 ### SubsidyExplorer
 ### An interactive toolkit to explore the tradeoffs across proposed fisheries subsidies disciplines
 ### 
-### This script contains the content for the "overcap" box on the edit-policies" tab
+### This script contains the content for the "OCOF" box on the edit-policies" tab
 ### --------------------------------------------------------------------
 
 Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila) 
@@ -27,10 +27,6 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                             
                                             label = tagList(
                                               tags$b(text$item_label[text$item_id == "w_overcap_definitions"])
-                                              # # OA definitions info button
-                                              # tags$button(id = "info_overcap",
-                                              #             class = "btn action-button info-button",
-                                              #             icon("info"))
                                             ), 
                                             choices = subsidy_types_sorted_sumaila[4:13],
                                             selected = NULL,
@@ -100,10 +96,6 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                             sliderInput("w_overcap_hs_cutoff",
                                                                                         label = tagList(
                                                                                           tags$b(text$item_label[text$item_id == "w_overcap_hs_cutoff"])
-                                                                                          # # Info button
-                                                                                          # tags$button(id = "info_overcap_hs",
-                                                                                          #             class = "btn action-button info-button",
-                                                                                          #             icon("info"))
                                                                                         ),
                                                                                         min = wid$min[wid$item_id == "w_overcap_hs_cutoff"],
                                                                                         max = wid$max[wid$item_id == "w_overcap_hs_cutoff"],
@@ -177,10 +169,6 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                           radioButtons("w_overcap_allow_sdt",
                                                        label = tagList(
                                                          tags$b(text$item_label[text$item_id == "w_overcap_allow_sdt"])
-                                                         # # Info button
-                                                         # tags$button(id = "info_overcap_sdt",
-                                                         #             class = "btn action-button info-button",
-                                                         #             icon("info"))
                                                        ),
                                                        choices = unlist(wid$choices[wid$item_id == "w_overcap_allow_sdt"]),
                                                        selected = unlist(wid$selected[wid$item_id == "w_overcap_allow_sdt"]),
@@ -491,20 +479,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                                      width = "100%")
                                                                          
                                                         ), # /conditionalPanel - Tier 1 cap is set by value
-                                                                         
-                                                        # # Conditional Panel - Tier 1 cap is set by per fisher value
-                                                        # conditionalPanel(condition = "input.w_tier1_cap_rule == 'FISHERS'",
-                                                        #                                   
-                                                        #                  # Input - Set Tier 1 per fisher amount
-                                                        #                  sliderInput("w_tier1_cap_fishers",
-                                                        #                              label = tags$b(text$item_label[text$item_id == "w_tier1_cap_fishers"]),
-                                                        #                              min = wid$min[wid$item_id == "w_tier1_cap_fishers"],
-                                                        #                              max = wid$max[wid$item_id == "w_tier1_cap_fishers"],
-                                                        #                              value = wid$value[wid$item_id == "w_tier1_cap_fishers"],
-                                                        #                              width = "100%")
-                                                        #                  
-                                                        # ), # /conditionalPanel - Tier 1 cap is set by value
-                                                        
+
                                                         # Conditional Panel - Tier 1 cap is set by BEST (percent subs, percent landed value, percent fishers calculation)
                                                         conditionalPanel(condition = "input.w_tier1_cap_rule == 'BEST'",
                                                                          
@@ -588,21 +563,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                                                       width = "100%")
                                                                                           
                                                                          ), # /conditionalPanel - Tier 2 cap is set by value
-                                                                         
-                                                                         # # Conditional Panel - Tier 2 cap is set by per fisher value
-                                                                         # conditionalPanel(condition = "input.w_tier2_cap_rule == 'FISHERS'",
-                                                                         #                  
-                                                                         #                  # Input - Set Tier 2 per fisher amount
-                                                                         #                  sliderInput("w_tier2_cap_fishers",
-                                                                         #                              label = tags$b(text$item_label[text$item_id == "w_tier2_cap_fishers"]),
-                                                                         #                              min = wid$min[wid$item_id == "w_tier2_cap_fishers"],
-                                                                         #                              max = wid$max[wid$item_id == "w_tier2_cap_fishers"],
-                                                                         #                              value = wid$value[wid$item_id == "w_tier2_cap_fishers"],
-                                                                         #                              width = "100%")
-                                                                         #                  
-                                                                         # ), # /conditionalPanel - Tier 2 cap is set by value
-                                                                         
-                                                                         # Conditional Panel - Tier 2 cap is set by BEST (percent subs, percent landed value, percent fishers calculation)
+
                                                                          conditionalPanel(condition = "input.w_tier2_cap_rule == 'BEST'",
                                                                                           
                                                                                           # Input - Set Tier 2 percentage for best option - subsidies
@@ -690,20 +651,6 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                                           
                                                                          ), # /conditionalPanel - Tier 3 cap is set by value
                                                                          
-                                                                         # # Conditional Panel - Tier 3 cap is set by per fisher value
-                                                                         # conditionalPanel(condition = "input.w_tier3_cap_rule == 'FISHERS'",
-                                                                         #                  
-                                                                         #                  # Input - Set Tier 3 per fisher amount
-                                                                         #                  sliderInput("w_tier3_cap_fishers",
-                                                                         #                              label = tags$b(text$item_label[text$item_id == "w_tier3_cap_fishers"]),
-                                                                         #                              min = wid$min[wid$item_id == "w_tier3_cap_fishers"],
-                                                                         #                              max = wid$max[wid$item_id == "w_tier3_cap_fishers"],
-                                                                         #                              value = wid$value[wid$item_id == "w_tier3_cap_fishers"],
-                                                                         #                              width = "100%")
-                                                                         #                  
-                                                                         # ), # /conditionalPanel - Tier 3 cap is set by value
-                                                                         
-                                                                         # Conditional Panel - Tier 3 cap is set by BEST (percent subs, percent landed value, percent fishers calculation)
                                                                          conditionalPanel(condition = "input.w_tier3_cap_rule == 'BEST'",
                                                                                           
                                                                                           # Input - Set Tier 3 percentage for best option - subsidies

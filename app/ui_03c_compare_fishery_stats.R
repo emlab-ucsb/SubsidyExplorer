@@ -32,10 +32,6 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
                                   # Select state
                                   selectizeInput("w_compare_fishery_stats_selected_country",
                                                  label = tagList(tags$b(text$item_label[text$item_id == "w_compare_fishery_stats_selected_country"])
-                                                                 # tags$button(id = "info_compare_fishery_stats_territories",
-                                                                 #             class = "btn action-button info-button",
-                                                                 #             icon("info")
-                                                                 #)
                                                  ),
                                                  choices = wto_members_and_observers,
                                                  selected = "USA",
@@ -165,26 +161,16 @@ CompareFisheryStats = function(wto_members_and_observers, subsidy_types_sorted_s
                                                 
                                                       downloadButton("db_compare_fishery_stats_download_data",
                                                                      text$item_label[text$item_id == "db_compare_fishery_stats_download_data"])
-                                                      # tags$button(id = "db_compare_fishery_stats_download_data",
-                                                      #             class = "btn action-button rounded-button-grey download-button",
-                                                      #             tags$b(icon("external-link-alt"),
-                                                      #                    text$item_label[text$item_id == "db_compare_fishery_stats_download_data"]))
                                               ),
                                               
                                               tags$td(id = "compare-fishery-stats-table-cell-3",
                                                       
                                                       downloadButton("db_compare_fishery_stats_download_figure",
                                                                      text$item_label[text$item_id == "db_compare_fishery_stats_download_figure"])
-                                                      # tags$button(id = "db_compare_fishery_stats_download_figure",
-                                                      #             class = "btn action-button rounded-button-grey download-button",
-                                                      #             tags$b(icon("download"),
-                                                      #                    text$item_label[text$item_id == "db_compare_fishery_stats_download_figure"]))
                                                       
                                               )
                                       )
                            )
-                           #tags$h3("Country Name")
-                           
                     ),
 
                     column(12,

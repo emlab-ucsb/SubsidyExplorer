@@ -192,16 +192,16 @@ shinyServer(function(input, output, session) {
   ### Reactive text: Get description for selected proposal --------
   observe({
 
-    # Want to observe proposal selection
+    # Need to have a proposal selection
     req(input$w_explore_results_proposal_selection)
 
-    # Deal with facilitator's text
-    if(input$w_explore_results_proposal_selection == 'RD/TN/RL/119'){
+    # Deal with Facilitator's text - Overfished
+    if(input$w_explore_results_proposal_selection == 'RD/TN/RL/119/Rev.1'){
       
       # Get selected overfished discipline
       entry_to_use <- switch(input$w_explore_results_overfished_multiple_options,
-                             "RD/TN/RL/79/Rev.1" = list("RD/TN/RL/119 | Objective Definition"),
-                             "RD/TN/RL/77/Rev.2" = list("RD/TN/RL/119 | Relevant Authorities"))
+                             "RD/TN/RL/79/Rev.1" = list("RD/TN/RL/119/Rev.1 | Objective Definition"),
+                             "RD/TN/RL/77/Rev.2" = list("RD/TN/RL/119/Rev.1 | Relevant Authorities"))
       
       selected_policy <- proposal_settings %>%
         dplyr::filter(proposal == entry_to_use[[1]])
@@ -209,19 +209,19 @@ shinyServer(function(input, output, session) {
       # Update reactive object 
       rv_selected_proposal$proposal <- entry_to_use[[1]]
       
-    # Deal with Chair's text
+    # Deal with Chair's text - Consolidated text (Dec 2020)
     }else if(input$w_explore_results_proposal_selection == "RD/TN/RL/126/Rev.2"){
       
-      # More ambitious overfished proposals
+      # More ambitious overfished definition
       if(input$w_explore_results_overfished_multiple_options == "RD/TN/RL/79/Rev.1"){
         
-        # Get selected overfished discipline
+        # Get selected cap approach
         entry_to_use <- switch(input$w_explore_results_cap_multiple_options,
                                "Default" = list("RD/TN/RL/126/Rev.2 | Objective Definition"),
-                               "TN/RL/GEN/199" = list("RD/TN/RL/126/Rev.2 | TN/RL/GEN/199 | Objective Definition"),
-                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126/Rev.2 | TN/RL/GEN/197/Rev.2 | Objective Definition"),
-                               "RD/TN/RL/81" = list("RD/TN/RL/126/Rev.2 | RD/TN/RL/81 | Objective Definition"),
-                               "RD/TN/RL/124" = list("RD/TN/RL/126/Rev.2 | RD/TN/RL/124 | Objective Definition"))
+                               "TN/RL/GEN/199" = list("RD/TN/RL/126/Rev.2 | Objective Definition + TN/RL/GEN/199"),
+                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126/Rev.2 | Objective Definition + TN/RL/GEN/197/Rev.2"),
+                               "RD/TN/RL/81" = list("RD/TN/RL/126/Rev.2 | Objective Definition + RD/TN/RL/81"),
+                               "RD/TN/RL/124" = list("RD/TN/RL/126/Rev.2 | Objective Definition + RD/TN/RL/124"))
         
         selected_policy <- proposal_settings %>%
           dplyr::filter(proposal == entry_to_use[[1]])
@@ -230,16 +230,16 @@ shinyServer(function(input, output, session) {
         rv_selected_proposal$proposal <- entry_to_use[[1]]
         
         
-      # Less ambitious overfished proposals  
+      # Less ambitious overfished definition  
       }else if(input$w_explore_results_overfished_multiple_options == "RD/TN/RL/77/Rev.2"){
         
-        # Get selected overfished discipline
+        # Get selected cap approach
         entry_to_use <- switch(input$w_explore_results_cap_multiple_options,
                                "Default" = list("RD/TN/RL/126/Rev.2 | Relevant Authorities"),
-                               "TN/RL/GEN/199" = list("RD/TN/RL/126/Rev.2 | TN/RL/GEN/199 | Relevant Authorities"),
-                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126/Rev.2 | TN/RL/GEN/197/Rev.2 | Relevant Authorities"),
-                               "RD/TN/RL/81" = list("RD/TN/RL/126/Rev.2 | RD/TN/RL/81 | Relevant Authorities"),
-                               "RD/TN/RL/124" = list("RD/TN/RL/126/Rev.2 | RD/TN/RL/124 | Relevant Authorities"))
+                               "TN/RL/GEN/199" = list("RD/TN/RL/126/Rev.2 | Relevant Authorities + TN/RL/GEN/199"),
+                               "TN/RL/GEN/197/Rev.2" = list("RD/TN/RL/126/Rev.2 | Relevant Authorities + TN/RL/GEN/197/Rev.2"),
+                               "RD/TN/RL/81" = list("RD/TN/RL/126/Rev.2 | Relevant Authorities + RD/TN/RL/81"),
+                               "RD/TN/RL/124" = list("RD/TN/RL/126/Rev.2 | Relevant Authorities + RD/TN/RL/124"))
         
         selected_policy <- proposal_settings %>%
           dplyr::filter(proposal == entry_to_use[[1]])
@@ -281,24 +281,6 @@ shinyServer(function(input, output, session) {
         
       }else{
         
-        # if(selected_policy$proposal %in% c("TN/RL/W/276", "RD/TN/RL/136")){
-        #   
-        #   out <- tagList(
-        #     
-        #     tags$i("Coming soon! We're in the process of adding this text so it can be modeled. For now it is included for reference only.", style = "color: orange;"),
-        #     
-        #     tags$br(),
-        #     tags$br(),
-        #     
-        #     # Run model button (pre-populated proposal)
-        #     tags$button(id = "ab_run_model_proposal",
-        #                 class = "btn action-button rounded-button-no-select",
-        #                 tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")),
-        #                 style = "width: 100%;")
-        #   )
-        #   
-        # }else{
-        
         out <- tagList(
           
           # Run model button (pre-populated proposal)
@@ -306,9 +288,6 @@ shinyServer(function(input, output, session) {
                       class = "btn action-button rounded-button",
                       tags$b(text$item_label[text$item_id == "ab_run_model_proposal"], icon("caret-right")))
         )
-        
-        #}
-        
       }
       
       out
@@ -319,6 +298,10 @@ shinyServer(function(input, output, session) {
     output$explore_results_proposal_selection_text <- renderUI({
       
       req(rv_selected_proposal$proposal != "Default")
+      
+      # Get selected entry
+      selected_policy <- proposal_settings %>%
+        dplyr::filter(proposal == rv_selected_proposal$proposal)
       
       paste0("<b class = 'big'>", "Formal Title ", "</b></br><small>", selected_policy$title, "</small></br>",
              "<b class = 'big'>", "Summary ", "</b></br><small>", selected_policy$summary, "</small></br>",
@@ -350,21 +333,21 @@ shinyServer(function(input, output, session) {
       dplyr::filter(proposal == rv_selected_proposal$proposal)
     
     # Make sure it's an allowable proposal to model
-    req(selected_proposal$include != "No" 
-        #& !(selected_proposal$proposal %in% c("TN/RL/W/276", "RD/TN/RL/136"))
-        )
+    req(selected_proposal$include != "No")
 
     # Create run name
     run_name <- selected_proposal$proposal
-
+  
+    # Check to see if this proposal has been modeled already - if so, retrieve results instead of running it again
     if(run_name %in% rv_results$run$name){
 
-      # Find row cooresponding to that run
+      # Find row corresponding to that run
       run_id <- rv_results$run$id[rv_results$run$name == run_name]
 
       # Update selection tracker so new run is selected
       isolate(rv_selected_result$id <- run_id)
 
+    # Otherwise, get ready to run it
     }else{
 
       # Create run id
@@ -491,7 +474,8 @@ shinyServer(function(input, output, session) {
           managed_threshold = managed_cutoff,
           subsidy_types_all = subsidy_types_sorted_sumaila,
           cap_tier_lookup = cap_tier_lookup_table,
-          country_lookup = country_lookup)
+          country_lookup = country_lookup,
+          sdt_lookup = sdt_lookup_table)
 
         # Create list by region
         fleet_list <- fleet$summary %>%
@@ -523,7 +507,8 @@ shinyServer(function(input, output, session) {
                                          TRUE ~ 0)) %>%
           ungroup() %>%
           mutate(Id = new_run_id,
-                 Name = paste0(selected_proposal$title_tool, " (", run_name, ")"),
+                 #Name = paste0(selected_proposal$title_tool, " (", run_name, ")"),
+                 Name = selected_proposal$title_tool,
                  Type = "Proposal",
                  Description = run_name)
 
@@ -542,7 +527,8 @@ shinyServer(function(input, output, session) {
         # Fill in new tibble row
         new_result <- tibble(id = new_run_id,
                              name = selected_proposal$title_tool,
-                             display_name = paste0(selected_proposal$title_tool, " (", run_name, ")"),
+                             #display_name = paste0(selected_proposal$title_tool, " (", run_name, ")"),
+                             display_name = selected_proposal$title_tool,
                              type = "Proposal",
                              iuu = list(iuu),
                              oa = list(oa),
@@ -735,8 +721,6 @@ shinyServer(function(input, output, session) {
                                   "<b>", plot_variable[[2]], ": ","</b>", round(Diff*100, 2))))+
       theme_bw()+
       scale_color_manual(values = rv_results_color_pal$pal[names(rv_results_color_pal$pal) %in% out_plot_dat$Name])+
-                           #proposal_color_pal[names(proposal_color_pal) %in% unique(out_plot_dat$Type)])+
-      #geom_hline(yintercept = 0)+
       scale_x_continuous(expand = c(0,0))+
       labs(x = "Year", y = plot_variable[[2]])+
       theme(legend.position = "none")+
@@ -775,9 +759,6 @@ shinyServer(function(input, output, session) {
       
       out_plot <- cowplot::plot_grid(rv_explore_results$plot_global + theme(legend.position = "none",
                                                                               plot.margin = unit(c(1, 0.25, 0.25, 0.25), "in")))
-                                     # plot_legend,
-                                     # ncol = 1,
-                                     # rel_heights = c(3,1))
       
       # Now Add Table on the next page
       global_df <- rv_explore_results$data_global %>%
@@ -847,8 +828,6 @@ shinyServer(function(input, output, session) {
                               inline = TRUE,
                               prettyOptions = list(icon = icon("check"),
                                                    status = "default"))
-                                # status = "primary",
-                                #                    fill = TRUE))
   })
 
   ### Update checkboxGroupInput: Add new choices for each proposal that's run ----------
@@ -865,8 +844,6 @@ shinyServer(function(input, output, session) {
                               inline = TRUE,
                               prettyOptions = list(icon = icon("check"),
                                                    status = "default"))
-                                # list(status = "warning",
-                                #                    fill = TRUE))
   })
   
   
@@ -1120,7 +1097,8 @@ shinyServer(function(input, output, session) {
         managed_threshold = managed_cutoff,
         subsidy_types_all = subsidy_types_sorted_sumaila,
         cap_tier_lookup = cap_tier_lookup_table,
-        country_lookup = country_lookup)
+        country_lookup = country_lookup,
+        sdt_lookup = sdt_lookup_table)
       
       # Make list
       fleet_list <- fleet$summary %>%
@@ -1499,9 +1477,20 @@ shinyServer(function(input, output, session) {
                                                  reverse = T,
                                                  log10(c(100, 10e9)))
     
+    # Blank polygons to fix tile copyright issue
+    global_land_shp <- world_eu %>%
+      dplyr::filter(!admin_iso3 %in% eu_countries[eu_countries != "EU"]) %>%
+      na.omit()
+    
     # Map
     leaflet('global_subsidies_map', options = leafletOptions(minZoom = 2, maxZoom = 4, zoomControl = TRUE)) %>% 
-      addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
+      # addProviderTiles("CartoDB.VoyagerNoLabels") %>% 
+      # Add blank, non-selectable polygons for countries
+      addPolygons(data = global_land_shp, 
+                  fillColor = "#FAF8F2",
+                  fillOpacity = 1,
+                  color= "#EDDCDD",
+                  weight = 0.5) %>%
       addCircles(data = rv_global_subsidies$points,
                  color = ~global_subsidies_map_pal(log10(value)),
                  fillOpacity = 1,
@@ -1512,9 +1501,6 @@ shinyServer(function(input, output, session) {
                                               color = "#666",
                                               fillOpacity = 1,
                                               bringToFront = FALSE)
-                 #label = rv_global_subsidies$points_text,
-                 #labelOptions = labelOptions(style = list("font-weight" = "normal",
-                                                          #direction = "auto")
                  ) %>%
       addPolygons(data = rv_global_subsidies$polygons, 
                   fillColor = ~global_subsidies_map_pal(log10(value)),
@@ -2575,9 +2561,20 @@ shinyServer(function(input, output, session) {
                                                      reverse = F,
                                                      log10(rv_global_fishing_footprint$polygons$fishing_KWh))
     
+    # Blank polygons to fix tile copyright issue
+    global_land_shp <- world_eu %>%
+      dplyr::filter(!admin_iso3 %in% eu_countries[eu_countries != "EU"]) %>%
+      na.omit()
+    
     # Map
     leaflet('global_fishing_footprint_map', options = leafletOptions(minZoom = 2, maxZoom = 4, zoomControl = TRUE)) %>%
-      addProviderTiles("CartoDB.VoyagerNoLabels") %>%
+      #addProviderTiles("CartoDB.VoyagerNoLabels") %>%
+      # Add blank, non-selectable polygons for countries
+      addPolygons(data = global_land_shp, 
+                  fillColor = "#FAF8F2",
+                  fillOpacity = 1,
+                  color= "#EDDCDD",
+                  weight = 0.5) %>%
       addPolygons(data = rv_global_fishing_footprint$polygons,
                   fillColor = ~global_fishing_footprint_map_pal(log10(fishing_KWh)),
                   fillOpacity = 0.7,

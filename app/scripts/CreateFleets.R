@@ -15,7 +15,8 @@ CreateFleets <- function(vessel_list,
                          subsidy_types_all,
                          managed_threshold = 0.66,
                          cap_tier_lookup,
-                         country_lookup){
+                         country_lookup,
+                         sdt_lookup){
   
   ### ---------------------------------
   ### SETUP ---------------------------
@@ -266,11 +267,11 @@ CreateFleets <- function(vessel_list,
       iuu_vessels_sdt_ldc <- iuu_vessels_sdt_ldc %>%
         dplyr::filter(is_territorial)
 
-    }else if("TIME" %in% iuu$sdt_what_ldc){
+    }else if("TER/HS" %in% iuu$sdt_what_ldc){
       
-      #################
-      # XXX: NEED TO DO 
-      #################
+      # Exempt fishing within territorial waters or that spend the majority of their time fishing on the high seas
+      iuu_vessels_sdt_ldc <- iuu_vessels_sdt_ldc %>%
+        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= 0.05)
       
     }
     
@@ -304,11 +305,11 @@ CreateFleets <- function(vessel_list,
       iuu_vessels_sdt_developing <- iuu_vessels_sdt_developing %>%
         dplyr::filter(is_territorial)
       
-    }else if("TIME" %in% iuu$sdt_what_developing){
+    }else if("TER/HS" %in% iuu$sdt_what_developing){
       
-      #################
-      # XXX: NEED TO DO 
-      #################
+      # Exempt fishing within territorial waters or that spend the majority of their time fishing on the high seas
+      iuu_vessels_sdt_developing <- iuu_vessels_sdt_developing %>%
+        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= 0.05)
       
     }
     
@@ -342,11 +343,11 @@ CreateFleets <- function(vessel_list,
       iuu_vessels_sdt_sve <- iuu_vessels_sdt_sve %>%
         dplyr::filter(is_territorial)
       
-    }else if("TIME" %in% iuu$sdt_what_sve){
+    }else if("TER/HS" %in% iuu$sdt_what_sve){
       
-      #################
-      # XXX: NEED TO DO 
-      #################
+      # Exempt fishing within territorial waters or that spend the majority of their time fishing on the high seas
+      iuu_vessels_sdt_sve <- iuu_vessels_sdt_sve %>%
+        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= 0.05)
       
     }
     
@@ -387,7 +388,7 @@ CreateFleets <- function(vessel_list,
   # Apply definitions
   if("OA1" %in% oa$definitions){
     
-    # Is considered to be overfished (B/Bmsy < 1) as determined by RAM" = "OA1"
+    # Is considered to be overfished (B/Bmsy < 1) as determined by RAM = "OA1" (More ambitious)
     
     # Identify vessels matching definition
     oa1_vessels <- vessel_subset %>%
@@ -406,7 +407,7 @@ CreateFleets <- function(vessel_list,
 
   if("OA2" %in% oa$definitions){
 
-    # Is considered to be overfished (B/Bmsy < 0.8) as determined by the most recent formal stock assessment" = "OA2"
+    # Is considered to be overfished (B/Bmsy < 0.8) as determined by RAM = "OA2" (Less ambitious)
     
     # Identify vessels matching definition
     oa2_vessels <- vessel_subset %>%
@@ -426,7 +427,7 @@ CreateFleets <- function(vessel_list,
   # Apply definitions
   if("OA3" %in% oa$definitions){
     
-    #Is considered to be overfished (B/Bmsy < 1 or similar metric) as determined by the most recent data-limited stock assessment" = "OA3"
+    # Is considered to be overfished (B/Bmsy < 1) as determined by the data limited stock assessment done by Costello et al. (2016) = "OA3"
     
     # Identify vessels matching definition
     oa3_vessels <- vessel_subset %>%
@@ -446,7 +447,7 @@ CreateFleets <- function(vessel_list,
   # Apply definitions
   if("OA4" %in% oa$definitions){
     
-    #Is considered to be overfished (B/Bmsy < 0.8 or similar metric) as determined by the most recent data-limited stock assessment" = "OA4"
+    # Is considered to be overfished (B/Bmsy < 0.8) as determined by the data limited stock assessment done by Costello et al. (2016) = "OA4"
     
     # Identify vessels matching definition
     oa4_vessels <- vessel_subset %>%
@@ -513,7 +514,7 @@ CreateFleets <- function(vessel_list,
         oa_vessels_scope <- oa_vessels_scope %>%
           dplyr::filter(!is_territorial)
         
-      # 3) Only those coming from the top XX worst subsidizers are within scope  
+      # 3) Only those coming from the top 10 worst subsidizers are within scope  
       }else if("SUB" %in% oa$scope_select){
         
         # Country ranking subsidies 
@@ -671,12 +672,6 @@ CreateFleets <- function(vessel_list,
         oa_vessels_sdt_ldc <- oa_vessels_sdt_ldc %>%
           dplyr::filter(prop_fishing_KWh_high_seas >= (oa$sdt_hs_cutoff_ldc/100))
         
-      }else if("TIME" %in% oa$sdt_what_ldc){
-        
-        ####################
-        ### XXX: NEED TO DO 
-        ####################
-        
       }
       
     }else{
@@ -715,12 +710,6 @@ CreateFleets <- function(vessel_list,
         oa_vessels_sdt_developing <- oa_vessels_sdt_developing %>%
           dplyr::filter(prop_fishing_KWh_high_seas >= (oa$sdt_hs_cutoff_developing/100))
         
-      }else if("TIME" %in% oa$sdt_what_developing){
-        
-        ####################
-        ### XXX: NEED TO DO 
-        ####################
-        
       }
       
     }else{
@@ -758,12 +747,6 @@ CreateFleets <- function(vessel_list,
         # Exempt vessels fishing on the high seas
         oa_vessels_sdt_sve <- oa_vessels_sdt_sve %>%
           dplyr::filter(prop_fishing_KWh_high_seas >= (oa$sdt_hs_cutoff_sve/100))
-        
-      }else if("TIME" %in% oa$sdt_what_sve){
-        
-        ####################
-        ### XXX: NEED TO DO 
-        ####################
         
       }
       
@@ -896,7 +879,7 @@ CreateFleets <- function(vessel_list,
         overcap_vessels_scope <- overcap_vessels_scope %>%
           dplyr::filter(!is_territorial)
         
-        # 3) Only those coming from the top XX worst subsidizers are within scope  
+        # 3) Only those coming from the top 10 worst subsidizers are within scope  
       }else if("SUB" %in% overcap$scope_select){
         
         # Country ranking subsidies 
@@ -954,7 +937,7 @@ CreateFleets <- function(vessel_list,
         }
         
       # 4b) Only those responsible for more than 2% of global capture production
-      }else if("CAPTURE2" %in% overcap$scope_select){
+      }else if("CAPTURE_2" %in% overcap$scope_select){
         
         capture_years <- paste0("", seq(2016, 2018, by = 1), "")
         
@@ -983,7 +966,7 @@ CreateFleets <- function(vessel_list,
         }
 
         # 4c) All vessels from Members accounting for more than 2% of global capture production, and only non-EEZ activity from Members accounting for less than 2% of global capture production  
-      }else if("CAPTURE_EEZ" %in% overcap$scope_select){
+      }else if("CAPTURE_2_EX_EEZ" %in% overcap$scope_select){
         
         capture_years <- paste0("", seq(2016, 2018, by = 1), "")
         
@@ -1080,6 +1063,27 @@ CreateFleets <- function(vessel_list,
         overcap_vessels_scope <- overcap_vessels_scope %>%
           dplyr::filter(engine_power_kw >= overcap$engine_cutoff)
         
+      # 11) Distant water fishing OR HIGH SEAS (for all vessels) plus all fishing by OA vessels    
+      }else if("HS/INDUSTRIAL" %in% overcap$scope_select & !is.na(overcap$hs_cutoff) & !is.na(overcap$length_cutoff) & !is.na(overcap$tonnage_cutoff) & !is.na(overcap$engine_cutoff)){
+        
+        # Filter by vessel engine power
+        overcap_vessels_scope <- overcap_vessels_scope %>%
+          dplyr::filter((prop_fishing_KWh_high_seas >= (overcap$hs_cutoff/100)) | (length_m >= overcap$length_cutoff) | (tonnage_gt >= overcap$tonnage_cutoff) | (engine_power_kw >= overcap$engine_cutoff))
+        
+        # 11) Distant water fishing OR HIGH SEAS (for all vessels) plus all fishing by OA vessels    
+      }else if("OUT/OA" %in% overcap$scope_select & !is.na(overcap$hs_cutoff)){
+      
+        # Filter for unmanaged OR high seas OR distant water fishing only
+        overcap_vessels_scope <- overcap_vessels_scope %>%
+          dplyr::filter(fmi_best < managed_threshold | distant_water | prop_fishing_KWh_high_seas >= (overcap$hs_cutoff/100))
+        
+      # 12) All fishing by OA vessels  
+      }else if("OA" %in% overcap$scope_select){
+        
+        # Filter for unmananaged 
+        overcap_vessels_scope <- overcap_vessels_scope %>%
+          dplyr::filter(fmi_best < managed_threshold)
+        
       }
       
     } # /SELECT
@@ -1101,7 +1105,7 @@ CreateFleets <- function(vessel_list,
     ### Vessel list for S&DT
     overcap_vessels_sdt <- vessel_subset %>%
       right_join(overcap_vessels_scope, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial"))
-  
+    
   ### 1) LDC S&DT ---
   
   if(overcap$sdt_ldc == "YES"){
@@ -1132,12 +1136,6 @@ CreateFleets <- function(vessel_list,
       overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
         dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_ldc/100))
       
-    }else if("TIME" %in% overcap$sdt_what_ldc){
-      
-      #################
-      # XXX: NEED TO DO 
-      #################
-      
     }
     
   }else{
@@ -1167,7 +1165,7 @@ CreateFleets <- function(vessel_list,
     }else if("TER" %in% overcap$sdt_what_developing){
       
       # Exempt vessels fishing in territorial waters
-      overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
+      overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
         dplyr::filter(is_territorial)
       
     }else if("HS" %in% overcap$sdt_what_developing){
@@ -1176,11 +1174,34 @@ CreateFleets <- function(vessel_list,
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
         dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_developing/100))
       
-    }else if("TIME" %in% overcap$sdt_what_developing){
+    }else if("TER/CRI4" %in% overcap$sdt_what_developing){
       
-      #################
-      # XXX: NEED TO DO 
-      #################
+      # Exempt vessels fishing in territorial waters, and those fishing anywhere else whose flag state does not meet any of the three criteria: a) GNI per capita is greater than $5000 US$ (2016-2018), b) contribution to GDP from forestry, fisheries, and agriculture is greater than 10% (2016-2016), c) percentage of 2018 global marine capture production exceeds 2%, or d) they engage in distant water fishing (2018, GFW). 
+      
+      countries_to_exempt <- sdt_lookup$iso3[sdt_lookup$meets_any_criteria == F]
+
+      overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
+        dplyr::filter(is_territorial | flag_iso3 %in% countries_to_exempt)
+      
+    }else if("TER/CAP07" %in% overcap$sdt_what_developing){
+      
+      # Exempt vessels fishing in territorial waters (except for Chinese vessels), and those fishing anywhere else whose flag state is not responsible for at least 07% of global capture production
+      
+      capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+      
+      # Country ranking capture 
+      country_ranking_capture <- cap_tier_lookup %>%
+        dplyr::filter(variable == "capture_production") %>%
+        dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
+        mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
+        mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
+        arrange(percent_prod)
+      
+      # Find states responsible for less than 0.7% of global capture production
+      countries_to_exempt <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod < 0.007], "-T", "")
+      
+      overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
+        dplyr::filter((is_territorial & flag_iso3 != "CHN") | flag_iso3 %in% countries_to_exempt)
       
     }
     
@@ -1220,12 +1241,6 @@ CreateFleets <- function(vessel_list,
       overcap_vessels_sdt_sve <- overcap_vessels_sdt_sve %>%
         dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_sve/100))
       
-    }else if("TIME" %in% overcap$sdt_what_sve){
-      
-      #################
-      # XXX: NEED TO DO 
-      #################
-      
     }
     
   }else{
@@ -1242,7 +1257,7 @@ CreateFleets <- function(vessel_list,
   # List of vessel ids to be excluded from affected because of s&dt
   overcap_vessels_sdt_exclude <- overcap_vessels_sdt %>%
     distinct(ssvid, region, fao_region, eez_id, is_territorial)
-
+  
 }else{
   
   # List of vessel ids to be excluded from affected because of s&dt
@@ -1267,10 +1282,11 @@ overcap_vessels_out <- overcap_vessels_scope %>%
     summarize_all(max, na.rm = T) %>%
     ungroup() %>%
     dplyr::select(-subs_removed)
-  
+
   # Combine with full affected vessel info
   affected_vessels <- vessel_subset %>%
     right_join(affected_subset, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial"))
+  
   
   # Summarize affected subsidy info by flag (needed for cap)
   affected_flag <- left_join(
@@ -1414,15 +1430,6 @@ overcap_vessels_out <- overcap_vessels_scope %>%
        # Assign tiers to those
        cap_tier_dat_sorted <- cap_tier_dat_sorted %>%
          bind_rows(missing_countries_df)
-       
-     #}else if(cap_tier$tier_system == "EXPORTS"){
-       
-       # percent_cutoff <- cap_tier$two_tier_cutoff/100
-       # 
-       # cap_tier_dat_sorted <- cap_tier_dat %>%
-       #   mutate(new_tier = case_when(percent_exports >= percent_cutoff ~ 1, 
-       #                               percent_exports < percent_cutoff ~ 2,
-       #                               is.na(percent_exports) ~ 2))
        
      }else if(cap_tier$tier_system == "SUBS"){
        

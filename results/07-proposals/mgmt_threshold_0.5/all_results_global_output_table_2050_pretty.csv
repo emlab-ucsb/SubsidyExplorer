@@ -1,0 +1,39 @@
+"","Id","Name","Category","Year","Biomass","Catches","Fishing Mortality","Revenue"
+"1","Ambitious Reform","All subsidies","Ambitious Reform",2050,12.49,3.494,-8.265,0.432
+"2","RD/TN/RL/104","IUU (Option B)","IUU",2050,0.006,-0.001,-0.005,0
+"3","RD/TN/RL/87","IUU (Option A)","IUU",2050,0.006,-0.001,-0.005,0
+"4","RD/TN/RL/113","Facilitator's working text - IUU","IUU",2050,0.004,0,-0.003,0
+"5","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",2050,0,0,0,0
+"6","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",2050,8.105,1.983,-6.259,0.245
+"7","RD/TN/RL/124","CAP - Formula","OFOC",2050,7.166,2.235,-4.964,0.281
+"8","RD/TN/RL/124/Rev.1","CAP - Formula (Rev. 1)","OFOC",2050,6.797,2.114,-4.743,0.266
+"9","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",2050,6.195,2.007,-4.182,0.252
+"10","RD/TN/RL/96 Rev.2","OFOC - List approach (revised)","OFOC",2050,5.216,1.93,-3.444,0.243
+"11","RD/TN/RL/91","OFOC - ABNJ","OFOC",2050,4.841,0.342,-5.573,0.018
+"12","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",2050,4.793,1.601,-4.121,0.183
+"13","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",2050,3.93,0.191,-4.897,-0.001
+"14","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",2050,1.819,0.219,-1.136,0.028
+"15","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",2050,1.819,0.219,-1.136,0.028
+"16","TN/RL/GEN/199","CAP - Optional criteria","OFOC",2050,1.249,0.389,-0.954,0.05
+"17","RD/TN/RL/81","CAP - De minimis","OFOC",2050,0.341,0.097,-0.214,0.012
+"18","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - Consolidated text (June 2021) [Sustainability scenario]","Other & Multiple",2050,9.31,2.39,-6.394,0.298
+"19","RD/TN/RL/126/Rev.2 | Objective Definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - Formula]","Other & Multiple",2050,8.226,1.988,-5.929,0.249
+"20","RD/TN/RL/126/Rev.2 | Relevant Authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - Formula]","Other & Multiple",2050,8.223,1.989,-5.926,0.25
+"21","RD/TN/RL/126/Rev.2 | Relevant Authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - Tiers]","Other & Multiple",2050,7.702,1.833,-5.503,0.23
+"22","RD/TN/RL/126/Rev.2 | Objective Definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - Tiers]","Other & Multiple",2050,7.702,1.833,-5.503,0.23
+"23","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - Consolidated text (June 2021) [Managed exemption]","Other & Multiple",2050,6.942,1.878,-5.553,0.234
+"24","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",2050,5.974,1.449,-5.104,0.179
+"25","RD/TN/RL/126/Rev.2 | Objective Definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - Optional criteria]","Other & Multiple",2050,5.706,1.231,-4.168,0.156
+"26","RD/TN/RL/126/Rev.2 | Relevant Authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - Optional criteria]","Other & Multiple",2050,5.706,1.231,-4.168,0.156
+"27","RD/TN/RL/126/Rev.2 | Objective Definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - De minimis]","Other & Multiple",2050,5.646,1.148,-4.118,0.145
+"28","RD/TN/RL/126/Rev.2 | Relevant Authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - De minimis]","Other & Multiple",2050,5.646,1.148,-4.118,0.145
+"29","RD/TN/RL/126/Rev.2 | Objective Definition","Chair's text - Consolidated text (Dec 2020) [Objective Definition]","Other & Multiple",2050,4.479,0.244,-5.321,0.005
+"30","RD/TN/RL/126/Rev.2 | Relevant Authorities","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities]","Other & Multiple",2050,4.473,0.253,-5.312,0.007
+"31","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - Consolidated text (June 2021) [Full exemption]","Other & Multiple",2050,4.473,0.253,-5.312,0.007
+"32","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",2050,4.465,0.25,-5.307,0.006
+"33","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",2050,1.255,0.14,-0.828,0.018
+"34","TN/RL/GEN/202","Disputed waters","Other & Multiple",2050,0.018,-0.004,-0.013,-0.001
+"35","RD/TN/RL/119/Rev.1 | Objective Definition","Facilitator's text - Overfished [Objective Definition]","Overfished",2050,1.819,0.219,-1.136,0.028
+"36","RD/TN/RL/119/Rev.1 | Relevant Authorities","Facilitator's text - Overfished [Relevant Authorities]","Overfished",2050,0.445,-0.087,-0.305,-0.011
+"37","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",2050,0.445,-0.087,-0.305,-0.011
+"38","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",2050,0.344,-0.07,-0.237,-0.009

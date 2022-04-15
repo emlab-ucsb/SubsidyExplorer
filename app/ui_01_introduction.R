@@ -21,11 +21,6 @@ Introduction = function()
              
              # Child element 1: background image
              tags$div(class = "intro-picture-div",
-
-                      # tags$video(src = "fishschool.mp4",
-                                 # type = "video/mp4",
-                                 # autoplay = NA,
-                                 # style = "min-width: 100vw; min-height: 90vh; max-width: 200%; max-height: 200%;")
                       
                       tags$image(src = "intro-background.jpg")
 

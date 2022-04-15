@@ -2,7 +2,7 @@
 ### SubsidyExplorer
 ### An interactive toolkit to explore the tradeoffs across proposed fisheries subsidies disciplines
 ### 
-### This script contains the content for the "iuu" box on the edit-policies" tab
+### This script contains the content for the "IUU" box on the edit-policies" tab
 ### --------------------------------------------------------------------
 
 IUU = function(wto_members_and_observers) 
@@ -27,10 +27,6 @@ IUU = function(wto_members_and_observers)
                                             
                                             label = tagList(
                                               tags$b(text$item_label[text$item_id == "w_iuu_definitions"])
-                                              # # IUU definitions info button
-                                              # tags$button(id = "info_iuu",
-                                              #             class = "btn action-button info-button",
-                                              #             icon("info"))
                                             ), 
                                             choices = unlist(wid$choices[wid$item_id == "w_iuu_definitions"]),
                                             selected = unlist(wid$selected[wid$item_id == "w_iuu_definitions"]),
@@ -50,10 +46,6 @@ IUU = function(wto_members_and_observers)
                                           radioButtons("w_iuu_assumption",
                                                        label = tagList(
                                                          tags$b(text$item_label[text$item_id == "w_iuu_assumption"])
-                                                         # # IUU assumption info button
-                                                         # tags$button(id = "info_iuu_assumption",
-                                                         #             class = "btn action-button info-button",
-                                                         #             icon("info"))
                                                        ), 
                                                        choices = unlist(wid$choices[wid$item_id == "w_iuu_assumption"]),
                                                        selected = unlist(wid$selected[wid$item_id == "w_iuu_assumption"]),

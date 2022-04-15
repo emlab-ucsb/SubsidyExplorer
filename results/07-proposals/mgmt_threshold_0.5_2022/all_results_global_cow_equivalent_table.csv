@@ -1,0 +1,81 @@
+"","Id","Name","Category","Year","Biomass","Catches"
+"1","Ambitious Reform","All subsidies","Ambitious Reform",2050,23572559.1148097,2129389.94494053
+"2","Ambitious Reform","All subsidies","Ambitious Reform",2080,23702591.4169585,2121529.15672101
+"3","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",2050,15582377.7218639,1210736.69022023
+"4","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",2080,15753952.5486135,1212056.30331762
+"5","RD/TN/RL/104","IUU (Option B)","IUU",2050,11972.8985390132,-441.797655694699
+"6","RD/TN/RL/104","IUU (Option B)","IUU",2080,12129.0835174978,-404.554970740218
+"7","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",2050,3432234.47312168,133565.339674908
+"8","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",2080,3857088.32319061,171319.432320654
+"9","RD/TN/RL/113","Facilitator's working text - IUU","IUU",2050,7978.32237343336,-201.32268355549
+"10","RD/TN/RL/113","Facilitator's working text - IUU","IUU",2080,8497.31973769797,-163.618407658797
+"11","RD/TN/RL/119/Rev.1 | Objective Definition","Facilitator's text - Overfished [Objective Definition]","Overfished",2050,3432233.56285476,133565.205237953
+"12","RD/TN/RL/119/Rev.1 | Objective Definition","Facilitator's text - Overfished [Objective Definition]","Overfished",2080,3857086.90299906,171319.214109422
+"13","RD/TN/RL/119/Rev.1 | Relevant Authorities","Facilitator's text - Overfished [Relevant Authorities]","Overfished",2050,839772.339042126,-52919.1927358029
+"14","RD/TN/RL/119/Rev.1 | Relevant Authorities","Facilitator's text - Overfished [Relevant Authorities]","Overfished",2080,970899.660744008,-47229.5528762235
+"15","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",2050,7868515.87390903,115656.351254935
+"16","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",2080,8394091.13293859,172612.221985027
+"17","RD/TN/RL/124","CAP - Formula","OFOC",2050,13523723.564157,1362239.0531843
+"18","RD/TN/RL/124","CAP - Formula","OFOC",2080,13538227.2582309,1362621.35988769
+"19","RD/TN/RL/124/Rev.1","CAP - Formula (Rev. 1)","OFOC",2050,12827495.9439593,1288221.08947434
+"20","RD/TN/RL/124/Rev.1","CAP - Formula (Rev. 1)","OFOC",2080,12836128.2957222,1288998.18362774
+"21","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",2050,14779702.0149404,1285972.29901898
+"22","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",2080,15080076.681462,1283681.25465197
+"23","RD/TN/RL/126/Rev.2 | Objective Definition","Chair's text - Consolidated text (Dec 2020) [Objective Definition]","Other & Multiple",2050,8966894.0038094,147710.04805762
+"24","RD/TN/RL/126/Rev.2 | Objective Definition","Chair's text - Consolidated text (Dec 2020) [Objective Definition]","Other & Multiple",2080,9516708.04192743,201594.905690082
+"25","RD/TN/RL/126/Rev.2 | Objective Definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - Formula]","Other & Multiple",2050,15416148.3372367,1208156.61365213
+"26","RD/TN/RL/126/Rev.2 | Objective Definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - Formula]","Other & Multiple",2080,15428607.5029014,1209116.52323311
+"27","RD/TN/RL/126/Rev.2 | Objective Definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - De minimis]","Other & Multiple",2050,10202665.8969116,681541.274022623
+"28","RD/TN/RL/126/Rev.2 | Objective Definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - De minimis]","Other & Multiple",2080,10215235.7603779,682878.035937371
+"29","RD/TN/RL/126/Rev.2 | Objective Definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - Tiers]","Other & Multiple",2050,14361116.1649711,1104051.70857111
+"30","RD/TN/RL/126/Rev.2 | Objective Definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - Tiers]","Other & Multiple",2080,14377046.632505,1105616.21256316
+"31","RD/TN/RL/126/Rev.2 | Objective Definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - Optional criteria]","Other & Multiple",2050,10769093.7428424,750510.127450899
+"32","RD/TN/RL/126/Rev.2 | Objective Definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective Definition + CAP - Optional criteria]","Other & Multiple",2080,10780164.7553332,750832.083482108
+"33","RD/TN/RL/126/Rev.2 | Relevant Authorities","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities]","Other & Multiple",2050,8954674.74463061,153554.348019328
+"34","RD/TN/RL/126/Rev.2 | Relevant Authorities","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities]","Other & Multiple",2080,9470226.33207954,203320.196986464
+"35","RD/TN/RL/126/Rev.2 | Relevant Authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - Formula]","Other & Multiple",2050,15409414.7361596,1208031.37052267
+"36","RD/TN/RL/126/Rev.2 | Relevant Authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - Formula]","Other & Multiple",2080,15427753.4367266,1209132.00680668
+"37","RD/TN/RL/126/Rev.2 | Relevant Authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - De minimis]","Other & Multiple",2050,10175041.1113333,679121.391282878
+"38","RD/TN/RL/126/Rev.2 | Relevant Authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - De minimis]","Other & Multiple",2080,10187279.3641536,680429.659929455
+"39","RD/TN/RL/126/Rev.2 | Relevant Authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - Tiers]","Other & Multiple",2050,14341042.26669,1101258.8718091
+"40","RD/TN/RL/126/Rev.2 | Relevant Authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - Tiers]","Other & Multiple",2080,14356526.2767877,1102801.0239111
+"41","RD/TN/RL/126/Rev.2 | Relevant Authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - Optional criteria]","Other & Multiple",2050,10769093.7428424,750510.127450899
+"42","RD/TN/RL/126/Rev.2 | Relevant Authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant Authorities + CAP - Optional criteria]","Other & Multiple",2080,10780164.7553332,750832.083482108
+"43","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",2050,8939800.04428321,151693.245555425
+"44","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",2080,9443085.05436091,199535.126906331
+"45","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",2050,839772.339042126,-52919.1927358029
+"46","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",2080,970899.660744008,-47229.5528762235
+"47","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",2050,3432233.56285476,133565.205237953
+"48","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",2080,3857086.90299906,171319.214109422
+"49","RD/TN/RL/81","CAP - De minimis","OFOC",2050,643436.076438377,58843.1943409696
+"50","RD/TN/RL/81","CAP - De minimis","OFOC",2080,643925.923288305,58906.5332844378
+"51","RD/TN/RL/87","IUU (Option A)","IUU",2050,11972.8985390132,-441.797655694699
+"52","RD/TN/RL/87","IUU (Option A)","IUU",2080,12129.0835174978,-404.554970740218
+"53","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",2050,92.8386289761526,13.0188198787042
+"54","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",2080,178.090034911185,27.7894418302042
+"55","RD/TN/RL/91","OFOC - ABNJ","OFOC",2050,9690729.91039171,207348.059299599
+"56","RD/TN/RL/91","OFOC - ABNJ","OFOC",2080,10161318.3177055,248514.534048233
+"57","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",2050,648387.740765945,-42673.1127520132
+"58","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",2080,758416.668651584,-39959.6801755956
+"59","RD/TN/RL/96 Rev.2","OFOC - List approach (revised)","OFOC",2050,9843885.08601418,1176238.51224154
+"60","RD/TN/RL/96 Rev.2","OFOC - List approach (revised)","OFOC",2080,9965270.22111153,1173890.47495645
+"61","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",2050,9030794.50422612,962400.870207955
+"62","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",2080,9188155.06592621,959095.055840739
+"63","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",2050,11692149.6809831,1222985.51765898
+"64","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",2080,11696160.6350116,1223224.10044471
+"65","TN/RL/GEN/199","CAP - Optional criteria","OFOC",2050,2357808.48730639,237016.763338271
+"66","TN/RL/GEN/199","CAP - Optional criteria","OFOC",2080,2424911.22946307,244425.138799825
+"67","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",2050,11539791.2091417,884585.058506965
+"68","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",2080,12004316.1381466,902614.564162634
+"69","TN/RL/GEN/202","Disputed waters","Other & Multiple",2050,33117.2115078922,-2656.4788134613
+"70","TN/RL/GEN/202","Disputed waters","Other & Multiple",2080,63111.4693701906,-4035.39692506584
+"71","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - Consolidated text (June 2021) [Full exemption]","Other & Multiple",2050,8954674.74463061,153554.348019328
+"72","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - Consolidated text (June 2021) [Full exemption]","Other & Multiple",2080,9470226.33207954,203320.196986464
+"73","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - Consolidated text (June 2021) [Managed exemption]","Other & Multiple",2050,13286772.630673,1146823.06028693
+"74","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - Consolidated text (June 2021) [Managed exemption]","Other & Multiple",2080,13614230.3969357,1164255.5984621
+"75","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - Consolidated text (June 2021) [Sustainability scenario]","Other & Multiple",2050,17570364.6551855,1456454.71067458
+"76","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - Consolidated text (June 2021) [Sustainability scenario]","Other & Multiple",2080,17681826.7554412,1450298.40772112
+"77","WT/MIN(21)/W/5 | Full exemption","Chair's text - Draft agreement (Nov 2021) [Full exemption]","Other & Multiple",2050,8535782.27199502,-22583.953820147
+"78","WT/MIN(21)/W/5 | Full exemption","Chair's text - Draft agreement (Nov 2021) [Full exemption]","Other & Multiple",2080,9079092.65141515,32858.8519302643
+"79","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Draft agreement (Nov 2021) [Managed exemption]","Other & Multiple",2050,11885342.0746247,690599.088281153
+"80","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Draft agreement (Nov 2021) [Managed exemption]","Other & Multiple",2080,12231732.2310505,709075.774261154

@@ -112,6 +112,15 @@ ExploreResults = function(proposal_choices)
                                                          width = "100%")
                                             
                                      )
+                    ),
+                    
+                    # Conditional panel for sustainability scenario warning message
+                    conditionalPanel("input.w_explore_results_proposal_selection == 'TN/RL/W/276/Rev.1 | Sustainability scenario'",
+                                     
+                                     column(12, id = "t-spaced-div",
+                                            
+                                            tags$i("Note: Previously this scenario contained an error exempting all Developing and LDC Members from OFOC disciplines. This has been corrected and the results from modeling this scenario have changed.", style = "color: green;")
+                                     )
                     )
                     ),
                     

@@ -5,7 +5,9 @@
 ### Creator(s): Kat Millage and Vienna Saccomanno
 ### Release date (v1): July 2019
 ### Release date (v2): October 2020 
-### Release date (v3): October 2021 - PLOS ONE paper
+### Release date (v3): October 2021 - PLOS ONE paper submission
+### Release date (v4): July 2022 - PLOS ONE paper publication
+### Release date (v5): August 2022 - Final agreement
 ### 
 ### This is the script outlining the user interface for the application
 ### User interface details for each page are specified in their own individual files

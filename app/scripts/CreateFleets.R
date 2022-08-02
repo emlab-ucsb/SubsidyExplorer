@@ -813,6 +813,9 @@ CreateFleets <- function(vessel_list,
     # B5: Non-fuel tax exemptions
     # B6: Fishing access agreements
     # B7: Fuel subsidies
+    # C1: Fisher assistance
+    # C2: Vessel buyback programs
+    # C3: Rural fisher communities
     overcap_subtypes_removed <- overcap$definitions
     
     oc_vessels <- vessel_subset %>%
@@ -1203,8 +1206,30 @@ CreateFleets <- function(vessel_list,
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
         dplyr::filter((is_territorial & flag_iso3 != "CHN") | flag_iso3 %in% countries_to_exempt)
       
-    }
+    }else if("TER10/CAP08" %in% overcap$sdt_what_developing){
     
+    # Exempt vessels fishing in territorial waters if their flag state is responsible for less than 10% of global capture production, and those fishing anywhere else if their flag state is responsible for less than 8% of global capture production. 
+    
+    capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+    
+    # Country ranking capture 
+    country_ranking_capture <- cap_tier_lookup %>%
+      dplyr::filter(variable == "capture_production") %>%
+      dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
+      mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
+      mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
+      arrange(percent_prod)
+
+    # Find states responsible for less than 10% and 0.8% of global capture production
+    countries_to_exempt_10 <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod < 0.1], "-T", "") # Just China
+    
+    countries_to_exempt <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod < 0.008], "-T", "")
+    
+    overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
+      dplyr::filter((is_territorial & flag_iso3 != "CHN") | flag_iso3 %in% countries_to_exempt)
+    
+  }
+  
   }else{
     
     overcap_vessels_sdt_developing <- vessel_sdt_df

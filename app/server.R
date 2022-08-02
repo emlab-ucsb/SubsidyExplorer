@@ -4,7 +4,10 @@
 ### 
 ### Creator(s): Kat Millage and Vienna Saccomanno
 ### Release date (v1): July 2019
-### Release date (v2): 
+### Release date (v2): October 2020 
+### Release date (v3): October 2021 - PLOS ONE paper submission
+### Release date (v4): July 2022 - PLOS ONE paper publication
+### Release date (v5): August 2022 - Final agreement
 ### 
 ### This script contains the the server logic of the app
 ### --------------------------------------------------------------------

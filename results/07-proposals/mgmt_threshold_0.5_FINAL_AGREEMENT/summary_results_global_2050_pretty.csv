@@ -1,0 +1,21 @@
+"","Category","Year","Variable","Minimum","Maximum","Median","Mean"
+"1","Ambitious Reform",2050,"Biomass",12.49,12.49,12.49,12.49
+"2","Ambitious Reform",2050,"Catches",3.49,3.49,3.49,3.49
+"3","Ambitious Reform",2050,"Fishing Mortality",-8.265,-8.265,-8.265,-8.265
+"4","Ambitious Reform",2050,"Revenue",0.43,0.43,0.43,0.43
+"5","IUU",2050,"Biomass",0,0.01,0.01,0.0075
+"6","IUU",2050,"Catches",0,0,0,0
+"7","IUU",2050,"Fishing Mortality",-0.005,-0.003,-0.005,-0.0045
+"8","IUU",2050,"Revenue",0,0,0,0
+"9","OFOC",2050,"Biomass",0.34,8.11,4.79,4.27909090909091
+"10","OFOC",2050,"Catches",0.1,2.24,0.39,1.03636363636364
+"11","OFOC",2050,"Fishing Mortality",-6.259,-0.214,-4.182,-3.47081818181818
+"12","OFOC",2050,"Revenue",0,0.28,0.05,0.124545454545455
+"13","Overfished",2050,"Biomass",0.34,1.82,0.44,0.76
+"14","Overfished",2050,"Catches",-0.09,0.22,-0.08,-0.0075
+"15","Overfished",2050,"Fishing Mortality",-1.136,-0.237,-0.305,-0.49575
+"16","Overfished",2050,"Revenue",-0.01,0.03,-0.01,-4.33680868994202e-19
+"17","Other & Multiple",2050,"Biomass",0.02,11.07,5.63,6.0372
+"18","Other & Multiple",2050,"Catches",-0.08,3.39,1.23,1.2708
+"19","Other & Multiple",2050,"Fishing Mortality",-8.742,-0.013,-5.344,-5.13504
+"20","Other & Multiple",2050,"Revenue",-0.06,0.42,0.15,0.142

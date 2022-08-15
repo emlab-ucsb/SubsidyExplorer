@@ -1,0 +1,61 @@
+"","Region","Category","Year","Variable","Minimum","Maximum","Median","Mean"
+"1","atlantic","Ambitious Reform",2050,"Biomass",6.343,6.343,6.343,6.343
+"2","atlantic","Ambitious Reform",2050,"Catches",-2.304,-2.304,-2.304,-2.304
+"3","atlantic","Ambitious Reform",2050,"Fishing Mortality",-8.132,-8.132,-8.132,-8.132
+"4","atlantic","Ambitious Reform",2050,"Revenue",-0.304,-0.304,-0.304,-0.304
+"5","atlantic","IUU",2050,"Biomass",0.008,0.013,0.013,0.01175
+"6","atlantic","IUU",2050,"Catches",-0.004,-0.002,-0.004,-0.0035
+"7","atlantic","IUU",2050,"Fishing Mortality",-0.016,-0.01,-0.016,-0.0145
+"8","atlantic","IUU",2050,"Revenue",0,0,0,0
+"9","atlantic","OFOC",2050,"Biomass",0.254,5.255,2.41,2.512
+"10","atlantic","OFOC",2050,"Catches",-1.892,-0.079,-0.878,-0.883545454545455
+"11","atlantic","OFOC",2050,"Fishing Mortality",-6.789,-0.332,-3.21,-3.28936363636364
+"12","atlantic","OFOC",2050,"Revenue",-0.249,-0.01,-0.115,-0.115818181818182
+"13","atlantic","Overfished",2050,"Biomass",0.748,2.117,0.958,1.19525
+"14","atlantic","Overfished",2050,"Catches",-0.771,-0.262,-0.333,-0.42475
+"15","atlantic","Overfished",2050,"Fishing Mortality",-2.828,-1.002,-1.279,-1.597
+"16","atlantic","Overfished",2050,"Revenue",-0.101,-0.034,-0.044,-0.05575
+"17","atlantic","Other & Multiple",2050,"Biomass",0.037,5.965,4.3185,3.96845833333333
+"18","atlantic","Other & Multiple",2050,"Catches",-2.147,-0.017,-1.539,-1.42
+"19","atlantic","Other & Multiple",2050,"Fishing Mortality",-7.656,-0.054,-5.614,-5.15420833333333
+"20","atlantic","Other & Multiple",2050,"Revenue",-0.283,-0.002,-0.2025,-0.186541666666667
+"21","indian","Ambitious Reform",2050,"Biomass",6.832,6.832,6.832,6.832
+"22","indian","Ambitious Reform",2050,"Catches",1.077,1.077,1.077,1.077
+"23","indian","Ambitious Reform",2050,"Fishing Mortality",-5.387,-5.387,-5.387,-5.387
+"24","indian","Ambitious Reform",2050,"Revenue",0.14,0.14,0.14,0.14
+"25","indian","IUU",2050,"Biomass",0.001,0.001,0.001,0.001
+"26","indian","IUU",2050,"Catches",0,0,0,0
+"27","indian","IUU",2050,"Fishing Mortality",-0.001,-0.001,-0.001,-0.001
+"28","indian","IUU",2050,"Revenue",0,0,0,0
+"29","indian","OFOC",2050,"Biomass",0.001,8.369,3.357,3.43909090909091
+"30","indian","OFOC",2050,"Catches",-5.473,0.76,0,-1.06345454545455
+"31","indian","OFOC",2050,"Fishing Mortality",-12.773,-0.001,-3.492,-4.23336363636364
+"32","indian","OFOC",2050,"Revenue",-0.731,0.099,0,-0.142454545454545
+"33","indian","Overfished",2050,"Biomass",0,0.001,0,0.00025
+"34","indian","Overfished",2050,"Catches",0,0,0,0
+"35","indian","Overfished",2050,"Fishing Mortality",-0.001,0,0,-0.00025
+"36","indian","Overfished",2050,"Revenue",0,0,0,0
+"37","indian","Other & Multiple",2050,"Biomass",0,8.288,5.403,4.95925
+"38","indian","Other & Multiple",2050,"Catches",-9.958,1.018,0.102,-1.85995833333333
+"39","indian","Other & Multiple",2050,"Fishing Mortality",-16.049,0,-4.521,-6.416375
+"40","indian","Other & Multiple",2050,"Revenue",-1.359,0.132,0.013,-0.253625
+"41","pacific","Ambitious Reform",2050,"Biomass",19.263,19.263,19.263,19.263
+"42","pacific","Ambitious Reform",2050,"Catches",6.646,6.646,6.646,6.646
+"43","pacific","Ambitious Reform",2050,"Fishing Mortality",-10.579,-10.579,-10.579,-10.579
+"44","pacific","Ambitious Reform",2050,"Revenue",0.843,0.843,0.843,0.843
+"45","pacific","IUU",2050,"Biomass",0.002,0.002,0.002,0.002
+"46","pacific","IUU",2050,"Catches",0.001,0.001,0.001,0.001
+"47","pacific","IUU",2050,"Fishing Mortality",-0.001,-0.001,-0.001,-0.001
+"48","pacific","IUU",2050,"Revenue",0,0,0,0
+"49","pacific","OFOC",2050,"Biomass",0.476,11.264,5.027,5.98709090909091
+"50","pacific","OFOC",2050,"Catches",0.194,4.173,1.929,2.25681818181818
+"51","pacific","OFOC",2050,"Fishing Mortality",-6.373,-0.28,-2.95,-3.43318181818182
+"52","pacific","OFOC",2050,"Revenue",0.025,0.535,0.25,0.290454545454545
+"53","pacific","Overfished",2050,"Biomass",0.036,1.892,0.056,0.51
+"54","pacific","Overfished",2050,"Catches",0.012,0.728,0.019,0.1945
+"55","pacific","Overfished",2050,"Fishing Mortality",-1.142,-0.024,-0.037,-0.31
+"56","pacific","Overfished",2050,"Revenue",0.002,0.095,0.002,0.02525
+"57","pacific","Other & Multiple",2050,"Biomass",0.003,17.774,8.3335,8.132875
+"58","pacific","Other & Multiple",2050,"Catches",0.001,6.217,3.158,3.01620833333333
+"59","pacific","Other & Multiple",2050,"Fishing Mortality",-9.813,-0.002,-4.767,-4.61920833333333
+"60","pacific","Other & Multiple",2050,"Revenue",0,0.79,0.4065,0.386958333333333

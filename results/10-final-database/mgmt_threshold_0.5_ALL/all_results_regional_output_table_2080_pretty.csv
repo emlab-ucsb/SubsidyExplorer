@@ -1,0 +1,136 @@
+"","Id","Name","Category","Region","Change in biomass (%, 2080)","Change in catch (%, 2080)","Change in fishing mortality (%, 2080)","Change in revenue (%, 2080)"
+"1","Ambitious Reform","All subsidies","Ambitious Reform","Atlantic Ocean",6.5,-2.35,-8.3,-0.31
+"2","RD/TN/RL/87","IUU (Option A)","IUU","Atlantic Ocean",0.01,0,-0.02,0
+"3","RD/TN/RL/104","IUU (Option B)","IUU","Atlantic Ocean",0.01,0,-0.02,0
+"4","RD/TN/RL/113","Facilitator's working text - IUU","IUU","Atlantic Ocean",0.01,0,-0.01,0
+"5","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU","Atlantic Ocean",0.01,0,-0.02,0
+"6","RD/TN/RL/81","CAP - De minimis","OFOC","Atlantic Ocean",0.25,-0.08,-0.33,-0.01
+"7","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC","Atlantic Ocean",2.39,-0.8,-3.11,-0.1
+"8","TN/RL/GEN/199","CAP - Optional criteria","OFOC","Atlantic Ocean",0.73,-0.23,-0.96,-0.03
+"9","RD/TN/RL/91","OFOC - ABNJ","OFOC","Atlantic Ocean",3.72,-1.27,-4.82,-0.17
+"10","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC","Atlantic Ocean",1.65,-0.54,-2.16,-0.07
+"11","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC","Atlantic Ocean",2.97,-0.98,-3.84,-0.13
+"12","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC","Atlantic Ocean",5.42,-1.92,-6.96,-0.25
+"13","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC","Atlantic Ocean",2.39,-0.8,-3.11,-0.1
+"14","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC","Atlantic Ocean",2.7,-0.91,-3.51,-0.12
+"15","RD/TN/RL/124","CAP - Formula","OFOC","Atlantic Ocean",3.54,-1.19,-4.57,-0.16
+"16","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC","Atlantic Ocean",3.41,-1.14,-4.4,-0.15
+"17","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished","Atlantic Ocean",1.06,-0.34,-1.39,-0.05
+"18","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished","Atlantic Ocean",0.85,-0.27,-1.11,-0.04
+"19","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished","Atlantic Ocean",2.39,-0.8,-3.11,-0.1
+"20","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished","Atlantic Ocean",1.06,-0.34,-1.39,-0.05
+"21","TN/RL/GEN/202","Disputed waters","Other & Multiple","Atlantic Ocean",0.07,-0.03,-0.1,0
+"22","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple","Atlantic Ocean",5.09,-1.8,-6.55,-0.24
+"23","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple","Atlantic Ocean",4.39,-1.53,-5.67,-0.2
+"24","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple","Atlantic Ocean",3.42,-1.17,-4.44,-0.15
+"25","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple","Atlantic Ocean",3.38,-1.15,-4.38,-0.15
+"26","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple","Atlantic Ocean",4.63,-1.59,-5.94,-0.21
+"27","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple","Atlantic Ocean",4.62,-1.59,-5.93,-0.21
+"28","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple","Atlantic Ocean",5.52,-1.94,-7.06,-0.25
+"29","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple","Atlantic Ocean",5.52,-1.94,-7.06,-0.25
+"30","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple","Atlantic Ocean",4.63,-1.59,-5.94,-0.21
+"31","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple","Atlantic Ocean",4.62,-1.59,-5.93,-0.21
+"32","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple","Atlantic Ocean",5.7,-2.01,-7.29,-0.26
+"33","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple","Atlantic Ocean",5.7,-2.01,-7.29,-0.26
+"34","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple","Atlantic Ocean",3.38,-1.15,-4.38,-0.15
+"35","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple","Atlantic Ocean",2.28,-0.76,-2.98,-0.1
+"36","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple","Atlantic Ocean",3.38,-1.15,-4.38,-0.15
+"37","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple","Atlantic Ocean",4.09,-1.41,-5.28,-0.18
+"38","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple","Atlantic Ocean",6.09,-2.18,-7.8,-0.29
+"39","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple","Atlantic Ocean",1.01,-0.33,-1.32,-0.04
+"40","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple","Atlantic Ocean",3.55,-1.21,-4.6,-0.16
+"41","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple","Atlantic Ocean",6.09,-2.18,-7.8,-0.29
+"42","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple","Atlantic Ocean",2.99,-1.01,-3.89,-0.13
+"43","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple","Atlantic Ocean",3.61,-1.23,-4.68,-0.16
+"44","WT/MIN(22)/W/20","Chair's text - June 2022","Other & Multiple","Atlantic Ocean",3.17,-1.07,-4.12,-0.14
+"45","WT/MIN(22)/W/22","Final Fisheries Subsidies Agreement","Other & Multiple","Atlantic Ocean",2.65,-0.89,-3.45,-0.12
+"46","Ambitious Reform","All subsidies","Ambitious Reform","Indian Ocean",6.86,1.08,-5.41,0.14
+"47","RD/TN/RL/87","IUU (Option A)","IUU","Indian Ocean",0,0,0,0
+"48","RD/TN/RL/104","IUU (Option B)","IUU","Indian Ocean",0,0,0,0
+"49","RD/TN/RL/113","Facilitator's working text - IUU","IUU","Indian Ocean",0,0,0,0
+"50","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU","Indian Ocean",0,0,0,0
+"51","RD/TN/RL/81","CAP - De minimis","OFOC","Indian Ocean",0.06,0.01,-0.05,0
+"52","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC","Indian Ocean",0,0,0,0
+"53","TN/RL/GEN/199","CAP - Optional criteria","OFOC","Indian Ocean",1.05,0.19,-0.85,0.03
+"54","RD/TN/RL/91","OFOC - ABNJ","OFOC","Indian Ocean",8.37,-5.47,-12.77,-0.73
+"55","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC","Indian Ocean",1.95,-2.93,-4.78,-0.39
+"56","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC","Indian Ocean",3.36,0.59,-2.69,0.08
+"57","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC","Indian Ocean",5.85,-0.15,-5.67,-0.02
+"58","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC","Indian Ocean",0,0,0,0
+"59","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC","Indian Ocean",8.3,-5.45,-12.7,-0.73
+"60","RD/TN/RL/124","CAP - Formula","OFOC","Indian Ocean",4.53,0.76,-3.61,0.1
+"61","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC","Indian Ocean",4.4,0.74,-3.51,0.1
+"62","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished","Indian Ocean",0,0,0,0
+"63","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished","Indian Ocean",0,0,0,0
+"64","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished","Indian Ocean",0,0,0,0
+"65","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished","Indian Ocean",0,0,0,0
+"66","TN/RL/GEN/202","Disputed waters","Other & Multiple","Indian Ocean",0,0,0,0
+"67","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple","Indian Ocean",6.41,1.02,-5.06,0.13
+"68","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple","Indian Ocean",5.98,0.07,-5.57,0.01
+"69","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple","Indian Ocean",8.16,-6.18,-13.26,-0.83
+"70","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple","Indian Ocean",8.16,-6.18,-13.26,-0.83
+"71","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple","Indian Ocean",3.74,0.64,-2.98,0.08
+"72","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple","Indian Ocean",3.73,0.64,-2.98,0.08
+"73","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple","Indian Ocean",5,0.83,-3.97,0.11
+"74","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple","Indian Ocean",5,0.83,-3.97,0.11
+"75","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple","Indian Ocean",3.5,0.61,-2.79,0.08
+"76","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple","Indian Ocean",3.5,0.6,-2.79,0.08
+"77","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple","Indian Ocean",5.74,0.93,-4.54,0.12
+"78","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple","Indian Ocean",5.74,0.93,-4.54,0.12
+"79","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple","Indian Ocean",8.16,-6.18,-13.26,-0.83
+"80","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple","Indian Ocean",0.21,0.04,-0.17,0.01
+"81","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple","Indian Ocean",8.16,-6.18,-13.26,-0.83
+"82","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple","Indian Ocean",5.98,0.07,-5.57,0.01
+"83","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple","Indian Ocean",5.43,0.89,-4.3,0.12
+"84","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple","Indian Ocean",0,0,0,0
+"85","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple","Indian Ocean",3.37,-9.93,-12.87,-1.36
+"86","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple","Indian Ocean",5.43,0.89,-4.3,0.12
+"87","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple","Indian Ocean",8.31,-9.07,-16.05,-1.23
+"88","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple","Indian Ocean",3.38,-9.99,-12.94,-1.36
+"89","WT/MIN(22)/W/20","Chair's text - June 2022","Other & Multiple","Indian Ocean",3.38,-9.99,-12.94,-1.36
+"90","WT/MIN(22)/W/22","Final Fisheries Subsidies Agreement","Other & Multiple","Indian Ocean",8.3,-5.45,-12.7,-0.73
+"91","Ambitious Reform","All subsidies","Ambitious Reform","Pacific Ocean",19.26,6.65,-10.58,0.84
+"92","RD/TN/RL/87","IUU (Option A)","IUU","Pacific Ocean",0,0,0,0
+"93","RD/TN/RL/104","IUU (Option B)","IUU","Pacific Ocean",0,0,0,0
+"94","RD/TN/RL/113","Facilitator's working text - IUU","IUU","Pacific Ocean",0,0,0,0
+"95","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU","Pacific Ocean",0,0,0,0
+"96","RD/TN/RL/81","CAP - De minimis","OFOC","Pacific Ocean",0.48,0.19,-0.28,0.03
+"97","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC","Pacific Ocean",2.12,0.84,-1.25,0.11
+"98","TN/RL/GEN/199","CAP - Optional criteria","OFOC","Pacific Ocean",1.84,0.74,-1.08,0.1
+"99","RD/TN/RL/91","OFOC - ABNJ","OFOC","Pacific Ocean",5.28,2.05,-3.06,0.27
+"100","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC","Pacific Ocean",8.41,3.2,-4.81,0.41
+"101","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC","Pacific Ocean",9.73,3.66,-5.53,0.47
+"102","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC","Pacific Ocean",11.3,4.19,-6.39,0.54
+"103","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC","Pacific Ocean",2.12,0.84,-1.25,0.11
+"104","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC","Pacific Ocean",4.26,1.67,-2.48,0.22
+"105","RD/TN/RL/124","CAP - Formula","OFOC","Pacific Ocean",11.04,4.11,-6.25,0.53
+"106","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC","Pacific Ocean",10.4,3.89,-5.9,0.5
+"107","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished","Pacific Ocean",0.11,0.04,-0.07,0.01
+"108","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished","Pacific Ocean",0.07,0.03,-0.04,0
+"109","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished","Pacific Ocean",2.12,0.84,-1.25,0.11
+"110","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished","Pacific Ocean",0.11,0.04,-0.07,0.01
+"111","TN/RL/GEN/202","Disputed waters","Other & Multiple","Pacific Ocean",0.01,0,0,0
+"112","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple","Pacific Ocean",17.77,6.22,-9.81,0.79
+"113","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple","Pacific Ocean",9.88,3.7,-5.62,0.48
+"114","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple","Pacific Ocean",4.74,1.85,-2.76,0.24
+"115","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple","Pacific Ocean",4.73,1.85,-2.75,0.24
+"116","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple","Pacific Ocean",6.93,2.67,-3.98,0.34
+"117","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple","Pacific Ocean",6.9,2.66,-3.97,0.34
+"118","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple","Pacific Ocean",10.08,3.78,-5.72,0.49
+"119","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple","Pacific Ocean",10.06,3.77,-5.71,0.48
+"120","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple","Pacific Ocean",6.36,2.46,-3.66,0.32
+"121","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple","Pacific Ocean",6.33,2.45,-3.65,0.32
+"122","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple","Pacific Ocean",10.95,4.07,-6.2,0.52
+"123","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple","Pacific Ocean",10.95,4.07,-6.2,0.52
+"124","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple","Pacific Ocean",4.7,1.83,-2.74,0.24
+"125","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple","Pacific Ocean",1.3,0.52,-0.77,0.07
+"126","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple","Pacific Ocean",4.73,1.85,-2.75,0.24
+"127","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple","Pacific Ocean",9.87,3.7,-5.61,0.47
+"128","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple","Pacific Ocean",13.16,4.8,-7.39,0.61
+"129","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple","Pacific Ocean",0.11,0.04,-0.07,0.01
+"130","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple","Pacific Ocean",14.96,5.37,-8.34,0.68
+"131","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple","Pacific Ocean",13.16,4.8,-7.39,0.61
+"132","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple","Pacific Ocean",4.45,1.74,-2.6,0.23
+"133","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple","Pacific Ocean",15.08,5.4,-8.41,0.69
+"134","WT/MIN(22)/W/20","Chair's text - June 2022","Other & Multiple","Pacific Ocean",15.08,5.4,-8.41,0.69
+"135","WT/MIN(22)/W/22","Final Fisheries Subsidies Agreement","Other & Multiple","Pacific Ocean",4.25,1.67,-2.48,0.22

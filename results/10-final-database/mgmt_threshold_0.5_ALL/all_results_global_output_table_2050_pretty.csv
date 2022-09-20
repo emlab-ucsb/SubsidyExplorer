@@ -1,0 +1,46 @@
+"","Id","Name","Category","Change in biomass (%, 2050)","Change in catch (%, 2050)","Change in fishing mortality (%, 2050)","Change in revenue (%, 2050)"
+"1","Ambitious Reform","All subsidies","Ambitious Reform",12.49,3.49,-8.26,0.43
+"2","RD/TN/RL/87","IUU (Option A)","IUU",0.01,0,0,0
+"3","RD/TN/RL/104","IUU (Option B)","IUU",0.01,0,0,0
+"4","RD/TN/RL/113","Facilitator's working text - IUU","IUU",0,0,0,0
+"5","RD/TN/RL/89/Rev.2","IUU (Option C)","IUU",0.01,0,0,0
+"6","RD/TN/RL/81","CAP - De minimis","OFOC",0.34,0.1,-0.21,0.01
+"7","RD/TN/RL/79/Rev.1","OFOC - Negative effects (Option A)","OFOC",1.82,0.22,-1.14,0.03
+"8","TN/RL/GEN/199","CAP - Optional criteria","OFOC",1.25,0.39,-0.95,0.05
+"9","RD/TN/RL/91","OFOC - ABNJ","OFOC",4.84,0.34,-5.57,0.02
+"10","RD/TN/RL/96/Rev.1","OFOC - List approach","OFOC",4.79,1.6,-4.12,0.18
+"11","TN/RL/GEN/197/Rev.2","CAP - Tiers","OFOC",6.2,2.01,-4.18,0.25
+"12","RD/TN/RL/103","OFOC - Vessel characteristics","OFOC",8.11,1.98,-6.26,0.25
+"13","RD/TN/RL/112/Rev.1","OFOC - Prohibition + management","OFOC",1.82,0.22,-1.14,0.03
+"14","RD/TN/RL/121","OFOC - Negative effects + ABNJ","OFOC",3.93,0.19,-4.9,0
+"15","RD/TN/RL/124","CAP - Formula","OFOC",7.17,2.24,-4.96,0.28
+"16","RD/TN/RL/124/Rev.1","CAP - Formula (revised)","OFOC",6.8,2.11,-4.74,0.27
+"17","RD/TN/RL/77/Rev.2","Overfished - Negative effects (Option A)","Overfished",0.44,-0.09,-0.31,-0.01
+"18","RD/TN/RL/95","Overfished - Negative effects + rebuttable (Option B)","Overfished",0.34,-0.07,-0.24,-0.01
+"19","RD/TN/RL/119/Rev.1 | Objective definition","Facilitator's text - Overfished [Objective definition]","Overfished",1.82,0.22,-1.14,0.03
+"20","RD/TN/RL/119/Rev.1 | Relevant authorities","Facilitator's text - Overfished [Relevant authorities]","Overfished",0.44,-0.09,-0.31,-0.01
+"21","TN/RL/GEN/202","Disputed waters","Other & Multiple",0.02,0,-0.01,0
+"22","RD/TN/RL/125","Comprehensive text proposal","Other & Multiple",11.07,3.39,-7.4,0.42
+"23","TN/RL/GEN/200/Rev.1","S&DT","Other & Multiple",6.89,1.8,-5.5,0.22
+"24","RD/TN/RL/126/Rev.2 | Objective definition","Chair's text - Consolidated text (Dec 2020) [Objective definition]","Other & Multiple",4.43,0.18,-5.31,-0.01
+"25","RD/TN/RL/126/Rev.2 | Relevant authorities","Chair's text - Consolidated text (Dec 2020) [Relevant authorities]","Other & Multiple",4.42,0.19,-5.3,-0.01
+"26","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Optional criteria]","Other & Multiple",5.63,1.23,-4.08,0.15
+"27","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/199","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Optional criteria]","Other & Multiple",5.61,1.22,-4.07,0.15
+"28","RD/TN/RL/126/Rev.2 | Objective definition + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Tiers]","Other & Multiple",7.62,1.82,-5.43,0.23
+"29","RD/TN/RL/126/Rev.2 | Relevant authorities + TN/RL/GEN/197/Rev.2","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Tiers]","Other & Multiple",7.61,1.81,-5.42,0.23
+"30","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - De minimis]","Other & Multiple",5.33,1.09,-3.88,0.14
+"31","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/81","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - De minimis]","Other & Multiple",5.32,1.09,-3.87,0.14
+"32","RD/TN/RL/126/Rev.2 | Objective definition + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Objective definition + CAP - Formula]","Other & Multiple",8.17,1.99,-5.88,0.25
+"33","RD/TN/RL/126/Rev.2 | Relevant authorities + RD/TN/RL/124","Chair's text - Consolidated text (Dec 2020) [Relevant authorities + CAP - Formula]","Other & Multiple",8.17,1.99,-5.87,0.25
+"34","RD/TN/RL/136","Artisanal - Exemption","Other & Multiple",4.41,0.18,-5.29,-0.01
+"35","TN/RL/W/276/Rev.1 | Full exemption + S&DT for all developing countries","Chair's text - June 2021 [Full exemption + S&DT for all developing countries]","Other & Multiple",1.49,0.09,-0.99,0.01
+"36","TN/RL/W/276/Rev.1 | Full exemption","Chair's text - June 2021 [Full exemption]","Other & Multiple",4.42,0.19,-5.3,-0.01
+"37","TN/RL/W/276/Rev.1 | Managed exemption","Chair's text - June 2021 [Managed exemption]","Other & Multiple",6.8,1.83,-5.43,0.23
+"38","TN/RL/W/276/Rev.1 | Sustainability scenario","Chair's text - June 2021 [Sustainability scenario]","Other & Multiple",9.31,2.39,-6.39,0.3
+"39","WT/MIN(21)/W/5 | Full exemption","Chair's text - Nov 2021 [Full exemption]","Other & Multiple",0.42,-0.08,-0.29,-0.01
+"40","WT/MIN(21)/W/5 | Managed exemption","Chair's text - Nov 2021 [Managed exemption]","Other & Multiple",8.82,2.26,-8.7,0.21
+"41","WT/MIN(21)/W/5 | Sustainability scenario","Chair's text - Nov 2021 [Sustainability scenario]","Other & Multiple",9.31,2.39,-6.39,0.3
+"42","WT/MIN(21)/W/5 | Full exemption for domestic only","Chair's text - Nov 2021 [Full exemption for domestic only]","Other & Multiple",4.2,-0.04,-5.34,-0.06
+"43","WT/MIN(21)/W/5 | Managed exemption for domestic only","Chair's text - Nov 2021 [Managed exemption for domestic only]","Other & Multiple",8.87,2.26,-8.74,0.21
+"44","WT/MIN(22)/W/20","Chair's text - June 2022","Other & Multiple",8.67,2.31,-8.6,0.22
+"45","WT/MIN(22)/W/22","Final Fisheries Subsidies Agreement","Other & Multiple",3.92,0.19,-4.88,0

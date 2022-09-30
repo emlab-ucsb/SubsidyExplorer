@@ -279,7 +279,7 @@ sdt_lookup_table <- read_csv("./data/sdt_lookup_table.csv")
 #proposal_settings <- read.csv("./data/wto_proposal_settings_v3.csv", stringsAsFactors = F)
 # proposal_settings <- read.csv("./data/wto_proposal_settings_FINAL.csv", stringsAsFactors = F) %>%
 #   dplyr::filter(include != "Hide") # remove bad proposals
-proposal_settings <- read.csv("./data/wto_proposal_settings_master_FINAL_AGREEMENT.csv", stringsAsFactors = F) %>%
+proposal_settings <- read.csv("./data/wto_proposal_settings_FINAL_AGREEMENT.csv", stringsAsFactors = F) %>%
   dplyr::filter(include != "Hide") # remove bad proposals
 
 # Proposal names

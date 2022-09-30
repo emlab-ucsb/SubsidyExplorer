@@ -62,18 +62,18 @@ if (dir.exists(results_dir) == F) {
 ```
 
 ```{r}
-# # Load country dependencies helper file
-# country_dependencies <- read_csv(here::here("app", "data", "country_dependencies.csv")) %>%
-#    mutate(display_name = case_when(!is.na(WTO_name) ~ WTO_name,
-#                                   iso3 == "ANT" ~ "Netherlands Antilles",
-#                                   iso3 == "ASC" ~ "Ascension Island", 
-#                                   iso3 == "CPT" ~ "Clipperton Island",
-#                                   iso3 == "TAA" ~ "Tristan da Cunha",
-#                                   TRUE ~ countrycode(iso3, "iso3c", "country.name"))) %>%
-#   arrange(sovereign_iso3) 
-# 
-# # Vector of all WTO Members and Observers for use in the app [does not include the overseas territories associated with them]
-# wto_members_and_observers <- country_dependencies$iso3[country_dependencies$is_WTO & !country_dependencies$is_overseas_territory]
+# Load country dependencies helper file
+country_dependencies <- read_csv(here::here("app", "data", "country_dependencies.csv")) %>%
+   mutate(display_name = case_when(!is.na(WTO_name) ~ WTO_name,
+                                  iso3 == "ANT" ~ "Netherlands Antilles",
+                                  iso3 == "ASC" ~ "Ascension Island",
+                                  iso3 == "CPT" ~ "Clipperton Island",
+                                  iso3 == "TAA" ~ "Tristan da Cunha",
+                                  TRUE ~ countrycode(iso3, "iso3c", "country.name"))) %>%
+  arrange(sovereign_iso3)
+
+# Vector of all WTO Members and Observers for use in the app [does not include the overseas territories associated with them]
+wto_members_and_observers <- country_dependencies$iso3[country_dependencies$is_WTO & !country_dependencies$is_overseas_territory]
 ```
 
 ```{r}
@@ -111,7 +111,6 @@ vessel_dat <- vessel_dat %>%
 ```{r}
 hs_vessel_dat <- vessel_dat_raw %>%
   dplyr::filter(prop_fishing_KWh_high_seas >= 0.05)
-
 ```
 
 ## Gear type breakdown
@@ -119,7 +118,8 @@ hs_vessel_dat <- vessel_dat_raw %>%
 ```{r}
 gear_type_breakdown <- hs_vessel_dat %>%
   group_by(vessel_class) %>%
-  summarize(bad_subs = sum(bad_subs, na.rm = T))
+  summarize(bad_subs = sum(bad_subs, na.rm = T),
+            n_vessels = n_distinct(ssvid))
 
 gear_type_breakdown_plot <- gear_type_breakdown %>%
   ggplot()+
@@ -130,6 +130,7 @@ gear_type_breakdown_plot <- gear_type_breakdown %>%
   labs(x = "Gear type",
        y = "Capacity-enhancing subsidies ($, billions)")
 
+write_csv(gear_type_breakdown, paste0(results_dir, "hs_gear_type_breakdown.csv"))
 ggsave(paste0(results_dir, "hs_gear_type_breakdown.png"), gear_type_breakdown_plot, width = 7.5, height = 6)
 ```
 
@@ -139,7 +140,8 @@ ggsave(paste0(results_dir, "hs_gear_type_breakdown.png"), gear_type_breakdown_pl
 length_breakdown <- hs_vessel_dat %>%
   mutate(bin = cut(length_m, seq(min(length_m), max(length_m) + 10, 10))) %>%
   group_by(bin) %>%
-  summarize(bad_subs = sum(bad_subs, na.rm = T))
+  summarize(bad_subs = sum(bad_subs, na.rm = T),
+            n_vessels = n_distinct(ssvid))
 
 length_breakdown_plot <- length_breakdown %>%
   ggplot()+
@@ -150,15 +152,18 @@ length_breakdown_plot <- length_breakdown %>%
   labs(x = "Total length (m)",
        y = "Capacity-enhancing subsidies ($, billions)")
 
+write_csv(length_breakdown, paste0(results_dir, "hs_length_breakdown.csv"))
 ggsave(paste0(results_dir, "hs_length_breakdown.png"), length_breakdown_plot, width = 7.5, height = 6)
 ```
+
 ## Tonnage breakdown
 
 ```{r}
 tonnage_breakdown <- hs_vessel_dat %>%
   mutate(bin = cut(tonnage_gt, seq(min(tonnage_gt), max(tonnage_gt) + 100, 100))) %>%
   group_by(bin) %>%
-  summarize(bad_subs = sum(bad_subs, na.rm = T))
+  summarize(bad_subs = sum(bad_subs, na.rm = T),
+            n_vessels = n_distinct(ssvid))
 
 tonnage_breakdown_plot <- tonnage_breakdown %>%
   ggplot()+
@@ -169,6 +174,7 @@ tonnage_breakdown_plot <- tonnage_breakdown %>%
   labs(x = "Tonnage (gt)",
        y = "Capacity-enhancing subsidies ($, billions)")
 
+write_csv(tonnage_breakdown, paste0(results_dir, "hs_tonnage_breakdown.csv"))
 ggsave(paste0(results_dir, "hs_tonnage_breakdown.png"), tonnage_breakdown_plot, width = 7.5, height = 8)
 ```
 
@@ -178,7 +184,8 @@ ggsave(paste0(results_dir, "hs_tonnage_breakdown.png"), tonnage_breakdown_plot, 
 engine_power_breakdown <- hs_vessel_dat %>%
   mutate(bin = cut(engine_power_kw, seq(min(engine_power_kw), max(engine_power_kw) + 100, 100))) %>%
   group_by(bin) %>%
-  summarize(bad_subs = sum(bad_subs, na.rm = T))
+  summarize(bad_subs = sum(bad_subs, na.rm = T),
+            n_vessels = n_distinct(ssvid))
 
 engine_power_breakdown_plot <- engine_power_breakdown %>%
   ggplot()+
@@ -189,6 +196,7 @@ engine_power_breakdown_plot <- engine_power_breakdown %>%
   labs(x = "Engine power (kW)",
        y = "Capacity-enhancing subsidies ($, billions)")
 
+write_csv(engine_power_breakdown, paste0(results_dir, "hs_engine_power_breakdown.csv"))
 ggsave(paste0(results_dir, "hs_engine_power_breakdown.png"), engine_power_breakdown_plot, width = 7.5, height = 8)
 ```
 

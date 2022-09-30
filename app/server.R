@@ -1197,7 +1197,7 @@ shinyServer(function(input, output, session) {
   output$db_download_methods <- downloadHandler(
     filename = "SubsidyExplorer_methods.pdf",
     content = function(file) {
-      file.copy("www/SubsidyExplorer_methods.pdf", file)
+      file.copy("www/2022_09_28_SubsidyExplorer_methods.pdf", file)
     }
   )
   

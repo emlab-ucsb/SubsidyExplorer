@@ -183,7 +183,7 @@ CreateFleets <- function(vessel_list,
   # There must be at least one affected vessel in order to define scope
   if(nrow(iuu_vessels) >= 1){
     
-    ### Vessel list for scope (need additional characteristics) - WHY DOES THIS GIVE ME MORE ENTRIES THAN I STARTED WITH - DUPLICATING SOMEWHERE
+    ### Vessel list for scope (need additional characteristics)
     iuu_vessels_scope <- iuu_vessels %>%
       left_join(vessel_subset, by = c("ssvid", "region", "fao_region", "eez_id", "is_territorial"))
     
@@ -191,7 +191,6 @@ CreateFleets <- function(vessel_list,
     if(iuu$scope == "ALL"){
       
       iuu_vessels_scope <- iuu_vessels_scope
-      
 
     # Only those with selected characteristics
     }else if(iuu$scope == "SELECT"){
@@ -267,11 +266,17 @@ CreateFleets <- function(vessel_list,
       iuu_vessels_sdt_ldc <- iuu_vessels_sdt_ldc %>%
         dplyr::filter(is_territorial)
 
+    }else if("HS" %in% iuu$sdt_what_ldc){
+      
+      # Exempt vessels that spend the majority of their time fishing on the high seas
+      iuu_vessels_sdt_ldc <- iuu_vessels_sdt_ldc %>%
+        dplyr::filter(prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
+      
     }else if("TER/HS" %in% iuu$sdt_what_ldc){
       
       # Exempt fishing within territorial waters or that spend the majority of their time fishing on the high seas
       iuu_vessels_sdt_ldc <- iuu_vessels_sdt_ldc %>%
-        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= 0.05)
+        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
       
     }
     
@@ -305,11 +310,17 @@ CreateFleets <- function(vessel_list,
       iuu_vessels_sdt_developing <- iuu_vessels_sdt_developing %>%
         dplyr::filter(is_territorial)
       
+    }else if("HS" %in% iuu$sdt_what_developing){
+      
+      # Exempt fishing within territorial waters or that spend the majority of their time fishing on the high seas
+      iuu_vessels_sdt_developing <- iuu_vessels_sdt_developing %>%
+        dplyr::filter(prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
+      
     }else if("TER/HS" %in% iuu$sdt_what_developing){
       
       # Exempt fishing within territorial waters or that spend the majority of their time fishing on the high seas
       iuu_vessels_sdt_developing <- iuu_vessels_sdt_developing %>%
-        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= 0.05)
+        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
       
     }
     
@@ -343,11 +354,17 @@ CreateFleets <- function(vessel_list,
       iuu_vessels_sdt_sve <- iuu_vessels_sdt_sve %>%
         dplyr::filter(is_territorial)
       
+    }else if("HS" %in% iuu$sdt_what_sve){
+      
+      # Exempt fishing within territorial waters or that spend the majority of their time fishing on the high seas
+      iuu_vessels_sdt_sve <- iuu_vessels_sdt_sve %>%
+        dplyr::filter(prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
+      
     }else if("TER/HS" %in% iuu$sdt_what_sve){
       
       # Exempt fishing within territorial waters or that spend the majority of their time fishing on the high seas
       iuu_vessels_sdt_sve <- iuu_vessels_sdt_sve %>%
-        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= 0.05)
+        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
       
     }
     
@@ -514,8 +531,8 @@ CreateFleets <- function(vessel_list,
         oa_vessels_scope <- oa_vessels_scope %>%
           dplyr::filter(!is_territorial)
         
-      # 3) Only those coming from the top 10 worst subsidizers are within scope  
-      }else if("SUB" %in% oa$scope_select){
+      # 3) Only those coming from the top X Members providing capacity-enhancing subsidies  
+      }else if("SUB" %in% oa$scope_select & !is.na(oa$sub_cutoff)){
         
         # Country ranking subsidies 
         country_ranking_subsidies <- cap_tier_lookup %>%
@@ -527,25 +544,26 @@ CreateFleets <- function(vessel_list,
           arrange(subs_rank)
         
         # Find top 10 subsidizing Member states
-        top_countries_subs <- country_ranking_subsidies$iso3[country_ranking_subsidies$subs_rank <= 10]
+        top_countries_subs <- country_ranking_subsidies$iso3[country_ranking_subsidies$subs_rank <= oa$sub_cutoff]
         
         # Deal with EU
         if("EU" %in% top_countries_subs){
           
-          # Filter for top 10 subsidizing Member states
+          # Filter for top X subsidizing Member states
           oa_vessels_scope <- oa_vessels_scope %>%
             dplyr::filter(flag_iso3 %in% eu_countries | flag_iso3 %in% eu_territories | flag_iso3 %in% top_countries_subs)
           
         }else{
-          # Filter for top 10 subsidizing Member states
+          # Filter for top X subsidizing Member states
           oa_vessels_scope <- oa_vessels_scope %>%
             dplyr::filter(flag_iso3 %in% top_countries_subs)
         }
       
-      # 4) Only those responsible for more than 1% of global capture production    
-      }else if("CAPTURE" %in% oa$scope_select){
+      # 4) Only those responsible for more than X% of global capture production    
+      }else if("CAPTURE" %in% oa$scope_select & !is.na(oa$capture_cutoff)){
         
         capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+        capture_percent <- oa$capture_cutoff/100
         
         # Country ranking capture 
         country_ranking_capture <- cap_tier_lookup %>%
@@ -555,18 +573,18 @@ CreateFleets <- function(vessel_list,
           mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
           arrange(percent_prod)
         
-        # Find states responsible for greater than 1% of global capture production
-        top_countries_capture <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod >= 0.01], "-T", "")
+        # Find states responsible for greater than X% of global capture production
+        top_countries_capture <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod >= capture_percent], "-T", "")
         
         # Deal with EU
         if("EU" %in% top_countries_capture){
           
-          # Filter for top 10 subsidizing Member states
+          # Filter
           oa_vessels_scope <- oa_vessels_scope %>%
             dplyr::filter(flag_iso3 %in% eu_countries | flag_iso3 %in% eu_territories | flag_iso3 %in% top_countries_capture)
           
         }else{
-          # Filter for top 10 subsidizing Member states
+          # Filter
           oa_vessels_scope <- oa_vessels_scope %>%
             dplyr::filter(flag_iso3 %in% top_countries_capture)
         }
@@ -662,7 +680,7 @@ CreateFleets <- function(vessel_list,
         
       }else if("TER" %in% oa$sdt_what_ldc){
         
-        # Exempt domestic fishing vessels (less than 1% of fishing effort)
+        # Exempt vessels fishing in territorial waters
         oa_vessels_sdt_ldc <- oa_vessels_sdt_ldc %>%
           dplyr::filter(is_territorial) 
         
@@ -670,7 +688,13 @@ CreateFleets <- function(vessel_list,
         
         # Exempt vessels fishing on the high seas
         oa_vessels_sdt_ldc <- oa_vessels_sdt_ldc %>%
-          dplyr::filter(prop_fishing_KWh_high_seas >= (oa$sdt_hs_cutoff_ldc/100))
+          dplyr::filter(prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
+        
+      }else if("TER/HS" %in% oa$sdt_what_ldc){
+        
+        # Exempt vessels fishing in territorial waters or on the high seas
+        oa_vessels_sdt_ldc <- oa_vessels_sdt_ldc %>%
+          dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
         
       }
       
@@ -708,7 +732,13 @@ CreateFleets <- function(vessel_list,
         
         # Exempt vessels fishing on the high seas
         oa_vessels_sdt_developing <- oa_vessels_sdt_developing %>%
-          dplyr::filter(prop_fishing_KWh_high_seas >= (oa$sdt_hs_cutoff_developing/100))
+          dplyr::filter(prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
+        
+      }else if("TER/HS" %in% oa$sdt_what_developing){
+        
+        # Exempt vessels fishing on the high seas
+        oa_vessels_sdt_developing <- oa_vessels_sdt_developing %>%
+          dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
         
       }
       
@@ -746,7 +776,13 @@ CreateFleets <- function(vessel_list,
         
         # Exempt vessels fishing on the high seas
         oa_vessels_sdt_sve <- oa_vessels_sdt_sve %>%
-          dplyr::filter(prop_fishing_KWh_high_seas >= (oa$sdt_hs_cutoff_sve/100))
+          dplyr::filter(prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
+        
+      }else if("TER/HS" %in% oa$sdt_what_sve){
+        
+        # Exempt vessels fishing on the high seas
+        oa_vessels_sdt_sve <- oa_vessels_sdt_sve %>%
+          dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
         
       }
       
@@ -882,8 +918,8 @@ CreateFleets <- function(vessel_list,
         overcap_vessels_scope <- overcap_vessels_scope %>%
           dplyr::filter(!is_territorial)
         
-        # 3) Only those coming from the top 10 worst subsidizers are within scope  
-      }else if("SUB" %in% overcap$scope_select){
+        # 3) Only those coming from the top X worst subsidizers are within scope  
+      }else if("SUB" %in% overcap$scope_select & !is.na(overcap$sub_cutoff)){
         
         # Country ranking subsidies 
         country_ranking_subsidies <- cap_tier_lookup %>%
@@ -895,7 +931,7 @@ CreateFleets <- function(vessel_list,
           arrange(subs_rank)
         
         # Find top 10 subsidizing Member states
-        top_countries_subs <- country_ranking_subsidies$iso3[country_ranking_subsidies$subs_rank <= 10]
+        top_countries_subs <- country_ranking_subsidies$iso3[country_ranking_subsidies$subs_rank <= overcap$sub_cutoff]
         
         # Deal with EU
         if("EU" %in% top_countries_subs){
@@ -910,10 +946,11 @@ CreateFleets <- function(vessel_list,
             dplyr::filter(flag_iso3 %in% top_countries_subs)
         }
         
-        # 4a) Only those responsible for more than 1% of global capture production
-      }else if("CAPTURE" %in% overcap$scope_select){
+        # 4) Only those responsible for more than X% of global capture production
+      }else if("CAPTURE" %in% overcap$scope_select & !is.na(overcap$capture_cutoff)){
         
         capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+        capture_percent <- overcap$capture_cutoff/100
         
         # Country ranking capture 
         country_ranking_capture <- cap_tier_lookup %>%
@@ -924,7 +961,7 @@ CreateFleets <- function(vessel_list,
           arrange(percent_prod)
         
         # Find states responsible for greater than 1% of global capture production
-        top_countries_capture <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod >= 0.01], "-T", "")
+        top_countries_capture <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod >= capture_percent], "-T", "")
         
         # Deal with EU
         if("EU" %in% top_countries_capture){
@@ -940,35 +977,35 @@ CreateFleets <- function(vessel_list,
         }
         
       # 4b) Only those responsible for more than 2% of global capture production
-      }else if("CAPTURE_2" %in% overcap$scope_select){
-        
-        capture_years <- paste0("", seq(2016, 2018, by = 1), "")
-        
-        # Country ranking capture 
-        country_ranking_capture <- cap_tier_lookup %>%
-          dplyr::filter(variable == "capture_production") %>%
-          dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
-          mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
-          mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
-          arrange(percent_prod)
-        
-        # Find states responsible for greater than 1% of global capture production
-        top_countries_capture <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod >= 0.02], "-T", "")
-        
-        # Deal with EU
-        if("EU" %in% top_countries_capture){
-          
-          # Filter for top 10 subsidizing Member states
-          overcap_vessels_scope <- overcap_vessels_scope %>%
-            dplyr::filter(flag_iso3 %in% eu_countries | flag_iso3 %in% eu_territories | flag_iso3 %in% top_countries_capture)
-          
-        }else{
-          # Filter for top 10 subsidizing Member states
-          overcap_vessels_scope <- overcap_vessels_scope %>%
-            dplyr::filter(flag_iso3 %in% top_countries_capture)
-        }
+      # }else if("CAPTURE_2" %in% overcap$scope_select){
+      #   
+      #   capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+      #   
+      #   # Country ranking capture 
+      #   country_ranking_capture <- cap_tier_lookup %>%
+      #     dplyr::filter(variable == "capture_production") %>%
+      #     dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
+      #     mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
+      #     mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
+      #     arrange(percent_prod)
+      #   
+      #   # Find states responsible for greater than 1% of global capture production
+      #   top_countries_capture <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod >= 0.02], "-T", "")
+      #   
+      #   # Deal with EU
+      #   if("EU" %in% top_countries_capture){
+      #     
+      #     # Filter for top 10 subsidizing Member states
+      #     overcap_vessels_scope <- overcap_vessels_scope %>%
+      #       dplyr::filter(flag_iso3 %in% eu_countries | flag_iso3 %in% eu_territories | flag_iso3 %in% top_countries_capture)
+      #     
+      #   }else{
+      #     # Filter for top 10 subsidizing Member states
+      #     overcap_vessels_scope <- overcap_vessels_scope %>%
+      #       dplyr::filter(flag_iso3 %in% top_countries_capture)
+      #   }
 
-        # 4c) All vessels from Members accounting for more than 2% of global capture production, and only non-EEZ activity from Members accounting for less than 2% of global capture production  
+        # 4b) Special case - not included in manual proposal creation: All vessels from Members accounting for more than 2% of global capture production, and only non-EEZ activity from Members accounting for less than 2% of global capture production  
       }else if("CAPTURE_2_EX_EEZ" %in% overcap$scope_select){
         
         capture_years <- paste0("", seq(2016, 2018, by = 1), "")
@@ -1137,7 +1174,13 @@ CreateFleets <- function(vessel_list,
       
       # Exempt vessels fishing on the high seas
       overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
-        dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_ldc/100))
+        dplyr::filter(prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
+      
+    }else if("TER/HS" %in% overcap$sdt_what_ldc){
+      
+      # Exempt vessels fishing in territorial waters OR on the high seas
+      overcap_vessels_sdt_ldc <- overcap_vessels_sdt_ldc %>%
+        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
       
     }
     
@@ -1175,7 +1218,13 @@ CreateFleets <- function(vessel_list,
       
       # Exempt vessels fishing on the high seas
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
-        dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_developing/100))
+        dplyr::filter(prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
+      
+    }else if("TER/HS" %in% overcap$sdt_what_developing){
+      
+      # Exempt vessels fishing on the high seas
+      overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
+        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
       
     }else if("TER/CRI4" %in% overcap$sdt_what_developing){
       
@@ -1186,11 +1235,12 @@ CreateFleets <- function(vessel_list,
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
         dplyr::filter(is_territorial | flag_iso3 %in% countries_to_exempt)
       
-    }else if("TER/CAP07" %in% overcap$sdt_what_developing){
+    }else if("TER/CAPTURE" %in% overcap$sdt_what_developing & !is.na(overcap$sdt_capture_cutoff_developing)){
       
-      # Exempt vessels fishing in territorial waters (except for Chinese vessels), and those fishing anywhere else whose flag state is not responsible for at least 07% of global capture production
+      # Exempt vessels fishing in territorial waters if their flag state is responsible for less than 10% of global capture production (just not China), and those fishing anywhere else if their flag state is responsible for less than X% of global capture production. 
       
       capture_years <- paste0("", seq(2016, 2018, by = 1), "")
+      capture_percent <- overcap$sdt_capture_cutoff_developing/100
       
       # Country ranking capture 
       country_ranking_capture <- cap_tier_lookup %>%
@@ -1201,34 +1251,12 @@ CreateFleets <- function(vessel_list,
         arrange(percent_prod)
       
       # Find states responsible for less than 0.7% of global capture production
-      countries_to_exempt <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod < 0.007], "-T", "")
+      countries_to_exempt <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod < capture_percent], "-T", "")
       
       overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
         dplyr::filter((is_territorial & flag_iso3 != "CHN") | flag_iso3 %in% countries_to_exempt)
       
-    }else if("TER10/CAP08" %in% overcap$sdt_what_developing){
-    
-    # Exempt vessels fishing in territorial waters if their flag state is responsible for less than 10% of global capture production, and those fishing anywhere else if their flag state is responsible for less than 8% of global capture production. 
-    
-    capture_years <- paste0("", seq(2016, 2018, by = 1), "")
-    
-    # Country ranking capture 
-    country_ranking_capture <- cap_tier_lookup %>%
-      dplyr::filter(variable == "capture_production") %>%
-      dplyr::filter(!(iso3 %in% capture_ranking_exclude)) %>%
-      mutate(prod = rowSums(select(., one_of(c(capture_years))))) %>%
-      mutate(percent_prod = prod/(sum(prod, na.rm = T))) %>%
-      arrange(percent_prod)
-
-    # Find states responsible for less than 10% and 0.8% of global capture production
-    countries_to_exempt_10 <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod < 0.1], "-T", "") # Just China
-    
-    countries_to_exempt <- str_replace(country_ranking_capture$iso3[country_ranking_capture$percent_prod < 0.008], "-T", "")
-    
-    overcap_vessels_sdt_developing <- overcap_vessels_sdt_developing %>%
-      dplyr::filter((is_territorial & flag_iso3 != "CHN") | flag_iso3 %in% countries_to_exempt)
-    
-  }
+    }
   
   }else{
     
@@ -1264,7 +1292,13 @@ CreateFleets <- function(vessel_list,
       
       # Exempt vessels fishing on the high seas
       overcap_vessels_sdt_sve <- overcap_vessels_sdt_sve %>%
-        dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$sdt_hs_cutoff_sve/100))
+        dplyr::filter(prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
+      
+    }else if("TER/HS" %in% overcap$sdt_what_sve){
+      
+      # Exempt vessels fishing on the high seas
+      overcap_vessels_sdt_sve <- overcap_vessels_sdt_sve %>%
+        dplyr::filter(is_territorial | prop_fishing_KWh_high_seas >= domestic_vessel_cutoff)
       
     }
     

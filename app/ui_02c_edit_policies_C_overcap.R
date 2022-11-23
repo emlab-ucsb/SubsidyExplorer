@@ -89,8 +89,40 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                             
                                                            ), # /conditionalPanel - Manually select members
                                                            
+                                                           # Conditional panel - Subsidizer scope
+                                                           conditionalPanel("input.w_overcap_scope_select.includes('SUB')",
+                                                                            
+                                                                            # Input: Subsidizer cutoff
+                                                                            sliderInput("w_overcap_sub_cutoff",
+                                                                                        label = tagList(
+                                                                                          tags$b(text$item_label[text$item_id == "w_overcap_sub_cutoff"])
+                                                                                        ),
+                                                                                        min = wid$min[wid$item_id == "w_overcap_sub_cutoff"],
+                                                                                        max = wid$max[wid$item_id == "w_overcap_sub_cutoff"],
+                                                                                        value = wid$value[wid$item_id == "w_overcap_sub_cutoff"],
+                                                                                        width = "100%")
+                                                                            
+                                                                            
+                                                           ), # /conditionalPanel - Subsidizer scope
+                                                           
+                                                           # Conditional panel - Capture production scope
+                                                           conditionalPanel("input.w_overcap_scope_select.includes('CAPTURE')",
+                                                                            
+                                                                            # Input: Capture production cutoff
+                                                                            sliderInput("w_overcap_capture_cutoff",
+                                                                                        label = tagList(
+                                                                                          tags$b(text$item_label[text$item_id == "w_overcap_capture_cutoff"])
+                                                                                        ),
+                                                                                        min = wid$min[wid$item_id == "w_overcap_capture_cutoff"],
+                                                                                        max = wid$max[wid$item_id == "w_overcap_capture_cutoff"],
+                                                                                        value = wid$value[wid$item_id == "w_overcap_capture_cutoff"],
+                                                                                        width = "100%")
+                                                                            
+                                                                            
+                                                           ), # /conditionalPanel - Capture production scope
+                                                           
                                                            # Conditional panel - High seas scope
-                                                           conditionalPanel("input.w_overcap_scope_select.includes('HS') || input.w_overcap_scope_select.includes('OUT')",
+                                                           conditionalPanel("input.w_overcap_scope_select.includes('HS') || input.w_overcap_scope_select.includes('OUT') || input.w_overcap_scope_select.includes('OUT/OA') || input.w_overcap_scope_select.includes('HS/INDUSTRIAL')",
                                                                             
                                                                             # Input: High seas cutoff
                                                                             sliderInput("w_overcap_hs_cutoff",
@@ -106,7 +138,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                            ), # /conditionalPanel - High seas scope
                                                            
                                                            # Conditional panel - Length cutoff
-                                                           conditionalPanel("input.w_overcap_scope_select.includes('LENGTH')",
+                                                           conditionalPanel("input.w_overcap_scope_select.includes('LENGTH') || input.w_overcap_scope_select.includes('HS/INDUSTRIAL')",
                                                                             
                                                                             # Input: High seas cutoff
                                                                             sliderInput("w_overcap_length_cutoff",
@@ -120,7 +152,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                            ), # /conditionalPanel - Length cutoff
                                                            
                                                            # Conditional panel - tonnage cutoff
-                                                           conditionalPanel("input.w_overcap_scope_select.includes('TONNAGE')",
+                                                           conditionalPanel("input.w_overcap_scope_select.includes('TONNAGE') || input.w_overcap_scope_select.includes('HS/INDUSTRIAL')",
                                                                             
                                                                             # Input: High seas cutoff
                                                                             sliderInput("w_overcap_tonnage_cutoff",
@@ -134,7 +166,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                            ), # /conditionalPanel - tonnage cutoff
                                                            
                                                            # Conditional panel - engine power cutoff
-                                                           conditionalPanel("input.w_overcap_scope_select.includes('ENGINE')",
+                                                           conditionalPanel("input.w_overcap_scope_select.includes('ENGINE') || input.w_overcap_scope_select.includes('HS/INDUSTRIAL')",
                                                                             
                                                                             # Input: High seas cutoff
                                                                             sliderInput("w_overcap_engine_cutoff",
@@ -217,33 +249,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                               choices = unlist(wid$choices[wid$item_id == "w_overcap_sdt_what_ldc"]),
                                                                               selected = unlist(wid$selected[wid$item_id == "w_overcap_sdt_what_ldc"]),
                                                                               width = "100%",
-                                                                              inline = FALSE),
-                                                           
-                                                           # Conditional panel - High seas exception for LDCs
-                                                           conditionalPanel("input.w_overcap_sdt_what_ldc.includes('HS')",
-                                                                            
-                                                                            # Input - High seas cutoff for LDCs
-                                                                            sliderInput("w_overcap_sdt_hs_cutoff_ldc",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_hs_cutoff_ldc"]),
-                                                                                        min = wid$min[wid$item_id == "w_overcap_sdt_hs_cutoff_ldc"],
-                                                                                        max = wid$max[wid$item_id == "w_overcap_sdt_hs_cutoff_ldc"],
-                                                                                        value = wid$value[wid$item_id == "w_overcap_sdt_hs_cutoff_ldc"],
-                                                                                        width = "100%")
-                                                                            
-                                                           ), # /conditionalpanel - High seas exception for LDCs
-                                                           
-                                                           # Conditional panel - Time delay for LDCs allowed
-                                                           conditionalPanel("input.w_overcap_sdt_what_ldc.includes('TIME')",
-                                                                            
-                                                                            # Input - Time delay for LDCs
-                                                                            sliderInput("w_overcap_sdt_time_delay_ldc",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_time_delay_ldc"]),
-                                                                                        min = wid$min[wid$item_id == "w_overcap_sdt_time_delay_ldc"],
-                                                                                        max = wid$max[wid$item_id == "w_overcap_sdt_time_delay_ldc"],
-                                                                                        value = wid$value[wid$item_id == "w_overcap_sdt_time_delay_ldc"],
-                                                                                        width = "100%")
-                                                                            
-                                                           ) # /conditionalpanel - Time delay for LDCs allowed
+                                                                              inline = FALSE)
                                           ), # /conditionalPanel - S&DT should be allowed for LDCs
                                           
                                           conditionalPanel("(input.w_overcap_allow_sdt == 'YES' & input.w_overcap_sdt_developing == 'YES')",
@@ -256,32 +262,18 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                               width = "100%",
                                                                               inline = FALSE),
                                                            
-                                                           # Conditional panel - High seas exception for developing
-                                                           conditionalPanel("input.w_overcap_sdt_what_developing.includes('HS')",
-                                                                            
+                                                           # Conditional panel - Capture production exception for developing
+                                                           conditionalPanel("input.w_overcap_sdt_what_developing.includes('TER/CAPTURE')",
+
                                                                             # Input - High seas cutoff for developing
-                                                                            sliderInput("w_overcap_sdt_hs_cutoff_developing",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_hs_cutoff_developing"]),
-                                                                                        min = wid$min[wid$item_id == "w_overcap_sdt_hs_cutoff_developing"],
-                                                                                        max = wid$max[wid$item_id == "w_overcap_sdt_hs_cutoff_developing"],
-                                                                                        value = wid$value[wid$item_id == "w_overcap_sdt_hs_cutoff_developing"],
+                                                                            sliderInput("w_overcap_sdt_capture_cutoff_developing",
+                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_capture_cutoff_developing"]),
+                                                                                        min = wid$min[wid$item_id == "w_overcap_sdt_capture_cutoff_developing"],
+                                                                                        max = wid$max[wid$item_id == "w_overcap_sdt_capture_cutoff_developing"],
+                                                                                        value = wid$value[wid$item_id == "w_overcap_sdt_capture_cutoff_developing"],
                                                                                         width = "100%")
-                                                                            
-                                                           ), # /conditionalpanel - High seas exception for developing
-                                                           
-                                                           # Conditional panel - Time delay for developing allowed
-                                                           conditionalPanel("input.w_overcap_sdt_what_developing.includes('TIME')",
-                                                                            
-                                                                            # Input - Time delay for developing
-                                                                            sliderInput("w_overcap_sdt_time_delay_developing",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_time_delay_developing"]),
-                                                                                        min = wid$min[wid$item_id == "w_overcap_sdt_time_delay_developing"],
-                                                                                        max = wid$max[wid$item_id == "w_overcap_sdt_time_delay_developing"],
-                                                                                        value = wid$value[wid$item_id == "w_overcap_sdt_time_delay_developing"],
-                                                                                        width = "100%")
-                                                                            
-                                                                            
-                                                           ) # /conditionalpanel - Time delay for developing allowed
+
+                                                           ) # /conditionalpanel - Capture production exception for developing
                                           ), # /conditionalPanel - S&DT should be allowed for developing
                                           
                                           # Conditional panel - S&DT should be allowed for SVEs
@@ -293,34 +285,7 @@ Overcap = function(wto_members_and_observers, subsidy_types_sorted_sumaila)
                                                                               choices = unlist(wid$choices[wid$item_id == "w_overcap_sdt_what_sve"]),
                                                                               selected = unlist(wid$selected[wid$item_id == "w_overcap_sdt_what_sve"]),
                                                                               width = "100%",
-                                                                              inline = FALSE),
-                                                           
-                                                           # Conditional panel - High seas exception for sve
-                                                           conditionalPanel("input.w_overcap_sdt_what_sve.includes('HS')",
-                                                                            
-                                                                            # Input - High seas cutoff for sve
-                                                                            sliderInput("w_overcap_sdt_hs_cutoff_sve",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_hs_cutoff_sve"]),
-                                                                                        min = wid$min[wid$item_id == "w_overcap_sdt_hs_cutoff_sve"],
-                                                                                        max = wid$max[wid$item_id == "w_overcap_sdt_hs_cutoff_sve"],
-                                                                                        value = wid$value[wid$item_id == "w_overcap_sdt_hs_cutoff_sve"],
-                                                                                        width = "100%")
-                                                                            
-                                                           ), # /conditionalpanel - High seas exception for sve
-                                                           
-                                                           # Conditional panel - Time delay for SVE allowed
-                                                           conditionalPanel("input.w_overcap_sdt_what_sve.includes('TIME')",
-                                                                            
-                                                                            # Input - Time delay for SVE
-                                                                            sliderInput("w_overcap_sdt_time_delay_sve",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_overcap_sdt_time_delay_sve"]),
-                                                                                        min = wid$min[wid$item_id == "w_overcap_sdt_time_delay_sve"],
-                                                                                        max = wid$max[wid$item_id == "w_overcap_sdt_time_delay_sve"],
-                                                                                        value = wid$value[wid$item_id == "w_overcap_sdt_time_delay_sve"],
-                                                                                        width = "100%")
-                                                                            
-                                                                            
-                                                           ) # /conditionalpanel - Time delay for SVE allowed
+                                                                              inline = FALSE)
                                           ) # /conditionalPanel - S&DT should be allowed for SVE
                                    ) # /column 8
                                    

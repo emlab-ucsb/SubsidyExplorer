@@ -6,6 +6,7 @@
 ### Release date (v1): July 2019
 ### Release date (v2): October 2020 
 ### Release date (v3): October 2021 - PLOS ONE paper
+### Release date (v4): November 2022 - Final Agreement (Last Update)
 ### 
 ### This script loads data needed for the app and performs some final data wrangling steps.
 ### --------------------------------------------------------------------
@@ -275,12 +276,8 @@ cap_tier_lookup_table <- read_csv("./data/cap_tier_lookup_table.csv")
 sdt_lookup_table <- read_csv("./data/sdt_lookup_table.csv")
 
 # 2) Proposal settings
-#proposal_settings <- read.csv("./data/wto_proposal_settings.csv", stringsAsFactors = F)
-#proposal_settings <- read.csv("./data/wto_proposal_settings_v3.csv", stringsAsFactors = F)
-# proposal_settings <- read.csv("./data/wto_proposal_settings_FINAL.csv", stringsAsFactors = F) %>%
-#   dplyr::filter(include != "Hide") # remove bad proposals
 proposal_settings <- read.csv("./data/wto_proposal_settings_FINAL_AGREEMENT.csv", stringsAsFactors = F) %>%
-  dplyr::filter(include != "Hide") # remove bad proposals
+  dplyr::filter(include != "Hide") # remove testing proposals
 
 # Proposal names
 included_proposals <- proposal_settings %>%

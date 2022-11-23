@@ -89,6 +89,38 @@ OA = function(wto_members_and_observers)
                                                                             
                                                            ), # /conditionalPanel - Manually select members
                                                            
+                                                           # Conditional panel - Subsidizer scope
+                                                           conditionalPanel("input.w_oa_scope_select.includes('SUB')",
+                                                                            
+                                                                            # Input: Top subsidizer cutoff
+                                                                            sliderInput("w_oa_sub_cutoff",
+                                                                                        label = tagList(
+                                                                                          tags$b(text$item_label[text$item_id == "w_oa_sub_cutoff"])
+                                                                                        ),
+                                                                                        min = wid$min[wid$item_id == "w_oa_sub_cutoff"],
+                                                                                        max = wid$max[wid$item_id == "w_oa_sub_cutoff"],
+                                                                                        value = wid$value[wid$item_id == "w_oa_sub_cutoff"],
+                                                                                        width = "100%")
+                                                                            
+                                                                            
+                                                           ), # /conditionalPanel - Subsidizer scope
+                                                           
+                                                           # Conditional panel - Capture production scope
+                                                           conditionalPanel("input.w_oa_scope_select.includes('CAPTURE')",
+                                                                            
+                                                                            # Input: Global capture production cutoff
+                                                                            sliderInput("w_oa_capture_cutoff",
+                                                                                        label = tagList(
+                                                                                          tags$b(text$item_label[text$item_id == "w_oa_capture_cutoff"])
+                                                                                        ),
+                                                                                        min = wid$min[wid$item_id == "w_oa_capture_cutoff"],
+                                                                                        max = wid$max[wid$item_id == "w_oa_capture_cutoff"],
+                                                                                        value = wid$value[wid$item_id == "w_oa_capture_cutoff"],
+                                                                                        width = "100%")
+                                                                            
+                                                                            
+                                                           ), # /conditionalPanel - Capture production scope
+                                                           
                                                            # Conditional panel - High seas scope
                                                            conditionalPanel("input.w_oa_scope_select.includes('HS') || input.w_oa_scope_select.includes('OUT')",
                                                                             
@@ -217,33 +249,7 @@ OA = function(wto_members_and_observers)
                                                                               choices = unlist(wid$choices[wid$item_id == "w_oa_sdt_what_ldc"]),
                                                                               selected = unlist(wid$selected[wid$item_id == "w_oa_sdt_what_ldc"]),
                                                                               width = "100%",
-                                                                              inline = FALSE),
-                                                           
-                                                           # Conditional panel - High seas exception for LDCs
-                                                           conditionalPanel("input.w_oa_sdt_what_ldc.includes('HS')",
-                                                                            
-                                                                            # Input - High seas cutoff for LDCs
-                                                                            sliderInput("w_oa_sdt_hs_cutoff_ldc",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_sdt_hs_cutoff_ldc"]),
-                                                                                        min = wid$min[wid$item_id == "w_oa_sdt_hs_cutoff_ldc"],
-                                                                                        max = wid$max[wid$item_id == "w_oa_sdt_hs_cutoff_ldc"],
-                                                                                        value = wid$value[wid$item_id == "w_oa_sdt_hs_cutoff_ldc"],
-                                                                                        width = "100%")
-                                                                            
-                                                           ), # /conditionalpanel - High seas exception for LDCs
-                                                           
-                                                           # Conditional panel - Time delay for LDCs allowed
-                                                           conditionalPanel("input.w_oa_sdt_what_ldc.includes('TIME')",
-                                                                            
-                                                                            # Input - Time delay for LDCs
-                                                                            sliderInput("w_oa_sdt_time_delay_ldc",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_sdt_time_delay_ldc"]),
-                                                                                        min = wid$min[wid$item_id == "w_oa_sdt_time_delay_ldc"],
-                                                                                        max = wid$max[wid$item_id == "w_oa_sdt_time_delay_ldc"],
-                                                                                        value = wid$value[wid$item_id == "w_oa_sdt_time_delay_ldc"],
-                                                                                        width = "100%")
-                                                                            
-                                                           ) # /conditionalpanel - Time delay for LDCs allowed
+                                                                              inline = FALSE)
                                           ), # /conditionalPanel - S&DT should be allowed for LDCs
                                           
                                           conditionalPanel("(input.w_oa_allow_sdt == 'YES' & input.w_oa_sdt_developing == 'YES')",
@@ -254,34 +260,7 @@ OA = function(wto_members_and_observers)
                                                                               choices = unlist(wid$choices[wid$item_id == "w_oa_sdt_what_developing"]),
                                                                               selected = unlist(wid$selected[wid$item_id == "w_oa_sdt_what_developing"]),
                                                                               width = "100%",
-                                                                              inline = FALSE),
-                                                           
-                                                           # Conditional panel - High seas exception for developing
-                                                           conditionalPanel("input.w_oa_sdt_what_developing.includes('HS')",
-                                                                            
-                                                                            # Input - High seas cutoff for developing
-                                                                            sliderInput("w_oa_sdt_hs_cutoff_developing",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_sdt_hs_cutoff_developing"]),
-                                                                                        min = wid$min[wid$item_id == "w_oa_sdt_hs_cutoff_developing"],
-                                                                                        max = wid$max[wid$item_id == "w_oa_sdt_hs_cutoff_developing"],
-                                                                                        value = wid$value[wid$item_id == "w_oa_sdt_hs_cutoff_developing"],
-                                                                                        width = "100%")
-                                                                            
-                                                           ), # /conditionalpanel - High seas exception for developing
-                                                           
-                                                           # Conditional panel - Time delay for developing allowed
-                                                           conditionalPanel("input.w_oa_sdt_what_developing.includes('TIME')",
-                                                                            
-                                                                            # Input - Time delay for developing
-                                                                            sliderInput("w_oa_sdt_time_delay_developing",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_sdt_time_delay_developing"]),
-                                                                                        min = wid$min[wid$item_id == "w_oa_sdt_time_delay_developing"],
-                                                                                        max = wid$max[wid$item_id == "w_oa_sdt_time_delay_developing"],
-                                                                                        value = wid$value[wid$item_id == "w_oa_sdt_time_delay_developing"],
-                                                                                        width = "100%")
-                                                                            
-                                                                            
-                                                           ) # /conditionalpanel - Time delay for developing allowed
+                                                                              inline = FALSE)
                                           ), # /conditionalPanel - S&DT should be allowed for developing
                                           
                                           # Conditional panel - S&DT should be allowed for SVEs
@@ -293,34 +272,7 @@ OA = function(wto_members_and_observers)
                                                                               choices = unlist(wid$choices[wid$item_id == "w_oa_sdt_what_sve"]),
                                                                               selected = unlist(wid$selected[wid$item_id == "w_oa_sdt_what_sve"]),
                                                                               width = "100%",
-                                                                              inline = FALSE),
-                                                           
-                                                           # Conditional panel - High seas exception for sve
-                                                           conditionalPanel("input.w_oa_sdt_what_sve.includes('HS')",
-                                                                            
-                                                                            # Input - High seas cutoff for sve
-                                                                            sliderInput("w_oa_sdt_hs_cutoff_sve",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_sdt_hs_cutoff_sve"]),
-                                                                                        min = wid$min[wid$item_id == "w_oa_sdt_hs_cutoff_sve"],
-                                                                                        max = wid$max[wid$item_id == "w_oa_sdt_hs_cutoff_sve"],
-                                                                                        value = wid$value[wid$item_id == "w_oa_sdt_hs_cutoff_sve"],
-                                                                                        width = "100%")
-                                                                            
-                                                           ), # /conditionalpanel - High seas exception for sve
-                                                           
-                                                           # Conditional panel - Time delay for SVE allowed
-                                                           conditionalPanel("input.w_oa_sdt_what_sve.includes('TIME')",
-                                                                            
-                                                                            # Input - Time delay for SVE
-                                                                            sliderInput("w_oa_sdt_time_delay_sve",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_oa_sdt_time_delay_sve"]),
-                                                                                        min = wid$min[wid$item_id == "w_oa_sdt_time_delay_sve"],
-                                                                                        max = wid$max[wid$item_id == "w_oa_sdt_time_delay_sve"],
-                                                                                        value = wid$value[wid$item_id == "w_oa_sdt_time_delay_sve"],
-                                                                                        width = "100%")
-                                                                            
-                                                                            
-                                                           ) # /conditionalpanel - Time delay for SVE allowed
+                                                                              inline = FALSE)
                                           ) # /conditionalPanel - S&DT should be allowed for SVE
                                    ) # /column 8
                                    

@@ -49,19 +49,18 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 02c,edit-policies,widget,w_iuu_allow_sdt,Allow S&DT for IUU disciplines?,Yes/No for IUU S&DT
 02c,edit-policies,widget,w_iuu_sdt_ldc,Allow S&DT for LDC Members?,Yes/No for LDC S&DT
 02c,edit-policies,widget,w_iuu_sdt_what_ldc,S&DT for LDCs: ,Set LDC S&DT
-02c,edit-policies,widget,w_iuu_sdt_time_delay_ldc,Allowed transition period for LDCs (years): ,Transition period for LDCs S&DT
 02c,edit-policies,widget,w_iuu_sdt_developing,Allow S&DT for developing country Members?,Yes/No for Developing S&DT
 02c,edit-policies,widget,w_iuu_sdt_what_developing,S&DT for developing countries: ,Set developing S&DT
-02c,edit-policies,widget,w_iuu_sdt_time_delay_developing,Allowed transition period for developing countries (years): ,Transition period for developing S&DT
 02c,edit-policies,widget,w_iuu_sdt_sve,Allow S&DT for SVE Members?,Yes/No for SVE S&DT
 02c,edit-policies,widget,w_iuu_sdt_what_sve,S&DT for SVEs:,Set SVE S&DT
-02c,edit-policies,widget,w_iuu_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
 02c,edit-policies,nav-button,ab_edit_policies_tabs_iuu_to_oa,Next,within TabBox - iuu disciplines to OA disciplines
 02c,edit-policies,tab,oa,"<small class=""gray"">OPTIONAL</small><br><b class=""big"">Overfished Stocks</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
 02c,edit-policies,widget,w_oa_definitions,Subsidies for fishing shall be prohibited if the fish stock...,Checkbox to select specific OA disciplines
 02c,edit-policies,widget,w_oa_scope,Overfished discipline(s) apply to: ,Buttons to set OA scope
 02c,edit-policies,widget,w_oa_scope_select,Select all conditions that must apply : ,Set OA scope characteristics
 02c,edit-policies,widget,w_oa_scope_manual,Select WTO Members:,Manual selection for OA scope
+02c,edit-policies,widget,w_oa_sub_cutoff,Top X Members that provide the most capacity-enhancing subsidies,Subsidizer cutoff for OA disciplines
+02c,edit-policies,widget,w_oa_capture_cutoff,Minimum % of global capture production,Capture production cutoff for OA disciplines
 02c,edit-policies,widget,w_oa_hs_cutoff,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for OA disciplines
 02c,edit-policies,widget,w_oa_length_cutoff,Minimum vessel length (m),Vessel length cutoff for OA disciplines
 02c,edit-policies,widget,w_oa_tonnage_cutoff,Minimum vessel tonnage (gt),Vessel tonnage cutoff for OA disciplines
@@ -69,23 +68,19 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 02c,edit-policies,widget,w_oa_allow_sdt,Allow S&DT for Overfished disciplines?,Yes/No for OA S&DT
 02c,edit-policies,widget,w_oa_sdt_ldc,Allow S&DT for LDC Members?,Yes/No for LDC S&DT
 02c,edit-policies,widget,w_oa_sdt_what_ldc,S&DT for LDCs: ,Set LDC S&DT
-02c,edit-policies,widget,w_oa_sdt_hs_cutoff_ldc,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for OA LDC S&DT
-02c,edit-policies,widget,w_oa_sdt_time_delay_ldc,Allowed transition period for LDCs (years): ,Transition period for LDCs S&DT
 02c,edit-policies,widget,w_oa_sdt_developing,Allow S&DT for developing country Members?,Yes/No for Developing S&DT
 02c,edit-policies,widget,w_oa_sdt_what_developing,S&DT for developing countries: ,Set developing S&DT
-02c,edit-policies,widget,w_oa_sdt_hs_cutoff_developing,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for OA Developing S&DT
-02c,edit-policies,widget,w_oa_sdt_time_delay_developing,Allowed transition period for developing countries (years): ,Transition period for developing S&DT
 02c,edit-policies,widget,w_oa_sdt_sve,Allow S&DT for SVE Members?,Yes/No for SVE S&DT
 02c,edit-policies,widget,w_oa_sdt_what_sve,S&DT for SVEs:,Set SVE S&DT
-02c,edit-policies,widget,w_oa_sdt_hs_cutoff_sve,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for OA SVE S&DT
-02c,edit-policies,widget,w_oa_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
 02c,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_iuu,Back,within TabBox - OA disciplines to iuu disciplines
 02c,edit-policies,nav-button,ab_edit_policies_tabs_oa_to_overcap,Next,within TabBox - OA disciplines to overcap disciplines
 02c,edit-policies,tab,overcap,"<small class=""gray"">OPTIONAL</small><br><b class=""big"">Overcapacity and Overfishing</b></br><small class=""gray"">DISCIPLINES</small>",tabBox tab
-02c,edit-policies,widget,w_overcap_definitions,The following types of subsidies are considered to contribute to overcapacity and overfishing and are prohibited...,Checkbox to select specific Overcapacity disciplines
-02c,edit-policies,widget,w_overcap_scope,OCOF discipline(s) apply to: ,Buttons to set OA scope
-02c,edit-policies,widget,w_overcap_scope_select,Select all conditions that must apply : ,Set OA scope characteristics
-02c,edit-policies,widget,w_overcap_scope_manual,Select WTO Members:,Manual selection for OA scope
+02c,edit-policies,widget,w_overcap_definitions,The following types of subsidies are considered to contribute to overcapacity and overfishing and are prohibited...,Checkbox to select specific OCOF disciplines
+02c,edit-policies,widget,w_overcap_scope,OCOF discipline(s) apply to: ,Buttons to set OCOF scope
+02c,edit-policies,widget,w_overcap_scope_select,Select all conditions that must apply : ,Set OCOF scope characteristics
+02c,edit-policies,widget,w_overcap_scope_manual,Select WTO Members:,Manual selection for Overcapacity scope
+02c,edit-policies,widget,w_overcap_sub_cutoff,Top X Members that provide the most capacity-enhancing subsidies,Subsidizer cutoff for Overcapacity disciplines
+02c,edit-policies,widget,w_overcap_capture_cutoff,Minimum % of global capture production,Capture production cutoff for Overcapacity disciplines
 02c,edit-policies,widget,w_overcap_hs_cutoff,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for Overcapacity disciplines
 02c,edit-policies,widget,w_overcap_length_cutoff,Minimum vessel length (m),Vessel length cutoff for Overcapacity disciplines
 02c,edit-policies,widget,w_overcap_tonnage_cutoff,Minimum vessel gross tonnage (GT),Vessel tonnage cutoff for Overcapacity disciplines
@@ -93,16 +88,11 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 02c,edit-policies,widget,w_overcap_allow_sdt,Allow S&DT for Overcapacity disciplines?,Yes/No for Overcapacity S&DT
 02c,edit-policies,widget,w_overcap_sdt_ldc,Allow S&DT for LDC Members?,Yes/No for Overcapacity S&DT
 02c,edit-policies,widget,w_overcap_sdt_what_ldc,S&DT for LDCs: ,Set LDC S&DT
-02c,edit-policies,widget,w_overcap_sdt_hs_cutoff_ldc,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for Overcapacity LDC S&DT
-02c,edit-policies,widget,w_overcap_sdt_time_delay_ldc,Allowed transition period for LDCs (years): ,Transition period for LDCs S&DT
 02c,edit-policies,widget,w_overcap_sdt_developing,Allow S&DT for developing country Members?,Yes/No for Developing S&DT
 02c,edit-policies,widget,w_overcap_sdt_what_developing,S&DT for developing countries: ,Set developing S&DT
-02c,edit-policies,widget,w_overcap_sdt_hs_cutoff_developing,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for Overcapacity Developing S&DT
-02c,edit-policies,widget,w_overcap_sdt_time_delay_developing,Allowed transition period for developing countries (years): ,Transition period for developing S&DT
+02c,edit-policies,widget,w_overcap_sdt_capture_cutoff_developing,Maximum % of global capture production:,Capture production cutoff for Overcapacity Developing S&DT
 02c,edit-policies,widget,w_overcap_sdt_sve,Allow S&DT for SVE Members?,Yes/No for SVE S&DT
 02c,edit-policies,widget,w_overcap_sdt_what_sve,S&DT for SVEs:,Set SVE S&DT
-02c,edit-policies,widget,w_overcap_sdt_hs_cutoff_sve,What constitutes a high seas vessel? (min % of total fishing effort on the high seas),High seas cutoff for Overcapacity SVE S&DT
-02c,edit-policies,widget,w_overcap_sdt_time_delay_sve,Allowed transition period for SVEs (years): ,Transition period for SVE S&DT
 02c,edit-policies,widget,w_cap_on_off,Apply subsidy caps?,Yes/no for cap/tier
 02c,edit-policies,widget,w_cap_subsidy_types,Which subsidy type(s) are included in the cap?,Checkbox to select subsidy types included in the cap
 02c,edit-policies,header,tier-structure,Tier structure,header for tier section

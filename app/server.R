@@ -376,13 +376,10 @@ shinyServer(function(input, output, session) {
                "allow_sdt" = selected_proposal$iuu_allow_sdt,
                "sdt_ldc" = selected_proposal$iuu_sdt_ldc,
                "sdt_what_ldc" = unlist(str_split(selected_proposal$iuu_sdt_what_ldc, ", ")),
-               "sdt_time_delay_ldc" = selected_proposal$iuu_sdt_time_delay_ldc,
                "sdt_developing" = selected_proposal$iuu_sdt_developing,
                "sdt_what_developing" = unlist(str_split(selected_proposal$iuu_sdt_what_developing, ", ")),
-               "sdt_time_delay_developing" = selected_proposal$iuu_sdt_time_delay_developing,
                "sdt_sve" = selected_proposal$iuu_sdt_sve,
-               "sdt_what_sve" = unlist(str_split(selected_proposal$iuu_sdt_what_sve, ", ")),
-               "sdt_time_delay_sve" = selected_proposal$iuu_sdt_time_delay_sve)
+               "sdt_what_sve" = unlist(str_split(selected_proposal$iuu_sdt_what_sve, ", ")))
 
         # OA
         oa <-
@@ -390,6 +387,8 @@ shinyServer(function(input, output, session) {
                "scope" = selected_proposal$oa_scope,
                "scope_select" = unlist(str_split(selected_proposal$oa_scope_select, ", ")),
                "scope_manual" = unlist(str_split(selected_proposal$oa_scope_manual, ", ")),
+               "sub_cutoff" = selected_proposal$oa_sub_cutoff,
+               "capture_cutoff" = selected_proposal$oa_capture_cutoff,
                "hs_cutoff" = selected_proposal$oa_hs_cutoff,
                "length_cutoff" = selected_proposal$oa_length_cutoff,
                "tonnage_cutoff" = selected_proposal$oa_tonnage_cutoff,
@@ -397,16 +396,10 @@ shinyServer(function(input, output, session) {
                "allow_sdt" = selected_proposal$oa_allow_sdt,
                "sdt_ldc" = selected_proposal$oa_sdt_ldc,
                "sdt_what_ldc" = unlist(str_split(selected_proposal$oa_sdt_what_ldc, ", ")),
-               "sdt_hs_cutoff_ldc" = selected_proposal$oa_sdt_hs_cutoff_ldc,
-               "sdt_time_delay_ldc" = selected_proposal$oa_sdt_time_delay_ldc,
                "sdt_developing" = selected_proposal$oa_sdt_developing,
                "sdt_what_developing" = unlist(str_split(selected_proposal$oa_sdt_what_developing, ", ")),
-               "sdt_hs_cutoff_developing" = selected_proposal$oa_sdt_hs_cutoff_developing,
-               "sdt_time_delay_developing" = selected_proposal$oa_sdt_time_delay_developing,
                "sdt_sve" = selected_proposal$oa_sdt_sve,
-               "sdt_what_sve" = unlist(str_split(selected_proposal$oa_sdt_what_sve, ", ")),
-               "sdt_hs_cutoff_sve" = selected_proposal$oa_sdt_hs_cutoff_sve,
-               "sdt_time_delay_sve" = selected_proposal$oa_sdt_time_delay_sve)
+               "sdt_what_sve" = unlist(str_split(selected_proposal$oa_sdt_what_sve, ", ")))
 
         # Overcap
         overcap <-
@@ -414,6 +407,8 @@ shinyServer(function(input, output, session) {
                "scope" = selected_proposal$overcap_scope,
                "scope_select" = unlist(str_split(selected_proposal$overcap_scope_select, ", ")),
                "scope_manual" = unlist(str_split(selected_proposal$overcap_scope_manual, ", ")),
+               "sub_cutoff" = selected_proposal$overcap_sub_cutoff,
+               "capture_cutoff" = selected_proposal$overcap_capture_cutoff,
                "hs_cutoff" = selected_proposal$overcap_hs_cutoff,
                "length_cutoff" = selected_proposal$overcap_length_cutoff,
                "tonnage_cutoff" = selected_proposal$overcap_tonnage_cutoff,
@@ -421,16 +416,11 @@ shinyServer(function(input, output, session) {
                "allow_sdt" = selected_proposal$overcap_allow_sdt,
                "sdt_ldc" = selected_proposal$overcap_sdt_ldc,
                "sdt_what_ldc" = unlist(str_split(selected_proposal$overcap_sdt_what_ldc, ", ")),
-               "sdt_hs_cutoff_ldc" = selected_proposal$overcap_sdt_hs_cutoff_ldc,
-               "sdt_time_delay_ldc" = selected_proposal$overcap_sdt_time_delay_ldc,
                "sdt_developing" = selected_proposal$overcap_sdt_developing,
                "sdt_what_developing" = unlist(str_split(selected_proposal$overcap_sdt_what_developing, ", ")),
-               "sdt_hs_cutoff_developing" = selected_proposal$overcap_sdt_hs_cutoff_developing,
-               "sdt_time_delay_developing" = selected_proposal$overcap_sdt_time_delay_developing,
+               "sdt_capture_cutoff_developing" = selected_proposal$overcap_sdt_capture_cutoff_developing,
                "sdt_sve" = selected_proposal$overcap_sdt_sve,
-               "sdt_what_sve" = unlist(str_split(selected_proposal$overcap_sdt_what_sve, ", ")),
-               "sdt_hs_cutoff_sve" = selected_proposal$overcap_sdt_hs_cutoff_sve,
-               "sdt_time_delay_sve" = selected_proposal$overcap_sdt_time_delay_sve)
+               "sdt_what_sve" = unlist(str_split(selected_proposal$overcap_sdt_what_sve, ", ")))
 
         # Cap/Tier
         cap_tier =
@@ -922,18 +912,17 @@ shinyServer(function(input, output, session) {
                                  "allow_sdt" = input$w_iuu_allow_sdt,
                                  "sdt_ldc" = input$w_iuu_sdt_ldc,
                                  "sdt_what_ldc" = input$w_iuu_sdt_what_ldc,
-                                 "sdt_time_delay_ldc" = input$w_iuu_sdt_time_delay_ldc,
                                  "sdt_developing" = input$w_iuu_sdt_developing,
                                  "sdt_what_developing" = input$w_iuu_sdt_what_developing,
-                                 "sdt_time_delay_developing" = input$w_iuu_sdt_time_delay_developing,
                                  "sdt_sve" = input$w_iuu_sdt_sve,
-                                 "sdt_what_sve" = input$w_iuu_sdt_what_sve,
-                                 "sdt_time_delay_sve" = input$w_iuu_sdt_time_delay_sve)
+                                 "sdt_what_sve" = input$w_iuu_sdt_what_sve)
     
     rv_custom_policy$oa <- list("definitions" = input$w_oa_definitions,
                                 "scope" = input$w_oa_scope,
                                 "scope_select" = input$w_oa_scope_select,
                                 "scope_manual" = input$w_oa_scope_manual,
+                                "sub_cutoff" = input$w_oa_sub_cutoff,
+                                "capture_cutoff" = input$w_oa_capture_cutoff,
                                 "hs_cutoff" = input$w_oa_hs_cutoff,
                                 "length_cutoff" = input$w_oa_length_cutoff,
                                 "tonnage_cutoff" = input$w_oa_tonnage_cutoff,
@@ -941,21 +930,17 @@ shinyServer(function(input, output, session) {
                                 "allow_sdt" = input$w_oa_allow_sdt,
                                 "sdt_ldc" = input$w_oa_sdt_ldc,
                                 "sdt_what_ldc" = input$w_oa_sdt_what_ldc,
-                                "sdt_hs_cutoff_ldc" = input$w_oa_sdt_hs_cutoff_ldc,
-                                "sdt_time_delay_ldc" = input$w_oa_sdt_time_delay_ldc,
                                 "sdt_developing" = input$w_oa_sdt_developing,
                                 "sdt_what_developing" = input$w_oa_sdt_what_developing,
-                                "sdt_hs_cutoff_developing" = input$w_oa_sdt_hs_cutoff_developing,
-                                "sdt_time_delay_developing" = input$w_oa_sdt_time_delay_developing,
                                 "sdt_sve" = input$w_oa_sdt_sve,
-                                "sdt_what_sve" = input$w_oa_sdt_what_sve,
-                                "sdt_hs_cutoff_sve" = input$w_oa_sdt_hs_cutoff_sve,
-                                "sdt_time_delay_sve" = input$w_oa_sdt_time_delay_sve)
+                                "sdt_what_sve" = input$w_oa_sdt_what_sve)
     
     rv_custom_policy$overcap <- list("definitions" = input$w_overcap_definitions,
                                      "scope" = input$w_overcap_scope,
                                      "scope_select" = input$w_overcap_scope_select,
                                      "scope_manual" = input$w_overcap_scope_manual,
+                                     "sub_cutoff" = input$w_overcap_sub_cutoff,
+                                     "capture_cutoff" = input$w_overcap_capture_cutoff,
                                      "hs_cutoff" = input$w_overcap_hs_cutoff,
                                      "length_cutoff" = input$w_overcap_length_cutoff,
                                      "tonnage_cutoff" = input$w_overcap_tonnage_cutoff,
@@ -963,16 +948,11 @@ shinyServer(function(input, output, session) {
                                      "allow_sdt" = input$w_overcap_allow_sdt,
                                      "sdt_ldc" = input$w_overcap_sdt_ldc,
                                      "sdt_what_ldc" = input$w_overcap_sdt_what_ldc,
-                                     "sdt_hs_cutoff_ldc" = input$w_overcap_sdt_hs_cutoff_ldc,
-                                     "sdt_time_delay_ldc" = input$w_overcap_sdt_time_delay_ldc,
                                      "sdt_developing" = input$w_overcap_sdt_developing,
                                      "sdt_what_developing" = input$w_overcap_sdt_what_developing,
-                                     "sdt_hs_cutoff_developing" = input$w_overcap_sdt_hs_cutoff_developing,
-                                     "sdt_time_delay_developing" = input$w_overcap_sdt_time_delay_developing,
+                                     "sdt_capture_cutoff_developing" = input$w_overcap_sdt_capture_cutoff_developing,
                                      "sdt_sve" = input$w_overcap_sdt_sve,
-                                     "sdt_what_sve" = input$w_overcap_sdt_what_sve,
-                                     "sdt_hs_cutoff_sve" = input$w_overcap_sdt_hs_cutoff_sve,
-                                     "sdt_time_delay_sve" = input$w_overcap_sdt_time_delay_sve)
+                                     "sdt_what_sve" = input$w_overcap_sdt_what_sve)
     
     rv_custom_policy$cap_tier <- list("on_off" = input$w_cap_on_off,
                                       "subsidy_types" = input$w_cap_subsidy_types,

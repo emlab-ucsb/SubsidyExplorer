@@ -142,10 +142,6 @@ IUU = function(wto_members_and_observers)
                                           radioButtons("w_iuu_allow_sdt",
                                                        label = tagList(
                                                          tags$b(text$item_label[text$item_id == "w_iuu_allow_sdt"])
-                                                         # # Info button
-                                                         # tags$button(id = "info_iuu_sdt",
-                                                         #             class = "btn action-button info-button",
-                                                         #             icon("info"))
                                                        ),
                                                        choices = unlist(wid$choices[wid$item_id == "w_iuu_allow_sdt"]),
                                                        selected = unlist(wid$selected[wid$item_id == "w_iuu_allow_sdt"]),
@@ -194,20 +190,7 @@ IUU = function(wto_members_and_observers)
                                                                               choices = unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_ldc"]),
                                                                               selected = unlist(wid$selected[wid$item_id == "w_iuu_sdt_what_ldc"]),
                                                                               width = "100%",
-                                                                              inline = FALSE),
-                                                                            
-                                                           # Conditional panel - Time delay for LDCs allowed
-                                                           conditionalPanel("input.w_iuu_sdt_what_ldc.includes('TIME')",
-                                                                                             
-                                                                            # Input - Time delay for LDCs
-                                                                            sliderInput("w_iuu_sdt_time_delay_ldc",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay_ldc"]),
-                                                                                        min = wid$min[wid$item_id == "w_iuu_sdt_time_delay_ldc"],
-                                                                                        max = wid$max[wid$item_id == "w_iuu_sdt_time_delay_ldc"],
-                                                                                        value = wid$value[wid$item_id == "w_iuu_sdt_time_delay_ldc"],
-                                                                                        width = "100%")
-                                                                                             
-                                                           ) # /conditionalpanel - Time delay for LDCs allowed
+                                                                              inline = FALSE)
                                           ), # /conditionalPanel - S&DT should be allowed for LDCs
                                           
                                           conditionalPanel("(input.w_iuu_allow_sdt == 'YES' & input.w_iuu_sdt_developing == 'YES')",
@@ -218,22 +201,7 @@ IUU = function(wto_members_and_observers)
                                                                               choices = unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_developing"]),
                                                                               selected = unlist(wid$selected[wid$item_id == "w_iuu_sdt_what_developing"]),
                                                                               width = "100%",
-                                                                              inline = FALSE),
-                                                                            
-                                                           
-                                                           # Conditional panel - Time delay for developing allowed
-                                                           conditionalPanel("input.w_iuu_sdt_what_developing.includes('TIME')",
-                                                                                             
-                                                                            # Input - Time delay for developing
-                                                                            sliderInput("w_iuu_sdt_time_delay_developing",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay_developing"]),
-                                                                                        min = wid$min[wid$item_id == "w_iuu_sdt_time_delay_developing"],
-                                                                                        max = wid$max[wid$item_id == "w_iuu_sdt_time_delay_developing"],
-                                                                                        value = wid$value[wid$item_id == "w_iuu_sdt_time_delay_developing"],
-                                                                                        width = "100%")
-                                                                                             
-                                                                            
-                                                           ) # /conditionalpanel - Time delay for developing allowed
+                                                                              inline = FALSE)
                                           ), # /conditionalPanel - S&DT should be allowed for developing
                                           
                                           # Conditional panel - S&DT should be allowed for SVEs
@@ -245,22 +213,7 @@ IUU = function(wto_members_and_observers)
                                                                               choices = unlist(wid$choices[wid$item_id == "w_iuu_sdt_what_sve"]),
                                                                               selected = unlist(wid$selected[wid$item_id == "w_iuu_sdt_what_sve"]),
                                                                               width = "100%",
-                                                                              inline = FALSE),
-                                                                            
-                                                           
-                                                           # Conditional panel - Time delay for SVE allowed
-                                                           conditionalPanel("input.w_iuu_sdt_what_sve.includes('TIME')",
-                                                                                             
-                                                                            # Input - Time delay for SVE
-                                                                            sliderInput("w_iuu_sdt_time_delay_sve",
-                                                                                        label = tags$b(text$item_label[text$item_id == "w_iuu_sdt_time_delay_sve"]),
-                                                                                        min = wid$min[wid$item_id == "w_iuu_sdt_time_delay_sve"],
-                                                                                        max = wid$max[wid$item_id == "w_iuu_sdt_time_delay_sve"],
-                                                                                        value = wid$value[wid$item_id == "w_iuu_sdt_time_delay_sve"],
-                                                                                        width = "100%")
-                                                                                             
-                                                                            
-                                                           ) # /conditionalpanel - Time delay for SVE allowed
+                                                                              inline = FALSE)
                                           ) # /conditionalPanel - S&DT should be allowed for SVE
                                    ) # /column 8
                   ) # / conditional - length of definitions > 0

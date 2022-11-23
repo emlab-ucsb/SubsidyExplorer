@@ -1124,6 +1124,16 @@ CreateFleets <- function(vessel_list,
         overcap_vessels_scope <- overcap_vessels_scope %>%
           dplyr::filter(fmi_best < managed_threshold)
         
+      # 13) All high seas fishing by non-tuna vessels
+      }else if("HS/TUNA" %in% overcap$scope_select & !is.na(overcap$hs_cutoff)){
+        
+        tuna_gears <- c("tuna_purse_seines", "purse_seines", "other_purse_seines",
+                        "pole_and_line", "drifting_longlines")
+        
+        # Filter for non-tuna fishing gear types 
+        overcap_vessels_scope <- overcap_vessels_scope %>%
+          dplyr::filter(prop_fishing_KWh_high_seas >= (overcap$hs_cutoff/100) & !(vessel_class %in% tuna_gears))
+        
       }
       
     } # /SELECT

@@ -285,6 +285,7 @@ included_proposals <- proposal_settings %>%
   mutate(display_name = case_when(proposal == "Default" ~ "None",
                                   TRUE ~ title_tool)) %>%
   dplyr::select(category, proposal, display_name) %>%
+  mutate(category = factor(category, c("Default", "IUU", "Overfished", "OFOC", "Other & Multiple"), ordered = T)) %>%
   arrange(category)
 
 proposal_choices <- included_proposals$proposal

@@ -1175,9 +1175,25 @@ shinyServer(function(input, output, session) {
   
   # Download methods PDF
   output$db_download_methods <- downloadHandler(
-    filename = "SubsidyExplorer_methods.pdf",
+    filename = "SubsidyExplorer_methods_EN.pdf",
     content = function(file) {
       file.copy("www/2022_09_28_SubsidyExplorer_methods.pdf", file)
+    }
+  )
+  
+  # Download methods PDF (ES)
+  output$db_download_methods_es <- downloadHandler(
+    filename = "SubsidyExplorer_methods_ES.pdf",
+    content = function(file) {
+      file.copy("www/ES_2022_09_28_SubsidyExplorer_methods.pdf", file)
+    }
+  )
+  
+  # Download methods PDF (FR)
+  output$db_download_methods_fr <- downloadHandler(
+    filename = "SubsidyExplorer_methods_FR.pdf",
+    content = function(file) {
+      file.copy("www/FR_2022_09_28_SubsidyExplorer_methods.pdf", file)
     }
   )
   

@@ -27,12 +27,30 @@ MethodsProcess = function()
            
     ),
     
-    ### Methods download button
-    column(12, style = "text-align: center;", id = "tb-spaced-div",
-           
-           downloadButton("db_download_methods", 
-                          text$item_label[text$item_id == "db_download_methods"])
-           
+    ### Methods download buttons
+    fluidRow(
+      
+      # English
+      column(4, style = "text-align: right;", id = "tb-spaced-div",
+             
+             downloadButton("db_download_methods", 
+                            text$item_label[text$item_id == "db_download_methods"])
+             
+      ),
+      # Spanish
+      column(4, style = "text-align: center;", id = "tb-spaced-div",
+             
+             downloadButton("db_download_methods_es", 
+                            text$item_label[text$item_id == "db_download_methods_es"])
+             
+      ),
+      # French
+      column(4, style = "text-align: left;", id = "tb-spaced-div",
+             
+             downloadButton("db_download_methods_fr", 
+                            text$item_label[text$item_id == "db_download_methods_fr"])
+             
+      )
     ),
     
     ### FAQs

@@ -174,4 +174,6 @@ many,,text,subsidy_types_modal_text,"<p style = ""text-align: left;"">There is n
 03d,global-fishing-footprint,legend-title,global_fishing_footprint_map_legend,Fishing Effort<br>(kWh),title for map legend
 ,,,,,
 4,methods-process,page,methods-process,Discover How This Tool Was Made,page name
-4,methods-process,download-button,db_download_methods,Download Methods (PDF),center download button
+4,methods-process,download-button,db_download_methods,Download Methods (PDF),left download button
+4,methods-process,download-button,db_download_methods_es,Descarga Métodos (PDF),center download button
+4,methods-process,download-button,db_download_methods_fr,Télécharger Méthodes (PDF),right download button

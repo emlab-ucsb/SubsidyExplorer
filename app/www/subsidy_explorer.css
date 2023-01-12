@@ -1243,11 +1243,37 @@ hr.grey-narrow{
   background-color: var(--accent-color); 
   border-width: 0; 
   padding: 10px; 
-  width: 40%; 
+  width: 50%; 
   font-size: 10pt; 
 }
 
 #db_download_methods:hover{
+  background-color: var(--accent-color-2);
+}
+
+#db_download_methods_es{
+  color: #fff;
+  background-color: var(--accent-color); 
+  border-width: 0; 
+  padding: 10px; 
+  width: 50%; 
+  font-size: 10pt; 
+}
+
+#db_download_methods_es:hover{
+  background-color: var(--accent-color-2);
+}
+
+#db_download_methods_fr{
+  color: #fff;
+  background-color: var(--accent-color); 
+  border-width: 0; 
+  padding: 10px; 
+  width: 50%; 
+  font-size: 10pt; 
+}
+
+#db_download_methods_fr:hover{
   background-color: var(--accent-color-2);
 }
 
